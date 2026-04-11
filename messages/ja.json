@@ -32,14 +32,14 @@
   },
   "subscribe": {
     "title": "購読登録",
-    "subtitle": "Cardano と Midnight の週次インテリジェンスを毎週金曜 12:00 JST にお届けします。",
+    "subtitle": "Cardano と Midnight の週次インテリジェンス。毎週金曜 12:00 JST に livemakers.com で公開します。",
     "emailLabel": "メールアドレス",
     "emailPlaceholder": "you@example.com",
-    "submit": "購読する",
-    "pending": "確認メールをお送りしました。メール内のリンクから購読を確定してください。",
-    "alreadySubscribed": "すでに登録済みです。",
+    "submit": "登録する",
+    "pending": "登録ありがとうございます。Weekly Brief は毎週金曜 12:00 JST に livemakers.com で公開されます。メール配信機能の準備ができ次第、ご登録のアドレスにお知らせします。",
+    "alreadySubscribed": "すでに登録済みです。ありがとうございます。",
     "error": "エラーが発生しました。再度お試しください。",
-    "privacyNote": "Email 配信には Resend を使用しています。スパムはありません。"
+    "privacyNote": "配信には Resend を使用します。スパムは送りません。登録解除はいつでも可能です。"
   },
   "about": {
     "title": "LiveMakers について",

@@ -32,14 +32,14 @@
   },
   "subscribe": {
     "title": "SUBSCRIBE",
-    "subtitle": "Weekly Cardano & Midnight intelligence delivered every Friday 12:00 JST.",
+    "subtitle": "Weekly Cardano & Midnight intelligence. Published every Friday 12:00 JST at livemakers.com.",
     "emailLabel": "Email address",
     "emailPlaceholder": "you@example.com",
-    "submit": "SUBSCRIBE",
-    "pending": "Check your email to confirm your subscription.",
-    "alreadySubscribed": "You are already on the list.",
+    "submit": "SIGN UP",
+    "pending": "Thank you for signing up. The Weekly Brief is published every Friday 12:00 JST at livemakers.com. We'll notify you at this address when email delivery goes live.",
+    "alreadySubscribed": "You are already on the list — thank you.",
     "error": "Something went wrong. Please try again.",
-    "privacyNote": "We use Resend for email delivery. No spam."
+    "privacyNote": "We use Resend for email delivery. No spam, and you can unsubscribe anytime."
   },
   "about": {
     "title": "ABOUT LIVEMAKERS",
