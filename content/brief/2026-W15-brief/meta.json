@@ -22,14 +22,18 @@
     "ada_mcap_usd": 9250000000,
     "cardano_tvl_usd": 136600000,
     "tvl_change_24h": 0.3,
-    "stake_active_percent": 0,
-    "naka_rank": 0
+    "stake_active_percent": 60.22,
+    "naka_rank": 163
   },
   "four_panel_summary": {
     "governance": "DeFi Liquidity Budget W1 (800K ADA) Ratified E624 — $10M framework operational. 39 new Intersect 2026 proposals in DRep voting. CC 2026 election underway.",
+    "governance_ja": "DeFi Liquidity Budget W1 (800K ADA) が E624 で承認 — $10M フレームワーク稼働開始。Intersect の 2026 年度提案 39 件が DRep 投票中。CC 2026 選挙進行中。",
     "defi": "Cardano TVL $136.6M across 47 protocols. Top: Minswap $33.6M / Liqwid $26.7M / Dano $19.2M (+17.3% 7d). Minswap x Midnight Triple Farm live.",
+    "defi_ja": "Cardano TVL $136.6M、47 プロトコルに分散。トップは Minswap $33.6M / Liqwid $26.7M / Dano $19.2M (+17.3% 7d)。Minswap × Midnight トリプルファーム稼働中。",
     "midnight": "9 validators operating. Monument Bank £250M-£335M PoC in progress. IOG Japan Tour 5 cities. 1AM DApp major update preview. Bitget Launchpool NIGHT 12M (Apr 9-16).",
-    "risk": "Overall MEDIUM — governance cycle density + macro Iran-Hormuz risk-off + US/JP regulatory inflection point. Technical LOW (van Rossem HF nominal)."
+    "midnight_ja": "9 バリデータ稼働中。Monument Bank £250M-£335M PoC 進行中。IOG Japan Tour 5 都市。1AM DApp メジャーアップデート予告。Bitget Launchpool NIGHT 12M (4/9-16)。",
+    "risk": "Overall MEDIUM — governance cycle density + macro Iran-Hormuz risk-off + US/JP regulatory inflection point. Technical LOW (van Rossem HF nominal).",
+    "risk_ja": "総合 MEDIUM — ガバナンスサイクル過密 + マクロのホルムズ・リスクオフ + 米日規制の屈折点。テクニカルは LOW (van Rossem HF は通常規模)。"
   },
   "has_pdf": false
 }

@@ -24,13 +24,20 @@ export function NetworkPulse({ snapshot }: { snapshot: TickerSnapshot }) {
       deltaUp: snapshot.tvl_change_24h >= 0,
     },
     {
+      // Active stake (delegated to pools) as a percentage of circulating supply.
+      // Source: Koios /epoch_info active_stake / /totals circulation.
       label: "STAKE",
-      value: `${snapshot.stake_active_percent.toFixed(2)}%`,
+      value: `${snapshot.stake_active_percent.toFixed(1)}%`,
       delta: "",
       deltaUp: true,
     },
     {
-      label: "NAKA RANK",
+      // Nakamoto coefficient — minimum number of independent stake pools that
+      // would have to collude to control >50% of active stake. Computed at the
+      // pool level from Koios pool_list (not operator-grouped). The schema
+      // field is still called naka_rank for v0.1 backward compat; rename to
+      // naka_coefficient planned for v0.2.
+      label: "NAKAMOTO",
       value: String(snapshot.naka_rank),
       delta: "",
       deltaUp: true,

@@ -19,7 +19,7 @@ export function EditorialHero({ brief, locale }: { brief: Brief; locale: string 
           <TagLabel key={tag}>{tag.toUpperCase()}</TagLabel>
         ))}
       </div>
-      <h1 className="mb-6 max-w-4xl text-4xl font-light tracking-title md:text-5xl">
+      <h1 className="mb-6 max-w-4xl text-4xl font-light leading-tight tracking-title md:text-5xl md:leading-[1.2]">
         {title}
       </h1>
       <p className="mb-8 max-w-3xl text-lg leading-relaxed text-text-secondary">

@@ -31,7 +31,7 @@ export function BriefArticle({
             ISSUE #{metadata.issue_number} · {metadata.week_label}
           </span>
         </div>
-        <h1 className="mb-6 text-4xl font-light tracking-title md:text-5xl">
+        <h1 className="mb-6 text-4xl font-light leading-tight tracking-title md:text-5xl md:leading-[1.2]">
           {title}
         </h1>
         <div className="mb-6 flex flex-wrap items-center gap-4 text-[10px] tracking-label text-text-tertiary">
