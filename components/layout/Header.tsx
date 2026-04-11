@@ -2,21 +2,26 @@
 
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { LogoSvg } from "@/components/ui/LogoSvg";
 
 export function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
-  const router = useRouter();
   const pathname = usePathname();
 
   function switchLocale(target: "en" | "ja") {
     if (target === locale) return;
+    // Set cookie BEFORE navigating so the new request reaches next-intl's
+    // middleware with the right preference. Use a hard navigation
+    // (window.location.assign) — router.push from next/navigation is a no-op
+    // on locale switches because the [locale] route segment resolves "/" to
+    // the current locale's URL, leaving us on /ja. A hard navigation forces
+    // the middleware to re-evaluate cookies and serve the new locale.
     document.cookie = `NEXT_LOCALE=${target}; path=/; max-age=${60 * 60 * 24 * 365}`;
     const stripped = pathname.replace(/^\/(ja|en)(\/|$)/, "/");
     const nextPath = target === "en" ? stripped : `/ja${stripped === "/" ? "" : stripped}`;
-    router.push(nextPath);
+    window.location.assign(nextPath);
   }
 
   return (

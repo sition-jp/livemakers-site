@@ -9,10 +9,18 @@ export interface TickerSnapshot {
 }
 
 export interface FourPanelSummary {
+  // English bodies (required, fall back if _ja missing).
   governance: string;
   defi: string;
   midnight: string;
   risk: string;
+  // Japanese bodies (optional for back-compat with older briefs that only
+  // shipped English content). When present, the JA OVERVIEW page renders
+  // these instead of the English ones.
+  governance_ja?: string;
+  defi_ja?: string;
+  midnight_ja?: string;
+  risk_ja?: string;
 }
 
 export interface BriefMetadata {

@@ -26,7 +26,7 @@ export default async function OverviewPage({
         <>
           <EditorialHero brief={latest} locale={locale} />
           <NetworkPulse snapshot={latest.metadata.ticker_snapshot} />
-          <FourPanelStatus summary={latest.metadata.four_panel_summary} />
+          <FourPanelStatus summary={latest.metadata.four_panel_summary} locale={locale} />
           <SectionDivider />
           <RecentBriefs briefs={recent} locale={locale} />
         </>

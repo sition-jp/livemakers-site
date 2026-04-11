@@ -1,14 +1,46 @@
 import { useTranslations } from "next-intl";
 import type { FourPanelSummary } from "@/lib/types";
 
-export function FourPanelStatus({ summary }: { summary: FourPanelSummary }) {
+export function FourPanelStatus({
+  summary,
+  locale,
+}: {
+  summary: FourPanelSummary;
+  locale: string;
+}) {
   const t = useTranslations("overview");
 
+  // Pick JA copy when on /ja AND the brief actually ships a JA translation
+  // for that panel. Falls back to EN otherwise so older briefs (and any panel
+  // the editor forgot to translate) still render something coherent.
+  const pick = (en: string, ja: string | undefined) =>
+    locale === "ja" && ja ? ja : en;
+
   const panels = [
-    { key: "governance", label: "GOVERNANCE", color: "text-pillar-governance", body: summary.governance },
-    { key: "defi", label: "DEFI", color: "text-pillar-ecosystem", body: summary.defi },
-    { key: "midnight", label: "MIDNIGHT", color: "text-pillar-midnight", body: summary.midnight },
-    { key: "risk", label: "RISK", color: "text-pillar-risk", body: summary.risk },
+    {
+      key: "governance",
+      label: "GOVERNANCE",
+      color: "text-pillar-governance",
+      body: pick(summary.governance, summary.governance_ja),
+    },
+    {
+      key: "defi",
+      label: "DEFI",
+      color: "text-pillar-ecosystem",
+      body: pick(summary.defi, summary.defi_ja),
+    },
+    {
+      key: "midnight",
+      label: "MIDNIGHT",
+      color: "text-pillar-midnight",
+      body: pick(summary.midnight, summary.midnight_ja),
+    },
+    {
+      key: "risk",
+      label: "RISK",
+      color: "text-pillar-risk",
+      body: pick(summary.risk, summary.risk_ja),
+    },
   ];
 
   return (
