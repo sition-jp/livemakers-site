@@ -1,27 +1,27 @@
-"use client";
-
-import { useState } from "react";
-import { MDXRemote, type MDXRemoteSerializeResult } from "next-mdx-remote";
-import { LanguageToggle } from "./LanguageToggle";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
+import { BriefLanguageSwitch } from "./BriefLanguageSwitch";
 import { PdfDownloadButton } from "./PdfDownloadButton";
 import type { BriefMetadata } from "@/lib/types";
 
+const mdxOptions = {
+  mdxOptions: {
+    remarkPlugins: [remarkGfm],
+  },
+};
+
 export function BriefArticle({
   metadata,
-  bodyEnSerialized,
-  bodyJaSerialized,
+  body,
   pdfPath,
-  initialLang,
+  lang,
 }: {
   metadata: BriefMetadata;
-  bodyEnSerialized: MDXRemoteSerializeResult;
-  bodyJaSerialized: MDXRemoteSerializeResult;
+  body: string;
   pdfPath: string;
-  initialLang: "en" | "ja";
+  lang: "en" | "ja";
 }) {
-  const [lang, setLang] = useState<"en" | "ja">(initialLang);
   const title = lang === "ja" ? metadata.title_ja : metadata.title_en;
-  const body = lang === "ja" ? bodyJaSerialized : bodyEnSerialized;
 
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
@@ -31,7 +31,9 @@ export function BriefArticle({
             ISSUE #{metadata.issue_number} · {metadata.week_label}
           </span>
         </div>
-        <h1 className="mb-6 text-4xl font-light tracking-title md:text-5xl">{title}</h1>
+        <h1 className="mb-6 text-4xl font-light tracking-title md:text-5xl">
+          {title}
+        </h1>
         <div className="mb-6 flex flex-wrap items-center gap-4 text-[10px] tracking-label text-text-tertiary">
           <span>SIPO RESEARCH</span>
           <span>{metadata.reading_time_min} MIN READ</span>
@@ -39,13 +41,13 @@ export function BriefArticle({
           <span>{metadata.publish_date}</span>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          <LanguageToggle defaultLang={initialLang} onChange={setLang} />
+          <BriefLanguageSwitch slug={metadata.slug} currentLang={lang} />
           {metadata.has_pdf && <PdfDownloadButton pdfPath={pdfPath} />}
         </div>
       </header>
 
       <div className="prose prose-invert max-w-none prose-headings:font-light prose-headings:tracking-title prose-a:text-pillar-overview">
-        <MDXRemote {...body} />
+        <MDXRemote source={body} options={mdxOptions} />
       </div>
     </article>
   );
