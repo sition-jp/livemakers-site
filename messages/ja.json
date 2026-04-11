@@ -36,7 +36,7 @@
     "emailLabel": "メールアドレス",
     "emailPlaceholder": "you@example.com",
     "submit": "登録する",
-    "pending": "登録ありがとうございます。Weekly Brief は毎週金曜 12:00 JST に livemakers.com で公開されます。メール配信機能の準備ができ次第、ご登録のアドレスにお知らせします。",
+    "pending": "登録ありがとうございます。確認メールをお送りしました。届かない場合は迷惑メールフォルダもご確認ください。Weekly Brief は毎週金曜 12:00 JST に livemakers.com で公開し、メール配信の準備ができ次第こちらのアドレスへお届けします。",
     "alreadySubscribed": "すでに登録済みです。ありがとうございます。",
     "error": "エラーが発生しました。再度お試しください。",
     "privacyNote": "配信には Resend を使用します。スパムは送りません。登録解除はいつでも可能です。"

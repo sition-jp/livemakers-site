@@ -7,6 +7,54 @@ const subscribeSchema = z.object({
   locale: z.enum(["en", "ja"]).default("en"),
 });
 
+// Sender for welcome emails. Defaults to Resend's onboarding sandbox until
+// the user verifies a custom domain (e.g. "LiveMakers <hello@livemakers.com>")
+// in the Resend dashboard and sets RESEND_FROM. The sandbox sender is rate-
+// limited and can only deliver to the Resend account owner's verified email,
+// so production rollout requires the custom-domain step.
+const WELCOME_FROM =
+  process.env.RESEND_FROM ?? "LiveMakers <onboarding@resend.dev>";
+
+function welcomeSubject(locale: "en" | "ja"): string {
+  return locale === "ja"
+    ? "LiveMakers 購読登録のご確認"
+    : "Welcome to LiveMakers Weekly Brief";
+}
+
+function welcomeText(locale: "en" | "ja"): string {
+  if (locale === "ja") {
+    return [
+      "LiveMakers Weekly Brief への購読登録ありがとうございます。",
+      "",
+      "Cardano と Midnight の週次インテリジェンスを毎週金曜 12:00 JST に",
+      "https://livemakers.com/ja で公開しています。",
+      "",
+      "現在は登録のみで、メール配信機能の準備が整い次第、ご登録のアドレスへ",
+      "Brief をお届けする予定です。準備ができ次第改めてお知らせします。",
+      "",
+      "登録解除はいつでもこちらから:",
+      "https://livemakers.com/ja/subscribe",
+      "",
+      "— LiveMakers / SITION Group",
+    ].join("\n");
+  }
+  return [
+    "Thank you for subscribing to the LiveMakers Weekly Brief.",
+    "",
+    "We publish Cardano & Midnight institutional research every Friday 12:00 JST",
+    "at https://livemakers.com/.",
+    "",
+    "Email delivery is being set up. Once it is ready, we will send each issue",
+    "directly to this address. Until then, your subscription is recorded and",
+    "you can read the Brief on the site.",
+    "",
+    "Unsubscribe at any time:",
+    "https://livemakers.com/subscribe",
+    "",
+    "— LiveMakers / SITION Group",
+  ].join("\n");
+}
+
 const rateLimit = new Map<string, number>();
 const RATE_LIMIT_WINDOW_MS = 60_000;
 
@@ -65,6 +113,26 @@ export async function POST(request: Request) {
         return NextResponse.json({ status: "already_subscribed" });
       }
       return NextResponse.json({ status: "error" }, { status: 500 });
+    }
+
+    // Best-effort welcome email. We do NOT block subscription success on this
+    // — if the sender domain isn't verified yet, the contact is still saved
+    // and we just log the failure for the operator to fix.
+    try {
+      const send = await resend.emails.send({
+        from: WELCOME_FROM,
+        to: parsed.data.email,
+        subject: welcomeSubject(parsed.data.locale),
+        text: welcomeText(parsed.data.locale),
+      });
+      if (send.error) {
+        console.error(
+          "[subscribe] welcome email failed:",
+          send.error.message ?? send.error
+        );
+      }
+    } catch (sendErr) {
+      console.error("[subscribe] welcome email threw:", sendErr);
     }
 
     return NextResponse.json({ status: "pending_confirmation" });

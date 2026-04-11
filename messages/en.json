@@ -36,7 +36,7 @@
     "emailLabel": "Email address",
     "emailPlaceholder": "you@example.com",
     "submit": "SIGN UP",
-    "pending": "Thank you for signing up. The Weekly Brief is published every Friday 12:00 JST at livemakers.com. We'll notify you at this address when email delivery goes live.",
+    "pending": "Thank you for signing up. A confirmation email is on the way — please check your spam folder if it doesn't arrive. The Weekly Brief publishes every Friday 12:00 JST at livemakers.com and will be delivered to this address once email distribution is live.",
     "alreadySubscribed": "You are already on the list — thank you.",
     "error": "Something went wrong. Please try again.",
     "privacyNote": "We use Resend for email delivery. No spam, and you can unsubscribe anytime."
