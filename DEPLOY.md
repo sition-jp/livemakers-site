@@ -10,13 +10,15 @@ This document describes the manual steps required to ship `livemakers.com` Issue
 
 ## Prerequisites (田平氏 must complete before launch)
 
-### 1. Resend Audience setup
-- Log in to Resend dashboard (https://resend.com/audiences)
-- Create a new Audience (e.g. "LiveMakers Weekly Brief")
-- Copy the Audience ID (starts with `a_` or similar)
-- Copy or generate an API key
-- **Save both values** — they go into Vercel environment variables below
-- **Configure double opt-in template** in Resend dashboard → Email templates → set "Subscription confirmation" email
+### 1. Resend API key setup
+- Log in to Resend dashboard (https://resend.com/) via GitHub SSO
+- **Note**: the current Resend API is workspace-scoped — **no Audience creation needed**. Contacts are attached to your workspace's default audience automatically. (We verified this by checking the live API reference 2026-04-11.)
+- Go to the **API Keys** section in the sidebar → `Create API key`
+- Name: `livemakers-site-production` (or similar)
+- Permission: `Sending access` (write) — needed to create contacts
+- Copy the key (`re_...` — shown only once)
+- **Save this value** — it goes into Vercel env var `RESEND_API_KEY` below
+- **Double opt-in template**: new Resend has a managed subscription confirmation flow under Broadcasts → Settings. The default flow works; no template customization required for v0.1 launch. Revisit post-launch if you want to brand the confirmation email.
 
 ### 2. WeasyPrint environment (for PDF generation)
 Running `publish-to-site` requires WeasyPrint. On macOS system Python this fails due to SIP. Use one of:
@@ -155,7 +157,6 @@ git push -u origin main
 - Import `sition-group/livemakers-site` in Vercel dashboard
 - Set environment variables:
   - `RESEND_API_KEY` = (from step 1)
-  - `RESEND_AUDIENCE_ID` = (from step 1)
   - Optional: `COINGECKO_API_KEY`, `GITHUB_TOKEN`
 - First deploy succeeds → verify at the Vercel preview URL (`https://livemakers-site-xxxxx.vercel.app`)
 - In Vercel project settings → Domains, add `livemakers.com` and `www.livemakers.com`
@@ -225,7 +226,7 @@ git commit -m "docs: mark Week 4 complete, v0.1 shipped"
 - If this persists: set `COINGECKO_API_KEY` env var in Vercel for the paid tier.
 
 ### `/api/subscribe` returns 503 "not_configured"
-- `RESEND_API_KEY` or `RESEND_AUDIENCE_ID` env var is missing in Vercel.
+- `RESEND_API_KEY` env var is missing in Vercel.
 
 ### Build fails on `Cannot find module 'resend'`
 - `npm install` was never run. In Vercel, this shouldn't happen because Vercel runs install automatically. Locally, run `npm install` in `DEV/livemakers-site/`.

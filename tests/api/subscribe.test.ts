@@ -14,7 +14,7 @@ describe("/api/subscribe route handler", () => {
   beforeEach(() => {
     contactsCreateMock.mockReset();
     process.env.RESEND_API_KEY = "test-key";
-    process.env.RESEND_AUDIENCE_ID = "test-audience";
+    delete process.env.RESEND_AUDIENCE_ID;
     vi.resetModules();
   });
 
@@ -45,7 +45,6 @@ describe("/api/subscribe route handler", () => {
     expect(body.status).toBe("pending_confirmation");
     expect(contactsCreateMock).toHaveBeenCalledWith({
       email: "user@example.com",
-      audienceId: "test-audience",
       unsubscribed: false,
     });
   });

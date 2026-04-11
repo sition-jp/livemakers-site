@@ -45,17 +45,17 @@ export async function POST(request: Request) {
   }
 
   const apiKey = process.env.RESEND_API_KEY;
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
-  if (!apiKey || !audienceId) {
+  if (!apiKey) {
     return NextResponse.json({ status: "not_configured" }, { status: 503 });
   }
 
   const resend = new Resend(apiKey);
 
   try {
+    // Resend v6+ workspace-scoped contacts API: no audienceId needed.
+    // Contacts live at workspace level; the implicit default audience is used.
     const result = await resend.contacts.create({
       email: parsed.data.email,
-      audienceId,
       unsubscribed: false,
     });
 
