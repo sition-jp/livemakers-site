@@ -10,15 +10,22 @@ This document describes the manual steps required to ship `livemakers.com` Issue
 
 ## Prerequisites (田平氏 must complete before launch)
 
-### 1. Resend API key setup
-- Log in to Resend dashboard (https://resend.com/) via GitHub SSO
-- **Note**: the current Resend API is workspace-scoped — **no Audience creation needed**. Contacts are attached to your workspace's default audience automatically. (We verified this by checking the live API reference 2026-04-11.)
-- Go to the **API Keys** section in the sidebar → `Create API key`
-- Name: `livemakers-site-production` (or similar)
-- Permission: `Sending access` (write) — needed to create contacts
-- Copy the key (`re_...` — shown only once)
-- **Save this value** — it goes into Vercel env var `RESEND_API_KEY` below
-- **Double opt-in template**: new Resend has a managed subscription confirmation flow under Broadcasts → Settings. The default flow works; no template customization required for v0.1 launch. Revisit post-launch if you want to brand the confirmation email.
+### 1. Resend API key setup ✅ COMPLETED 2026-04-11
+
+- Logged in to Resend dashboard (https://resend.com/) via GitHub SSO
+- Workspace: `sition`
+- **Confirmed**: current Resend API is workspace-scoped — **no Audience creation needed**. Contacts attach to the workspace's default audience automatically. (Verified via live API reference 2026-04-11.)
+- **API Key created**: `livemakers-site-production`
+  - Permission: `Full access`
+  - Domain: `All Domains`
+  - Token prefix: `re_8WUdrkFu...` (full value stored in 田平氏's macOS Passwords app under "resend.com" / "livemakers-site-production")
+- ⚠️ **Rotation follow-up required**: the initial key was visible in a brainstorm-session screenshot. After successful Vercel launch + smoke test, rotate this key:
+  1. Create a new API key in Resend (same name/permissions)
+  2. Update `RESEND_API_KEY` env var in Vercel with the new key
+  3. Update `.env.local` locally
+  4. Delete the original `livemakers-site-production` key from Resend
+  5. Update the Passwords app entry with the new value
+- **Double opt-in**: Resend provides a managed subscription confirmation flow. Default works for v0.1. Customize post-launch if needed via Broadcasts → Settings.
 
 ### 2. WeasyPrint environment (for PDF generation)
 Running `publish-to-site` requires WeasyPrint. On macOS system Python this fails due to SIP. Use one of:
