@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Base dark palette */
+  --color-bg-primary: #0a0d13;
+  --color-bg-secondary: #111621;
+  --color-bg-tertiary: #060a0f;
+  --color-border-primary: #1f2738;
+  --color-border-hover: #2d3850;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #97a5bb;
+  --color-text-tertiary: #6b7686;
+
+  /* Tab semantic colors */
+  --color-pillar-overview: #60a5fa;
+  --color-pillar-market: #22d3ee;
+  --color-pillar-ecosystem: #34d399;
+  --color-pillar-governance: #fbbf24;
+  --color-pillar-midnight: #a78bfa;
+  --color-pillar-risk: #f87171;
+  --color-pillar-projects: #f59e0b;
+
+  /* Status */
+  --color-status-up: #22c55e;
+  --color-status-down: #ef4444;
+  --color-status-live: #22c55e;
+
+  /* Typography */
+  --font-sans: "Inter", "Noto Sans JP", sans-serif;
+  --letter-spacing-tabs: 0.08em;
+  --letter-spacing-label: 0.12em;
+  --letter-spacing-logo: 0.15em;
+  --letter-spacing-title: -0.01em;
+}
+
+@layer base {
+  html {
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background-color: rgb(96 165 250 / 0.25);
+  }
+}
