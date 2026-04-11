@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "overview": "OVERVIEW",
+    "brief": "BRIEF",
+    "subscribe": "SUBSCRIBE",
+    "about": "ABOUT",
+    "live": "LIVE"
+  },
+  "footer": {
+    "brand": "LIVEMAKERS · SITION GROUP",
+    "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
+    "dataSources": "データ: Koios · DefiLlama · CoinGecko · GitHub",
+    "disclaimer": "本レポートは投資助言ではありません。機関投資家向け調査目的のみ。",
+    "copyright": "© 2026 SITION Group"
+  },
+  "overview": {
+    "tagline": "CARDANO & MIDNIGHT · INSTITUTIONAL RESEARCH",
+    "latestBrief": "最新ブリーフ",
+    "networkPulse": "ネットワーク・パルス · 24H",
+    "fourPanelTitle": "ステータス・スナップショット",
+    "recentBriefs": "過去のブリーフ",
+    "readFullBrief": "フル記事を読む →"
+  },
+  "brief": {
+    "title": "ウィークリー・ブリーフ",
+    "issuePrefix": "Issue #",
+    "readingTime": "分で読了",
+    "language": "言語",
+    "downloadPdf": "PDFをダウンロード",
+    "nextIssue": "次号 →",
+    "previousIssue": "← 前号"
+  },
+  "subscribe": {
+    "title": "購読登録",
+    "subtitle": "Cardano と Midnight の週次インテリジェンスを毎週金曜 12:00 JST にお届けします。",
+    "emailLabel": "メールアドレス",
+    "emailPlaceholder": "you@example.com",
+    "submit": "購読する",
+    "pending": "確認メールをお送りしました。メール内のリンクから購読を確定してください。",
+    "alreadySubscribed": "すでに登録済みです。",
+    "error": "エラーが発生しました。再度お試しください。",
+    "privacyNote": "Email 配信には Resend を使用しています。スパムはありません。"
+  },
+  "about": {
+    "title": "LiveMakers について",
+    "intro": "LiveMakers は SITION Group の Cardano / Midnight 機関投資家向けリサーチ部門です。",
+    "sipoTitle": "SIPO アイデンティティ",
+    "sipoBody": "DRep #13 (₳101M 委任)。Cardano ステークプール ×3 (SIPO/SIPO2/SIPO3)。2026年4月より Midnight Ambassador。",
+    "processTitle": "編集プロセス",
+    "processBody": "Koios、DefiLlama、CoinGecko、GitHub からデータを集約。Weekly Brief は SIPO が執筆し、Claude による英訳を経てレビュー後に公開。",
+    "disclaimerTitle": "免責",
+    "disclaimerBody": "本レポートは投資助言ではありません。機関投資家向け調査目的のみ。"
+  }
+}

@@ -1,7 +1,13 @@
 import { getRequestConfig } from "next-intl/server";
+import { routing } from "./routing";
 
-// Minimal stub — full config added in Task 7 (locale layout)
-export default getRequestConfig(async ({ locale }) => ({
-  locale: locale ?? "en",
-  messages: {},
-}));
+export default getRequestConfig(async ({ requestLocale }) => {
+  let locale = await requestLocale;
+  if (!locale || !routing.locales.includes(locale as "en" | "ja")) {
+    locale = routing.defaultLocale;
+  }
+  return {
+    locale,
+    messages: (await import(`../messages/${locale}.json`)).default,
+  };
+});

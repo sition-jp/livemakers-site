@@ -1,0 +1,54 @@
+{
+  "nav": {
+    "overview": "OVERVIEW",
+    "brief": "BRIEF",
+    "subscribe": "SUBSCRIBE",
+    "about": "ABOUT",
+    "live": "LIVE"
+  },
+  "footer": {
+    "brand": "LIVEMAKERS · SITION GROUP",
+    "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
+    "dataSources": "Data: Koios · DefiLlama · CoinGecko · GitHub",
+    "disclaimer": "Not investment advice. For institutional research purposes only.",
+    "copyright": "© 2026 SITION Group"
+  },
+  "overview": {
+    "tagline": "CARDANO & MIDNIGHT · INSTITUTIONAL RESEARCH",
+    "latestBrief": "LATEST BRIEF",
+    "networkPulse": "NETWORK PULSE · 24H",
+    "fourPanelTitle": "STATUS SNAPSHOT",
+    "recentBriefs": "RECENT BRIEFS",
+    "readFullBrief": "Read Full Brief →"
+  },
+  "brief": {
+    "title": "WEEKLY BRIEFS",
+    "issuePrefix": "Issue #",
+    "readingTime": "MIN READ",
+    "language": "Language",
+    "downloadPdf": "Download PDF",
+    "nextIssue": "Next →",
+    "previousIssue": "← Previous"
+  },
+  "subscribe": {
+    "title": "SUBSCRIBE",
+    "subtitle": "Weekly Cardano & Midnight intelligence delivered every Friday 12:00 JST.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@example.com",
+    "submit": "SUBSCRIBE",
+    "pending": "Check your email to confirm your subscription.",
+    "alreadySubscribed": "You are already on the list.",
+    "error": "Something went wrong. Please try again.",
+    "privacyNote": "We use Resend for email delivery. No spam."
+  },
+  "about": {
+    "title": "ABOUT LIVEMAKERS",
+    "intro": "LiveMakers is the institutional-grade Cardano and Midnight research arm of SITION Group.",
+    "sipoTitle": "SIPO Identity",
+    "sipoBody": "DRep #13 (₳101M delegated). Three Cardano stake pools (SIPO/SIPO2/SIPO3). Midnight Ambassador since April 2026.",
+    "processTitle": "Editorial Process",
+    "processBody": "Research compiled from Koios, DefiLlama, CoinGecko, and GitHub. Weekly Brief authored by SIPO, translated with Claude, reviewed before publication.",
+    "disclaimerTitle": "Disclaimer",
+    "disclaimerBody": "Not investment advice. For institutional research purposes only."
+  }
+}
