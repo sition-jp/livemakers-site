@@ -1,0 +1,35 @@
+{
+  "slug": "2026-W15-brief",
+  "issue_number": 1,
+  "week_label": "W15 / Apr 5-11 2026",
+  "publish_date": "2026-04-11",
+  "published_at": "2026-04-11T12:00:00+09:00",
+  "epoch": 624,
+  "sipo_rank": 13,
+  "tags": [
+    "governance",
+    "defi",
+    "midnight"
+  ],
+  "reading_time_min": 6,
+  "title_en": "Cardano DeFi Liquidity Budget Cleared — $10M Institutional Framework Goes Live",
+  "title_ja": "Cardano DeFi Liquidity Budget が関門突破 — $10M 規模の制度的枠組みが起動",
+  "executive_summary_en": "At Epoch 624, Cardano's DeFi Liquidity Budget Withdrawal 1 (800,000 ADA) was ratified. The number looks small, but the substance is the institutional infrastructure cost for operating a 50,000,000 ADA ($10M+) DeFi liquidity deployment: a Cayman Islands Foundation, a 9-person Interim Committee multi-sig, and an Amaru smart contract. A framework that had secured over 67% approval under the old constitution has now passed through the new constitution's governance process and reached implementation stage. In parallel, Intersect MBO submitted 39 treasury withdrawal proposals for 2026 (NCL 350M ADA) to DRep voting, and Cardano Foundation crossed the 63% threshold as the preferred Managing Entity for Project Catalyst. Cardano governance has entered the implementation phase of structural reform.",
+  "executive_summary_ja": "エポック 624 で Cardano DeFi Liquidity Budget の Withdrawal 1 (800,000 ADA) が ratified された。数字だけ見れば小規模だが、実体はケイマン財団・9 名 Interim Committee のマルチシグ・Amaru スマートコントラクトによる、50,000,000 ADA ($10M 超) の DeFi 流動性展開を運営するための制度インフラ費。旧 constitution 下で 67% を超える賛成を得ていた枠組みが、新 constitution 下での治理プロセスを経て実装段階に入った。同時期に Intersect MBO が 39 件の 2026 財務提案 (NCL 350M ADA) を DRep 投票に送り出し、Cardano Foundation が Project Catalyst の Managing Entity 候補として 63% 支持ラインを超えた。Cardano ガバナンスは構造改革の実装フェーズに入っている。",
+  "ticker_snapshot": {
+    "ada_price_usd": 0.2503,
+    "ada_change_24h": -0.27,
+    "ada_mcap_usd": 9250000000,
+    "cardano_tvl_usd": 136600000,
+    "tvl_change_24h": 0.3,
+    "stake_active_percent": 0,
+    "naka_rank": 0
+  },
+  "four_panel_summary": {
+    "governance": "DeFi Liquidity Budget W1 (800K ADA) Ratified E624 — $10M framework operational. 39 new Intersect 2026 proposals in DRep voting. CC 2026 election underway.",
+    "defi": "Cardano TVL $136.6M across 47 protocols. Top: Minswap $33.6M / Liqwid $26.7M / Dano $19.2M (+17.3% 7d). Minswap x Midnight Triple Farm live.",
+    "midnight": "9 validators operating. Monument Bank £250M-£335M PoC in progress. IOG Japan Tour 5 cities. 1AM DApp major update preview. Bitget Launchpool NIGHT 12M (Apr 9-16).",
+    "risk": "Overall MEDIUM — governance cycle density + macro Iran-Hormuz risk-off + US/JP regulatory inflection point. Technical LOW (van Rossem HF nominal)."
+  },
+  "has_pdf": false
+}
