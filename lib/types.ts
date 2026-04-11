@@ -31,6 +31,12 @@ export interface BriefMetadata {
   executive_summary_ja: string;
   ticker_snapshot: TickerSnapshot;
   four_panel_summary: FourPanelSummary;
+  /**
+   * Whether a downloadable PDF exists at `public/brief/{slug}/brief.pdf`.
+   * Defaults to false so the PDF download button is hidden unless explicitly
+   * set true by the publisher.
+   */
+  has_pdf?: boolean;
 }
 
 export interface Brief {

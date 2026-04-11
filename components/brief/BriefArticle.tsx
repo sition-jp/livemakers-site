@@ -40,7 +40,7 @@ export function BriefArticle({
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <LanguageToggle defaultLang={initialLang} onChange={setLang} />
-          <PdfDownloadButton pdfPath={pdfPath} />
+          {metadata.has_pdf && <PdfDownloadButton pdfPath={pdfPath} />}
         </div>
       </header>
 
