@@ -21,9 +21,13 @@ async function fetchCoinGecko(): Promise<CoinGeckoResponse> {
 }
 
 async function fetchCardanoTvl(): Promise<number> {
-  const res = await fetch("https://api.llama.fi/tvl/cardano");
+  // /tvl/{chain} was deprecated; use /v2/chains and filter by name.
+  const res = await fetch("https://api.llama.fi/v2/chains");
   if (!res.ok) throw new Error(`DefiLlama ${res.status}`);
-  return res.json();
+  const chains = (await res.json()) as Array<{ name: string; tvl: number }>;
+  const cardano = chains.find((c) => c.name === "Cardano");
+  if (!cardano) throw new Error("DefiLlama: Cardano not in chains list");
+  return cardano.tvl;
 }
 
 async function fetchKoiosEpoch(): Promise<number> {
@@ -34,38 +38,51 @@ async function fetchKoiosEpoch(): Promise<number> {
 }
 
 export async function GET() {
-  try {
-    const [coingecko, tvl, epoch] = await Promise.all([
-      cache.get("coingecko", fetchCoinGecko),
-      cache.get("tvl", fetchCardanoTvl),
-      cache.get("epoch", fetchKoiosEpoch),
-    ]);
+  const [coingeckoRes, tvlRes, epochRes] = await Promise.allSettled([
+    cache.get("coingecko", fetchCoinGecko),
+    cache.get("tvl", fetchCardanoTvl),
+    cache.get("epoch", fetchKoiosEpoch),
+  ]);
 
-    const body: TickerResponse = {
-      ada: {
-        price_usd: coingecko.cardano.usd,
-        change_24h: coingecko.cardano.usd_24h_change,
-        mcap_usd: coingecko.cardano.usd_market_cap,
-      },
-      tvl: {
-        cardano_usd: tvl,
-        change_24h: 0,
-      },
-      stake: {
-        active_percent: 0,
-      },
-      epoch,
-      naka: 0,
-      updated_at: new Date().toISOString(),
-    };
-
-    return NextResponse.json(body, {
-      headers: { "cache-control": "public, max-age=60" },
-    });
-  } catch {
+  // If CoinGecko (primary price source) fails, the ticker is unusable.
+  if (coingeckoRes.status !== "fulfilled") {
+    console.error("[ticker] CoinGecko failed:", coingeckoRes.reason);
     return NextResponse.json(
       { error: "ticker unavailable" },
       { status: 503 }
     );
   }
+
+  if (tvlRes.status !== "fulfilled") {
+    console.error("[ticker] DefiLlama failed:", tvlRes.reason);
+  }
+  if (epochRes.status !== "fulfilled") {
+    console.error("[ticker] Koios failed:", epochRes.reason);
+  }
+
+  const coingecko = coingeckoRes.value;
+  const tvl = tvlRes.status === "fulfilled" ? tvlRes.value : 0;
+  const epoch = epochRes.status === "fulfilled" ? epochRes.value : 0;
+
+  const body: TickerResponse = {
+    ada: {
+      price_usd: coingecko.cardano.usd,
+      change_24h: coingecko.cardano.usd_24h_change,
+      mcap_usd: coingecko.cardano.usd_market_cap,
+    },
+    tvl: {
+      cardano_usd: tvl,
+      change_24h: 0,
+    },
+    stake: {
+      active_percent: 0,
+    },
+    epoch,
+    naka: 0,
+    updated_at: new Date().toISOString(),
+  };
+
+  return NextResponse.json(body, {
+    headers: { "cache-control": "public, max-age=60" },
+  });
 }
