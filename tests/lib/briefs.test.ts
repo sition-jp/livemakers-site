@@ -2,13 +2,9 @@ import { describe, it, expect } from "vitest";
 import { getAllBriefs, getBriefBySlug, getLatestBrief } from "@/lib/briefs";
 
 describe("lib/briefs", () => {
-  it("getAllBriefs returns metadata for every brief", () => {
+  it("getAllBriefs filters out test-* fixtures", () => {
     const briefs = getAllBriefs();
-    expect(briefs.length).toBeGreaterThan(0);
-    const test = briefs.find((b) => b.slug === "test-brief");
-    expect(test).toBeDefined();
-    expect(test?.issue_number).toBe(99);
-    expect(test?.tags).toContain("governance");
+    expect(briefs.find((b) => b.slug === "test-brief")).toBeUndefined();
   });
 
   it("getAllBriefs sorts by published_at descending", () => {
@@ -18,10 +14,12 @@ describe("lib/briefs", () => {
     }
   });
 
-  it("getBriefBySlug returns full brief with both bodies", () => {
+  it("getBriefBySlug returns full brief with both bodies (bypasses filter)", () => {
     const brief = getBriefBySlug("test-brief");
     expect(brief).not.toBeNull();
     expect(brief?.metadata.title_en).toBe("Test Brief Title");
+    expect(brief?.metadata.issue_number).toBe(99);
+    expect(brief?.metadata.tags).toContain("governance");
     expect(brief?.bodyEn).toContain("Test body content");
     expect(brief?.bodyJa).toContain("テスト用の本文");
     expect(brief?.pdfPath).toBe("/brief/test-brief/brief.pdf");
@@ -31,10 +29,15 @@ describe("lib/briefs", () => {
     expect(getBriefBySlug("does-not-exist")).toBeNull();
   });
 
-  it("getLatestBrief returns the most recent brief", () => {
+  it("getLatestBrief returns null when only test fixtures exist", () => {
+    // With only test-brief in the fixture directory, getAllBriefs() is empty
+    // after filtering, so getLatestBrief() should return null.
     const latest = getLatestBrief();
-    expect(latest).not.toBeNull();
     const all = getAllBriefs();
-    expect(latest?.slug).toBe(all[0].slug);
+    if (all.length === 0) {
+      expect(latest).toBeNull();
+    } else {
+      expect(latest?.slug).toBe(all[0].slug);
+    }
   });
 });

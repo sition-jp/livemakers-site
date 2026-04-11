@@ -16,7 +16,8 @@ export function getAllBriefs(): BriefMetadata[] {
   const slugs = fs
     .readdirSync(BRIEF_DIR, { withFileTypes: true })
     .filter((d) => d.isDirectory())
-    .map((d) => d.name);
+    .map((d) => d.name)
+    .filter((slug) => !slug.startsWith("test-"));
 
   const metas = slugs
     .map((slug) => readMeta(slug))
