@@ -1,7 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useLocale, useTranslations } from "next-intl";
+// usePathname comes from next/navigation here (not next-intl/navigation)
+// because switchLocale needs the RAW pathname including the /ja prefix to
+// strip-and-prepend correctly. next-intl's usePathname strips the locale.
 import { usePathname } from "next/navigation";
 import { LogoSvg } from "@/components/ui/LogoSvg";
 
