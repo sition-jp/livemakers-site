@@ -15,6 +15,10 @@ function checkRateLimit(ip: string): boolean {
   const last = rateLimit.get(ip) ?? 0;
   if (now - last < RATE_LIMIT_WINDOW_MS) return false;
   rateLimit.set(ip, now);
+  // Evict expired entries so the Map doesn't grow unboundedly on a warm server.
+  for (const [k, v] of rateLimit) {
+    if (now - v >= RATE_LIMIT_WINDOW_MS) rateLimit.delete(k);
+  }
   return true;
 }
 

@@ -8,7 +8,11 @@ function readMeta(slug: string): BriefMetadata | null {
   const metaPath = path.join(BRIEF_DIR, slug, "meta.json");
   if (!fs.existsSync(metaPath)) return null;
   const raw = fs.readFileSync(metaPath, "utf-8");
-  return JSON.parse(raw) as BriefMetadata;
+  try {
+    return JSON.parse(raw) as BriefMetadata;
+  } catch {
+    return null;
+  }
 }
 
 export function getAllBriefs(): BriefMetadata[] {
@@ -28,6 +32,10 @@ export function getAllBriefs(): BriefMetadata[] {
 }
 
 export function getBriefBySlug(slug: string): Brief | null {
+  // Reject any slug that isn't a safe alphanumeric-dash identifier — prevents
+  // path traversal via '..' or absolute paths when this is called outside the
+  // Next.js routing layer (e.g. from CLI tools or tests).
+  if (!/^[a-z0-9-]+$/i.test(slug)) return null;
   const metadata = readMeta(slug);
   if (!metadata) return null;
 

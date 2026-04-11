@@ -62,9 +62,9 @@ export async function GET() {
     return NextResponse.json(body, {
       headers: { "cache-control": "public, max-age=60" },
     });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
-      { error: "ticker unavailable", detail: String(err) },
+      { error: "ticker unavailable" },
       { status: 503 }
     );
   }
