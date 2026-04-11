@@ -26,6 +26,7 @@ This document describes the manual steps required to ship `livemakers.com` Issue
   4. Delete the original `livemakers-site-production` key from Resend
   5. Update the Passwords app entry with the new value
 - **Double opt-in**: Resend provides a managed subscription confirmation flow. Default works for v0.1. Customize post-launch if needed via Broadcasts → Settings.
+- **Email delivery architecture** (2026-04-11 decision): the Intelligence Terminal Python pipeline (`DEV/sition-intelligence-terminal/`) is the delivery orchestrator. v0.1 launch collects contacts via `/api/subscribe` only — no email blast. Distribution is handled via Web (livemakers.com/brief/[slug]) + X (@SITIONjp). Email send is deferred to v0.5+ as a new Python CLI subcommand (`cli.py send-brief`) that calls `resend.emails.send()` directly. **Sending domain verification (DNS SPF/DKIM) is not required for v0.1** — it becomes a prerequisite when `send-brief` is implemented.
 
 ### 2. WeasyPrint environment (for PDF generation)
 Running `publish-to-site` requires WeasyPrint. On macOS system Python this fails due to SIP. Use one of:
