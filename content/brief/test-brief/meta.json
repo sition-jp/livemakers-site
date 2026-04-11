@@ -1,0 +1,30 @@
+{
+  "slug": "test-brief",
+  "issue_number": 99,
+  "week_label": "W99 / Test",
+  "publish_date": "2026-04-11",
+  "published_at": "2026-04-11T12:00:00+09:00",
+  "epoch": 624,
+  "sipo_rank": 13,
+  "tags": ["governance", "defi"],
+  "reading_time_min": 5,
+  "title_en": "Test Brief Title",
+  "title_ja": "テストブリーフタイトル",
+  "executive_summary_en": "Test summary in English.",
+  "executive_summary_ja": "テスト用の要旨。",
+  "ticker_snapshot": {
+    "ada_price_usd": 0.2454,
+    "ada_change_24h": -2.1,
+    "ada_mcap_usd": 9050000000,
+    "cardano_tvl_usd": 133900000,
+    "tvl_change_24h": 1.4,
+    "stake_active_percent": 58.99,
+    "naka_rank": 167
+  },
+  "four_panel_summary": {
+    "governance": "4 active proposals; SIPO voted on all.",
+    "defi": "Cardano TVL at $133.9M, Dexes dominant.",
+    "midnight": "Block height 318575, 3 enterprise pilots.",
+    "risk": "Overall MEDIUM — regulatory uncertainty."
+  }
+}
