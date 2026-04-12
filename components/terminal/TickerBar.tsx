@@ -52,13 +52,16 @@ export function TickerBar() {
     );
   }
 
+  // Order: market data on the left (most volatile, scanned first), network
+  // health metrics in the middle, and EPOCH pinned to the right edge as the
+  // permanent timestamp / "where are we in the chain" anchor.
   const items = [
     { label: "ADA", value: `$${formatNumber(data.ada.price_usd)}`, delta: formatPercent(data.ada.change_24h) },
     { label: "MCAP", value: formatCompact(data.ada.mcap_usd), delta: formatPercent(data.ada.change_24h) },
     { label: "TVL", value: formatCompact(data.tvl.cardano_usd), delta: formatPercent(data.tvl.change_24h) },
-    { label: "STAKE", value: data.stake.active_percent > 0 ? `${data.stake.active_percent.toFixed(2)}%` : "—", delta: "" },
-    { label: "EPOCH", value: String(data.epoch), delta: "" },
+    { label: "STAKE", value: data.stake.active_percent > 0 ? `${data.stake.active_percent.toFixed(1)}%` : "—", delta: "" },
     { label: "NAKA", value: data.naka > 0 ? String(data.naka) : "—", delta: "" },
+    { label: "EPOCH", value: String(data.epoch), delta: "" },
   ];
 
   return (
