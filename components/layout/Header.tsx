@@ -67,6 +67,12 @@ export function Header() {
             <span className="h-2 w-2 animate-pulse rounded-full bg-status-live" />
             {t("live")}
           </span>
+          <span
+            className="hidden text-[10px] tracking-label text-text-tertiary md:inline"
+            title={`build ${process.env.NEXT_PUBLIC_BUILD_SHA} · ${process.env.NEXT_PUBLIC_BUILD_DATE}`}
+          >
+            v{process.env.NEXT_PUBLIC_APP_VERSION}
+          </span>
           <div className="flex items-center gap-1 text-[10px] tracking-label">
             <button
               type="button"
