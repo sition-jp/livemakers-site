@@ -1,3 +1,3 @@
 export function SectionDivider() {
-  return <hr className="my-16 border-border-primary" />;
+  return <hr className="my-10 border-border-primary" />;
 }
