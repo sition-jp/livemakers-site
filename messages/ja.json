@@ -14,7 +14,8 @@
     "copyright": "© 2026 SITION Group"
   },
   "overview": {
-    "tagline": "CARDANO & MIDNIGHT · INSTITUTIONAL RESEARCH",
+    "tagline": "次世代の金融を、機関投資家の精度と、暮らしの実用性で書く。",
+    "subtitle": "Cardano と Midnight を起点に、AI エージェント経済・暗号資産・DeFi・AI オートトレーディングを観察するインテリジェンス・ハブ。",
     "latestBrief": "最新ブリーフ",
     "networkPulse": "ネットワーク・パルス · 発行時点スナップショット",
     "fourPanelTitle": "ステータス・スナップショット",
@@ -43,11 +44,22 @@
   },
   "about": {
     "title": "LiveMakers について",
-    "intro": "LiveMakers は SITION Group の Cardano / Midnight 機関投資家向けリサーチ部門です。",
-    "sipoTitle": "SIPO アイデンティティ",
-    "sipoBody": "DRep #13 (₳101M 委任)。Cardano ステークプール ×3 (SIPO/SIPO2/SIPO3)。2026年4月より Midnight Ambassador。",
-    "processTitle": "編集プロセス",
-    "processBody": "Koios、DefiLlama、CoinGecko、GitHub からデータを集約。Weekly Brief は SIPO が執筆し、Claude による英訳を経てレビュー後に公開。",
+    "intro": "LiveMakers は、これからの金融を構成する要素を、現場の精度で観察するためのインテリジェンス・ハブです。AI エージェント経済、暗号資産、ブロックチェーン上の分散型金融 (DeFi)、AI オートトレーディング — 次世代金融プラットフォームの主要トピックを、Cardano と Midnight を起点にマルチブロックチェーン時代の文脈で扱います。",
+
+    "audiencesTitle": "二つの読者層に、同じ一次情報を",
+    "audiencesInstitutional": "機関投資家・リサーチプロフェッショナル には、毎週金曜の Weekly Brief を通じて、独自運営の検証データに基づく構造化されたリサーチをお届けします。SITION Group は Cardano DRep #13、ステークプール ×3、Midnight Ambassador として、ガバナンス・ノード運営・エコシステム実装の最前線に立っており、その現場の数字と判断ロジックをそのまま読者と共有します。",
+    "audiencesLifestyle": "新しい投資をライフスタイルに取り入れたい個人 には、実践に直結する学びとして同じリサーチを言い換えます。ウォレット運用、DeFi 参加、AI オートトレーディング導入、ガバナンス投票 — 機関投資家向けの分析を、明日からの行動に変えるための形で再構成します。",
+
+    "whyTitle": "なぜ Cardano と Midnight を起点にするのか",
+    "whyBody1": "Cardano は、分散型ガバナンス、ステークプール経済、機関投資家向けスマートコントラクトの実装が最も成熟しているチェーンの一つです。Midnight はゼロ知識証明によるプライバシーと規制対応を両立する、機関採用への現実的な橋渡しです。",
+    "whyBody2": "ただし私たちはマルチブロックチェーン時代を前提にしています。Cardano と Midnight を観察の軸としながら、Bitcoin、Ethereum、Solana、その他主要 L1/L2 の動きとの相対比較を継続します。",
+
+    "processTitle": "リサーチの方法論",
+    "processBody": "LiveMakers のすべての記事は SITION Discovery Engine (SDE) — 独自の AI 駆動インテリジェンス・パイプライン — がリアルタイムで収集・評価した一次情報を基盤にしています。Koios、CoinGecko、DefiLlama、GitHub、X (旧 Twitter) など複数のソースを継続的に取り込み、SIPO (Stake In Pool Operator) としての現場経験で文脈化することで、リサーチ精度と実生活への応用性の両方を維持しています。",
+
+    "sipoTitle": "SITION Group としての立ち位置",
+    "sipoBody": "DRep #13 (₳101M 委任、上位 13 位)。Cardano ステークプール ×3 (SIPO/SIPO2/SIPO3)。2026 年 4 月より Midnight Ambassador。私たちは観察者であると同時に、Cardano エコシステムの参加者・運営者でもあります。書いていることは、私たち自身が日々運用している意思決定の延長線上にあります。",
+
     "disclaimerTitle": "免責",
     "disclaimerBody": "本レポートは投資助言ではありません。機関投資家向け調査目的のみ。"
   }

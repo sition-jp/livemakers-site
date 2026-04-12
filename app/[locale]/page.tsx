@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import { getAllBriefs, getLatestBrief } from "@/lib/briefs";
 import { TickerBar } from "@/components/terminal/TickerBar";
+import { SiteTagline } from "@/components/terminal/SiteTagline";
 import { EditorialHero } from "@/components/terminal/EditorialHero";
 import { NetworkPulse } from "@/components/terminal/NetworkPulse";
 import { FourPanelStatus } from "@/components/terminal/FourPanelStatus";
@@ -22,6 +23,7 @@ export default async function OverviewPage({
   return (
     <>
       <TickerBar />
+      <SiteTagline />
       {latest && (
         <>
           <EditorialHero brief={latest} locale={locale} />
