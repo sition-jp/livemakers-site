@@ -10,12 +10,12 @@
     "brand": "LIVEMAKERS · SITION GROUP",
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
     "dataSources": "Data: Koios · DefiLlama · CoinGecko · GitHub",
-    "disclaimer": "Not investment advice. For institutional research purposes only.",
+    "disclaimer": "Not investment advice. Information provided for learning and research.",
     "copyright": "© 2026 SITION Group"
   },
   "overview": {
-    "tagline": "Next-generation finance, written with institutional precision and lifestyle utility.",
-    "subtitle": "A continuous intelligence hub on the AI agent economy, crypto, DeFi, and AI auto-trading — anchored in Cardano and Midnight.",
+    "tagline": "Next-generation finance, written with deep insight and lifestyle utility.",
+    "subtitle": "Learn and practice the AI agent economy, crypto, DeFi, and AI auto-trading. A continuous multi-blockchain intelligence hub anchored in Cardano and Midnight.",
     "latestBrief": "LATEST BRIEF",
     "networkPulse": "NETWORK PULSE · AT PUBLISH",
     "fourPanelTitle": "STATUS SNAPSHOT",
@@ -46,9 +46,9 @@
     "title": "ABOUT LIVEMAKERS",
     "intro": "LiveMakers is a field-precision intelligence hub for the components of next-generation finance: the AI agent economy, crypto assets, on-chain decentralized finance (DeFi), and AI auto-trading. We anchor our observations in Cardano and Midnight, and frame them within the broader multi-blockchain era.",
 
-    "audiencesTitle": "Same primary research, two audiences",
-    "audiencesInstitutional": "Institutional researchers receive a structured Weekly Brief every Friday at 12:00 JST, built on validation data from our own operational footprint. SITION Group operates Cardano DRep #13, three stake pools (SIPO/SIPO2/SIPO3), and is a Midnight Ambassador as of April 2026 — meaning our analysis is grounded in the day-to-day numbers and decision logic of someone actually running governance, nodes, and ecosystem implementation.",
-    "audiencesLifestyle": "Individuals integrating new investment styles into their daily life get the same research, restated for action: wallet operation, DeFi participation, AI auto-trading deployment, governance voting. The institutional analysis is reshaped into next-step guidance.",
+    "audiencesTitle": "Learning and research, from the same primary data",
+    "audiencesLifestyle": "For individuals integrating new investment styles into their daily life — the components of next-generation finance (AI agent economy, DeFi, AI auto-trading, decentralized governance) are no longer a professionals-only domain. LiveMakers delivers continuous learning that turns that shift into daily practice: wallet operation, DeFi participation, AI auto-trading deployment, governance voting — all organized so you can take a concrete step forward the day after reading.",
+    "audiencesInstitutional": "For institutional researchers and research professionals, the same work is delivered as a structured Weekly Brief every Friday at 12:00 JST. SITION Group operates Cardano DRep #13, three stake pools (SIPO/SIPO2/SIPO3), and is a Midnight Ambassador as of April 2026 — meaning our analysis is grounded in the day-to-day numbers and decision logic of someone actually running governance, nodes, and ecosystem implementation. Institutional readers consume the same primary data that fuels our learning material, at a different granularity.",
 
     "whyTitle": "Why Cardano and Midnight",
     "whyBody1": "Cardano is one of the most mature chains for decentralized governance, stake pool economics, and institutional-grade smart contract implementation. Midnight is a pragmatic bridge to institutional adoption, combining zero-knowledge privacy with regulatory compatibility.",
@@ -58,9 +58,10 @@
     "processBody": "Every LiveMakers brief is grounded in primary data continuously aggregated and evaluated by the SITION Discovery Engine (SDE) — our proprietary AI-driven intelligence pipeline. Koios, CoinGecko, DefiLlama, GitHub, X, and other sources feed the engine in real time, and the output is contextualized through our SIPO (Stake In Pool Operator) operational experience. This is how we sustain both research precision and practical utility for daily investors.",
 
     "sipoTitle": "Our position in SITION Group",
-    "sipoBody": "DRep #13 (₳101M delegated, ranked 13th). Three Cardano stake pools (SIPO/SIPO2/SIPO3). Midnight Ambassador since April 2026. We are observers and participants at the same time — what we publish is a continuation of decisions we make every day in our own operations.",
+    "sipoStats": "Cardano DRep #13 — ₳101M delegated, ranked 13th. Three Cardano stake pools (SIPO / SIPO2 / SIPO3) — ₳114M delegated in total. Midnight Ambassador since April 2026. (As of April 12, 2026.)",
+    "sipoBody": "We are observers and participants at the same time — what we publish is a continuation of decisions we make every day in our own operations.",
 
     "disclaimerTitle": "Disclaimer",
-    "disclaimerBody": "Not investment advice. For institutional research purposes only."
+    "disclaimerBody": "Not investment advice. Information provided for learning and research."
   }
 }

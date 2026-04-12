@@ -62,6 +62,9 @@ export default async function AboutPage({
         <h2 className="mb-6 text-2xl font-light tracking-title">
           {t("sipoTitle")}
         </h2>
+        <p className="mb-5 leading-relaxed text-text-secondary">
+          {t("sipoStats")}
+        </p>
         <p className="leading-relaxed text-text-secondary">{t("sipoBody")}</p>
       </section>
 
