@@ -43,14 +43,14 @@
     "dxy": 98.226
   },
   "four_panel_summary": {
-    "regulation": "SEC DeFi UI Safe Harbor (Apr 14, 5yr / 12 conditions) + Bessent WSJ op-ed demanding CLARITY Act markup by end-April + Japan FIEA amendment Cabinet-approved Apr 10 = four-jurisdiction regulatory tailwind.",
-    "regulation_ja": "SEC DeFi UI Safe Harbor（4/14、5年猶予・12条件）+ Bessent WSJ寄稿でCLARITY Act 4月末マークアップ要請 + 日本金商法改正案4/10閣議決定 = アジア・米の4法域規制追い風。",
-    "protocol": "Cardano Node 10.7.0/10.7.1 production-ready (Apr 12). van Rossem HF (Protocol V11 / Plutus V5) 6-month roadmap confirmed. Script Tx cost estimated -15–25%.",
-    "protocol_ja": "Cardano Node 10.7.0/10.7.1 本番準備完了（4/12）。van Rossem HF（Protocol V11 / Plutus V5）6ヶ月ロードマップ確定。Script Tx コスト -15–25% 見込。",
-    "governance": "Intersect 2026 budget process launched (Apr 16). DRep vote May, Treasury withdrawal June. SIPO DRep #11 of 1,010. Vision 2030 passed with 68%.",
-    "governance_ja": "Intersect 2026予算プロセス起動（4/16）。DRep採決5月、Treasury引出6月。SIPO DRep 11位 / 1,010登録。Vision 2030が68%で承認。",
-    "risk": "Overall MEDIUM (↘ improving). Hormuz shock absorbed, VIX peaked 22.09 without panic. NIGHT -8.52% is isolated L3 factor (Launchpool cycle end), not systemic.",
-    "risk_ja": "総合 MEDIUM（↘ 改善傾向）。ホルムズショックを吸収、VIX 最大22.09でパニック回避。NIGHT -8.52% は L3 固有要因（Launchpool サイクル終了）でシステミックリスクではない。"
+    "governance": "Intersect 2026 budget process launched (Apr 16). DRep vote May, Treasury withdrawal June. SIPO DRep #11 of 1,010 registered. Vision 2030 passed with 68%. Japan FIEA amendment Cabinet-approved Apr 10 — institutional ADA-ETF pathway opens.",
+    "governance_ja": "Intersect 2026予算プロセス起動（4/16）。DRep採決5月、Treasury引出6月。SIPO DRep 11位 / 1,010登録。Vision 2030が68%で承認。日本金商法改正案4/10閣議決定 — ADA-ETF制度的道筋が開く。",
+    "defi": "SEC DeFi UI Safe Harbor proposed Apr 14 (5-year sunset, 12 conditions) — DEX/wallet UIs exempt from broker registration. Cardano TVL $142M (+3.9% W-o-W). Node 10.7.0/10.7.1 production-ready; van Rossem HF roadmap estimates -15–25% Script Tx cost reduction.",
+    "defi_ja": "SEC DeFi UI Safe Harbor 4/14提示（5年猶予・12条件）— DEX/ウォレットUIがブローカー登録義務から除外。Cardano TVL $142M（W-o-W +3.9%）。Node 10.7.0/10.7.1本番準備完了。van Rossem HFでScript Txコスト -15–25% 見込。",
+    "midnight": "NIGHT $0.03714 (-8.52% W-o-W) — isolated L3 correction driven by Bitget Launchpool cycle end (Apr 16), not systemic. Monument Bank £250M–£335M deposit tokenization PoC continues. Midnight ecosystem coverage expanded to all 13 dApps on midnight.fun (Zoniqx / Bodega / Dynamic etc.).",
+    "midnight_ja": "NIGHT $0.03714（W-o-W -8.52%）— Bitget Launchpoolサイクル終了（4/16）によるL3単独調整、システミックではない。Monument Bank £250M–£335M預金トークン化PoC継続。midnight.fun全13 dAppへカバレッジ拡張（Zoniqx / Bodega / Dynamic等）。",
+    "risk": "Overall MEDIUM (↘ improving). Hormuz shock absorbed, VIX peaked 22.09 without panic. BTC +6.12%, ADA +4.82%, ETH +6.43% W-o-W. BTC ETF +$1.36B inflow through crisis. Warsh Fed Chair hearing Apr 21 is next week's largest single event.",
+    "risk_ja": "総合 MEDIUM（↘ 改善傾向）。ホルムズショックを吸収、VIX最大22.09でパニック回避。BTC +6.12%、ADA +4.82%、ETH +6.43% W-o-W。BTC ETFは危機を跨いで +$1.36B流入。来週最大の単一イベントはWarsh Fed公聴会（4/21予定）。"
   },
   "has_pdf": false,
   "has_thumbnail": true,
