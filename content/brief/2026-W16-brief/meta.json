@@ -1,0 +1,59 @@
+{
+  "slug": "2026-W16-brief",
+  "issue_number": 2,
+  "week_label": "W16 / Apr 12-18 2026",
+  "publish_date": "2026-04-18",
+  "published_at": "2026-04-18T18:00:00+09:00",
+  "epoch": 625,
+  "sipo_rank": 11,
+  "tags": [
+    "regulatory",
+    "governance",
+    "protocol",
+    "midnight",
+    "institutional"
+  ],
+  "reading_time_min": 7,
+  "title_en": "Regulatory Clarity + Protocol Readiness + Governance Execution — Three Layers Converge, The Institutional Adoption Window Opens",
+  "title_ja": "規制明瞭化 × プロトコル準備 × ガバナンス実装 — 三層同期で機関採用の窓が開いた週",
+  "executive_summary_en": "W16 will be recorded not as a single event but as the week in which regulatory clarity, protocol readiness, and governance execution converged simultaneously. In the US, the SEC proposed a DeFi UI Safe Harbor (5-year sunset, 12 conditions) on Apr 14, and Treasury Secretary Bessent publicly called for a CLARITY Act markup by end of April. In Japan, the FIEA amendment approved by Cabinet on Apr 10 opens an institutional pathway for ADA-inclusive crypto ETFs. Cardano shipped Node 10.7.0/10.7.1 and published a 6-month van Rossem HF roadmap. Intersect MBO formally launched the 2026 budget process on Apr 16. Markets traversed the Hormuz closure and ceasefire while BTC gained +6.12% and ADA +4.82% W-o-W, with VIX never breaching 22. Cardano moved from an L1 that is not yet adopted to an L1 that is ready to be adopted.",
+  "executive_summary_ja": "W16 は単発イベントではなく、規制明瞭化・プロトコル準備・ガバナンス実装の三層が同週に収束した週として記録される。米国では SEC が DeFi UI 向け Safe Harbor (5 年猶予・12 条件) を 4/14 に提示し、同日 Bessent 財務長官が WSJ 寄稿で CLARITY Act の 4 月末マークアップを公式に要請した。日本では 4/10 閣議決定の金商法改正案により、暗号資産が資金決済法から金商法へ移行し、ADA を含む暗号資産 ETF の制度的な道筋が初めて開いた。同週 Cardano は Node 10.7.0/10.7.1 を公開し、van Rossem HF (Protocol Version 11 / Plutus V5) の 6 ヶ月ロードマップを確定。Intersect MBO は 2026 年予算プロセスを 4/16 に正式起動させた。マーケットはホルムズ海峡封鎖と停戦を挟みつつ、BTC は週次 +6.12%、ADA は +4.82% と上昇。VIX は 22 を超えず、機関投資家は地政学ショックをエントリー機会として処理した。Cardano は「まだ採用されていない L1」から「採用判断を下す準備が整った L1」へ移行した週である。",
+  "ticker_snapshot": {
+    "ada_price_usd": 0.2610,
+    "ada_change_24h": 0.77,
+    "ada_mcap_usd": 9650000000,
+    "cardano_tvl_usd": 142000000,
+    "tvl_change_24h": 3.9,
+    "stake_active_percent": 60.3,
+    "naka_rank": 163
+  },
+  "ticker_extras": {
+    "ada_change_wow": 4.82,
+    "btc_price_usd": 77440.00,
+    "btc_change_wow": 6.12,
+    "eth_price_usd": 2429.70,
+    "eth_change_wow": 6.43,
+    "night_price_usd": 0.03714,
+    "night_change_wow": -8.52,
+    "btc_etf_weekly_inflow_usd": 1360000000,
+    "btc_etf_weekly_inflow_btc": 18040.94,
+    "btc_supply_absorption_pct": 8.15,
+    "vix": 20.38,
+    "wti": 82.59,
+    "dxy": 98.226
+  },
+  "four_panel_summary": {
+    "regulation": "SEC DeFi UI Safe Harbor (Apr 14, 5yr / 12 conditions) + Bessent WSJ op-ed demanding CLARITY Act markup by end-April + Japan FIEA amendment Cabinet-approved Apr 10 = four-jurisdiction regulatory tailwind.",
+    "regulation_ja": "SEC DeFi UI Safe Harbor（4/14、5年猶予・12条件）+ Bessent WSJ寄稿でCLARITY Act 4月末マークアップ要請 + 日本金商法改正案4/10閣議決定 = アジア・米の4法域規制追い風。",
+    "protocol": "Cardano Node 10.7.0/10.7.1 production-ready (Apr 12). van Rossem HF (Protocol V11 / Plutus V5) 6-month roadmap confirmed. Script Tx cost estimated -15–25%.",
+    "protocol_ja": "Cardano Node 10.7.0/10.7.1 本番準備完了（4/12）。van Rossem HF（Protocol V11 / Plutus V5）6ヶ月ロードマップ確定。Script Tx コスト -15–25% 見込。",
+    "governance": "Intersect 2026 budget process launched (Apr 16). DRep vote May, Treasury withdrawal June. SIPO DRep #11 of 1,010. Vision 2030 passed with 68%.",
+    "governance_ja": "Intersect 2026予算プロセス起動（4/16）。DRep採決5月、Treasury引出6月。SIPO DRep 11位 / 1,010登録。Vision 2030が68%で承認。",
+    "risk": "Overall MEDIUM (↘ improving). Hormuz shock absorbed, VIX peaked 22.09 without panic. NIGHT -8.52% is isolated L3 factor (Launchpool cycle end), not systemic.",
+    "risk_ja": "総合 MEDIUM（↘ 改善傾向）。ホルムズショックを吸収、VIX 最大22.09でパニック回避。NIGHT -8.52% は L3 固有要因（Launchpool サイクル終了）でシステミックリスクではない。"
+  },
+  "has_pdf": false,
+  "has_thumbnail": true,
+  "thumbnail_style": "terminal_bloomberg",
+  "thumbnail_path": "/brief/2026-W16-brief/thumbnail.png"
+}
