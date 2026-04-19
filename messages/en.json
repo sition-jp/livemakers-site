@@ -149,6 +149,9 @@
         "title": "Signal not found",
         "message": "The signal ID {id} does not exist or has been removed."
       },
+      "chain_status": {
+        "missing_root_trace": "Lineage info unavailable for this signal. No supersede chain can be reconstructed."
+      },
       "meta": {
         "id": "Signal ID",
         "event_key": "Event key",

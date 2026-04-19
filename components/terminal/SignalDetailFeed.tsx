@@ -37,6 +37,7 @@ const fetcher = async (url: string): Promise<SignalDetailResponse> => {
 export function SignalDetailFeed({ id, locale, initialData }: Props) {
   const tNotFound = useTranslations("signals.detail.not_found");
   const tBack = useTranslations("signals.detail");
+  const tChainStatus = useTranslations("signals.detail.chain_status");
 
   const { data, error } = useSWR<SignalDetailResponse>(
     `/api/signals/${encodeURIComponent(id)}`,
@@ -97,6 +98,16 @@ export function SignalDetailFeed({ id, locale, initialData }: Props) {
         locale={locale}
         latestId={latestId}
       />
+
+      {snapshot.chain_status === "missing_root_trace" && (
+        <div
+          role="note"
+          data-testid="missing-root-trace-banner"
+          className="rounded border border-slate-300 bg-slate-50 dark:border-slate-700 dark:bg-slate-900/40 px-3 py-2 text-xs text-slate-700 dark:text-slate-300"
+        >
+          {tChainStatus("missing_root_trace")}
+        </div>
+      )}
 
       <SignalCardExpanded signal={current} locale={locale} />
 
