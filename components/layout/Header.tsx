@@ -49,6 +49,12 @@ export function Header() {
             {t("brief")}
           </Link>
           <Link
+            href="/signals"
+            className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
+          >
+            {t("signals")}
+          </Link>
+          <Link
             href="/subscribe"
             className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
           >

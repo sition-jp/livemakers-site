@@ -36,7 +36,7 @@ describe("lib/signals-cache — SignalsCache", () => {
 
   it("C-2: returns cached value within TTL, refetches after TTL expires", async () => {
     const fetcher = vi
-      .fn<[], Promise<ReadResult>>()
+      .fn<() => Promise<ReadResult>>()
       .mockResolvedValueOnce(fakeResult(3))
       .mockResolvedValueOnce(fakeResult(7));
     const cache = new SignalsCache(60, fetcher);
@@ -56,7 +56,7 @@ describe("lib/signals-cache — SignalsCache", () => {
 
   it("C-3: fetcher failure — returns stale value if one exists", async () => {
     const fetcher = vi
-      .fn<[], Promise<ReadResult>>()
+      .fn<() => Promise<ReadResult>>()
       .mockResolvedValueOnce(fakeResult(4))
       .mockRejectedValueOnce(new Error("disk gone"));
     const cache = new SignalsCache(60, fetcher);
@@ -69,7 +69,7 @@ describe("lib/signals-cache — SignalsCache", () => {
 
   it("C-4: fetcher failure with no cached value — throws", async () => {
     const fetcher = vi
-      .fn<[], Promise<ReadResult>>()
+      .fn<() => Promise<ReadResult>>()
       .mockRejectedValue(new Error("disk gone"));
     const cache = new SignalsCache(60, fetcher);
     await expect(cache.get()).rejects.toThrow("disk gone");
@@ -77,7 +77,7 @@ describe("lib/signals-cache — SignalsCache", () => {
 
   it("C-5: invalidate() forces refetch on next call", async () => {
     const fetcher = vi
-      .fn<[], Promise<ReadResult>>()
+      .fn<() => Promise<ReadResult>>()
       .mockResolvedValueOnce(fakeResult(2))
       .mockResolvedValueOnce(fakeResult(9));
     const cache = new SignalsCache(60, fetcher);
