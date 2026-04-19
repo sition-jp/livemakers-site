@@ -35,7 +35,7 @@ function makeFullSignal(overrides: Partial<Signal> = {}): Signal {
     updated_at: "2026-04-19T09:30:00+00:00",
     evidence: [{ source_type: "news", title: "T1" }],
     ...overrides,
-  } as Signal;
+  } as unknown as Signal;
 }
 
 describe("SignalFieldGrid (spec §5.6.1)", () => {
@@ -69,7 +69,7 @@ describe("SignalFieldGrid (spec §5.6.1)", () => {
   });
 
   it("handles null root_trace_id / supersedes_signal_id without crashing", () => {
-    const legacy = makeFullSignal({ root_trace_id: null, supersedes_signal_id: null } as Partial<Signal>);
+    const legacy = makeFullSignal({ root_trace_id: null, supersedes_signal_id: null } as unknown as Partial<Signal>);
     wrap(<SignalFieldGrid signal={legacy} locale="en" defaultOpen={true} />);
     expect(screen.getAllByText(/—|null/).length).toBeGreaterThan(0);
   });

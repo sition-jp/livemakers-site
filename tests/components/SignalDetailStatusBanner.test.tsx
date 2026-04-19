@@ -28,7 +28,7 @@ function sig(status: Signal["status"]): Signal {
     headline_ja: "",
     summary_en: "",
     summary_ja: "",
-  } as Signal;
+  } as unknown as Signal;
 }
 
 describe("SignalDetailStatusBanner (spec §5.8 v0.2 F7)", () => {

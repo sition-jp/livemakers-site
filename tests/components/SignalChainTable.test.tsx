@@ -29,7 +29,7 @@ function mkSig(id: string, time: string, status: Signal["status"], conf: number)
     headline_ja: `H-${id}`,
     summary_en: "",
     summary_ja: "",
-  } as Signal;
+  } as unknown as Signal;
 }
 
 describe("SignalChainTable (spec §5.7)", () => {

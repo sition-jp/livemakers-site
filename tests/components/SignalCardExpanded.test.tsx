@@ -44,7 +44,7 @@ function fullSignal(overrides: Partial<Signal> = {}): Signal {
       { source_type: "blog", title: "Source 4 (not shown in expanded)", url: "https://blog.example/4" },
     ],
     ...overrides,
-  } as Signal;
+  } as unknown as Signal;
 }
 
 describe("SignalCardExpanded (spec §5.6)", () => {
@@ -72,13 +72,13 @@ describe("SignalCardExpanded (spec §5.6)", () => {
     const sig = fullSignal({
       position_hint: "accumulate",
       conviction: 0.7,
-    } as Partial<Signal>);
+    } as unknown as Partial<Signal>);
     renderWith("en", <SignalCardExpanded signal={sig} locale="en" />);
     expect(screen.getByText(/accumulate/)).toBeInTheDocument();
   });
 
   it("omits position row when position_hint absent", () => {
-    const sig = fullSignal({ position_hint: undefined } as Partial<Signal>);
+    const sig = fullSignal({ position_hint: undefined } as unknown as Partial<Signal>);
     renderWith("en", <SignalCardExpanded signal={sig} locale="en" />);
     expect(screen.queryByText(/accumulate/)).not.toBeInTheDocument();
   });
