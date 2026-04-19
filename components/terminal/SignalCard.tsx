@@ -138,16 +138,16 @@ export function SignalCard({
       : t("evidence_count_other", { count: evidenceCount });
 
   return (
-    <Link
-      href={`/${locale}/signals/${signal.id}`}
-      className="block transition-colors hover:bg-accent/5"
-      aria-label={`View details for ${headline}`}
-    >
     <article
-      className={`${styles.border} ${styles.bg} ${styles.opacity} p-4 rounded-sm shadow-sm`}
+      className={`relative ${styles.border} ${styles.bg} ${styles.opacity} p-4 rounded-sm shadow-sm transition-colors hover:bg-accent/5`}
       data-signal-id={signal.id}
       data-bucket={bucket}
     >
+      <Link
+        href={`/${locale}/signals/${signal.id}`}
+        aria-label={`View details for ${headline}`}
+        className="absolute inset-0 z-10"
+      />
       {/* Header: bucket badge + pillar + asset · confidence · age */}
       <header className="flex items-center justify-between text-[10px] tracking-widest text-text-tertiary mb-2">
         <div className="flex items-center gap-2">
@@ -247,6 +247,5 @@ export function SignalCard({
         </footer>
       )}
     </article>
-    </Link>
   );
 }
