@@ -313,3 +313,82 @@ describe("verifyChainIntegrity (spec §5.2 v0.3 Finding 2)", () => {
     expect(warnings[0]).toMatch(/supersedes_signal_id=null/);
   });
 });
+
+import { buildSignalDetailResponse } from "@/lib/signals-reader";
+
+describe("buildSignalDetailResponse (spec §5.2 v0.3 Finding 3 — SSOT)", () => {
+  it("returns chain_status='not_found' when id not in signals", () => {
+    const response = buildSignalDetailResponse([], "sig_missing", 42);
+    expect(response.signal).toBeNull();
+    expect(response.chain).toEqual([]);
+    expect(response.chain_status).toBe("not_found");
+    expect(response.chain_integrity_warnings).toEqual([]);
+    expect(response.meta).toEqual({
+      found: false,
+      chain_length: 0,
+      root_trace_id: null,
+      source_freshness_sec: 42,
+    });
+  });
+
+  it("returns chain_status='missing_root_trace' for legacy signal (root_trace_id null)", () => {
+    const legacy = makeSignal({ id: "sig_old", root_trace_id: null as any });
+    const response = buildSignalDetailResponse([legacy], "sig_old", 0);
+    expect(response.signal?.id).toBe("sig_old");
+    expect(response.chain_status).toBe("missing_root_trace");
+    expect(response.chain).toEqual([]);
+    expect(response.meta.found).toBe(true);
+    expect(response.meta.root_trace_id).toBeNull();
+  });
+
+  it("returns chain_status='ok' with asc chain for healthy supersede chain", () => {
+    const s1 = makeSignal({
+      id: "a",
+      root_trace_id: "r1",
+      updated_at: "2026-04-19T10:00:00+00:00",
+      supersedes_signal_id: undefined,
+    });
+    const s2 = makeSignal({
+      id: "b",
+      root_trace_id: "r1",
+      updated_at: "2026-04-19T11:00:00+00:00",
+      supersedes_signal_id: "a",
+    });
+    const response = buildSignalDetailResponse([s1, s2], "b", 0);
+    expect(response.chain_status).toBe("ok");
+    expect(response.chain.map((s) => s.id)).toEqual(["a", "b"]);
+    expect(response.chain_integrity_warnings).toEqual([]);
+    expect(response.meta.chain_length).toBe(2);
+    expect(response.meta.root_trace_id).toBe("r1");
+  });
+
+  it("emits chain_integrity_warnings when adjacency breaks", () => {
+    const s1 = makeSignal({
+      id: "a",
+      root_trace_id: "r1",
+      updated_at: "2026-04-19T10:00:00+00:00",
+      supersedes_signal_id: undefined,
+    });
+    const s2 = makeSignal({
+      id: "b",
+      root_trace_id: "r1",
+      updated_at: "2026-04-19T11:00:00+00:00",
+      supersedes_signal_id: "a",
+    });
+    const s3 = makeSignal({
+      id: "c",
+      root_trace_id: "r1",
+      updated_at: "2026-04-19T12:00:00+00:00",
+      supersedes_signal_id: "a", // should be "b"
+    });
+    const response = buildSignalDetailResponse([s1, s2, s3], "c", 0);
+    expect(response.chain_status).toBe("ok");
+    expect(response.chain_integrity_warnings).toHaveLength(1);
+    expect(response.chain_integrity_warnings[0]).toMatch(/lineage break at c/);
+  });
+
+  it("preserves freshness parameter into meta", () => {
+    const response = buildSignalDetailResponse([], "missing", 1234);
+    expect(response.meta.source_freshness_sec).toBe(1234);
+  });
+});

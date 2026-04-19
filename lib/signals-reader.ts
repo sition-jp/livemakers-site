@@ -281,3 +281,51 @@ export function verifyChainIntegrity(chainAsc: Signal[]): string[] {
   }
   return warnings;
 }
+
+/**
+ * Single source of truth for `SignalDetailResponse` assembly (spec §5.2
+ * v0.3 Finding 3). BOTH `app/api/signals/[id]/route.ts` AND
+ * `app/[locale]/signals/[id]/page.tsx` call this function; adding a
+ * field to SignalDetailResponse later means touching one function, not
+ * synchronizing two call sites.
+ *
+ * Emits chain_status="not_found" when getSignalById returns null.
+ * Delegates other status cases to buildSupersedeChain.
+ *
+ * Precondition: `allSignals` is post-collapse latest-row-wins per id
+ * (from readAndParseSignals).
+ */
+export function buildSignalDetailResponse(
+  allSignals: Signal[],
+  id: string,
+  sourceFreshnessSec: number,
+): SignalDetailResponse {
+  const signal = getSignalById(allSignals, id);
+  if (signal === null) {
+    return {
+      signal: null,
+      chain: [],
+      chain_status: "not_found",
+      chain_integrity_warnings: [],
+      meta: {
+        found: false,
+        chain_length: 0,
+        root_trace_id: null,
+        source_freshness_sec: sourceFreshnessSec,
+      },
+    };
+  }
+  const chainResult = buildSupersedeChain(allSignals, signal);
+  return {
+    signal,
+    chain: chainResult.chain,
+    chain_status: chainResult.status,
+    chain_integrity_warnings: chainResult.warnings,
+    meta: {
+      found: true,
+      chain_length: chainResult.chain.length,
+      root_trace_id: signal.root_trace_id ?? null,
+      source_freshness_sec: sourceFreshnessSec,
+    },
+  };
+}
