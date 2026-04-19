@@ -202,3 +202,45 @@ export interface SignalDetailResponse {
 export function getSignalById(signals: Signal[], id: string): Signal | null {
   return signals.find((s) => s.id === id) ?? null;
 }
+
+/**
+ * Build the supersede chain for a given signal (spec §5.2).
+ *
+ * Callers MUST pass a non-null `current`. The "not_found" status is
+ * not emitted here — it's produced at the buildSignalDetailResponse
+ * layer when getSignalById returns null (v0.3 Finding 1 separation).
+ *
+ * Status semantics:
+ *   - current.root_trace_id == null → status="missing_root_trace", chain=[]
+ *   - root_trace_id present, 1 match (self only) → "singleton_fallback"
+ *   - root_trace_id present, >= 2 matches → "ok", chain asc by updated_at
+ *
+ * Warnings: only emitted for "ok" status; adjacency-based check
+ * (see verifyChainIntegrity). Do NOT downgrade status on warnings —
+ * they annotate for analyst review.
+ */
+export function buildSupersedeChain(
+  signals: Signal[],
+  current: Signal,
+): ChainResult {
+  if (current.root_trace_id === null || current.root_trace_id === undefined) {
+    return { chain: [], status: "missing_root_trace", warnings: [] };
+  }
+
+  const rootTraceId = current.root_trace_id;
+  const candidates = signals
+    .filter((s) => s.root_trace_id === rootTraceId)
+    .sort((a, b) => (a.updated_at ?? "").localeCompare(b.updated_at ?? ""));
+
+  if (candidates.length <= 1) {
+    return { chain: candidates, status: "singleton_fallback", warnings: [] };
+  }
+
+  const warnings = verifyChainIntegrity(candidates);
+  return { chain: candidates, status: "ok", warnings };
+}
+
+// Stub — replaced in Task A4.
+function verifyChainIntegrity(_chainAsc: Signal[]): string[] {
+  return [];
+}

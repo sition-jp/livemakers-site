@@ -219,3 +219,50 @@ describe("getSignalById (spec §5.2)", () => {
     expect(getSignalById(signals, "sig_missing")).toBeNull();
   });
 });
+
+import { buildSupersedeChain } from "@/lib/signals-reader";
+
+describe("buildSupersedeChain (spec §5.2)", () => {
+  it("returns missing_root_trace when root_trace_id is null", () => {
+    const current = makeSignal({ id: "sig_legacy", root_trace_id: null as any });
+    const result = buildSupersedeChain([current], current);
+    expect(result.status).toBe("missing_root_trace");
+    expect(result.chain).toEqual([]);
+    expect(result.warnings).toEqual([]);
+  });
+
+  it("returns singleton_fallback when only the signal itself matches its root_trace_id", () => {
+    const current = makeSignal({ id: "sig_new", root_trace_id: "root_1" });
+    const result = buildSupersedeChain([current], current);
+    expect(result.status).toBe("singleton_fallback");
+    expect(result.chain).toHaveLength(1);
+    expect(result.chain[0].id).toBe("sig_new");
+    expect(result.warnings).toEqual([]);
+  });
+
+  it("returns ok with asc-by-updated_at chain when multiple rows share root_trace_id", () => {
+    const s1 = makeSignal({
+      id: "sig_001",
+      root_trace_id: "root_x",
+      updated_at: "2026-04-18T23:05:00+00:00",
+      supersedes_signal_id: undefined,
+    });
+    const s2 = makeSignal({
+      id: "sig_002",
+      root_trace_id: "root_x",
+      updated_at: "2026-04-19T02:15:00+00:00",
+      supersedes_signal_id: "sig_001",
+    });
+    const s3 = makeSignal({
+      id: "sig_003",
+      root_trace_id: "root_x",
+      updated_at: "2026-04-19T09:07:00+00:00",
+      supersedes_signal_id: "sig_002",
+    });
+    // Provide in non-sorted order to verify sort happens inside
+    const result = buildSupersedeChain([s3, s1, s2], s3);
+    expect(result.status).toBe("ok");
+    expect(result.chain.map((s) => s.id)).toEqual(["sig_001", "sig_002", "sig_003"]);
+    expect(result.warnings).toEqual([]); // clean adjacency
+  });
+});
