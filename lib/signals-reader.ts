@@ -265,8 +265,7 @@ export function verifyChainIntegrity(chainAsc: Signal[]): string[] {
     if (i === 0) {
       if (supersedes !== null) {
         warnings.push(
-          `oldest row ${row.id} has unexpected supersedes_signal_id=${supersedes} ` +
-            `(root_trace_id=${row.root_trace_id ?? "null"}).`,
+          `oldest row ${row.id} has unexpected supersedes_signal_id=${supersedes ?? "null"}`,
         );
       }
     } else {
@@ -274,7 +273,7 @@ export function verifyChainIntegrity(chainAsc: Signal[]): string[] {
       if (supersedes !== expected) {
         warnings.push(
           `lineage break at ${row.id}: supersedes_signal_id=${supersedes ?? "null"} ` +
-            `but immediately prior row in chain (asc) is ${expected}.`,
+            `but immediately prior row in chain (asc) is ${expected}`,
         );
       }
     }

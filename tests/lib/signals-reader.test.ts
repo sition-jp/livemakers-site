@@ -290,7 +290,8 @@ describe("verifyChainIntegrity (spec §5.2 v0.3 Finding 2)", () => {
     expect(warnings).toHaveLength(1);
     expect(warnings[0]).toMatch(/lineage break at c/);
     expect(warnings[0]).toMatch(/supersedes_signal_id=a/);
-    expect(warnings[0]).toMatch(/prior row in chain \(asc\) is b/);
+    // Pin spec §4.3 form: no trailing period after the id
+    expect(warnings[0]).toMatch(/prior row in chain \(asc\) is b$/);
   });
 
   it("flags oldest row with unexpected supersedes_signal_id", () => {
