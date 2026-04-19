@@ -144,3 +144,46 @@ describe("lib/signals-reader — collapseLatestById", () => {
     expect(a?.status).toBe("superseded");
   });
 });
+
+// -----------------------------------------------------------------------------
+// Task 1-3 — Signal detail page additions (spec §5.2)
+// -----------------------------------------------------------------------------
+
+import type {
+  ChainResult,
+  ChainStatus,
+  SignalDetailResponse,
+} from "@/lib/signals-reader";
+
+describe("Task 1-3 types (spec §5.2)", () => {
+  it("ChainStatus is a string union including 'not_found'", () => {
+    const ok: ChainStatus = "ok";
+    const mrt: ChainStatus = "missing_root_trace";
+    const sf: ChainStatus = "singleton_fallback";
+    const nf: ChainStatus = "not_found";
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    [ok, mrt, sf, nf];
+    expect([ok, mrt, sf, nf]).toHaveLength(4);
+  });
+
+  it("ChainResult has chain / status / warnings", () => {
+    const r: ChainResult = { chain: [], status: "singleton_fallback", warnings: [] };
+    expect(r.status).toBe("singleton_fallback");
+  });
+
+  it("SignalDetailResponse has signal / chain / chain_status / chain_integrity_warnings / meta", () => {
+    const r: SignalDetailResponse = {
+      signal: null,
+      chain: [],
+      chain_status: "not_found",
+      chain_integrity_warnings: [],
+      meta: {
+        found: false,
+        chain_length: 0,
+        root_trace_id: null,
+        source_freshness_sec: 0,
+      },
+    };
+    expect(r.meta.found).toBe(false);
+  });
+});

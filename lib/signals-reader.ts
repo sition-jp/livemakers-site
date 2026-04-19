@@ -137,3 +137,53 @@ export function readAndParseSignals(jsonlPath: string): ReadResult {
   const collapsed = collapseLatestById(parsed);
   return { signals: collapsed, parseErrors, fileExists: true, mtimeMs };
 }
+
+// -----------------------------------------------------------------------------
+// Task 1-3 additions (spec 2026-04-19-lm-task-1-3-signal-detail-design.md §5.2)
+// -----------------------------------------------------------------------------
+
+/**
+ * ChainStatus describes the state of a Signal's supersede chain relative
+ * to the current detail-page query. Each value is emitted by exactly one
+ * case in `buildSignalDetailResponse`:
+ *
+ * - "ok":                found + root_trace_id present + >= 2 rows in chain
+ * - "missing_root_trace": found + root_trace_id is null/undefined (legacy)
+ * - "singleton_fallback": found + root_trace_id present + only 1 row (self)
+ * - "not_found":         signal not found at all (meta.found === false)
+ *
+ * Invariant: meta.found === (chain_status !== "not_found").
+ */
+export type ChainStatus =
+  | "ok"
+  | "missing_root_trace"
+  | "singleton_fallback"
+  | "not_found";
+
+/**
+ * Output of `buildSupersedeChain`. Does NOT include "not_found" in status —
+ * that variant is emitted only at the `buildSignalDetailResponse` level,
+ * because buildSupersedeChain is only ever called when a signal was found.
+ */
+export interface ChainResult {
+  chain: Signal[];
+  status: Exclude<ChainStatus, "not_found">;
+  warnings: string[];
+}
+
+/**
+ * Shape returned by both `/api/signals/[id]` and the SSR page component.
+ * Single source of truth for response assembly (spec §5.2 v0.3 Finding 3).
+ */
+export interface SignalDetailResponse {
+  signal: Signal | null;
+  chain: Signal[];
+  chain_status: ChainStatus;
+  chain_integrity_warnings: string[];
+  meta: {
+    found: boolean;
+    chain_length: number;
+    root_trace_id: string | null;
+    source_freshness_sec: number;
+  };
+}
