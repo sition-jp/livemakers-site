@@ -1,0 +1,121 @@
+/**
+ * SignalDetailFeed — client composer for /[locale]/signals/[id].
+ *
+ * Spec: 08_DOCS/knowledge/specs/2026-04-19-lm-task-1-3-signal-detail-design.md
+ *       §5.5 v0.2 F5 (SSR hydration) + v0.3 F5 (latestId from asc-last).
+ *
+ * Orchestrates all Phase D components. Receives the SSR-resolved
+ * SignalDetailResponse as `initialData` so the first paint is a full
+ * detail view (no skeleton). SWR refreshes every 30s on the client;
+ * `revalidateOnMount: false` avoids a second fetch immediately after
+ * hydration.
+ */
+"use client";
+
+import useSWR from "swr";
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import type { SignalDetailResponse } from "@/lib/signals-reader";
+import { SignalCardExpanded } from "./SignalCardExpanded";
+import { SignalFieldGrid } from "./SignalFieldGrid";
+import { SignalChainTable } from "./SignalChainTable";
+import { SignalDetailStatusBanner } from "./SignalDetailStatusBanner";
+import { ChainIntegrityNotice } from "./ChainIntegrityNotice";
+
+interface Props {
+  id: string;
+  locale: "en" | "ja";
+  initialData: SignalDetailResponse;
+}
+
+const fetcher = async (url: string): Promise<SignalDetailResponse> => {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return (await res.json()) as SignalDetailResponse;
+};
+
+export function SignalDetailFeed({ id, locale, initialData }: Props) {
+  const tNotFound = useTranslations("signals.detail.not_found");
+  const tBack = useTranslations("signals.detail");
+
+  const { data, error } = useSWR<SignalDetailResponse>(
+    `/api/signals/${encodeURIComponent(id)}`,
+    fetcher,
+    {
+      refreshInterval: 30_000,
+      fallbackData: initialData,
+      revalidateOnMount: false,
+    },
+  );
+
+  const snapshot = data ?? initialData;
+
+  if (error) {
+    return (
+      <div className="rounded border border-red-300 bg-red-50 p-4 text-sm text-red-900">
+        Signals temporarily unavailable. Please refresh in a minute.
+      </div>
+    );
+  }
+
+  if (snapshot.chain_status === "not_found") {
+    return (
+      <div>
+        <Link
+          href={`/${locale}/signals`}
+          className="text-sm underline opacity-70"
+        >
+          {tBack("back_to_signals")}
+        </Link>
+        <div className="mt-4 rounded border border-slate-200 dark:border-slate-800 p-6">
+          <h1 className="text-xl font-semibold">{tNotFound("title")}</h1>
+          <p className="mt-2 text-sm">{tNotFound("message", { id })}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const current = snapshot.signal!;
+  const latestInChain =
+    snapshot.chain_status === "ok" && snapshot.chain.length > 0
+      ? snapshot.chain[snapshot.chain.length - 1]
+      : null;
+  const latestId =
+    latestInChain && latestInChain.id !== current.id ? latestInChain.id : null;
+
+  return (
+    <div className="space-y-4">
+      <Link
+        href={`/${locale}/signals`}
+        className="text-sm underline opacity-70"
+      >
+        {tBack("back_to_signals")}
+      </Link>
+
+      <SignalDetailStatusBanner
+        signal={current}
+        locale={locale}
+        latestId={latestId}
+      />
+
+      <SignalCardExpanded signal={current} locale={locale} />
+
+      {snapshot.chain_status === "ok" && snapshot.chain.length > 1 && (
+        <SignalChainTable
+          chain={snapshot.chain}
+          currentId={current.id}
+          locale={locale}
+        />
+      )}
+
+      {snapshot.chain_integrity_warnings.length > 0 && (
+        <ChainIntegrityNotice
+          warnings={snapshot.chain_integrity_warnings}
+          locale={locale}
+        />
+      )}
+
+      <SignalFieldGrid signal={current} locale={locale} defaultOpen={false} />
+    </div>
+  );
+}
