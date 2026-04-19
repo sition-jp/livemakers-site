@@ -38,6 +38,7 @@ export function SignalDetailFeed({ id, locale, initialData }: Props) {
   const tNotFound = useTranslations("signals.detail.not_found");
   const tBack = useTranslations("signals.detail");
   const tChainStatus = useTranslations("signals.detail.chain_status");
+  const tError = useTranslations("signals.error");
 
   const { data, error } = useSWR<SignalDetailResponse>(
     `/api/signals/${encodeURIComponent(id)}`,
@@ -54,7 +55,7 @@ export function SignalDetailFeed({ id, locale, initialData }: Props) {
   if (error) {
     return (
       <div className="rounded border border-red-300 bg-red-50 p-4 text-sm text-red-900">
-        Signals temporarily unavailable. Please refresh in a minute.
+        {tError("unavailable")}
       </div>
     );
   }
