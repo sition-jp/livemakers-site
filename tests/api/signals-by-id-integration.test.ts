@@ -107,7 +107,7 @@ describe("integration: signals-by-id", () => {
     ]);
     const { GET } = await import("@/app/api/signals/[id]/route");
     const res = await GET(new NextRequest("http://localhost/api/signals/t3"), {
-      params: { id: "t3" },
+      params: Promise.resolve({ id: "t3" }),
     });
     const body = (await res.json()) as {
       chain_status: string;
@@ -124,7 +124,7 @@ describe("integration: signals-by-id", () => {
     const { GET } = await import("@/app/api/signals/[id]/route");
     const res = await GET(
       new NextRequest("http://localhost/api/signals/ghost"),
-      { params: { id: "ghost" } },
+      { params: Promise.resolve({ id: "ghost" }) },
     );
     const body = (await res.json()) as {
       signal: unknown;
@@ -156,7 +156,7 @@ describe("integration: signals-by-id", () => {
     ]);
     const { GET } = await import("@/app/api/signals/[id]/route");
     const res = await GET(new NextRequest("http://localhost/api/signals/old"), {
-      params: { id: "old" },
+      params: Promise.resolve({ id: "old" }),
     });
     const body = (await res.json()) as {
       chain_status: string;

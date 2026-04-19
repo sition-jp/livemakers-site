@@ -61,7 +61,7 @@ async function callRoute(
   // starts fresh every test, so env-var changes are picked up.
   const mod = await import("@/app/api/signals/[id]/route");
   const req = new NextRequest(`http://localhost/api/signals/${id}`);
-  const res = await mod.GET(req, { params: { id } });
+  const res = await mod.GET(req, { params: Promise.resolve({ id }) });
   return { status: res.status, body: await res.json(), headers: res.headers };
 }
 
@@ -229,7 +229,7 @@ describe("GET /api/signals/[id] (spec §5.3)", () => {
     // First request: capture ETag
     const mod = await import("@/app/api/signals/[id]/route");
     const req1 = new NextRequest(`http://localhost/api/signals/etag_match`);
-    const res1 = await mod.GET(req1, { params: { id: "etag_match" } });
+    const res1 = await mod.GET(req1, { params: Promise.resolve({ id: "etag_match" }) });
     const etag = res1.headers.get("etag");
     expect(etag).toBeTruthy();
 
@@ -237,7 +237,7 @@ describe("GET /api/signals/[id] (spec §5.3)", () => {
     const req2 = new NextRequest(`http://localhost/api/signals/etag_match`, {
       headers: { "if-none-match": etag! },
     });
-    const res2 = await mod.GET(req2, { params: { id: "etag_match" } });
+    const res2 = await mod.GET(req2, { params: Promise.resolve({ id: "etag_match" }) });
     expect(res2.status).toBe(304);
     // 304 must still carry ETag + Cache-Control
     expect(res2.headers.get("etag")).toBe(etag);
@@ -254,7 +254,7 @@ describe("GET /api/signals/[id] (spec §5.3)", () => {
     // the narrowed try boundary.
     const mod = await import("@/app/api/signals/[id]/route");
     const req = new NextRequest(`http://localhost/api/signals/missing_id`);
-    const res = await mod.GET(req, { params: { id: "missing_id" } });
+    const res = await mod.GET(req, { params: Promise.resolve({ id: "missing_id" }) });
     expect(res.status).toBe(200); // NOT 503
     const body = (await res.json()) as { chain_status: string };
     expect(body.chain_status).toBe("not_found");

@@ -50,8 +50,9 @@ function freshnessSec(mtimeMs: number): number {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
+  const { id } = await params;
   let read: CachedRead;
   try {
     read = getSignals();
@@ -68,11 +69,11 @@ export async function GET(
 
   const body = buildSignalDetailResponse(
     read.signals,
-    params.id,
+    id,
     freshnessSec(read.mtimeMs),
   );
   const etagStamp = read.mtimeMs === 0 ? "none" : String(read.mtimeMs);
-  const etag = `W/"sig-detail-${params.id}-${etagStamp}"`;
+  const etag = `W/"sig-detail-${id}-${etagStamp}"`;
 
   const ifNoneMatch = request.headers.get("if-none-match");
   if (ifNoneMatch !== null && ifNoneMatch === etag) {
