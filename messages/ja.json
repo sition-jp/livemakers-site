@@ -156,6 +156,15 @@
         "created_at": "作成",
         "updated_at": "更新",
         "translation_status": "翻訳"
+      },
+      "card_expanded": {
+        "direction_label": "方向",
+        "impact_label": "影響度",
+        "horizon_label": "時間軸",
+        "position_label": "ポジション",
+        "conviction_label": "確信度 {value}",
+        "evidence_header": "エビデンス ({shown} 件 / 全 {total} 件)",
+        "translation_pending_aside": "EN translation pending — 完全翻訳は Phase 2 にて。"
       }
     }
   }

@@ -17,6 +17,7 @@ interface Props {
 
 export function SignalChainTable({ chain, currentId, locale }: Props) {
   const t = useTranslations("signals.detail.chain");
+  const tSections = useTranslations("signals.detail.sections");
   // v0.3 Finding 5: reverse ONLY in this component
   const rowsDesc = [...chain].reverse();
 
@@ -37,7 +38,7 @@ export function SignalChainTable({ chain, currentId, locale }: Props) {
   return (
     <section className="mt-6">
       <h2 className="text-xs uppercase tracking-wide opacity-60 mb-2">
-        Supersede chain ({chain.length} versions)
+        {tSections("chain", { count: chain.length })}
       </h2>
       <table className="w-full text-sm">
         <thead>

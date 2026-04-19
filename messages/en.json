@@ -156,6 +156,15 @@
         "created_at": "Created",
         "updated_at": "Updated",
         "translation_status": "Translation"
+      },
+      "card_expanded": {
+        "direction_label": "direction",
+        "impact_label": "impact",
+        "horizon_label": "horizon",
+        "position_label": "position",
+        "conviction_label": "conviction {value}",
+        "evidence_header": "Evidence ({shown} of {total})",
+        "translation_pending_aside": "EN translation pending — full translation in Phase 2."
       }
     }
   }

@@ -6,6 +6,7 @@
  * Responsibility: summary + top-3 evidence + position (if any). Does NOT
  * render full schema — that lives in SignalFieldGrid (§5.6.1).
  */
+import { useTranslations } from "next-intl";
 import type { Signal } from "@/lib/signals";
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export function SignalCardExpanded({ signal, locale }: Props) {
+  const t = useTranslations("signals.detail.card_expanded");
   const headline = locale === "ja" ? signal.headline_ja : signal.headline_en;
   const summary = locale === "ja" ? signal.summary_ja : signal.summary_en;
   const isEnPending = locale === "en" && summary.includes("EN translation pending.");
@@ -38,18 +40,18 @@ export function SignalCardExpanded({ signal, locale }: Props) {
       <hr className="my-4 opacity-30" />
       <section className="text-sm flex flex-wrap gap-x-4 gap-y-1">
         <span>
-          <span className="opacity-60">direction: </span>
+          <span className="opacity-60">{t("direction_label")}: </span>
           {signal.direction}
         </span>
         {signal.impact && (
           <span>
-            <span className="opacity-60">impact: </span>
+            <span className="opacity-60">{t("impact_label")}: </span>
             {signal.impact}
           </span>
         )}
         {signal.time_horizon && (
           <span>
-            <span className="opacity-60">horizon: </span>
+            <span className="opacity-60">{t("horizon_label")}: </span>
             {signal.time_horizon}
           </span>
         )}
@@ -59,10 +61,12 @@ export function SignalCardExpanded({ signal, locale }: Props) {
         <>
           <hr className="my-4 opacity-30" />
           <section className="text-sm">
-            <span className="opacity-60">position: </span>
+            <span className="opacity-60">{t("position_label")}: </span>
             <span className="font-medium">{positionHint}</span>
             {typeof conviction === "number" && (
-              <span className="ml-2 opacity-60">conviction {conviction.toFixed(2)}</span>
+              <span className="ml-2 opacity-60">
+                {t("conviction_label", { value: conviction.toFixed(2) })}
+              </span>
             )}
           </section>
         </>
@@ -73,7 +77,10 @@ export function SignalCardExpanded({ signal, locale }: Props) {
           <hr className="my-4 opacity-30" />
           <section className="text-sm">
             <h2 className="mb-2 text-xs uppercase tracking-wide opacity-60">
-              Evidence ({topEvidence.length} of {signal.evidence?.length ?? 0})
+              {t("evidence_header", {
+                shown: topEvidence.length,
+                total: signal.evidence?.length ?? 0,
+              })}
             </h2>
             <ul className="space-y-1">
               {topEvidence.map((ev, i) => {
@@ -99,7 +106,7 @@ export function SignalCardExpanded({ signal, locale }: Props) {
 
       {isEnPending && (
         <aside className="mt-4 text-xs italic text-amber-600">
-          EN translation pending — full translation in Phase 2.
+          {t("translation_pending_aside")}
         </aside>
       )}
     </article>
