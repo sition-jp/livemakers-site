@@ -99,6 +99,64 @@
       "status_superseded": "更新済み",
       "status_expired": "期限切れ",
       "status_invalidated": "無効化"
+    },
+    "detail": {
+      "back_to_signals": "← 一覧に戻る",
+      "loading": "シグナルを読み込んでいます…",
+      "status_banner": {
+        "superseded": "このシグナルは {time} に上書きされました。",
+        "superseded_with_latest": "このシグナルは {time} に上書きされました。最新版を表示 →",
+        "invalidated": "このシグナルは {time} に無効化されました。",
+        "expired": "このシグナルは有効期限切れです。",
+        "view_latest": "最新版を表示"
+      },
+      "chain_integrity_notice": {
+        "title": "チェーン整合性",
+        "intro": "このシグナルの supersede チェーンに、アナリスト向けの整合性警告があります:",
+        "warning_prefix": "•"
+      },
+      "field_grid": {
+        "toggle_open": "全フィールドを表示",
+        "toggle_close": "全フィールドを閉じる",
+        "sections": {
+          "identity": "識別子",
+          "status_timing": "状態とタイミング",
+          "classification": "分類",
+          "assets_topics": "アセットとトピック",
+          "translation_state": "翻訳状態",
+          "audit_lock": "監査とロック",
+          "evidence_full": "エビデンス（全件）"
+        }
+      },
+      "sections": {
+        "assessment": "評価",
+        "evidence": "エビデンス ({count} 件)",
+        "related": "関連",
+        "chain": "Supersede チェーン ({count} 版)",
+        "meta": "メタ"
+      },
+      "chain": {
+        "no_chain": "この signal がオリジナルです。過去版はありません。",
+        "current_marker": "現在",
+        "headers": {
+          "time": "時刻",
+          "status": "状態",
+          "confidence": "確信度",
+          "id": "ID"
+        }
+      },
+      "not_found": {
+        "title": "シグナルが見つかりません",
+        "message": "シグナル ID {id} は存在しないか削除されました。"
+      },
+      "meta": {
+        "id": "シグナル ID",
+        "event_key": "イベントキー",
+        "root_trace_id": "ルートトレース ID",
+        "created_at": "作成",
+        "updated_at": "更新",
+        "translation_status": "翻訳"
+      }
     }
   }
 }

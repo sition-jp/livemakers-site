@@ -393,3 +393,71 @@ describe("buildSignalDetailResponse (spec §5.2 v0.3 Finding 3 — SSOT)", () =>
     expect(response.meta.source_freshness_sec).toBe(1234);
   });
 });
+
+import enMessages from "@/messages/en.json";
+import jaMessages from "@/messages/ja.json";
+
+describe("i18n: signals.detail.* namespace (spec §6.1)", () => {
+  const requiredKeys = [
+    "back_to_signals",
+    "loading",
+    "status_banner.superseded",
+    "status_banner.superseded_with_latest",
+    "status_banner.invalidated",
+    "status_banner.expired",
+    "status_banner.view_latest",
+    "chain_integrity_notice.title",
+    "chain_integrity_notice.intro",
+    "chain_integrity_notice.warning_prefix",
+    "field_grid.toggle_open",
+    "field_grid.toggle_close",
+    "field_grid.sections.identity",
+    "field_grid.sections.status_timing",
+    "field_grid.sections.classification",
+    "field_grid.sections.assets_topics",
+    "field_grid.sections.translation_state",
+    "field_grid.sections.audit_lock",
+    "field_grid.sections.evidence_full",
+    "sections.assessment",
+    "sections.evidence",
+    "sections.related",
+    "sections.chain",
+    "sections.meta",
+    "chain.no_chain",
+    "chain.current_marker",
+    "chain.headers.time",
+    "chain.headers.status",
+    "chain.headers.confidence",
+    "chain.headers.id",
+    "not_found.title",
+    "not_found.message",
+    "meta.id",
+    "meta.event_key",
+    "meta.root_trace_id",
+    "meta.created_at",
+    "meta.updated_at",
+    "meta.translation_status",
+  ];
+
+  function getNested(obj: Record<string, unknown>, key: string): unknown {
+    return key.split(".").reduce<unknown>((acc, part) => {
+      if (acc && typeof acc === "object" && part in (acc as Record<string, unknown>)) {
+        return (acc as Record<string, unknown>)[part];
+      }
+      return undefined;
+    }, obj);
+  }
+
+  for (const key of requiredKeys) {
+    it(`en: signals.detail.${key} exists and is a string`, () => {
+      const val = getNested(enMessages.signals.detail, key);
+      expect(typeof val).toBe("string");
+      expect((val as string).length).toBeGreaterThan(0);
+    });
+    it(`ja: signals.detail.${key} exists and is a string`, () => {
+      const val = getNested(jaMessages.signals.detail, key);
+      expect(typeof val).toBe("string");
+      expect((val as string).length).toBeGreaterThan(0);
+    });
+  }
+});

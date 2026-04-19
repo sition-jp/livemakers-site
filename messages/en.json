@@ -99,6 +99,64 @@
       "status_superseded": "superseded",
       "status_expired": "expired",
       "status_invalidated": "invalidated"
+    },
+    "detail": {
+      "back_to_signals": "← Back to Signals",
+      "loading": "Loading signal…",
+      "status_banner": {
+        "superseded": "This signal was superseded at {time}.",
+        "superseded_with_latest": "This signal was superseded at {time}. View latest version →",
+        "invalidated": "This signal was invalidated at {time}.",
+        "expired": "This signal has expired.",
+        "view_latest": "View latest version"
+      },
+      "chain_integrity_notice": {
+        "title": "Chain integrity",
+        "intro": "This signal's supersede chain has integrity warnings for analyst review:",
+        "warning_prefix": "•"
+      },
+      "field_grid": {
+        "toggle_open": "Show all fields",
+        "toggle_close": "Hide all fields",
+        "sections": {
+          "identity": "Identity",
+          "status_timing": "Status & Timing",
+          "classification": "Classification",
+          "assets_topics": "Assets & Topics",
+          "translation_state": "Translation state",
+          "audit_lock": "Audit & Lock",
+          "evidence_full": "Evidence (full list)"
+        }
+      },
+      "sections": {
+        "assessment": "Assessment",
+        "evidence": "Evidence ({count} sources)",
+        "related": "Related",
+        "chain": "Supersede chain ({count} versions)",
+        "meta": "Meta"
+      },
+      "chain": {
+        "no_chain": "This is the original. No prior versions.",
+        "current_marker": "current",
+        "headers": {
+          "time": "Time",
+          "status": "Status",
+          "confidence": "Conf",
+          "id": "ID"
+        }
+      },
+      "not_found": {
+        "title": "Signal not found",
+        "message": "The signal ID {id} does not exist or has been removed."
+      },
+      "meta": {
+        "id": "Signal ID",
+        "event_key": "Event key",
+        "root_trace_id": "Root trace ID",
+        "created_at": "Created",
+        "updated_at": "Updated",
+        "translation_status": "Translation"
+      }
     }
   }
 }
