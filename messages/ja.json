@@ -2,6 +2,7 @@
   "nav": {
     "overview": "OVERVIEW",
     "brief": "BRIEF",
+    "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
     "live": "LIVE"
@@ -63,5 +64,41 @@
 
     "disclaimerTitle": "免責",
     "disclaimerBody": "本レポートは投資助言ではありません。学習・リサーチ目的の情報提供です。"
+  },
+  "signals": {
+    "page_title": "シグナル",
+    "page_subtitle": "SITION Discovery Engine が生成する構造化シグナル。",
+    "bucket": {
+      "actionable": "要注目",
+      "active": "進行中",
+      "resolved": "解決済み"
+    },
+    "filter": {
+      "pillar": "ピラー",
+      "asset": "資産",
+      "min_confidence": "最小確信度"
+    },
+    "empty": {
+      "actionable": "現在、要注目シグナルはありません。",
+      "active": "フィルタ条件に一致する進行中シグナルはありません。",
+      "resolved": "直近の解決済みシグナルはありません。",
+      "all": "SITION Discovery Engine がシグナルを生成するとここに表示されます。通常は夜間クロール (23:03 JST 頃) で最初のバッチが届きます。"
+    },
+    "error": {
+      "unavailable": "現在シグナルを取得できません。しばらくしてから再度お試しください。"
+    },
+    "card": {
+      "evidence_count_one": "{count} 件のソース",
+      "evidence_count_other": "{count} 件のソース",
+      "related_assets": "関連",
+      "conviction": "確信度 {value}",
+      "translation_pending": "EN 訳は Phase 2 で本訳に置き換わります。",
+      "age_minutes": "{n}分前",
+      "age_hours": "{n}時間前",
+      "age_days": "{n}日前",
+      "status_superseded": "更新済み",
+      "status_expired": "期限切れ",
+      "status_invalidated": "無効化"
+    }
   }
 }
