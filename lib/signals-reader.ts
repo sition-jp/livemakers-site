@@ -240,7 +240,44 @@ export function buildSupersedeChain(
   return { chain: candidates, status: "ok", warnings };
 }
 
-// Stub — replaced in Task A4.
-function verifyChainIntegrity(_chainAsc: Signal[]): string[] {
-  return [];
+/**
+ * Walk the chain ascending by updated_at and verify that each row's
+ * supersedes_signal_id points to the IMMEDIATELY PRECEDING row's id
+ * in the chain (v0.3 Finding 2 — adjacency semantics).
+ *
+ * Rules:
+ *   - Row 0 (oldest): supersedes_signal_id MUST be null or undefined.
+ *     If present, emit "oldest row {id} has unexpected supersedes_signal_id={x}".
+ *   - Row i > 0: supersedes_signal_id MUST equal chainAsc[i-1].id.
+ *     If different (including null/undefined), emit "lineage break at {id}:
+ *     supersedes_signal_id={x} but immediately prior row in chain (asc) is {prevId}".
+ *
+ * Rationale: Phase 1 signal generator produces strictly linear chains.
+ * Any deviation indicates backfill, manual repair, migration error, or
+ * a generator bug. Warnings surface for analyst review without
+ * downgrading `chain_status`.
+ */
+export function verifyChainIntegrity(chainAsc: Signal[]): string[] {
+  const warnings: string[] = [];
+  for (let i = 0; i < chainAsc.length; i++) {
+    const row = chainAsc[i];
+    const supersedes = row.supersedes_signal_id ?? null;
+    if (i === 0) {
+      if (supersedes !== null) {
+        warnings.push(
+          `oldest row ${row.id} has unexpected supersedes_signal_id=${supersedes} ` +
+            `(root_trace_id=${row.root_trace_id ?? "null"}).`,
+        );
+      }
+    } else {
+      const expected = chainAsc[i - 1].id;
+      if (supersedes !== expected) {
+        warnings.push(
+          `lineage break at ${row.id}: supersedes_signal_id=${supersedes ?? "null"} ` +
+            `but immediately prior row in chain (asc) is ${expected}.`,
+        );
+      }
+    }
+  }
+  return warnings;
 }

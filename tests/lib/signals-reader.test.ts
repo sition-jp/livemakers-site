@@ -266,3 +266,50 @@ describe("buildSupersedeChain (spec §5.2)", () => {
     expect(result.warnings).toEqual([]); // clean adjacency
   });
 });
+
+import { verifyChainIntegrity } from "@/lib/signals-reader";
+
+describe("verifyChainIntegrity (spec §5.2 v0.3 Finding 2)", () => {
+  it("returns empty array for a clean chain (adjacent supersedes_signal_id links)", () => {
+    const chain = [
+      makeSignal({ id: "a", supersedes_signal_id: undefined }),
+      makeSignal({ id: "b", supersedes_signal_id: "a" }),
+      makeSignal({ id: "c", supersedes_signal_id: "b" }),
+    ];
+    expect(verifyChainIntegrity(chain)).toEqual([]);
+  });
+
+  it("flags lineage break when row supersedes a non-adjacent prior id", () => {
+    // c skips b: supersedes_signal_id="a" but prior row is "b"
+    const chain = [
+      makeSignal({ id: "a", supersedes_signal_id: undefined }),
+      makeSignal({ id: "b", supersedes_signal_id: "a" }),
+      makeSignal({ id: "c", supersedes_signal_id: "a" }),
+    ];
+    const warnings = verifyChainIntegrity(chain);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/lineage break at c/);
+    expect(warnings[0]).toMatch(/supersedes_signal_id=a/);
+    expect(warnings[0]).toMatch(/prior row in chain \(asc\) is b/);
+  });
+
+  it("flags oldest row with unexpected supersedes_signal_id", () => {
+    const chain = [
+      makeSignal({ id: "a", supersedes_signal_id: "x" }), // should be null as oldest
+    ];
+    const warnings = verifyChainIntegrity(chain);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/oldest row a has unexpected supersedes_signal_id=x/);
+  });
+
+  it("flags non-oldest row whose supersedes_signal_id is null", () => {
+    const chain = [
+      makeSignal({ id: "a", supersedes_signal_id: undefined }),
+      makeSignal({ id: "b", supersedes_signal_id: undefined }), // should be "a"
+    ];
+    const warnings = verifyChainIntegrity(chain);
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toMatch(/lineage break at b/);
+    expect(warnings[0]).toMatch(/supersedes_signal_id=null/);
+  });
+});
