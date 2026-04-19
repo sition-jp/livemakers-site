@@ -49,27 +49,15 @@ function freshnessSec(mtimeMs: number): number {
 }
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ): Promise<NextResponse> {
+  let read: CachedRead;
   try {
-    const { signals, mtimeMs } = getSignals();
-    const body = buildSignalDetailResponse(
-      signals,
-      params.id,
-      freshnessSec(mtimeMs),
-    );
-    const etagStamp = mtimeMs === 0 ? "none" : String(mtimeMs);
-    return NextResponse.json(body, {
-      headers: {
-        "Cache-Control":
-          "public, max-age=30, s-maxage=60, stale-while-revalidate=120",
-        ETag: `W/"sig-detail-${params.id}-${etagStamp}"`,
-      },
-    });
+    read = getSignals();
   } catch (err) {
     console.error(
-      "[api/signals/[id]] failed:",
+      "[api/signals/[id]] read failed:",
       err instanceof Error ? err.message : String(err),
     );
     return NextResponse.json(
@@ -77,4 +65,32 @@ export async function GET(
       { status: 503 },
     );
   }
+
+  const body = buildSignalDetailResponse(
+    read.signals,
+    params.id,
+    freshnessSec(read.mtimeMs),
+  );
+  const etagStamp = read.mtimeMs === 0 ? "none" : String(read.mtimeMs);
+  const etag = `W/"sig-detail-${params.id}-${etagStamp}"`;
+
+  const ifNoneMatch = request.headers.get("if-none-match");
+  if (ifNoneMatch !== null && ifNoneMatch === etag) {
+    return new NextResponse(null, {
+      status: 304,
+      headers: {
+        "Cache-Control":
+          "public, max-age=30, s-maxage=60, stale-while-revalidate=120",
+        ETag: etag,
+      },
+    });
+  }
+
+  return NextResponse.json(body, {
+    headers: {
+      "Cache-Control":
+        "public, max-age=30, s-maxage=60, stale-while-revalidate=120",
+      ETag: etag,
+    },
+  });
 }
