@@ -187,3 +187,18 @@ export interface SignalDetailResponse {
     source_freshness_sec: number;
   };
 }
+
+/**
+ * Return the signal with the given id, or null if not found.
+ *
+ * Precondition: `signals` is post-collapse (latest-row-wins per id),
+ * as produced by `readAndParseSignals` (which calls `collapseLatestById`
+ * internally). Consumers may assume id uniqueness.
+ *
+ * v0.3 assumption pin: readAndParseSignals() is the only supported
+ * producer of this input; manual arrays in tests must preserve the
+ * same uniqueness postcondition.
+ */
+export function getSignalById(signals: Signal[], id: string): Signal | null {
+  return signals.find((s) => s.id === id) ?? null;
+}

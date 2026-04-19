@@ -187,3 +187,35 @@ describe("Task 1-3 types (spec §5.2)", () => {
     expect(r.meta.found).toBe(false);
   });
 });
+
+import { getSignalById } from "@/lib/signals-reader";
+import type { Signal } from "@/lib/signals";
+
+function makeSignal(overrides: Partial<Signal>): Signal {
+  return {
+    id: "sig_test",
+    event_key: "evt_test",
+    status: "active",
+    confidence: 0.75,
+    pillar: "governance",
+    direction: "positive",
+    created_at: "2026-04-19T10:00:00+00:00",
+    // minimum required fields per SignalSchema; spread overrides wins
+    ...overrides,
+  } as Signal;
+}
+
+describe("getSignalById (spec §5.2)", () => {
+  it("returns the signal when id matches", () => {
+    const signals = [
+      makeSignal({ id: "sig_a" }),
+      makeSignal({ id: "sig_b" }),
+    ];
+    expect(getSignalById(signals, "sig_b")?.id).toBe("sig_b");
+  });
+
+  it("returns null when id is not in the list", () => {
+    const signals = [makeSignal({ id: "sig_a" })];
+    expect(getSignalById(signals, "sig_missing")).toBeNull();
+  });
+});
