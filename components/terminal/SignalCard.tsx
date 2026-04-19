@@ -17,6 +17,7 @@
  * - Fetch data.
  * - Enforce or modify locked_fields semantics (reader's job).
  */
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { Signal } from "@/lib/signals";
 
@@ -137,6 +138,11 @@ export function SignalCard({
       : t("evidence_count_other", { count: evidenceCount });
 
   return (
+    <Link
+      href={`/${locale}/signals/${signal.id}`}
+      className="block transition-colors hover:bg-accent/5"
+      aria-label={`View details for ${headline}`}
+    >
     <article
       className={`${styles.border} ${styles.bg} ${styles.opacity} p-4 rounded-sm shadow-sm`}
       data-signal-id={signal.id}
@@ -241,5 +247,6 @@ export function SignalCard({
         </footer>
       )}
     </article>
+    </Link>
   );
 }
