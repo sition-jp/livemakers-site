@@ -24,6 +24,7 @@
 import fs from "fs";
 import path from "path";
 import { SignalSchema, type Signal } from "./signals";
+import type { TradeIntent } from "./intents";
 
 export interface ReadResult {
   signals: Signal[];
@@ -174,12 +175,18 @@ export interface ChainResult {
 /**
  * Shape returned by both `/api/signals/[id]` and the SSR page component.
  * Single source of truth for response assembly (spec §5.2 v0.3 Finding 3).
+ *
+ * Task 2-1 (spec §3.3 / §6.4): `referencing_intent_ids` is the inverted
+ * index of public TradeIntents whose `source_signal_ids` contains the
+ * signal's id — a backlink surfaced in every response branch (including
+ * not_found) so clients can fan out to related Intents.
  */
 export interface SignalDetailResponse {
   signal: Signal | null;
   chain: Signal[];
   chain_status: ChainStatus;
   chain_integrity_warnings: string[];
+  referencing_intent_ids: string[];
   meta: {
     found: boolean;
     chain_length: number;
@@ -291,14 +298,27 @@ export function verifyChainIntegrity(chainAsc: Signal[]): string[] {
  * Emits chain_status="not_found" when getSignalById returns null.
  * Delegates other status cases to buildSupersedeChain.
  *
+ * Task 2-1 (spec §3.3 / §6.4): additionally computes `referencing_intent_ids`
+ * — the set of public TradeIntent ids whose `source_signal_ids` contains
+ * the queried id. Visibility filter is applied here, NOT at the route
+ * layer, so callers pass the raw intents array. Emitted in every return
+ * branch so the shape never includes an undefined field.
+ *
  * Precondition: `allSignals` is post-collapse latest-row-wins per id
- * (from readAndParseSignals).
+ * (from readAndParseSignals); `intents` is post-collapse latest-wins
+ * per intent_id (from readAndParseIntents + collapseLatestIntentById).
  */
 export function buildSignalDetailResponse(
   allSignals: Signal[],
+  intents: TradeIntent[],
   id: string,
   sourceFreshnessSec: number,
 ): SignalDetailResponse {
+  const referencing_intent_ids = intents
+    .filter((i) => i.visibility === "public")
+    .filter((i) => i.source_signal_ids.includes(id))
+    .map((i) => i.intent_id);
+
   const signal = getSignalById(allSignals, id);
   if (signal === null) {
     return {
@@ -306,6 +326,7 @@ export function buildSignalDetailResponse(
       chain: [],
       chain_status: "not_found",
       chain_integrity_warnings: [],
+      referencing_intent_ids,
       meta: {
         found: false,
         chain_length: 0,
@@ -320,6 +341,7 @@ export function buildSignalDetailResponse(
     chain: chainResult.chain,
     chain_status: chainResult.status,
     chain_integrity_warnings: chainResult.warnings,
+    referencing_intent_ids,
     meta: {
       found: true,
       chain_length: chainResult.chain.length,

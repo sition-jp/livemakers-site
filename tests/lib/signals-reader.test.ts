@@ -171,12 +171,13 @@ describe("Task 1-3 types (spec §5.2)", () => {
     expect(r.status).toBe("singleton_fallback");
   });
 
-  it("SignalDetailResponse has signal / chain / chain_status / chain_integrity_warnings / meta", () => {
+  it("SignalDetailResponse has signal / chain / chain_status / chain_integrity_warnings / referencing_intent_ids / meta", () => {
     const r: SignalDetailResponse = {
       signal: null,
       chain: [],
       chain_status: "not_found",
       chain_integrity_warnings: [],
+      referencing_intent_ids: [],
       meta: {
         found: false,
         chain_length: 0,
@@ -319,11 +320,12 @@ import { buildSignalDetailResponse } from "@/lib/signals-reader";
 
 describe("buildSignalDetailResponse (spec §5.2 v0.3 Finding 3 — SSOT)", () => {
   it("returns chain_status='not_found' when id not in signals", () => {
-    const response = buildSignalDetailResponse([], "sig_missing", 42);
+    const response = buildSignalDetailResponse([], [], "sig_missing", 42);
     expect(response.signal).toBeNull();
     expect(response.chain).toEqual([]);
     expect(response.chain_status).toBe("not_found");
     expect(response.chain_integrity_warnings).toEqual([]);
+    expect(response.referencing_intent_ids).toEqual([]);
     expect(response.meta).toEqual({
       found: false,
       chain_length: 0,
@@ -334,7 +336,7 @@ describe("buildSignalDetailResponse (spec §5.2 v0.3 Finding 3 — SSOT)", () =>
 
   it("returns chain_status='missing_root_trace' for legacy signal (root_trace_id null)", () => {
     const legacy = makeSignal({ id: "sig_old", root_trace_id: null as any });
-    const response = buildSignalDetailResponse([legacy], "sig_old", 0);
+    const response = buildSignalDetailResponse([legacy], [], "sig_old", 0);
     expect(response.signal?.id).toBe("sig_old");
     expect(response.chain_status).toBe("missing_root_trace");
     expect(response.chain).toEqual([]);
@@ -355,7 +357,7 @@ describe("buildSignalDetailResponse (spec §5.2 v0.3 Finding 3 — SSOT)", () =>
       updated_at: "2026-04-19T11:00:00+00:00",
       supersedes_signal_id: "a",
     });
-    const response = buildSignalDetailResponse([s1, s2], "b", 0);
+    const response = buildSignalDetailResponse([s1, s2], [], "b", 0);
     expect(response.chain_status).toBe("ok");
     expect(response.chain.map((s) => s.id)).toEqual(["a", "b"]);
     expect(response.chain_integrity_warnings).toEqual([]);
@@ -382,14 +384,14 @@ describe("buildSignalDetailResponse (spec §5.2 v0.3 Finding 3 — SSOT)", () =>
       updated_at: "2026-04-19T12:00:00+00:00",
       supersedes_signal_id: "a", // should be "b"
     });
-    const response = buildSignalDetailResponse([s1, s2, s3], "c", 0);
+    const response = buildSignalDetailResponse([s1, s2, s3], [], "c", 0);
     expect(response.chain_status).toBe("ok");
     expect(response.chain_integrity_warnings).toHaveLength(1);
     expect(response.chain_integrity_warnings[0]).toMatch(/lineage break at c/);
   });
 
   it("preserves freshness parameter into meta", () => {
-    const response = buildSignalDetailResponse([], "missing", 1234);
+    const response = buildSignalDetailResponse([], [], "missing", 1234);
     expect(response.meta.source_freshness_sec).toBe(1234);
   });
 });

@@ -20,7 +20,12 @@ import {
   readAndParseSignals,
   resolveSignalsPath,
 } from "@/lib/signals-reader";
+import {
+  readAndParseIntents,
+  resolveIntentsPath,
+} from "@/lib/intents-reader";
 import type { Signal } from "@/lib/signals";
+import type { TradeIntent } from "@/lib/intents";
 
 interface CachedRead {
   signals: Signal[];
@@ -28,9 +33,15 @@ interface CachedRead {
   fetchedAt: number;
 }
 
+interface CachedIntents {
+  intents: TradeIntent[];
+  fetchedAt: number;
+}
+
 // Module-level in-memory cache. Scope: per serverless invocation (matches
 // Task 1-2's cache lifetime). Key separate from Task 1-2's signals-cache.
 let cached: CachedRead | null = null;
+let cachedIntents: CachedIntents | null = null;
 const TTL_MS = 60_000;
 
 function getSignals(): CachedRead {
@@ -41,6 +52,16 @@ function getSignals(): CachedRead {
   const mtimeMs = result.mtimeMs ?? 0;
   cached = { signals: result.signals, mtimeMs, fetchedAt: now };
   return cached;
+}
+
+function getIntents(): TradeIntent[] {
+  const now = Date.now();
+  if (cachedIntents && now - cachedIntents.fetchedAt < TTL_MS) {
+    return cachedIntents.intents;
+  }
+  const result = readAndParseIntents(resolveIntentsPath());
+  cachedIntents = { intents: result.intents, fetchedAt: now };
+  return result.intents;
 }
 
 function freshnessSec(mtimeMs: number): number {
@@ -54,8 +75,10 @@ export async function GET(
 ): Promise<NextResponse> {
   const { id } = await params;
   let read: CachedRead;
+  let intents: TradeIntent[];
   try {
     read = getSignals();
+    intents = getIntents();
   } catch (err) {
     console.error(
       "[api/signals/[id]] read failed:",
@@ -69,6 +92,7 @@ export async function GET(
 
   const body = buildSignalDetailResponse(
     read.signals,
+    intents,
     id,
     freshnessSec(read.mtimeMs),
   );

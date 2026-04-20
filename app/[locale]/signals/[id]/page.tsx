@@ -16,6 +16,10 @@ import {
   readAndParseSignals,
   resolveSignalsPath,
 } from "@/lib/signals-reader";
+import {
+  readAndParseIntents,
+  resolveIntentsPath,
+} from "@/lib/intents-reader";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -28,12 +32,14 @@ export default async function SignalDetailPage({ params }: PageProps) {
 
   const jsonlPath = resolveSignalsPath();
   const readResult = readAndParseSignals(jsonlPath);
+  const intentsRead = readAndParseIntents(resolveIntentsPath());
   const mtimeMs = readResult.mtimeMs ?? 0;
   const freshnessSec =
     mtimeMs === 0 ? -1 : Math.max(0, Math.floor((Date.now() - mtimeMs) / 1000));
 
   const initialData = buildSignalDetailResponse(
     readResult.signals,
+    intentsRead.intents,
     id,
     freshnessSec,
   );
