@@ -57,4 +57,9 @@ describe("IntentDetailStatusBanner", () => {
       screen.getByText(/cancelled/i),
     ).toBeDefined();
   });
+
+  it("SB-6: returns null for status='proposed' (no banner)", () => {
+    const { container } = renderBanner({ status: "proposed", locale: "en" });
+    expect(container.textContent).toBe("");
+  });
 });

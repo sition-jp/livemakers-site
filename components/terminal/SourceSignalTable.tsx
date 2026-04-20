@@ -24,10 +24,10 @@ export function SourceSignalTable({
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr className="border-b border-slate-300/70 text-left text-xs uppercase tracking-wide text-slate-500 dark:border-slate-700 dark:text-slate-400">
-            <th className="py-2 pr-3">ID</th>
-            <th className="py-2 pr-3">Headline</th>
-            <th className="py-2 pr-3">Status</th>
-            <th className="py-2 pr-3">Conf</th>
+            <th scope="col" className="py-2 pr-3">ID</th>
+            <th scope="col" className="py-2 pr-3">Headline</th>
+            <th scope="col" className="py-2 pr-3">Status</th>
+            <th scope="col" className="py-2 pr-3">Conf</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@ export function SourceSignalTable({
             return (
               <tr
                 key={s.id}
-                className="border-b border-slate-200 text-slate-800 dark:border-slate-800 dark:text-slate-200"
+                className="border-b border-slate-200 text-slate-800 transition-colors hover:bg-slate-50 dark:border-slate-800 dark:text-slate-200 dark:hover:bg-slate-800/40"
               >
                 <td className="py-2 pr-3 font-mono text-xs">
                   <Link

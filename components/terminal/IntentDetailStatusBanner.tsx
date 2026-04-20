@@ -8,16 +8,9 @@
  * render an amber banner with the corresponding i18n message.
  */
 import { useTranslations } from "next-intl";
+import type { TradeIntent } from "@/lib/intents";
 
-export type IntentStatusValue =
-  | "proposed"
-  | "approved"
-  | "active"
-  | "paused"
-  | "cancelled"
-  | "completed"
-  | "expired"
-  | "archived";
+type IntentStatusValue = TradeIntent["status"];
 
 const BANNER_STATUSES: IntentStatusValue[] = [
   "archived",

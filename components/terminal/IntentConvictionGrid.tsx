@@ -51,25 +51,41 @@ function Cell({
 
 export function IntentConvictionGrid(props: IntentConvictionGridProps) {
   const t = useTranslations("intents.detail.conviction");
+  const tDetail = useTranslations("intents.detail.section");
+  // Parity warning: effectively-equal values (within epsilon) signal the
+  // thesis/execution distinction has collapsed. Skip when both are zero
+  // (pristine / default state).
+  const delta = Math.abs(props.thesis_conviction - props.execution_confidence);
   const parityWarn =
-    props.thesis_conviction === props.execution_confidence;
+    delta < 0.02 &&
+    !(props.thesis_conviction === 0 && props.execution_confidence === 0);
 
   return (
-    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-      <Cell
-        label={t("thesis_conviction")}
-        hint={t("thesis_conviction_hint")}
-        value={props.thesis_conviction.toFixed(2)}
-        warn={parityWarn}
-      />
-      <Cell
-        label={t("execution_confidence")}
-        hint={t("execution_confidence_hint")}
-        value={props.execution_confidence.toFixed(2)}
-        warn={parityWarn}
-      />
-      <Cell label={t("priority")} value={props.priority.toFixed(2)} />
-      <Cell label={t("preferred_horizon")} value={props.preferred_horizon} />
+    <div className="space-y-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <Cell
+          label={t("thesis_conviction")}
+          hint={t("thesis_conviction_hint")}
+          value={props.thesis_conviction.toFixed(2)}
+          warn={parityWarn}
+        />
+        <Cell
+          label={t("execution_confidence")}
+          hint={t("execution_confidence_hint")}
+          value={props.execution_confidence.toFixed(2)}
+          warn={parityWarn}
+        />
+        <Cell label={t("priority")} value={props.priority.toFixed(2)} />
+        <Cell label={t("preferred_horizon")} value={props.preferred_horizon} />
+      </div>
+      <div className="flex items-center gap-2 border border-slate-300/70 px-3 py-2 text-xs dark:border-slate-700">
+        <span className="uppercase tracking-wide text-slate-500 dark:text-slate-400">
+          {t("portfolio_bucket")}
+        </span>
+        <span className="font-mono text-sm text-slate-900 dark:text-slate-100">
+          {props.bucket}
+        </span>
+      </div>
     </div>
   );
 }
