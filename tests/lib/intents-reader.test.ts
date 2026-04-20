@@ -1,6 +1,8 @@
 // tests/lib/intents-reader.test.ts
 import { describe, it, expect, afterEach } from "vitest";
 import path from "path";
+import os from "os";
+import fs from "fs";
 import {
   resolveIntentsPath,
   readAndParseIntents,
@@ -86,6 +88,61 @@ describe("lib/intents-reader — collapseLatestIntentById", () => {
 
   it("IR-8: empty input returns empty output", () => {
     expect(collapseLatestIntentById([])).toEqual([]);
+  });
+});
+
+describe("lib/intents-reader — collapseLatestIntentById tie-break", () => {
+  it("IR-9: identical updated_at → last row in input wins (file-order tie-break)", () => {
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "intents-tie-"));
+    const p = path.join(tmp, "tie.jsonl");
+    try {
+      // Two rows, same intent_id, same updated_at, different title.
+      const rowA = {
+        intent_id: "int_0000000000000099",
+        trace_id: "00000000-0000-4000-8000-000000000099",
+        schema_version: "0.1-alpha",
+        created_at: "2026-04-20T09:00:00Z",
+        updated_at: "2026-04-20T09:00:00Z",
+        status: "approved",
+        source_signal_ids: ["sig_001"],
+        title: "earlier-in-file",
+        description: "desc",
+        side: "accumulate",
+        target_assets: ["ADA"],
+        thesis: "Thesis long enough to pass validation.",
+        why_now: "Why now reason sufficiently long.",
+        invalidation_thesis: "Cancel if BTC weekly close < $55k.",
+        thesis_conviction: 0.7,
+        execution_confidence: 0.5,
+        priority: 0.5,
+        preferred_horizon: "swing",
+        portfolio_context: { bucket: "tactical" },
+        human_review: {
+          required: true,
+          approved_by: "LiveMakers Terminal",
+          approved_at: "2026-04-20T09:00:00Z",
+        },
+        display: {
+          headline_en: "E",
+          headline_ja: "J",
+          summary_en: "Summary long enough to pass validation.",
+          summary_ja: "十分長い要約の日本語サンプル文字列です。これでバリデーション通過。",
+        },
+        visibility: "public",
+        authored_via: "claude_code_dialogue",
+      };
+      const rowB = { ...rowA, title: "later-in-file" };
+      fs.writeFileSync(
+        p,
+        JSON.stringify(rowA) + "\n" + JSON.stringify(rowB) + "\n",
+      );
+      const { intents } = readAndParseIntents(p);
+      const collapsed = collapseLatestIntentById(intents);
+      expect(collapsed).toHaveLength(1);
+      expect(collapsed[0].title).toBe("later-in-file");
+    } finally {
+      fs.rmSync(tmp, { recursive: true, force: true });
+    }
   });
 });
 

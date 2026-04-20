@@ -14,6 +14,7 @@
 import fs from "fs";
 import path from "path";
 import { TradeIntentSchema, type TradeIntent } from "./intents";
+import type { Signal } from "./signals";
 
 export interface IntentsReadResult {
   intents: TradeIntent[];
@@ -68,20 +69,26 @@ export function readAndParseIntents(jsonlPath: string): IntentsReadResult {
   };
 }
 
+/**
+ * Collapse same-id rows to the latest-seen by `updated_at`.
+ *
+ * Tie-break: on identical `updated_at`, **last row in input wins** (matches
+ * append-only jsonl semantics — the physically later row is considered the
+ * newer state). This aligns with Task 1-3's signals-reader `collapseLatestById`
+ * last-write-wins policy.
+ */
 export function collapseLatestIntentById(
   rows: TradeIntent[]
 ): TradeIntent[] {
   const byId = new Map<string, TradeIntent>();
   for (const row of rows) {
     const prev = byId.get(row.intent_id);
-    if (!prev || row.updated_at > prev.updated_at) {
+    if (!prev || row.updated_at >= prev.updated_at) {
       byId.set(row.intent_id, row);
     }
   }
   return Array.from(byId.values());
 }
-
-import type { Signal } from "./signals";
 
 export type TradeIntentSummary = Pick<
   TradeIntent,

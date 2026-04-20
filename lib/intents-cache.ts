@@ -34,7 +34,13 @@ export class IntentsCache {
         this.entry = { value, cachedAt: Date.now() };
         return value;
       } catch (err) {
-        if (this.entry) return this.entry.value;
+        if (this.entry) {
+          console.error(
+            "[intents-cache] fetcher failed, serving stale value:",
+            err instanceof Error ? err.message : String(err),
+          );
+          return this.entry.value;
+        }
         throw err;
       } finally {
         this.inflight = null;

@@ -63,8 +63,7 @@ export function evaluateInvalidation(text: string): InvalidationTier {
 }
 
 export function generateIntentId(): string {
-  const bytes = crypto.randomBytes(10);
-  const hex = bytes.toString("hex").slice(0, 16);
+  const hex = crypto.randomBytes(8).toString("hex"); // 16 hex chars, 64 bits entropy
   return `int_${hex}`;
 }
 
