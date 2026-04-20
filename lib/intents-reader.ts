@@ -30,11 +30,21 @@ export function resolveIntentsPath(): string {
 }
 
 export function readAndParseIntents(jsonlPath: string): IntentsReadResult {
-  if (!fs.existsSync(jsonlPath)) {
-    return { intents: [], parseErrors: [], fileExists: false, mtimeMs: null };
+  // Try to stat/read directly. ENOENT → empty + fileExists=false (the file
+  // hasn't been written yet by the authoring pipeline, which is a legitimate
+  // state, not an error). All other errors (ENOTDIR, EACCES, EIO, etc.)
+  // propagate so the route layer can map them to 503.
+  let stat: fs.Stats;
+  let text: string;
+  try {
+    stat = fs.statSync(jsonlPath);
+    text = fs.readFileSync(jsonlPath, "utf-8");
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      return { intents: [], parseErrors: [], fileExists: false, mtimeMs: null };
+    }
+    throw err;
   }
-  const stat = fs.statSync(jsonlPath);
-  const text = fs.readFileSync(jsonlPath, "utf-8");
   const intents: TradeIntent[] = [];
   const parseErrors: Array<{ lineNumber: number; error: string }> = [];
   const lines = text.split(/\r?\n/);
