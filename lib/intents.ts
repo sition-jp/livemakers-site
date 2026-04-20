@@ -124,3 +124,12 @@ export const TradeIntentSchema = z.object({
 });
 
 export type TradeIntent = z.infer<typeof TradeIntentSchema>;
+
+// Inferred types for each enum schema above. Enables downstream modules to
+// import `type IntentSide` etc. without re-deriving via z.infer.
+export type IntentStatus = z.infer<typeof IntentStatus>;
+export type IntentSide = z.infer<typeof IntentSide>;
+export type PreferredHorizon = z.infer<typeof PreferredHorizon>;
+export type PortfolioBucket = z.infer<typeof PortfolioBucket>;
+export type Visibility = z.infer<typeof Visibility>;
+export type RealizedOutcome = z.infer<typeof RealizedOutcome>;
