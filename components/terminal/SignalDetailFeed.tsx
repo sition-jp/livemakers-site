@@ -39,6 +39,7 @@ export function SignalDetailFeed({ id, locale, initialData }: Props) {
   const tBack = useTranslations("signals.detail");
   const tChainStatus = useTranslations("signals.detail.chain_status");
   const tError = useTranslations("signals.error");
+  const tBacklink = useTranslations("signals.detail.referenced_by_intents");
 
   const { data, error } = useSWR<SignalDetailResponse>(
     `/api/signals/${encodeURIComponent(id)}`,
@@ -128,6 +129,27 @@ export function SignalDetailFeed({ id, locale, initialData }: Props) {
       )}
 
       <SignalFieldGrid signal={current} locale={locale} defaultOpen={false} />
+
+      {snapshot.referencing_intent_ids &&
+      snapshot.referencing_intent_ids.length > 0 ? (
+        <section>
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            {tBacklink("title")}
+          </h2>
+          <ul className="list-disc space-y-1 pl-5 text-sm">
+            {snapshot.referencing_intent_ids.map((intentId) => (
+              <li key={intentId}>
+                <Link
+                  href={`/${locale}/intents/${intentId}`}
+                  className="font-mono text-sky-700 underline underline-offset-2 dark:text-sky-400"
+                >
+                  {intentId}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
     </div>
   );
 }
