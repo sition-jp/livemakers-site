@@ -30,13 +30,10 @@ export default async function IntentDetailPage({ params }: PageProps) {
   const freshnessSec =
     mtimeMs === 0 ? -1 : Math.max(0, Math.floor((Date.now() - mtimeMs) / 1000));
 
-  // Hard-filter to public visibility (parity with API route).
-  const publicOnly = intentsRead.intents.filter(
-    (i) => i.visibility === "public",
-  );
-
+  // Visibility=public filter lives inside buildIntentDetailResponse SSOT
+  // (lib/intents-reader.ts), symmetric with the /api/intents/[id] route.
   const initialData = buildIntentDetailResponse(
-    publicOnly,
+    intentsRead.intents,
     signalsRead.signals,
     id,
     freshnessSec,
