@@ -11,3 +11,6 @@ npm-debug.log*
 next-env.d.ts
 *.tsbuildinfo
 coverage/
+
+# TradeIntent storage (v0.1 local-only, not checked into git)
+data/tradeintents.jsonl
