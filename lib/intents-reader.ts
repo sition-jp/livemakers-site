@@ -80,3 +80,154 @@ export function collapseLatestIntentById(
   }
   return Array.from(byId.values());
 }
+
+import type { Signal } from "./signals";
+
+export type TradeIntentSummary = Pick<
+  TradeIntent,
+  | "intent_id"
+  | "trace_id"
+  | "schema_version"
+  | "status"
+  | "side"
+  | "target_assets"
+  | "preferred_horizon"
+  | "priority"
+  | "thesis_conviction"
+  | "execution_confidence"
+  | "created_at"
+  | "updated_at"
+> & {
+  display: TradeIntent["display"];
+  source_signal_ids: string[];
+};
+
+export interface IntentListResponse {
+  intents: TradeIntentSummary[];
+  meta: {
+    count: number;
+    source_freshness_sec: number;
+  };
+}
+
+export interface IntentDetailResponse {
+  intent: TradeIntent | null;
+  status: "ok" | "not_found";
+  source_signals: Signal[];
+  source_signals_missing: string[];
+  meta: {
+    found: boolean;
+    source_freshness_sec: number;
+  };
+}
+
+function toSummary(i: TradeIntent): TradeIntentSummary {
+  return {
+    intent_id: i.intent_id,
+    trace_id: i.trace_id,
+    schema_version: i.schema_version,
+    status: i.status,
+    side: i.side,
+    target_assets: i.target_assets,
+    preferred_horizon: i.preferred_horizon,
+    priority: i.priority,
+    thesis_conviction: i.thesis_conviction,
+    execution_confidence: i.execution_confidence,
+    created_at: i.created_at,
+    updated_at: i.updated_at,
+    display: i.display,
+    source_signal_ids: i.source_signal_ids,
+  };
+}
+
+export function buildIntentListResponse(
+  intents: TradeIntent[],
+  source_freshness_sec: number,
+): IntentListResponse {
+  const publicOnly = intents.filter((i) => i.visibility === "public");
+  const sorted = [...publicOnly].sort((a, b) =>
+    a.updated_at < b.updated_at ? 1 : a.updated_at > b.updated_at ? -1 : 0,
+  );
+  return {
+    intents: sorted.map(toSummary),
+    meta: { count: sorted.length, source_freshness_sec },
+  };
+}
+
+export function buildIntentDetailResponse(
+  intents: TradeIntent[],
+  allSignals: Signal[],
+  id: string,
+  source_freshness_sec: number,
+): IntentDetailResponse {
+  const intent = intents.find((i) => i.intent_id === id) ?? null;
+  if (!intent) {
+    return {
+      intent: null,
+      status: "not_found",
+      source_signals: [],
+      source_signals_missing: [],
+      meta: { found: false, source_freshness_sec },
+    };
+  }
+  const sigMap = new Map(allSignals.map((s) => [s.id, s]));
+  const source_signals: Signal[] = [];
+  const source_signals_missing: string[] = [];
+  for (const sid of intent.source_signal_ids) {
+    const s = sigMap.get(sid);
+    if (s) source_signals.push(s);
+    else source_signals_missing.push(sid);
+  }
+  return {
+    intent,
+    status: "ok",
+    source_signals,
+    source_signals_missing,
+    meta: { found: true, source_freshness_sec },
+  };
+}
+
+export function buildReferencingIntentIds(
+  intents: TradeIntent[],
+  signalId: string,
+): string[] {
+  return intents
+    .filter((i) => i.source_signal_ids.includes(signalId))
+    .map((i) => i.intent_id);
+}
+
+export interface InvariantBreach {
+  intent_id: string;
+  rule: string;
+  detail: string;
+}
+
+export function flagInvariantBreaches(
+  intents: TradeIntent[],
+): InvariantBreach[] {
+  const out: InvariantBreach[] = [];
+  for (const i of intents) {
+    if (i.updated_at < i.created_at) {
+      out.push({
+        intent_id: i.intent_id,
+        rule: "updated_at>=created_at",
+        detail: `updated_at=${i.updated_at} < created_at=${i.created_at}`,
+      });
+    }
+    if (i.human_review.approved_at < i.created_at) {
+      out.push({
+        intent_id: i.intent_id,
+        rule: "approved_at>=created_at",
+        detail: `approved_at=${i.human_review.approved_at} < created_at=${i.created_at}`,
+      });
+    }
+    if (i.expires_at && i.expires_at <= i.created_at) {
+      out.push({
+        intent_id: i.intent_id,
+        rule: "expires_at>created_at",
+        detail: `expires_at=${i.expires_at} <= created_at=${i.created_at}`,
+      });
+    }
+  }
+  return out;
+}
