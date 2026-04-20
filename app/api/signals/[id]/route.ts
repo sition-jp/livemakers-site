@@ -38,8 +38,12 @@ interface CachedIntents {
   fetchedAt: number;
 }
 
-// Module-level in-memory cache. Scope: per serverless invocation (matches
-// Task 1-2's cache lifetime). Key separate from Task 1-2's signals-cache.
+// NOTE: Intentionally a route-scoped module cache, NOT the shared
+// `IntentsCache` class in lib/intents-cache.ts. Accepts up to 60s of
+// inter-endpoint state drift in exchange for simpler per-route lifecycles
+// matching Task 1-3's /api/signals/[id] pattern. Convergence to a shared
+// cache instance is deferred until we have evidence of drift causing user
+// confusion (see Phase B quality review Critical #2).
 let cached: CachedRead | null = null;
 let cachedIntents: CachedIntents | null = null;
 const TTL_MS = 60_000;
@@ -74,19 +78,29 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ): Promise<NextResponse> {
   const { id } = await params;
+  // Signals read is the core resource — its failure returns 503.
   let read: CachedRead;
-  let intents: TradeIntent[];
   try {
     read = getSignals();
-    intents = getIntents();
   } catch (err) {
     console.error(
-      "[api/signals/[id]] read failed:",
+      "[api/signals/[id]] signals read failed:",
       err instanceof Error ? err.message : String(err),
     );
     return NextResponse.json(
       { error: "signals unavailable" },
       { status: 503 },
+    );
+  }
+
+  // Intents is an augmentation — its failure degrades to empty backlinks, not 503.
+  let intents: TradeIntent[] = [];
+  try {
+    intents = getIntents();
+  } catch (err) {
+    console.error(
+      "[api/signals/[id]] intents read failed, continuing with empty backlinks:",
+      err instanceof Error ? err.message : String(err),
     );
   }
 

@@ -267,6 +267,23 @@ describe("lib/intents-reader — buildIntentDetailResponse", () => {
     expect(res.source_signals).toEqual([]);
     expect(res.source_signals_missing).toEqual(["sig_ghost"]);
   });
+
+  it("BD-4: private intent not found by id even when passed unfiltered (SSOT self-protects)", () => {
+    const p = path.join(FIXTURE_DIR, "valid.jsonl");
+    const { intents } = readAndParseIntents(p);
+    // Flip one row to private, pass unfiltered
+    const mixed = intents.map((i, idx) =>
+      idx === 0 ? { ...i, visibility: "private" as const } : i,
+    );
+    const res = buildIntentDetailResponse(
+      mixed,
+      [],
+      "int_0000000000000001",
+      0,
+    );
+    expect(res.status).toBe("not_found");
+    expect(res.intent).toBeNull();
+  });
 });
 
 describe("lib/intents-reader — inverted index for signal backlinks", () => {

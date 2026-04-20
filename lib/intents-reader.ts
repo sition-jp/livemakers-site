@@ -29,6 +29,20 @@ export function resolveIntentsPath(): string {
   return path.resolve(process.cwd(), "data/tradeintents.jsonl");
 }
 
+/**
+ * Read and parse tradeintents.jsonl.
+ *
+ * Return contract:
+ * - File missing (ENOENT): returns { intents:[], parseErrors:[], fileExists:false, mtimeMs:null }.
+ *   This is the legitimate pre-authoring state and NOT an error.
+ * - I/O errors (ENOTDIR, EACCES, EIO, etc.): **propagates as thrown error**.
+ *   Callers must wrap in try/catch if graceful degradation is desired.
+ * - Per-line parse/zod failures: collected into parseErrors[], reader continues.
+ *
+ * Design rationale: distinguishing "file not yet written" (empty result) from
+ * "filesystem broken" (throw) lets routes 503 on real I/O failure while
+ * returning empty on the pre-first-write state.
+ */
 export function readAndParseIntents(jsonlPath: string): IntentsReadResult {
   // Try to stat/read directly. ENOENT → empty + fileExists=false (the file
   // hasn't been written yet by the authoring pipeline, which is a legitimate
@@ -177,7 +191,10 @@ export function buildIntentDetailResponse(
   id: string,
   source_freshness_sec: number,
 ): IntentDetailResponse {
-  const intent = intents.find((i) => i.intent_id === id) ?? null;
+  // Visibility filter at SSOT layer (symmetric with buildIntentListResponse);
+  // callers may pass the full intent list without pre-filtering.
+  const publicOnly = intents.filter((i) => i.visibility === "public");
+  const intent = publicOnly.find((i) => i.intent_id === id) ?? null;
   if (!intent) {
     return {
       intent: null,

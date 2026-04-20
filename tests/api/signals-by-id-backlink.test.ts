@@ -140,4 +140,43 @@ describe("GET /api/signals/[id] — referencing_intent_ids backlink", () => {
       "int_0000000000000002",
     ]);
   });
+
+  it("BK-4: Intents I/O error (ENOTDIR) — signal still returns 200 with empty referencing_intent_ids", async () => {
+    fs.writeFileSync(signalsPath, signalLine("sig_001"));
+    // Force ENOTDIR on the intents path
+    const blocker = path.join(tmpDir, "blocker");
+    fs.writeFileSync(blocker, "x");
+    process.env.LM_INTENTS_JSONL_PATH = path.join(blocker, "tradeintents.jsonl");
+    const { status, body } = await callSignalRoute("sig_001");
+    expect(status).toBe(200);
+    expect(body.referencing_intent_ids).toEqual([]);
+  });
+
+  it("BK-5: Signals read throw — still 503 regardless of intents state", async () => {
+    // Lock in the contract that if the signals read itself throws, the route
+    // returns 503, independent of intents state. The production signals-reader
+    // swallows I/O errors internally (returns empty result), so we mock the
+    // module to force a throw and exercise the narrow try-boundary in the route.
+    fs.writeFileSync(intentsPath, "");
+    fs.writeFileSync(signalsPath, signalLine("sig_001"));
+    vi.resetModules();
+    vi.doMock("@/lib/signals-reader", async () => {
+      const actual = await vi.importActual<
+        typeof import("@/lib/signals-reader")
+      >("@/lib/signals-reader");
+      return {
+        ...actual,
+        readAndParseSignals: () => {
+          throw new Error("simulated signals read failure");
+        },
+      };
+    });
+    const mod = await import("@/app/api/signals/[id]/route");
+    const req = new NextRequest(`http://localhost/api/signals/sig_001`);
+    const res = await mod.GET(req, { params: Promise.resolve({ id: "sig_001" }) });
+    const body = await res.json();
+    vi.doUnmock("@/lib/signals-reader");
+    expect(res.status).toBe(503);
+    expect(body.error).toMatch(/unavailable/i);
+  });
 });

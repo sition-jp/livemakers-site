@@ -20,6 +20,7 @@ import {
   readAndParseIntents,
   resolveIntentsPath,
 } from "@/lib/intents-reader";
+import type { TradeIntent } from "@/lib/intents";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
@@ -32,14 +33,26 @@ export default async function SignalDetailPage({ params }: PageProps) {
 
   const jsonlPath = resolveSignalsPath();
   const readResult = readAndParseSignals(jsonlPath);
-  const intentsRead = readAndParseIntents(resolveIntentsPath());
+
+  // Intents is an augmentation — failure degrades to empty backlinks, not 500.
+  let intentsList: TradeIntent[] = [];
+  try {
+    const intentsRead = readAndParseIntents(resolveIntentsPath());
+    intentsList = intentsRead.intents;
+  } catch (err) {
+    console.error(
+      "[page/signals/[id]] intents read failed, continuing with empty backlinks:",
+      err instanceof Error ? err.message : String(err),
+    );
+  }
+
   const mtimeMs = readResult.mtimeMs ?? 0;
   const freshnessSec =
     mtimeMs === 0 ? -1 : Math.max(0, Math.floor((Date.now() - mtimeMs) / 1000));
 
   const initialData = buildSignalDetailResponse(
     readResult.signals,
-    intentsRead.intents,
+    intentsList,
     id,
     freshnessSec,
   );

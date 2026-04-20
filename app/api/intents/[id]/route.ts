@@ -25,6 +25,12 @@ interface CachedRead<T> {
   fetchedAt: number;
 }
 
+// NOTE: Intentionally a route-scoped module cache, NOT the shared
+// `IntentsCache` class in lib/intents-cache.ts. Accepts up to 60s of
+// inter-endpoint state drift in exchange for simpler per-route lifecycles
+// matching Task 1-3's /api/signals/[id] pattern. Convergence to a shared
+// cache instance is deferred until we have evidence of drift causing user
+// confusion (see Phase B quality review Critical #2).
 let cachedIntents: CachedRead<IntentsReadResult> | null = null;
 let cachedSignals: CachedRead<SignalsReadResult> | null = null;
 const TTL_MS = 60_000;
@@ -75,12 +81,8 @@ export async function GET(
     );
   }
 
-  // Visibility filter: only public-visible intents are queryable by id.
-  const publicOnly = intentsRead.intents.filter(
-    (i) => i.visibility === "public",
-  );
   const body = buildIntentDetailResponse(
-    publicOnly,
+    intentsRead.intents,
     signalsRead.signals,
     id,
     freshnessSec(intentsRead.mtimeMs),
