@@ -168,7 +168,63 @@
         "conviction_label": "確信度 {value}",
         "evidence_header": "エビデンス ({shown} 件 / 全 {total} 件)",
         "translation_pending_aside": "EN translation pending — 完全翻訳は Phase 2 にて。"
+      },
+      "referenced_by_intents": {
+        "title": "この Signal を参照する TradeIntent",
+        "empty": "この Signal を参照する TradeIntent はありません。"
       }
+    }
+  },
+  "intents": {
+    "list": {
+      "title": "TradeIntents",
+      "description": "LiveMakers Terminal が公開する編集上の投資仮説。",
+      "empty": "公開中の TradeIntent はありません。",
+      "back_to_signals": "Signals に戻る"
+    },
+    "card": {
+      "source_signal_count": "参照シグナル {count} 件",
+      "view_detail": "詳細を見る"
+    },
+    "detail": {
+      "back_link": "TradeIntent 一覧に戻る",
+      "section": {
+        "thesis": "仮説",
+        "why_now": "なぜ今か",
+        "invalidation": "無効化条件",
+        "conviction": "確信度",
+        "horizon": "期間",
+        "portfolio": "ポートフォリオ文脈",
+        "source_signals": "参照シグナル"
+      },
+      "conviction": {
+        "thesis_conviction": "仮説の確信度",
+        "thesis_conviction_hint": "仮説そのものの強さ",
+        "execution_confidence": "執行の確信度",
+        "execution_confidence_hint": "今すぐ執行するに足る環境か",
+        "priority": "優先度",
+        "preferred_horizon": "想定期間",
+        "portfolio_bucket": "バケット"
+      },
+      "status_banner": {
+        "archived": "この TradeIntent はアーカイブ済みです。",
+        "cancelled": "この TradeIntent は取り下げられました。",
+        "expired": "この TradeIntent は有効期限切れです。",
+        "completed": "この TradeIntent は完了しました。",
+        "paused": "この TradeIntent は一時停止中です。"
+      },
+      "not_found": {
+        "title": "TradeIntent が見つかりません",
+        "description": "指定された TradeIntent は存在しないか、現在公開されていません。",
+        "back_link": "TradeIntent 一覧に戻る"
+      },
+      "source_signal_missing": "ストア上に存在しない参照シグナルが {count} 件あります。"
+    },
+    "disclaimer": {
+      "body": "TradeIntent は、LiveMakers Terminal が調査・議論のために公開する編集上の投資仮説です。個別の投資助言・特定資産の購入売却勧誘・成果保証ではありません。実際の投資判断およびその結果については、利用者ご自身の責任でご対応ください。"
+    },
+    "error": {
+      "unavailable": "TradeIntent を一時的に取得できません。"
     }
   }
 }

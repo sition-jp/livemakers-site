@@ -168,7 +168,63 @@
         "conviction_label": "conviction {value}",
         "evidence_header": "Evidence ({shown} of {total})",
         "translation_pending_aside": "EN translation pending — full translation in Phase 2."
+      },
+      "referenced_by_intents": {
+        "title": "Referenced by TradeIntents",
+        "empty": "No TradeIntents reference this Signal."
       }
+    }
+  },
+  "intents": {
+    "list": {
+      "title": "TradeIntents",
+      "description": "Editorial investment hypotheses published by LiveMakers Terminal.",
+      "empty": "No TradeIntents published yet.",
+      "back_to_signals": "Back to Signals"
+    },
+    "card": {
+      "source_signal_count": "{count, plural, one {# source signal} other {# source signals}}",
+      "view_detail": "View details"
+    },
+    "detail": {
+      "back_link": "Back to TradeIntents",
+      "section": {
+        "thesis": "Thesis",
+        "why_now": "Why now",
+        "invalidation": "Invalidation condition",
+        "conviction": "Conviction",
+        "horizon": "Horizon",
+        "portfolio": "Portfolio context",
+        "source_signals": "Source Signals"
+      },
+      "conviction": {
+        "thesis_conviction": "Thesis conviction",
+        "thesis_conviction_hint": "Strength of the hypothesis",
+        "execution_confidence": "Execution confidence",
+        "execution_confidence_hint": "Readiness to act now",
+        "priority": "Priority",
+        "preferred_horizon": "Horizon",
+        "portfolio_bucket": "Bucket"
+      },
+      "status_banner": {
+        "archived": "This TradeIntent has been archived.",
+        "cancelled": "This TradeIntent has been cancelled.",
+        "expired": "This TradeIntent has expired.",
+        "completed": "This TradeIntent has been completed.",
+        "paused": "This TradeIntent is paused."
+      },
+      "not_found": {
+        "title": "TradeIntent not found",
+        "description": "The requested TradeIntent does not exist or is not publicly visible.",
+        "back_link": "Back to TradeIntents"
+      },
+      "source_signal_missing": "{count, plural, one {# referenced signal is missing from the store.} other {# referenced signals are missing from the store.}}"
+    },
+    "disclaimer": {
+      "body": "TradeIntents are editorial investment hypotheses published by LiveMakers Terminal for research and discussion. They are not personalized investment advice, a solicitation to buy or sell any specific asset, or a guarantee of outcome. Any decision to trade, and its consequences, remain solely your responsibility."
+    },
+    "error": {
+      "unavailable": "TradeIntents are temporarily unavailable."
     }
   }
 }
