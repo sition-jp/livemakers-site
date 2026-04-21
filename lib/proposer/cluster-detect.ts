@@ -30,6 +30,7 @@ export function detectClusters(
   config: ProposerConfig,
 ): DetectResult {
   const supported = new Set<string>(config.supported_assets);
+  const excluded = new Set<string>(config.excluded_cluster_directions);
 
   // Step 1: filter to supported assets only
   const filtered = signals.filter(
@@ -41,9 +42,7 @@ export function detectClusters(
   const groups = new Map<string, Signal[]>();
   for (const sig of filtered) {
     const dir = sig.direction;
-    if (
-      (config.excluded_cluster_directions as readonly string[]).includes(dir)
-    ) {
+    if (excluded.has(dir)) {
       mixed_skipped++;
       continue;
     }

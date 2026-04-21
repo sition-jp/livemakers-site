@@ -146,4 +146,26 @@ describe("detectClusters", () => {
     const { clusters } = detectClusters(signals, PROPOSER_CONFIG);
     expect(clusters[0].fingerprint).toMatch(/^[0-9a-f]{16}$/);
   });
+
+  it("treats neutral direction same as positive/negative (min_cluster_size applies)", () => {
+    // Spec §4.1 Step 2 ambiguously mentions 'neutral 群 → single-signal cluster のみ扱う'.
+    // Current interpretation: neutral follows the same min_cluster_size rule.
+    // A single neutral signal does NOT create a cluster (dropped like single positive).
+    // If spec intent is different, adjust here + implementation together.
+    const signals = [
+      mkSignal({ id: "n1", primary_asset: "ADA", direction: "neutral" }),
+    ];
+    const { clusters } = detectClusters(signals, PROPOSER_CONFIG);
+    expect(clusters).toHaveLength(0);
+  });
+
+  it("allows multi-signal neutral clusters when size threshold is met", () => {
+    const signals = [
+      mkSignal({ id: "n1", primary_asset: "ADA", direction: "neutral", confidence: 0.75 }),
+      mkSignal({ id: "n2", primary_asset: "ADA", direction: "neutral", confidence: 0.75, idempotency_key: "i2" }),
+    ];
+    const { clusters } = detectClusters(signals, PROPOSER_CONFIG);
+    expect(clusters).toHaveLength(1);
+    expect(clusters[0].direction).toBe("neutral");
+  });
 });
