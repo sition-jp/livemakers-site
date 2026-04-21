@@ -47,7 +47,7 @@ export function buildInvalidation(
   const threshold = PROPOSER_CONFIG.threshold_pct[args.horizon];
 
   // Fallback: no price data
-  if (args.currentPrice === undefined) {
+  if (args.currentPrice === undefined || args.currentPrice <= 0) {
     const text =
       `<<MANUAL: ${args.primaryAsset} 固有の無効化条件 (価格 or 観測イベント)>>、` +
       `または ${date} までに ${args.outcomeSummary} が実現しない場合は仮説破棄`;

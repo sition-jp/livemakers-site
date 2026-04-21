@@ -66,6 +66,34 @@ describe("buildInvalidation — placeholder fallback", () => {
   });
 });
 
+describe("buildInvalidation — non-positive price routes to placeholder", () => {
+  it("treats currentPrice=0 as missing → placeholder", () => {
+    const result = buildInvalidation({
+      primaryAsset: "ADA",
+      direction: "positive",
+      horizon: "position",
+      outcomeSummary: "テスト",
+      currentPrice: 0,
+      expiresAt: "2026-05-19T00:00:00Z",
+    });
+    expect(result.usedPlaceholder).toBe(true);
+    expect(result.text).toContain("<<MANUAL:");
+  });
+
+  it("treats negative price as missing → placeholder", () => {
+    const result = buildInvalidation({
+      primaryAsset: "ADA",
+      direction: "negative",
+      horizon: "swing",
+      outcomeSummary: "テスト",
+      currentPrice: -1,
+      expiresAt: "2026-05-19T00:00:00Z",
+    });
+    expect(result.usedPlaceholder).toBe(true);
+    expect(result.text).toContain("<<MANUAL:");
+  });
+});
+
 describe("buildInvalidation — horizon → threshold mapping", () => {
   const cases = [
     { horizon: "intraday" as const, threshold: 0.03, price: 100 },
