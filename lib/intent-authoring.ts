@@ -201,3 +201,30 @@ export async function createIntent(
     },
   };
 }
+
+// -- v0.2-α auto-proposal types (full impl in Task E1) --
+/**
+ * Input for `createProposedIntent()` — produced by the v0.2-α auto-proposer
+ * (see lib/proposer/field-mapper.ts). Extends `CreateIntentInput` with
+ * the auto-proposal–specific fields that the Task E1 function will persist.
+ *
+ * - `display` is required (not optional) because the proposer always fills
+ *   Japanese headline/summary (EN left empty for human reviewer at approve).
+ * - `expires_at` is required (computed from horizon offset at proposal time).
+ * - `proposer_metadata` is required so the reject log + audit trail can
+ *   trace which proposer version/cluster generated the draft.
+ *
+ * Schema alignment: TradeIntentSchema.proposer_metadata (lib/intents.ts) is
+ * optional on the persisted intent. When a proposer authors an Intent, this
+ * object is always present; when a human authors via dialogue, it is absent.
+ */
+export interface CreateProposedIntentInput
+  extends Omit<CreateIntentInput, "display"> {
+  display: TradeIntent["display"];
+  expires_at: string;
+  proposer_metadata: {
+    version: string;
+    cluster_fingerprint: string;
+    generated_at: string;
+  };
+}
