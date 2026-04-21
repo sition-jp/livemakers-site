@@ -25,16 +25,26 @@ export const IntentRejectEntrySchema = z
   })
   .refine(
     (d) => d.reason !== "other" || (d.note !== undefined && d.note.length > 0),
-    { message: "note is required when reason='other'" },
+    { message: "note must be a non-empty string when reason='other'" },
   );
 
 export type IntentRejectEntry = z.infer<typeof IntentRejectEntrySchema>;
 
+// Single-writer assumption (CLI-driven). No concurrent-write protection here;
+// callers that share the log file must serialize externally.
 export function appendRejectEntry(path: string, entry: IntentRejectEntry): void {
   IntentRejectEntrySchema.parse(entry);
   fs.appendFileSync(path, JSON.stringify(entry) + "\n");
 }
 
+/**
+ * Read the reject log. Forward-compatible: malformed lines or lines that
+ * fail schema validation are silently skipped (enum expansion in v0.2-β may
+ * introduce new reject reasons that older readers cannot parse).
+ *
+ * CLI-only reader: missing file returns []; other I/O errors (EACCES/EIO)
+ * propagate unstructured. Do not call from API routes without wrapping.
+ */
 export function readRejectLog(
   path: string,
   windowHours?: number,
