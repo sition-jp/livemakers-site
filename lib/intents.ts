@@ -9,7 +9,7 @@
  *
  * Schema invariants not enforced by zod (intents-reader.ts / intent-authoring.ts):
  * - updated_at >= created_at
- * - human_review.approved_at >= created_at
+ * - human_review.approved_at >= created_at (when set; optional in proposed state)
  * - expires_at > created_at when present
  * - source_signal_ids each resolves in signals.jsonl
  * - append-only jsonl, latest-row-wins per intent_id
@@ -67,8 +67,15 @@ export const ProposerMetadataSchema = z.object({
 });
 
 export const TradeIntentSchema = z.object({
+  // int_proposed_ prefix is an advisory convention for auto-proposed intents;
+  // coupling between prefix and `status` is NOT enforced at schema level.
+  // Callers (createProposedIntent, approve-intent) are responsible for maintaining
+  // the prefix/status relationship.
   intent_id: z.string().regex(/^int_(proposed_)?[a-z0-9]{16}$/),
   trace_id: z.string().uuid(),
+  // schema_version stays "0.1-alpha" through Task 2-2 (v0.2-alpha) — the alpha
+  // window allows strict relaxations without bumping the version. First bump
+  // to "0.2-alpha" or "1.0-beta" will happen when breaking changes land.
   schema_version: z.literal("0.1-alpha"),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
