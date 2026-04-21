@@ -64,6 +64,28 @@ export function autoExpirePendingProposals(
     const createdMs = Date.parse(intent.created_at);
     if (nowMs - createdMs < cutoffMs) continue;
 
+    const skipCount = args.skipCountLookup(intent.intent_id);
+    const reason =
+      skipCount > 0 ? "skip_then_timeout" : "timed_out_without_review";
+    const fingerprint = intent.proposer_metadata?.cluster_fingerprint ?? "";
+    const version = intent.proposer_metadata?.version ?? "unknown";
+    const lastSeen = args.lastSeenLookup?.(intent.intent_id);
+
+    // Order: expiry-log first (if it throws, intent stays proposed → retried next run).
+    // If intent-append throws after log append, next run creates a duplicate log entry
+    // which is recoverable; orphan-expired (log missing) is not.
+    appendExpiryEntry(args.expiryLogJsonlPath, {
+      intent_id: intent.intent_id,
+      source_signal_ids: intent.source_signal_ids,
+      cluster_fingerprint: fingerprint,
+      proposer_version: version,
+      expired_at: args.nowIso,
+      reason,
+      skip_count: skipCount,
+      ...(lastSeen ? { last_seen_at_review_gate: lastSeen } : {}),
+      created_at: intent.created_at,
+    });
+
     // Build expired row (preserve all fields, override status/updated_at).
     // visibility stays private (sde_auto_proposal invariant).
     const expiredRow: TradeIntent = {
@@ -76,25 +98,6 @@ export function autoExpirePendingProposals(
       args.intentsJsonlPath,
       JSON.stringify(expiredRow) + "\n",
     );
-
-    // Append expiry-log entry.
-    const skipCount = args.skipCountLookup(intent.intent_id);
-    const reason =
-      skipCount > 0 ? "skip_then_timeout" : "timed_out_without_review";
-    const fingerprint = intent.proposer_metadata?.cluster_fingerprint ?? "";
-    const version = intent.proposer_metadata?.version ?? "unknown";
-    const lastSeen = args.lastSeenLookup?.(intent.intent_id);
-    appendExpiryEntry(args.expiryLogJsonlPath, {
-      intent_id: intent.intent_id,
-      source_signal_ids: intent.source_signal_ids,
-      cluster_fingerprint: fingerprint,
-      proposer_version: version,
-      expired_at: args.nowIso,
-      reason,
-      skip_count: skipCount,
-      ...(lastSeen ? { last_seen_at_review_gate: lastSeen } : {}),
-      created_at: intent.created_at,
-    });
 
     expired.push(intent.intent_id);
   }
