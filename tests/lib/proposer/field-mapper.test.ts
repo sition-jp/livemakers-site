@@ -59,7 +59,7 @@ describe("buildDraftInput", () => {
   };
 
   it("maps source_signal_ids from cluster signals", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -67,7 +67,7 @@ describe("buildDraftInput", () => {
   });
 
   it("side: positive + accumulate → accumulate", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -79,7 +79,7 @@ describe("buildDraftInput", () => {
       ...cluster,
       signals: [mkSignal({ position_hint: undefined })],
     };
-    const input = buildDraftInput(weirdCluster, {
+    const { input } = buildDraftInput(weirdCluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -87,7 +87,7 @@ describe("buildDraftInput", () => {
   });
 
   it("bucket from pillar: governance_and_treasury → core", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -99,7 +99,7 @@ describe("buildDraftInput", () => {
       ...cluster,
       signals: [mkSignal({ pillar: "unknown_pillar" as any })],
     };
-    const input = buildDraftInput(unknownCluster, {
+    const { input } = buildDraftInput(unknownCluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -107,7 +107,7 @@ describe("buildDraftInput", () => {
   });
 
   it("thesis_conviction: weighted avg", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -117,7 +117,7 @@ describe("buildDraftInput", () => {
   });
 
   it("execution_confidence: 0.40 default", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -126,7 +126,7 @@ describe("buildDraftInput", () => {
 
   it("preferred_horizon: maps Signal time_horizon to Intent PreferredHorizon", () => {
     // All signals use "2-4 weeks" → maps to "position"
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -149,7 +149,7 @@ describe("buildDraftInput", () => {
           mkSignal({ id: "h2", idempotency_key: "h2", time_horizon: sh }),
         ],
       };
-      const input = buildDraftInput(c, {
+      const { input } = buildDraftInput(c, {
         currentPrices: { ADA: 0.251 },
         nowIso: "2026-04-21T23:03:00Z",
       });
@@ -174,7 +174,7 @@ describe("buildDraftInput", () => {
         mkSignal({ id: "a3", idempotency_key: "a3", time_horizon: "days" }),
       ],
     };
-    const input = buildDraftInput(c, {
+    const { input } = buildDraftInput(c, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -183,7 +183,7 @@ describe("buildDraftInput", () => {
   });
 
   it("expires_at: created_at + horizon offset days", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -192,7 +192,7 @@ describe("buildDraftInput", () => {
   });
 
   it("invalidation uses market price when available", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -201,7 +201,7 @@ describe("buildDraftInput", () => {
   });
 
   it("invalidation uses placeholder when price missing", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: {},
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -209,7 +209,7 @@ describe("buildDraftInput", () => {
   });
 
   it("display.headline_ja populated, headline_en empty (v0.2-α)", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -235,7 +235,7 @@ describe("buildDraftInput", () => {
         }),
       ],
     };
-    const input = buildDraftInput(c, {
+    const { input } = buildDraftInput(c, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -243,7 +243,7 @@ describe("buildDraftInput", () => {
   });
 
   it("proposer_metadata populated with version/fingerprint/generated_at", () => {
-    const input = buildDraftInput(cluster, {
+    const { input } = buildDraftInput(cluster, {
       currentPrices: { ADA: 0.251 },
       nowIso: "2026-04-21T23:03:00Z",
     });
@@ -252,5 +252,41 @@ describe("buildDraftInput", () => {
       "fp_abcdef0123456789",
     );
     expect(input.proposer_metadata.generated_at).toBe("2026-04-21T23:03:00Z");
+  });
+
+  describe("buildDraftInput warnings", () => {
+    it("returns empty warnings for happy path", () => {
+      const { warnings } = buildDraftInput(cluster, {
+        currentPrices: { ADA: 0.251 },
+        nowIso: "2026-04-21T23:03:00Z",
+      });
+      expect(warnings).toEqual([]);
+    });
+
+    it("emits unmapped_side_combo when stance mapping missing", () => {
+      const weirdCluster: Cluster = {
+        ...cluster,
+        signals: [mkSignal({ position_hint: undefined })],
+      };
+      const { warnings } = buildDraftInput(weirdCluster, {
+        currentPrices: { ADA: 0.251 },
+        nowIso: "2026-04-21T23:03:00Z",
+      });
+      expect(
+        warnings.some((w) => w.startsWith("unmapped_side_combo:")),
+      ).toBe(true);
+    });
+
+    it("emits unmapped_pillar when pillar unknown", () => {
+      const unknownCluster: Cluster = {
+        ...cluster,
+        signals: [mkSignal({ pillar: "invented_pillar" as any })],
+      };
+      const { warnings } = buildDraftInput(unknownCluster, {
+        currentPrices: { ADA: 0.251 },
+        nowIso: "2026-04-21T23:03:00Z",
+      });
+      expect(warnings).toContain("unmapped_pillar:invented_pillar");
+    });
   });
 });

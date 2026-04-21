@@ -73,22 +73,38 @@ const BUCKET_MAP: Record<string, PortfolioBucket> = {
   project_research: "experimental",
 };
 
-function deriveSide(cluster: Cluster): IntentSide {
+function deriveSide(cluster: Cluster, warnings: string[]): IntentSide {
   const stances: string[] = [];
   for (const s of cluster.signals) {
     const stance = s.position_hint?.stance;
     if (stance !== undefined) stances.push(stance);
   }
-  if (stances.length === 0) return "hold";
+  if (stances.length === 0) {
+    warnings.push("unmapped_side_combo:no_stance");
+    return "hold";
+  }
   const dominant = modeString(stances);
-  if (dominant === undefined) return "hold";
+  if (dominant === undefined) {
+    warnings.push("unmapped_side_combo:no_stance");
+    return "hold";
+  }
   const key = `${cluster.direction}+${dominant}`;
-  return SIDE_MAP[key] ?? "hold";
+  const mapped = SIDE_MAP[key];
+  if (mapped === undefined) {
+    warnings.push(`unmapped_side_combo:${key}`);
+    return "hold";
+  }
+  return mapped;
 }
 
-function deriveBucket(cluster: Cluster): PortfolioBucket {
+function deriveBucket(cluster: Cluster, warnings: string[]): PortfolioBucket {
   const pillar = cluster.signals[0]?.pillar ?? "unknown";
-  return BUCKET_MAP[pillar] ?? "tactical";
+  const mapped = BUCKET_MAP[pillar];
+  if (mapped === undefined) {
+    warnings.push(`unmapped_pillar:${pillar}`);
+    return "tactical";
+  }
+  return mapped;
 }
 
 function modeString<T extends string>(xs: T[]): T | undefined {
@@ -118,6 +134,17 @@ export interface BuildDraftCtx {
 }
 
 /**
+ * Result of `buildDraftInput`. `warnings` surfaces silent fallback events
+ * (e.g. `unmapped_side_combo:positive+rotate`, `unmapped_pillar:unknown_pillar`)
+ * so the caller (Task F1 propose-intents CLI) can record them in
+ * `proposer-run-log.jsonl` per spec §4.3.
+ */
+export interface BuildDraftResult {
+  input: CreateProposedIntentInput;
+  warnings: string[];
+}
+
+/**
  * Build a complete `CreateProposedIntentInput` from a Cluster + market context.
  *
  * Wiring overview:
@@ -138,9 +165,10 @@ export interface BuildDraftCtx {
 export function buildDraftInput(
   cluster: Cluster,
   ctx: BuildDraftCtx,
-): CreateProposedIntentInput {
-  const side = deriveSide(cluster);
-  const bucket = deriveBucket(cluster);
+): BuildDraftResult {
+  const warnings: string[] = [];
+  const side = deriveSide(cluster, warnings);
+  const bucket = deriveBucket(cluster, warnings);
 
   // preferred_horizon: mode of cluster's Signal time_horizons → Intent horizon
   const signalHorizons = cluster.signals.map((s) => s.time_horizon);
@@ -190,7 +218,7 @@ export function buildDraftInput(
     new Set(cluster.signals.flatMap((s) => s.related_protocols ?? [])),
   );
 
-  return {
+  const input: CreateProposedIntentInput = {
     source_signal_ids: cluster.signals.map((s) => s.id),
     title: buildTitle({
       side,
@@ -234,4 +262,6 @@ export function buildDraftInput(
       generated_at: ctx.nowIso,
     },
   };
+
+  return { input, warnings };
 }
