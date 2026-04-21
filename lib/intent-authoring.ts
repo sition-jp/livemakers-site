@@ -228,3 +228,89 @@ export interface CreateProposedIntentInput
     generated_at: string;
   };
 }
+
+export interface CreateProposedIntentResult {
+  intent: TradeIntent;
+  warnings?: {
+    placeholderPresent: boolean;
+  };
+}
+
+function generateProposedIntentId(): string {
+  const hex = crypto.randomBytes(8).toString("hex");
+  return `int_proposed_${hex}`;
+}
+
+/**
+ * createProposedIntent — SDE auto proposer専用 wrapper.
+ *
+ * Invariant differences from createIntent():
+ * - invalidation placeholder (`<<MANUAL:>>`) allowed (must edit before approve)
+ * - bilingual EN display not required (empty ok, generated at approve)
+ * - soft_warning always allowed (placeholder path)
+ * - authored_via fixed to "sde_auto_proposal"
+ * - visibility fixed to "private"
+ * - status fixed to "proposed"
+ * - human_review.approved_by / approved_at undefined (set at approve time)
+ * - proposer_metadata required (version/fingerprint/generated_at)
+ *
+ * Spec: §5.1 / §2.4 / Task 2-2 v0.2-alpha
+ */
+export async function createProposedIntent(
+  input: CreateProposedIntentInput,
+  options: {
+    jsonlPath: string;
+    knownSignalIds: Set<string>;
+  },
+): Promise<CreateProposedIntentResult> {
+  for (const sid of input.source_signal_ids) {
+    if (!options.knownSignalIds.has(sid)) {
+      throw new Error(`unknown signal id: ${sid}`);
+    }
+  }
+
+  const now = new Date().toISOString();
+  const intent_id = generateProposedIntentId();
+  const placeholderPresent = /<<MANUAL:\s*/.test(input.invalidation_thesis);
+
+  const intentRaw = {
+    intent_id,
+    trace_id: crypto.randomUUID(),
+    schema_version: "0.1-alpha" as const,
+    created_at: now,
+    updated_at: now,
+    status: "proposed" as const,
+    expires_at: input.expires_at,
+    source_signal_ids: input.source_signal_ids,
+    title: input.title,
+    description: input.description,
+    side: input.side,
+    target_assets: input.target_assets,
+    ...(input.target_protocols ? { target_protocols: input.target_protocols } : {}),
+    thesis: input.thesis,
+    why_now: input.why_now,
+    invalidation_thesis: input.invalidation_thesis,
+    thesis_conviction: input.thesis_conviction,
+    execution_confidence: input.execution_confidence,
+    priority: input.priority ?? 0.5,
+    preferred_horizon: input.preferred_horizon,
+    portfolio_context: input.portfolio_context,
+    human_review: {
+      required: true as const,
+      // approved_by / approved_at undefined (set at approve time)
+    },
+    display: input.display,
+    visibility: "private" as const,
+    authored_via: "sde_auto_proposal" as const,
+    proposer_metadata: input.proposer_metadata,
+  };
+
+  const intent = TradeIntentSchema.parse(intentRaw);
+  const line = JSON.stringify(intent) + "\n";
+  fs.appendFileSync(options.jsonlPath, line);
+
+  return {
+    intent,
+    warnings: placeholderPresent ? { placeholderPresent: true } : undefined,
+  };
+}
