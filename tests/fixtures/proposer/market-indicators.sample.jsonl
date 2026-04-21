@@ -1,3 +1,3 @@
-{"date":"2026-04-19","prices":{"ADA":0.251,"BTC":105000,"ETH":3800}}
-{"date":"2026-04-20","prices":{"ADA":0.246,"BTC":107500,"ETH":3920,"NIGHT":0.045}}
-{"date":"2026-04-21","prices":{"ADA":0.251,"BTC":108200,"ETH":3950,"NIGHT":0.047}}
+{"date":"2026-04-19","btc_usd":105000,"eth_usd":3800,"ada_usd":0.251,"night_usdt":0.045}
+{"date":"2026-04-20","session":"morning","btc":107500,"eth":3920,"ada":0.246,"night":0.045}
+{"date":"2026-04-21","session":"morning","btc":108200,"eth":3950,"ada":0.251,"night":0.047}
