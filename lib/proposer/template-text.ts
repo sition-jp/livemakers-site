@@ -4,6 +4,12 @@ import { SIDE_JA, HORIZON_JA, SIGNAL_TYPE_JA } from "@/lib/proposer/labels-ja";
 
 type Lang = "ja" | "en";
 
+function requireNonEmpty<T>(arr: T[], fnName: string): void {
+  if (arr.length === 0) {
+    throw new Error(`${fnName}: signals array must be non-empty`);
+  }
+}
+
 function truncate(s: string, n: number): string {
   if (s.length <= n) return s;
   return s.slice(0, Math.max(0, n - 1)) + "…";
@@ -23,6 +29,9 @@ export function buildTitle(args: {
   return truncate(`${sideLabel} ${args.primaryAsset}: ${headline}`, 120);
 }
 
+/**
+ * Precondition: signals.length >= 1 (guaranteed by cluster-detect min_cluster_size).
+ */
 export function buildThesis(args: {
   signals: Signal[];
   primaryAsset: string;
@@ -31,6 +40,7 @@ export function buildThesis(args: {
   direction: "positive" | "negative" | "neutral" | "mixed";
   lang: Lang;
 }): string {
+  requireNonEmpty(args.signals, "buildThesis");
   const top = args.signals[0];
   const topSummary = args.lang === "ja" ? top.summary_ja : top.summary_en;
   const sideLabel = args.lang === "ja" ? SIDE_JA[args.side] : args.side;
@@ -59,7 +69,11 @@ export function buildThesis(args: {
   );
 }
 
+/**
+ * Precondition: signals.length >= 1 (guaranteed by cluster-detect min_cluster_size).
+ */
 export function buildWhyNow(args: { signals: Signal[]; lang: Lang }): string {
+  requireNonEmpty(args.signals, "buildWhyNow");
   const sortedByDate = [...args.signals].sort(
     (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
   );
@@ -73,10 +87,14 @@ export function buildWhyNow(args: { signals: Signal[]; lang: Lang }): string {
   );
 }
 
+/**
+ * Precondition: signals.length >= 1 (guaranteed by cluster-detect min_cluster_size).
+ */
 export function buildDescription(args: {
   signals: Signal[];
   lang: Lang;
 }): string {
+  requireNonEmpty(args.signals, "buildDescription");
   const summaries = args.signals.map((s) =>
     args.lang === "ja" ? s.summary_ja : s.summary_en,
   );
@@ -94,10 +112,14 @@ export function buildDisplayHeadline(args: {
   return truncate(raw, 80);
 }
 
+/**
+ * Precondition: signals.length >= 1 (guaranteed by cluster-detect min_cluster_size).
+ */
 export function buildDisplaySummary(args: {
   signals: Signal[];
   lang: Lang;
 }): string {
+  requireNonEmpty(args.signals, "buildDisplaySummary");
   const summaries = args.signals.map((s) =>
     args.lang === "ja" ? s.summary_ja : s.summary_en,
   );

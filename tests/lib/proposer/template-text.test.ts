@@ -171,3 +171,30 @@ describe("buildDisplayHeadline", () => {
     expect(out.length).toBeLessThanOrEqual(80);
   });
 });
+
+describe("empty-signals precondition", () => {
+  it("buildThesis throws on empty signals", () => {
+    expect(() =>
+      buildThesis({
+        signals: [],
+        primaryAsset: "ADA",
+        side: "accumulate",
+        horizon: "position",
+        direction: "positive",
+        lang: "ja",
+      }),
+    ).toThrow(/non-empty/);
+  });
+
+  it("buildWhyNow throws on empty signals", () => {
+    expect(() => buildWhyNow({ signals: [], lang: "ja" })).toThrow(/non-empty/);
+  });
+
+  it("buildDescription throws on empty signals", () => {
+    expect(() => buildDescription({ signals: [], lang: "ja" })).toThrow(/non-empty/);
+  });
+
+  it("buildDisplaySummary throws on empty signals", () => {
+    expect(() => buildDisplaySummary({ signals: [], lang: "ja" })).toThrow(/non-empty/);
+  });
+});
