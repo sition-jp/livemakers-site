@@ -1,5 +1,5 @@
-import fs from "fs";
-import { SignalSchema, type Signal } from "@/lib/signals";
+import { readAndParseSignals } from "@/lib/signals-reader";
+import type { Signal } from "@/lib/signals";
 
 export interface ReadActiveSignalsOpts {
   signalsJsonlPath: string;
@@ -9,48 +9,34 @@ export interface ReadActiveSignalsOpts {
 }
 
 /**
- * Read active signals from signals.jsonl with latest-row-wins per id +
- * status=active filter + time window filter.
+ * Read active signals within a time window for proposer cluster detection.
  *
- * - Missing file returns [] (non-blocking, proposer continues with 0 signals)
- * - Malformed / schema-failing lines are silently skipped (forward-compat)
- * - Latest row per signal_id wins (append-only jsonl semantics, matches
- *   SignalStore.read_active_signals() in signal-generator)
+ * Delegates to lib/signals-reader.readAndParseSignals() for file access,
+ * null coercion (production jsonl serializes Python Optional[T] as JSON null),
+ * schema validation, and latest-row-wins collapse by id (insertion order —
+ * matches SignalStore.read_active_signals() append-only semantics).
  *
- * CLI-only reader: I/O errors other than ENOENT propagate unstructured.
+ * Proposer-specific filter applied on top:
+ *   - status === "active"
+ *   - created_at >= now - windowHours
+ *
+ * Behavior:
+ *   - Missing file → [] (non-blocking; readAndParseSignals handles ENOENT)
+ *   - Malformed/schema-failing lines → skipped + logged by readAndParseSignals
+ *   - parseErrors count is not surfaced (CLI-only reader, forward-compat skip)
+ *
+ * Why delegation over from-scratch parsing:
+ *   The committed SignalSchema uses `.optional()` (undefined-only), but the
+ *   Python writer emits JSON null for Optional[T] fields. The shared reader
+ *   has `coerceNullsToUndefined()` to bridge this at the reader boundary.
+ *   A from-scratch implementation would silently drop 100% of production
+ *   rows — the bug this module exists to avoid.
  */
 export function readActiveSignals(opts: ReadActiveSignalsOpts): Signal[] {
-  if (!fs.existsSync(opts.signalsJsonlPath)) return [];
-  const raw = fs.readFileSync(opts.signalsJsonlPath, "utf-8");
-  const lines = raw.split("\n").filter((l) => l.trim().length > 0);
-
-  // Parse all lines, keep latest per id
-  const latestPerId = new Map<string, Signal>();
-  for (const line of lines) {
-    try {
-      const parsed = SignalSchema.safeParse(JSON.parse(line));
-      if (!parsed.success) continue;
-      const sig = parsed.data;
-      const existing = latestPerId.get(sig.id);
-      if (
-        !existing ||
-        Date.parse(sig.created_at) >= Date.parse(existing.created_at)
-      ) {
-        latestPerId.set(sig.id, sig);
-      }
-    } catch {
-      // skip malformed line
-    }
-  }
-
+  const { signals } = readAndParseSignals(opts.signalsJsonlPath);
   const nowMs = Date.parse(opts.nowIso ?? new Date().toISOString());
   const cutoffMs = nowMs - opts.windowHours * 3600 * 1000;
-
-  const out: Signal[] = [];
-  for (const sig of latestPerId.values()) {
-    if (sig.status !== "active") continue;
-    if (Date.parse(sig.created_at) < cutoffMs) continue;
-    out.push(sig);
-  }
-  return out;
+  return signals.filter(
+    (s) => s.status === "active" && Date.parse(s.created_at) >= cutoffMs,
+  );
 }
