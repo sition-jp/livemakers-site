@@ -60,8 +60,14 @@ export const RealizedOutcome = z.enum([
   "unclear",
 ]);
 
+export const ProposerMetadataSchema = z.object({
+  version: z.string(),
+  cluster_fingerprint: z.string(),
+  generated_at: z.string().datetime(),
+});
+
 export const TradeIntentSchema = z.object({
-  intent_id: z.string().regex(/^int_[a-z0-9]{16}$/),
+  intent_id: z.string().regex(/^int_(proposed_)?[a-z0-9]{16}$/),
   trace_id: z.string().uuid(),
   schema_version: z.literal("0.1-alpha"),
   created_at: z.string().datetime(),
@@ -93,14 +99,14 @@ export const TradeIntentSchema = z.object({
 
   human_review: z.object({
     required: z.literal(true),
-    approved_by: z.string(),
-    approved_at: z.string().datetime(),
+    approved_by: z.string().optional(),
+    approved_at: z.string().datetime().optional(),
   }),
 
   display: z.object({
-    headline_en: z.string().min(1).max(80),
+    headline_en: z.string().max(80),
     headline_ja: z.string().min(1).max(80),
-    summary_en: z.string().min(20).max(240),
+    summary_en: z.string().max(240),
     summary_ja: z.string().min(20).max(240),
   }),
 
@@ -119,8 +125,10 @@ export const TradeIntentSchema = z.object({
   //   authored_by  (identity) — RESERVED for v0.2+
   //   approved_by  (publisher) — lives under human_review.approved_by
   authored_via: z
-    .enum(["claude_code_dialogue"])
+    .enum(["claude_code_dialogue", "sde_auto_proposal"])
     .default("claude_code_dialogue"),
+
+  proposer_metadata: ProposerMetadataSchema.optional(),
 });
 
 export type TradeIntent = z.infer<typeof TradeIntentSchema>;
@@ -133,3 +141,4 @@ export type PreferredHorizon = z.infer<typeof PreferredHorizon>;
 export type PortfolioBucket = z.infer<typeof PortfolioBucket>;
 export type Visibility = z.infer<typeof Visibility>;
 export type RealizedOutcome = z.infer<typeof RealizedOutcome>;
+export type ProposerMetadata = z.infer<typeof ProposerMetadataSchema>;

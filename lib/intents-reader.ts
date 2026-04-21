@@ -248,7 +248,13 @@ export function flagInvariantBreaches(
         detail: `updated_at=${i.updated_at} < created_at=${i.created_at}`,
       });
     }
-    if (i.human_review.approved_at < i.created_at) {
+    // approved_at only present after human approval (v0.2 proposer-flow leaves
+    // it undefined until approve-intent CLI fills it). Invariant applies only
+    // when the field is set.
+    if (
+      i.human_review.approved_at !== undefined &&
+      i.human_review.approved_at < i.created_at
+    ) {
       out.push({
         intent_id: i.intent_id,
         rule: "approved_at>=created_at",
