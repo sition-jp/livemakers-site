@@ -14,3 +14,8 @@ coverage/
 
 # TradeIntent storage (v0.1 local-only, not checked into git)
 data/tradeintents.jsonl
+
+# Proposer v0.2-alpha runtime logs (local-only, spec §A.5)
+data/intent-reject-log.jsonl
+data/intent-expiry-log.jsonl
+data/proposer-run-log.jsonl
