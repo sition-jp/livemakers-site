@@ -108,6 +108,7 @@ export async function runProposer(args: RunProposerArgs): Promise<RunProposerRes
         const result = await createProposedIntent(input, {
           jsonlPath: args.intentsPath,
           knownSignalIds,
+          nowIso: args.nowIso,
         });
         if (result.warnings?.placeholderPresent) {
           warnings.push(

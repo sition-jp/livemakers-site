@@ -261,6 +261,9 @@ export async function createProposedIntent(
   options: {
     jsonlPath: string;
     knownSignalIds: Set<string>;
+    // Injectable to align persisted created_at/updated_at with the proposer
+    // run's nowIso (auto-expire tests depend on this).
+    nowIso?: string;
   },
 ): Promise<CreateProposedIntentResult> {
   for (const sid of input.source_signal_ids) {
@@ -269,7 +272,7 @@ export async function createProposedIntent(
     }
   }
 
-  const now = new Date().toISOString();
+  const now = options.nowIso ?? new Date().toISOString();
   const intent_id = generateProposedIntentId();
   const placeholderPresent = /<<MANUAL:\s*/.test(input.invalidation_thesis);
 
