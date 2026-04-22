@@ -17,7 +17,13 @@
  */
 import { z } from "zod";
 
-export const SchemaVersion = z.literal("1.1-beta");
+export const SchemaVersion = z.enum(["1.1-beta", "1.2-beta"]);
+
+export const ArticleCandidateAccount = z.enum([
+  "SITIONjp",
+  "SIPO_Tokyo",
+  "LifeMakersCom",
+]);
 
 export const SignalStatus = z.enum([
   "active",
@@ -140,6 +146,10 @@ export const SignalSchema = z
     source_ids: z.array(z.string()),
     audit_note: z.string().nullable().optional(),
     locked_fields: z.record(z.string(), z.string()).nullable().optional(),
+    article_candidate_accounts: z
+      .array(ArticleCandidateAccount)
+      .nullable()
+      .optional(),
   })
   .strict();
 
