@@ -8,6 +8,22 @@
     "live": "LIVE"
   },
   "assets": {
+    "dashboard": {
+      "page_title": "Terminal · 4-asset overview",
+      "page_subtitle": "BTC / ETH / ADA / NIGHT — price, signals, and headline metrics on one screen",
+      "view_detail": "Detail →",
+      "signals_count": "{n} signals",
+      "news_count": "{n} news",
+      "btc_aum": "ETF AUM",
+      "btc_weekly_flow": "Weekly flow",
+      "eth_aum": "ETF AUM",
+      "eth_staking_ratio": "Staking",
+      "ada_tvl": "DeFi TVL",
+      "ada_epoch": "Epoch",
+      "night_dapps": "dApps",
+      "night_block": "Block height",
+      "no_data": "—"
+    },
     "page_title": "{asset}",
     "page_subtitle": "Real-time price, fundamentals, and actionable signals — unified view",
     "back_to_overview": "← Back to terminal",

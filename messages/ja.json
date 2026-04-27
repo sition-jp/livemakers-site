@@ -8,6 +8,22 @@
     "live": "LIVE"
   },
   "assets": {
+    "dashboard": {
+      "page_title": "ターミナル · 4 銘柄俯瞰",
+      "page_subtitle": "BTC / ETH / ADA / NIGHT の価格・シグナル・主要指標を 1 画面に集約",
+      "view_detail": "詳細 →",
+      "signals_count": "{n} シグナル",
+      "news_count": "{n} ニュース",
+      "btc_aum": "ETF AUM",
+      "btc_weekly_flow": "週次フロー",
+      "eth_aum": "ETF AUM",
+      "eth_staking_ratio": "ステーキング",
+      "ada_tvl": "DeFi TVL",
+      "ada_epoch": "エポック",
+      "night_dapps": "dApps",
+      "night_block": "ブロック高",
+      "no_data": "—"
+    },
     "page_title": "{asset}",
     "page_subtitle": "リアルタイム価格・ファンダメンタル・行動可能シグナルを統合表示",
     "back_to_overview": "← ターミナルへ戻る",
