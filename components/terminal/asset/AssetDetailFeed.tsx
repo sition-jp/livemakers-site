@@ -20,6 +20,10 @@ import { PriceCard } from "./PriceCard";
 import { SignalsList } from "./SignalsList";
 import { NewsList } from "./NewsList";
 import { GovernancePulsePanel } from "./GovernancePulsePanel";
+import { ADAEcosystemPanel } from "./ADAEcosystemPanel";
+import { BTCExtensionPanel } from "./BTCExtensionPanel";
+import { ETHExtensionPanel } from "./ETHExtensionPanel";
+import { NIGHTExtensionPanel } from "./NIGHTExtensionPanel";
 
 interface AssetDetailFeedProps {
   asset: TerminalAssetT;
@@ -71,8 +75,6 @@ export function AssetDetailFeed({ asset, initialData }: AssetDetailFeedProps) {
     );
   }
 
-  const isADA = data.asset === "ADA";
-
   return (
     <div className="space-y-6">
       <PriceCard asset={data.display_name} price={data.price} />
@@ -90,8 +92,20 @@ export function AssetDetailFeed({ asset, initialData }: AssetDetailFeedProps) {
         />
       </div>
 
-      {isADA && data.ada && (
-        <GovernancePulsePanel pulse={data.ada.governance} />
+      {data.asset === "ADA" && data.ada && (
+        <>
+          <GovernancePulsePanel pulse={data.ada.governance} />
+          <ADAEcosystemPanel extension={data.ada} />
+        </>
+      )}
+      {data.asset === "BTC" && data.btc && (
+        <BTCExtensionPanel extension={data.btc} />
+      )}
+      {data.asset === "ETH" && data.eth && (
+        <ETHExtensionPanel extension={data.eth} />
+      )}
+      {data.asset === "NIGHT" && data.night && (
+        <NIGHTExtensionPanel extension={data.night} />
       )}
 
       {/* Freshness footer */}

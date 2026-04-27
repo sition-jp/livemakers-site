@@ -95,6 +95,31 @@
         "nakamoto": "Nakamoto coefficient"
       }
     },
+    "btc_ext": {
+      "title": "ETF & spot market",
+      "subtitle": "BTC spot ETF aggregate (Dune SITION fork)",
+      "aum_usd": "AUM",
+      "weekly_flow_usd": "Weekly flow",
+      "supply_pct_held": "Supply share",
+      "source": "Dune"
+    },
+    "eth_ext": {
+      "title": "ETF & staking",
+      "subtitle": "ETH spot ETF + protocol staking",
+      "aum_usd": "AUM",
+      "weekly_flow_usd": "Weekly flow",
+      "staking_ratio_pct": "Staking ratio",
+      "source": "Dune"
+    },
+    "night_ext": {
+      "title": "Midnight network",
+      "subtitle": "dApps + network liveness",
+      "dapps_total": "Listed dApps",
+      "recent_launches": "Recent launches",
+      "block_height": "Block height",
+      "last_block_at": "Last block",
+      "no_recent_launches": "No recent dApp launches yet"
+    },
     "freshness": "Data {sec}s ago",
     "freshness_pre_launch": "SDE generating first snapshot"
   },

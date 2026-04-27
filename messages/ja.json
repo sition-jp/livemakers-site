@@ -95,6 +95,31 @@
         "nakamoto": "中本係数"
       }
     },
+    "btc_ext": {
+      "title": "ETF・現物市場",
+      "subtitle": "BTC スポット ETF アグリゲート（Dune SITION fork 由来）",
+      "aum_usd": "AUM",
+      "weekly_flow_usd": "週次フロー",
+      "supply_pct_held": "供給シェア",
+      "source": "Dune"
+    },
+    "eth_ext": {
+      "title": "ETF・ステーキング",
+      "subtitle": "ETH スポット ETF + プロトコル ステーキング",
+      "aum_usd": "AUM",
+      "weekly_flow_usd": "週次フロー",
+      "staking_ratio_pct": "ステーキング比率",
+      "source": "Dune"
+    },
+    "night_ext": {
+      "title": "Midnight ネットワーク",
+      "subtitle": "dApps + ネットワーク稼働状況",
+      "dapps_total": "登録 dApps",
+      "recent_launches": "最近の公開",
+      "block_height": "ブロック高",
+      "last_block_at": "最終ブロック",
+      "no_recent_launches": "直近の dApp ローンチなし"
+    },
     "freshness": "データ更新 {sec} 秒前",
     "freshness_pre_launch": "SDE が初回データを生成中"
   },
