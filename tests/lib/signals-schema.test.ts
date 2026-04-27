@@ -73,3 +73,119 @@ describe("SignalSchema v1.2-beta article_candidate_accounts", () => {
     expect(r.success).toBe(true);
   });
 });
+
+describe("SignalSchema v1.3-beta target_terminal", () => {
+  /**
+   * target_terminal is the Terminal *display* gate, independent from
+   * article_candidate_accounts (publish gate). Spec:
+   * 08_DOCS/knowledge/specs/2026-04-27-livemakers-terminal-asset-contract-v0.md §3
+   */
+
+  it("accepts schema_version 1.3-beta", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({ schema_version: "1.3-beta" }),
+    );
+    expect(r.success).toBe(true);
+  });
+
+  it("defaults to undefined / null when target_terminal not set", () => {
+    const r = SignalSchema.safeParse(baseSignal());
+    expect(r.success).toBe(true);
+  });
+
+  it("accepts target_terminal=['ADA'] with locked_fields entry", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        target_terminal: ["ADA"],
+        locked_fields: { target_terminal: "terminal_targeting@2026-04-27" },
+      }),
+    );
+    expect(r.success).toBe(true);
+  });
+
+  it("accepts full 4-asset set", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        target_terminal: ["BTC", "ETH", "ADA", "NIGHT"],
+        locked_fields: { target_terminal: "macro@2026-04-27" },
+      }),
+    );
+    expect(r.success).toBe(true);
+  });
+
+  it("rejects unknown asset (DOGE)", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        target_terminal: ["DOGE"],
+        locked_fields: { target_terminal: "x" },
+      }),
+    );
+    expect(r.success).toBe(false);
+  });
+
+  it("rejects empty list (use null/undefined for 'no targeting')", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        target_terminal: [],
+        locked_fields: { target_terminal: "x" },
+      }),
+    );
+    expect(r.success).toBe(false);
+  });
+
+  it("rejects duplicates", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        target_terminal: ["ADA", "ADA"],
+        locked_fields: { target_terminal: "x" },
+      }),
+    );
+    expect(r.success).toBe(false);
+  });
+
+  it("rejects target_terminal set without locked_fields entry", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        target_terminal: ["ADA"],
+        // locked_fields missing target_terminal key
+      }),
+    );
+    expect(r.success).toBe(false);
+  });
+
+  it("is independent from primary_asset (BTC primary OK with target_terminal=['BTC'])", () => {
+    // Key difference from article_candidate_accounts which requires
+    // primary_asset ∈ {ADA, NIGHT, DUST}
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        primary_asset: "BTC",
+        target_terminal: ["BTC"],
+        locked_fields: { target_terminal: "x" },
+      }),
+    );
+    expect(r.success).toBe(true);
+  });
+
+  it("can coexist with article_candidate_accounts (independent gates)", () => {
+    const r = SignalSchema.safeParse(
+      baseSignal({
+        schema_version: "1.3-beta",
+        primary_asset: "ADA",
+        article_candidate_accounts: ["SIPO_Tokyo"],
+        target_terminal: ["ADA", "NIGHT"],
+        locked_fields: {
+          article_candidate_accounts: "external_boost@2026-04-22",
+          target_terminal: "terminal_targeting@2026-04-27",
+        },
+      }),
+    );
+    expect(r.success).toBe(true);
+  });
+});
