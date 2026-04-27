@@ -1,0 +1,237 @@
+{
+  "_fixture_note": "GET /api/assets/ada/summary?include=governance,defi,epoch,staking expected response. Single AssetSummary unwrapped from terminal_assets.json#/assets/ADA. Used as canonical contract for ADA detail page (Step 5 vertical slice).",
+  "asset": "ADA",
+  "display_name": "Cardano",
+  "ticker_symbol": "ADA",
+  "price": {
+    "usd": 0.6543,
+    "change_24h_pct": 2.18,
+    "market_cap_usd": 23120000000,
+    "volume_24h_usd": 412000000,
+    "updated_at": "2026-04-27T05:02:30Z",
+    "source": "coingecko"
+  },
+  "signals": {
+    "total_active": 6,
+    "items": [
+      {
+        "id": "sig_20260426_drep_singapore_summit",
+        "headline_ja": "Singapore Summit 2027 提案、DRep 投票継続中（5/10 まで）",
+        "headline_en": "Singapore Summit 2027 info action — DRep voting open through 5/10",
+        "pillar": "governance_and_treasury",
+        "confidence": 0.88,
+        "impact": "high",
+        "direction": "neutral",
+        "position_hint": { "stance": "neutral", "conviction": 0.5 },
+        "created_at": "2026-04-26T11:22:00Z",
+        "href": "/signals/sig_20260426_drep_singapore_summit"
+      },
+      {
+        "id": "sig_20260425_cardano_defi_tvl_milestone",
+        "headline_ja": "Cardano DeFi TVL が $400M 突破、4 月で +28%",
+        "headline_en": "Cardano DeFi TVL crosses $400M, +28% in April",
+        "pillar": "ecosystem_health",
+        "confidence": 0.81,
+        "impact": "medium",
+        "direction": "positive",
+        "position_hint": { "stance": "accumulate", "conviction": 0.6 },
+        "created_at": "2026-04-25T08:14:00Z",
+        "href": "/signals/sig_20260425_cardano_defi_tvl_milestone"
+      },
+      {
+        "id": "sig_20260425_treasury_withdrawal_catalyst14",
+        "headline_ja": "Catalyst Fund 14 — 750万 ADA 提案が DRep 投票へ",
+        "headline_en": "Catalyst Fund 14 treasury withdrawal — 7.5M ADA proposal opens DRep voting",
+        "pillar": "governance_and_treasury",
+        "confidence": 0.79,
+        "impact": "medium",
+        "direction": "neutral",
+        "position_hint": null,
+        "created_at": "2026-04-25T05:30:00Z",
+        "href": "/signals/sig_20260425_treasury_withdrawal_catalyst14"
+      }
+    ]
+  },
+  "news": {
+    "total": 12,
+    "items": [
+      {
+        "id": "art_20260426_cardano_defi",
+        "title": "Cardano DeFi TVL $400M 突破 — Splash・Indigo・Liqwid 牽引",
+        "summary": "DefiLlama データで Cardano DeFi TVL が $400M を突破。Splash $112M / Indigo $98M / Liqwid $74M。3 月対比で +28%。",
+        "source_url": "https://defillama.com/chain/Cardano",
+        "source_handle": null,
+        "published_at": "2026-04-26T03:15:00Z",
+        "account_tag": "SIPO_Tokyo",
+        "href_internal": "https://sipo.tokyo/posts/2026-04-26-cardano-defi-400m"
+      },
+      {
+        "id": "art_20260425_drep_voting_opens",
+        "title": "Singapore Summit 2027 提案が DRep 投票期間入り（〜5/10）",
+        "summary": "gov.tools で Singapore Summit 2027 info action が DRep 投票へ。SIPO は 4/27 時点で「pending」。",
+        "source_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+        "source_handle": "@gov_tools",
+        "published_at": "2026-04-25T22:00:00Z",
+        "account_tag": "SIPO_Tokyo",
+        "href_internal": null
+      }
+    ]
+  },
+  "ada": {
+    "governance": {
+      "active_actions": [
+        {
+          "action_id": "gov_action_singapore_summit_2027",
+          "action_type": "info_action",
+          "title_en": "Singapore Summit 2027 — Cardano Foundation hosting motion",
+          "title_ja": "Singapore Summit 2027 — Cardano Foundation 主催モーション",
+          "proposer": "Cardano Foundation",
+          "submitted_at": "2026-04-22T09:00:00Z",
+          "expires_at": "2026-05-10T23:59:59Z",
+          "status": "voting",
+          "current_tally": {
+            "drep_yes_pct": 41.2,
+            "drep_no_pct": 32.8,
+            "drep_abstain_pct": 26.0,
+            "spo_yes_pct": null,
+            "cc_yes_pct": null,
+            "snapshot_at": "2026-04-27T04:00:00Z"
+          },
+          "sipo_stance": {
+            "decision": "pending",
+            "rationale_ja": "Summit 自体には賛成だが、Cardano Foundation 主催の構造とコミュニティ参加プロセスについて評価待ち。Foundation の求心力低下傾向と整合する形にすべきか、IOG 主体の Summit に切り替えるべきかをコミュニティ議論で確認したい。",
+            "evidence": [
+              {
+                "source_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+                "snippet": "Proposal text: hosting Cardano Summit 2027 in Singapore..."
+              }
+            ],
+            "risk_assessment": "Foundation 主催で固定するとガバナンス三位一体（IOG/CF/EMURGO + DRep）の重心が CF 寄りになるリスク。IOG/community led にすべき余地あり。",
+            "treasury_impact_ada": null,
+            "decided_at": null
+          },
+          "related_signal_ids": [
+            "sig_20260426_drep_singapore_summit"
+          ],
+          "links": {
+            "gov_tools_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+            "cardano_forum_url": "https://forum.cardano.org/t/singapore-summit-2027",
+            "intersect_url": null
+          }
+        },
+        {
+          "action_id": "gov_action_catalyst_fund14_treasury",
+          "action_type": "treasury_withdrawal",
+          "title_en": "Catalyst Fund 14 — 7.5M ADA treasury withdrawal",
+          "title_ja": "Catalyst Fund 14 — 750万 ADA トレジャリー引出",
+          "proposer": "Intersect MBO",
+          "submitted_at": "2026-04-24T14:00:00Z",
+          "expires_at": "2026-05-22T23:59:59Z",
+          "status": "voting",
+          "current_tally": {
+            "drep_yes_pct": 58.4,
+            "drep_no_pct": 12.1,
+            "drep_abstain_pct": 29.5,
+            "spo_yes_pct": null,
+            "cc_yes_pct": null,
+            "snapshot_at": "2026-04-27T04:00:00Z"
+          },
+          "sipo_stance": {
+            "decision": "yes",
+            "rationale_ja": "Catalyst の継続は Cardano 公共財の根幹。Treasury Fit ドクトリン v2.0 の YES カテゴリ「公共財」に明確に該当。前 Fund 13 までの執行プロセスは概ね健全で、報告書も提出済。NO Criteria（自己資金・利益相反・外部流出）にも該当しない。",
+            "evidence": [
+              {
+                "source_url": "https://docs.intersectmbo.org/cardano/catalyst/fund14",
+                "snippet": "Fund 14 execution plan: 6 categories, 7.5M ADA total budget..."
+              },
+              {
+                "source_url": "https://catalyst.cardano.org/fund13/reports",
+                "snippet": "Fund 13 final report shows 89% completion rate..."
+              }
+            ],
+            "risk_assessment": "Fund 13 で 11% 未完了プロジェクトあり。これは継続課題だが Fund 14 そのものの否決理由にはならない。",
+            "treasury_impact_ada": -7500000,
+            "decided_at": "2026-04-26T16:30:00Z"
+          },
+          "related_signal_ids": [
+            "sig_20260425_treasury_withdrawal_catalyst14"
+          ],
+          "links": {
+            "gov_tools_url": "https://gov.tools/governance_actions/catalyst_fund14_treasury",
+            "cardano_forum_url": null,
+            "intersect_url": "https://docs.intersectmbo.org/cardano/catalyst/fund14"
+          }
+        }
+      ],
+      "recently_resolved": [
+        {
+          "action_id": "gov_action_constitution_v1",
+          "action_type": "new_constitution",
+          "title_en": "Cardano Constitution v1.0",
+          "title_ja": "Cardano 憲法 v1.0",
+          "proposer": "Constitutional Convention",
+          "submitted_at": "2025-12-04T00:00:00Z",
+          "expires_at": "2026-03-15T23:59:59Z",
+          "status": "ratified",
+          "current_tally": {
+            "drep_yes_pct": 78.2,
+            "drep_no_pct": 8.4,
+            "drep_abstain_pct": 13.4,
+            "spo_yes_pct": 71.8,
+            "cc_yes_pct": 100.0,
+            "snapshot_at": "2026-03-15T23:59:59Z"
+          },
+          "sipo_stance": {
+            "decision": "yes",
+            "rationale_ja": "憲法批准は Cardano 三位一体ガバナンス（思想 + 分散 + 参加）の基盤確立。SIPO は批准支持が一貫したスタンス。",
+            "evidence": [],
+            "risk_assessment": "批准後の運用フェーズで CC との緊張が新たな課題に。",
+            "treasury_impact_ada": null,
+            "decided_at": "2026-02-18T10:00:00Z"
+          },
+          "related_signal_ids": [],
+          "links": {
+            "gov_tools_url": "https://gov.tools/governance_actions/constitution_v1",
+            "cardano_forum_url": null,
+            "intersect_url": null
+          }
+        }
+      ],
+      "drep_card": {
+        "drep_id": "drep1xxxsipoplaceholderyyyyzzzz",
+        "display_name": "SIPO",
+        "rank": 11,
+        "delegators": 358,
+        "delegated_ada": 101000000,
+        "recent_votes_count": 7,
+        "voting_power_pct": 1.24,
+        "profile_url": "https://gov.tools/drep/drep1xxxsipoplaceholderyyyyzzzz",
+        "sition_profile_url": "https://sipo.tokyo/drep"
+      },
+      "updated_at": "2026-04-27T04:48:00Z"
+    },
+    "defi": {
+      "tvl_usd": 401200000,
+      "tvl_change_7d_pct": 8.4,
+      "top_protocols": [
+        { "name": "Splash", "tvl_usd": 112400000 },
+        { "name": "Indigo", "tvl_usd": 98300000 },
+        { "name": "Liqwid", "tvl_usd": 74100000 },
+        { "name": "Minswap", "tvl_usd": 52600000 },
+        { "name": "WingRiders", "tvl_usd": 31800000 }
+      ],
+      "source": "defillama",
+      "updated_at": "2026-04-27T04:48:00Z"
+    },
+    "epoch": {
+      "current": 547,
+      "progress_pct": 38.4,
+      "boundary_eta": "2026-04-29T21:44:51Z"
+    },
+    "staking": {
+      "active_pct": 60.12,
+      "nakamoto_coefficient": 38
+    }
+  },
+  "updated_at": "2026-04-27T05:03:42Z"
+}

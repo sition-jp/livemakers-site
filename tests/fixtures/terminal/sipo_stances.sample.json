@@ -1,0 +1,53 @@
+{
+  "_fixture_note": "Sample of 07_DATA/content/intelligence/sipo_stances.json. Hand-edited file (田平 only). builder reads this and merges into GovernanceAction.sipo_stance. zod/pydantic schema enforces structure on read; fixture/contract test fails if any field violates.",
+  "schema_version": "0.1",
+  "stances": {
+    "gov_action_singapore_summit_2027": {
+      "decision": "pending",
+      "rationale_ja": "Summit 自体には賛成だが、Cardano Foundation 主催の構造とコミュニティ参加プロセスについて評価待ち。Foundation の求心力低下傾向と整合する形にすべきか、IOG 主体の Summit に切り替えるべきかをコミュニティ議論で確認したい。",
+      "rationale_en": null,
+      "evidence": [
+        {
+          "source_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+          "snippet": "Proposal text: hosting Cardano Summit 2027 in Singapore..."
+        }
+      ],
+      "risk_assessment": "Foundation 主催で固定するとガバナンス三位一体（IOG/CF/EMURGO + DRep）の重心が CF 寄りになるリスク。IOG/community led にすべき余地あり。",
+      "treasury_impact_ada": null,
+      "decided_at": "2026-04-27T04:00:00Z",
+      "decided_by": "tabira",
+      "locked": true
+    },
+    "gov_action_catalyst_fund14_treasury": {
+      "decision": "yes",
+      "rationale_ja": "Catalyst の継続は Cardano 公共財の根幹。Treasury Fit ドクトリン v2.0 の YES カテゴリ「公共財」に明確に該当。前 Fund 13 までの執行プロセスは概ね健全で、報告書も提出済。NO Criteria（自己資金・利益相反・外部流出）にも該当しない。",
+      "rationale_en": "Catalyst continuation is core to Cardano's public goods. Clearly maps to Treasury Fit doctrine v2.0 YES category 'public goods'. Fund 13 execution was largely healthy with reports filed. None of the NO criteria (self-funding, conflict of interest, external leakage) apply.",
+      "evidence": [
+        {
+          "source_url": "https://docs.intersectmbo.org/cardano/catalyst/fund14",
+          "snippet": "Fund 14 execution plan: 6 categories, 7.5M ADA total budget..."
+        },
+        {
+          "source_url": "https://catalyst.cardano.org/fund13/reports",
+          "snippet": "Fund 13 final report shows 89% completion rate..."
+        }
+      ],
+      "risk_assessment": "Fund 13 で 11% 未完了プロジェクトあり。これは継続課題だが Fund 14 そのものの否決理由にはならない。",
+      "treasury_impact_ada": -7500000,
+      "decided_at": "2026-04-26T16:30:00Z",
+      "decided_by": "tabira",
+      "locked": true
+    },
+    "gov_action_constitution_v1": {
+      "decision": "yes",
+      "rationale_ja": "憲法批准は Cardano 三位一体ガバナンス（思想 + 分散 + 参加）の基盤確立。SIPO は批准支持が一貫したスタンス。",
+      "rationale_en": null,
+      "evidence": [],
+      "risk_assessment": "批准後の運用フェーズで CC との緊張が新たな課題に。",
+      "treasury_impact_ada": null,
+      "decided_at": "2026-02-18T10:00:00Z",
+      "decided_by": "tabira",
+      "locked": true
+    }
+  }
+}

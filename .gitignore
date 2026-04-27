@@ -12,6 +12,10 @@ next-env.d.ts
 *.tsbuildinfo
 coverage/
 
+# macOS Finder duplicate guard ("foo 2.ts", "foo 3.ts" etc.)
+* 2.*
+* 3.*
+
 # TradeIntent storage (v0.1 local-only, not checked into git)
 data/tradeintents.jsonl
 

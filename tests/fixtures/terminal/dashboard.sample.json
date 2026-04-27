@@ -1,0 +1,449 @@
+{
+  "_fixture_note": "GET /api/dashboard expected response. v0 = full payload — assets[] is byte-equivalent to terminal_assets.json#/assets. Phase 1.1 may add a compact variant. Asset key ordering: BTC, ETH, ADA, NIGHT.",
+  "assets": {
+    "BTC": {
+      "asset": "BTC",
+      "display_name": "Bitcoin",
+      "ticker_symbol": "BTC",
+      "price": {
+        "usd": 95412.3,
+        "change_24h_pct": 1.24,
+        "market_cap_usd": 1875400000000,
+        "volume_24h_usd": 32780000000,
+        "updated_at": "2026-04-27T05:02:30Z",
+        "source": "coingecko"
+      },
+      "signals": {
+        "total_active": 4,
+        "items": [
+          {
+            "id": "sig_20260426_btc_etf_inflow",
+            "headline_ja": "BTC ETF 週次フロー +$1.5B、3週連続の純流入",
+            "headline_en": "BTC ETF +$1.5B weekly inflow, third consecutive net-positive week",
+            "pillar": "market_and_capital_flows",
+            "confidence": 0.86,
+            "impact": "high",
+            "direction": "positive",
+            "position_hint": { "stance": "accumulate", "conviction": 0.7 },
+            "created_at": "2026-04-26T22:11:08Z",
+            "href": "/signals/sig_20260426_btc_etf_inflow"
+          },
+          {
+            "id": "sig_20260425_hayes_fed_essay",
+            "headline_ja": "Hayes 新エッセイ — 連邦準備理事会の流動性供給と BTC 価格関数",
+            "headline_en": "Hayes new essay on Fed liquidity and BTC price function",
+            "pillar": "market_and_capital_flows",
+            "confidence": 0.78,
+            "impact": "medium",
+            "direction": "positive",
+            "position_hint": null,
+            "created_at": "2026-04-25T14:33:00Z",
+            "href": "/signals/sig_20260425_hayes_fed_essay"
+          }
+        ]
+      },
+      "news": {
+        "total": 8,
+        "items": [
+          {
+            "id": "art_20260426_blackrock_ibit",
+            "title": "BlackRock IBIT が単日 $312M 流入、4 月のトップ ETF 銘柄に",
+            "summary": "Bloomberg データで IBIT が 4 月単日最大の流入を記録。Fidelity FBTC を 8 営業日連続で上回る。",
+            "source_url": "https://www.bloomberg.com/news/articles/2026-04-26/blackrock-ibit-tops-april",
+            "source_handle": "@business",
+            "published_at": "2026-04-26T18:42:00Z",
+            "account_tag": "SITIONjp",
+            "href_internal": null
+          }
+        ]
+      },
+      "btc": {
+        "etf": {
+          "aum_usd": 108700000000,
+          "weekly_flow_usd": 1542000000,
+          "supply_pct_held": 5.51
+        },
+        "source": "dune",
+        "updated_at": "2026-04-27T04:48:00Z"
+      },
+      "updated_at": "2026-04-27T05:03:42Z"
+    },
+    "ETH": {
+      "asset": "ETH",
+      "display_name": "Ethereum",
+      "ticker_symbol": "ETH",
+      "price": {
+        "usd": 3387.42,
+        "change_24h_pct": -0.83,
+        "market_cap_usd": 408200000000,
+        "volume_24h_usd": 18430000000,
+        "updated_at": "2026-04-27T05:02:30Z",
+        "source": "coingecko"
+      },
+      "signals": {
+        "total_active": 2,
+        "items": [
+          {
+            "id": "sig_20260426_eth_staking_ratio",
+            "headline_ja": "ETH ステーキング比率が 28.4% に到達、過去最高更新",
+            "headline_en": "ETH staking ratio hits 28.4%, all-time high",
+            "pillar": "ecosystem_health",
+            "confidence": 0.82,
+            "impact": "medium",
+            "direction": "positive",
+            "position_hint": { "stance": "neutral", "conviction": 0.55 },
+            "created_at": "2026-04-26T18:05:00Z",
+            "href": "/signals/sig_20260426_eth_staking_ratio"
+          }
+        ]
+      },
+      "news": {
+        "total": 3,
+        "items": [
+          {
+            "id": "art_20260425_eth_etf_flow",
+            "title": "ETH スポット ETF が +$214M、月初来 +$680M",
+            "summary": "Farside データで月初来 ETH ETF への純流入が +$680M に。9 銘柄合計 AUM は $14.2B。",
+            "source_url": "https://farside.co.uk/eth-etf-flows",
+            "source_handle": null,
+            "published_at": "2026-04-25T22:00:00Z",
+            "account_tag": "SITIONjp",
+            "href_internal": null
+          }
+        ]
+      },
+      "eth": {
+        "etf": {
+          "aum_usd": 14250000000,
+          "weekly_flow_usd": 214000000
+        },
+        "staking_ratio_pct": 28.41,
+        "source": "dune",
+        "updated_at": "2026-04-27T04:48:00Z"
+      },
+      "updated_at": "2026-04-27T05:03:42Z"
+    },
+    "ADA": {
+      "asset": "ADA",
+      "display_name": "Cardano",
+      "ticker_symbol": "ADA",
+      "price": {
+        "usd": 0.6543,
+        "change_24h_pct": 2.18,
+        "market_cap_usd": 23120000000,
+        "volume_24h_usd": 412000000,
+        "updated_at": "2026-04-27T05:02:30Z",
+        "source": "coingecko"
+      },
+      "signals": {
+        "total_active": 6,
+        "items": [
+          {
+            "id": "sig_20260426_drep_singapore_summit",
+            "headline_ja": "Singapore Summit 2027 提案、DRep 投票継続中（5/10 まで）",
+            "headline_en": "Singapore Summit 2027 info action — DRep voting open through 5/10",
+            "pillar": "governance_and_treasury",
+            "confidence": 0.88,
+            "impact": "high",
+            "direction": "neutral",
+            "position_hint": { "stance": "neutral", "conviction": 0.5 },
+            "created_at": "2026-04-26T11:22:00Z",
+            "href": "/signals/sig_20260426_drep_singapore_summit"
+          },
+          {
+            "id": "sig_20260425_cardano_defi_tvl_milestone",
+            "headline_ja": "Cardano DeFi TVL が $400M 突破、4 月で +28%",
+            "headline_en": "Cardano DeFi TVL crosses $400M, +28% in April",
+            "pillar": "ecosystem_health",
+            "confidence": 0.81,
+            "impact": "medium",
+            "direction": "positive",
+            "position_hint": { "stance": "accumulate", "conviction": 0.6 },
+            "created_at": "2026-04-25T08:14:00Z",
+            "href": "/signals/sig_20260425_cardano_defi_tvl_milestone"
+          },
+          {
+            "id": "sig_20260425_treasury_withdrawal_catalyst14",
+            "headline_ja": "Catalyst Fund 14 — 750万 ADA 提案が DRep 投票へ",
+            "headline_en": "Catalyst Fund 14 treasury withdrawal — 7.5M ADA proposal opens DRep voting",
+            "pillar": "governance_and_treasury",
+            "confidence": 0.79,
+            "impact": "medium",
+            "direction": "neutral",
+            "position_hint": null,
+            "created_at": "2026-04-25T05:30:00Z",
+            "href": "/signals/sig_20260425_treasury_withdrawal_catalyst14"
+          }
+        ]
+      },
+      "news": {
+        "total": 12,
+        "items": [
+          {
+            "id": "art_20260426_cardano_defi",
+            "title": "Cardano DeFi TVL $400M 突破 — Splash・Indigo・Liqwid 牽引",
+            "summary": "DefiLlama データで Cardano DeFi TVL が $400M を突破。Splash $112M / Indigo $98M / Liqwid $74M。3 月対比で +28%。",
+            "source_url": "https://defillama.com/chain/Cardano",
+            "source_handle": null,
+            "published_at": "2026-04-26T03:15:00Z",
+            "account_tag": "SIPO_Tokyo",
+            "href_internal": "https://sipo.tokyo/posts/2026-04-26-cardano-defi-400m"
+          },
+          {
+            "id": "art_20260425_drep_voting_opens",
+            "title": "Singapore Summit 2027 提案が DRep 投票期間入り（〜5/10）",
+            "summary": "gov.tools で Singapore Summit 2027 info action が DRep 投票へ。SIPO は 4/27 時点で「pending」。",
+            "source_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+            "source_handle": "@gov_tools",
+            "published_at": "2026-04-25T22:00:00Z",
+            "account_tag": "SIPO_Tokyo",
+            "href_internal": null
+          }
+        ]
+      },
+      "ada": {
+        "governance": {
+          "active_actions": [
+            {
+              "action_id": "gov_action_singapore_summit_2027",
+              "action_type": "info_action",
+              "title_en": "Singapore Summit 2027 — Cardano Foundation hosting motion",
+              "title_ja": "Singapore Summit 2027 — Cardano Foundation 主催モーション",
+              "proposer": "Cardano Foundation",
+              "submitted_at": "2026-04-22T09:00:00Z",
+              "expires_at": "2026-05-10T23:59:59Z",
+              "status": "voting",
+              "current_tally": {
+                "drep_yes_pct": 41.2,
+                "drep_no_pct": 32.8,
+                "drep_abstain_pct": 26.0,
+                "spo_yes_pct": null,
+                "cc_yes_pct": null,
+                "snapshot_at": "2026-04-27T04:00:00Z"
+              },
+              "sipo_stance": {
+                "decision": "pending",
+                "rationale_ja": "Summit 自体には賛成だが、Cardano Foundation 主催の構造とコミュニティ参加プロセスについて評価待ち。Foundation の求心力低下傾向と整合する形にすべきか、IOG 主体の Summit に切り替えるべきかをコミュニティ議論で確認したい。",
+                "evidence": [
+                  {
+                    "source_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+                    "snippet": "Proposal text: hosting Cardano Summit 2027 in Singapore..."
+                  }
+                ],
+                "risk_assessment": "Foundation 主催で固定するとガバナンス三位一体（IOG/CF/EMURGO + DRep）の重心が CF 寄りになるリスク。IOG/community led にすべき余地あり。",
+                "treasury_impact_ada": null,
+                "decided_at": null
+              },
+              "related_signal_ids": [
+                "sig_20260426_drep_singapore_summit"
+              ],
+              "links": {
+                "gov_tools_url": "https://gov.tools/governance_actions/singapore_summit_2027",
+                "cardano_forum_url": "https://forum.cardano.org/t/singapore-summit-2027",
+                "intersect_url": null
+              }
+            },
+            {
+              "action_id": "gov_action_catalyst_fund14_treasury",
+              "action_type": "treasury_withdrawal",
+              "title_en": "Catalyst Fund 14 — 7.5M ADA treasury withdrawal",
+              "title_ja": "Catalyst Fund 14 — 750万 ADA トレジャリー引出",
+              "proposer": "Intersect MBO",
+              "submitted_at": "2026-04-24T14:00:00Z",
+              "expires_at": "2026-05-22T23:59:59Z",
+              "status": "voting",
+              "current_tally": {
+                "drep_yes_pct": 58.4,
+                "drep_no_pct": 12.1,
+                "drep_abstain_pct": 29.5,
+                "spo_yes_pct": null,
+                "cc_yes_pct": null,
+                "snapshot_at": "2026-04-27T04:00:00Z"
+              },
+              "sipo_stance": {
+                "decision": "yes",
+                "rationale_ja": "Catalyst の継続は Cardano 公共財の根幹。Treasury Fit ドクトリン v2.0 の YES カテゴリ「公共財」に明確に該当。前 Fund 13 までの執行プロセスは概ね健全で、報告書も提出済。NO Criteria（自己資金・利益相反・外部流出）にも該当しない。",
+                "evidence": [
+                  {
+                    "source_url": "https://docs.intersectmbo.org/cardano/catalyst/fund14",
+                    "snippet": "Fund 14 execution plan: 6 categories, 7.5M ADA total budget..."
+                  },
+                  {
+                    "source_url": "https://catalyst.cardano.org/fund13/reports",
+                    "snippet": "Fund 13 final report shows 89% completion rate..."
+                  }
+                ],
+                "risk_assessment": "Fund 13 で 11% 未完了プロジェクトあり。これは継続課題だが Fund 14 そのものの否決理由にはならない。",
+                "treasury_impact_ada": -7500000,
+                "decided_at": "2026-04-26T16:30:00Z"
+              },
+              "related_signal_ids": [
+                "sig_20260425_treasury_withdrawal_catalyst14"
+              ],
+              "links": {
+                "gov_tools_url": "https://gov.tools/governance_actions/catalyst_fund14_treasury",
+                "cardano_forum_url": null,
+                "intersect_url": "https://docs.intersectmbo.org/cardano/catalyst/fund14"
+              }
+            }
+          ],
+          "recently_resolved": [
+            {
+              "action_id": "gov_action_constitution_v1",
+              "action_type": "new_constitution",
+              "title_en": "Cardano Constitution v1.0",
+              "title_ja": "Cardano 憲法 v1.0",
+              "proposer": "Constitutional Convention",
+              "submitted_at": "2025-12-04T00:00:00Z",
+              "expires_at": "2026-03-15T23:59:59Z",
+              "status": "ratified",
+              "current_tally": {
+                "drep_yes_pct": 78.2,
+                "drep_no_pct": 8.4,
+                "drep_abstain_pct": 13.4,
+                "spo_yes_pct": 71.8,
+                "cc_yes_pct": 100.0,
+                "snapshot_at": "2026-03-15T23:59:59Z"
+              },
+              "sipo_stance": {
+                "decision": "yes",
+                "rationale_ja": "憲法批准は Cardano 三位一体ガバナンス（思想 + 分散 + 参加）の基盤確立。SIPO は批准支持が一貫したスタンス。",
+                "evidence": [],
+                "risk_assessment": "批准後の運用フェーズで CC との緊張が新たな課題に。",
+                "treasury_impact_ada": null,
+                "decided_at": "2026-02-18T10:00:00Z"
+              },
+              "related_signal_ids": [],
+              "links": {
+                "gov_tools_url": "https://gov.tools/governance_actions/constitution_v1",
+                "cardano_forum_url": null,
+                "intersect_url": null
+              }
+            }
+          ],
+          "drep_card": {
+            "drep_id": "drep1xxxsipoplaceholderyyyyzzzz",
+            "display_name": "SIPO",
+            "rank": 11,
+            "delegators": 358,
+            "delegated_ada": 101000000,
+            "recent_votes_count": 7,
+            "voting_power_pct": 1.24,
+            "profile_url": "https://gov.tools/drep/drep1xxxsipoplaceholderyyyyzzzz",
+            "sition_profile_url": "https://sipo.tokyo/drep"
+          },
+          "updated_at": "2026-04-27T04:48:00Z"
+        },
+        "defi": {
+          "tvl_usd": 401200000,
+          "tvl_change_7d_pct": 8.4,
+          "top_protocols": [
+            { "name": "Splash", "tvl_usd": 112400000 },
+            { "name": "Indigo", "tvl_usd": 98300000 },
+            { "name": "Liqwid", "tvl_usd": 74100000 },
+            { "name": "Minswap", "tvl_usd": 52600000 },
+            { "name": "WingRiders", "tvl_usd": 31800000 }
+          ],
+          "source": "defillama",
+          "updated_at": "2026-04-27T04:48:00Z"
+        },
+        "epoch": {
+          "current": 547,
+          "progress_pct": 38.4,
+          "boundary_eta": "2026-04-29T21:44:51Z"
+        },
+        "staking": {
+          "active_pct": 60.12,
+          "nakamoto_coefficient": 38
+        }
+      },
+      "updated_at": "2026-04-27T05:03:42Z"
+    },
+    "NIGHT": {
+      "asset": "NIGHT",
+      "display_name": "Midnight",
+      "ticker_symbol": "NIGHT",
+      "price": {
+        "usd": 0.4521,
+        "change_24h_pct": 5.32,
+        "market_cap_usd": null,
+        "volume_24h_usd": null,
+        "updated_at": "2026-04-27T05:02:30Z",
+        "source": "dexscreener"
+      },
+      "signals": {
+        "total_active": 3,
+        "items": [
+          {
+            "id": "sig_20260426_midnight_partner_chain",
+            "headline_ja": "Midnight Partner Chain アーキテクチャ、Cardano EUTxO 拡張の本命へ",
+            "headline_en": "Midnight Partner Chain emerges as Cardano EUTxO scaling primary path",
+            "pillar": "midnight_and_privacy",
+            "confidence": 0.84,
+            "impact": "high",
+            "direction": "positive",
+            "position_hint": { "stance": "accumulate", "conviction": 0.65 },
+            "created_at": "2026-04-26T16:08:00Z",
+            "href": "/signals/sig_20260426_midnight_partner_chain"
+          },
+          {
+            "id": "sig_20260425_bodega_v2_launch",
+            "headline_ja": "Bodega Markets v2 — Midnight 上の予測市場 dApp 公開",
+            "headline_en": "Bodega Markets v2 launches on Midnight",
+            "pillar": "midnight_and_privacy",
+            "confidence": 0.76,
+            "impact": "medium",
+            "direction": "positive",
+            "position_hint": null,
+            "created_at": "2026-04-25T17:42:00Z",
+            "href": "/signals/sig_20260425_bodega_v2_launch"
+          }
+        ]
+      },
+      "news": {
+        "total": 5,
+        "items": [
+          {
+            "id": "art_20260426_midnight_partnerchain",
+            "title": "Midnight Partner Chain — Cardano L2/wrapped bridge を超えるアーキテクチャ",
+            "summary": "Kelp DAO $293M ハック後、L2 + wrapped bridge アーキテクチャの構造的脆弱性が浮上。Midnight Partner Chain は UTxO + ZK で代替パス。",
+            "source_url": "https://midnight.network/blog/partner-chain-architecture",
+            "source_handle": "@MidnightNtwrk",
+            "published_at": "2026-04-26T16:00:00Z",
+            "account_tag": "SIPO_Tokyo",
+            "href_internal": "https://sipo.tokyo/posts/2026-04-26-midnight-partner-chain"
+          }
+        ]
+      },
+      "night": {
+        "dapps": {
+          "total_listed": 13,
+          "recent_launches": [
+            {
+              "name": "Bodega Markets v2",
+              "launched_at": "2026-04-25T16:00:00Z",
+              "url": "https://bodega.markets"
+            },
+            {
+              "name": "Dynamic.io",
+              "launched_at": "2026-04-18T14:00:00Z",
+              "url": "https://dynamic.io"
+            }
+          ]
+        },
+        "network": {
+          "block_height": 184219,
+          "last_block_at": "2026-04-27T05:02:48Z"
+        },
+        "source": "midnight_explorer",
+        "updated_at": "2026-04-27T04:48:00Z"
+      },
+      "updated_at": "2026-04-27T05:03:42Z"
+    }
+  },
+  "meta": {
+    "generated_at": "2026-04-27T05:03:42Z",
+    "source_freshness_sec": 162,
+    "schema_version": "0.1"
+  }
+}
