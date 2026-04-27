@@ -7,6 +7,97 @@
     "about": "ABOUT",
     "live": "LIVE"
   },
+  "assets": {
+    "page_title": "{asset}",
+    "page_subtitle": "Real-time price, fundamentals, and actionable signals — unified view",
+    "back_to_overview": "← Back to terminal",
+    "price": {
+      "title": "Price",
+      "change_24h": "24h",
+      "market_cap": "Market cap",
+      "volume_24h": "24h volume",
+      "source": "Source",
+      "unavailable": "—",
+      "updated": "Updated"
+    },
+    "signals": {
+      "title": "Signals",
+      "active_count": "{n} active",
+      "none": "No actionable {asset} signals at this time.",
+      "see_all": "See all signals →"
+    },
+    "news": {
+      "title": "News",
+      "total": "{n} items",
+      "none": "No recent {asset} news yet.",
+      "view_source": "Source"
+    },
+    "governance": {
+      "title": "Governance Pulse",
+      "subtitle": "Live Cardano governance (DRep / SPO / CC) decisions and SIPO's stance",
+      "active_actions": "Voting open",
+      "recently_resolved": "Recently resolved",
+      "no_active": "No governance actions currently in voting period.",
+      "drep_card": {
+        "title": "SIPO DRep profile",
+        "rank": "Rank #{n}",
+        "rank_unknown": "Rank pending",
+        "delegators": "{n} delegators",
+        "delegated_ada": "₳{n} delegated",
+        "voting_power": "{pct}% voting power",
+        "recent_votes": "{n} votes (30d)",
+        "view_profile": "View profile →"
+      },
+      "action": {
+        "voting": "Voting open",
+        "ratified": "Ratified",
+        "expired": "Expired",
+        "enacted": "Enacted",
+        "withdrawn": "Withdrawn",
+        "yes": "Yes",
+        "no": "No",
+        "abstain": "Abstain",
+        "pending": "Pending",
+        "tally": "Current tally",
+        "tally_drep_yes": "DRep Yes",
+        "tally_drep_no": "DRep No",
+        "tally_drep_abstain": "Abstain",
+        "expires": "Expires",
+        "submitted": "Submitted",
+        "proposer": "Proposer",
+        "sipo_stance": "SIPO stance",
+        "rationale": "Rationale",
+        "evidence": "Evidence",
+        "risk": "Risk",
+        "treasury_impact": "Treasury impact",
+        "treasury_impact_unit": "₳",
+        "related_signals": "Related signals",
+        "links": "Links",
+        "gov_tools": "gov.tools",
+        "forum": "Forum",
+        "intersect": "Intersect"
+      }
+    },
+    "ecosystem": {
+      "title": "Ecosystem",
+      "defi": {
+        "tvl": "TVL",
+        "tvl_change_7d": "7d",
+        "top_protocols": "Top protocols"
+      },
+      "epoch": {
+        "current": "Epoch",
+        "progress": "Progress",
+        "boundary_eta": "Boundary ETA"
+      },
+      "staking": {
+        "active_pct": "Active stake",
+        "nakamoto": "Nakamoto coefficient"
+      }
+    },
+    "freshness": "Data {sec}s ago",
+    "freshness_pre_launch": "SDE generating first snapshot"
+  },
   "footer": {
     "brand": "LIVEMAKERS · SITION GROUP",
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",

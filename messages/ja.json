@@ -7,6 +7,97 @@
     "about": "ABOUT",
     "live": "LIVE"
   },
+  "assets": {
+    "page_title": "{asset}",
+    "page_subtitle": "リアルタイム価格・ファンダメンタル・行動可能シグナルを統合表示",
+    "back_to_overview": "← ターミナルへ戻る",
+    "price": {
+      "title": "価格",
+      "change_24h": "24h",
+      "market_cap": "時価総額",
+      "volume_24h": "24h 取引高",
+      "source": "ソース",
+      "unavailable": "—",
+      "updated": "更新"
+    },
+    "signals": {
+      "title": "シグナル",
+      "active_count": "{n} 件アクティブ",
+      "none": "現時点で {asset} の行動可能シグナルはありません。",
+      "see_all": "すべてのシグナル →"
+    },
+    "news": {
+      "title": "ニュース",
+      "total": "{n} 件",
+      "none": "{asset} 関連の最新ニュースはまだ届いていません。",
+      "view_source": "ソース"
+    },
+    "governance": {
+      "title": "ガバナンス・パルス",
+      "subtitle": "Cardano 治理（DRep / SPO / CC）の現在進行中の意思決定と SIPO の判断",
+      "active_actions": "投票継続中",
+      "recently_resolved": "直近確定",
+      "no_active": "現在投票中のガバナンス・アクションはありません。",
+      "drep_card": {
+        "title": "SIPO DRep プロファイル",
+        "rank": "ランク #{n}",
+        "rank_unknown": "ランク 未確定",
+        "delegators": "{n} 委任者",
+        "delegated_ada": "₳{n} 委任",
+        "voting_power": "{pct}% 投票力",
+        "recent_votes": "直近 30 日 {n} 票",
+        "view_profile": "プロファイル →"
+      },
+      "action": {
+        "voting": "投票継続中",
+        "ratified": "批准",
+        "expired": "期限切れ",
+        "enacted": "発効",
+        "withdrawn": "撤回",
+        "yes": "賛成",
+        "no": "反対",
+        "abstain": "棄権",
+        "pending": "判断保留",
+        "tally": "現在の投票状況",
+        "tally_drep_yes": "DRep Yes",
+        "tally_drep_no": "DRep No",
+        "tally_drep_abstain": "棄権",
+        "expires": "期限",
+        "submitted": "提出",
+        "proposer": "提案者",
+        "sipo_stance": "SIPO の判断",
+        "rationale": "判断根拠",
+        "evidence": "エビデンス",
+        "risk": "リスク評価",
+        "treasury_impact": "トレジャリー影響",
+        "treasury_impact_unit": "₳",
+        "related_signals": "関連シグナル",
+        "links": "リンク",
+        "gov_tools": "gov.tools",
+        "forum": "フォーラム",
+        "intersect": "Intersect"
+      }
+    },
+    "ecosystem": {
+      "title": "エコシステム",
+      "defi": {
+        "tvl": "TVL",
+        "tvl_change_7d": "7d",
+        "top_protocols": "主要プロトコル"
+      },
+      "epoch": {
+        "current": "エポック",
+        "progress": "進捗",
+        "boundary_eta": "境界 ETA"
+      },
+      "staking": {
+        "active_pct": "アクティブステーク",
+        "nakamoto": "中本係数"
+      }
+    },
+    "freshness": "データ更新 {sec} 秒前",
+    "freshness_pre_launch": "SDE が初回データを生成中"
+  },
   "footer": {
     "brand": "LIVEMAKERS · SITION GROUP",
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
