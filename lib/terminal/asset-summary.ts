@@ -214,7 +214,11 @@ const ADAStakingSchema = z.object({
 });
 
 export const ADAExtensionSchema = z.object({
-  governance: GovernancePulseSchema,
+  // governance optional so the Python builder can produce a snapshot with
+  // ADA defi/epoch/staking populated even when the Koios fetcher pipeline
+  // (governance_actions.jsonl + drep_card.json) is not yet wired.
+  // UI checks `data.ada.governance` before rendering the Governance Pulse panel.
+  governance: GovernancePulseSchema.nullable(),
   defi: ADADefiSchema,
   epoch: ADAEpochSchema,
   staking: ADAStakingSchema,

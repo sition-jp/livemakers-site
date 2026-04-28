@@ -94,7 +94,9 @@ export function AssetDetailFeed({ asset, initialData }: AssetDetailFeedProps) {
 
       {data.asset === "ADA" && data.ada && (
         <>
-          <GovernancePulsePanel pulse={data.ada.governance} />
+          {data.ada.governance && (
+            <GovernancePulsePanel pulse={data.ada.governance} />
+          )}
           <ADAEcosystemPanel extension={data.ada} />
         </>
       )}
