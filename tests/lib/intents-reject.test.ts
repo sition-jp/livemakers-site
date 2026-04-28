@@ -97,4 +97,31 @@ describe("appendRejectEntry + readRejectLog", () => {
     const entries = readRejectLog(logPath);
     expect(entries).toHaveLength(1);
   });
+
+  // F3 fix (2026-04-28): nowMs injection so callers using simulated/test time
+  // (e.g. runProposer with nowIso) can window-filter consistently. Without
+  // this, the dedupe-against-recent-reject test couples to wall-clock time.
+  it("uses injected nowMs (not Date.now()) for window cutoff when provided", () => {
+    // Pretend "now" is 2026-04-21T23:35:00Z. Window 72h.
+    const simulatedNowMs = Date.parse("2026-04-21T23:35:00Z");
+    const cutoffMs = simulatedNowMs - 72 * 3600 * 1000; // 2026-04-18 ~23:35
+    const inWindow = new Date(simulatedNowMs - 5 * 60 * 1000).toISOString(); // 5min ago
+    const outWindow = new Date(cutoffMs - 60 * 60 * 1000).toISOString(); // 1h before cutoff
+    appendRejectEntry(logPath, baseEntry({ intent_id: "int_inwin", rejected_at: inWindow }));
+    appendRejectEntry(logPath, baseEntry({ intent_id: "int_outwin", rejected_at: outWindow }));
+
+    const recent = readRejectLog(logPath, 72, simulatedNowMs);
+    expect(recent.map(e => e.intent_id)).toEqual(["int_inwin"]);
+  });
+
+  it("falls back to Date.now() when nowMs is undefined (preserves legacy behavior)", () => {
+    const realNow = Date.now();
+    const old = new Date(realNow - 100 * 3600 * 1000).toISOString();
+    const recent = new Date(realNow - 5 * 60 * 1000).toISOString();
+    appendRejectEntry(logPath, baseEntry({ intent_id: "int_old", rejected_at: old }));
+    appendRejectEntry(logPath, baseEntry({ intent_id: "int_recent", rejected_at: recent }));
+    // No nowMs argument → uses real wall-clock
+    const entries = readRejectLog(logPath, 72);
+    expect(entries.map(e => e.intent_id)).toEqual(["int_recent"]);
+  });
 });

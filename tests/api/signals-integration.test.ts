@@ -114,10 +114,13 @@ describe("signals — integration (reader → cache → route)", () => {
     const body = await res.json();
     // There should be at least one parseable signal (29 at time of writing)
     expect(body.meta.total_active).toBeGreaterThan(0);
-    // Every returned signal must have the required schema fields
+    // Every returned signal must have the required schema fields.
+    // F1 fix (2026-04-28): production signals.jsonl now mixes 1.1/1.2/1.3-beta
+    // since the target_terminal v1.3-beta backfill (Step 11). Accept any of
+    // the valid versions per signals.ts SchemaVersion enum.
     for (const s of body.signals) {
       expect(s.id).toBeTruthy();
-      expect(s.schema_version).toBe("1.1-beta");
+      expect(["1.1-beta", "1.2-beta", "1.3-beta"]).toContain(s.schema_version);
       expect(s.confidence).toBeGreaterThanOrEqual(0.65); // default filter
       expect(["active", "expired", "invalidated", "superseded"]).toContain(
         s.status

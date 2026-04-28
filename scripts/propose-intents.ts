@@ -75,6 +75,11 @@ export async function runProposer(args: RunProposerArgs): Promise<RunProposerRes
   const rejects = readRejectLog(
     args.rejectLogPath,
     PROPOSER_CONFIG.dedupe_reject_lookback_hours,
+    // F3 fix (2026-04-28): thread nowIso through to readRejectLog so the
+    // 72h window cutoff is consistent with the simulated time the rest of
+    // runProposer uses. Without this, tests that inject nowIso couldn't
+    // exercise the dedupe path correctly.
+    Date.parse(args.nowIso),
   );
   const deduped = filterDuplicateClusters({
     candidates: clusters,

@@ -48,13 +48,22 @@ export function appendRejectEntry(path: string, entry: IntentRejectEntry): void 
 export function readRejectLog(
   path: string,
   windowHours?: number,
+  /**
+   * F3 fix (2026-04-28): inject "now" for callers using simulated time.
+   * Defaults to Date.now() so existing callers that pass only (path,
+   * windowHours) keep their behavior. runProposer should pass
+   * `Date.parse(args.nowIso)` so window-filtering is consistent with the
+   * rest of the proposer pipeline (which threads nowIso through).
+   */
+  nowMs?: number,
 ): IntentRejectEntry[] {
   if (!fs.existsSync(path)) return [];
   const raw = fs.readFileSync(path, "utf-8");
   const lines = raw.split("\n").filter((l) => l.trim().length > 0);
+  const baseMs = nowMs ?? Date.now();
   const cutoff =
     windowHours !== undefined
-      ? Date.now() - windowHours * 3600 * 1000
+      ? baseMs - windowHours * 3600 * 1000
       : undefined;
   const out: IntentRejectEntry[] = [];
   for (const line of lines) {
