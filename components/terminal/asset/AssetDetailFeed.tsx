@@ -16,6 +16,8 @@ import {
   type AssetSummary,
   type TerminalAssetT,
 } from "@/lib/terminal/asset-summary";
+import { computeStaleness } from "@/lib/terminal/asset-live";
+import { useDashboardLive } from "@/hooks/use-dashboard-live";
 import { PriceCard } from "./PriceCard";
 import { SignalsList } from "./SignalsList";
 import { NewsList } from "./NewsList";
@@ -54,6 +56,13 @@ export function AssetDetailFeed({ asset, initialData }: AssetDetailFeedProps) {
     fallbackData: initialData ?? undefined,
   });
 
+  // Live snapshot (≤2-min cadence). Errors here must NOT block the page —
+  // the static summary is already a usable view. We just leave liveEntry
+  // undefined and PriceCard preserves its static-only behaviour.
+  const { data: live } = useDashboardLive();
+  const liveEntry = data ? live?.assets[data.asset] ?? null : null;
+  const liveStaleness = computeStaleness(liveEntry?.updated_at);
+
   if (error && !data) {
     return (
       <div className="rounded-lg border border-status-down/30 bg-status-down/5 p-6 text-sm text-status-down">
@@ -77,7 +86,12 @@ export function AssetDetailFeed({ asset, initialData }: AssetDetailFeedProps) {
 
   return (
     <div className="space-y-6">
-      <PriceCard asset={data.display_name} price={data.price} />
+      <PriceCard
+        asset={data.display_name}
+        price={data.price}
+        liveData={liveEntry}
+        liveStaleness={liveStaleness}
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <SignalsList

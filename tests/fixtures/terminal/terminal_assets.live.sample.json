@@ -1,0 +1,49 @@
+{
+  "schema_version": "terminal_live_v0",
+  "generated_at": "2026-04-30T12:00:00+09:00",
+  "sources": {
+    "price": "coingecko",
+    "cardano": "koios",
+    "night_price": "dexscreener"
+  },
+  "assets": {
+    "BTC": {
+      "price_usd": 123456.78,
+      "change_24h_pct": 1.2,
+      "volume_24h_usd": 12300000000,
+      "source": "coingecko",
+      "updated_at": "2026-04-30T12:00:00+09:00"
+    },
+    "ETH": {
+      "price_usd": 3456.78,
+      "change_24h_pct": 0.8,
+      "volume_24h_usd": 8900000000,
+      "source": "coingecko",
+      "updated_at": "2026-04-30T12:00:00+09:00"
+    },
+    "ADA": {
+      "price_usd": 0.42,
+      "change_24h_pct": -0.6,
+      "volume_24h_usd": 430000000,
+      "source": "coingecko",
+      "updated_at": "2026-04-30T12:00:00+09:00"
+    },
+    "NIGHT": {
+      "price_usd": null,
+      "change_24h_pct": null,
+      "volume_24h_usd": null,
+      "source": "dexscreener",
+      "updated_at": null,
+      "status": "unavailable",
+      "note": "DexScreener pool empty"
+    }
+  },
+  "cardano": {
+    "epoch": 628,
+    "epoch_progress_pct": 47.3,
+    "latest_block": 11823456,
+    "block_time_sec": 19,
+    "source": "koios",
+    "updated_at": "2026-04-30T12:00:00+09:00"
+  }
+}

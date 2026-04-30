@@ -2,13 +2,31 @@
  * PriceCard — current price snapshot for the asset detail header.
  *
  * Spec: 08_DOCS/knowledge/specs/2026-04-27-livemakers-terminal-asset-contract-v0.md §5.1
+ *       08_DOCS/knowledge/specs/2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.4
+ *
+ * `price` is the static snapshot from `/api/dashboard` (6h cadence).
+ * `liveData` is the per-asset entry from `/api/dashboard/live` (≤2-min cadence).
+ * When `liveData` is present and usable, live price/change/volume/source/
+ * updated_at overlay onto the static row (market_cap stays from static, since
+ * the live snapshot does not carry it). When `liveData` is absent or its
+ * `status === "unavailable"`, the existing static-only behaviour is preserved
+ * exactly — this prop is non-breaking.
+ *
+ * `liveStaleness` is currently unused at render time (Day 3-4 wiring only);
+ * Day 5 hangs the green/yellow/red/grey badge off it.
  */
 import { useTranslations } from "next-intl";
 import type { Price } from "@/lib/terminal/asset-summary";
+import {
+  mergeLivePriceForDisplay,
+  type LiveAssetEntry,
+} from "@/lib/terminal/asset-live";
 
 interface PriceCardProps {
   asset: string;
   price: Price | null;
+  liveData?: LiveAssetEntry | null;
+  liveStaleness?: number | null;
 }
 
 function formatUSD(value: number): string {
@@ -38,10 +56,22 @@ function formatCompactUSD(value: number | null): string {
   return `$${value.toFixed(2)}`;
 }
 
-export function PriceCard({ asset, price }: PriceCardProps) {
+export function PriceCard({
+  asset,
+  price,
+  liveData,
+  liveStaleness: _liveStaleness,
+}: PriceCardProps) {
   const t = useTranslations("assets.price");
 
-  if (price == null) {
+  const effectivePrice = mergeLivePriceForDisplay(price, liveData);
+  const liveActive =
+    effectivePrice !== null &&
+    effectivePrice !== price &&
+    liveData != null &&
+    liveData.status !== "unavailable";
+
+  if (effectivePrice == null) {
     return (
       <section
         className="rounded-lg border border-border-primary bg-bg-secondary p-6"
@@ -57,7 +87,7 @@ export function PriceCard({ asset, price }: PriceCardProps) {
     );
   }
 
-  const changePos = price.change_24h_pct >= 0;
+  const changePos = effectivePrice.change_24h_pct >= 0;
   const changeColor = changePos ? "text-status-up" : "text-status-down";
   const changeSign = changePos ? "+" : "";
 
@@ -65,6 +95,7 @@ export function PriceCard({ asset, price }: PriceCardProps) {
     <section
       className="rounded-lg border border-border-primary bg-bg-secondary p-6"
       aria-label={t("title")}
+      data-live-active={liveActive ? "true" : "false"}
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -73,19 +104,19 @@ export function PriceCard({ asset, price }: PriceCardProps) {
           </div>
           <div className="mt-2 flex items-baseline gap-3">
             <span className="text-4xl font-light tracking-title">
-              ${formatUSD(price.usd)}
+              ${formatUSD(effectivePrice.usd)}
             </span>
             <span
               className={`text-lg font-medium ${changeColor}`}
               data-testid="price-change-24h"
             >
               {changeSign}
-              {price.change_24h_pct.toFixed(2)}% {t("change_24h")}
+              {effectivePrice.change_24h_pct.toFixed(2)}% {t("change_24h")}
             </span>
           </div>
         </div>
         <div className="text-right text-xs uppercase tracking-label text-text-tertiary">
-          {price.source}
+          {effectivePrice.source}
         </div>
       </div>
 
@@ -93,13 +124,13 @@ export function PriceCard({ asset, price }: PriceCardProps) {
         <div className="flex justify-between">
           <dt className="text-text-tertiary">{t("market_cap")}</dt>
           <dd className="text-text-primary">
-            {formatCompactUSD(price.market_cap_usd)}
+            {formatCompactUSD(effectivePrice.market_cap_usd)}
           </dd>
         </div>
         <div className="flex justify-between">
           <dt className="text-text-tertiary">{t("volume_24h")}</dt>
           <dd className="text-text-primary">
-            {formatCompactUSD(price.volume_24h_usd)}
+            {formatCompactUSD(effectivePrice.volume_24h_usd)}
           </dd>
         </div>
       </dl>
@@ -108,7 +139,8 @@ export function PriceCard({ asset, price }: PriceCardProps) {
         className="mt-4 text-[11px] uppercase tracking-label text-text-tertiary"
         data-testid={`price-asset-${asset}`}
       >
-        {asset} · {t("updated")} {new Date(price.updated_at).toUTCString()}
+        {asset} · {t("updated")}{" "}
+        {new Date(effectivePrice.updated_at).toUTCString()}
       </div>
     </section>
   );
