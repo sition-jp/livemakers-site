@@ -96,17 +96,42 @@ export function PriceCard({
               sec: Math.max(0, Math.floor(liveStaleness ?? 0)),
             });
 
+  // Single source of truth for the badge JSX so both the happy-path and
+  // the unavailable early-return render identical markup. Reviewer flagged
+  // [P2]: in pre-launch / missing-file states where `price=null` AND live
+  // is unavailable, the early return previously skipped the badge — users
+  // saw the static "—" block without any indication that the live lane is
+  // wired but offline.
+  const badge = showStalenessBadge ? (
+    <span
+      className={`text-[11px] font-medium uppercase tracking-label ${stalenessTextClass(tier)}`}
+      data-testid="price-staleness-badge"
+      data-staleness-tier={tier}
+    >
+      <span aria-hidden="true" className="mr-1">
+        ●
+      </span>
+      {badgeText}
+    </span>
+  ) : null;
+
   if (effectivePrice == null) {
     return (
       <section
         className="rounded-lg border border-border-primary bg-bg-secondary p-6"
         aria-label={t("title")}
+        data-live-active="false"
       >
-        <div className="text-xs uppercase tracking-label text-text-tertiary">
-          {t("title")}
-        </div>
-        <div className="mt-3 text-3xl font-light text-text-secondary">
-          {t("unavailable")}
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <div className="text-xs uppercase tracking-label text-text-tertiary">
+              {t("title")}
+            </div>
+            <div className="mt-3 text-3xl font-light text-text-secondary">
+              {t("unavailable")}
+            </div>
+          </div>
+          {badge}
         </div>
       </section>
     );
@@ -141,18 +166,7 @@ export function PriceCard({
           </div>
         </div>
         <div className="flex flex-col items-end gap-1.5 text-right">
-          {showStalenessBadge && (
-            <span
-              className={`text-[11px] font-medium uppercase tracking-label ${stalenessTextClass(tier)}`}
-              data-testid="price-staleness-badge"
-              data-staleness-tier={tier}
-            >
-              <span aria-hidden="true" className="mr-1">
-                ●
-              </span>
-              {badgeText}
-            </span>
-          )}
+          {badge}
           <div className="text-xs uppercase tracking-label text-text-tertiary">
             {effectivePrice.source}
           </div>
