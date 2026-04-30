@@ -34,7 +34,14 @@
       "volume_24h": "24h volume",
       "source": "Source",
       "unavailable": "—",
-      "updated": "Updated"
+      "updated": "Updated",
+      "staleness": {
+        "live": "LIVE",
+        "slightly_stale": "{sec}s",
+        "stale": "{sec}s",
+        "stale_hard": "STALE",
+        "unavailable": "—"
+      }
     },
     "signals": {
       "title": "Signals",
