@@ -2,7 +2,7 @@
  * PriceCard — current price snapshot for the asset detail header.
  *
  * Spec: 08_DOCS/knowledge/specs/2026-04-27-livemakers-terminal-asset-contract-v0.md §5.1
- *       08_DOCS/knowledge/specs/2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.4
+ *       08_DOCS/knowledge/specs/2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.3-4.4
  *
  * `price` is the static snapshot from `/api/dashboard` (6h cadence).
  * `liveData` is the per-asset entry from `/api/dashboard/live` (≤2-min cadence).
@@ -10,10 +10,15 @@
  * updated_at overlay onto the static row (market_cap stays from static, since
  * the live snapshot does not carry it). When `liveData` is absent or its
  * `status === "unavailable"`, the existing static-only behaviour is preserved
- * exactly — this prop is non-breaking.
+ * exactly — these props are non-breaking.
  *
- * `liveStaleness` is currently unused at render time (Day 3-4 wiring only);
- * Day 5 hangs the green/yellow/red/grey badge off it.
+ * Day 5: when `liveData` is provided (regardless of value), a staleness
+ * badge is rendered to the right of the price block. Tier from
+ * `stalenessTier(liveStaleness)`:
+ *   live (<60s) green / slightly_stale (60-180s) yellow /
+ *   stale (180-360s) orange / stale_hard (≥360s) red /
+ *   unavailable (null) grey. Badge is hidden when `liveData === undefined`
+ *   so legacy callers without live wiring stay visually identical.
  */
 import { useTranslations } from "next-intl";
 import type { Price } from "@/lib/terminal/asset-summary";
@@ -21,6 +26,10 @@ import {
   mergeLivePriceForDisplay,
   type LiveAssetEntry,
 } from "@/lib/terminal/asset-live";
+import {
+  stalenessTier,
+  stalenessTextClass,
+} from "@/lib/terminal/staleness-tier";
 
 interface PriceCardProps {
   asset: string;
@@ -60,7 +69,7 @@ export function PriceCard({
   asset,
   price,
   liveData,
-  liveStaleness: _liveStaleness,
+  liveStaleness,
 }: PriceCardProps) {
   const t = useTranslations("assets.price");
 
@@ -70,6 +79,22 @@ export function PriceCard({
     effectivePrice !== price &&
     liveData != null &&
     liveData.status !== "unavailable";
+
+  // Badge visibility — only shown when the caller wired live data at all.
+  // `liveData === undefined` means a legacy static-only caller; skip badge
+  // entirely to keep their UI byte-identical.
+  const showStalenessBadge = liveData !== undefined;
+  const tier = stalenessTier(liveStaleness);
+  const badgeText =
+    tier === "live"
+      ? t("staleness.live")
+      : tier === "stale_hard"
+        ? t("staleness.stale_hard")
+        : tier === "unavailable"
+          ? t("staleness.unavailable")
+          : t(`staleness.${tier}`, {
+              sec: Math.max(0, Math.floor(liveStaleness ?? 0)),
+            });
 
   if (effectivePrice == null) {
     return (
@@ -115,8 +140,22 @@ export function PriceCard({
             </span>
           </div>
         </div>
-        <div className="text-right text-xs uppercase tracking-label text-text-tertiary">
-          {effectivePrice.source}
+        <div className="flex flex-col items-end gap-1.5 text-right">
+          {showStalenessBadge && (
+            <span
+              className={`text-[11px] font-medium uppercase tracking-label ${stalenessTextClass(tier)}`}
+              data-testid="price-staleness-badge"
+              data-staleness-tier={tier}
+            >
+              <span aria-hidden="true" className="mr-1">
+                ●
+              </span>
+              {badgeText}
+            </span>
+          )}
+          <div className="text-xs uppercase tracking-label text-text-tertiary">
+            {effectivePrice.source}
+          </div>
         </div>
       </div>
 

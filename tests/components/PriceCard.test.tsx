@@ -114,17 +114,126 @@ describe("PriceCard — Day 3-4 live wiring", () => {
     });
   });
 
-  describe("staleness prop is accepted (Day 5 wiring placeholder)", () => {
-    it("does not throw when liveStaleness is a number", () => {
-      expect(() =>
-        renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 42 }),
-      ).not.toThrow();
+  describe("staleness badge — visibility (Day 5)", () => {
+    it("does not render badge when liveData prop is undefined (legacy caller)", () => {
+      renderCard({ price: STATIC });
+      expect(
+        screen.queryByTestId("price-staleness-badge"),
+      ).not.toBeInTheDocument();
     });
 
-    it("does not throw when liveStaleness is null", () => {
-      expect(() =>
-        renderCard({ price: STATIC, liveData: LIVE, liveStaleness: null }),
-      ).not.toThrow();
+    it("renders badge when liveData is null (live wired but asset entry missing)", () => {
+      renderCard({ price: STATIC, liveData: null, liveStaleness: null });
+      expect(screen.getByTestId("price-staleness-badge")).toBeInTheDocument();
+    });
+
+    it("renders badge when liveData is provided (asset has live entry)", () => {
+      renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 5 });
+      expect(screen.getByTestId("price-staleness-badge")).toBeInTheDocument();
+    });
+  });
+
+  describe("staleness badge — tier + colour (spec §4.3)", () => {
+    it("liveStaleness=0 → live tier, green class, LIVE label", () => {
+      renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 0 });
+      const badge = screen.getByTestId("price-staleness-badge");
+      expect(badge.getAttribute("data-staleness-tier")).toBe("live");
+      expect(badge.className).toContain("text-staleness-live");
+      expect(badge.textContent).toContain("LIVE");
+    });
+
+    it("liveStaleness=59 → live tier (just below 60s threshold)", () => {
+      renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 59 });
+      expect(
+        screen
+          .getByTestId("price-staleness-badge")
+          .getAttribute("data-staleness-tier"),
+      ).toBe("live");
+    });
+
+    it("liveStaleness=60 → slightly_stale tier, yellow class, shows seconds", () => {
+      renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 60 });
+      const badge = screen.getByTestId("price-staleness-badge");
+      expect(badge.getAttribute("data-staleness-tier")).toBe("slightly_stale");
+      expect(badge.className).toContain("text-staleness-warn");
+      expect(badge.textContent).toContain("60s");
+    });
+
+    it("liveStaleness=180 → stale tier, orange class, shows seconds", () => {
+      renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 180 });
+      const badge = screen.getByTestId("price-staleness-badge");
+      expect(badge.getAttribute("data-staleness-tier")).toBe("stale");
+      expect(badge.className).toContain("text-staleness-stale");
+      expect(badge.textContent).toContain("180s");
+    });
+
+    it("liveStaleness=360 → stale_hard tier, red class, STALE label (no seconds)", () => {
+      renderCard({ price: STATIC, liveData: LIVE, liveStaleness: 360 });
+      const badge = screen.getByTestId("price-staleness-badge");
+      expect(badge.getAttribute("data-staleness-tier")).toBe("stale_hard");
+      expect(badge.className).toContain("text-staleness-hard");
+      expect(badge.textContent).toContain("STALE");
+    });
+
+    it("liveStaleness=null → unavailable tier, grey class, '—' label", () => {
+      renderCard({ price: STATIC, liveData: null, liveStaleness: null });
+      const badge = screen.getByTestId("price-staleness-badge");
+      expect(badge.getAttribute("data-staleness-tier")).toBe("unavailable");
+      expect(badge.className).toContain("text-text-tertiary");
+      expect(badge.textContent).toContain("—");
+    });
+
+    it("NIGHT-style unavailable liveData → unavailable tier (badge present but grey)", () => {
+      const unavail: LiveAssetEntry = {
+        price_usd: null,
+        change_24h_pct: null,
+        volume_24h_usd: null,
+        source: "dexscreener",
+        updated_at: null,
+        status: "unavailable",
+      };
+      renderCard({ price: STATIC, liveData: unavail, liveStaleness: null });
+      const badge = screen.getByTestId("price-staleness-badge");
+      expect(badge.getAttribute("data-staleness-tier")).toBe("unavailable");
+      expect(badge.className).toContain("text-text-tertiary");
+      // And static fallback price still shown (regression check)
+      expect(screen.getByText(/\$100\.00/)).toBeInTheDocument();
+    });
+  });
+
+  describe("staleness badge — i18n", () => {
+    it("renders Japanese 'ライブ' label when locale=ja", async () => {
+      const jaMessages = (await import("@/messages/ja.json")).default;
+      render(
+        <NextIntlClientProvider locale="ja" messages={jaMessages as any}>
+          <PriceCard
+            asset="Bitcoin"
+            price={STATIC}
+            liveData={LIVE}
+            liveStaleness={0}
+          />
+        </NextIntlClientProvider>,
+      );
+      expect(
+        screen.getByTestId("price-staleness-badge").textContent,
+      ).toContain("ライブ");
+    });
+
+    it("renders Japanese '遅延' label for stale_hard when locale=ja", async () => {
+      const jaMessages = (await import("@/messages/ja.json")).default;
+      render(
+        <NextIntlClientProvider locale="ja" messages={jaMessages as any}>
+          <PriceCard
+            asset="Bitcoin"
+            price={STATIC}
+            liveData={LIVE}
+            liveStaleness={500}
+          />
+        </NextIntlClientProvider>,
+      );
+      expect(
+        screen.getByTestId("price-staleness-badge").textContent,
+      ).toContain("遅延");
     });
   });
 });

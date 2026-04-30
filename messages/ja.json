@@ -34,7 +34,14 @@
       "volume_24h": "24h 取引高",
       "source": "ソース",
       "unavailable": "—",
-      "updated": "更新"
+      "updated": "更新",
+      "staleness": {
+        "live": "ライブ",
+        "slightly_stale": "{sec}秒",
+        "stale": "{sec}秒",
+        "stale_hard": "遅延",
+        "unavailable": "—"
+      }
     },
     "signals": {
       "title": "シグナル",

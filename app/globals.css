@@ -26,6 +26,12 @@
   --color-status-down: #ef4444;
   --color-status-live: #22c55e;
 
+  /* Staleness tiers (spec 2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.3) */
+  --color-staleness-live: #22c55e;   /* < 60s   — fresh */
+  --color-staleness-warn: #fbbf24;   /* 60-180s — slightly stale */
+  --color-staleness-stale: #f59e0b;  /* 180-360s — stale */
+  --color-staleness-hard: #ef4444;   /* ≥ 360s — very stale */
+
   /* Typography */
   --font-sans: "Inter", "Noto Sans JP", sans-serif;
   --letter-spacing-tabs: 0.08em;
