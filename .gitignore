@@ -30,3 +30,4 @@ scripts/pivots/**/__pycache__/
 scripts/pivots/.pytest_cache/
 scripts/pivots/**/*.tmp
 scripts/pivots/**/*.bak
+scripts/pivots/**/*.egg-info/
