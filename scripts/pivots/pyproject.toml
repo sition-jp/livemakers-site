@@ -1,0 +1,17 @@
+[project]
+name = "livemakers-pivots-producer"
+version = "0.1.0"
+description = "AI Turning Point Detector v0.1 producer (writes data/pivot_*.live.json)"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+dev = ["pytest==8.3.3"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
