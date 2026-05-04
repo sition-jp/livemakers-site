@@ -62,3 +62,41 @@ def test_backtest_metrics_shape(fetcher: BinanceFetcher) -> None:
         assert m["sample_size"] >= 0
         assert e["period"]["start"] != ""
         assert e["period"]["end"] != ""
+
+
+def test_at_least_some_entries_have_nonzero_sample_size(
+    fetcher: BinanceFetcher,
+) -> None:
+    """Codex review 3 blocking-issue regression: real sliding-window context
+    in _historical_score() must let scores actually cross thresholds 70/80
+    at SOME (asset, horizon, score_type, threshold) tuples. A return where
+    every entry has sample_size=0 means the backtest pipeline is
+    structurally inert and the Backtest UI is functionally empty.
+
+    On the test fixture (~400 daily candles per asset) we expect:
+    - price_pivot to fire on all 12 tuples
+    - volatility_pivot to fire on most tuples (11+/12)
+    - overall to be structurally capped (pp/vp anticorrelation prevents
+      pp+vp ≥ 143 on this fixture; documented v0.1 known limit)
+
+    Total expectation: ≥ 18 of 36 entries with sample_size > 0.
+    """
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO)
+    nonzero = [e for e in snap["entries"] if e["metrics"]["sample_size"] > 0]
+    assert len(nonzero) >= 18, (
+        f"only {len(nonzero)}/36 entries have sample_size > 0 — "
+        f"backtest pipeline appears structurally inert"
+    )
+
+    # Per-score-type expectations.
+    by_st: dict[str, list[int]] = {}
+    for e in snap["entries"]:
+        by_st.setdefault(e["score_type"], []).append(e["metrics"]["sample_size"])
+    nz_pp = sum(1 for s in by_st["price_pivot"] if s > 0)
+    nz_vp = sum(1 for s in by_st["volatility_pivot"] if s > 0)
+    assert nz_pp >= 8, (
+        f"price_pivot fires on only {nz_pp}/12 tuples — pp scoring path looks broken"
+    )
+    assert nz_vp >= 6, (
+        f"volatility_pivot fires on only {nz_vp}/12 tuples — vp scoring path looks broken"
+    )
