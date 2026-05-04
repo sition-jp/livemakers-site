@@ -365,5 +365,67 @@
     "error": {
       "unavailable": "TradeIntents are temporarily unavailable."
     }
+  },
+  "turningPoints": {
+    "page_title": "AI Turning Point Detector",
+    "page_subtitle": "Market state analysis · BTC / ETH · 7D / 30D / 90D",
+    "research_note": "This is a research dashboard. It analyses market state and turning point conditions; it is not investment advice.",
+    "disclaimer": {
+      "label": "Not financial advice",
+      "body": "Scores describe market state and turning point probability based on rule-based indicators. They are not predictions, recommendations, or instructions to trade."
+    },
+    "radar": {
+      "heading": "Market Timing Radar",
+      "col_asset": "Asset",
+      "col_horizon": "{horizon} Score",
+      "col_main_signal": "Main signal",
+      "col_confidence": "Confidence",
+      "signal_price": "Price",
+      "signal_volatility": "Volatility",
+      "signal_mixed": "Price/Vol",
+      "empty": "No assets in the radar yet."
+    },
+    "detail": {
+      "back": "← Back to radar",
+      "horizon_label": "Horizon",
+      "horizon_selector_aria": "Time horizon selector",
+      "overall_label": "Overall turning point score",
+      "price_pivot_label": "Price pivot",
+      "volatility_pivot_label": "Volatility pivot",
+      "direction_bias_label": "Direction bias",
+      "confidence_label": "Confidence",
+      "summary_label": "Summary",
+      "evidence_label": "Evidence",
+      "not_found_title": "Detail not found",
+      "not_found_body": "No detail block is available for this asset and horizon."
+    },
+    "directionBias": {
+      "bullish": "Bullish",
+      "bearish": "Bearish",
+      "neutral": "Neutral",
+      "aria_summary": "Bullish {bullish} percent, neutral {neutral} percent, bearish {bearish} percent"
+    },
+    "evidence": {
+      "empty": "No evidence items recorded for this score."
+    },
+    "unavailable": {
+      "title": "Data temporarily unavailable",
+      "body": "The latest snapshot failed schema validation or could not be parsed. The radar will recover automatically once a valid snapshot is materialized."
+    },
+    "backtest": {
+      "heading": "Backtest",
+      "subheading": "Historical hit rate of past similar scores. Threshold defaults to ≥ 70 (PRD §18).",
+      "col_asset": "Asset",
+      "col_horizon": "Horizon",
+      "col_score_type": "Score type",
+      "col_threshold": "Threshold",
+      "col_precision": "Precision",
+      "col_recall": "Recall",
+      "col_lead": "Avg lead",
+      "col_avg_move": "Avg move",
+      "col_max_dd": "Max DD",
+      "col_n": "N",
+      "empty": "No backtest entries yet."
+    }
   }
 }

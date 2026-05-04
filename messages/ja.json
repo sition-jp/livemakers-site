@@ -365,5 +365,67 @@
     "error": {
       "unavailable": "TradeIntent を一時的に取得できません。"
     }
+  },
+  "turningPoints": {
+    "page_title": "AI ターニングポイント検出ダッシュボード",
+    "page_subtitle": "マーケット状態の分析 · BTC / ETH · 7日 / 30日 / 90日",
+    "research_note": "本ダッシュボードはリサーチ用途です。マーケット状態と転換点の状況を分析するもので、投資助言ではありません。",
+    "disclaimer": {
+      "label": "投資助言ではありません",
+      "body": "スコアはルールベース指標による「マーケット状態」と「転換点の確からしさ」を表すものであり、価格予測・売買推奨・取引指示ではありません。"
+    },
+    "radar": {
+      "heading": "マーケット・タイミング・レーダー",
+      "col_asset": "資産",
+      "col_horizon": "{horizon} スコア",
+      "col_main_signal": "主要シグナル",
+      "col_confidence": "信頼度",
+      "signal_price": "価格",
+      "signal_volatility": "ボラティリティ",
+      "signal_mixed": "価格/ボラ",
+      "empty": "対象資産がまだ登録されていません。"
+    },
+    "detail": {
+      "back": "← レーダーに戻る",
+      "horizon_label": "期間",
+      "horizon_selector_aria": "時間軸の切り替え",
+      "overall_label": "総合転換点スコア",
+      "price_pivot_label": "価格ピボット",
+      "volatility_pivot_label": "ボラティリティ・ピボット",
+      "direction_bias_label": "方向バイアス",
+      "confidence_label": "信頼度",
+      "summary_label": "サマリー",
+      "evidence_label": "エビデンス",
+      "not_found_title": "詳細データなし",
+      "not_found_body": "この資産・期間の組み合わせの詳細データはまだ存在しません。"
+    },
+    "directionBias": {
+      "bullish": "強気",
+      "bearish": "弱気",
+      "neutral": "中立",
+      "aria_summary": "強気 {bullish}％、中立 {neutral}％、弱気 {bearish}％"
+    },
+    "evidence": {
+      "empty": "このスコアに紐付くエビデンスはまだありません。"
+    },
+    "unavailable": {
+      "title": "データを一時的に取得できません",
+      "body": "最新スナップショットがスキーマ検証に失敗、もしくは解析できませんでした。正常なスナップショットが生成され次第、自動的に復旧します。"
+    },
+    "backtest": {
+      "heading": "バックテスト",
+      "subheading": "過去に同等以上のスコアが出た局面でのヒット率。既定の閾値は 70 以上（PRD §18）。",
+      "col_asset": "資産",
+      "col_horizon": "期間",
+      "col_score_type": "スコア種別",
+      "col_threshold": "閾値",
+      "col_precision": "適合率",
+      "col_recall": "再現率",
+      "col_lead": "平均リード",
+      "col_avg_move": "平均変動",
+      "col_max_dd": "最大DD",
+      "col_n": "N",
+      "empty": "バックテストの結果がまだありません。"
+    }
   }
 }

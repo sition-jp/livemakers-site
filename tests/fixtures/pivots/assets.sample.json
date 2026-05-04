@@ -1,0 +1,314 @@
+{
+  "schema_version": "v0.1",
+  "generated_at": "2026-05-04T00:00:00Z",
+  "radar": [
+    {
+      "symbol": "BTC",
+      "scores": {
+        "7D": {
+          "overall": 74,
+          "price_pivot": 61,
+          "volatility_pivot": 82,
+          "confidence_grade": "B+",
+          "main_signal": "volatility"
+        },
+        "30D": {
+          "overall": 78,
+          "price_pivot": 64,
+          "volatility_pivot": 83,
+          "confidence_grade": "B+",
+          "main_signal": "volatility"
+        },
+        "90D": {
+          "overall": 71,
+          "price_pivot": 59,
+          "volatility_pivot": 68,
+          "confidence_grade": "B",
+          "main_signal": "price"
+        }
+      }
+    },
+    {
+      "symbol": "ETH",
+      "scores": {
+        "7D": {
+          "overall": 69,
+          "price_pivot": 58,
+          "volatility_pivot": 71,
+          "confidence_grade": "B",
+          "main_signal": "mixed"
+        },
+        "30D": {
+          "overall": 73,
+          "price_pivot": 62,
+          "volatility_pivot": 75,
+          "confidence_grade": "B",
+          "main_signal": "mixed"
+        },
+        "90D": {
+          "overall": 62,
+          "price_pivot": 55,
+          "volatility_pivot": 60,
+          "confidence_grade": "B",
+          "main_signal": "price"
+        }
+      }
+    }
+  ],
+  "detail": {
+    "BTC__7D": {
+      "asset": { "symbol": "BTC", "name": "Bitcoin" },
+      "horizon": "7D",
+      "timestamp": "2026-05-04T00:00:00Z",
+      "scores": {
+        "overall": 74,
+        "price_pivot": 61,
+        "volatility_pivot": 82,
+        "confidence": { "grade": "B+", "score": 78 }
+      },
+      "direction_bias": { "bullish": 42, "bearish": 38, "neutral": 20 },
+      "evidence": [
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.22,
+          "message": "7D realized volatility is in the bottom 20% of the last 180D range",
+          "raw_value": 0.18
+        },
+        {
+          "category": "oi",
+          "direction": "volatility",
+          "weight": 0.18,
+          "message": "Open Interest expanded ~12% while price stayed range-bound",
+          "raw_value": 0.12
+        },
+        {
+          "category": "funding",
+          "direction": "neutral",
+          "weight": 0.10,
+          "message": "Funding rate remains close to neutral on 7D average",
+          "raw_value": 0.0001
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.12,
+          "message": "Price sits near the midpoint of its 7D range",
+          "raw_value": 0.51
+        }
+      ],
+      "summary": {
+        "level": "High",
+        "headline": "Volatility expansion is the dominant 7D signal",
+        "explanation": "Compressed realized volatility combined with leverage buildup raises the probability of a sharper move within the week. Direction stays close to neutral."
+      }
+    },
+    "BTC__30D": {
+      "asset": { "symbol": "BTC", "name": "Bitcoin" },
+      "horizon": "30D",
+      "timestamp": "2026-05-04T00:00:00Z",
+      "scores": {
+        "overall": 78,
+        "price_pivot": 64,
+        "volatility_pivot": 83,
+        "confidence": { "grade": "B+", "score": 76 }
+      },
+      "direction_bias": { "bullish": 46, "bearish": 38, "neutral": 16 },
+      "evidence": [
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.18,
+          "message": "30D volatility is in the bottom 15% of the last 180D range",
+          "raw_value": 0.15
+        },
+        {
+          "category": "oi",
+          "direction": "volatility",
+          "weight": 0.20,
+          "message": "Open Interest increased while price stayed range-bound",
+          "raw_value": 0.18
+        },
+        {
+          "category": "funding",
+          "direction": "neutral",
+          "weight": 0.10,
+          "message": "Funding is near neutral on 30D average",
+          "raw_value": 0.00012
+        },
+        {
+          "category": "price",
+          "direction": "bullish",
+          "weight": 0.14,
+          "message": "Price is near the lower side of its 30D range",
+          "raw_value": 0.28
+        }
+      ],
+      "summary": {
+        "level": "High",
+        "headline": "Volatility transition may be approaching within 30D",
+        "explanation": "Volatility compression and leverage buildup are stronger than price reversal signals. Direction remains close to neutral."
+      }
+    },
+    "BTC__90D": {
+      "asset": { "symbol": "BTC", "name": "Bitcoin" },
+      "horizon": "90D",
+      "timestamp": "2026-05-04T00:00:00Z",
+      "scores": {
+        "overall": 71,
+        "price_pivot": 59,
+        "volatility_pivot": 68,
+        "confidence": { "grade": "B", "score": 70 }
+      },
+      "direction_bias": { "bullish": 40, "bearish": 36, "neutral": 24 },
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bullish",
+          "weight": 0.20,
+          "message": "Price sits in the lower third of its 90D range",
+          "raw_value": 0.31
+        },
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.16,
+          "message": "Realized volatility on 90D is below the 30th percentile",
+          "raw_value": 0.27
+        },
+        {
+          "category": "confidence",
+          "direction": "neutral",
+          "weight": 0.10,
+          "message": "Cross-signal agreement is moderate on the 90D horizon",
+          "raw_value": 0.62
+        }
+      ],
+      "summary": {
+        "level": "High",
+        "headline": "Mid-term setup leans toward a state shift on 90D",
+        "explanation": "Price location and compressed volatility on the 90D horizon raise the chance of a regime transition, with confidence at grade B."
+      }
+    },
+    "ETH__7D": {
+      "asset": { "symbol": "ETH", "name": "Ethereum" },
+      "horizon": "7D",
+      "timestamp": "2026-05-04T00:00:00Z",
+      "scores": {
+        "overall": 69,
+        "price_pivot": 58,
+        "volatility_pivot": 71,
+        "confidence": { "grade": "B", "score": 70 }
+      },
+      "direction_bias": { "bullish": 36, "bearish": 40, "neutral": 24 },
+      "evidence": [
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.18,
+          "message": "ETH 7D Bollinger Band width sits in the bottom 25% of 180D",
+          "raw_value": 0.22
+        },
+        {
+          "category": "funding",
+          "direction": "bearish",
+          "weight": 0.12,
+          "message": "Funding skews modestly positive on the 7D window",
+          "raw_value": 0.00018
+        },
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.14,
+          "message": "Price sits near the upper side of its 7D range",
+          "raw_value": 0.74
+        }
+      ],
+      "summary": {
+        "level": "Medium",
+        "headline": "Mixed 7D setup with mild bearish lean",
+        "explanation": "Volatility is compressed but price location and funding lean slightly bearish. Signal is not yet decisive."
+      }
+    },
+    "ETH__30D": {
+      "asset": { "symbol": "ETH", "name": "Ethereum" },
+      "horizon": "30D",
+      "timestamp": "2026-05-04T00:00:00Z",
+      "scores": {
+        "overall": 73,
+        "price_pivot": 62,
+        "volatility_pivot": 75,
+        "confidence": { "grade": "B", "score": 72 }
+      },
+      "direction_bias": { "bullish": 39, "bearish": 38, "neutral": 23 },
+      "evidence": [
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.20,
+          "message": "30D volatility is in the bottom 20% of the last 180D range",
+          "raw_value": 0.19
+        },
+        {
+          "category": "oi",
+          "direction": "volatility",
+          "weight": 0.18,
+          "message": "Perp OI on ETH expanded across major venues with flat price",
+          "raw_value": 0.16
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.10,
+          "message": "Price oscillates around 30D mean",
+          "raw_value": 0.50
+        }
+      ],
+      "summary": {
+        "level": "High",
+        "headline": "Volatility expansion is the dominant 30D signal for ETH",
+        "explanation": "Compressed 30D volatility plus rising open interest suggests a transition window. Direction remains close to neutral."
+      }
+    },
+    "ETH__90D": {
+      "asset": { "symbol": "ETH", "name": "Ethereum" },
+      "horizon": "90D",
+      "timestamp": "2026-05-04T00:00:00Z",
+      "scores": {
+        "overall": 62,
+        "price_pivot": 55,
+        "volatility_pivot": 60,
+        "confidence": { "grade": "B", "score": 66 }
+      },
+      "direction_bias": { "bullish": 36, "bearish": 34, "neutral": 30 },
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bullish",
+          "weight": 0.16,
+          "message": "ETH 90D price is around the lower-middle of the range",
+          "raw_value": 0.42
+        },
+        {
+          "category": "volatility",
+          "direction": "neutral",
+          "weight": 0.12,
+          "message": "90D realized volatility is mid-range",
+          "raw_value": 0.51
+        },
+        {
+          "category": "confidence",
+          "direction": "neutral",
+          "weight": 0.10,
+          "message": "Cross-signal agreement on 90D is moderate",
+          "raw_value": 0.60
+        }
+      ],
+      "summary": {
+        "level": "Medium",
+        "headline": "Less decisive on the 90D horizon",
+        "explanation": "Signals on the 90D horizon are more balanced. No single category dominates yet."
+      }
+    }
+  }
+}
