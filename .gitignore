@@ -23,3 +23,10 @@ data/tradeintents.jsonl
 data/intent-reject-log.jsonl
 data/intent-expiry-log.jsonl
 data/proposer-run-log.jsonl
+
+# Phase 2 producer: scripts/pivots/ Python venv + cache + atomic-write artifacts
+scripts/pivots/.venv/
+scripts/pivots/**/__pycache__/
+scripts/pivots/.pytest_cache/
+scripts/pivots/**/*.tmp
+scripts/pivots/**/*.bak
