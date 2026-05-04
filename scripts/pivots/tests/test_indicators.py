@@ -61,7 +61,8 @@ def test_moving_average_basic() -> None:
 
 
 def test_realized_volatility_zero_for_flat() -> None:
-    closes = [100.0] * 30
+    # period=30 means 30 daily returns, which requires 31 closes.
+    closes = [100.0] * 31
     assert realized_volatility(closes, period=30) == pytest.approx(0.0)
 
 
