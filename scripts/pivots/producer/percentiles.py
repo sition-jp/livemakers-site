@@ -14,17 +14,23 @@ LOOKBACK_DAYS: dict[Horizon, int] = {"7D": 30, "30D": 180, "90D": 365}
 
 
 def pct_rank(series: Sequence[float], value: float) -> float:
-    """Fraction of `series` strictly less than `value`, clamped to [0, 1].
+    """Mid-rank percentile: ``(count_below + 0.5 * count_equal) / N``.
 
-    Uses (count_below) / (N - 1) so that the smallest element returns 0.0 and
-    the largest returns 1.0. The clamp guards against values strictly above
-    the maximum of the series, which would otherwise produce N / (N - 1) > 1.0
-    (Codex review 1, must-fix #5).
+    The mid-rank treatment of ties matters for the scoring rules: a value
+    tied with all history elements (constant series) returns 0.5 — i.e. it
+    is neither "in the bottom 20%" nor "in the top 20%". A naive
+    ``count_below / (N-1)`` formulation would collapse ties to 0.0 and
+    falsely trigger bottom-pct rules in the volatility scorer.
+
+    Naturally bounded in [0, 1] (count_below + count_equal ≤ N), satisfying
+    Codex review 1 must-fix #5; the explicit clamp is defensive.
     """
     if len(series) < 2:
         raise ValueError("pct_rank needs at least 2 points")
+    n = len(series)
     below = sum(1 for x in series if x < value)
-    rank = below / (len(series) - 1)
+    equal = sum(1 for x in series if x == value)
+    rank = (below + 0.5 * equal) / n
     return max(0.0, min(1.0, rank))
 
 
