@@ -31,3 +31,10 @@ scripts/pivots/.pytest_cache/
 scripts/pivots/**/*.tmp
 scripts/pivots/**/*.bak
 scripts/pivots/**/*.egg-info/
+data/pivots-history/*
+!data/pivots-history/.gitkeep
+
+# Phase 2 ops layer: runtime-generated logs (never tracked)
+scripts/pivots/ops.log.jsonl
+scripts/pivots/launchd.stdout.log
+scripts/pivots/launchd.stderr.log

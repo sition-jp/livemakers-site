@@ -4,6 +4,8 @@ import { readBacktestSnapshot } from "@/lib/pivots/pivots-reader";
 import { BacktestPanel } from "@/components/turning-points/BacktestPanel";
 import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
+import { Freshness } from "@/components/turning-points/Freshness";
+import { ProvisionalBacktestBanner } from "@/components/turning-points/ProvisionalBacktestBanner";
 
 /**
  * /turning-points/backtest — Backtest screen (PRD §22 Screen 3).
@@ -41,6 +43,9 @@ export default async function BacktestPage({
           {t("backtest.subheading")}
         </p>
       </header>
+
+      <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
+      <ProvisionalBacktestBanner />
 
       <DisclaimerBanner />
 

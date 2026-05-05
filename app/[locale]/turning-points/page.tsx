@@ -4,6 +4,7 @@ import { readAssetsSnapshot } from "@/lib/pivots/pivots-reader";
 import { RadarTable } from "@/components/turning-points/RadarTable";
 import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
+import { Freshness } from "@/components/turning-points/Freshness";
 
 /**
  * /turning-points — Market Timing Radar (PRD §22 Screen 1).
@@ -39,6 +40,8 @@ export default async function TurningPointsRadarPage({
           {t("research_note")}
         </p>
       </header>
+
+      <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
 
       <DisclaimerBanner />
 

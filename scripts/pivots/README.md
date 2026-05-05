@@ -87,3 +87,9 @@ Once Phase 2 is reviewed, propose a daily 08:00 JST cron:
 - Backtest is provisional v0.1 (simplified historical contexts;
   precision/recall numbers are a pipeline smoke test, not a tunable
   benchmark — see `producer/compose_backtest.py` module docstring).
+
+## Ops
+
+Daily run / recovery / scheduling: see [`RUNBOOK.md`](./RUNBOOK.md) and the
+sample LaunchAgent + crontab in `ops/samples/`. Smoke checklist for v0.1-ops
+gate: `ops/smoke_checklist.md`.

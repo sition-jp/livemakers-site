@@ -11,6 +11,7 @@ import {
 import { AssetDetail } from "@/components/turning-points/AssetDetail";
 import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
+import { Freshness } from "@/components/turning-points/Freshness";
 
 /**
  * /turning-points/[asset]?h=<horizon> — Asset Detail (PRD §22 Screen 2).
@@ -60,6 +61,8 @@ export default async function TurningPointAssetPage({
         </h1>
         <p className="text-text-secondary mt-1">{t("page_subtitle")}</p>
       </header>
+
+      <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
 
       <DisclaimerBanner />
 
