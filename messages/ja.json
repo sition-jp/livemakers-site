@@ -432,8 +432,7 @@
       "fresh": "新鮮",
       "stale": "やや古い",
       "veryStale": "古い (>72h)",
-      "unknown": "タイムスタンプ未取得",
-      "generatedAtPrefix": "生成時刻"
+      "unknown": "タイムスタンプ未取得"
     },
     "backtestProvisional": {
       "title": "v0.1 暫定バックテスト指標",

@@ -432,8 +432,7 @@
       "fresh": "fresh",
       "stale": "stale",
       "veryStale": "very stale (>72h)",
-      "unknown": "timestamp unavailable",
-      "generatedAtPrefix": "Generated at"
+      "unknown": "timestamp unavailable"
     },
     "backtestProvisional": {
       "title": "Provisional v0.1 backtest metrics",
