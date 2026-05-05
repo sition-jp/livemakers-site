@@ -426,6 +426,18 @@
       "col_max_dd": "最大DD",
       "col_n": "N",
       "empty": "バックテストの結果がまだありません。"
+    },
+    "freshness": {
+      "label": "最終更新",
+      "fresh": "新鮮",
+      "stale": "やや古い",
+      "veryStale": "古い (>72h)",
+      "unknown": "タイムスタンプ未取得",
+      "generatedAtPrefix": "生成時刻"
+    },
+    "backtestProvisional": {
+      "title": "v0.1 暫定バックテスト指標",
+      "body": "これらの指標はパイプライン検証用であり、モデル性能のベンチマークとしては利用できません。実 OI / Funding 履歴と sliding-window context は v0.2 で対応予定です。"
     }
   }
 }

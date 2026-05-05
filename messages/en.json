@@ -426,6 +426,18 @@
       "col_max_dd": "Max DD",
       "col_n": "N",
       "empty": "No backtest entries yet."
+    },
+    "freshness": {
+      "label": "Last updated",
+      "fresh": "fresh",
+      "stale": "stale",
+      "veryStale": "very stale (>72h)",
+      "unknown": "timestamp unavailable",
+      "generatedAtPrefix": "Generated at"
+    },
+    "backtestProvisional": {
+      "title": "Provisional v0.1 backtest metrics",
+      "body": "These metrics are intended for pipeline validation, not model-performance benchmarking. Real OI/funding history and full sliding-window context land in v0.2."
     }
   }
 }
