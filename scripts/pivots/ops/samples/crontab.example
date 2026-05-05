@@ -1,0 +1,13 @@
+# LiveMakersCom AI Turning Point Detector — daily producer wrapper
+#
+# Codex review 2, must-fix #2: BSD cron uses the host's LOCAL TZ, not UTC.
+# 08:00 JST requires Hour=8 on a JST-configured host. Run `date '+%Z %z'`
+# to confirm the host TZ before installing this entry.
+#
+# macOS BSD cron also treats `%` as newline — escape any date format if
+# you add one (memory feedback_cron_percent_escape_macos.md).
+#
+# Replace REPLACE_REPO_PATH below.
+#
+# m h dom mon dow command
+0 8 * * * cd REPLACE_REPO_PATH/scripts/pivots && .venv/bin/python -m ops.run_daily 2>&1 | logger -t pivots-ops

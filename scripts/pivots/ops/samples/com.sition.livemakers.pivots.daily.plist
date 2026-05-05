@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  LiveMakersCom AI Turning Point Detector — daily producer wrapper.
+  Runs at 08:00 LOCAL TIME (= 08:00 JST when host is on JST, per handoff §2).
+
+  Important (Codex review 2, must-fix #2): launchd's StartCalendarInterval
+  uses the host's LOCAL TZ, not UTC. If you want 08:00 JST you must set
+  Hour=8 and run on a JST-configured host. Do NOT set Hour=23 thinking it
+  maps to UTC.
+
+  Install:
+    cp scripts/pivots/ops/samples/com.sition.livemakers.pivots.daily.plist \
+       ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
+  Uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
+    rm ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
+  Replace REPLACE_REPO_PATH below with your livemakers-site clone path.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.sition.livemakers.pivots.daily</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>REPLACE_REPO_PATH/scripts/pivots/.venv/bin/python</string>
+        <string>-m</string>
+        <string>ops.run_daily</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>REPLACE_REPO_PATH/scripts/pivots</string>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>REPLACE_REPO_PATH/scripts/pivots/launchd.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>REPLACE_REPO_PATH/scripts/pivots/launchd.stderr.log</string>
+    <key>RunAtLoad</key>
+    <false/>
+</dict>
+</plist>
