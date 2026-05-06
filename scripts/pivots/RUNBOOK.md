@@ -11,27 +11,23 @@
 
 ## Daily run
 
-Manual:
+Manual (diagnostic — no auto-commit, no Telegram OK heartbeat):
 ```
 cd /path/to/livemakers-site/scripts/pivots
 .venv/bin/python -m ops.run_daily
 ```
 
-Scheduled (LaunchAgent — recommended):
+Scheduled (LaunchAgent — recommended; see v0.1-live section below for full setup):
 ```
-cp ops/samples/com.sition.livemakers.pivots.daily.plist ~/Library/LaunchAgents/
-# edit the plist to replace REPLACE_REPO_PATH
-launchctl load ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
+bash scripts/pivots/ops/install_launchagent.sh
 ```
 
-After a successful run:
+The LaunchAgent runs `ops.run_daily --auto-commit --notify-ok` daily at 08:00 local time. After a successful run, the snapshot is committed automatically; push to remote when convenient:
 ```
-git add data/pivot_assets.live.json data/pivot_backtest.live.json
-git commit -m "ops(pivots): daily snapshot YYYYMMDD"
 git push origin main
 ```
 
-(Auto-commit is deferred to v0.1-live.)
+For LaunchAgent install/uninstall, Telegram setup, and troubleshooting, see the **v0.1-live** section below.
 
 ## Logs
 
@@ -72,15 +68,23 @@ Then re-run `ops.run_daily`.
 | Page shows `UnavailableNotice` | JSON missing or parse-rejected | Restore from `data/pivots-history/` and re-run |
 | Page shows "very stale" badge | Producer hasn't run for >72h | Re-run `ops.run_daily` manually |
 
-## Out of scope for v0.1-ops
+## Out of scope for v0.1 (deferred to v0.2+)
 
+In scope as of v0.1-live (delivered):
+- Auto-commit on success (`--auto-commit` flag)
+- Telegram alerts (OK + FAILED behind `--notify-ok`)
+- LaunchAgent install/uninstall scripts
+- `fcntl` lock for serialized fires
+
+Still out of scope (v0.2+):
 - Public navigation link in `Header.tsx`
-- Auto-commit on success
-- Telegram alerts
+- Mobile viewport polish
+- `git push` automation
 - Scoring-model upgrades
 - ADA / NIGHT support
+- External sidecar caching real OI / funding history
 
-These belong to v0.1-live or v0.2+. Do not add them here without explicit re-approval.
+Do not add these without explicit re-approval.
 
 ## v0.1-live: LaunchAgent + Telegram + auto-commit
 
