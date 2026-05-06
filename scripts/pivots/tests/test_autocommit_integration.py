@@ -114,6 +114,63 @@ def test_real_git_no_diff_does_not_commit(tmp_path, monkeypatch):
     assert "daily snapshot" not in log.stdout
 
 
+def test_real_auto_commit_excludes_unrelated_pre_staged_changes(tmp_path, monkeypatch):
+    """Regression for Codex P2 review on PR #6: a pre-staged unrelated change
+    must NOT be swept into the daily snapshot commit. Step 3.5 must commit
+    only the two snapshot data files and leave operator's unrelated stages
+    alone in the index."""
+    from ops import run_daily as rd
+
+    repo = tmp_path / "repo"
+    repo.mkdir()
+    _init_repo(repo)
+    assets, backtest = _make_data_files(repo)
+
+    # Operator's unrelated WIP — pre-staged in the index before the LaunchAgent fires
+    unrelated = repo / "OPERATOR_WIP.md"
+    unrelated.write_text("operator WIP — must not be committed by auto-commit\n")
+    subprocess.run(["git", "add", "OPERATOR_WIP.md"], cwd=repo, check=True)
+
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", repo)
+    captured: dict = {}
+    monkeypatch.setattr("ops.run_daily.dispatch",
+                        lambda p, log_file, *, notify_ok=False: captured.update(p=p))
+    _stub_run_daily_pipeline(monkeypatch)
+
+    rd.run_daily(
+        assets_path=assets,
+        backtest_path=backtest,
+        history_dir=tmp_path / "hist",
+        log_file=tmp_path / "log.jsonl",
+        keep_history=7,
+        auto_commit=True,
+        notify_ok=False,
+    )
+
+    assert captured["p"]["status"] == "OK"
+
+    # Assertion 1: HEAD commit touched ONLY the data files
+    show = subprocess.run(
+        ["git", "show", "--name-only", "--pretty=format:", "HEAD"],
+        cwd=repo, capture_output=True, text=True, check=True,
+    )
+    committed_files = {line for line in show.stdout.splitlines() if line.strip()}
+    assert committed_files == {
+        "data/pivot_assets.live.json",
+        "data/pivot_backtest.live.json",
+    }, f"unexpected files in commit: {committed_files}"
+
+    # Assertion 2: OPERATOR_WIP.md remains staged but uncommitted
+    diff_cached = subprocess.run(
+        ["git", "diff", "--cached", "--name-only"],
+        cwd=repo, capture_output=True, text=True, check=True,
+    )
+    cached_files = set(diff_cached.stdout.splitlines())
+    assert "OPERATOR_WIP.md" in cached_files, (
+        f"OPERATOR_WIP.md should still be staged after auto-commit, got: {cached_files}"
+    )
+
+
 def test_real_repo_external_path_yields_skipped(tmp_path, monkeypatch):
     from ops import run_daily as rd
 
