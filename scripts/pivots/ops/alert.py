@@ -147,20 +147,22 @@ def _format_telegram_ok(p: AlertPayload) -> str:
 
 
 def _truncate_failed_details(details: str, byte_budget: int = _TELEGRAM_BYTE_BUDGET) -> str:
-    """Truncate details so the assembled FAILED message fits within byte_budget bytes.
+    """Truncate details so the encoded result fits within byte_budget bytes.
 
-    Uses head/tail preserving truncation. When details contains multi-byte
-    chars (Japanese, CJK, emoji), shrinks the head/tail char width
-    iteratively until the encoded result fits.
+    Uses head/tail preserving truncation. Gates on UTF-8 byte length (not char
+    count) so byte-heavy CJK / emoji details under 1500 characters but over the
+    byte budget still get truncated.
     """
-    # Char-slice if details is long; otherwise return as-is
-    if len(details) <= 1500:
+    # Byte-aware short-circuit: if details already fits, keep as-is.
+    if len(details.encode("utf-8")) <= byte_budget:
         return details
 
-    head_tail = 1500
+    # Pick an initial head/tail that won't overlap. For typical ASCII details
+    # this is ~1500 chars; for CJK we'll iteratively shrink below.
+    head_tail = min(1500, len(details) // 2)
     truncated = details[:head_tail] + "\n--- truncated ---\n" + details[-head_tail:]
 
-    # Iteratively shrink if bytes overflow (CJK / emoji-heavy case)
+    # Iteratively shrink if bytes still overflow (CJK / emoji-heavy case)
     while len(truncated.encode("utf-8")) > byte_budget and head_tail > 100:
         head_tail = max(100, head_tail - 200)
         truncated = details[:head_tail] + "\n--- truncated ---\n" + details[-head_tail:]

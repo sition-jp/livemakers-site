@@ -104,6 +104,19 @@ def test_format_telegram_failed_cjk_truncation_respects_byte_budget():
     assert "--- truncated ---" in msg
 
 
+def test_format_telegram_failed_cjk_at_char_boundary_respects_byte_budget():
+    """Regression: 1500 CJK chars = 4500 bytes (over budget) but the old
+    implementation's char-count short-circuit returned them unchanged.
+    Asserts the byte-aware gate now truncates correctly so Telegram does
+    not silently drop the message at the 4096-byte wire limit."""
+    from ops.alert import _format_telegram_failed
+    cjk_at_boundary = "あ" * 1500  # exactly 1500 chars, 4500 bytes raw
+    p = _payload(status="FAILED", details=cjk_at_boundary)
+    msg = _format_telegram_failed(p)
+    assert len(msg.encode("utf-8")) <= 4096
+    assert "--- truncated ---" in msg
+
+
 # --------------------------- _load_telegram_credentials ---------------------------
 
 def _write_secrets(tmp_path: Path, content: str, *, mode: int = 0o600) -> Path:
