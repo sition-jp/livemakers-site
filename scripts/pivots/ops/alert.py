@@ -74,3 +74,120 @@ def dispatch(p: AlertPayload, log_file: Path) -> None:
             title="LiveMakersCom pivots producer FAILED",
             body=format_payload(p),
         )
+
+
+# ============================================================================
+# Telegram dispatcher (v0.1-live additions)
+# ============================================================================
+
+import os
+import re
+import stat
+from urllib import request as _urllib_request
+from urllib import parse as _urllib_parse
+
+
+_SECRETS_PATH = Path.home() / ".sition" / "secrets.env"
+_TELEGRAM_BOT_TOKEN_KEY = "TELEGRAM_LIVEMAKERS_BOT_TOKEN"
+_TELEGRAM_CHAT_ID_KEY = "TELEGRAM_LIVEMAKERS_CHAT_ID"
+_TELEGRAM_TIMEOUT_SECONDS = 10
+_TELEGRAM_BYTE_BUDGET = 3500
+_OK_DETAILS_CHAR_BUDGET = 500
+
+
+_KV_PATTERN = re.compile(
+    r'^\s*(?:export\s+)?([A-Z_][A-Z0-9_]*)\s*=\s*"?([^"\n]*)"?\s*$'
+)
+
+
+def _load_telegram_credentials() -> tuple[str, str] | None:
+    """Load (token, chat_id) from ~/.sition/secrets.env.
+
+    Returns None on any of:
+    - file missing
+    - target is a symlink
+    - not a regular file
+    - perms != 0o600
+    - owner uid != current uid
+    - either required key is absent
+    """
+    try:
+        st = os.lstat(_SECRETS_PATH)
+    except OSError:
+        return None
+    if stat.S_ISLNK(st.st_mode):
+        return None
+    if not stat.S_ISREG(st.st_mode):
+        return None
+    if (st.st_mode & 0o777) != 0o600:
+        return None
+    if st.st_uid != os.getuid():
+        return None
+
+    token: str | None = None
+    chat_id: str | None = None
+    try:
+        with open(_SECRETS_PATH, "r", encoding="utf-8") as fh:
+            for raw in fh:
+                line = raw.rstrip("\n")
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                m = _KV_PATTERN.match(line)
+                if not m:
+                    continue
+                key, value = m.group(1), m.group(2)
+                if key == _TELEGRAM_BOT_TOKEN_KEY:
+                    token = value
+                elif key == _TELEGRAM_CHAT_ID_KEY:
+                    chat_id = value
+    except OSError:
+        return None
+
+    if not token or not chat_id:
+        return None
+    return token, chat_id
+
+
+def _format_telegram_ok(p: AlertPayload) -> str:
+    details = p.get("details", "") or ""
+    if len(details) > _OK_DETAILS_CHAR_BUDGET:
+        details = details[:_OK_DETAILS_CHAR_BUDGET] + "…(truncated)"
+    return f"✅ pivots-ops OK | {p['timestamp']} | {details}"
+
+
+def _truncate_failed_details(details: str, byte_budget: int = _TELEGRAM_BYTE_BUDGET) -> str:
+    """Truncate details so the assembled FAILED message fits within byte_budget bytes.
+
+    Uses head/tail preserving truncation. When details contains multi-byte
+    chars (Japanese, CJK, emoji), shrinks the head/tail char width
+    iteratively until the encoded result fits.
+    """
+    # Char-slice if details is long; otherwise return as-is
+    if len(details) <= 1500:
+        return details
+
+    head_tail = 1500
+    truncated = details[:head_tail] + "\n--- truncated ---\n" + details[-head_tail:]
+
+    # Iteratively shrink if bytes overflow (CJK / emoji-heavy case)
+    while len(truncated.encode("utf-8")) > byte_budget and head_tail > 100:
+        head_tail = max(100, head_tail - 200)
+        truncated = details[:head_tail] + "\n--- truncated ---\n" + details[-head_tail:]
+
+    return truncated
+
+
+def _format_telegram_failed(p: AlertPayload) -> str:
+    bak_line = "ORPHAN .bak present" if p["orphan_bak_present"] else "clean"
+    prev_line = "preserved" if p["previous_snapshot_preserved"] else "may be lost"
+    details = _truncate_failed_details(p.get("details", "") or "")
+    return (
+        "🔴 pivots-ops FAILED\n"
+        f"time: {p['timestamp']}\n"
+        f"type: {p['error_type']}\n"
+        f"cmd:  {p['command']}\n"
+        f"bak:  {bak_line}\n"
+        f"prev: {prev_line}\n"
+        "---\n"
+        f"{details}"
+    )
