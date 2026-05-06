@@ -57,3 +57,40 @@ def test_lock_releases_on_context_exit(tmp_path):
     # Reacquire should succeed in the same process
     with acquire_lock(lock_path):
         pass
+
+
+def test_run_daily_lockbusy_emits_failed_payload(tmp_path, monkeypatch):
+    """When acquire_lock raises LockBusy, run_daily must emit
+    status=FAILED, error_type=LockBusy, exit 0."""
+    from ops import run_daily as rd
+    from ops.lock import LockBusy
+
+    captured: dict = {}
+
+    def fake_dispatch(p, log_file, *, notify_ok=False):
+        captured["p"] = p
+        captured["log_file"] = log_file
+        captured["notify_ok"] = notify_ok
+
+    monkeypatch.setattr("ops.run_daily.dispatch", fake_dispatch)
+
+    def fake_acquire_lock(_path):
+        raise LockBusy(holder_pid_hint="98765")
+
+    monkeypatch.setattr("ops.run_daily.acquire_lock", fake_acquire_lock)
+
+    rc = rd.run_daily(
+        assets_path=tmp_path / "assets.json",
+        backtest_path=tmp_path / "backtest.json",
+        history_dir=tmp_path / "hist",
+        log_file=tmp_path / "log.jsonl",
+        keep_history=7,
+        notify_ok=True,
+    )
+    assert rc == 0
+    p = captured["p"]
+    assert p["status"] == "FAILED"
+    assert p["error_type"] == "LockBusy"
+    assert "skipped" in p["details"]
+    assert "98765" in p["details"]
+    assert captured["notify_ok"] is True
