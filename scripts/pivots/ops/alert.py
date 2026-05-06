@@ -67,15 +67,6 @@ def _send_macos_notification(title: str, body: str) -> None:
         pass
 
 
-def dispatch(p: AlertPayload, log_file: Path) -> None:
-    write_log(p, log_file)
-    if p["status"] == "FAILED":
-        _send_macos_notification(
-            title="LiveMakersCom pivots producer FAILED",
-            body=format_payload(p),
-        )
-
-
 # ============================================================================
 # Telegram dispatcher (v0.1-live additions)
 # ============================================================================
@@ -191,3 +182,51 @@ def _format_telegram_failed(p: AlertPayload) -> str:
         "---\n"
         f"{details}"
     )
+
+
+def _send_telegram(p: AlertPayload, *, notify_ok: bool) -> None:
+    """Best-effort Telegram POST. Silent on every failure path.
+
+    Invariant: this function must never affect run_daily's exit code,
+    JSONL log, or macOS notification. The token must never appear in
+    any log line, exception trace, or stdout/stderr emission.
+    """
+    if p["status"] == "OK" and not notify_ok:
+        return
+
+    creds = _load_telegram_credentials()
+    if creds is None:
+        return
+    token, chat_id = creds
+
+    if p["status"] == "OK":
+        text = _format_telegram_ok(p)
+    else:
+        text = _format_telegram_failed(p)
+
+    try:
+        url = f"https://api.telegram.org/bot{token}/sendMessage"
+        body = _urllib_parse.urlencode({"chat_id": chat_id, "text": text}).encode("utf-8")
+        req = _urllib_request.Request(
+            url,
+            data=body,
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+        with _urllib_request.urlopen(req, timeout=_TELEGRAM_TIMEOUT_SECONDS):
+            pass
+    except Exception:
+        # Silent failure invariant: any exception here must not propagate.
+        # JSONL log is the durable record; macOS already fired for FAILED.
+        # Token must NEVER appear in any captured exception or log line —
+        # we drop the exception object without re-raising or logging.
+        return
+
+
+def dispatch(p: AlertPayload, log_file: Path, *, notify_ok: bool = False) -> None:
+    write_log(p, log_file)
+    if p["status"] == "FAILED":
+        _send_macos_notification(
+            title="LiveMakersCom pivots producer FAILED",
+            body=format_payload(p),
+        )
+    _send_telegram(p, notify_ok=notify_ok)

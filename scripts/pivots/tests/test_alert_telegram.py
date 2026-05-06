@@ -185,3 +185,127 @@ def test_load_credentials_skips_comments_and_blanks(monkeypatch, tmp_path):
     )
     monkeypatch.setattr("ops.alert._SECRETS_PATH", secrets)
     assert _load_telegram_credentials() == ("abc", "-1")
+
+
+# --------------------------- _send_telegram + dispatch ---------------------------
+
+class _FakeURLOpen:
+    def __init__(self):
+        self.calls: list[tuple[str, bytes]] = []
+
+    def __call__(self, request_or_url, data=None, timeout=None):
+        url = getattr(request_or_url, "full_url", request_or_url)
+        body = data
+        if hasattr(request_or_url, "data") and request_or_url.data is not None:
+            body = request_or_url.data
+        self.calls.append((url, body))
+
+        class _Resp:
+            def __enter__(self_inner): return self_inner
+            def __exit__(self_inner, *a): pass
+            def read(self_inner): return b""
+        return _Resp()
+
+
+def test_send_telegram_ok_skipped_without_notify_ok(monkeypatch, tmp_path):
+    from ops.alert import _send_telegram
+    fake = _FakeURLOpen()
+    monkeypatch.setattr("ops.alert._urllib_request.urlopen", fake)
+    monkeypatch.setattr(
+        "ops.alert._load_telegram_credentials", lambda: ("tok", "cid")
+    )
+    payload = _payload(status="OK")
+    _send_telegram(payload, notify_ok=False)
+    assert fake.calls == []
+
+
+def test_send_telegram_ok_posts_when_notify_ok(monkeypatch, tmp_path):
+    from ops.alert import _send_telegram
+    fake = _FakeURLOpen()
+    monkeypatch.setattr("ops.alert._urllib_request.urlopen", fake)
+    monkeypatch.setattr(
+        "ops.alert._load_telegram_credentials", lambda: ("tok", "cid")
+    )
+    _send_telegram(_payload(status="OK"), notify_ok=True)
+    assert len(fake.calls) == 1
+    url, body = fake.calls[0]
+    assert "bottok/sendMessage" in url
+
+
+def test_send_telegram_failed_posts_regardless(monkeypatch, tmp_path):
+    from ops.alert import _send_telegram
+    fake = _FakeURLOpen()
+    monkeypatch.setattr("ops.alert._urllib_request.urlopen", fake)
+    monkeypatch.setattr(
+        "ops.alert._load_telegram_credentials", lambda: ("tok", "cid")
+    )
+    _send_telegram(_payload(status="FAILED", error_type="X"), notify_ok=False)
+    assert len(fake.calls) == 1
+
+
+def test_send_telegram_no_credentials_skips(monkeypatch):
+    from ops.alert import _send_telegram
+    fake = _FakeURLOpen()
+    monkeypatch.setattr("ops.alert._urllib_request.urlopen", fake)
+    monkeypatch.setattr("ops.alert._load_telegram_credentials", lambda: None)
+    _send_telegram(_payload(status="FAILED", error_type="X"), notify_ok=True)
+    assert fake.calls == []
+
+
+def test_send_telegram_swallows_urlopen_exception(monkeypatch):
+    from ops.alert import _send_telegram
+
+    def _raise(*a, **kw):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr("ops.alert._urllib_request.urlopen", _raise)
+    monkeypatch.setattr(
+        "ops.alert._load_telegram_credentials", lambda: ("tok", "cid")
+    )
+    # Must not raise
+    _send_telegram(_payload(status="FAILED", error_type="X"), notify_ok=True)
+
+
+def test_dispatch_ok_no_macos_yes_telegram(monkeypatch, tmp_path):
+    from ops import alert
+    fake = _FakeURLOpen()
+    macos_calls: list[tuple[str, str]] = []
+    monkeypatch.setattr(alert._urllib_request, "urlopen", fake)
+    monkeypatch.setattr(
+        alert,
+        "_load_telegram_credentials",
+        lambda: ("tok", "cid"),
+    )
+    monkeypatch.setattr(
+        alert,
+        "_send_macos_notification",
+        lambda title, body: macos_calls.append((title, body)),
+    )
+    log = tmp_path / "ops.log.jsonl"
+    alert.dispatch(_payload(status="OK"), log_file=log, notify_ok=True)
+    assert log.exists()
+    assert macos_calls == []
+    assert len(fake.calls) == 1
+
+
+def test_dispatch_failed_yes_macos_yes_telegram(monkeypatch, tmp_path):
+    from ops import alert
+    fake = _FakeURLOpen()
+    macos_calls: list[tuple[str, str]] = []
+    monkeypatch.setattr(alert._urllib_request, "urlopen", fake)
+    monkeypatch.setattr(
+        alert,
+        "_load_telegram_credentials",
+        lambda: ("tok", "cid"),
+    )
+    monkeypatch.setattr(
+        alert,
+        "_send_macos_notification",
+        lambda title, body: macos_calls.append((title, body)),
+    )
+    log = tmp_path / "ops.log.jsonl"
+    p = _payload(status="FAILED", error_type="DryRunFailed", details="boom")
+    alert.dispatch(p, log_file=log, notify_ok=False)
+    assert log.exists()
+    assert len(macos_calls) == 1
+    assert len(fake.calls) == 1
