@@ -64,3 +64,14 @@ item. If any item fails, do not declare v0.1-ops complete.
 > committed back into this file — the file in git remains a blank template
 > so subsequent runs (e.g. v0.1-live, v0.2 regression) can re-use it
 > without merging operator metadata into history.
+
+## v0.1-live manual smoke (run after install)
+
+- [ ] BotFather token + chat id obtained and added to `~/.sition/secrets.env`; `chmod 0600` verified
+- [ ] `bash scripts/pivots/ops/install_launchagent.sh` exits 0
+- [ ] Telegram chat receives `✅ pivots-ops OK | ...` within 60 seconds
+- [ ] `git log -1` shows new `chore(pivots): daily snapshot ...` commit
+- [ ] Manual `python -m ops.run_daily` (no flags) → no Telegram OK arrives (only FAILED would)
+- [ ] Two terminals run `python -m ops.run_daily` simultaneously; second one Telegram-FAILEDs with `LockBusy`
+- [ ] Next morning 08:00 JST: Telegram receives a second OK; `git log -2` shows two snapshot commits
+- [ ] `bash scripts/pivots/ops/uninstall_launchagent.sh` cleanly removes the agent

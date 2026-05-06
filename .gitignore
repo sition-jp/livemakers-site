@@ -38,3 +38,4 @@ data/pivots-history/*
 scripts/pivots/ops.log.jsonl
 scripts/pivots/launchd.stdout.log
 scripts/pivots/launchd.stderr.log
+scripts/pivots/.run_daily.lock

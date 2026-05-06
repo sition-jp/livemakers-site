@@ -2,21 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
   LiveMakersCom AI Turning Point Detector — daily producer wrapper.
-  Runs at 08:00 LOCAL TIME (= 08:00 JST when host is on JST, per handoff §2).
+  Runs at 08:00 LOCAL TIME (= 08:00 JST when host is on JST).
 
-  Important (Codex review 2, must-fix #2): launchd's StartCalendarInterval
-  uses the host's LOCAL TZ, not UTC. If you want 08:00 JST you must set
-  Hour=8 and run on a JST-configured host. Do NOT set Hour=23 thinking it
-  maps to UTC.
+  Important: launchd's StartCalendarInterval uses the host's LOCAL TZ,
+  not UTC. If you want 08:00 JST you must set Hour=8 and run on a
+  JST-configured host. Do NOT set Hour=23 thinking it maps to UTC.
 
-  Install:
-    cp scripts/pivots/ops/samples/com.sition.livemakers.pivots.daily.plist \
-       ~/Library/LaunchAgents/
-    launchctl load ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
-  Uninstall:
-    launchctl unload ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
-    rm ~/Library/LaunchAgents/com.sition.livemakers.pivots.daily.plist
-  Replace REPLACE_REPO_PATH below with your livemakers-site clone path.
+  Modern install/uninstall via launchctl bootstrap/bootout/kickstart:
+    Install:   bash scripts/pivots/ops/install_launchagent.sh
+    Uninstall: bash scripts/pivots/ops/uninstall_launchagent.sh
+
+  install_launchagent.sh substitutes REPLACE_REPO_PATH below before
+  placing the file at ~/Library/LaunchAgents/.
+
+  EnvironmentVariables / PATH is required because the producer's
+  zod validator shells out to `npx vitest`, which lives in
+  /opt/homebrew/bin (Apple Silicon Homebrew) or /usr/local/bin
+  (Intel Homebrew). launchd's default user-agent PATH does not
+  include either.
 -->
 <plist version="1.0">
 <dict>
@@ -27,9 +30,16 @@
         <string>REPLACE_REPO_PATH/scripts/pivots/.venv/bin/python</string>
         <string>-m</string>
         <string>ops.run_daily</string>
+        <string>--auto-commit</string>
+        <string>--notify-ok</string>
     </array>
     <key>WorkingDirectory</key>
     <string>REPLACE_REPO_PATH/scripts/pivots</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
     <key>StartCalendarInterval</key>
     <dict>
         <key>Hour</key>
