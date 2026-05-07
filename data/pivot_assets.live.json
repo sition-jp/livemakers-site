@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-05-07T10:27:16Z",
+  "generated_at": "2026-05-07T10:36:25Z",
   "radar": [
     {
       "symbol": "BTC",
@@ -62,7 +62,7 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-05-07T10:27:16Z",
+      "timestamp": "2026-05-07T10:36:25Z",
       "scores": {
         "overall": 45.0,
         "price_pivot": 35.0,
@@ -118,7 +118,7 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-05-07T10:27:16Z",
+      "timestamp": "2026-05-07T10:36:25Z",
       "scores": {
         "overall": 29.0,
         "price_pivot": 20.0,
@@ -160,7 +160,7 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-05-07T10:27:16Z",
+      "timestamp": "2026-05-07T10:36:25Z",
       "scores": {
         "overall": 17.0,
         "price_pivot": 20.0,
@@ -195,7 +195,7 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-05-07T10:27:16Z",
+      "timestamp": "2026-05-07T10:36:25Z",
       "scores": {
         "overall": 34.0,
         "price_pivot": 0.0,
@@ -216,14 +216,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.4568060994303833
+          "raw_value": 0.45666753556473194
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.06038029924186229
+          "raw_value": 0.06038713865818916
         },
         {
           "category": "funding",
@@ -245,7 +245,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-05-07T10:27:16Z",
+      "timestamp": "2026-05-07T10:36:25Z",
       "scores": {
         "overall": 34.0,
         "price_pivot": 0.0,
@@ -266,14 +266,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.4568060994303833
+          "raw_value": 0.45666753556473194
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.06038029924186229
+          "raw_value": 0.06038713865818916
         },
         {
           "category": "funding",
@@ -295,7 +295,7 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-05-07T10:27:16Z",
+      "timestamp": "2026-05-07T10:36:25Z",
       "scores": {
         "overall": 34.0,
         "price_pivot": 0.0,
@@ -316,14 +316,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.4568060994303833
+          "raw_value": 0.45666753556473194
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.06038029924186229
+          "raw_value": 0.06038713865818916
         },
         {
           "category": "funding",
