@@ -64,6 +64,11 @@ FONT_HELV_BOLD = "/System/Library/Fonts/Helvetica.ttc"  # index 1 = bold
 FONT_HELV_REG = "/System/Library/Fonts/Helvetica.ttc"
 FONT_MONO = "/System/Library/Fonts/SFNSMono.ttf"
 
+# Japanese fonts (Hiragino Sans family supports both kana and kanji).
+# Index 0 of W7 = bold weight for titles; W3 = regular for subtitles/meta.
+FONT_JA_BOLD = "/System/Library/Fonts/ヒラギノ角ゴシック W7.ttc"
+FONT_JA_REG = "/System/Library/Fonts/ヒラギノ角ゴシック W3.ttc"
+
 FALLBACK = "/System/Library/Fonts/Helvetica.ttc"
 
 
@@ -135,14 +140,26 @@ def draw_title_block(
     title: str,
     subtitle: str,
     metrics_line: str,
+    font_lang: str = "en",
 ) -> Image.Image:
-    """Bottom-left title block — 4 lines."""
+    """Bottom-left title block — 4 lines.
+
+    font_lang: "en" uses Helvetica (default; backward compatible with W19).
+               "ja" uses Hiragino Sans for week_label/title/subtitle to render
+               Japanese characters correctly. The metrics line always uses the
+               mono font since it's ASCII numerics either way.
+    """
     overlay = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
 
-    f_meta = _font(FONT_HELV_REG, 26)
-    f_title = _font(FONT_HELV_BOLD, 64, index=1)
-    f_subtitle = _font(FONT_HELV_BOLD, 36, index=1)
+    if font_lang == "ja":
+        f_meta = _font(FONT_JA_REG, 26)
+        f_title = _font(FONT_JA_BOLD, 64)
+        f_subtitle = _font(FONT_JA_BOLD, 36)
+    else:
+        f_meta = _font(FONT_HELV_REG, 26)
+        f_title = _font(FONT_HELV_BOLD, 64, index=1)
+        f_subtitle = _font(FONT_HELV_BOLD, 36, index=1)
     f_metrics = _font(FONT_MONO, 24)
 
     # Compute text heights (use getbbox)
@@ -183,6 +200,7 @@ def render(
     title: str,
     subtitle: str,
     metrics_line: str,
+    font_lang: str = "en",
 ) -> Path:
     """Full pipeline: art → gradient → badge → title block → save."""
     canvas = load_and_resize_art(art_path)
@@ -194,6 +212,7 @@ def render(
         title=title,
         subtitle=subtitle,
         metrics_line=metrics_line,
+        font_lang=font_lang,
     )
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -210,6 +229,12 @@ def main() -> int:
     parser.add_argument("--title", required=True, help="Main title in CAPS")
     parser.add_argument("--subtitle", required=True, help="Subtitle in CAPS")
     parser.add_argument("--metrics-line", required=True, help="e.g. 'EPOCH 629 · ADA $0.276 · NIGHT $0.033'")
+    parser.add_argument(
+        "--font-lang",
+        choices=["en", "ja"],
+        default="en",
+        help="Font set for title/subtitle/meta. 'en' (default) = Helvetica. 'ja' = Hiragino Sans for Japanese text rendering.",
+    )
     args = parser.parse_args()
 
     if not args.art.exists():
@@ -223,6 +248,7 @@ def main() -> int:
         title=args.title,
         subtitle=args.subtitle,
         metrics_line=args.metrics_line,
+        font_lang=args.font_lang,
     )
     print(f"OK: rendered {out} ({out.stat().st_size:,} bytes)")
     return 0
