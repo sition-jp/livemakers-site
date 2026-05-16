@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-05-15T23:00:59Z",
+  "generated_at": "2026-05-16T23:00:15Z",
   "radar": [
     {
       "symbol": "BTC",
@@ -32,11 +32,11 @@
       "symbol": "ETH",
       "scores": {
         "7D": {
-          "overall": 29.0,
-          "price_pivot": 20.0,
+          "overall": 36.0,
+          "price_pivot": 35.0,
           "volatility_pivot": 25.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "price"
         },
         "30D": {
           "overall": 37.0,
@@ -62,7 +62,7 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-05-15T23:00:59Z",
+      "timestamp": "2026-05-16T23:00:15Z",
       "scores": {
         "overall": 19.0,
         "price_pivot": 0.0,
@@ -83,7 +83,7 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.2998749068061289
+          "raw_value": 0.30328593790235503
         }
       ],
       "summary": {
@@ -98,7 +98,7 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-05-15T23:00:59Z",
+      "timestamp": "2026-05-16T23:00:15Z",
       "scores": {
         "overall": 28.0,
         "price_pivot": 0.0,
@@ -119,14 +119,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.2998749068061289
+          "raw_value": 0.30328593790235503
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.09383032816494834
+          "raw_value": 0.09447292024239778
         }
       ],
       "summary": {
@@ -141,7 +141,7 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-05-15T23:00:59Z",
+      "timestamp": "2026-05-16T23:00:15Z",
       "scores": {
         "overall": 9.0,
         "price_pivot": 0.0,
@@ -169,14 +169,14 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-05-15T23:00:59Z",
+      "timestamp": "2026-05-16T23:00:15Z",
       "scores": {
-        "overall": 29.0,
-        "price_pivot": 20.0,
+        "overall": 36.0,
+        "price_pivot": 35.0,
         "volatility_pivot": 25.0,
         "confidence": {
           "grade": "A",
-          "score": 90.0
+          "score": 88.0
         }
       },
       "direction_bias": {
@@ -188,6 +188,13 @@
         {
           "category": "price",
           "direction": "neutral",
+          "weight": 0.15,
+          "message": "Price is far from MA20 (top 20% of recent range)",
+          "raw_value": 0.051174085897260156
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
           "weight": 0.2,
           "message": "Price is near a recent range boundary"
         },
@@ -196,13 +203,13 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.3442424319310144
+          "raw_value": 0.34970814984067744
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 2."
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 3."
       }
     },
     "ETH__30D": {
@@ -211,7 +218,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-05-15T23:00:59Z",
+      "timestamp": "2026-05-16T23:00:15Z",
       "scores": {
         "overall": 37.0,
         "price_pivot": 20.0,
@@ -238,14 +245,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.3442424319310144
+          "raw_value": 0.34970814984067744
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.07242236976700406
+          "raw_value": 0.0833177758252863
         }
       ],
       "summary": {
@@ -260,7 +267,7 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-05-15T23:00:59Z",
+      "timestamp": "2026-05-16T23:00:15Z",
       "scores": {
         "overall": 37.0,
         "price_pivot": 20.0,
@@ -287,14 +294,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.3442424319310144
+          "raw_value": 0.34970814984067744
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.07242236976700406
+          "raw_value": 0.0833177758252863
         }
       ],
       "summary": {
