@@ -49,8 +49,11 @@ export async function generateMetadata({
   };
 
   if (imagePath) {
+    // Image dimensions match the actual rendered files (16:9, native
+    // 1792×1024 from render_thumbnail.py). Twitter/OG accept this aspect
+    // ratio and display correctly across X, Discord, Slack.
     og.images = [
-      { url: imagePath, width: 1200, height: 675, alt: title },
+      { url: imagePath, width: 1792, height: 1024, alt: title },
     ];
     twitter.images = [imagePath];
   }
