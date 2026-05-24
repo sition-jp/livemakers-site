@@ -48,18 +48,10 @@ export function Header() {
           >
             {t("brief")}
           </Link>
-          <Link
-            href="/signals"
-            className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
-          >
-            {t("signals")}
-          </Link>
-          <Link
-            href="/subscribe"
-            className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
-          >
-            {t("subscribe")}
-          </Link>
+          {/* SIGNALS / SUBSCRIBE are temporarily hidden from nav while still
+              in development. The pages themselves remain reachable via URL
+              (livemakers.com/signals, /subscribe). Restore these <Link>
+              elements when both features ship for general availability. */}
           <Link
             href="/about"
             className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
