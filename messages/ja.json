@@ -5,7 +5,8 @@
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
-    "live": "LIVE"
+    "live": "LIVE",
+    "alpha": "ALPHA"
   },
   "assets": {
     "dashboard": {

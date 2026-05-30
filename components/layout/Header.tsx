@@ -32,7 +32,12 @@ export function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-3 text-text-primary">
           <LogoSvg className="h-7 w-7 text-pillar-overview" />
-          <span className="text-sm font-bold tracking-logo">LIVEMAKERS</span>
+          <span className="flex items-center gap-2">
+            <span className="text-sm font-bold tracking-logo">LIVEMAKERS</span>
+            <span className="rounded border border-border-primary px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-label text-text-secondary">
+              {t("alpha")}
+            </span>
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
