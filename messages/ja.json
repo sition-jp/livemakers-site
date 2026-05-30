@@ -160,7 +160,7 @@
     "networkPulse": "ネットワーク・パルス · 発行時点スナップショット",
     "fourPanelTitle": "ステータス・スナップショット",
     "recentBriefs": "過去のブリーフ",
-    "readFullBrief": "フル記事を読む →"
+    "readFullBrief": "ブリーフ全文を読む →"
   },
   "brief": {
     "title": "ウィークリー・ブリーフ",
@@ -184,7 +184,7 @@
   },
   "about": {
     "title": "LiveMakers について",
-    "intro": "LiveMakers は、これからの金融を構成する要素を、現場の精度で観察するためのインテリジェンス・ハブです。AI エージェント経済、暗号資産、ブロックチェーン上の分散型金融 (DeFi)、AI オートトレーディング — 次世代金融プラットフォームの主要トピックを、Cardano と Midnight を起点にマルチブロックチェーン時代の文脈で扱います。",
+    "intro": "LiveMakers は、これからの金融を構成する要素を、現場の精度で観察するためのインテリジェンス・ターミナルです。AI エージェント経済、暗号資産、ブロックチェーン上の分散型金融 (DeFi)、AI オートトレーディング — 次世代金融プラットフォームの主要トピックを、Cardano と Midnight を起点にマルチブロックチェーン時代の文脈で扱います。",
 
     "audiencesTitle": "実践と研究、同じ一次情報から",
     "audiencesLifestyle": "次の一手を自分で判断したい個人投資家・実践者 へ。次世代の金融 — AI エージェント経済、DeFi、AI オートトレーディング、分散型ガバナンス — は、もはや「プロだけが扱う領域」ではありません。LiveMakers は、先行指標シグナルとライブデータを、ウォレット運用・DeFi 参加・AI オートトレーディングの導入・ガバナンス投票といった具体的な実践判断につながる形で整理してお届けします。",
@@ -195,11 +195,11 @@
     "whyBody2": "ただし私たちはマルチブロックチェーン時代を前提にしています。Cardano と Midnight を観察の軸としながら、Bitcoin、Ethereum、Solana、その他主要 L1/L2 の動きとの相対比較を継続します。",
 
     "processTitle": "リサーチの方法論",
-    "processBody": "LiveMakers のすべての記事は SITION Discovery Engine (SDE) — 独自の AI 駆動インテリジェンス・パイプライン — がリアルタイムで収集・評価した一次情報を基盤にしています。Koios、CoinGecko、DefiLlama、GitHub、X (旧 Twitter) など複数のソースを継続的に取り込み、SIPO (Stake In Pool Operator) としての現場経験で文脈化することで、リサーチ精度と実践判断への落とし込みの両方を維持しています。",
+    "processBody": "LiveMakers のすべてのブリーフは SITION Discovery Engine (SDE) — 独自の AI 駆動インテリジェンス・パイプライン — がリアルタイムで収集・評価した一次情報を基盤にしています。Koios、CoinGecko、DefiLlama、GitHub、X (旧 Twitter) など複数のソースを継続的に取り込み、SIPO (Stake In Pool Operator) としての現場経験で文脈化することで、リサーチ精度と実践判断への落とし込みの両方を維持しています。",
 
     "sipoTitle": "SITION Group としての立ち位置",
     "sipoStats": "カルダノ DRep #13 (₳101M 委任、上位 13 位)。Cardano ステークプール ×3 — 合計 ₳114M 委任 (SIPO / SIPO2 / SIPO3)。2026 年 4 月より Midnight Ambassador。(以上、2026 年 4 月 12 日時点)",
-    "sipoBody": "私たちは観察者であると同時に、Cardano エコシステムの参加者・運営者でもあります。書いていることは、私たち自身が日々運用している意思決定の延長線上にあります。",
+    "sipoBody": "私たちは観察者であると同時に、Cardano エコシステムの参加者・運営者でもあります。発信していることは、私たち自身が日々運用している意思決定の延長線上にあります。",
 
     "disclaimerTitle": "免責",
     "disclaimerBody": "本レポートは投資助言ではありません。学習・リサーチ目的の情報提供です。"
