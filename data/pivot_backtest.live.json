@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-06-02T23:00:10Z",
+  "generated_at": "2026-06-03T23:00:11Z",
   "entries": [
     {
       "asset": "BTC",
@@ -8,8 +8,8 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -28,8 +28,8 @@
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -48,8 +48,8 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.6923,
@@ -68,8 +68,8 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.7273,
@@ -88,8 +88,8 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -108,8 +108,8 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.3333,
@@ -128,8 +128,8 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -148,8 +148,8 @@
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -168,8 +168,8 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.6,
@@ -188,8 +188,8 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.6,
@@ -208,8 +208,8 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.5714,
@@ -228,8 +228,8 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.75,
@@ -248,8 +248,8 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -268,8 +268,8 @@
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -288,8 +288,8 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.6316,
@@ -308,8 +308,8 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.4,
@@ -328,8 +328,8 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.5,
@@ -348,8 +348,8 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.75,
@@ -368,8 +368,8 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
@@ -388,8 +388,8 @@
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -408,8 +408,8 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.9,
@@ -428,8 +428,8 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.8182,
@@ -448,8 +448,8 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.6667,
@@ -468,8 +468,8 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
@@ -488,8 +488,8 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
@@ -497,8 +497,8 @@
         "avg_lead_time_days": 0.0,
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.9988,
-        "average_move": 0.1205,
-        "max_drawdown": 0.1205,
+        "average_move": 0.1241,
+        "max_drawdown": 0.1241,
         "sample_size": 1
       }
     },
@@ -508,8 +508,8 @@
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -528,8 +528,8 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.871,
@@ -548,8 +548,8 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.9375,
@@ -568,8 +568,8 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
@@ -588,8 +588,8 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
@@ -608,17 +608,17 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
         "recall": 0.0013,
         "avg_lead_time_days": 0.0,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9988,
-        "average_move": 0.2579,
-        "max_drawdown": 0.2579,
+        "false_negative_rate": 0.9987,
+        "average_move": 0.2769,
+        "max_drawdown": 0.2769,
         "sample_size": 1
       }
     },
@@ -628,8 +628,8 @@
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.0,
@@ -648,12 +648,12 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.9062,
-        "recall": 0.0362,
+        "recall": 0.0363,
         "avg_lead_time_days": 0.0,
         "false_positive_rate": 0.0938,
         "false_negative_rate": 0.9637,
@@ -668,12 +668,12 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 0.9375,
-        "recall": 0.0187,
+        "recall": 0.0188,
         "avg_lead_time_days": 0.0,
         "false_positive_rate": 0.0625,
         "false_negative_rate": 0.9812,
@@ -688,12 +688,12 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
-        "recall": 0.0037,
+        "recall": 0.0038,
         "avg_lead_time_days": 0.0,
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.9962,
@@ -708,8 +708,8 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-09-07",
-        "end": "2026-06-02"
+        "start": "2023-09-08",
+        "end": "2026-06-03"
       },
       "metrics": {
         "precision": 1.0,
