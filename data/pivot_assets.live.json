@@ -1,29 +1,29 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-06-06T23:00:49Z",
+  "generated_at": "2026-06-07T23:00:18Z",
   "radar": [
     {
       "symbol": "BTC",
       "scores": {
         "7D": {
-          "overall": 38.0,
-          "price_pivot": 70.0,
+          "overall": 36.0,
+          "price_pivot": 65.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "C",
+          "confidence_grade": "B",
           "main_signal": "price"
         },
         "30D": {
-          "overall": 38.0,
-          "price_pivot": 70.0,
+          "overall": 36.0,
+          "price_pivot": 65.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "C",
+          "confidence_grade": "B",
           "main_signal": "price"
         },
         "90D": {
-          "overall": 38.0,
-          "price_pivot": 70.0,
+          "overall": 36.0,
+          "price_pivot": 65.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "C",
+          "confidence_grade": "B",
           "main_signal": "price"
         }
       }
@@ -32,24 +32,24 @@
       "symbol": "ETH",
       "scores": {
         "7D": {
-          "overall": 45.0,
-          "price_pivot": 70.0,
-          "volatility_pivot": 15.0,
+          "overall": 36.0,
+          "price_pivot": 65.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "B",
           "main_signal": "price"
         },
         "30D": {
-          "overall": 45.0,
-          "price_pivot": 70.0,
-          "volatility_pivot": 15.0,
+          "overall": 36.0,
+          "price_pivot": 65.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "B",
           "main_signal": "price"
         },
         "90D": {
-          "overall": 58.0,
-          "price_pivot": 70.0,
-          "volatility_pivot": 40.0,
-          "confidence_grade": "B+",
+          "overall": 36.0,
+          "price_pivot": 65.0,
+          "volatility_pivot": 0.0,
+          "confidence_grade": "B",
           "main_signal": "price"
         }
       }
@@ -62,14 +62,14 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-06T23:00:49Z",
+      "timestamp": "2026-06-07T23:00:18Z",
       "scores": {
-        "overall": 38.0,
-        "price_pivot": 70.0,
+        "overall": 36.0,
+        "price_pivot": 65.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "C",
-          "score": 64.0
+          "grade": "B",
+          "score": 66.0
         }
       },
       "direction_bias": {
@@ -82,28 +82,28 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (15.2)",
-          "raw_value": 15.174007820832003
+          "message": "RSI is in oversold territory (24.5)",
+          "raw_value": 24.525681976597895
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.16399135639302667
+          "raw_value": 0.12414353758366078
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2042223205587377
+          "raw_value": 0.1715282824887359
         },
         {
           "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
+          "direction": "bullish",
+          "weight": 0.15,
+          "message": "MACD momentum is improving"
         }
       ],
       "summary": {
@@ -118,14 +118,14 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-06T23:00:49Z",
+      "timestamp": "2026-06-07T23:00:18Z",
       "scores": {
-        "overall": 38.0,
-        "price_pivot": 70.0,
+        "overall": 36.0,
+        "price_pivot": 65.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "C",
-          "score": 64.0
+          "grade": "B",
+          "score": 66.0
         }
       },
       "direction_bias": {
@@ -138,28 +138,28 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (15.2)",
-          "raw_value": 15.174007820832003
+          "message": "RSI is in oversold territory (24.5)",
+          "raw_value": 24.525681976597895
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.16399135639302667
+          "raw_value": 0.12414353758366078
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2042223205587377
+          "raw_value": 0.1715282824887359
         },
         {
           "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
+          "direction": "bullish",
+          "weight": 0.15,
+          "message": "MACD momentum is improving"
         }
       ],
       "summary": {
@@ -174,14 +174,14 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-06T23:00:49Z",
+      "timestamp": "2026-06-07T23:00:18Z",
       "scores": {
-        "overall": 38.0,
-        "price_pivot": 70.0,
+        "overall": 36.0,
+        "price_pivot": 65.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "C",
-          "score": 64.0
+          "grade": "B",
+          "score": 66.0
         }
       },
       "direction_bias": {
@@ -194,28 +194,28 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (15.2)",
-          "raw_value": 15.174007820832003
+          "message": "RSI is in oversold territory (24.5)",
+          "raw_value": 24.525681976597895
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.16399135639302667
+          "raw_value": 0.12414353758366078
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2042223205587377
+          "raw_value": 0.1715282824887359
         },
         {
           "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
+          "direction": "bullish",
+          "weight": 0.15,
+          "message": "MACD momentum is improving"
         }
       ],
       "summary": {
@@ -230,14 +230,14 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-06T23:00:49Z",
+      "timestamp": "2026-06-07T23:00:18Z",
       "scores": {
-        "overall": 45.0,
-        "price_pivot": 70.0,
-        "volatility_pivot": 15.0,
+        "overall": 36.0,
+        "price_pivot": 65.0,
+        "volatility_pivot": 0.0,
         "confidence": {
           "grade": "B",
-          "score": 70.0
+          "score": 66.0
         }
       },
       "direction_bias": {
@@ -250,41 +250,34 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (12.5)",
-          "raw_value": 12.528103728938603
+          "message": "RSI is in oversold territory (25.8)",
+          "raw_value": 25.83443751462012
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.2140421113008183
+          "raw_value": 0.14742123995082457
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2833172823391347
+          "raw_value": 0.2265911674423944
         },
         {
           "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
-        },
-        {
-          "category": "volume",
-          "direction": "volatility",
+          "direction": "bullish",
           "weight": 0.15,
-          "message": "Volume expanded sharply versus the 30D average",
-          "raw_value": 1.6383230986142168
+          "message": "MACD momentum is improving"
         }
       ],
       "summary": {
-        "level": "Medium",
-        "headline": "Medium turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 5."
+        "level": "Low",
+        "headline": "Low turning point conditions in ETH 7D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
       }
     },
     "ETH__30D": {
@@ -293,14 +286,14 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-06T23:00:49Z",
+      "timestamp": "2026-06-07T23:00:18Z",
       "scores": {
-        "overall": 45.0,
-        "price_pivot": 70.0,
-        "volatility_pivot": 15.0,
+        "overall": 36.0,
+        "price_pivot": 65.0,
+        "volatility_pivot": 0.0,
         "confidence": {
           "grade": "B",
-          "score": 70.0
+          "score": 66.0
         }
       },
       "direction_bias": {
@@ -313,41 +306,34 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (12.5)",
-          "raw_value": 12.528103728938603
+          "message": "RSI is in oversold territory (25.8)",
+          "raw_value": 25.83443751462012
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.2140421113008183
+          "raw_value": 0.14742123995082457
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2833172823391347
+          "raw_value": 0.2265911674423944
         },
         {
           "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
-        },
-        {
-          "category": "volume",
-          "direction": "volatility",
+          "direction": "bullish",
           "weight": 0.15,
-          "message": "Volume expanded sharply versus the 30D average",
-          "raw_value": 1.6383230986142168
+          "message": "MACD momentum is improving"
         }
       ],
       "summary": {
-        "level": "Medium",
-        "headline": "Medium turning point conditions in ETH 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 5."
+        "level": "Low",
+        "headline": "Low turning point conditions in ETH 30D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
       }
     },
     "ETH__90D": {
@@ -356,14 +342,14 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-06T23:00:49Z",
+      "timestamp": "2026-06-07T23:00:18Z",
       "scores": {
-        "overall": 58.0,
-        "price_pivot": 70.0,
-        "volatility_pivot": 40.0,
+        "overall": 36.0,
+        "price_pivot": 65.0,
+        "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B+",
-          "score": 80.0
+          "grade": "B",
+          "score": 66.0
         }
       },
       "direction_bias": {
@@ -376,48 +362,34 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (12.5)",
-          "raw_value": 12.528103728938603
+          "message": "RSI is in oversold territory (25.8)",
+          "raw_value": 25.83443751462012
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.2140421113008183
+          "raw_value": 0.14742123995082457
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2833172823391347
+          "raw_value": 0.2265911674423944
         },
         {
           "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.25,
-          "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.5140677877150448
-        },
-        {
-          "category": "volume",
-          "direction": "volatility",
+          "direction": "bullish",
           "weight": 0.15,
-          "message": "Volume expanded sharply versus the 30D average",
-          "raw_value": 1.6383230986142168
+          "message": "MACD momentum is improving"
         }
       ],
       "summary": {
-        "level": "Medium",
-        "headline": "Medium turning point conditions in ETH 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 6."
+        "level": "Low",
+        "headline": "Low turning point conditions in ETH 90D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
       }
     }
   }
