@@ -1,29 +1,29 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-06-08T23:00:18Z",
+  "generated_at": "2026-06-09T23:00:12Z",
   "radar": [
     {
       "symbol": "BTC",
       "scores": {
         "7D": {
-          "overall": 30.0,
-          "price_pivot": 50.0,
+          "overall": 44.0,
+          "price_pivot": 85.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "B",
+          "confidence_grade": "C",
           "main_signal": "price"
         },
         "30D": {
-          "overall": 36.0,
-          "price_pivot": 65.0,
+          "overall": 44.0,
+          "price_pivot": 85.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "B",
+          "confidence_grade": "C",
           "main_signal": "price"
         },
         "90D": {
-          "overall": 36.0,
-          "price_pivot": 65.0,
+          "overall": 44.0,
+          "price_pivot": 85.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "B",
+          "confidence_grade": "C",
           "main_signal": "price"
         }
       }
@@ -62,14 +62,14 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-08T23:00:18Z",
+      "timestamp": "2026-06-09T23:00:12Z",
       "scores": {
-        "overall": 30.0,
-        "price_pivot": 50.0,
+        "overall": 44.0,
+        "price_pivot": 85.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B",
-          "score": 72.0
+          "grade": "C",
+          "score": 58.0
         }
       },
       "direction_bias": {
@@ -82,27 +82,40 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (26.9)",
-          "raw_value": 26.929503621902768
+          "message": "RSI is in oversold territory (24.2)",
+          "raw_value": 24.174214208270584
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.15,
+          "message": "Price is far from MA20 (top 20% of recent range)",
+          "raw_value": 0.12173656261671906
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.16156400097459447
+          "raw_value": 0.1808302210592901
         },
         {
           "category": "price",
           "direction": "bullish",
           "weight": 0.15,
           "message": "MACD momentum is improving"
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.2,
+          "message": "Price is near a recent range boundary"
         }
       ],
       "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in BTC 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 3."
+        "level": "Medium",
+        "headline": "Medium turning point conditions in BTC 7D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 5."
       }
     },
     "BTC__30D": {
@@ -111,14 +124,14 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-08T23:00:18Z",
+      "timestamp": "2026-06-09T23:00:12Z",
       "scores": {
-        "overall": 36.0,
-        "price_pivot": 65.0,
+        "overall": 44.0,
+        "price_pivot": 85.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B",
-          "score": 66.0
+          "grade": "C",
+          "score": 58.0
         }
       },
       "direction_bias": {
@@ -131,34 +144,40 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (26.9)",
-          "raw_value": 26.929503621902768
+          "message": "RSI is in oversold territory (24.2)",
+          "raw_value": 24.174214208270584
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.107889662006914
+          "raw_value": 0.12173656261671906
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.16156400097459447
+          "raw_value": 0.1808302210592901
         },
         {
           "category": "price",
           "direction": "bullish",
           "weight": 0.15,
           "message": "MACD momentum is improving"
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.2,
+          "message": "Price is near a recent range boundary"
         }
       ],
       "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in BTC 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
+        "level": "Medium",
+        "headline": "Medium turning point conditions in BTC 30D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 5."
       }
     },
     "BTC__90D": {
@@ -167,14 +186,14 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-08T23:00:18Z",
+      "timestamp": "2026-06-09T23:00:12Z",
       "scores": {
-        "overall": 36.0,
-        "price_pivot": 65.0,
+        "overall": 44.0,
+        "price_pivot": 85.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B",
-          "score": 66.0
+          "grade": "C",
+          "score": 58.0
         }
       },
       "direction_bias": {
@@ -187,34 +206,40 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (26.9)",
-          "raw_value": 26.929503621902768
+          "message": "RSI is in oversold territory (24.2)",
+          "raw_value": 24.174214208270584
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.107889662006914
+          "raw_value": 0.12173656261671906
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.16156400097459447
+          "raw_value": 0.1808302210592901
         },
         {
           "category": "price",
           "direction": "bullish",
           "weight": 0.15,
           "message": "MACD momentum is improving"
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.2,
+          "message": "Price is near a recent range boundary"
         }
       ],
       "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in BTC 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
+        "level": "Medium",
+        "headline": "Medium turning point conditions in BTC 90D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 5."
       }
     },
     "ETH__7D": {
@@ -223,7 +248,7 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-08T23:00:18Z",
+      "timestamp": "2026-06-09T23:00:12Z",
       "scores": {
         "overall": 36.0,
         "price_pivot": 65.0,
@@ -243,22 +268,22 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (29.2)",
-          "raw_value": 29.236641184923357
+          "message": "RSI is in oversold territory (25.7)",
+          "raw_value": 25.74585501734856
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.12258220783253226
+          "raw_value": 0.14378252172117478
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2080069277588741
+          "raw_value": 0.23223169939827032
         },
         {
           "category": "price",
@@ -279,7 +304,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-08T23:00:18Z",
+      "timestamp": "2026-06-09T23:00:12Z",
       "scores": {
         "overall": 36.0,
         "price_pivot": 65.0,
@@ -299,22 +324,22 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (29.2)",
-          "raw_value": 29.236641184923357
+          "message": "RSI is in oversold territory (25.7)",
+          "raw_value": 25.74585501734856
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.12258220783253226
+          "raw_value": 0.14378252172117478
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2080069277588741
+          "raw_value": 0.23223169939827032
         },
         {
           "category": "price",
@@ -335,7 +360,7 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-08T23:00:18Z",
+      "timestamp": "2026-06-09T23:00:12Z",
       "scores": {
         "overall": 36.0,
         "price_pivot": 65.0,
@@ -355,22 +380,22 @@
           "category": "price",
           "direction": "bullish",
           "weight": 0.2,
-          "message": "RSI is in oversold territory (29.2)",
-          "raw_value": 29.236641184923357
+          "message": "RSI is in oversold territory (25.7)",
+          "raw_value": 25.74585501734856
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.12258220783253226
+          "raw_value": 0.14378252172117478
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.2080069277588741
+          "raw_value": 0.23223169939827032
         },
         {
           "category": "price",
