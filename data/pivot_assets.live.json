@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-06-11T23:00:41Z",
+  "generated_at": "2026-06-12T23:00:15Z",
   "radar": [
     {
       "symbol": "BTC",
@@ -13,10 +13,10 @@
           "main_signal": "price"
         },
         "30D": {
-          "overall": 28.0,
-          "price_pivot": 45.0,
+          "overall": 22.0,
+          "price_pivot": 30.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "B",
+          "confidence_grade": "B+",
           "main_signal": "price"
         },
         "90D": {
@@ -62,7 +62,7 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-11T23:00:41Z",
+      "timestamp": "2026-06-12T23:00:15Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
@@ -97,14 +97,14 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-11T23:00:41Z",
+      "timestamp": "2026-06-12T23:00:15Z",
       "scores": {
-        "overall": 28.0,
-        "price_pivot": 45.0,
+        "overall": 22.0,
+        "price_pivot": 30.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B",
-          "score": 74.0
+          "grade": "B+",
+          "score": 80.0
         }
       },
       "direction_bias": {
@@ -117,15 +117,8 @@
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
-          "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.0785166949230526
-        },
-        {
-          "category": "price",
-          "direction": "neutral",
-          "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.15109166858432335
+          "raw_value": 0.14700794141246604
         },
         {
           "category": "price",
@@ -137,7 +130,7 @@
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 3."
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 2."
       }
     },
     "BTC__90D": {
@@ -146,7 +139,7 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-11T23:00:41Z",
+      "timestamp": "2026-06-12T23:00:15Z",
       "scores": {
         "overall": 28.0,
         "price_pivot": 45.0,
@@ -167,14 +160,14 @@
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.0785166949230526
+          "raw_value": 0.06885918274743828
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.15109166858432335
+          "raw_value": 0.14700794141246604
         },
         {
           "category": "price",
@@ -195,7 +188,7 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-11T23:00:41Z",
+      "timestamp": "2026-06-12T23:00:15Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
@@ -230,7 +223,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-11T23:00:41Z",
+      "timestamp": "2026-06-12T23:00:15Z",
       "scores": {
         "overall": 28.0,
         "price_pivot": 45.0,
@@ -251,14 +244,14 @@
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA20 (top 20% of recent range)",
-          "raw_value": 0.10455909580049863
+          "raw_value": 0.10016862128417416
         },
         {
           "category": "price",
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.20555062331698631
+          "raw_value": 0.2063614075145514
         },
         {
           "category": "price",
@@ -279,7 +272,7 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-11T23:00:41Z",
+      "timestamp": "2026-06-12T23:00:15Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
