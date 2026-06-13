@@ -2,6 +2,38 @@
 
 > Hidden beta. Not linked from `Header.tsx`. Internal users only.
 
+## Observation freeze policy
+
+During the v0.1-live observation window, do not add product features,
+format extensions, scoring-model changes, source expansions, UI polish, or
+public navigation links. Only ops fixes that protect trial viability,
+stoppability, or detectability are allowed before the public-link decision.
+
+Allowed exception labels:
+- Trial viability: the scheduled run does not produce usable observation data.
+- Trial stoppability: the trial cannot be stopped or rolled back at the review point.
+- Trial detectability: failures are silent or not visible in logs/alerts.
+
+Every exception must record risk, rollback, touched files, and expected next-run
+behavior in the PR description or the project operations note.
+
+## Observation status, 2026-05-15 JST
+
+- Window: 8 natural LaunchAgent fires verified from 2026-05-08 through
+  2026-05-15 JST morning. The 2026-05-07 install kickstart is separate.
+- Ops log: all entries in `scripts/pivots/ops.log.jsonl` are `status=OK`;
+  no snapshot-missing run observed.
+- Score engine: live scores are moving across runs. The 2026-05-14 UTC
+  snapshot first reached `overall=45`, `grade=A` for ETH 30D and ETH 90D.
+- Backtest output: structurally valid, but still a v0.1 pipeline smoke artifact;
+  do not treat the metrics as a model-performance benchmark.
+- Telegram: local evidence verifies `--notify-ok` wiring and OK logs only.
+  Actual Telegram receipt must be confirmed by the operator.
+- Git: local `main` is `origin/main` plus 6 daily snapshot commits
+  (`59f9612` through `ec7c6f4`). Do not push until the push policy is locked.
+- Current pre-decision blockers: push policy, LaunchAgent/plist single-source
+  policy, and `ANTHROPIC_API_KEY` exposure via inherited launchctl environment.
+
 ## Routes (direct URL only)
 
 - `https://livemakers.com/en/turning-points` — Market Timing Radar
@@ -85,6 +117,24 @@ Still out of scope (v0.2+):
 - External sidecar caching real OI / funding history
 
 Do not add these without explicit re-approval.
+
+## Pre-public-link decision checklist
+
+Before adding a `Header.tsx` link or otherwise making the beta discoverable,
+confirm all of the following:
+
+- 14 consecutive calendar days of OK-producing observation are complete.
+- Telegram OK receipt is operator-confirmed for the same period.
+- Push policy is locked: either keep daily snapshot commits local through the
+  freeze or push a documented observation branch/PR, but do not silently mix
+  observation snapshots with unrelated product work.
+- LaunchAgent source of truth is locked. The repo sample plist and the installed
+  `~/Library/Application Support/sition-livemakers/run_daily_wrapper.sh` path
+  currently represent two install paths; choose one owner before public linking.
+- `ANTHROPIC_API_KEY` is rotated if exposed, removed from inherited launchctl
+  environment, and only required environment variables are explicitly provided.
+- `scripts/pivots/launchd.stderr.log` or the installed launchd stderr log contains
+  only known cosmetic Vite CJS deprecation warnings.
 
 ## v0.1-live: LaunchAgent + Telegram + auto-commit
 
