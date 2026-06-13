@@ -12,14 +12,23 @@
     Install:   bash scripts/pivots/ops/install_launchagent.sh
     Uninstall: bash scripts/pivots/ops/uninstall_launchagent.sh
 
-  install_launchagent.sh substitutes REPLACE_REPO_PATH below before
-  placing the file at ~/Library/LaunchAgents/.
+  install_launchagent.sh substitutes REPLACE_REPO_PATH and
+  REPLACE_HOME below before placing the file at ~/Library/LaunchAgents/.
 
   EnvironmentVariables / PATH is required because the producer's
   zod validator shells out to `npx vitest`, which lives in
   /opt/homebrew/bin (Apple Silicon Homebrew) or /usr/local/bin
   (Intel Homebrew). launchd's default user-agent PATH does not
   include either.
+
+  StandardOutPath / StandardErrorPath MUST live outside TCC-protected
+  folders (~/Documents, ~/Desktop, ~/Downloads). launchd pre-opens
+  these file descriptors before exec; on modern macOS that open is
+  TCC-denied inside protected folders and the service fails to spawn
+  with EX_CONFIG (78) without ever writing a log line. Discovered
+  2026-06-13 when a repo-internal log path silently broke the install.
+  Program binary and WorkingDirectory inside ~/Documents are fine —
+  child-process file access is granted normally after exec.
 -->
 <plist version="1.0">
 <dict>
@@ -48,9 +57,9 @@
         <integer>0</integer>
     </dict>
     <key>StandardOutPath</key>
-    <string>REPLACE_REPO_PATH/scripts/pivots/launchd.stdout.log</string>
+    <string>REPLACE_HOME/Library/Logs/sition-livemakers/launchd.stdout.log</string>
     <key>StandardErrorPath</key>
-    <string>REPLACE_REPO_PATH/scripts/pivots/launchd.stderr.log</string>
+    <string>REPLACE_HOME/Library/Logs/sition-livemakers/launchd.stderr.log</string>
     <key>RunAtLoad</key>
     <false/>
 </dict>

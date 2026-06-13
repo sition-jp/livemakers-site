@@ -14,9 +14,13 @@ if [ ! -x "$REPO_ROOT/scripts/pivots/.venv/bin/python" ]; then
   python3 -m venv "$REPO_ROOT/scripts/pivots/.venv"
 fi
 
-# 2. Substitute REPLACE_REPO_PATH and place plist
+# 2. Substitute REPLACE_REPO_PATH / REPLACE_HOME and place plist.
+# launchd log paths must live outside TCC-protected folders (~/Documents
+# etc.) or the service fails to spawn with EX_CONFIG (78) — see sample
+# plist comment.
 mkdir -p "$HOME/Library/LaunchAgents"
-sed "s|REPLACE_REPO_PATH|$REPO_ROOT|g" "$PLIST_SRC" > "$PLIST_DST"
+mkdir -p "$HOME/Library/Logs/sition-livemakers"
+sed -e "s|REPLACE_REPO_PATH|$REPO_ROOT|g" -e "s|REPLACE_HOME|$HOME|g" "$PLIST_SRC" > "$PLIST_DST"
 
 # 3. Warn if secrets.env missing or wrong perm
 if [ ! -f "$HOME/.sition/secrets.env" ]; then

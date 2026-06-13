@@ -64,7 +64,10 @@ For LaunchAgent install/uninstall, Telegram setup, and troubleshooting, see the 
 ## Logs
 
 - Per-run JSONL: `scripts/pivots/ops.log.jsonl`
-- LaunchAgent stdout/stderr: `scripts/pivots/launchd.stdout.log` and `.stderr.log`
+- LaunchAgent stdout/stderr: `~/Library/Logs/sition-livemakers/launchd.stdout.log`
+  and `launchd.stderr.log` (moved out of the repo 2026-06-13 — launchd cannot
+  pre-open log files inside TCC-protected folders like `~/Documents`; doing so
+  fails the spawn with `EX_CONFIG` 78)
 
 ## Snapshot history
 
@@ -133,8 +136,8 @@ confirm all of the following:
   currently represent two install paths; choose one owner before public linking.
 - `ANTHROPIC_API_KEY` is rotated if exposed, removed from inherited launchctl
   environment, and only required environment variables are explicitly provided.
-- `scripts/pivots/launchd.stderr.log` or the installed launchd stderr log contains
-  only known cosmetic Vite CJS deprecation warnings.
+- `~/Library/Logs/sition-livemakers/launchd.stderr.log` (the installed launchd
+  stderr log) contains only known cosmetic Vite CJS deprecation warnings.
 
 ## v0.1-live: LaunchAgent + Telegram + auto-commit
 
@@ -190,7 +193,7 @@ If no OK Telegram arrives by 08:30 JST:
 launchctl print "gui/$(id -u)/com.sition.livemakers.pivots.daily" | grep -E "(state|next-time)"
 
 # Check launchd's stderr for the agent
-tail -50 scripts/pivots/launchd.stderr.log
+tail -50 ~/Library/Logs/sition-livemakers/launchd.stderr.log
 
 # Compare last log entry timestamp to today's expected fire
 tail -1 scripts/pivots/ops.log.jsonl
@@ -201,6 +204,11 @@ ls -l scripts/pivots/.run_daily.lock 2>/dev/null
 
 Common causes:
 
+- `last exit code = 78: EX_CONFIG` with no new log lines anywhere → launchd
+  could not spawn the service at all. Most likely a plist path (typically
+  `StandardOutPath`/`StandardErrorPath`) points inside a TCC-protected folder
+  (`~/Documents` etc.); launchd's pre-exec open is denied there. Reinstall via
+  `install_launchagent.sh` (logs go to `~/Library/Logs/sition-livemakers/`)
 - Laptop closed at 08:00 → launchd will fire on next wake, but the run may then be > 24 h late
 - secrets.env got moved, symlinked, or chmod'd → Telegram silent-skips even though run succeeded; check `git log` for the auto-commit
 - Plist `WorkingDirectory` points at a different repo path → reinstall to refresh
