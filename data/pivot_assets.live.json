@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-06-13T01:04:15Z",
+  "generated_at": "2026-06-13T01:06:28Z",
   "radar": [
     {
       "symbol": "BTC",
@@ -62,7 +62,7 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-13T01:04:15Z",
+      "timestamp": "2026-06-13T01:06:28Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
@@ -97,7 +97,7 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-13T01:04:15Z",
+      "timestamp": "2026-06-13T01:06:28Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
@@ -132,7 +132,7 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-13T01:04:15Z",
+      "timestamp": "2026-06-13T01:06:28Z",
       "scores": {
         "overall": 22.0,
         "price_pivot": 30.0,
@@ -153,7 +153,7 @@
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.1424164800283764
+          "raw_value": 0.14228480205900826
         },
         {
           "category": "price",
@@ -174,7 +174,7 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-13T01:04:15Z",
+      "timestamp": "2026-06-13T01:06:28Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
@@ -209,7 +209,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-13T01:04:15Z",
+      "timestamp": "2026-06-13T01:06:28Z",
       "scores": {
         "overall": 22.0,
         "price_pivot": 30.0,
@@ -230,7 +230,7 @@
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.19871648600477632
+          "raw_value": 0.1986644904572422
         },
         {
           "category": "price",
@@ -251,7 +251,7 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-13T01:04:15Z",
+      "timestamp": "2026-06-13T01:06:28Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
