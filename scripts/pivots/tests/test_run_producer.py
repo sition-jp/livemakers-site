@@ -92,7 +92,7 @@ def test_run_producer_passes_backtest_quality_to_assets(tmp_path: Path) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
     entries = [{"symbol": "BTC", "timeframe": "1d", "score": 1}]
-    quality = {("BTC", "1d"): {"sample_count": 10}}
+    quality = {("BTC", "7D"): 42.0}
 
     with (
         patch(

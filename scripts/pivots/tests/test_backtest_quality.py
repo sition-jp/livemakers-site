@@ -97,7 +97,7 @@ def test_build_backtest_quality_map_prefers_overall_threshold_70_when_sample_is_
     assert quality[("BTC", "7D")] == quality_from_entry(entries[-1])
 
 
-def test_build_backtest_quality_map_blends_price_and_volatility_when_overall_sample_is_tiny() -> None:
+def test_build_backtest_quality_map_blends_sufficient_price_and_volatility_by_sample_size_when_overall_sample_is_tiny() -> None:
     entries = [
         make_entry(
             score_type="overall",
@@ -129,16 +129,19 @@ def test_build_backtest_quality_map_blends_price_and_volatility_when_overall_sam
         ),
     ]
     expected = (
-        quality_from_entry(entries[1])
-        + quality_from_entry(entries[2])
-    ) / 2
+        quality_from_entry(entries[1]) * entries[1]["metrics"]["sample_size"]
+        + quality_from_entry(entries[2]) * entries[2]["metrics"]["sample_size"]
+    ) / (
+        entries[1]["metrics"]["sample_size"]
+        + entries[2]["metrics"]["sample_size"]
+    )
 
     quality = build_backtest_quality_map(entries)
 
     assert quality[("BTC", "7D")] == pytest.approx(round(expected, 4))
 
 
-def test_build_backtest_quality_map_uses_tiny_overall_when_no_blended_entries_exist() -> None:
+def test_build_backtest_quality_map_omits_tiny_overall_when_no_sufficient_blended_entries_exist() -> None:
     overall = make_entry(
         score_type="overall",
         threshold=70,
@@ -149,7 +152,37 @@ def test_build_backtest_quality_map_uses_tiny_overall_when_no_blended_entries_ex
 
     quality = build_backtest_quality_map([overall])
 
-    assert quality[("BTC", "7D")] == quality_from_entry(overall)
+    assert ("BTC", "7D") not in quality
+
+
+def test_build_backtest_quality_map_omits_blend_when_samples_are_tiny() -> None:
+    entries = [
+        make_entry(
+            score_type="overall",
+            threshold=70,
+            sample_size=0,
+            precision=1.0,
+            recall=0.10,
+        ),
+        make_entry(
+            score_type="price_pivot",
+            threshold=70,
+            sample_size=1,
+            precision=1.0,
+            recall=0.10,
+        ),
+        make_entry(
+            score_type="volatility_pivot",
+            threshold=70,
+            sample_size=3,
+            precision=1.0,
+            recall=0.10,
+        ),
+    ]
+
+    quality = build_backtest_quality_map(entries)
+
+    assert ("BTC", "7D") not in quality
 
 
 def test_empty_entries_produce_empty_map_and_default_is_60() -> None:
