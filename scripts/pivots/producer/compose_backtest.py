@@ -47,9 +47,11 @@ from typing import Optional
 
 from producer.backtest import (
     HIT_DEFINITIONS,
+    BacktestHitContext,
     Signal,
     compute_metrics,
     detect_hit,
+    first_hit_day,
     forward_move,
 )
 from producer.fetch_binance import BinanceFetcher
@@ -167,6 +169,13 @@ def _slice_history(
 ) -> list[float]:
     start = max(0, end - lookback)
     return [x for x in series[start:end] if x is not None]
+
+
+def _hit_context(series: _AssetSeries, t: int) -> BacktestHitContext:
+    return BacktestHitContext(
+        atr_14=series.atr14[t],
+        realized_vol_30d=series.rv30[t],
+    )
 
 
 def _historical_score(
@@ -303,18 +312,22 @@ def _walk_backtest(
     in_signal = False
     total_reversals = 0
     for t in range(start_idx, len(closes) - hd.horizon_days):
+        ctx = _hit_context(series, t)
         score = _historical_score(closes, volumes, series, t, score_type, horizon)
         if score >= threshold and not in_signal:
             in_signal = True
-            hit = detect_hit(closes, t, hd)
+            lead_time = first_hit_day(closes, t, hd, ctx)
             signals.append(Signal(
-                index=t, score=score, hit=hit,
+                index=t,
+                score=score,
+                hit=lead_time is not None,
                 forward_move=forward_move(closes, t, hd),
+                lead_time_days=lead_time,
             ))
         elif score < threshold:
             in_signal = False
         # Count any window where a true reversal happened (for recall denom).
-        if detect_hit(closes, t, hd):
+        if detect_hit(closes, t, hd, ctx):
             total_reversals += 1
     return signals, total_reversals
 
