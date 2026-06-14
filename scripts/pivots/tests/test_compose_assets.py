@@ -66,3 +66,21 @@ def test_snapshot_score_ranges(fetcher: BinanceFetcher) -> None:
         assert 0 <= s["volatility_pivot"] <= 100
         assert s["confidence"]["grade"] in ("A", "B+", "B", "C")
         assert 0 <= s["confidence"]["score"] <= 100
+
+
+def test_snapshot_confidence_uses_backtest_quality_override(
+    fetcher: BinanceFetcher,
+) -> None:
+    low = compose_pivot_assets_snapshot(
+        fetcher,
+        generated_at=NOW_ISO,
+        backtest_quality_by_key={("BTC", "7D"): 0.0},
+    )
+    high = compose_pivot_assets_snapshot(
+        fetcher,
+        generated_at=NOW_ISO,
+        backtest_quality_by_key={("BTC", "7D"): 100.0},
+    )
+    low_score = low["detail"]["BTC__7D"]["scores"]["confidence"]["score"]
+    high_score = high["detail"]["BTC__7D"]["scores"]["confidence"]["score"]
+    assert high_score > low_score

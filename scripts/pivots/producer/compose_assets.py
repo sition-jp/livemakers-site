@@ -15,7 +15,9 @@ Pipeline per (asset, horizon):
 from __future__ import annotations
 
 from dataclasses import dataclass
+from typing import Mapping
 
+from producer.backtest_quality import DEFAULT_BACKTEST_QUALITY, BacktestQualityKey
 from producer.evidence import collect_summary
 from producer.fetch_binance import BinanceFetcher
 from producer.indicators import (
@@ -200,7 +202,11 @@ def _build_volatility_context(
 
 
 def _build_detail(
-    asset: AssetSymbol, horizon: Horizon, data: _AssetData, generated_at: str
+    asset: AssetSymbol,
+    horizon: Horizon,
+    data: _AssetData,
+    generated_at: str,
+    backtest_quality: float = DEFAULT_BACKTEST_QUALITY,
 ) -> PivotDetail:
     pp_score, pp_evidence = score_price_pivot(_build_market_context(data, horizon))
     vol_ctx = _build_volatility_context(data, horizon)
@@ -223,7 +229,7 @@ def _build_detail(
     conf_score, conf_grade = score_confidence({
         "data_completeness": completeness,
         "signal_agreement": agreement,
-        "backtest_quality": 60.0,  # v0.1 documented default; real wiring in v0.2
+        "backtest_quality": backtest_quality,
     })
 
     overall = int(round(pp_score * 0.45 + vp_score * 0.45 + conf_score * 0.10))
@@ -276,14 +282,21 @@ def _build_radar_asset(
 
 
 def compose_pivot_assets_snapshot(
-    fetcher: BinanceFetcher, generated_at: str
+    fetcher: BinanceFetcher,
+    generated_at: str,
+    backtest_quality_by_key: Mapping[BacktestQualityKey, float] | None = None,
 ) -> PivotAssetsSnapshot:
+    quality = backtest_quality_by_key or {}
     asset_data = {a: _load(fetcher, a) for a in ASSETS}
     detail_map: dict[str, PivotDetail] = {}
     for a in ASSETS:
         for h in HORIZONS:
             detail_map[detail_key(a, h)] = _build_detail(
-                a, h, asset_data[a], generated_at
+                a,
+                h,
+                asset_data[a],
+                generated_at,
+                quality.get((a, h), DEFAULT_BACKTEST_QUALITY),
             )
     radar = [_build_radar_asset(a, detail_map) for a in ASSETS]
     return {

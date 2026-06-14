@@ -100,3 +100,17 @@ def test_at_least_some_entries_have_nonzero_sample_size(
     assert nz_vp >= 6, (
         f"volatility_pivot fires on only {nz_vp}/12 tuples — vp scoring path looks broken"
     )
+
+
+def test_backtest_fixture_has_at_least_one_nonzero_lead_time(
+    fetcher: BinanceFetcher,
+) -> None:
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO)
+    lead_times = [
+        e["metrics"]["avg_lead_time_days"]
+        for e in snap["entries"]
+        if e["metrics"]["sample_size"] > 0
+    ]
+    assert any(x > 0 for x in lead_times), (
+        "expected at least one fixture entry to have real lead-time metrics"
+    )
