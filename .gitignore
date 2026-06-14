@@ -16,16 +16,18 @@ coverage/
 * 2.*
 * 3.*
 
-# TradeIntent storage (v0.1 local-only, not checked into git)
+# TradeIntent storage + one-off seed helpers (local-only, not checked into git)
 data/tradeintents.jsonl
+scripts/create-first-intent.ts
 
 # Proposer v0.2-alpha runtime logs (local-only, spec §A.5)
 data/intent-reject-log.jsonl
 data/intent-expiry-log.jsonl
 data/proposer-run-log.jsonl
 
-# Phase 2 producer: scripts/pivots/ Python venv + cache + atomic-write artifacts
+# Phase 2 producer: scripts/pivots/ Python venv + cache + local tool artifacts
 scripts/pivots/.venv/
+scripts/pivots/uv.lock
 scripts/pivots/**/__pycache__/
 scripts/pivots/.pytest_cache/
 scripts/pivots/**/*.tmp
