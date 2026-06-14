@@ -29,10 +29,12 @@ behavior in the PR description or the project operations note.
   do not treat the metrics as a model-performance benchmark.
 - Telegram: local evidence verifies `--notify-ok` wiring and OK logs only.
   Actual Telegram receipt must be confirmed by the operator.
-- Git: local `main` is `origin/main` plus 6 daily snapshot commits
-  (`59f9612` through `ec7c6f4`). Do not push until the push policy is locked.
-- Current pre-decision blockers: push policy, LaunchAgent/plist single-source
-  policy, and `ANTHROPIC_API_KEY` exposure via inherited launchctl environment.
+- Git: as of 2026-06-14, `main` is synchronized with `origin/main` after the
+  PR #7 merge, post-merge snapshot refresh, and local-artifact cleanup commits.
+- Current pre-decision blocker update: local `ANTHROPIC_API_KEY` inherited
+  launchctl exposure was mitigated on 2026-06-14 by clearing the user launchd
+  environment and disabling the old `com.sition.env.loader`; rotate the key if
+  exposure is plausible.
 
 ## Routes (direct URL only)
 
@@ -134,7 +136,7 @@ confirm all of the following:
 - LaunchAgent source of truth is locked. The repo sample plist and the installed
   `~/Library/Application Support/sition-livemakers/run_daily_wrapper.sh` path
   currently represent two install paths; choose one owner before public linking.
-- `ANTHROPIC_API_KEY` is rotated if exposed, removed from inherited launchctl
+- `ANTHROPIC_API_KEY` is rotated if exposed, absent from inherited launchctl
   environment, and only required environment variables are explicitly provided.
 - `~/Library/Logs/sition-livemakers/launchd.stderr.log` (the installed launchd
   stderr log) contains only known cosmetic Vite CJS deprecation warnings.
