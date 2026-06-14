@@ -38,6 +38,7 @@ from pathlib import Path
 from typing import Iterable
 
 from producer.atomic_write import atomic_write_json
+from producer.backtest_quality import build_backtest_quality_map
 from producer.compose_assets import compose_pivot_assets_snapshot
 from producer.compose_backtest import compose_pivot_backtest_snapshot
 from producer.fetch_binance import BinanceFetcher
@@ -190,8 +191,13 @@ def run_producer(
     backtest_tmp = _tmp_path(backtest_path)
 
     try:
-        assets_payload = compose_pivot_assets_snapshot(fetcher, generated_at)
         backtest_payload = compose_pivot_backtest_snapshot(fetcher, generated_at)
+        backtest_quality = build_backtest_quality_map(backtest_payload["entries"])
+        assets_payload = compose_pivot_assets_snapshot(
+            fetcher,
+            generated_at,
+            backtest_quality_by_key=backtest_quality,
+        )
     except Exception as exc:  # noqa: BLE001
         print(f"[pivots-producer] compose failed: {exc}", file=sys.stderr)
         return 1

@@ -88,6 +88,43 @@ def test_dry_run_still_runs_zod_validator(
     assert validator.called, "validator must run even in dry-run mode"
 
 
+def test_run_producer_passes_backtest_quality_to_assets(tmp_path: Path) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    entries = [{"symbol": "BTC", "timeframe": "1d", "score": 1}]
+    quality = {("BTC", "1d"): {"sample_count": 10}}
+
+    with (
+        patch(
+            "producer.run_producer.compose_pivot_backtest_snapshot",
+            return_value={"entries": entries},
+        ) as compose_backtest,
+        patch(
+            "producer.run_producer.build_backtest_quality_map",
+            return_value=quality,
+        ) as build_quality,
+        patch(
+            "producer.run_producer.compose_pivot_assets_snapshot",
+            return_value={"radar": []},
+        ) as compose_assets,
+    ):
+        rc = run_producer(
+            fetcher=BinanceFetcher(http_get=lambda _url: b"[]"),
+            assets_path=assets_target,
+            backtest_path=backtest_target,
+            dry_run=True,
+            skip_zod_validate=True,
+        )
+
+    assert rc == 0
+    compose_backtest.assert_called_once()
+    build_quality.assert_called_once_with(entries)
+    compose_assets.assert_called_once()
+    assert compose_assets.call_args.kwargs["backtest_quality_by_key"] == quality
+    assert not assets_target.exists()
+    assert not backtest_target.exists()
+
+
 def test_live_write_replaces_target_atomically(
     tmp_path: Path, canned_fetcher: BinanceFetcher
 ) -> None:
