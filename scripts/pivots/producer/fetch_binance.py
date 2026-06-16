@@ -4,6 +4,10 @@ All endpoints used here are documented public + free + auth-less:
 - spot klines:    https://api.binance.com/api/v3/klines
 - futures OI:     https://fapi.binance.com/futures/data/openInterestHist
 - futures funding: https://fapi.binance.com/fapi/v1/fundingRate
+- futures global long/short account ratio:
+  https://fapi.binance.com/futures/data/globalLongShortAccountRatio
+- futures top trader long/short position ratio:
+  https://fapi.binance.com/futures/data/topLongShortPositionRatio
 
 The fetcher takes an injectable http_get callable so tests can inject
 recorded bytes; production passes the default urllib-based client.
@@ -28,6 +32,10 @@ def _default_http_get(url: str) -> bytes:
         return resp.read()
 
 
+def _optional_float(value: object) -> float | None:
+    return None if value is None else float(value)
+
+
 @dataclass(frozen=True)
 class Candle:
     open_time: int  # ms epoch
@@ -50,6 +58,22 @@ class OpenInterestPoint:
 class FundingPoint:
     timestamp: int  # ms epoch
     funding_rate: float
+
+
+@dataclass(frozen=True)
+class LongShortRatioPoint:
+    timestamp: int  # ms epoch
+    long_short_ratio: float
+    long_account: float | None
+    short_account: float | None
+
+
+@dataclass(frozen=True)
+class TopTraderPositionRatioPoint:
+    timestamp: int  # ms epoch
+    long_short_ratio: float
+    long_account: float | None
+    short_account: float | None
 
 
 class BinanceFetcher:
@@ -124,6 +148,50 @@ class BinanceFetcher:
             FundingPoint(
                 timestamp=int(r["fundingTime"]),
                 funding_rate=float(r["fundingRate"]),
+            )
+            for r in raw
+        ]
+
+    def fetch_global_long_short_ratio(
+        self,
+        asset: AssetSymbol,
+        period: Literal["1d", "4h", "1h"] = "1d",
+        limit: int = 30,
+    ) -> list[LongShortRatioPoint]:
+        symbol = self._resolve(asset)
+        url = (
+            f"https://fapi.binance.com/futures/data/globalLongShortAccountRatio"
+            f"?symbol={symbol}&period={period}&limit={limit}"
+        )
+        raw = json.loads(self._http_get(url))
+        return [
+            LongShortRatioPoint(
+                timestamp=int(r["timestamp"]),
+                long_short_ratio=float(r["longShortRatio"]),
+                long_account=_optional_float(r.get("longAccount")),
+                short_account=_optional_float(r.get("shortAccount")),
+            )
+            for r in raw
+        ]
+
+    def fetch_top_trader_long_short_position_ratio(
+        self,
+        asset: AssetSymbol,
+        period: Literal["1d", "4h", "1h"] = "1d",
+        limit: int = 30,
+    ) -> list[TopTraderPositionRatioPoint]:
+        symbol = self._resolve(asset)
+        url = (
+            f"https://fapi.binance.com/futures/data/topLongShortPositionRatio"
+            f"?symbol={symbol}&period={period}&limit={limit}"
+        )
+        raw = json.loads(self._http_get(url))
+        return [
+            TopTraderPositionRatioPoint(
+                timestamp=int(r["timestamp"]),
+                long_short_ratio=float(r["longShortRatio"]),
+                long_account=_optional_float(r.get("longAccount")),
+                short_account=_optional_float(r.get("shortAccount")),
             )
             for r in raw
         ]
