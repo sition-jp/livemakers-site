@@ -445,3 +445,47 @@ one unsafe:
 - Treat liquidation as a proxy term only.
 - Keep all changes inside the Python producer and producer tests unless zod
   validation reveals a real contract issue.
+
+## Post-merge review follow-ups (2026-06-16, PR #9 merged as db1e536)
+
+Final pre-merge review confirmed the change is evidence-only and safe to merge
+(scores/radar/direction/headline/schema invariant; the only observable changes
+are added items in `detail.evidence` and the `Evidence count: N` substring in
+`summary.explanation`). No P0/merge-blocker. The following are tracked
+follow-ups to address before this derivatives evidence is ever promoted into a
+score or consumed by the Auto Trader:
+
+1. **Use the last *closed* `1d` bucket, not the still-forming current UTC day.**
+   `compose_assets._build_derivatives_context` reads `global_history[-1]` /
+   `top_history[-1]` as the current ratio, but Binance's last `period=1d` point
+   is the in-progress UTC day (verified: at 05:05 UTC the last bucket was the
+   current `00:00Z` day). At the 23:00-UTC run time it is ~96% formed, so impact
+   is small, but evidence should be derived from settled data. Fix: drop the open
+   bucket (use `history[-1]` only if closed, else `history[-2]`).
+2. **Exclude the current value from its own percentile baseline.** The current
+   ratio is included in the `*_history` slice it is ranked against
+   (`is_in_top_pct`/`is_in_bottom_pct`). Effect is small and — under the mid-rank
+   `pct_rank` — mildly conservative, not inflationary, but it is methodologically
+   cleaner to rank against `history[:-1]`.
+3. **`raw_value` semantics on the top-trader divergence item.** The
+   "Top trader positioning diverges…" item stores `raw_value = top_ratio`, not the
+   divergence magnitude `abs(log(top/global))`. A machine consumer (future AT)
+   reading `raw_value` would misread the signal strength. Store the divergence
+   magnitude (or add a separate field).
+4. **Dead-for-output scorer branches.** The `oi` (30pt) and `funding` (20pt)
+   branches of `score_derivatives_evidence` produce evidence that is always
+   dropped by `_DERIVATIVES_PUBLIC_DUPLICATE_CATEGORIES`, the numeric score is
+   discarded by the caller, and `DerivativesEvidenceContext["data_completeness"]`
+   is never read by the scorer. This is acceptable as scaffolding for a future
+   v0.3-2 that wires the score in, but add a comment stating that intent (or trim
+   the dead computation).
+
+## Auto Trader gate (unchanged by this PR)
+
+v0.3-1 adds **current-snapshot** derivatives positioning as evidence. It is NOT
+the historical OI/funding **sidecar** that the v0.2 roadmap named as the
+prerequisite to make the backtest tunable. The backtest remains a structural
+smoke test. **AI Auto Trader connection stays gated on the sidecar** (historical
+leverage cache enabling a tunable backtest); until then derivatives positioning
+is user-facing context only and the confidence grade must not be treated as
+validated for trading.
