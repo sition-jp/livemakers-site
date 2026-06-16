@@ -7,7 +7,9 @@ from producer.fetch_binance import (
     BinanceFetcher,
     Candle,
     FundingPoint,
+    LongShortRatioPoint,
     OpenInterestPoint,
+    TopTraderPositionRatioPoint,
 )
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
@@ -70,6 +72,78 @@ def test_fetch_funding_returns_typed_points(fetcher: BinanceFetcher) -> None:
     p0 = pts[0]
     assert isinstance(p0, FundingPoint)
     assert -1.0 < p0.funding_rate < 1.0  # sanity, never out of range
+
+
+def test_fetch_global_long_short_ratio_returns_typed_points() -> None:
+    captured: list[str] = []
+    payload = json.dumps(
+        [
+            {
+                "symbol": "BTCUSDT",
+                "longAccount": "0.6250",
+                "longShortRatio": "1.6667",
+                "shortAccount": "0.3750",
+                "timestamp": "1717200000000",
+            }
+        ]
+    ).encode()
+
+    def _http_get(url: str) -> bytes:
+        captured.append(url)
+        return payload
+
+    pts = BinanceFetcher(http_get=_http_get).fetch_global_long_short_ratio(
+        "BTC", period="1d", limit=30
+    )
+
+    assert captured == [
+        "https://fapi.binance.com/futures/data/globalLongShortAccountRatio"
+        "?symbol=BTCUSDT&period=1d&limit=30"
+    ]
+    assert pts == [
+        LongShortRatioPoint(
+            timestamp=1717200000000,
+            long_short_ratio=1.6667,
+            long_account=0.6250,
+            short_account=0.3750,
+        )
+    ]
+
+
+def test_fetch_top_trader_position_ratio_returns_typed_points() -> None:
+    captured: list[str] = []
+    payload = json.dumps(
+        [
+            {
+                "symbol": "ETHUSDT",
+                "longAccount": "0.7000",
+                "longShortRatio": "2.3333",
+                "shortAccount": "0.3000",
+                "timestamp": "1717200000000",
+            }
+        ]
+    ).encode()
+
+    def _http_get(url: str) -> bytes:
+        captured.append(url)
+        return payload
+
+    pts = BinanceFetcher(
+        http_get=_http_get
+    ).fetch_top_trader_long_short_position_ratio("ETH", period="1d", limit=30)
+
+    assert captured == [
+        "https://fapi.binance.com/futures/data/topLongShortPositionRatio"
+        "?symbol=ETHUSDT&period=1d&limit=30"
+    ]
+    assert pts == [
+        TopTraderPositionRatioPoint(
+            timestamp=1717200000000,
+            long_short_ratio=2.3333,
+            long_account=0.7000,
+            short_account=0.3000,
+        )
+    ]
 
 
 def test_unknown_symbol_raises() -> None:

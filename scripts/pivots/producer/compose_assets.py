@@ -32,6 +32,10 @@ from producer.indicators import (
 from producer.percentiles import LOOKBACK_DAYS
 from producer.score_confidence import score_confidence
 from producer.score_direction_bias import score_direction_bias
+from producer.score_derivatives_evidence import (
+    DerivativesEvidenceContext,
+    score_derivatives_evidence,
+)
 from producer.score_price_pivot import MarketContext, score_price_pivot
 from producer.score_volatility_pivot import (
     VolatilityContext,
@@ -50,6 +54,7 @@ from producer.types import (
 )
 
 ASSET_NAMES: dict[AssetSymbol, str] = {"BTC": "Bitcoin", "ETH": "Ethereum"}
+_DERIVATIVES_PUBLIC_DUPLICATE_CATEGORIES = {"oi", "funding"}
 
 
 @dataclass
@@ -60,7 +65,26 @@ class _AssetData:
     volumes: list[float]
     oi: list[float]
     funding: list[float]
+    global_long_short_ratio: list[float]
+    top_trader_position_ratio: list[float]
     last_close_time: int
+
+
+def _ratio_values(points) -> list[float]:
+    return [p.long_short_ratio for p in points if p.long_short_ratio > 0]
+
+
+def _append_derivatives_evidence(base: list, extra: list) -> list:
+    seen = {(item["category"], item["message"]) for item in base}
+    out = list(base)
+    for item in extra:
+        if item["category"] in _DERIVATIVES_PUBLIC_DUPLICATE_CATEGORIES:
+            continue
+        key = (item["category"], item["message"])
+        if key not in seen:
+            out.append(item)
+            seen.add(key)
+    return out
 
 
 def _load(fetcher: BinanceFetcher, asset: AssetSymbol) -> _AssetData:
@@ -68,6 +92,18 @@ def _load(fetcher: BinanceFetcher, asset: AssetSymbol) -> _AssetData:
     # 4h × 180 fully covers Binance's 30-day OI lookback cap.
     oi = fetcher.fetch_open_interest(asset, period="4h", limit=180)
     funding = fetcher.fetch_funding(asset, limit=1000)
+    try:
+        global_long_short = fetcher.fetch_global_long_short_ratio(
+            asset, period="1d", limit=30
+        )
+    except Exception:
+        global_long_short = []
+    try:
+        top_trader_position = fetcher.fetch_top_trader_long_short_position_ratio(
+            asset, period="1d", limit=30
+        )
+    except Exception:
+        top_trader_position = []
     return _AssetData(
         closes=[c.close for c in klines],
         highs=[c.high for c in klines],
@@ -75,6 +111,8 @@ def _load(fetcher: BinanceFetcher, asset: AssetSymbol) -> _AssetData:
         volumes=[c.volume for c in klines],
         oi=[p.open_interest for p in oi],
         funding=[p.funding_rate for p in funding],
+        global_long_short_ratio=_ratio_values(global_long_short),
+        top_trader_position_ratio=_ratio_values(top_trader_position),
         last_close_time=klines[-1].close_time,
     )
 
@@ -201,6 +239,33 @@ def _build_volatility_context(
     }
 
 
+def _build_derivatives_context(
+    data: _AssetData, vol_ctx: VolatilityContext
+) -> DerivativesEvidenceContext:
+    global_history = data.global_long_short_ratio[-30:]
+    top_history = data.top_trader_position_ratio[-30:]
+    available_inputs = sum(
+        (
+            bool(data.oi),
+            bool(data.funding),
+            bool(global_history),
+            bool(top_history),
+        )
+    )
+    return {
+        "oi_growth_pct": vol_ctx["oi_growth_pct"],
+        "oi_growth_history": [],
+        "abs_funding": vol_ctx["abs_funding"],
+        "abs_funding_history": vol_ctx["abs_funding_history"],
+        "global_long_short_ratio": global_history[-1] if global_history else None,
+        "global_long_short_ratio_history": global_history,
+        "top_trader_position_ratio": top_history[-1] if top_history else None,
+        "top_trader_position_ratio_history": top_history,
+        "price_range_compression": vol_ctx["price_range_compression"],
+        "data_completeness": available_inputs / 4.0 * 100.0,
+    }
+
+
 def _build_detail(
     asset: AssetSymbol,
     horizon: Horizon,
@@ -211,6 +276,9 @@ def _build_detail(
     pp_score, pp_evidence = score_price_pivot(_build_market_context(data, horizon))
     vol_ctx = _build_volatility_context(data, horizon)
     vp_score, vp_evidence = score_volatility_pivot(vol_ctx)
+    _, derivatives_evidence = score_derivatives_evidence(
+        _build_derivatives_context(data, vol_ctx)
+    )
 
     closes = data.closes
     near_support = closes[-1] <= min(closes[-30:]) * 1.02
@@ -235,7 +303,7 @@ def _build_detail(
     overall = int(round(pp_score * 0.45 + vp_score * 0.45 + conf_score * 0.10))
     overall = max(0, min(100, overall))
 
-    evidence = pp_evidence + vp_evidence
+    evidence = _append_derivatives_evidence(pp_evidence + vp_evidence, derivatives_evidence)
     headline, explanation = collect_summary(
         asset, horizon, pp_score, vp_score, bias, evidence
     )
