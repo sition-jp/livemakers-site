@@ -54,6 +54,7 @@ from producer.types import (
 )
 
 ASSET_NAMES: dict[AssetSymbol, str] = {"BTC": "Bitcoin", "ETH": "Ethereum"}
+_DERIVATIVES_PUBLIC_DUPLICATE_CATEGORIES = {"oi", "funding"}
 
 
 @dataclass
@@ -73,10 +74,12 @@ def _ratio_values(points) -> list[float]:
     return [p.long_short_ratio for p in points if p.long_short_ratio > 0]
 
 
-def _append_unique_evidence(base: list, extra: list) -> list:
+def _append_derivatives_evidence(base: list, extra: list) -> list:
     seen = {(item["category"], item["message"]) for item in base}
     out = list(base)
     for item in extra:
+        if item["category"] in _DERIVATIVES_PUBLIC_DUPLICATE_CATEGORIES:
+            continue
         key = (item["category"], item["message"])
         if key not in seen:
             out.append(item)
@@ -300,7 +303,7 @@ def _build_detail(
     overall = int(round(pp_score * 0.45 + vp_score * 0.45 + conf_score * 0.10))
     overall = max(0, min(100, overall))
 
-    evidence = _append_unique_evidence(pp_evidence + vp_evidence, derivatives_evidence)
+    evidence = _append_derivatives_evidence(pp_evidence + vp_evidence, derivatives_evidence)
     headline, explanation = collect_summary(
         asset, horizon, pp_score, vp_score, bias, evidence
     )

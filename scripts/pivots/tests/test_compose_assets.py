@@ -8,6 +8,14 @@ from producer.fetch_binance import BinanceFetcher
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
 NOW_ISO = "2026-05-04T00:00:00Z"
+LONG_SHORT_CROWDED_MESSAGE = (
+    "Long/short positioning is crowded, increasing squeeze sensitivity"
+)
+TOP_TRADER_DIVERGENCE_MESSAGE = (
+    "Top trader positioning diverges from broader account positioning"
+)
+DERIVATIVES_OI_MESSAGE = "Open Interest expanded while price stayed range-bound"
+DERIVATIVES_FUNDING_MESSAGE = "Funding is skewed versus recent history"
 
 
 @pytest.fixture
@@ -156,18 +164,20 @@ def test_snapshot_appends_derivatives_evidence_without_changing_scores() -> None
         item["message"] for item in rich["detail"]["BTC__7D"]["evidence"]
     ]
     assert len(btc_7d_all_messages) == len(set(btc_7d_all_messages))
-    assert (
-        "Long/short positioning is crowded, increasing squeeze sensitivity"
-        in btc_7d_messages
-    )
-    assert (
-        "Top trader positioning diverges from broader account positioning"
-        in btc_7d_messages
-    )
+    assert LONG_SHORT_CROWDED_MESSAGE in btc_7d_messages
+    assert TOP_TRADER_DIVERGENCE_MESSAGE in btc_7d_messages
+
+    for detail in rich["detail"].values():
+        messages = {item["message"] for item in detail["evidence"]}
+        assert DERIVATIVES_OI_MESSAGE not in messages
+        assert DERIVATIVES_FUNDING_MESSAGE not in messages
 
 
 def test_optional_long_short_failure_does_not_fail_snapshot() -> None:
     core = _core_canned()
+    base = compose_pivot_assets_snapshot(
+        BinanceFetcher(http_get=lambda url: core[url]), generated_at=NOW_ISO
+    )
 
     def _http_get(url: str) -> bytes:
         if "LongShort" in url or "topLongShort" in url:
@@ -187,3 +197,10 @@ def test_optional_long_short_failure_does_not_fail_snapshot() -> None:
         "ETH__30D",
         "ETH__90D",
     }
+    assert snap["radar"] == base["radar"]
+    for key, detail in snap["detail"].items():
+        assert detail["scores"] == base["detail"][key]["scores"]
+        assert detail["direction_bias"] == base["detail"][key]["direction_bias"]
+        messages = {item["message"] for item in detail["evidence"]}
+        assert LONG_SHORT_CROWDED_MESSAGE not in messages
+        assert TOP_TRADER_DIVERGENCE_MESSAGE not in messages
