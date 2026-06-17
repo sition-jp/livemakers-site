@@ -3,7 +3,7 @@
 Pipeline:
   1. dry-run (compose + tmp + zod validate, no promotion)
   2. if dry-run rc == 0: live write (compose + tmp + zod validate + bak-rollback promote)
-  3. if live rc == 0: archive both targets to history_dir + prune to keep N
+  3. if live rc == 0: archive public assets/backtest and clean sidecar history to history_dir + prune to keep N
   3.5 if --auto-commit: git add + commit (Task 5)
   4. always log; alert on FAILED status
 

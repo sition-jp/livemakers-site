@@ -163,8 +163,12 @@ def test_run_daily_sidecar_degraded_logs_ok_warning(tmp_path, monkeypatch):
     from ops import run_daily as rd
 
     captured = _captured_dispatch(monkeypatch)
+    archive_calls: list[Path] = []
+    prune_calls: list[str] = []
 
     def fake_invoke(args):
+        if "--dry-run" in args:
+            return rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
         return rd.ProducerInvocation(
             returncode=0,
             sidecar_warnings=["RuntimeError: sidecar provider down"],
@@ -173,9 +177,15 @@ def test_run_daily_sidecar_degraded_logs_ok_warning(tmp_path, monkeypatch):
 
     monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
     monkeypatch.setattr("ops.run_daily._invoke_producer", fake_invoke)
-    monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
-    monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.archive", lambda path, *_a, **_kw: archive_calls.append(path))
+    monkeypatch.setattr(
+        "ops.run_daily.prune",
+        lambda _history_dir, prefix, **_kw: prune_calls.append(prefix),
+    )
     paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    paths["derivatives_history_path"].write_text("{}")
 
     rc = rd.run_daily(**paths, auto_commit=False, notify_ok=False)
 
@@ -183,6 +193,82 @@ def test_run_daily_sidecar_degraded_logs_ok_warning(tmp_path, monkeypatch):
     assert captured["p"]["status"] == "OK"
     assert "sidecar degraded" in captured["p"]["details"]
     assert "sidecar provider down" in captured["p"]["details"]
+    assert archive_calls == [paths["assets_path"], paths["backtest_path"]]
+    assert prune_calls == ["pivot_assets.live", "pivot_backtest.live"]
+
+
+@pytest.mark.parametrize(
+    ("dry_result", "live_result", "expect_warning", "expect_sidecar_retention"),
+    [
+        pytest.param(
+            lambda rd: rd.ProducerInvocation(
+                returncode=0,
+                sidecar_warnings=["RuntimeError: dry warning only"],
+                output="[pivots-producer] sidecar_degraded=RuntimeError: dry warning only",
+            ),
+            lambda rd: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+            False,
+            True,
+            id="dry-warning-live-clean",
+        ),
+        pytest.param(
+            lambda rd: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+            lambda rd: rd.ProducerInvocation(
+                returncode=0,
+                sidecar_warnings=["RuntimeError: live warning only"],
+                output="[pivots-producer] sidecar_degraded=RuntimeError: live warning only",
+            ),
+            True,
+            False,
+            id="live-warning-authoritative",
+        ),
+    ],
+)
+def test_run_daily_uses_live_sidecar_warnings_for_ok_details_and_retention(
+    tmp_path,
+    monkeypatch,
+    dry_result,
+    live_result,
+    expect_warning,
+    expect_sidecar_retention,
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    archive_calls: list[Path] = []
+    prune_calls: list[str] = []
+    results = [dry_result(rd), live_result(rd)]
+
+    def fake_invoke(_args):
+        return results.pop(0)
+
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr("ops.run_daily._invoke_producer", fake_invoke)
+    monkeypatch.setattr("ops.run_daily.archive", lambda path, *_a, **_kw: archive_calls.append(path))
+    monkeypatch.setattr(
+        "ops.run_daily.prune",
+        lambda _history_dir, prefix, **_kw: prune_calls.append(prefix),
+    )
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    paths["derivatives_history_path"].write_text("{}")
+
+    rc = rd.run_daily(**paths, auto_commit=False, notify_ok=False)
+
+    assert rc == 0
+    assert captured["p"]["status"] == "OK"
+    assert ("sidecar degraded" in captured["p"]["details"]) is expect_warning
+    assert ("dry warning only" in captured["p"]["details"]) is False
+    assert ("live warning only" in captured["p"]["details"]) is expect_warning
+    assert archive_calls[:2] == [paths["assets_path"], paths["backtest_path"]]
+    assert prune_calls[:2] == ["pivot_assets.live", "pivot_backtest.live"]
+    if expect_sidecar_retention:
+        assert archive_calls[2:] == [paths["derivatives_history_path"]]
+        assert prune_calls[2:] == ["pivot_derivatives_history.live"]
+    else:
+        assert archive_calls[2:] == []
+        assert prune_calls[2:] == []
 
 
 def test_auto_commit_message_and_pathspec_include_sidecar(tmp_path, monkeypatch):

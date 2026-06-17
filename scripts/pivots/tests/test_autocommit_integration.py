@@ -126,7 +126,7 @@ def test_real_git_no_diff_does_not_commit(tmp_path, monkeypatch):
 def test_real_auto_commit_excludes_unrelated_pre_staged_changes(tmp_path, monkeypatch):
     """Regression for Codex P2 review on PR #6: a pre-staged unrelated change
     must NOT be swept into the daily snapshot commit. Step 3.5 must commit
-    only the two snapshot data files and leave operator's unrelated stages
+    only the three snapshot data files and leave operator's unrelated stages
     alone in the index."""
     from ops import run_daily as rd
 
