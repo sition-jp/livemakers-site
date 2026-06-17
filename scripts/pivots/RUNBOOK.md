@@ -220,3 +220,37 @@ Common causes:
 ### launchctl terminology
 
 This RUNBOOK and the install/uninstall scripts use the modern `bootstrap`/`bootout`/`kickstart` syntax. The legacy `load`/`unload` syntax is **deprecated** (it still works but mixes confusingly with `bootstrap`-installed agents). Do not mix the two.
+
+## Derivatives History Sidecar
+
+The daily producer also maintains:
+
+```text
+data/pivot_derivatives_history.live.json
+```
+
+This is an internal historical OI/funding cache for future backtest calibration.
+It is not a public API contract and does not change current scores, confidence,
+or AI Auto Trader gating.
+
+The public snapshots remain:
+
+```text
+data/pivot_assets.live.json
+data/pivot_backtest.live.json
+```
+
+`pivot_assets.live.json` and `pivot_backtest.live.json` are promoted as an
+atomic pair. The derivatives sidecar is promoted after that pair as a separate
+best-effort transaction.
+
+If logs contain:
+
+```text
+sidecar degraded: <reason>
+```
+
+the public snapshots succeeded but the sidecar was preserved from the previous
+run or skipped for that run. Treat this as an ops note, not a public snapshot
+failure. If a sidecar `.bak` remains, inspect the current sidecar and `.bak`,
+choose the canonical copy, and remove the stale file before the next run.
