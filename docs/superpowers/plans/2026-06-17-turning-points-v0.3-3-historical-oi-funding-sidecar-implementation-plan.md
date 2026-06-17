@@ -54,6 +54,10 @@ Modify:
 - `scripts/pivots/tests/test_run_daily_autocommit.py`
   - Update invocation stubs for structured producer results.
   - Add auto-commit sidecar path and degradation-log tests.
+- `scripts/pivots/tests/test_run_daily.py`
+  - Update `_invoke_producer` mocks from integer return values to `ProducerInvocation`.
+- `scripts/pivots/tests/test_autocommit_integration.py`
+  - Update real-git integration helpers to create/pass the sidecar path and expect the scoped commit to include it.
 - `scripts/pivots/RUNBOOK.md`
   - Document the sidecar file, degraded warning semantics, and manual recovery from sidecar `.bak`.
 
@@ -125,7 +129,7 @@ def ms(day: int, hour: int) -> int:
 
 
 def test_sidecar_aggregates_closed_utc_days_only() -> None:
-    generated_at = "2026-01-03T23:00:00Z"
+    generated_at = "2025-12-20T23:00:00Z"
     fetcher = _Fetcher(
         oi={
             "BTC": [
@@ -721,6 +725,34 @@ def test_sidecar_promotion_failure_does_not_rollback_public_pair(
     assert json.loads(backtest_target.read_text())["schema_version"] == "v0.1"
     assert json.loads(sidecar_target.read_text()) == {"sentinel": "old_sidecar"}
     assert "sidecar_degraded=OSError: sidecar rename failed" in capsys.readouterr().out
+
+
+def test_sidecar_orphan_bak_does_not_block_public_pair(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    sidecar_target = tmp_path / "pivot_derivatives_history.live.json"
+    sidecar_target.write_text('{"sentinel": "current_sidecar"}')
+    (tmp_path / "pivot_derivatives_history.live.json.bak").write_text(
+        '{"sentinel": "sidecar_bak"}'
+    )
+
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=assets_target,
+        backtest_path=backtest_target,
+        derivatives_history_path=sidecar_target,
+        dry_run=False,
+        skip_zod_validate=True,
+    )
+
+    assert rc == 0
+    assert json.loads(assets_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(backtest_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(sidecar_target.read_text()) == {"sentinel": "current_sidecar"}
+    assert (tmp_path / "pivot_derivatives_history.live.json.bak").exists()
+    assert "sidecar_degraded=SidecarOrphanBak:" in capsys.readouterr().out
 ```
 
 - [ ] **Step 2: Run producer tests and verify failure**
@@ -803,27 +835,33 @@ def run_producer(
 ) -> int:
 ```
 
-Include sidecar in orphan-bak refusal:
+Keep orphan-bak refusal for the public pair only:
 
 ```python
-if _refuse_if_orphan_baks((assets_path, backtest_path, derivatives_history_path)):
+if _refuse_if_orphan_baks((assets_path, backtest_path)):
     return 1
 ```
 
-After public payload composition succeeds, compose sidecar best-effort:
+After public payload composition succeeds, compose sidecar best-effort. A
+sidecar orphan `.bak` degrades the sidecar only and must not block public
+snapshot generation:
 
 ```python
 sidecar_payload = None
 sidecar_warning: str | None = None
-try:
-    existing_sidecar = load_derivatives_history_sidecar(derivatives_history_path)
-    sidecar_payload = compose_derivatives_history_sidecar(
-        fetcher,
-        generated_at,
-        existing=existing_sidecar,
-    )
-except Exception as exc:
-    sidecar_warning = _sidecar_warning(exc)
+sidecar_bak = _bak_path(derivatives_history_path)
+if sidecar_bak.exists():
+    sidecar_warning = f"SidecarOrphanBak: {sidecar_bak}"
+else:
+    try:
+        existing_sidecar = load_derivatives_history_sidecar(derivatives_history_path)
+        sidecar_payload = compose_derivatives_history_sidecar(
+            fetcher,
+            generated_at,
+            existing=existing_sidecar,
+        )
+    except Exception as exc:
+        sidecar_warning = _sidecar_warning(exc)
 ```
 
 Write public tmp files in the existing public-failure path:
@@ -933,13 +971,15 @@ git commit -m "feat(pivots): write derivatives sidecar best-effort"
 **Files:**
 - Modify: `scripts/pivots/ops/run_daily.py`
 - Modify: `scripts/pivots/tests/test_run_daily_autocommit.py`
+- Modify: `scripts/pivots/tests/test_run_daily.py`
+- Modify: `scripts/pivots/tests/test_autocommit_integration.py`
 
 **Interfaces:**
 - Consumes:
   - producer CLI `--derivatives-history-path`
   - stdout marker `sidecar_degraded=`
 - Produces:
-  - `ProducerInvocation(returncode: int, sidecar_warnings: list[str])`
+  - `ProducerInvocation(returncode: int, sidecar_warnings: list[str], output: str)`
   - run_daily sidecar path defaults and scoped auto-commit
 
 - [ ] **Step 1: Add failing ops tests**
@@ -954,7 +994,7 @@ def test_run_daily_passes_sidecar_path_to_producer(tmp_path, monkeypatch):
 
     def fake_invoke(args):
         calls.append(args)
-        return rd.ProducerInvocation(returncode=0, sidecar_warnings=[])
+        return rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
 
     monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
     monkeypatch.setattr("ops.run_daily._invoke_producer", fake_invoke)
@@ -987,6 +1027,7 @@ def test_run_daily_sidecar_degraded_logs_ok_warning(tmp_path, monkeypatch):
         return rd.ProducerInvocation(
             returncode=0,
             sidecar_warnings=["RuntimeError: sidecar provider down"],
+            output="[pivots-producer] sidecar_degraded=RuntimeError: sidecar provider down",
         )
 
     monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
@@ -1074,6 +1115,7 @@ Add:
 class ProducerInvocation:
     returncode: int
     sidecar_warnings: list[str]
+    output: str
 ```
 
 Replace `_invoke_producer` with:
@@ -1101,18 +1143,106 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
     return ProducerInvocation(
         returncode=proc.returncode,
         sidecar_warnings=_parse_sidecar_warnings(output),
+        output=output,
     )
+```
+
+Add a bounded failure-details helper so captured producer output still reaches
+ops alerts after switching to `capture_output=True`:
+
+```python
+def _truncated_output(output: str, limit: int = 3000) -> str:
+    output = output.strip()
+    if len(output) <= limit:
+        return output
+    head = output[: limit // 2]
+    tail = output[-limit // 2 :]
+    return f"{head}\n--- truncated producer output ---\n{tail}"
+
+
+def _producer_failure_details(label: str, result: ProducerInvocation) -> str:
+    base = f"producer {label} returned {result.returncode}"
+    output = _truncated_output(result.output)
+    return f"{base}: {output}" if output else base
 ```
 
 Update existing tests that monkeypatch `_invoke_producer` from `lambda args: 0`
 to:
 
 ```python
-lambda args: rd.ProducerInvocation(returncode=0, sidecar_warnings=[])
+lambda args: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
 ```
 
 Update `_stub_pipeline_success` in `tests/test_run_daily_autocommit.py` so it
 sets that same `ProducerInvocation` object when stubbing producer success.
+
+Update `scripts/pivots/tests/test_run_daily.py` import and mocks:
+
+```python
+from ops.run_daily import ProducerInvocation, run_daily
+
+OK = ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
+DRY_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="dry failed")
+LIVE_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="live failed")
+```
+
+Then replace:
+
+```python
+mock_run.return_value = 1
+mock_run.side_effect = [0, 1]
+mock_run.side_effect = [0, 0]
+patch("ops.run_daily._invoke_producer", side_effect=[0, 0])
+```
+
+with:
+
+```python
+mock_run.return_value = DRY_FAIL
+mock_run.side_effect = [OK, LIVE_FAIL]
+mock_run.side_effect = [OK, OK]
+patch("ops.run_daily._invoke_producer", side_effect=[OK, OK])
+```
+
+Update `scripts/pivots/tests/test_autocommit_integration.py` helper:
+
+```python
+def _make_data_files(repo: Path) -> tuple[Path, Path, Path]:
+    data_dir = repo / "data"
+    data_dir.mkdir(exist_ok=True)
+    assets = data_dir / "pivot_assets.live.json"
+    backtest = data_dir / "pivot_backtest.live.json"
+    sidecar = data_dir / "pivot_derivatives_history.live.json"
+    assets.write_text(json.dumps({"v": 1}))
+    backtest.write_text(json.dumps({"v": 1}))
+    sidecar.write_text(json.dumps({"v": 1}))
+    return assets, backtest, sidecar
+
+
+def _stub_run_daily_pipeline(monkeypatch):
+    from ops.run_daily import ProducerInvocation
+
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+    )
+    monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
+```
+
+Every call to `rd.run_daily` in that file should pass:
+
+```python
+derivatives_history_path=sidecar,
+```
+
+In `test_real_auto_commit_excludes_unrelated_pre_staged_changes`, update the
+expected HEAD files to include:
+
+```python
+"data/pivot_derivatives_history.live.json",
+```
 
 - [ ] **Step 4: Update run_daily targets and producer args**
 
@@ -1144,6 +1274,11 @@ Set targets:
 targets = [str(assets_path), str(backtest_path), str(derivatives_history_path)]
 ```
 
+Thread `derivatives_history_path` through `_run_inside_lock` as an explicit
+parameter. `_run_inside_lock` owns the dry/live producer args, archive/prune,
+auto-commit, and OK details, so the sidecar path must be available there rather
+than only in `run_daily`.
+
 Add sidecar path to dry/live args:
 
 ```python
@@ -1155,7 +1290,6 @@ Update dry/live rc checks:
 ```python
 result = _invoke_producer(dry_args)
 rc = result.returncode
-sidecar_warnings = list(result.sidecar_warnings)
 ```
 
 After live:
@@ -1163,7 +1297,17 @@ After live:
 ```python
 live_result = _invoke_producer(live_args)
 rc = live_result.returncode
-sidecar_warnings.extend(live_result.sidecar_warnings)
+sidecar_warnings = list(live_result.sidecar_warnings)
+```
+
+Use live warnings as the authoritative OK details. Dry-run sidecar warnings are
+pre-check noise if the live sidecar update later succeeds.
+
+Update dry/live failure alerts to include captured producer output:
+
+```python
+details=_producer_failure_details("dry-run", result)
+details=_producer_failure_details("live-write", live_result)
 ```
 
 - [ ] **Step 5: Archive/prune sidecar**
@@ -1171,10 +1315,13 @@ sidecar_warnings.extend(live_result.sidecar_warnings)
 In retention block, add:
 
 ```python
-if derivatives_history_path.exists():
+if derivatives_history_path.exists() and not sidecar_warnings:
     archive(derivatives_history_path, history_dir)
     prune(history_dir, "pivot_derivatives_history.live", keep=keep_history)
 ```
+
+Skipping sidecar archive on degraded runs avoids archiving duplicate stale
+sidecar content as if it were a fresh successful history update.
 
 - [ ] **Step 6: Extend auto-commit scope**
 
@@ -1221,7 +1368,7 @@ Run:
 
 ```bash
 cd /Users/sition/Documents/SITION/DEV/livemakers-site/scripts/pivots
-.venv/bin/python -m pytest tests/test_run_daily_autocommit.py -q
+.venv/bin/python -m pytest tests/test_run_daily.py tests/test_run_daily_autocommit.py tests/test_autocommit_integration.py -q
 ```
 
 Expected:
@@ -1236,7 +1383,7 @@ Run:
 
 ```bash
 cd /Users/sition/Documents/SITION/DEV/livemakers-site
-git add scripts/pivots/ops/run_daily.py scripts/pivots/tests/test_run_daily_autocommit.py
+git add scripts/pivots/ops/run_daily.py scripts/pivots/tests/test_run_daily.py scripts/pivots/tests/test_run_daily_autocommit.py scripts/pivots/tests/test_autocommit_integration.py
 git commit -m "feat(pivots): include derivatives sidecar in daily ops"
 ```
 
@@ -1332,7 +1479,7 @@ Run:
 
 ```bash
 cd /Users/sition/Documents/SITION/DEV/livemakers-site/scripts/pivots
-.venv/bin/python -m pytest tests/test_derivatives_sidecar.py tests/test_run_producer.py tests/test_run_daily_autocommit.py -q
+.venv/bin/python -m pytest tests/test_derivatives_sidecar.py tests/test_run_producer.py tests/test_run_daily.py tests/test_run_daily_autocommit.py tests/test_autocommit_integration.py -q
 ```
 
 Expected:

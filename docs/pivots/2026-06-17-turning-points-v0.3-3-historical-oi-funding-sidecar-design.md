@@ -453,8 +453,10 @@ sidecar warning without rolling back the already-successful public pair.
 ```
 
 The implementation should keep existing `.bak` refusal behavior. Orphan-bak
-refusal includes public files and sidecar baks because a leftover sidecar `.bak`
-still means a previous sidecar promotion needs operator attention.
+refusal applies to the public assets/backtest pair. A sidecar orphan `.bak`
+should degrade only the sidecar update, preserve the existing sidecar, and emit
+a warning. This keeps public snapshot continuity aligned with the best-effort
+sidecar policy while still surfacing that operator attention is needed.
 
 ### Zod/Public Validation
 
