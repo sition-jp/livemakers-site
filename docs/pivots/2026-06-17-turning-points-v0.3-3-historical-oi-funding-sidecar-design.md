@@ -155,6 +155,12 @@ It is a historical data foundation, not a scoring-model release. The sidecar is
 allowed to be committed by the daily ops path, but public snapshots must remain
 contract-stable.
 
+Approach A deliberately keeps one schedule and one lock, but it must still
+preserve failure isolation. Public assets/backtest remain one atomic group;
+the sidecar is a second best-effort transaction after the public pair succeeds.
+This is the implementation cost of choosing the integrated daily path over a
+separate sidecar-only scheduler.
+
 ## Sidecar Artifact
 
 ### Path
@@ -243,6 +249,9 @@ Shape:
 The implementation may omit `min`/`max` or USD aggregates if discovery shows the
 fixture and review value is not worth the payload size, but `last`,
 `growth_pct`, funding `avg`, funding `abs_avg`, and `completeness` should remain.
+`completeness.overall` is the arithmetic mean of
+`completeness.open_interest` and `completeness.funding`, rounded to four
+decimal places.
 
 ### Closed-Bucket Rule
 
@@ -275,6 +284,13 @@ Input:
 GET /futures/data/openInterestHist?symbol=<SYMBOL>&period=4h&limit=180
 ```
 
+Implementation should consume the existing `OpenInterestPoint` dataclass from
+`producer.fetch_binance` rather than parsing provider JSON again:
+
+```python
+OpenInterestPoint(timestamp: int, open_interest: float, open_interest_usd: float)
+```
+
 Default collection:
 
 - `period=4h`
@@ -290,12 +306,22 @@ Daily aggregation:
 - compute completeness as `min(sample_count / 6, 1.0)`;
 - compute `growth_pct` as `(last - first) / first` when `first > 0`, else 0.
 
+`growth_pct` is intra-bucket growth within the same UTC day. It is not a
+day-over-day growth metric.
+
 ### Funding
 
 Input:
 
 ```text
 GET /fapi/v1/fundingRate?symbol=<SYMBOL>&limit=1000
+```
+
+Implementation should consume the existing `FundingPoint` dataclass from
+`producer.fetch_binance`:
+
+```python
+FundingPoint(timestamp: int, funding_rate: float)
 ```
 
 Default collection:
@@ -307,7 +333,7 @@ Default collection:
 
 Daily aggregation:
 
-- group by UTC day using `fundingTime`;
+- group by UTC day using `timestamp`;
 - discard current UTC day;
 - store only days with at least 1 sample;
 - compute completeness as `min(sample_count / 3, 1.0)`;
@@ -324,6 +350,11 @@ The sidecar update is an upsert, not an append-only blind write:
 5. Sort ascending by `bucket_start`.
 6. Prune to the configured retention window.
 7. Write a new full sidecar snapshot.
+
+Because provider windows are finite, the oldest day in a newly fetched window
+may be incomplete and can remain `completeness < 1.0` forever after it ages out
+of the provider window. That is acceptable as long as completeness is preserved
+and downstream consumers can filter on it.
 
 Default retention:
 
@@ -386,20 +417,44 @@ data/pivot_derivatives_history.live.json
 Dry-run should write and validate a temporary sidecar file, then remove it just
 like the existing two snapshots.
 
-### Atomic Promotion
+### Promotion Semantics
 
-Upgrade promotion from a hard-coded two-file pair to a small N-file promotion
-helper.
+Do not turn the public snapshots plus sidecar into one three-file
+all-or-nothing transaction.
 
-Required invariant:
+The correct transaction split is:
+
+1. Public pair transaction:
+   - `pivot_assets.live.json`
+   - `pivot_backtest.live.json`
+2. Sidecar transaction:
+   - `pivot_derivatives_history.live.json`
+
+The public pair remains atomic because `pivot_assets.live.json` consumes
+backtest quality derived from `pivot_backtest.live.json`. These two files must
+not drift.
+
+The sidecar is promoted only after the public pair succeeds. If sidecar
+promotion fails, the public pair is not rolled back.
+
+Required public-pair invariant:
 
 ```text
-If promotion fails after any target is replaced, all replaced targets are rolled
-back or the run exits with preserved .bak files and a loud failure.
+If public pair promotion fails after either public target is replaced, replaced
+public targets are rolled back or the run exits with preserved .bak files and a
+loud failure.
 ```
 
-The implementation should keep existing `.bak` refusal behavior and include the
-sidecar in the orphan-bak check.
+Required sidecar invariant:
+
+```text
+If sidecar promotion fails, preserve the previous sidecar and report a degraded
+sidecar warning without rolling back the already-successful public pair.
+```
+
+The implementation should keep existing `.bak` refusal behavior. Orphan-bak
+refusal includes public files and sidecar baks because a leftover sidecar `.bak`
+still means a previous sidecar promotion needs operator attention.
 
 ### Zod/Public Validation
 
@@ -440,6 +495,14 @@ dry-run
 -> OK/FAILED log + optional Telegram heartbeat
 ```
 
+Dry-run must apply the same sidecar isolation semantics as live write:
+
+- public assets/backtest dry-run failure returns non-zero and blocks the live
+  write;
+- sidecar dry-run failure returns public-success with a sidecar warning and does
+  not block the live write;
+- any sidecar tmp created during dry-run is removed before exit.
+
 ### Auto-Commit Scope
 
 The `git commit --only` protection must remain. The target path list should
@@ -452,6 +515,16 @@ data/pivot_derivatives_history.live.json
 ```
 
 No `git add .`.
+
+The auto-commit message should add a third path line:
+
+```text
+derivatives_history: data/pivot_derivatives_history.live.json
+```
+
+If the sidecar is unchanged or degraded and therefore not modified, the scoped
+path is still safe in the pathspec; `git commit --only` must continue to guard
+against unrelated staged changes.
 
 ### Sidecar Failure Policy
 
@@ -466,6 +539,23 @@ Recommended behavior:
   - write an `OK` ops log with warning text in `details`;
   - send the normal OK heartbeat if `notify_ok` is enabled;
   - do not emit partial sidecar data.
+
+The producer/run_daily interface needs an explicit soft-fail channel. Use this
+contract:
+
+```text
+producer.run_producer exit code:
+  0 = public assets/backtest succeeded
+  1 = public assets/backtest failed
+
+producer stdout marker:
+  [pivots-producer] sidecar_degraded=<reason>
+```
+
+`scripts/pivots/ops/run_daily.py` should capture producer stdout/stderr in
+`_invoke_producer`, parse the `sidecar_degraded=` marker, and append that reason
+to OK `details`. Sidecar degradation must not be represented as a non-zero exit
+code because the existing run_daily binary rc handling maps non-zero to FAILED.
 
 Rationale:
 
@@ -569,8 +659,8 @@ Rollback must be simple:
 
 v0.3-3 implementation is acceptable when:
 
-- `data/pivot_derivatives_history.live.json` is produced by dry-run and live
-  paths.
+- Under healthy provider conditions, `data/pivot_derivatives_history.live.json`
+  is produced by dry-run and live paths.
 - Sidecar history contains only closed UTC-day buckets.
 - Existing public assets/backtest JSON schemas remain unchanged.
 - Existing Turning Point UI/API routes remain unchanged.
