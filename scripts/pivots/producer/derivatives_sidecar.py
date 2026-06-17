@@ -216,6 +216,8 @@ def _merge_asset_history(
         by_day[row["bucket_start"]] = row
     rows = [by_day[key] for key in sorted(by_day)]
     if retention_days > 0:
+        # retention_days is enforced here as the maximum number of retained
+        # closed daily bucket rows, not as a sparse calendar-day cutoff.
         rows = rows[-retention_days:]
     return rows
 
