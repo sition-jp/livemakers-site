@@ -1,4 +1,6 @@
-from producer.score_derivatives_evidence import score_derivatives_evidence
+import math
+
+from producer import score_derivatives_evidence as derivatives
 
 
 def base_context(**overrides):
@@ -19,7 +21,7 @@ def base_context(**overrides):
 
 
 def test_score_derivatives_evidence_emits_oi_crowding_evidence() -> None:
-    score, evidence = score_derivatives_evidence(
+    score, evidence = derivatives.score_derivatives_evidence(
         base_context(oi_growth_pct=0.18, price_range_compression=True)
     )
     assert score > 0
@@ -33,7 +35,7 @@ def test_score_derivatives_evidence_emits_oi_crowding_evidence() -> None:
 
 
 def test_score_derivatives_evidence_emits_funding_skew_evidence() -> None:
-    score, evidence = score_derivatives_evidence(
+    score, evidence = derivatives.score_derivatives_evidence(
         base_context(abs_funding=0.0010, abs_funding_history=[0.0001, 0.0002, 0.0003, 0.0004, 0.0010])
     )
     assert score > 0
@@ -43,7 +45,7 @@ def test_score_derivatives_evidence_emits_funding_skew_evidence() -> None:
 
 
 def test_score_derivatives_evidence_emits_crowded_long_short_evidence() -> None:
-    score, evidence = score_derivatives_evidence(
+    score, evidence = derivatives.score_derivatives_evidence(
         base_context(global_long_short_ratio=2.4, global_long_short_ratio_history=[0.9, 1.0, 1.1, 1.2, 2.4])
     )
     assert score > 0
@@ -53,7 +55,7 @@ def test_score_derivatives_evidence_emits_crowded_long_short_evidence() -> None:
 
 
 def test_score_derivatives_evidence_emits_top_trader_divergence_evidence() -> None:
-    score, evidence = score_derivatives_evidence(
+    score, evidence = derivatives.score_derivatives_evidence(
         base_context(
             global_long_short_ratio=2.2,
             global_long_short_ratio_history=[1.0, 1.2, 1.4, 1.6, 2.2],
@@ -62,12 +64,18 @@ def test_score_derivatives_evidence_emits_top_trader_divergence_evidence() -> No
         )
     )
     messages = {item["message"] for item in evidence}
+    divergence = next(
+        item
+        for item in evidence
+        if item["message"] == "Top trader positioning diverges from broader account positioning"
+    )
     assert score > 0
     assert "Top trader positioning diverges from broader account positioning" in messages
+    assert divergence["raw_value"] == math.log(2.2 / 1.2)
 
 
 def test_score_derivatives_evidence_omits_low_signal_normal_readings() -> None:
-    score, evidence = score_derivatives_evidence(
+    score, evidence = derivatives.score_derivatives_evidence(
         base_context(
             oi_growth_pct=0.03,
             price_range_compression=True,
@@ -81,3 +89,8 @@ def test_score_derivatives_evidence_omits_low_signal_normal_readings() -> None:
     )
     assert score == 0
     assert evidence == []
+
+
+def test_current_ratio_is_excluded_from_percentile_baseline() -> None:
+    assert hasattr(derivatives, "_current_excluded_history")
+    assert derivatives._current_excluded_history([1.0, 1.2, 2.4]) == [1.0, 1.2]

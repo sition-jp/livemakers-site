@@ -143,7 +143,7 @@ def test_snapshot_appends_derivatives_evidence_without_changing_scores() -> None
         rich_canned[
             "https://fapi.binance.com/futures/data/globalLongShortAccountRatio"
             f"?symbol={symbol}&period=1d&limit=30"
-        ] = _ratio_payload([1.0, 1.1, 1.2, 1.4, 2.4])
+        ] = _ratio_payload([1.0, 1.1, 1.2, 2.4, 2.4])
         rich_canned[
             "https://fapi.binance.com/futures/data/topLongShortPositionRatio"
             f"?symbol={symbol}&period=1d&limit=30"
@@ -171,6 +171,30 @@ def test_snapshot_appends_derivatives_evidence_without_changing_scores() -> None
         messages = {item["message"] for item in detail["evidence"]}
         assert DERIVATIVES_OI_MESSAGE not in messages
         assert DERIVATIVES_FUNDING_MESSAGE not in messages
+
+
+def test_snapshot_ignores_still_forming_long_short_bucket() -> None:
+    core = _core_canned()
+    canned = dict(core)
+    for symbol in ("BTCUSDT", "ETHUSDT"):
+        canned[
+            "https://fapi.binance.com/futures/data/globalLongShortAccountRatio"
+            f"?symbol={symbol}&period=1d&limit=30"
+        ] = _ratio_payload([1.0, 1.1, 1.2, 1.4, 2.4])
+        canned[
+            "https://fapi.binance.com/futures/data/topLongShortPositionRatio"
+            f"?symbol={symbol}&period=1d&limit=30"
+        ] = _ratio_payload([1.0, 1.1, 1.2, 1.2, 1.2])
+
+    snap = compose_pivot_assets_snapshot(
+        BinanceFetcher(http_get=lambda url: canned[url]), generated_at=NOW_ISO
+    )
+
+    messages = {
+        item["message"] for item in snap["detail"]["BTC__7D"]["evidence"]
+    }
+    assert LONG_SHORT_CROWDED_MESSAGE not in messages
+    assert TOP_TRADER_DIVERGENCE_MESSAGE not in messages
 
 
 def test_optional_long_short_failure_does_not_fail_snapshot() -> None:

@@ -74,6 +74,12 @@ def _ratio_values(points) -> list[float]:
     return [p.long_short_ratio for p in points if p.long_short_ratio > 0]
 
 
+def _closed_ratio_history(values: list[float]) -> list[float]:
+    # Binance period=1d ratio endpoints include the still-forming current UTC
+    # day. Daily evidence should use only settled buckets.
+    return values[:-1]
+
+
 def _append_derivatives_evidence(base: list, extra: list) -> list:
     seen = {(item["category"], item["message"]) for item in base}
     out = list(base)
@@ -242,8 +248,8 @@ def _build_volatility_context(
 def _build_derivatives_context(
     data: _AssetData, vol_ctx: VolatilityContext
 ) -> DerivativesEvidenceContext:
-    global_history = data.global_long_short_ratio[-30:]
-    top_history = data.top_trader_position_ratio[-30:]
+    global_history = _closed_ratio_history(data.global_long_short_ratio)[-30:]
+    top_history = _closed_ratio_history(data.top_trader_position_ratio)[-30:]
     available_inputs = sum(
         (
             bool(data.oi),
