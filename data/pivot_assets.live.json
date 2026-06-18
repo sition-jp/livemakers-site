@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-06-17T23:00:12Z",
+  "generated_at": "2026-06-18T23:00:16Z",
   "radar": [
     {
       "symbol": "BTC",
@@ -32,25 +32,25 @@
       "symbol": "ETH",
       "scores": {
         "7D": {
-          "overall": 10.0,
-          "price_pivot": 0.0,
+          "overall": 16.0,
+          "price_pivot": 15.0,
           "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "price"
         },
         "30D": {
-          "overall": 10.0,
-          "price_pivot": 0.0,
+          "overall": 16.0,
+          "price_pivot": 15.0,
           "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "price"
         },
         "90D": {
-          "overall": 10.0,
-          "price_pivot": 0.0,
+          "overall": 16.0,
+          "price_pivot": 15.0,
           "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "price"
         }
       }
     }
@@ -62,7 +62,7 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-17T23:00:12Z",
+      "timestamp": "2026-06-18T23:00:16Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -97,7 +97,7 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-17T23:00:12Z",
+      "timestamp": "2026-06-18T23:00:16Z",
       "scores": {
         "overall": 15.0,
         "price_pivot": 15.0,
@@ -132,7 +132,7 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-17T23:00:12Z",
+      "timestamp": "2026-06-18T23:00:16Z",
       "scores": {
         "overall": 22.0,
         "price_pivot": 30.0,
@@ -153,7 +153,7 @@
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from MA50 (top 20% of recent range)",
-          "raw_value": 0.12226428965705327
+          "raw_value": 0.13888100516930593
         },
         {
           "category": "price",
@@ -174,26 +174,33 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-06-17T23:00:12Z",
+      "timestamp": "2026-06-18T23:00:16Z",
       "scores": {
-        "overall": 10.0,
-        "price_pivot": 0.0,
+        "overall": 16.0,
+        "price_pivot": 15.0,
         "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 95.0
+          "score": 89.0
         }
       },
       "direction_bias": {
         "bullish": 0.0,
-        "bearish": 0.0,
-        "neutral": 100.0
+        "bearish": 100.0,
+        "neutral": 0.0
       },
-      "evidence": [],
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.15,
+          "message": "MACD momentum is weakening"
+        }
+      ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 0."
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 1."
       }
     },
     "ETH__30D": {
@@ -202,26 +209,33 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-06-17T23:00:12Z",
+      "timestamp": "2026-06-18T23:00:16Z",
       "scores": {
-        "overall": 10.0,
-        "price_pivot": 0.0,
+        "overall": 16.0,
+        "price_pivot": 15.0,
         "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 95.0
+          "score": 89.0
         }
       },
       "direction_bias": {
         "bullish": 0.0,
-        "bearish": 0.0,
-        "neutral": 100.0
+        "bearish": 100.0,
+        "neutral": 0.0
       },
-      "evidence": [],
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.15,
+          "message": "MACD momentum is weakening"
+        }
+      ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 30D",
-        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 0."
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 1."
       }
     },
     "ETH__90D": {
@@ -230,26 +244,33 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-06-17T23:00:12Z",
+      "timestamp": "2026-06-18T23:00:16Z",
       "scores": {
-        "overall": 10.0,
-        "price_pivot": 0.0,
+        "overall": 16.0,
+        "price_pivot": 15.0,
         "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 97.0
+          "score": 91.0
         }
       },
       "direction_bias": {
         "bullish": 0.0,
-        "bearish": 0.0,
-        "neutral": 100.0
+        "bearish": 100.0,
+        "neutral": 0.0
       },
-      "evidence": [],
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.15,
+          "message": "MACD momentum is weakening"
+        }
+      ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 90D",
-        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 0."
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 1."
       }
     }
   }

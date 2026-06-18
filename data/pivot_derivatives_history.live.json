@@ -1,0 +1,4373 @@
+{
+  "schema_version": "pivots_derivatives_history.v0.1",
+  "generated_at": "2026-06-18T23:00:16Z",
+  "provider": "binance_usdm",
+  "assets": {
+    "BTC": {
+      "symbol": "BTCUSDT",
+      "history": [
+        {
+          "bucket_start": "2026-04-13T00:00:00Z",
+          "bucket_end": "2026-04-14T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 2,
+            "sum": -5.592e-05,
+            "avg": -2.796e-05,
+            "abs_avg": 2.796e-05,
+            "max_abs": 5.409e-05,
+            "last": -5.409e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 0.6666666667,
+            "overall": 0.3333333333
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-14T00:00:00Z",
+          "bucket_end": "2026-04-15T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -8.356e-05,
+            "avg": -2.78533e-05,
+            "abs_avg": 4.60667e-05,
+            "max_abs": 5.854e-05,
+            "last": -5.234e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-15T00:00:00Z",
+          "bucket_end": "2026-04-16T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00021549,
+            "avg": -7.183e-05,
+            "abs_avg": 7.183e-05,
+            "max_abs": 9.313e-05,
+            "last": -7.151e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-16T00:00:00Z",
+          "bucket_end": "2026-04-17T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -8.484e-05,
+            "avg": -2.828e-05,
+            "abs_avg": 2.828e-05,
+            "max_abs": 3.418e-05,
+            "last": -2.225e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-17T00:00:00Z",
+          "bucket_end": "2026-04-18T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -4.711e-05,
+            "avg": -1.57033e-05,
+            "abs_avg": 5.62233e-05,
+            "max_abs": 0.00010789,
+            "last": -0.00010789
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-18T00:00:00Z",
+          "bucket_end": "2026-04-19T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00019766,
+            "avg": -6.58867e-05,
+            "abs_avg": 6.58867e-05,
+            "max_abs": 8.098e-05,
+            "last": -4.586e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-19T00:00:00Z",
+          "bucket_end": "2026-04-20T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.0002789,
+            "avg": -9.29667e-05,
+            "abs_avg": 9.29667e-05,
+            "max_abs": 0.00012276,
+            "last": -0.00012276
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-20T00:00:00Z",
+          "bucket_end": "2026-04-21T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00012138,
+            "avg": -4.046e-05,
+            "abs_avg": 4.046e-05,
+            "max_abs": 4.778e-05,
+            "last": -2.745e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-21T00:00:00Z",
+          "bucket_end": "2026-04-22T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00018003,
+            "avg": -6.001e-05,
+            "abs_avg": 6.001e-05,
+            "max_abs": 7.937e-05,
+            "last": -4.242e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-22T00:00:00Z",
+          "bucket_end": "2026-04-23T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 5.74e-06,
+            "avg": 1.9133e-06,
+            "abs_avg": 2.182e-05,
+            "max_abs": 3.56e-05,
+            "last": -7.49e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-23T00:00:00Z",
+          "bucket_end": "2026-04-24T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00018119,
+            "avg": -6.03967e-05,
+            "abs_avg": 6.03967e-05,
+            "max_abs": 7.87e-05,
+            "last": -6.696e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-24T00:00:00Z",
+          "bucket_end": "2026-04-25T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00014846,
+            "avg": -4.94867e-05,
+            "abs_avg": 4.94867e-05,
+            "max_abs": 7.865e-05,
+            "last": -3.152e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-25T00:00:00Z",
+          "bucket_end": "2026-04-26T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00013011,
+            "avg": -4.337e-05,
+            "abs_avg": 4.337e-05,
+            "max_abs": 6.235e-05,
+            "last": -5.699e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-26T00:00:00Z",
+          "bucket_end": "2026-04-27T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 5.89e-06,
+            "avg": 1.9633e-06,
+            "abs_avg": 1.9633e-06,
+            "max_abs": 2.41e-06,
+            "last": 1.95e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-27T00:00:00Z",
+          "bucket_end": "2026-04-28T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00014088,
+            "avg": -4.696e-05,
+            "abs_avg": 4.862e-05,
+            "max_abs": 8.659e-05,
+            "last": -5.678e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-28T00:00:00Z",
+          "bucket_end": "2026-04-29T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -1.913e-05,
+            "avg": -6.3767e-06,
+            "abs_avg": 4.13233e-05,
+            "max_abs": 5.242e-05,
+            "last": 5.242e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-29T00:00:00Z",
+          "bucket_end": "2026-04-30T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 2.036e-05,
+            "avg": 6.7867e-06,
+            "abs_avg": 2.572e-05,
+            "max_abs": 3.571e-05,
+            "last": 3.571e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-30T00:00:00Z",
+          "bucket_end": "2026-05-01T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -8.961e-05,
+            "avg": -2.987e-05,
+            "abs_avg": 2.987e-05,
+            "max_abs": 4.22e-05,
+            "last": -2.904e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-01T00:00:00Z",
+          "bucket_end": "2026-05-02T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -8.699e-05,
+            "avg": -2.89967e-05,
+            "abs_avg": 2.89967e-05,
+            "max_abs": 3.746e-05,
+            "last": -3.143e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-02T00:00:00Z",
+          "bucket_end": "2026-05-03T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -8.465e-05,
+            "avg": -2.82167e-05,
+            "abs_avg": 2.82167e-05,
+            "max_abs": 5.103e-05,
+            "last": -2.54e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-03T00:00:00Z",
+          "bucket_end": "2026-05-04T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 1.595e-05,
+            "avg": 5.3167e-06,
+            "abs_avg": 1.46367e-05,
+            "max_abs": 2.29e-05,
+            "last": 7.03e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-04T00:00:00Z",
+          "bucket_end": "2026-05-05T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 9.86e-06,
+            "avg": 3.2867e-06,
+            "abs_avg": 2.54067e-05,
+            "max_abs": 4.304e-05,
+            "last": -3.16e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-05T00:00:00Z",
+          "bucket_end": "2026-05-06T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00013249,
+            "avg": -4.41633e-05,
+            "abs_avg": 4.41633e-05,
+            "max_abs": 8.24e-05,
+            "last": -8.24e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-06T00:00:00Z",
+          "bucket_end": "2026-05-07T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00019059,
+            "avg": -6.353e-05,
+            "abs_avg": 6.353e-05,
+            "max_abs": 9.153e-05,
+            "last": -3.756e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-07T00:00:00Z",
+          "bucket_end": "2026-05-08T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00013438,
+            "avg": -4.47933e-05,
+            "abs_avg": 4.47933e-05,
+            "max_abs": 5.856e-05,
+            "last": -3.014e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-08T00:00:00Z",
+          "bucket_end": "2026-05-09T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -6.533e-05,
+            "avg": -2.17767e-05,
+            "abs_avg": 3.78767e-05,
+            "max_abs": 7.406e-05,
+            "last": -1.542e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-09T00:00:00Z",
+          "bucket_end": "2026-05-10T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 1.694e-05,
+            "avg": 5.6467e-06,
+            "abs_avg": 3.09267e-05,
+            "max_abs": 3.792e-05,
+            "last": 3.645e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-10T00:00:00Z",
+          "bucket_end": "2026-05-11T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.0001048,
+            "avg": 3.49333e-05,
+            "abs_avg": 3.49333e-05,
+            "max_abs": 5.764e-05,
+            "last": 5.764e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-11T00:00:00Z",
+          "bucket_end": "2026-05-12T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00012945,
+            "avg": 4.315e-05,
+            "abs_avg": 4.315e-05,
+            "max_abs": 5.798e-05,
+            "last": 4.555e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-12T00:00:00Z",
+          "bucket_end": "2026-05-13T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 9.584e-05,
+            "avg": 3.19467e-05,
+            "abs_avg": 3.27133e-05,
+            "max_abs": 5.822e-05,
+            "last": 5.822e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-13T00:00:00Z",
+          "bucket_end": "2026-05-14T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00012553,
+            "avg": 4.18433e-05,
+            "abs_avg": 4.18433e-05,
+            "max_abs": 5.437e-05,
+            "last": 1.749e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-14T00:00:00Z",
+          "bucket_end": "2026-05-15T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.0001095,
+            "avg": 3.65e-05,
+            "abs_avg": 3.65e-05,
+            "max_abs": 4.094e-05,
+            "last": 4.094e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-15T00:00:00Z",
+          "bucket_end": "2026-05-16T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -4.584e-05,
+            "avg": -1.528e-05,
+            "abs_avg": 2.56e-05,
+            "max_abs": 4.239e-05,
+            "last": 1.548e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-16T00:00:00Z",
+          "bucket_end": "2026-05-17T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 8.683e-05,
+            "avg": 2.89433e-05,
+            "abs_avg": 3.03433e-05,
+            "max_abs": 4.955e-05,
+            "last": 4.955e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-17T00:00:00Z",
+          "bucket_end": "2026-05-18T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 5.261e-05,
+            "avg": 1.75367e-05,
+            "abs_avg": 1.75367e-05,
+            "max_abs": 4.037e-05,
+            "last": 4.8e-07
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-18T00:00:00Z",
+          "bucket_end": "2026-05-19T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00011825,
+            "avg": 3.94167e-05,
+            "abs_avg": 4.69567e-05,
+            "max_abs": 7.178e-05,
+            "last": 7.178e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-19T00:00:00Z",
+          "bucket_end": "2026-05-20T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00015536,
+            "avg": 5.17867e-05,
+            "abs_avg": 5.17867e-05,
+            "max_abs": 5.563e-05,
+            "last": 5.563e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-20T00:00:00Z",
+          "bucket_end": "2026-05-21T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 103836.691,
+            "last": 102116.362,
+            "min": 102116.362,
+            "max": 103836.691,
+            "avg": 102889.9191666667,
+            "last_usd": 7927354451.8772,
+            "avg_usd": 7942055100.281112,
+            "growth_pct": -0.0165676408
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00018095,
+            "avg": 6.03167e-05,
+            "abs_avg": 6.03167e-05,
+            "max_abs": 7.983e-05,
+            "last": 6.858e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-21T00:00:00Z",
+          "bucket_end": "2026-05-22T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 101591.306,
+            "last": 100781.415,
+            "min": 100781.415,
+            "max": 101965.019,
+            "avg": 101441.0958333333,
+            "last_usd": 7827128127.126,
+            "avg_usd": 7869355145.13469,
+            "growth_pct": -0.0079720503
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00012058,
+            "avg": 4.01933e-05,
+            "abs_avg": 4.01933e-05,
+            "max_abs": 6.13e-05,
+            "last": 6.13e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-22T00:00:00Z",
+          "bucket_end": "2026-05-23T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 100697.616,
+            "last": 104790.089,
+            "min": 100666.14,
+            "max": 104790.089,
+            "avg": 102054.7076666667,
+            "last_usd": 7945498918.247,
+            "avg_usd": 7868530370.758931,
+            "growth_pct": 0.0406412104
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 5.635e-05,
+            "avg": 1.87833e-05,
+            "abs_avg": 2.425e-05,
+            "max_abs": 3.564e-05,
+            "last": 2.891e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-23T00:00:00Z",
+          "bucket_end": "2026-05-24T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 104881.213,
+            "last": 104393.557,
+            "min": 104159.094,
+            "max": 105520.228,
+            "avg": 104740.319,
+            "last_usd": 7928628018.0158,
+            "avg_usd": 7888428636.423362,
+            "growth_pct": -0.004649603
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00010249,
+            "avg": 3.41633e-05,
+            "abs_avg": 3.41633e-05,
+            "max_abs": 7.441e-05,
+            "last": 7.441e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-24T00:00:00Z",
+          "bucket_end": "2026-05-25T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 102944.406,
+            "last": 100099.165,
+            "min": 100099.165,
+            "max": 102944.406,
+            "avg": 101658.7075,
+            "last_usd": 7681459773.3525,
+            "avg_usd": 7804509882.559406,
+            "growth_pct": -0.0276386169
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00021599,
+            "avg": 7.19967e-05,
+            "abs_avg": 7.19967e-05,
+            "max_abs": 9.044e-05,
+            "last": 6.265e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-25T00:00:00Z",
+          "bucket_end": "2026-05-26T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 99129.24,
+            "last": 99737.903,
+            "min": 99129.24,
+            "max": 100099.617,
+            "avg": 99559.5745,
+            "last_usd": 7722348299.985078,
+            "avg_usd": 7694721114.099937,
+            "growth_pct": 0.0061400955
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00011502,
+            "avg": 3.834e-05,
+            "abs_avg": 3.834e-05,
+            "max_abs": 6.549e-05,
+            "last": 1.426e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-26T00:00:00Z",
+          "bucket_end": "2026-05-27T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 99831.465,
+            "last": 98934.815,
+            "min": 98469.827,
+            "max": 99841.937,
+            "avg": 99255.3496666667,
+            "last_usd": 7521459949.486,
+            "avg_usd": 7613984230.314469,
+            "growth_pct": -0.0089816372
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00017686,
+            "avg": 5.89533e-05,
+            "abs_avg": 5.89533e-05,
+            "max_abs": 8.058e-05,
+            "last": 5.776e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-27T00:00:00Z",
+          "bucket_end": "2026-05-28T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 99129.766,
+            "last": 102561.293,
+            "min": 99129.766,
+            "max": 103101.699,
+            "avg": 101044.6545,
+            "last_usd": 7695541062.740864,
+            "avg_usd": 7637915062.8290205,
+            "growth_pct": 0.0346165147
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00028862,
+            "avg": 9.62067e-05,
+            "abs_avg": 9.62067e-05,
+            "max_abs": 0.0001,
+            "last": 9.914e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-28T00:00:00Z",
+          "bucket_end": "2026-05-29T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 101125.283,
+            "last": 105831.005,
+            "min": 101125.283,
+            "max": 107156.783,
+            "avg": 104275.041,
+            "last_usd": 7767297282.367,
+            "avg_usd": 7662062588.084678,
+            "growth_pct": 0.0465335855
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00025011,
+            "avg": 8.337e-05,
+            "abs_avg": 8.337e-05,
+            "max_abs": 0.0001,
+            "last": 0.0001
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-29T00:00:00Z",
+          "bucket_end": "2026-05-30T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 106587.989,
+            "last": 103874.781,
+            "min": 103874.781,
+            "max": 106587.989,
+            "avg": 105451.5078333333,
+            "last_usd": 7633810631.82831,
+            "avg_usd": 7751903058.450147,
+            "growth_pct": -0.0254551008
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00022093,
+            "avg": 7.36433e-05,
+            "abs_avg": 7.36433e-05,
+            "max_abs": 0.0001,
+            "last": 6.702e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-30T00:00:00Z",
+          "bucket_end": "2026-05-31T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 104364.064,
+            "last": 103916.941,
+            "min": 103658.369,
+            "max": 104438.107,
+            "avg": 104095.881,
+            "last_usd": 7687775295.18,
+            "avg_usd": 7666286615.271786,
+            "growth_pct": -0.0042842621
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.0001441,
+            "avg": 4.80333e-05,
+            "abs_avg": 4.80333e-05,
+            "max_abs": 6.214e-05,
+            "last": 6.214e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-31T00:00:00Z",
+          "bucket_end": "2026-06-01T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 103974.85,
+            "last": 104809.904,
+            "min": 103974.85,
+            "max": 105202.518,
+            "avg": 104707.2148333333,
+            "last_usd": 7706178878.877119,
+            "avg_usd": 7728255330.223149,
+            "growth_pct": 0.0080313076
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00016083,
+            "avg": 5.361e-05,
+            "abs_avg": 5.361e-05,
+            "max_abs": 5.988e-05,
+            "last": 5.988e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-01T00:00:00Z",
+          "bucket_end": "2026-06-02T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 105050.102,
+            "last": 105069.587,
+            "min": 105050.102,
+            "max": 106416.09,
+            "avg": 105473.7108333333,
+            "last_usd": 7520219680.7513,
+            "avg_usd": 7651891532.976502,
+            "growth_pct": 0.0001854829
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00020141,
+            "avg": 6.71367e-05,
+            "abs_avg": 6.71367e-05,
+            "max_abs": 0.0001,
+            "last": 0.0001
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-02T00:00:00Z",
+          "bucket_end": "2026-06-03T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 105358.559,
+            "last": 108581.274,
+            "min": 105194.608,
+            "max": 109565.212,
+            "avg": 106763.4391666667,
+            "last_usd": 7305054945.2802,
+            "avg_usd": 7406805482.685024,
+            "growth_pct": 0.0305880702
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00024335,
+            "avg": 8.11167e-05,
+            "abs_avg": 8.11167e-05,
+            "max_abs": 0.0001,
+            "last": 8.345e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-03T00:00:00Z",
+          "bucket_end": "2026-06-04T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 107552.946,
+            "last": 105142.441,
+            "min": 105142.441,
+            "max": 108317.822,
+            "avg": 106937.4073333333,
+            "last_usd": 6879722256.4884,
+            "avg_usd": 7098242173.729595,
+            "growth_pct": -0.0224122638
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00022394,
+            "avg": 7.46467e-05,
+            "abs_avg": 7.46467e-05,
+            "max_abs": 0.0001,
+            "last": 0.0001
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-04T00:00:00Z",
+          "bucket_end": "2026-06-05T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 104752.196,
+            "last": 101563.022,
+            "min": 100747.616,
+            "max": 104752.196,
+            "avg": 102243.6405,
+            "last_usd": 6460030970.404039,
+            "avg_usd": 6509532831.318593,
+            "growth_pct": -0.0304449369
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 3.147e-05,
+            "avg": 1.049e-05,
+            "abs_avg": 1.767e-05,
+            "max_abs": 2.705e-05,
+            "last": -1.077e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-05T00:00:00Z",
+          "bucket_end": "2026-06-06T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 98688.417,
+            "last": 104621.871,
+            "min": 97883.681,
+            "max": 104621.871,
+            "avg": 100372.5835,
+            "last_usd": 6306602643.269381,
+            "avg_usd": 6225108633.542625,
+            "growth_pct": 0.0601231044
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -9.79e-06,
+            "avg": -3.2633e-06,
+            "abs_avg": 1.203e-05,
+            "max_abs": 1.431e-05,
+            "last": -8.63e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-06T00:00:00Z",
+          "bucket_end": "2026-06-07T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 101597.505,
+            "last": 101782.225,
+            "min": 101029.336,
+            "max": 102220.71,
+            "avg": 101744.4021666667,
+            "last_usd": 6164338674.9,
+            "avg_usd": 6185462978.159669,
+            "growth_pct": 0.0018181549
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 9.3e-06,
+            "avg": 3.1e-06,
+            "abs_avg": 1.47333e-05,
+            "max_abs": 2.675e-05,
+            "last": -5.11e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-07T00:00:00Z",
+          "bucket_end": "2026-06-08T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 101776.77,
+            "last": 100632.971,
+            "min": 100632.971,
+            "max": 102872.697,
+            "avg": 101968.2253333333,
+            "last_usd": 6169183527.5898,
+            "avg_usd": 6303077976.16376,
+            "growth_pct": -0.0112383111
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 3.21e-06,
+            "avg": 1.07e-06,
+            "abs_avg": 1.99233e-05,
+            "max_abs": 2.828e-05,
+            "last": 2.742e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-08T00:00:00Z",
+          "bucket_end": "2026-06-09T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 98914.161,
+            "last": 98058.954,
+            "min": 98058.954,
+            "max": 98914.161,
+            "avg": 98433.0913333333,
+            "last_usd": 6211603276.5024,
+            "avg_usd": 6237360504.858601,
+            "growth_pct": -0.0086459511
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 7.109e-05,
+            "avg": 2.36967e-05,
+            "abs_avg": 2.36967e-05,
+            "max_abs": 3.533e-05,
+            "last": 1.22e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-09T00:00:00Z",
+          "bucket_end": "2026-06-10T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 98493.635,
+            "last": 99618.878,
+            "min": 97622.223,
+            "max": 99683.074,
+            "avg": 98491.0358333333,
+            "last_usd": 6183975950.4096,
+            "avg_usd": 6154294818.100116,
+            "growth_pct": 0.011424525
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 2.082e-05,
+            "avg": 6.94e-06,
+            "abs_avg": 1.73733e-05,
+            "max_abs": 3.041e-05,
+            "last": 6.06e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-10T00:00:00Z",
+          "bucket_end": "2026-06-11T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 99232.019,
+            "last": 100218.325,
+            "min": 99232.019,
+            "max": 101084.549,
+            "avg": 100360.8136666667,
+            "last_usd": 6204356151.43,
+            "avg_usd": 6195253020.971546,
+            "growth_pct": 0.0099393926
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -4.78e-06,
+            "avg": -1.5933e-06,
+            "abs_avg": 2.09733e-05,
+            "max_abs": 3.385e-05,
+            "last": 2.542e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-11T00:00:00Z",
+          "bucket_end": "2026-06-12T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 99363.017,
+            "last": 99274.054,
+            "min": 99274.054,
+            "max": 101698.886,
+            "avg": 100293.1358333333,
+            "last_usd": 6312095466.319856,
+            "avg_usd": 6289013512.688268,
+            "growth_pct": -0.0008953331
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 4.45e-05,
+            "avg": 1.48333e-05,
+            "abs_avg": 2.024e-05,
+            "max_abs": 2.736e-05,
+            "last": 2.736e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-12T00:00:00Z",
+          "bucket_end": "2026-06-13T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 98329.492,
+            "last": 98193.517,
+            "min": 98193.517,
+            "max": 99055.672,
+            "avg": 98477.1628333333,
+            "last_usd": 6241022830.8928,
+            "avg_usd": 6253511960.348442,
+            "growth_pct": -0.0013828506
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 1.983e-05,
+            "avg": 6.61e-06,
+            "abs_avg": 1.52967e-05,
+            "max_abs": 2.446e-05,
+            "last": 8.4e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-13T00:00:00Z",
+          "bucket_end": "2026-06-14T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 97795.594,
+            "last": 100736.25,
+            "min": 97795.594,
+            "max": 100736.25,
+            "avg": 99001.4263333333,
+            "last_usd": 6473339004.380134,
+            "avg_usd": 6325247271.256972,
+            "growth_pct": 0.0300694119
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 6.355e-05,
+            "avg": 2.11833e-05,
+            "abs_avg": 2.11833e-05,
+            "max_abs": 5.357e-05,
+            "last": 9.38e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-14T00:00:00Z",
+          "bucket_end": "2026-06-15T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 100142.273,
+            "last": 100732.391,
+            "min": 100142.273,
+            "max": 100948.83,
+            "avg": 100671.3621666667,
+            "last_usd": 6424449993.7634,
+            "avg_usd": 6470023137.806636,
+            "growth_pct": 0.0058927961
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00012432,
+            "avg": -4.144e-05,
+            "abs_avg": 4.144e-05,
+            "max_abs": 4.657e-05,
+            "last": -3.265e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-15T00:00:00Z",
+          "bucket_end": "2026-06-16T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 101679.083,
+            "last": 103707.194,
+            "min": 101679.083,
+            "max": 104333.103,
+            "avg": 103319.539,
+            "last_usd": 6902149330.9148,
+            "avg_usd": 6840687657.652138,
+            "growth_pct": 0.0199461968
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -2.65e-05,
+            "avg": -8.8333e-06,
+            "abs_avg": 3.16933e-05,
+            "max_abs": 6.079e-05,
+            "last": -6.079e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-16T00:00:00Z",
+          "bucket_end": "2026-06-17T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 103300.779,
+            "last": 102894.027,
+            "min": 102894.027,
+            "max": 104029.68,
+            "avg": 103365.5008333333,
+            "last_usd": 6755249660.997745,
+            "avg_usd": 6834358839.72652,
+            "growth_pct": -0.0039375502
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -1.292e-05,
+            "avg": -4.3067e-06,
+            "abs_avg": 5.9467e-06,
+            "max_abs": 1.11e-05,
+            "last": 2.46e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-17T00:00:00Z",
+          "bucket_end": "2026-06-18T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 102414.651,
+            "last": 99851.463,
+            "min": 99851.463,
+            "max": 102683.211,
+            "avg": 101754.3181666667,
+            "last_usd": 6419430585.9774,
+            "avg_usd": 6644149016.838717,
+            "growth_pct": -0.025027552
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -7.31e-05,
+            "avg": -2.43667e-05,
+            "abs_avg": 3.74133e-05,
+            "max_abs": 6.685e-05,
+            "last": -2.582e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        }
+      ]
+    },
+    "ETH": {
+      "symbol": "ETHUSDT",
+      "history": [
+        {
+          "bucket_start": "2026-04-13T00:00:00Z",
+          "bucket_end": "2026-04-14T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 2,
+            "sum": 6.042e-05,
+            "avg": 3.021e-05,
+            "abs_avg": 3.021e-05,
+            "max_abs": 3.028e-05,
+            "last": 3.014e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 0.6666666667,
+            "overall": 0.3333333333
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-14T00:00:00Z",
+          "bucket_end": "2026-04-15T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.0002349,
+            "avg": 7.83e-05,
+            "abs_avg": 7.83e-05,
+            "max_abs": 0.0001,
+            "last": 3.49e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-15T00:00:00Z",
+          "bucket_end": "2026-04-16T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 3.711e-05,
+            "avg": 1.237e-05,
+            "abs_avg": 1.237e-05,
+            "max_abs": 1.802e-05,
+            "last": 2.61e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-16T00:00:00Z",
+          "bucket_end": "2026-04-17T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.0001065,
+            "avg": -3.55e-05,
+            "abs_avg": 3.55e-05,
+            "max_abs": 5.141e-05,
+            "last": -3.792e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-17T00:00:00Z",
+          "bucket_end": "2026-04-18T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 3.502e-05,
+            "avg": 1.16733e-05,
+            "abs_avg": 1.16733e-05,
+            "max_abs": 1.819e-05,
+            "last": 1.819e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-18T00:00:00Z",
+          "bucket_end": "2026-04-19T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00018466,
+            "avg": -6.15533e-05,
+            "abs_avg": 6.15533e-05,
+            "max_abs": 0.00015064,
+            "last": -0.00015064
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-19T00:00:00Z",
+          "bucket_end": "2026-04-20T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00044791,
+            "avg": -0.0001493033,
+            "abs_avg": 0.0001493033,
+            "max_abs": 0.00022976,
+            "last": -0.00022976
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-20T00:00:00Z",
+          "bucket_end": "2026-04-21T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -1.525e-05,
+            "avg": -5.0833e-06,
+            "abs_avg": 1.04833e-05,
+            "max_abs": 1.408e-05,
+            "last": 8.1e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-21T00:00:00Z",
+          "bucket_end": "2026-04-22T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00011778,
+            "avg": -3.926e-05,
+            "abs_avg": 3.926e-05,
+            "max_abs": 4.382e-05,
+            "last": -3.676e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-22T00:00:00Z",
+          "bucket_end": "2026-04-23T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00015669,
+            "avg": 5.223e-05,
+            "abs_avg": 6.64167e-05,
+            "max_abs": 0.0001,
+            "last": 7.797e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-23T00:00:00Z",
+          "bucket_end": "2026-04-24T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 1.991e-05,
+            "avg": 6.6367e-06,
+            "abs_avg": 6.003e-05,
+            "max_abs": 0.0001,
+            "last": -6.025e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-24T00:00:00Z",
+          "bucket_end": "2026-04-25T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.0002277,
+            "avg": -7.59e-05,
+            "abs_avg": 7.59e-05,
+            "max_abs": 0.00012145,
+            "last": -0.00012145
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-25T00:00:00Z",
+          "bucket_end": "2026-04-26T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00010959,
+            "avg": -3.653e-05,
+            "abs_avg": 3.653e-05,
+            "max_abs": 4.431e-05,
+            "last": -4.431e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-26T00:00:00Z",
+          "bucket_end": "2026-04-27T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -5.904e-05,
+            "avg": -1.968e-05,
+            "abs_avg": 1.968e-05,
+            "max_abs": 2.842e-05,
+            "last": -2.842e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-27T00:00:00Z",
+          "bucket_end": "2026-04-28T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00022094,
+            "avg": -7.36467e-05,
+            "abs_avg": 7.36467e-05,
+            "max_abs": 7.865e-05,
+            "last": -7.593e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-28T00:00:00Z",
+          "bucket_end": "2026-04-29T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00027757,
+            "avg": -9.25233e-05,
+            "abs_avg": 9.269e-05,
+            "max_abs": 0.00016104,
+            "last": 2.5e-07
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-29T00:00:00Z",
+          "bucket_end": "2026-04-30T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.0001229,
+            "avg": 4.09667e-05,
+            "abs_avg": 4.09667e-05,
+            "max_abs": 4.782e-05,
+            "last": 4.782e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-04-30T00:00:00Z",
+          "bucket_end": "2026-05-01T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00018445,
+            "avg": -6.14833e-05,
+            "abs_avg": 6.14833e-05,
+            "max_abs": 7.717e-05,
+            "last": -7.717e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-01T00:00:00Z",
+          "bucket_end": "2026-05-02T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -8.008e-05,
+            "avg": -2.66933e-05,
+            "abs_avg": 2.66933e-05,
+            "max_abs": 4e-05,
+            "last": -2.131e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-02T00:00:00Z",
+          "bucket_end": "2026-05-03T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -4.644e-05,
+            "avg": -1.548e-05,
+            "abs_avg": 1.548e-05,
+            "max_abs": 3.82e-05,
+            "last": -3.88e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-03T00:00:00Z",
+          "bucket_end": "2026-05-04T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00010639,
+            "avg": 3.54633e-05,
+            "abs_avg": 4.63167e-05,
+            "max_abs": 8.747e-05,
+            "last": 8.747e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-04T00:00:00Z",
+          "bucket_end": "2026-05-05T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00012744,
+            "avg": 4.248e-05,
+            "abs_avg": 4.38733e-05,
+            "max_abs": 8.648e-05,
+            "last": -2.09e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-05T00:00:00Z",
+          "bucket_end": "2026-05-06T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00010887,
+            "avg": -3.629e-05,
+            "abs_avg": 3.629e-05,
+            "max_abs": 6.52e-05,
+            "last": -6.52e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-06T00:00:00Z",
+          "bucket_end": "2026-05-07T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00016602,
+            "avg": -5.534e-05,
+            "abs_avg": 5.534e-05,
+            "max_abs": 9.447e-05,
+            "last": -5.114e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-07T00:00:00Z",
+          "bucket_end": "2026-05-08T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00022897,
+            "avg": -7.63233e-05,
+            "abs_avg": 7.63233e-05,
+            "max_abs": 0.00011993,
+            "last": -4.319e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-08T00:00:00Z",
+          "bucket_end": "2026-05-09T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -7.175e-05,
+            "avg": -2.39167e-05,
+            "abs_avg": 2.39167e-05,
+            "max_abs": 3.358e-05,
+            "last": -3.358e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-09T00:00:00Z",
+          "bucket_end": "2026-05-10T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00019273,
+            "avg": 6.42433e-05,
+            "abs_avg": 6.42433e-05,
+            "max_abs": 8.76e-05,
+            "last": 8.76e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-10T00:00:00Z",
+          "bucket_end": "2026-05-11T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00024982,
+            "avg": 8.32733e-05,
+            "abs_avg": 8.32733e-05,
+            "max_abs": 0.0001,
+            "last": 6.714e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-11T00:00:00Z",
+          "bucket_end": "2026-05-12T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00012813,
+            "avg": 4.271e-05,
+            "abs_avg": 4.271e-05,
+            "max_abs": 7.463e-05,
+            "last": 3.355e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-12T00:00:00Z",
+          "bucket_end": "2026-05-13T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 8.61e-05,
+            "avg": 2.87e-05,
+            "abs_avg": 2.87e-05,
+            "max_abs": 3.956e-05,
+            "last": 3.956e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-13T00:00:00Z",
+          "bucket_end": "2026-05-14T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 6.914e-05,
+            "avg": 2.30467e-05,
+            "abs_avg": 2.30467e-05,
+            "max_abs": 5.046e-05,
+            "last": 5.45e-06
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-14T00:00:00Z",
+          "bucket_end": "2026-05-15T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00015414,
+            "avg": 5.138e-05,
+            "abs_avg": 5.138e-05,
+            "max_abs": 5.942e-05,
+            "last": 3.946e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-15T00:00:00Z",
+          "bucket_end": "2026-05-16T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 1.092e-05,
+            "avg": 3.64e-06,
+            "abs_avg": 8.26e-06,
+            "max_abs": 1.397e-05,
+            "last": 1.397e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-16T00:00:00Z",
+          "bucket_end": "2026-05-17T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00018069,
+            "avg": 6.023e-05,
+            "abs_avg": 6.023e-05,
+            "max_abs": 7.065e-05,
+            "last": 6.508e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-17T00:00:00Z",
+          "bucket_end": "2026-05-18T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00017357,
+            "avg": 5.78567e-05,
+            "abs_avg": 5.78567e-05,
+            "max_abs": 7.161e-05,
+            "last": 5.341e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-18T00:00:00Z",
+          "bucket_end": "2026-05-19T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 7.736e-05,
+            "avg": 2.57867e-05,
+            "abs_avg": 2.57867e-05,
+            "max_abs": 5.159e-05,
+            "last": 5.159e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-19T00:00:00Z",
+          "bucket_end": "2026-05-20T00:00:00Z",
+          "open_interest": {
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00019275,
+            "avg": 6.425e-05,
+            "abs_avg": 6.425e-05,
+            "max_abs": 0.0001,
+            "last": 3.588e-05
+          },
+          "completeness": {
+            "open_interest": 0.0,
+            "funding": 1.0,
+            "overall": 0.5
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-20T00:00:00Z",
+          "bucket_end": "2026-05-21T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2205366.337,
+            "last": 2213040.24,
+            "min": 2205366.337,
+            "max": 2237761.616,
+            "avg": 2218192.0981666665,
+            "last_usd": 4731856249.9608,
+            "avg_usd": 4714440157.89294,
+            "growth_pct": 0.00347965
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00013864,
+            "avg": 4.62133e-05,
+            "abs_avg": 4.62133e-05,
+            "max_abs": 5.523e-05,
+            "last": 5.29e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-21T00:00:00Z",
+          "bucket_end": "2026-05-22T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2205998.531,
+            "last": 2201601.781,
+            "min": 2201525.81,
+            "max": 2234673.206,
+            "avg": 2212926.7851666664,
+            "last_usd": 4715280614.45675,
+            "avg_usd": 4718957211.232051,
+            "growth_pct": -0.0019930884
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00012236,
+            "avg": 4.07867e-05,
+            "abs_avg": 4.07867e-05,
+            "max_abs": 5.867e-05,
+            "last": 3.837e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-22T00:00:00Z",
+          "bucket_end": "2026-05-23T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2196166.747,
+            "last": 2256636.663,
+            "min": 2196166.747,
+            "max": 2256636.663,
+            "avg": 2223006.622,
+            "last_usd": 4659232585.36284,
+            "avg_usd": 4708723189.170038,
+            "growth_pct": 0.0275343009
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00013962,
+            "avg": 4.654e-05,
+            "abs_avg": 4.654e-05,
+            "max_abs": 5.943e-05,
+            "last": 5.943e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-23T00:00:00Z",
+          "bucket_end": "2026-05-24T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2245119.843,
+            "last": 2183139.868,
+            "min": 2183139.868,
+            "max": 2263581.022,
+            "avg": 2229464.8668333334,
+            "last_usd": 4533311767.30068,
+            "avg_usd": 4580914216.235215,
+            "growth_pct": -0.027606533
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00016546,
+            "avg": 5.51533e-05,
+            "abs_avg": 5.51533e-05,
+            "max_abs": 6.36e-05,
+            "last": 6.36e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-24T00:00:00Z",
+          "bucket_end": "2026-05-25T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2148238.951,
+            "last": 2155671.011,
+            "min": 2143928.547,
+            "max": 2181402.885,
+            "avg": 2156860.1511666668,
+            "last_usd": 4526628885.86857,
+            "avg_usd": 4556777313.6696825,
+            "growth_pct": 0.0034596058
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00020254,
+            "avg": 6.75133e-05,
+            "abs_avg": 6.75133e-05,
+            "max_abs": 8.039e-05,
+            "last": 4.195e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-25T00:00:00Z",
+          "bucket_end": "2026-05-26T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2120907.75,
+            "last": 2161085.684,
+            "min": 2120907.75,
+            "max": 2169515.477,
+            "avg": 2149662.4133333336,
+            "last_usd": 4583350682.771139,
+            "avg_usd": 4539331506.964082,
+            "growth_pct": 0.0189437443
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00014116,
+            "avg": 4.70533e-05,
+            "abs_avg": 4.70533e-05,
+            "max_abs": 5.508e-05,
+            "last": 3.249e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-26T00:00:00Z",
+          "bucket_end": "2026-05-27T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2133557.606,
+            "last": 2219594.748,
+            "min": 2133557.606,
+            "max": 2219594.748,
+            "avg": 2159666.006,
+            "last_usd": 4601774811.291,
+            "avg_usd": 4527115307.164558,
+            "growth_pct": 0.040325671
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00010659,
+            "avg": 3.553e-05,
+            "abs_avg": 3.553e-05,
+            "max_abs": 3.793e-05,
+            "last": 3.408e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-27T00:00:00Z",
+          "bucket_end": "2026-05-28T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2230590.003,
+            "last": 2288548.063,
+            "min": 2230590.003,
+            "max": 2288548.063,
+            "avg": 2259730.4468333335,
+            "last_usd": 4707200083.38155,
+            "avg_usd": 4681930676.086223,
+            "growth_pct": 0.0259832869
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.0001652,
+            "avg": 5.50667e-05,
+            "abs_avg": 5.50667e-05,
+            "max_abs": 7.351e-05,
+            "last": 6.097e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-28T00:00:00Z",
+          "bucket_end": "2026-05-29T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2291713.118,
+            "last": 2290199.005,
+            "min": 2290199.005,
+            "max": 2375839.152,
+            "avg": 2332885.316,
+            "last_usd": 4611590520.4481,
+            "avg_usd": 4662112602.570174,
+            "growth_pct": -0.0006606905
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 7.948e-05,
+            "avg": 2.64933e-05,
+            "abs_avg": 2.64933e-05,
+            "max_abs": 2.984e-05,
+            "last": 2.984e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-29T00:00:00Z",
+          "bucket_end": "2026-05-30T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2276484.974,
+            "last": 2190356.86,
+            "min": 2190356.86,
+            "max": 2311954.286,
+            "avg": 2271998.0696666664,
+            "last_usd": 4416298189.624594,
+            "avg_usd": 4570781601.862451,
+            "growth_pct": -0.0378338162
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00022188,
+            "avg": 7.396e-05,
+            "abs_avg": 7.396e-05,
+            "max_abs": 8.553e-05,
+            "last": 6.595e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-30T00:00:00Z",
+          "bucket_end": "2026-05-31T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2196614.044,
+            "last": 2203070.719,
+            "min": 2196614.044,
+            "max": 2213712.238,
+            "avg": 2204893.8185,
+            "last_usd": 4467761326.01043,
+            "avg_usd": 4452209137.572305,
+            "growth_pct": 0.0029393762
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00017087,
+            "avg": 5.69567e-05,
+            "abs_avg": 5.69567e-05,
+            "max_abs": 6.842e-05,
+            "last": 5.705e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-05-31T00:00:00Z",
+          "bucket_end": "2026-06-01T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2201210.203,
+            "last": 2231776.543,
+            "min": 2201210.203,
+            "max": 2231776.543,
+            "avg": 2213694.913,
+            "last_usd": 4460843025.661325,
+            "avg_usd": 4467148923.541857,
+            "growth_pct": 0.0138861522
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00018314,
+            "avg": 6.10467e-05,
+            "abs_avg": 6.10467e-05,
+            "max_abs": 9.397e-05,
+            "last": 1.691e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-01T00:00:00Z",
+          "bucket_end": "2026-06-02T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2228845.124,
+            "last": 2284455.239,
+            "min": 2228845.124,
+            "max": 2338538.312,
+            "avg": 2285188.4035,
+            "last_usd": 4577871386.493205,
+            "avg_usd": 4547911553.064487,
+            "growth_pct": 0.0249501925
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00021356,
+            "avg": 7.11867e-05,
+            "abs_avg": 7.11867e-05,
+            "max_abs": 9.572e-05,
+            "last": 9.572e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-02T00:00:00Z",
+          "bucket_end": "2026-06-03T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2283048.944,
+            "last": 2410783.193,
+            "min": 2283048.944,
+            "max": 2459512.675,
+            "avg": 2365119.759666667,
+            "last_usd": 4608027377.533205,
+            "avg_usd": 4647112832.595258,
+            "growth_pct": 0.0559489753
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00025699,
+            "avg": 8.56633e-05,
+            "abs_avg": 8.56633e-05,
+            "max_abs": 0.0001,
+            "last": 5.699e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-03T00:00:00Z",
+          "bucket_end": "2026-06-04T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2306647.653,
+            "last": 2348909.895,
+            "min": 2306647.653,
+            "max": 2390066.544,
+            "avg": 2351732.2198333335,
+            "last_usd": 4234279574.7369437,
+            "avg_usd": 4342971706.494632,
+            "growth_pct": 0.0183219322
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00019244,
+            "avg": 6.41467e-05,
+            "abs_avg": 6.41467e-05,
+            "max_abs": 9.862e-05,
+            "last": 7.361e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-04T00:00:00Z",
+          "bucket_end": "2026-06-05T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2373540.537,
+            "last": 2270584.443,
+            "min": 2261544.659,
+            "max": 2373540.537,
+            "avg": 2287272.277666667,
+            "last_usd": 4033741754.9305096,
+            "avg_usd": 4079737055.743756,
+            "growth_pct": -0.0433765897
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00016079,
+            "avg": 5.35967e-05,
+            "abs_avg": 5.35967e-05,
+            "max_abs": 7.651e-05,
+            "last": 3.946e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-05T00:00:00Z",
+          "bucket_end": "2026-06-06T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2255693.13,
+            "last": 2371375.409,
+            "min": 2254122.091,
+            "max": 2371375.409,
+            "avg": 2295865.2778333332,
+            "last_usd": 3731314609.501283,
+            "avg_usd": 3822226257.565695,
+            "growth_pct": 0.0512845819
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -5.846e-05,
+            "avg": -1.94867e-05,
+            "abs_avg": 5.062e-05,
+            "max_abs": 7.387e-05,
+            "last": -7.387e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-06T00:00:00Z",
+          "bucket_end": "2026-06-07T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2383549.065,
+            "last": 2343057.708,
+            "min": 2319585.389,
+            "max": 2390936.805,
+            "avg": 2361656.3991666664,
+            "last_usd": 3640652384.4217095,
+            "avg_usd": 3696377361.1115403,
+            "growth_pct": -0.0169878429
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00014539,
+            "avg": -4.84633e-05,
+            "abs_avg": 4.84633e-05,
+            "max_abs": 7.917e-05,
+            "last": -3.461e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-07T00:00:00Z",
+          "bucket_end": "2026-06-08T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2350908.542,
+            "last": 2334020.052,
+            "min": 2334020.052,
+            "max": 2392778.73,
+            "avg": 2360762.749,
+            "last_usd": 3762378372.770007,
+            "avg_usd": 3795886611.906594,
+            "growth_pct": -0.0071838141
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00016341,
+            "avg": -5.447e-05,
+            "abs_avg": 5.76167e-05,
+            "max_abs": 0.00010189,
+            "last": 4.72e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-08T00:00:00Z",
+          "bucket_end": "2026-06-09T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2264269.672,
+            "last": 2256966.266,
+            "min": 2256966.266,
+            "max": 2287643.782,
+            "avg": 2268540.515666667,
+            "last_usd": 3800347507.67878,
+            "avg_usd": 3818009160.622892,
+            "growth_pct": -0.0032255018
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00019349,
+            "avg": -6.44967e-05,
+            "abs_avg": 6.44967e-05,
+            "max_abs": 8.235e-05,
+            "last": -4.515e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-09T00:00:00Z",
+          "bucket_end": "2026-06-10T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2253173.245,
+            "last": 2292417.341,
+            "min": 2230847.015,
+            "max": 2292417.341,
+            "avg": 2262208.7013333333,
+            "last_usd": 3797637759.4248962,
+            "avg_usd": 3770429931.1047387,
+            "growth_pct": 0.0174172563
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -9.652e-05,
+            "avg": -3.21733e-05,
+            "abs_avg": 3.24133e-05,
+            "max_abs": 5.182e-05,
+            "last": -5.182e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-10T00:00:00Z",
+          "bucket_end": "2026-06-11T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2265640.117,
+            "last": 2290266.557,
+            "min": 2265640.117,
+            "max": 2316731.833,
+            "avg": 2291398.873666667,
+            "last_usd": 3731645814.64795,
+            "avg_usd": 3747865116.1621957,
+            "growth_pct": 0.0108695286
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00011788,
+            "avg": -3.92933e-05,
+            "abs_avg": 3.92933e-05,
+            "max_abs": 4.578e-05,
+            "last": -3.121e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-11T00:00:00Z",
+          "bucket_end": "2026-06-12T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2295027.036,
+            "last": 2318178.598,
+            "min": 2295027.036,
+            "max": 2359874.777,
+            "avg": 2325736.6625,
+            "last_usd": 3896607536.493956,
+            "avg_usd": 3845259488.0784802,
+            "growth_pct": 0.0100877077
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -5.362e-05,
+            "avg": -1.78733e-05,
+            "abs_avg": 2.29e-05,
+            "max_abs": 3.684e-05,
+            "last": -2.432e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-12T00:00:00Z",
+          "bucket_end": "2026-06-13T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2310670.423,
+            "last": 2251745.62,
+            "min": 2251745.62,
+            "max": 2315099.628,
+            "avg": 2290653.342333333,
+            "last_usd": 3749765912.3151064,
+            "avg_usd": 3819076252.063093,
+            "growth_pct": -0.0255011716
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -0.00010474,
+            "avg": -3.49133e-05,
+            "abs_avg": 3.49133e-05,
+            "max_abs": 5.854e-05,
+            "last": -2.216e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-13T00:00:00Z",
+          "bucket_end": "2026-06-14T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2253270.997,
+            "last": 2283169.524,
+            "min": 2236999.411,
+            "max": 2290412.847,
+            "avg": 2260773.7043333333,
+            "last_usd": 3830403120.3212066,
+            "avg_usd": 3783910356.3249526,
+            "growth_pct": 0.0132689441
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 5.595e-05,
+            "avg": 1.865e-05,
+            "abs_avg": 2.28567e-05,
+            "max_abs": 3.562e-05,
+            "last": 2.664e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-14T00:00:00Z",
+          "bucket_end": "2026-06-15T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2268588.595,
+            "last": 2313909.068,
+            "min": 2268588.595,
+            "max": 2313909.068,
+            "avg": 2289294.680166667,
+            "last_usd": 3851829842.0923986,
+            "avg_usd": 3829158502.3304977,
+            "growth_pct": 0.0199773873
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": -3.643e-05,
+            "avg": -1.21433e-05,
+            "abs_avg": 1.21433e-05,
+            "max_abs": 1.919e-05,
+            "last": -1.919e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-15T00:00:00Z",
+          "bucket_end": "2026-06-16T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2320350.351,
+            "last": 2349377.568,
+            "min": 2285915.335,
+            "max": 2361622.637,
+            "avg": 2326490.721,
+            "last_usd": 4275726211.10592,
+            "avg_usd": 4106567407.7600455,
+            "growth_pct": 0.0125098423
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 9.042e-05,
+            "avg": 3.014e-05,
+            "abs_avg": 3.51067e-05,
+            "max_abs": 6.867e-05,
+            "last": 6.867e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-16T00:00:00Z",
+          "bucket_end": "2026-06-17T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2321976.899,
+            "last": 2246303.63,
+            "min": 2246303.63,
+            "max": 2321976.899,
+            "avg": 2287610.3058333336,
+            "last_usd": 4031035066.2043424,
+            "avg_usd": 4087721678.9840813,
+            "growth_pct": -0.032590018
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 4.059e-05,
+            "avg": 1.353e-05,
+            "abs_avg": 2.733e-05,
+            "max_abs": 3.16e-05,
+            "last": 3.16e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-17T00:00:00Z",
+          "bucket_end": "2026-06-18T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2250889.169,
+            "last": 2228033.997,
+            "min": 2228033.997,
+            "max": 2258176.912,
+            "avg": 2243872.8461666666,
+            "last_usd": 3864324444.73677,
+            "avg_usd": 3979314223.392769,
+            "growth_pct": -0.0101538416
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 4.64e-05,
+            "avg": 1.54667e-05,
+            "abs_avg": 2.038e-05,
+            "max_abs": 3.038e-05,
+            "last": -7.37e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        }
+      ]
+    }
+  }
+}
