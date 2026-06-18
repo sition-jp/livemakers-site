@@ -41,11 +41,16 @@ from producer.atomic_write import atomic_write_json
 from producer.backtest_quality import build_backtest_quality_map
 from producer.compose_assets import compose_pivot_assets_snapshot
 from producer.compose_backtest import compose_pivot_backtest_snapshot
+from producer.derivatives_sidecar import (
+    compose_derivatives_history_sidecar,
+    load_derivatives_history_sidecar,
+)
 from producer.fetch_binance import BinanceFetcher
 
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
 DEFAULT_BACKTEST = REPO_ROOT / "data" / "pivot_backtest.live.json"
+DEFAULT_DERIVATIVES_HISTORY = REPO_ROOT / "data" / "pivot_derivatives_history.live.json"
 
 
 def _now_iso() -> str:
@@ -80,6 +85,14 @@ def _refuse_if_orphan_baks(targets: Iterable[Path]) -> bool:
     )
     print(msg, file=sys.stderr)
     return True
+
+
+def _sidecar_warning(exc: Exception) -> str:
+    return f"{type(exc).__name__}: {exc}"
+
+
+def _emit_sidecar_degraded(reason: str) -> None:
+    print(f"[pivots-producer] sidecar_degraded={reason}")
 
 
 def _run_vitest_validator(
@@ -175,10 +188,30 @@ def _promote_pair(
     _unlink_quiet(backtest_bak)
 
 
+def _promote_one_best_effort(tmp_path: Path, target_path: Path) -> None:
+    bak = _bak_path(target_path)
+    backed_up = False
+    try:
+        if target_path.exists():
+            shutil.copy2(target_path, bak)
+            backed_up = True
+        os.replace(tmp_path, target_path)
+    except Exception:
+        if backed_up and bak.exists():
+            try:
+                os.replace(bak, target_path)
+            except OSError:
+                pass
+        _unlink_quiet(tmp_path)
+        raise
+    _unlink_quiet(bak)
+
+
 def run_producer(
     fetcher: BinanceFetcher,
     assets_path: Path,
     backtest_path: Path,
+    derivatives_history_path: Path = DEFAULT_DERIVATIVES_HISTORY,
     dry_run: bool = False,
     skip_zod_validate: bool = False,
     repo_root: Path = REPO_ROOT,
@@ -189,6 +222,7 @@ def run_producer(
     generated_at = _now_iso()
     assets_tmp = _tmp_path(assets_path)
     backtest_tmp = _tmp_path(backtest_path)
+    derivatives_tmp = _tmp_path(derivatives_history_path)
 
     try:
         backtest_payload = compose_pivot_backtest_snapshot(fetcher, generated_at)
@@ -202,6 +236,22 @@ def run_producer(
         print(f"[pivots-producer] compose failed: {exc}", file=sys.stderr)
         return 1
 
+    sidecar_payload = None
+    sidecar_warning: str | None = None
+    sidecar_bak = _bak_path(derivatives_history_path)
+    if sidecar_bak.exists():
+        sidecar_warning = f"SidecarOrphanBak: {sidecar_bak}"
+    else:
+        try:
+            existing_sidecar = load_derivatives_history_sidecar(derivatives_history_path)
+            sidecar_payload = compose_derivatives_history_sidecar(
+                fetcher,
+                generated_at,
+                existing=existing_sidecar,
+            )
+        except Exception as exc:  # noqa: BLE001
+            sidecar_warning = _sidecar_warning(exc)
+
     try:
         atomic_write_json(assets_tmp, assets_payload)
         atomic_write_json(backtest_tmp, backtest_payload)
@@ -209,7 +259,15 @@ def run_producer(
         print(f"[pivots-producer] tmp write failed: {exc}", file=sys.stderr)
         _unlink_quiet(assets_tmp)
         _unlink_quiet(backtest_tmp)
+        _unlink_quiet(derivatives_tmp)
         return 1
+
+    if sidecar_payload is not None:
+        try:
+            atomic_write_json(derivatives_tmp, sidecar_payload)
+        except Exception as exc:  # noqa: BLE001
+            sidecar_warning = _sidecar_warning(exc)
+            _unlink_quiet(derivatives_tmp)
 
     if not skip_zod_validate:
         ok = _run_vitest_validator(repo_root, assets_tmp, backtest_tmp)
@@ -220,21 +278,34 @@ def run_producer(
             )
             _unlink_quiet(assets_tmp)
             _unlink_quiet(backtest_tmp)
+            _unlink_quiet(derivatives_tmp)
             return 1
 
     if dry_run:
-        for tmp in (assets_tmp, backtest_tmp):
+        for tmp in (assets_tmp, backtest_tmp, derivatives_tmp):
             if tmp.exists():
                 size = tmp.stat().st_size
                 print(f"[pivots-producer] dry-run wrote {tmp.name} ({size} bytes)")
                 tmp.unlink()
+        if sidecar_warning:
+            _emit_sidecar_degraded(sidecar_warning)
         return 0
 
     try:
         _promote_pair(assets_tmp, assets_path, backtest_tmp, backtest_path)
     except Exception as exc:  # noqa: BLE001
         print(f"[pivots-producer] promotion failed: {exc}", file=sys.stderr)
+        _unlink_quiet(derivatives_tmp)
         return 1
+
+    if sidecar_payload is not None and derivatives_tmp.exists():
+        try:
+            _promote_one_best_effort(derivatives_tmp, derivatives_history_path)
+        except Exception as exc:  # noqa: BLE001
+            sidecar_warning = _sidecar_warning(exc)
+
+    if sidecar_warning:
+        _emit_sidecar_degraded(sidecar_warning)
 
     print(f"[pivots-producer] OK generated_at={generated_at}")
     return 0
@@ -244,6 +315,11 @@ def main() -> int:
     p = argparse.ArgumentParser(description="LiveMakersCom AI Turning Point Detector v0.1 producer")
     p.add_argument("--assets-path", type=Path, default=DEFAULT_ASSETS)
     p.add_argument("--backtest-path", type=Path, default=DEFAULT_BACKTEST)
+    p.add_argument(
+        "--derivatives-history-path",
+        type=Path,
+        default=DEFAULT_DERIVATIVES_HISTORY,
+    )
     p.add_argument("--dry-run", action="store_true", help="compose+write+validate but don't promote over targets")
     p.add_argument(
         "--skip-zod-validate", action="store_true",
@@ -254,6 +330,7 @@ def main() -> int:
         fetcher=BinanceFetcher(),
         assets_path=args.assets_path,
         backtest_path=args.backtest_path,
+        derivatives_history_path=args.derivatives_history_path,
         dry_run=args.dry_run,
         skip_zod_validate=args.skip_zod_validate,
     )

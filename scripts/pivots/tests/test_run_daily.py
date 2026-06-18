@@ -12,7 +12,11 @@ from unittest.mock import patch
 
 import pytest
 
-from ops.run_daily import run_daily
+from ops.run_daily import ProducerInvocation, run_daily
+
+OK = ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
+DRY_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="dry failed")
+LIVE_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="live failed")
 
 
 @pytest.fixture
@@ -32,7 +36,7 @@ def fake_env(tmp_path: Path) -> dict:
 def test_dry_run_failure_alerts_and_skips_live(fake_env: dict) -> None:
     with patch("ops.run_daily._invoke_producer") as mock_run:
         # Simulate dry-run returning non-zero
-        mock_run.return_value = 1
+        mock_run.return_value = DRY_FAIL
         rc = run_daily(
             assets_path=fake_env["assets_path"],
             backtest_path=fake_env["backtest_path"],
@@ -55,7 +59,7 @@ def test_dry_run_failure_alerts_and_skips_live(fake_env: dict) -> None:
 def test_live_write_failure_after_dry_run_success_alerts(fake_env: dict) -> None:
     with patch("ops.run_daily._invoke_producer") as mock_run:
         # Dry-run succeeds (0), live write fails (1)
-        mock_run.side_effect = [0, 1]
+        mock_run.side_effect = [OK, LIVE_FAIL]
         rc = run_daily(**{
             **fake_env, "keep_history": 7,
         })
@@ -73,7 +77,7 @@ def test_full_success_archives_and_prunes(fake_env: dict, tmp_path: Path) -> Non
     fake_env["assets_path"].write_text('{"schema_version": "v0.1"}')
     fake_env["backtest_path"].write_text('{"schema_version": "v0.1"}')
     with patch("ops.run_daily._invoke_producer") as mock_run:
-        mock_run.side_effect = [0, 0]  # both succeed
+        mock_run.side_effect = [OK, OK]  # both succeed
         rc = run_daily(**{**fake_env, "keep_history": 7})
     assert rc == 0
     # Both targets archived.
@@ -87,7 +91,7 @@ def test_no_macos_notification_on_success(fake_env: dict) -> None:
     fake_env["assets_path"].parent.mkdir(parents=True, exist_ok=True)
     fake_env["assets_path"].write_text('{"schema_version": "v0.1"}')
     fake_env["backtest_path"].write_text('{"schema_version": "v0.1"}')
-    with patch("ops.run_daily._invoke_producer", side_effect=[0, 0]), \
+    with patch("ops.run_daily._invoke_producer", side_effect=[OK, OK]), \
          patch("ops.alert._send_macos_notification") as mock_notify:
         rc = run_daily(**{**fake_env, "keep_history": 7})
     assert rc == 0

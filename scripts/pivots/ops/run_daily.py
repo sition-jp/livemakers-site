@@ -3,7 +3,7 @@
 Pipeline:
   1. dry-run (compose + tmp + zod validate, no promotion)
   2. if dry-run rc == 0: live write (compose + tmp + zod validate + bak-rollback promote)
-  3. if live rc == 0: archive both targets to history_dir + prune to keep N
+  3. if live rc == 0: archive public assets/backtest and clean sidecar history to history_dir + prune to keep N
   3.5 if --auto-commit: git add + commit (Task 5)
   4. always log; alert on FAILED status
 
@@ -15,6 +15,7 @@ import argparse
 import os
 import subprocess
 import sys
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Sequence
@@ -26,24 +27,63 @@ from ops.retain import archive, prune
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
 DEFAULT_BACKTEST = REPO_ROOT / "data" / "pivot_backtest.live.json"
+DEFAULT_DERIVATIVES_HISTORY = REPO_ROOT / "data" / "pivot_derivatives_history.live.json"
 DEFAULT_HISTORY = REPO_ROOT / "data" / "pivots-history"
 DEFAULT_LOG = REPO_ROOT / "scripts" / "pivots" / "ops.log.jsonl"
 DEFAULT_KEEP = 7
 LOCK_PATH = REPO_ROOT / "scripts" / "pivots" / ".run_daily.lock"
 
 
+@dataclass(frozen=True)
+class ProducerInvocation:
+    returncode: int
+    sidecar_warnings: list[str]
+    output: str
+
+
 def _now_iso() -> str:
     return datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _invoke_producer(args: Sequence[str]) -> int:
-    """Subprocess the producer CLI. Returns its exit code."""
+def _parse_sidecar_warnings(output: str) -> list[str]:
+    marker = "sidecar_degraded="
+    warnings: list[str] = []
+    for line in output.splitlines():
+        if marker in line:
+            warnings.append(line.split(marker, 1)[1].strip())
+    return warnings
+
+
+def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
+    """Subprocess the producer CLI. Returns rc plus sidecar soft warnings."""
     proc = subprocess.run(
         [sys.executable, "-m", "producer.run_producer", *args],
         cwd=str(Path(__file__).resolve().parents[1]),  # scripts/pivots
         check=False,
+        capture_output=True,
+        text=True,
     )
-    return proc.returncode
+    output = f"{proc.stdout}\n{proc.stderr}"
+    return ProducerInvocation(
+        returncode=proc.returncode,
+        sidecar_warnings=_parse_sidecar_warnings(output),
+        output=output,
+    )
+
+
+def _truncated_output(output: str, limit: int = 3000) -> str:
+    output = output.strip()
+    if len(output) <= limit:
+        return output
+    head = output[: limit // 2]
+    tail = output[-limit // 2 :]
+    return f"{head}\n--- truncated producer output ---\n{tail}"
+
+
+def _producer_failure_details(label: str, result: ProducerInvocation) -> str:
+    base = f"producer {label} returned {result.returncode}"
+    output = _truncated_output(result.output)
+    return f"{base}: {output}" if output else base
 
 
 def _orphan_bak_present(*paths: Path) -> bool:
@@ -79,6 +119,7 @@ def _run_inside_lock(
     *,
     assets_path: Path,
     backtest_path: Path,
+    derivatives_history_path: Path,
     history_dir: Path,
     log_file: Path,
     keep_history: int,
@@ -92,9 +133,11 @@ def _run_inside_lock(
     dry_args = [
         "--assets-path", str(assets_path),
         "--backtest-path", str(backtest_path),
+        "--derivatives-history-path", str(derivatives_history_path),
         "--dry-run",
     ]
-    rc = _invoke_producer(dry_args)
+    result = _invoke_producer(dry_args)
+    rc = result.returncode
     if rc != 0:
         _alert(
             log_file,
@@ -104,7 +147,7 @@ def _run_inside_lock(
             target_paths=targets,
             previous_snapshot_preserved=True,
             orphan_bak_present=_orphan_bak_present(assets_path, backtest_path),
-            details=f"producer dry-run returned {rc}",
+            details=_producer_failure_details("dry-run", result),
             notify_ok=notify_ok,
         )
         return rc
@@ -113,8 +156,11 @@ def _run_inside_lock(
     live_args = [
         "--assets-path", str(assets_path),
         "--backtest-path", str(backtest_path),
+        "--derivatives-history-path", str(derivatives_history_path),
     ]
-    rc = _invoke_producer(live_args)
+    live_result = _invoke_producer(live_args)
+    rc = live_result.returncode
+    sidecar_warnings = list(live_result.sidecar_warnings)
     if rc != 0:
         _alert(
             log_file,
@@ -124,7 +170,7 @@ def _run_inside_lock(
             target_paths=targets,
             previous_snapshot_preserved=True,
             orphan_bak_present=_orphan_bak_present(assets_path, backtest_path),
-            details=f"producer live-write returned {rc}",
+            details=_producer_failure_details("live-write", live_result),
             notify_ok=notify_ok,
         )
         return rc
@@ -137,6 +183,9 @@ def _run_inside_lock(
         if backtest_path.exists():
             archive(backtest_path, history_dir)
             prune(history_dir, "pivot_backtest.live", keep=keep_history)
+        if derivatives_history_path.exists() and not sidecar_warnings:
+            archive(derivatives_history_path, history_dir)
+            prune(history_dir, "pivot_derivatives_history.live", keep=keep_history)
     except Exception as exc:  # noqa: BLE001
         _alert(
             log_file,
@@ -159,8 +208,10 @@ def _run_inside_lock(
             repo_root_resolved = REPO_ROOT.resolve()
             assets_resolved = assets_path.resolve()
             backtest_resolved = backtest_path.resolve()
+            derivatives_resolved = derivatives_history_path.resolve()
             rel_assets = assets_resolved.relative_to(repo_root_resolved)
             rel_backtest = backtest_resolved.relative_to(repo_root_resolved)
+            rel_derivatives = derivatives_resolved.relative_to(repo_root_resolved)
         except (OSError, ValueError):
             _alert(
                 log_file,
@@ -179,11 +230,20 @@ def _run_inside_lock(
             return 0
 
         try:
+            # On a first degraded sidecar run this file may not exist yet.
+            # Keep the public snapshot commit path alive by excluding only the
+            # missing sidecar pathspec from git commands.
+            commit_paths = [assets_path, backtest_path]
+            derivatives_exists = derivatives_history_path.exists()
+            if derivatives_exists:
+                commit_paths.append(derivatives_history_path)
+            commit_pathspecs = [str(path) for path in commit_paths]
+
             # 1. git status --porcelain (capture stderr)
             diff = subprocess.run(
                 [
                     "git", "-C", str(REPO_ROOT), "status", "--porcelain",
-                    str(assets_path), str(backtest_path),
+                    *commit_pathspecs,
                 ],
                 check=False, capture_output=True, text=True,
             )
@@ -197,8 +257,7 @@ def _run_inside_lock(
             else:
                 # 2. git add (capture stderr)
                 add_proc = subprocess.run(
-                    ["git", "-C", str(REPO_ROOT), "add",
-                     str(assets_path), str(backtest_path)],
+                    ["git", "-C", str(REPO_ROOT), "add", *commit_pathspecs],
                     check=False, capture_output=True, text=True,
                 )
                 if add_proc.returncode != 0:
@@ -215,17 +274,26 @@ def _run_inside_lock(
                 # swept into the daily snapshot commit when the LaunchAgent
                 # fires (Codex P2 review on PR #6). The leading `--` is
                 # required to disambiguate paths from refs.
+                derivatives_line = (
+                    f"derivatives_history: {rel_derivatives}\n"
+                    if derivatives_exists
+                    else (
+                        f"derivatives_history: {rel_derivatives} "
+                        "(not present; sidecar degraded)\n"
+                    )
+                )
                 commit_msg = (
                     f"chore(pivots): daily snapshot {_now_iso()}\n\n"
                     f"assets: {rel_assets}\n"
                     f"backtest: {rel_backtest}\n"
+                    f"{derivatives_line}"
                     f"generated by ops.run_daily --auto-commit\n"
                 )
                 commit_proc = subprocess.run(
                     [
                         "git", "-C", str(REPO_ROOT), "commit",
                         "--only", "-m", commit_msg,
-                        "--", str(assets_path), str(backtest_path),
+                        "--", *commit_pathspecs,
                     ],
                     check=False, capture_output=True, text=True,
                 )
@@ -260,7 +328,12 @@ def _run_inside_lock(
             return 0
 
     # Step 4: success log
-    success_details = "live write + archive + prune complete"
+    warning_detail = ""
+    if sidecar_warnings:
+        joined = "; ".join(sidecar_warnings)
+        warning_detail = f" | sidecar degraded: {joined}"
+
+    success_details = f"live write + archive + prune complete{warning_detail}"
     if auto_commit and commit_detail:
         success_details = f"{success_details} | {commit_detail}"
 
@@ -281,6 +354,7 @@ def _run_inside_lock(
 def run_daily(
     assets_path: Path = DEFAULT_ASSETS,
     backtest_path: Path = DEFAULT_BACKTEST,
+    derivatives_history_path: Path = DEFAULT_DERIVATIVES_HISTORY,
     history_dir: Path = DEFAULT_HISTORY,
     log_file: Path = DEFAULT_LOG,
     keep_history: int = DEFAULT_KEEP,
@@ -288,7 +362,7 @@ def run_daily(
     auto_commit: bool = False,
     notify_ok: bool = False,
 ) -> int:
-    targets = [str(assets_path), str(backtest_path)]
+    targets = [str(assets_path), str(backtest_path), str(derivatives_history_path)]
     cmd_dry = "python -m producer.run_producer --dry-run"
     cmd_live = "python -m producer.run_producer"
 
@@ -297,6 +371,7 @@ def run_daily(
             return _run_inside_lock(
                 assets_path=assets_path,
                 backtest_path=backtest_path,
+                derivatives_history_path=derivatives_history_path,
                 history_dir=history_dir,
                 log_file=log_file,
                 keep_history=keep_history,
@@ -328,6 +403,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description="LiveMakersCom pivots daily ops wrapper")
     p.add_argument("--assets-path", type=Path, default=DEFAULT_ASSETS)
     p.add_argument("--backtest-path", type=Path, default=DEFAULT_BACKTEST)
+    p.add_argument("--derivatives-history-path", type=Path, default=DEFAULT_DERIVATIVES_HISTORY)
     p.add_argument("--history-dir", type=Path, default=DEFAULT_HISTORY)
     p.add_argument("--log-file", type=Path, default=DEFAULT_LOG)
     p.add_argument("--keep-history", type=int, default=DEFAULT_KEEP)
@@ -337,6 +413,7 @@ def main() -> int:
     return run_daily(
         assets_path=args.assets_path,
         backtest_path=args.backtest_path,
+        derivatives_history_path=args.derivatives_history_path,
         history_dir=args.history_dir,
         log_file=args.log_file,
         keep_history=args.keep_history,

@@ -297,3 +297,130 @@ def test_partial_promotion_failure_with_absent_targets_unlinks_promoted(
         tmp_path / "pivot_backtest.live.json.bak",
     ):
         assert not leftover.exists()
+
+
+def test_dry_run_writes_and_removes_sidecar_tmp(
+    tmp_path: Path, canned_fetcher: BinanceFetcher
+) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    sidecar_target = tmp_path / "pivot_derivatives_history.live.json"
+    assets_target.write_text('{"sentinel": "old"}')
+    backtest_target.write_text('{"sentinel": "old"}')
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=assets_target,
+        backtest_path=backtest_target,
+        derivatives_history_path=sidecar_target,
+        dry_run=True,
+        skip_zod_validate=True,
+    )
+    assert rc == 0
+    assert not sidecar_target.exists()
+    assert not (tmp_path / "pivot_derivatives_history.live.json.tmp").exists()
+    assert not (tmp_path / "pivot_derivatives_history.live.json.bak").exists()
+
+
+def test_live_write_promotes_sidecar_after_public_pair(
+    tmp_path: Path, canned_fetcher: BinanceFetcher
+) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    sidecar_target = tmp_path / "pivot_derivatives_history.live.json"
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=assets_target,
+        backtest_path=backtest_target,
+        derivatives_history_path=sidecar_target,
+        dry_run=False,
+        skip_zod_validate=True,
+    )
+    assert rc == 0
+    sidecar = json.loads(sidecar_target.read_text())
+    assert sidecar["schema_version"] == "pivots_derivatives_history.v0.1"
+    assert set(sidecar["assets"]) == {"BTC", "ETH"}
+
+
+def test_sidecar_compose_failure_keeps_public_success_and_preserves_old_sidecar(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    sidecar_target = tmp_path / "pivot_derivatives_history.live.json"
+    sidecar_target.write_text('{"sentinel": "old_sidecar"}')
+    with patch(
+        "producer.run_producer.compose_derivatives_history_sidecar",
+        side_effect=RuntimeError("sidecar provider down"),
+    ):
+        rc = run_producer(
+            fetcher=canned_fetcher,
+            assets_path=assets_target,
+            backtest_path=backtest_target,
+            derivatives_history_path=sidecar_target,
+            dry_run=False,
+            skip_zod_validate=True,
+        )
+    assert rc == 0
+    assert json.loads(assets_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(backtest_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(sidecar_target.read_text()) == {"sentinel": "old_sidecar"}
+    captured = capsys.readouterr()
+    assert "sidecar_degraded=RuntimeError: sidecar provider down" in captured.out
+
+
+def test_sidecar_promotion_failure_does_not_rollback_public_pair(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    sidecar_target = tmp_path / "pivot_derivatives_history.live.json"
+    sidecar_target.write_text('{"sentinel": "old_sidecar"}')
+    real_replace = os.replace
+
+    def _flaky_replace(src, dst):
+        if str(dst).endswith("pivot_derivatives_history.live.json"):
+            raise OSError("sidecar rename failed")
+        return real_replace(src, dst)
+
+    with patch("producer.run_producer.os.replace", side_effect=_flaky_replace):
+        rc = run_producer(
+            fetcher=canned_fetcher,
+            assets_path=assets_target,
+            backtest_path=backtest_target,
+            derivatives_history_path=sidecar_target,
+            dry_run=False,
+            skip_zod_validate=True,
+        )
+    assert rc == 0
+    assert json.loads(assets_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(backtest_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(sidecar_target.read_text()) == {"sentinel": "old_sidecar"}
+    assert "sidecar_degraded=OSError: sidecar rename failed" in capsys.readouterr().out
+
+
+def test_sidecar_orphan_bak_does_not_block_public_pair(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+) -> None:
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+    sidecar_target = tmp_path / "pivot_derivatives_history.live.json"
+    sidecar_target.write_text('{"sentinel": "current_sidecar"}')
+    (tmp_path / "pivot_derivatives_history.live.json.bak").write_text(
+        '{"sentinel": "sidecar_bak"}'
+    )
+
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=assets_target,
+        backtest_path=backtest_target,
+        derivatives_history_path=sidecar_target,
+        dry_run=False,
+        skip_zod_validate=True,
+    )
+
+    assert rc == 0
+    assert json.loads(assets_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(backtest_target.read_text())["schema_version"] == "v0.1"
+    assert json.loads(sidecar_target.read_text()) == {"sentinel": "current_sidecar"}
+    assert (tmp_path / "pivot_derivatives_history.live.json.bak").exists()
+    assert "sidecar_degraded=SidecarOrphanBak:" in capsys.readouterr().out

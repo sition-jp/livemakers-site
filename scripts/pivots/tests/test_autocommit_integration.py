@@ -24,20 +24,27 @@ def _init_repo(repo: Path) -> None:
     subprocess.run(["git", "commit", "-q", "-m", "init"], cwd=repo, check=True)
 
 
-def _make_data_files(repo: Path) -> tuple[Path, Path]:
+def _make_data_files(repo: Path) -> tuple[Path, Path, Path]:
     data_dir = repo / "data"
     data_dir.mkdir(exist_ok=True)
     assets = data_dir / "pivot_assets.live.json"
     backtest = data_dir / "pivot_backtest.live.json"
+    sidecar = data_dir / "pivot_derivatives_history.live.json"
     assets.write_text(json.dumps({"v": 1}))
     backtest.write_text(json.dumps({"v": 1}))
-    return assets, backtest
+    sidecar.write_text(json.dumps({"v": 1}))
+    return assets, backtest, sidecar
 
 
 def _stub_run_daily_pipeline(monkeypatch):
+    from ops.run_daily import ProducerInvocation
+
     monkeypatch.setattr("ops.run_daily.acquire_lock",
                         lambda _p: _NoopCM())
-    monkeypatch.setattr("ops.run_daily._invoke_producer", lambda args: 0)
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+    )
     monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
     monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
 
@@ -53,7 +60,7 @@ def test_real_git_commit_creates_snapshot(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     repo.mkdir()
     _init_repo(repo)
-    assets, backtest = _make_data_files(repo)
+    assets, backtest, sidecar = _make_data_files(repo)
 
     monkeypatch.setattr("ops.run_daily.REPO_ROOT", repo)
     captured: dict = {}
@@ -64,6 +71,7 @@ def test_real_git_commit_creates_snapshot(tmp_path, monkeypatch):
     rd.run_daily(
         assets_path=assets,
         backtest_path=backtest,
+        derivatives_history_path=sidecar,
         history_dir=tmp_path / "hist",
         log_file=tmp_path / "log.jsonl",
         keep_history=7,
@@ -84,7 +92,7 @@ def test_real_git_no_diff_does_not_commit(tmp_path, monkeypatch):
     repo = tmp_path / "repo"
     repo.mkdir()
     _init_repo(repo)
-    assets, backtest = _make_data_files(repo)
+    assets, backtest, sidecar = _make_data_files(repo)
     # Pre-commit the data files so subsequent run sees no diff
     subprocess.run(["git", "add", "data"], cwd=repo, check=True)
     subprocess.run(["git", "commit", "-q", "-m", "seed"], cwd=repo, check=True)
@@ -98,6 +106,7 @@ def test_real_git_no_diff_does_not_commit(tmp_path, monkeypatch):
     rd.run_daily(
         assets_path=assets,
         backtest_path=backtest,
+        derivatives_history_path=sidecar,
         history_dir=tmp_path / "hist",
         log_file=tmp_path / "log.jsonl",
         keep_history=7,
@@ -117,14 +126,14 @@ def test_real_git_no_diff_does_not_commit(tmp_path, monkeypatch):
 def test_real_auto_commit_excludes_unrelated_pre_staged_changes(tmp_path, monkeypatch):
     """Regression for Codex P2 review on PR #6: a pre-staged unrelated change
     must NOT be swept into the daily snapshot commit. Step 3.5 must commit
-    only the two snapshot data files and leave operator's unrelated stages
+    only the three snapshot data files and leave operator's unrelated stages
     alone in the index."""
     from ops import run_daily as rd
 
     repo = tmp_path / "repo"
     repo.mkdir()
     _init_repo(repo)
-    assets, backtest = _make_data_files(repo)
+    assets, backtest, sidecar = _make_data_files(repo)
 
     # Operator's unrelated WIP — pre-staged in the index before the LaunchAgent fires
     unrelated = repo / "OPERATOR_WIP.md"
@@ -140,6 +149,7 @@ def test_real_auto_commit_excludes_unrelated_pre_staged_changes(tmp_path, monkey
     rd.run_daily(
         assets_path=assets,
         backtest_path=backtest,
+        derivatives_history_path=sidecar,
         history_dir=tmp_path / "hist",
         log_file=tmp_path / "log.jsonl",
         keep_history=7,
@@ -158,6 +168,7 @@ def test_real_auto_commit_excludes_unrelated_pre_staged_changes(tmp_path, monkey
     assert committed_files == {
         "data/pivot_assets.live.json",
         "data/pivot_backtest.live.json",
+        "data/pivot_derivatives_history.live.json",
     }, f"unexpected files in commit: {committed_files}"
 
     # Assertion 2: OPERATOR_WIP.md remains staged but uncommitted
@@ -194,6 +205,7 @@ def test_real_repo_external_path_yields_skipped(tmp_path, monkeypatch):
     rd.run_daily(
         assets_path=external,
         backtest_path=backtest,
+        derivatives_history_path=repo / "data" / "pivot_derivatives_history.live.json",
         history_dir=tmp_path / "hist",
         log_file=tmp_path / "log.jsonl",
         keep_history=7,

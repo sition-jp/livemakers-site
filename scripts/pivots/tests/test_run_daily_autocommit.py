@@ -14,6 +14,7 @@ def _make_paths(tmp_path: Path):
     return {
         "assets_path": tmp_path / "assets.json",
         "backtest_path": tmp_path / "backtest.json",
+        "derivatives_history_path": tmp_path / "pivot_derivatives_history.live.json",
         "history_dir": tmp_path / "hist",
         "log_file": tmp_path / "log.jsonl",
         "keep_history": 7,
@@ -29,7 +30,10 @@ def test_run_daily_signature_accepts_kw_only_flags(tmp_path, monkeypatch):
     from ops import run_daily as rd
 
     monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
-    monkeypatch.setattr("ops.run_daily._invoke_producer", lambda args: 0)
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+    )
     monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
     monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
     monkeypatch.setattr("ops.run_daily.dispatch", lambda *a, **kw: None)
@@ -116,11 +120,249 @@ def _captured_dispatch(monkeypatch):
 
 def _stub_pipeline_success(monkeypatch, mocker):
     """Stub the lock + producer + retention to simulate a successful run."""
+    from ops import run_daily as rd
+
     monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
-    monkeypatch.setattr("ops.run_daily._invoke_producer", lambda args: 0)
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+    )
     monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
     monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
     monkeypatch.setattr("ops.run_daily.subprocess.run", mocker)
+
+
+def test_run_daily_passes_sidecar_path_to_producer(tmp_path, monkeypatch):
+    from ops import run_daily as rd
+
+    calls = []
+
+    def fake_invoke(args):
+        calls.append(args)
+        return rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
+
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr("ops.run_daily._invoke_producer", fake_invoke)
+    monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.dispatch", lambda *a, **kw: None)
+
+    paths = _make_paths(tmp_path)
+    sidecar = tmp_path / "derivatives.json"
+    paths["derivatives_history_path"] = sidecar
+    rc = rd.run_daily(**paths, auto_commit=False, notify_ok=False)
+
+    assert rc == 0
+    assert "--derivatives-history-path" in calls[0]
+    assert str(sidecar) in calls[0]
+    assert "--derivatives-history-path" in calls[1]
+    assert str(sidecar) in calls[1]
+
+
+def test_run_daily_sidecar_degraded_logs_ok_warning(tmp_path, monkeypatch):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    archive_calls: list[Path] = []
+    prune_calls: list[str] = []
+
+    def fake_invoke(args):
+        if "--dry-run" in args:
+            return rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
+        return rd.ProducerInvocation(
+            returncode=0,
+            sidecar_warnings=["RuntimeError: sidecar provider down"],
+            output="[pivots-producer] sidecar_degraded=RuntimeError: sidecar provider down",
+        )
+
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr("ops.run_daily._invoke_producer", fake_invoke)
+    monkeypatch.setattr("ops.run_daily.archive", lambda path, *_a, **_kw: archive_calls.append(path))
+    monkeypatch.setattr(
+        "ops.run_daily.prune",
+        lambda _history_dir, prefix, **_kw: prune_calls.append(prefix),
+    )
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    paths["derivatives_history_path"].write_text("{}")
+
+    rc = rd.run_daily(**paths, auto_commit=False, notify_ok=False)
+
+    assert rc == 0
+    assert captured["p"]["status"] == "OK"
+    assert "sidecar degraded" in captured["p"]["details"]
+    assert "sidecar provider down" in captured["p"]["details"]
+    assert archive_calls == [paths["assets_path"], paths["backtest_path"]]
+    assert prune_calls == ["pivot_assets.live", "pivot_backtest.live"]
+
+
+@pytest.mark.parametrize(
+    ("dry_result", "live_result", "expect_warning", "expect_sidecar_retention"),
+    [
+        pytest.param(
+            lambda rd: rd.ProducerInvocation(
+                returncode=0,
+                sidecar_warnings=["RuntimeError: dry warning only"],
+                output="[pivots-producer] sidecar_degraded=RuntimeError: dry warning only",
+            ),
+            lambda rd: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+            False,
+            True,
+            id="dry-warning-live-clean",
+        ),
+        pytest.param(
+            lambda rd: rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output=""),
+            lambda rd: rd.ProducerInvocation(
+                returncode=0,
+                sidecar_warnings=["RuntimeError: live warning only"],
+                output="[pivots-producer] sidecar_degraded=RuntimeError: live warning only",
+            ),
+            True,
+            False,
+            id="live-warning-authoritative",
+        ),
+    ],
+)
+def test_run_daily_uses_live_sidecar_warnings_for_ok_details_and_retention(
+    tmp_path,
+    monkeypatch,
+    dry_result,
+    live_result,
+    expect_warning,
+    expect_sidecar_retention,
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    archive_calls: list[Path] = []
+    prune_calls: list[str] = []
+    results = [dry_result(rd), live_result(rd)]
+
+    def fake_invoke(_args):
+        return results.pop(0)
+
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr("ops.run_daily._invoke_producer", fake_invoke)
+    monkeypatch.setattr("ops.run_daily.archive", lambda path, *_a, **_kw: archive_calls.append(path))
+    monkeypatch.setattr(
+        "ops.run_daily.prune",
+        lambda _history_dir, prefix, **_kw: prune_calls.append(prefix),
+    )
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    paths["derivatives_history_path"].write_text("{}")
+
+    rc = rd.run_daily(**paths, auto_commit=False, notify_ok=False)
+
+    assert rc == 0
+    assert captured["p"]["status"] == "OK"
+    assert ("sidecar degraded" in captured["p"]["details"]) is expect_warning
+    assert ("dry warning only" in captured["p"]["details"]) is False
+    assert ("live warning only" in captured["p"]["details"]) is expect_warning
+    assert archive_calls[:2] == [paths["assets_path"], paths["backtest_path"]]
+    assert prune_calls[:2] == ["pivot_assets.live", "pivot_backtest.live"]
+    if expect_sidecar_retention:
+        assert archive_calls[2:] == [paths["derivatives_history_path"]]
+        assert prune_calls[2:] == ["pivot_derivatives_history.live"]
+    else:
+        assert archive_calls[2:] == []
+        assert prune_calls[2:] == []
+
+
+def test_auto_commit_message_and_pathspec_include_sidecar(tmp_path, monkeypatch):
+    from ops import run_daily as rd
+
+    captured_commit_msg: list[str] = []
+    captured_commit_cmd: list[list[str]] = []
+
+    def trace(cmd, *a, **kw):
+        joined = " ".join(cmd)
+        if "status --porcelain" in joined:
+            return subprocess.CompletedProcess(
+                args=cmd,
+                returncode=0,
+                stdout=" M data/pivot_derivatives_history.live.json\n",
+            )
+        if cmd[0] == "git" and "commit" in cmd:
+            captured_commit_cmd.append(cmd)
+            captured_commit_msg.append(cmd[cmd.index("-m") + 1])
+        if "rev-parse" in joined:
+            return subprocess.CompletedProcess(args=cmd, returncode=0, stdout="abc1234\n")
+        return subprocess.CompletedProcess(args=cmd, returncode=0, stdout="", stderr="")
+
+    _stub_pipeline_success(monkeypatch, trace)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    sidecar = tmp_path / "derivatives.json"
+    sidecar.write_text("{}")
+    paths["derivatives_history_path"] = sidecar
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+
+    rd.run_daily(**paths, auto_commit=True, notify_ok=False)
+
+    assert captured_commit_msg
+    assert "derivatives_history:" in captured_commit_msg[0]
+    assert str(sidecar) in captured_commit_cmd[0]
+
+
+def test_auto_commit_omits_missing_degraded_sidecar_pathspec(
+    tmp_path, monkeypatch
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    sidecar = paths["derivatives_history_path"]
+    assert not sidecar.exists()
+
+    dry_ok = rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
+    live_degraded = rd.ProducerInvocation(
+        returncode=0,
+        sidecar_warnings=["RuntimeError: sidecar provider down"],
+        output="[pivots-producer] sidecar_degraded=RuntimeError: sidecar provider down",
+    )
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: dry_ok if "--dry-run" in args else live_degraded,
+    )
+    monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+
+    git_pathspecs: list[list[str]] = []
+
+    def trace(cmd, *a, **kw):
+        joined = " ".join(cmd)
+        if "status --porcelain" in joined:
+            git_pathspecs.append(cmd)
+            assert str(sidecar) not in cmd
+            return subprocess.CompletedProcess(
+                args=cmd,
+                returncode=0,
+                stdout=" M assets.json\n M backtest.json\n",
+            )
+        if cmd[0] == "git" and ("add" in cmd or "commit" in cmd):
+            git_pathspecs.append(cmd)
+            assert str(sidecar) not in cmd
+        if "rev-parse" in joined:
+            return subprocess.CompletedProcess(args=cmd, returncode=0, stdout="abc1234\n")
+        return subprocess.CompletedProcess(args=cmd, returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr("ops.run_daily.subprocess.run", trace)
+
+    rd.run_daily(**paths, auto_commit=True, notify_ok=False)
+
+    assert captured["p"]["status"] == "OK"
+    assert "sidecar degraded" in captured["p"]["details"]
+    assert "committed abc1234" in captured["p"]["details"]
+    assert any("status --porcelain" in " ".join(cmd) for cmd in git_pathspecs)
+    assert any(cmd[0] == "git" and "commit" in cmd for cmd in git_pathspecs)
 
 
 def test_auto_commit_off_no_git_invocation(tmp_path, monkeypatch):
