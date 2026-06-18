@@ -308,6 +308,63 @@ def test_auto_commit_message_and_pathspec_include_sidecar(tmp_path, monkeypatch)
     assert str(sidecar) in captured_commit_cmd[0]
 
 
+def test_auto_commit_omits_missing_degraded_sidecar_pathspec(
+    tmp_path, monkeypatch
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    sidecar = paths["derivatives_history_path"]
+    assert not sidecar.exists()
+
+    dry_ok = rd.ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
+    live_degraded = rd.ProducerInvocation(
+        returncode=0,
+        sidecar_warnings=["RuntimeError: sidecar provider down"],
+        output="[pivots-producer] sidecar_degraded=RuntimeError: sidecar provider down",
+    )
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: dry_ok if "--dry-run" in args else live_degraded,
+    )
+    monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+
+    git_pathspecs: list[list[str]] = []
+
+    def trace(cmd, *a, **kw):
+        joined = " ".join(cmd)
+        if "status --porcelain" in joined:
+            git_pathspecs.append(cmd)
+            assert str(sidecar) not in cmd
+            return subprocess.CompletedProcess(
+                args=cmd,
+                returncode=0,
+                stdout=" M assets.json\n M backtest.json\n",
+            )
+        if cmd[0] == "git" and ("add" in cmd or "commit" in cmd):
+            git_pathspecs.append(cmd)
+            assert str(sidecar) not in cmd
+        if "rev-parse" in joined:
+            return subprocess.CompletedProcess(args=cmd, returncode=0, stdout="abc1234\n")
+        return subprocess.CompletedProcess(args=cmd, returncode=0, stdout="", stderr="")
+
+    monkeypatch.setattr("ops.run_daily.subprocess.run", trace)
+
+    rd.run_daily(**paths, auto_commit=True, notify_ok=False)
+
+    assert captured["p"]["status"] == "OK"
+    assert "sidecar degraded" in captured["p"]["details"]
+    assert "committed abc1234" in captured["p"]["details"]
+    assert any("status --porcelain" in " ".join(cmd) for cmd in git_pathspecs)
+    assert any(cmd[0] == "git" and "commit" in cmd for cmd in git_pathspecs)
+
+
 def test_auto_commit_off_no_git_invocation(tmp_path, monkeypatch):
     from ops import run_daily as rd
 
