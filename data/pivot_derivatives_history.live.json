@@ -1,6 +1,6 @@
 {
   "schema_version": "pivots_derivatives_history.v0.1",
-  "generated_at": "2026-06-19T23:00:11Z",
+  "generated_at": "2026-06-20T23:00:10Z",
   "provider": "binance_usdm",
   "assets": {
     "BTC": {
@@ -87,17 +87,17 @@
             "growth_pct": 0.0
           },
           "funding": {
-            "sample_count": 3,
-            "sum": -0.00021549,
-            "avg": -7.183e-05,
-            "abs_avg": 7.183e-05,
-            "max_abs": 9.313e-05,
+            "sample_count": 2,
+            "sum": -0.00012236,
+            "avg": -6.118e-05,
+            "abs_avg": 6.118e-05,
+            "max_abs": 7.151e-05,
             "last": -7.151e-05
           },
           "completeness": {
             "open_interest": 0.0,
-            "funding": 1.0,
-            "overall": 0.5
+            "funding": 0.6666666667,
+            "overall": 0.3333333333
           },
           "source": {
             "oi_period": "4h",
@@ -1264,15 +1264,15 @@
           "bucket_start": "2026-05-21T00:00:00Z",
           "bucket_end": "2026-05-22T00:00:00Z",
           "open_interest": {
-            "sample_count": 6,
-            "first": 101591.306,
-            "last": 100781.415,
-            "min": 100781.415,
-            "max": 101965.019,
-            "avg": 101441.0958333333,
-            "last_usd": 7827128127.126,
-            "avg_usd": 7869355145.13469,
-            "growth_pct": -0.0079720503
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
           },
           "funding": {
             "sample_count": 3,
@@ -1283,9 +1283,9 @@
             "last": 6.13e-05
           },
           "completeness": {
-            "open_interest": 1.0,
+            "open_interest": 0.0,
             "funding": 1.0,
-            "overall": 1.0
+            "overall": 0.5
           },
           "source": {
             "oi_period": "4h",
@@ -2216,6 +2216,39 @@
             "funding_granularity": "8h",
             "is_closed_bucket": true
           }
+        },
+        {
+          "bucket_start": "2026-06-19T00:00:00Z",
+          "bucket_end": "2026-06-20T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 98609.797,
+            "last": 98535.917,
+            "min": 98402.032,
+            "max": 99089.205,
+            "avg": 98651.0696666667,
+            "last_usd": 6207457309.6573,
+            "avg_usd": 6199407270.673931,
+            "growth_pct": -0.0007492156
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00010846,
+            "avg": 3.61533e-05,
+            "abs_avg": 3.61533e-05,
+            "max_abs": 6.039e-05,
+            "last": 2.823e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
         }
       ]
     },
@@ -2303,17 +2336,17 @@
             "growth_pct": 0.0
           },
           "funding": {
-            "sample_count": 3,
-            "sum": 3.711e-05,
-            "avg": 1.237e-05,
-            "abs_avg": 1.237e-05,
-            "max_abs": 1.802e-05,
+            "sample_count": 2,
+            "sum": 1.909e-05,
+            "avg": 9.545e-06,
+            "abs_avg": 9.545e-06,
+            "max_abs": 1.648e-05,
             "last": 2.61e-06
           },
           "completeness": {
             "open_interest": 0.0,
-            "funding": 1.0,
-            "overall": 0.5
+            "funding": 0.6666666667,
+            "overall": 0.3333333333
           },
           "source": {
             "oi_period": "4h",
@@ -3480,15 +3513,15 @@
           "bucket_start": "2026-05-21T00:00:00Z",
           "bucket_end": "2026-05-22T00:00:00Z",
           "open_interest": {
-            "sample_count": 6,
-            "first": 2205998.531,
-            "last": 2201601.781,
-            "min": 2201525.81,
-            "max": 2234673.206,
-            "avg": 2212926.7851666664,
-            "last_usd": 4715280614.45675,
-            "avg_usd": 4718957211.232051,
-            "growth_pct": -0.0019930884
+            "sample_count": 0,
+            "first": 0.0,
+            "last": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "avg": 0.0,
+            "last_usd": 0.0,
+            "avg_usd": 0.0,
+            "growth_pct": 0.0
           },
           "funding": {
             "sample_count": 3,
@@ -3499,9 +3532,9 @@
             "last": 3.837e-05
           },
           "completeness": {
-            "open_interest": 1.0,
+            "open_interest": 0.0,
             "funding": 1.0,
-            "overall": 1.0
+            "overall": 0.5
           },
           "source": {
             "oi_period": "4h",
@@ -4421,6 +4454,39 @@
             "abs_avg": 2.00267e-05,
             "max_abs": 4.63e-05,
             "last": -6.91e-06
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-06-19T00:00:00Z",
+          "bucket_end": "2026-06-20T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2252138.735,
+            "last": 2220923.646,
+            "min": 2220923.646,
+            "max": 2252138.735,
+            "avg": 2234385.1671666666,
+            "last_usd": 3776506722.1024494,
+            "avg_usd": 3798579034.799688,
+            "growth_pct": -0.0138601981
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 4.457e-05,
+            "avg": 1.48567e-05,
+            "abs_avg": 2.88167e-05,
+            "max_abs": 6.551e-05,
+            "last": -2.7e-07
           },
           "completeness": {
             "open_interest": 1.0,
