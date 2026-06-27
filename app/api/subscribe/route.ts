@@ -41,7 +41,7 @@ function welcomeText(locale: "en" | "ja"): string {
   return [
     "Thank you for subscribing to the LiveMakers Weekly Brief.",
     "",
-    "We publish Cardano & Midnight institutional research every Friday 12:00 JST",
+    "We publish Cardano & Midnight research every Friday 12:00 JST",
     "at https://livemakers.com/.",
     "",
     "Email delivery is being set up. Once it is ready, we will send each issue",

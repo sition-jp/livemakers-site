@@ -182,4 +182,4 @@ Six things to watch next week (W27 / Jun 28 - Jul 4):
 **SIPO**: DRep **#11** · SPO ×3 · Midnight Ambassador
 **Data sources**: Koios (tip / totals / cli_protocol_params — protocol_major=10 measured 2026-06-27) · Intersect MBO official (Weekly Update #117) · Input Output official (Leios / Hoskinson announcement) · Cardano Foundation official · gov.tools / cexplorer / adastat (reference) · DefiLlama · CoinGecko · SITION SDE market_indicators (traditional markets 6/26 NY close; crypto 6/27 spot) · Federal Reserve official (federalreserve.gov — 6/17 FOMC statement + SEP) · FSA Japan · Midnight Network official · secondary reporting (Bloomberg / CoinDesk / The Block / Reuters / Axios — marked "reported" in-text)
 
-*Not investment advice. For institutional research purposes only.*
+*Not investment advice. For informational and research purposes only.*

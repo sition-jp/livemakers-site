@@ -182,4 +182,4 @@ Midnight の W26 も、価格と進捗を切り離して読む週だ。
 **SIPO**: DRep **#11** · SPO ×3 · Midnight Ambassador
 **Data sources**: Koios（tip / totals / cli_protocol_params — protocol_major=10 を 2026-06-27 実測）· Intersect MBO 公式（Weekly Update #117）· Input Output 公式（Leios / Hoskinson 告知）· Cardano Foundation 公式 · gov.tools / cexplorer / adastat（reference）· DefiLlama · CoinGecko · SITION SDE market_indicators（伝統市場 6/26 NY 終値・暗号資産 6/27 spot）· Federal Reserve 公式（federalreserve.gov — 6/17 FOMC 声明・SEP）· 金融庁（FSA Japan）· Midnight Network 公式 · 二次報道（Bloomberg / CoinDesk / The Block / Reuters / Axios 等は本文で「報じられた」と明示）
 
-*本レポートは投資助言ではありません。機関投資家向けリサーチ目的のみ。*
+*本レポートは投資助言ではありません。情報提供・リサーチ目的のみ。*
