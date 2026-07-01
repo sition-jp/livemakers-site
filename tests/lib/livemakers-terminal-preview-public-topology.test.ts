@@ -1,0 +1,85 @@
+import { describe, expect, it } from "vitest";
+import { getBriefBySlug } from "@/lib/briefs";
+import {
+  readerTerminalPublicTopology,
+  validateReaderTerminalPublicTopology,
+} from "@/lib/livemakers-terminal-preview/public-topology";
+
+function briefSlugFromHref(href: string): string | null {
+  const match = href.match(/^\/brief\/([A-Za-z0-9-]+)$/);
+  return match?.[1] ?? null;
+}
+
+describe("reader terminal public topology fixture", () => {
+  it("keeps Live Radar title-only and separate from article links", () => {
+    expect(readerTerminalPublicTopology.liveRadar.items.length).toBeGreaterThan(0);
+
+    for (const item of readerTerminalPublicTopology.liveRadar.items) {
+      expect(item.href).toBeNull();
+      expect(item.title.en.length).toBeGreaterThan(0);
+      expect(item.title.ja.length).toBeGreaterThan(0);
+      expect(item.body).toBeUndefined();
+    }
+  });
+
+  it("keeps the published article news feed clickable and route-safe", () => {
+    const errors = validateReaderTerminalPublicTopology(readerTerminalPublicTopology);
+    expect(errors).toEqual([]);
+
+    expect(
+      readerTerminalPublicTopology.articleNewsFeed.items.map((item) => item.href),
+    ).toEqual([
+      "/brief/2026-W26-brief",
+      "/brief/2026-W25-brief",
+      "/brief/2026-W24-brief",
+      "/brief/2026-W23-brief",
+    ]);
+  });
+
+  it("resolves every /brief link to an existing readable article", () => {
+    for (const item of readerTerminalPublicTopology.articleNewsFeed.items) {
+      const slug = briefSlugFromHref(item.href);
+      if (slug === null) {
+        continue;
+      }
+
+      expect(getBriefBySlug(slug)?.metadata.slug).toBe(slug);
+    }
+  });
+
+  it("rejects hidden, internal, local, or operator-only article links", () => {
+    const unsafe = {
+      ...readerTerminalPublicTopology,
+      articleNewsFeed: {
+        ...readerTerminalPublicTopology.articleNewsFeed,
+        items: [
+          ...readerTerminalPublicTopology.articleNewsFeed.items,
+          {
+            id: "feed.bad.hidden-preview",
+            family: "Signal" as const,
+            title: { en: "Hidden preview leak", ja: "hidden preview leak" },
+            href: "/terminal-preview",
+            publishedAt: "2026-07-01T00:00:00+09:00",
+            excerpt: { en: "bad", ja: "bad" },
+          },
+          {
+            id: "feed.bad.local-path",
+            family: "Deep Dive" as const,
+            title: { en: "Local path leak", ja: "local path leak" },
+            href: "file:///Users/sition/Documents/SITION/07_DATA/content/article_queue.jsonl",
+            publishedAt: "2026-07-01T00:00:00+09:00",
+            excerpt: { en: "bad", ja: "bad" },
+          },
+        ],
+      },
+    };
+
+    expect(validateReaderTerminalPublicTopology(unsafe)).toEqual([
+      "articleNewsFeed.items[4].href is not an allowed published article route: /terminal-preview",
+      "articleNewsFeed.items[5].href is not an allowed published article route: file:///Users/sition/Documents/SITION/07_DATA/content/article_queue.jsonl",
+      "articleNewsFeed.items[5].href contains forbidden internal text: 07_DATA",
+      "articleNewsFeed.items[5].href contains forbidden internal text: article_queue",
+      "articleNewsFeed.items[5].href contains forbidden internal text: file://",
+    ]);
+  });
+});

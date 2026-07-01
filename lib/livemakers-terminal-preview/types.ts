@@ -5,6 +5,56 @@ export interface LocalizedText {
   ja: string;
 }
 
+export type TerminalLiveRadarLane =
+  | "x_news_trends"
+  | "sde_phase1_breaking_radar"
+  | "manual_operator_observation";
+
+export type TerminalLiveRadarStatus =
+  | "breaking"
+  | "checking"
+  | "sde_review_pending";
+
+export interface TerminalLiveRadarItem {
+  id: string;
+  sourceLane: TerminalLiveRadarLane;
+  sourceLabel: LocalizedText;
+  family: string;
+  title: LocalizedText;
+  status: TerminalLiveRadarStatus;
+  freshnessLabel: LocalizedText;
+  href: null;
+  body?: never;
+}
+
+export type TerminalArticleFamily =
+  | "Signal"
+  | "Deep Dive"
+  | "Daily Intel"
+  | "12 indicators"
+  | "Next Era Map"
+  | "Weekend 12 indicators";
+
+export interface TerminalArticleNewsFeedItem {
+  id: string;
+  family: TerminalArticleFamily;
+  title: LocalizedText;
+  href: string;
+  publishedAt: string;
+  excerpt: LocalizedText;
+}
+
+export interface TerminalPreviewPublicTopology {
+  liveRadar: {
+    title: LocalizedText;
+    items: TerminalLiveRadarItem[];
+  };
+  articleNewsFeed: {
+    title: LocalizedText;
+    items: TerminalArticleNewsFeedItem[];
+  };
+}
+
 export interface TerminalPreviewModuleContract {
   moduleId: string;
   displaySurface:
@@ -102,6 +152,7 @@ export interface TerminalPreviewMock {
     summary: LocalizedText;
     status: "mock_draft";
   };
+  publicTopology: TerminalPreviewPublicTopology;
   sourceLedger: TerminalSourceLedgerItem[];
   modules: TerminalPreviewModuleContract[];
   visibleCopy: unknown;

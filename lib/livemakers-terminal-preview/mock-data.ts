@@ -2,6 +2,7 @@ import type {
   TerminalPreviewMock,
   TerminalPreviewModuleContract,
 } from "./types";
+import { readerTerminalPublicTopology } from "./public-topology";
 
 const checked: TerminalPreviewModuleContract["prohibitedCouplingsChecked"] = {
   tradingSignal: true,
@@ -234,6 +235,7 @@ export const terminalPreviewMock: TerminalPreviewMock = {
       ja: "将来のブリーフでは、ソース確認後にこの preview 状態を永続記事へ接続します。",
     },
   },
+  publicTopology: readerTerminalPublicTopology,
   sourceLedger: [
     {
       id: "market-fixture",
