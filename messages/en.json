@@ -163,6 +163,14 @@
     "recentBriefs": "RECENT BRIEFS",
     "readFullBrief": "Read Full Brief →"
   },
+  "terminalPreview": {
+    "mockBadge": "MOCK",
+    "fixtureOnly": "Fixture only",
+    "unavailable": "Unavailable",
+    "boundaryTitle": "Boundary note",
+    "boundaryBody": "Static preview only. No real data connection, production publication, or site log mutation.",
+    "sourceLedgerTitle": "Source ledger"
+  },
   "brief": {
     "title": "WEEKLY BRIEFS",
     "issuePrefix": "Issue #",

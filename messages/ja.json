@@ -163,6 +163,14 @@
     "recentBriefs": "過去のブリーフ",
     "readFullBrief": "ブリーフ全文を読む →"
   },
+  "terminalPreview": {
+    "mockBadge": "MOCK",
+    "fixtureOnly": "フィクスチャのみ",
+    "unavailable": "利用不可",
+    "boundaryTitle": "境界メモ",
+    "boundaryBody": "静的 preview のみ。実データ接続、本番公開、site log mutation はありません。",
+    "sourceLedgerTitle": "ソース台帳"
+  },
   "brief": {
     "title": "ウィークリー・ブリーフ",
     "issuePrefix": "Issue #",
