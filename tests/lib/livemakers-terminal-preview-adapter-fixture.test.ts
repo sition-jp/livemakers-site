@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { breakingRadarAdapterFixture } from "@/lib/livemakers-terminal-adapter/breaking-radar-fixture";
+import { readerTerminalPublicAdapterFixture } from "@/lib/livemakers-terminal-adapter/reader-terminal-public-fixture";
 import type { TerminalAdapterPacket } from "@/lib/livemakers-terminal-adapter/types";
 import { TerminalAdapterPacketSchema } from "@/lib/livemakers-terminal-adapter/types";
 import { findForbiddenTerminalVisibleTerms } from "@/lib/livemakers-terminal-adapter/visible-copy-safety";
@@ -10,7 +10,7 @@ import {
 } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
 import { terminalPreviewMock } from "@/lib/livemakers-terminal-preview/mock-data";
 
-function clonePacket(packet = breakingRadarAdapterFixture): TerminalAdapterPacket {
+function clonePacket(packet = readerTerminalPublicAdapterFixture): TerminalAdapterPacket {
   return JSON.parse(JSON.stringify(packet)) as TerminalAdapterPacket;
 }
 
@@ -24,7 +24,7 @@ describe("terminal preview adapter fixture bridge", () => {
       true,
     );
     expect(terminalPreviewAdapterFixturePacket.packet_id).toBe(
-      "fixture.breaking_radar_adapter.2026_07_01.sample_g1",
+      "fixture.reader_terminal_public_topology.2026_07_01.g31",
     );
     expect(terminalPreviewAdapterFixturePacket.packet_status).toBe("degraded");
     expect(terminalPreviewAdapterFixturePacket.as_of_jst).toBe(
@@ -42,15 +42,16 @@ describe("terminal preview adapter fixture bridge", () => {
       noindex: true,
     });
     expect(terminalPreviewAdapterFixtureMock.terminalState.asOfJst).toBe(
-      breakingRadarAdapterFixture.as_of_jst,
+      readerTerminalPublicAdapterFixture.as_of_jst,
     );
     expect(terminalPreviewAdapterFixtureMock.terminalState.label).toEqual({
-      en: "Breaking Radar review queue",
-      ja: "Breaking Radar確認キュー",
+      en: "Market State",
+      ja: "マーケット状態",
     });
     expect(
       terminalPreviewAdapterFixtureMock.sourceLedger.map((source) => source.id),
     ).toEqual([
+      "source.reader_terminal.onchain_fixture",
       "source.breaking_radar.xnews_fixture",
       "source.breaking_radar.personalized_trend_fixture",
       "source.breaking_radar.scheduled_crosscheck",
@@ -58,10 +59,14 @@ describe("terminal preview adapter fixture bridge", () => {
     expect(
       terminalPreviewAdapterFixtureMock.modules.map((module) => module.moduleId),
     ).toEqual([
+      "reader_terminal.live_data_strip.onchain_state",
       "breaking_radar.what_happened.bank_capital",
       "breaking_radar.leading_indicators.ai_capacity",
       "breaking_radar.leading_indicators.protocol_status",
     ]);
+    expect(
+      terminalPreviewAdapterFixtureMock.indicators.map((indicator) => indicator.id),
+    ).toContain("reader_terminal.live_data_strip.onchain_state");
 
     const visibleCopy = JSON.stringify(terminalPreviewAdapterFixtureMock.visibleCopy);
     expect(visibleCopy).not.toContain("source.breaking_radar.manual_snapshot_internal");
@@ -86,6 +91,20 @@ describe("terminal preview adapter fixture bridge", () => {
         secrets: true,
       });
     }
+  });
+
+  it("places on-chain state in the Terminal current-state strip, not the Live Radar titles", () => {
+    const onchainModule = terminalPreviewAdapterFixturePacket.modules.find(
+      (module) => module.module_id === "reader_terminal.live_data_strip.onchain_state",
+    );
+
+    expect(onchainModule?.display_surface).toBe("live_data_strip");
+    expect(onchainModule?.data_family).toBe("crypto_onchain");
+
+    const radarTitles = terminalPreviewAdapterFixtureMock.publicTopology.liveRadar.items.map(
+      (item) => item.title.en,
+    );
+    expect(radarTitles).not.toContain("On-chain state");
   });
 
   it("rejects adapter packets with forbidden visible trading or execution copy", () => {

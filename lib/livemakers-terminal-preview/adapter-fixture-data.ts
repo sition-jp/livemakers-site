@@ -1,4 +1,4 @@
-import { breakingRadarAdapterFixture } from "@/lib/livemakers-terminal-adapter/breaking-radar-fixture";
+import { readerTerminalPublicAdapterFixture } from "@/lib/livemakers-terminal-adapter/reader-terminal-public-fixture";
 import type {
   TerminalAdapterModule,
   TerminalAdapterPacket,
@@ -681,7 +681,7 @@ export function buildTerminalPreviewMockFromAdapterFixture(
 }
 
 export const terminalPreviewAdapterFixturePacket: TerminalAdapterPacket =
-  parseTerminalAdapterPacket(breakingRadarAdapterFixture);
+  parseTerminalAdapterPacket(readerTerminalPublicAdapterFixture);
 
 export const terminalPreviewAdapterFixtureMock: TerminalPreviewMock =
   buildTerminalPreviewMockFromAdapterFixture(
