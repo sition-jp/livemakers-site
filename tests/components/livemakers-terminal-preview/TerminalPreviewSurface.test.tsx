@@ -25,7 +25,10 @@ describe("TerminalPreviewSurface", () => {
     );
 
     expect(
-      screen.getByRole("heading", { name: /breaking radar review queue/i }),
+      screen.getByRole("heading", { name: /live radar/i }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /published intelligence/i }),
     ).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /current-state strip/i })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: /what happened/i })).toBeInTheDocument();
@@ -53,13 +56,43 @@ describe("TerminalPreviewSurface", () => {
     expect(
       screen.getByText("Protocol status wording needs primary-source check"),
     ).toBeInTheDocument();
-    expect(screen.getByText("Radar source discipline")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        name: /daily intelligence terminal brief draft/i,
+      }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByText("Breaking Radar manual snapshot internal fixture"),
     ).not.toBeInTheDocument();
     expect(
       screen.queryByText("Account-personalized raw capture is blocked"),
     ).not.toBeInTheDocument();
+  });
+
+  it("renders Live Radar as title-only items and published intelligence as clickable article links", () => {
+    const { container } = render(
+      <TerminalPreviewSurface
+        locale="en"
+        data={terminalPreviewAdapterFixtureMock}
+        copy={copy}
+      />,
+    );
+
+    expect(screen.getByText("X rising")).toBeInTheDocument();
+    expect(screen.getByText("SDE detected")).toBeInTheDocument();
+    expect(
+      screen.getByText("AI model policy headlines are rising on X"),
+    ).toBeInTheDocument();
+
+    const feedLink = screen.getByRole("link", {
+      name: /the window that didn't open/i,
+    });
+    expect(feedLink).toHaveAttribute("href", "/brief/2026-W26-brief");
+
+    expect(container.querySelector('a[href="/terminal-preview"]')).toBeNull();
+    expect(container.querySelector('a[href^="file:"]')).toBeNull();
+    expect(container.textContent).not.toContain("site_publish_log");
+    expect(container.textContent).not.toContain("article_queue");
   });
 
   it("does not render navigation links from the hidden preview surface", () => {

@@ -157,6 +157,25 @@ function Badge({
   );
 }
 
+function StatusPill({
+  children,
+  theme,
+}: {
+  children: React.ReactNode;
+  theme: PreviewTheme;
+}) {
+  return (
+    <span
+      className={cx(
+        "inline-flex border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-label",
+        theme.badge,
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
 export function TerminalPreviewSurface({
   locale,
   data,
@@ -242,6 +261,70 @@ export function TerminalPreviewSurface({
             {data.terminalState.asOfJst}
           </p>
         </header>
+
+        <div className="mb-6 grid gap-6 lg:grid-cols-[minmax(280px,1fr)_minmax(0,2fr)]">
+          <Panel title={pick(data.publicTopology.liveRadar.title, locale)} theme={theme}>
+            <div className="space-y-3">
+              {data.publicTopology.liveRadar.items.map((item) => (
+                <article key={item.id} className={cx("border p-4", theme.card)}>
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <StatusPill theme={theme}>{pick(item.sourceLabel, locale)}</StatusPill>
+                    <span
+                      className={cx(
+                        "text-[10px] font-semibold uppercase tracking-label",
+                        theme.muted,
+                      )}
+                    >
+                      {item.family}
+                    </span>
+                  </div>
+                  <h3 className={cx("mb-2 text-sm font-semibold", theme.metric)}>
+                    {pick(item.title, locale)}
+                  </h3>
+                  <p className={cx("text-[10px] font-semibold uppercase tracking-label", theme.muted)}>
+                    {pick(item.freshnessLabel, locale)}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </Panel>
+
+          <Panel
+            title={pick(data.publicTopology.articleNewsFeed.title, locale)}
+            theme={theme}
+          >
+            <div className="divide-y divide-current/10">
+              {data.publicTopology.articleNewsFeed.items.map((item) => (
+                <article key={item.id} className="py-3 first:pt-0 last:pb-0">
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <StatusPill theme={theme}>{item.family}</StatusPill>
+                    <span
+                      className={cx(
+                        "text-[10px] font-semibold uppercase tracking-label",
+                        theme.muted,
+                      )}
+                    >
+                      {item.publishedAt}
+                    </span>
+                  </div>
+                  <a className="group block" href={item.href}>
+                    <h3
+                      className={cx(
+                        "mb-2 text-sm font-semibold group-hover:underline",
+                        theme.metric,
+                      )}
+                    >
+                      {pick(item.title, locale)}
+                    </h3>
+                    <p className={cx("text-sm leading-relaxed", theme.body)}>
+                      {pick(item.excerpt, locale)}
+                    </p>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </Panel>
+        </div>
 
         <Panel title="Current-state strip" theme={theme}>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
