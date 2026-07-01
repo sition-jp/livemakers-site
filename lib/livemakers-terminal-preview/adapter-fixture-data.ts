@@ -429,11 +429,41 @@ function indicatorFromMarketStateModule(
   };
 }
 
+function indicatorFromLiveDataStripModule(
+  module: TerminalAdapterModule,
+): TerminalPreviewMock["indicators"][number] {
+  const fallback = {
+    en: module.unavailable.display_label_en,
+    ja: module.unavailable.display_label_ja,
+  };
+
+  return {
+    id: module.module_id,
+    label: payloadText(module.payload, "label_en", module.module_id),
+    value: payloadText(
+      module.payload,
+      "value_display",
+      module.unavailable.display_label_en,
+    ),
+    note: localizeFromPayload(module.payload, "note_en", "note_ja", fallback),
+    family: toPreviewDataFamily(module.data_family),
+    freshness: "fixture_only",
+  };
+}
+
 function indicatorsFromModules(
   modules: TerminalAdapterModule[],
   base: TerminalPreviewMock,
   copyProfile: TerminalPreviewCopyProfile,
 ): TerminalPreviewMock["indicators"] {
+  const liveDataStripModules = modules.filter(
+    (module) => module.display_surface === "live_data_strip",
+  );
+
+  if (liveDataStripModules.length > 0) {
+    return liveDataStripModules.map(indicatorFromLiveDataStripModule);
+  }
+
   const marketStateModule = modules.find(
     (module) => module.display_surface === "market_state_header",
   );

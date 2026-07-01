@@ -67,6 +67,17 @@ describe("terminal preview adapter fixture bridge", () => {
     expect(
       terminalPreviewAdapterFixtureMock.indicators.map((indicator) => indicator.id),
     ).toContain("reader_terminal.live_data_strip.onchain_state");
+    expect(
+      terminalPreviewAdapterFixtureMock.indicators.find(
+        (indicator) =>
+          indicator.id === "reader_terminal.live_data_strip.onchain_state",
+      ),
+    ).toMatchObject({
+      label: "On-chain",
+      value: "review",
+      family: "crypto_onchain",
+      freshness: "fixture_only",
+    });
 
     const visibleCopy = JSON.stringify(terminalPreviewAdapterFixtureMock.visibleCopy);
     expect(visibleCopy).not.toContain("source.breaking_radar.manual_snapshot_internal");
