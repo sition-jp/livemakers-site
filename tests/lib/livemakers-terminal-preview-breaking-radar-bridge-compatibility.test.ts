@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { breakingRadarAdapterFixture } from "@/lib/livemakers-terminal-adapter/breaking-radar-fixture";
-import {
-  buildTerminalPreviewMockFromAdapterFixture,
-  terminalPreviewAdapterFixturePacket,
-} from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
+import { buildTerminalPreviewMockFromAdapterFixture } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
 import { terminalPreviewMock } from "@/lib/livemakers-terminal-preview/mock-data";
 
 describe("breaking radar preview bridge compatibility", () => {
@@ -13,7 +10,7 @@ describe("breaking radar preview bridge compatibility", () => {
   );
 
   it("builds hidden preview state from the Breaking Radar adapter fixture after the default fixture switch", () => {
-    expect(terminalPreviewAdapterFixturePacket.packet_id).toBe(
+    expect(breakingRadarAdapterFixture.packet_id).toBe(
       "fixture.breaking_radar_adapter.2026_07_01.sample_g1",
     );
     expect(breakingRadarPreview.routePolicy).toEqual({
