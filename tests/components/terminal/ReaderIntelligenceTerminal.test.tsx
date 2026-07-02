@@ -68,6 +68,7 @@ describe("ReaderIntelligenceTerminal", () => {
       ),
     ).toBeInTheDocument();
     expect(screen.getByText("On-chain")).toBeInTheDocument();
+    expect(screen.getByText("sde review pending")).toBeInTheDocument();
   });
 
   it("keeps Live Radar title-only while article feed items are clickable", () => {
