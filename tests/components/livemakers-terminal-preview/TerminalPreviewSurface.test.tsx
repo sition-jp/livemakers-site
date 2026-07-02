@@ -78,8 +78,8 @@ describe("TerminalPreviewSurface", () => {
       />,
     );
 
-    expect(screen.getByText("X rising")).toBeInTheDocument();
-    expect(screen.getByText("SDE detected")).toBeInTheDocument();
+    expect(screen.getByText("X News / Trends")).toBeInTheDocument();
+    expect(screen.getByText("SDE Phase1 Breaking Radar")).toBeInTheDocument();
     expect(
       screen.getByText("AI model policy headlines are rising on X"),
     ).toBeInTheDocument();

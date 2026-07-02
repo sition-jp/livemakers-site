@@ -43,16 +43,14 @@ describe("Breaking Radar title-window contract", () => {
         base.items[1],
       ],
     } as TerminalPreviewPublicTopology["liveRadar"];
-    const bodyBearing = {
-      ...base,
-      items: [
-        {
-          ...base.items[0],
-          body: "raw X recommendation body",
-        },
-        base.items[1],
-      ],
-    } as TerminalPreviewPublicTopology["liveRadar"];
+    const forbiddenPayloadKeys = [
+      "body",
+      "excerpt",
+      "articleText",
+      "screenshotText",
+      "rawPersonalizedText",
+      "rawRecommendationText",
+    ];
     const missingX = {
       ...base,
       items: base.items.filter((item) => item.sourceLane !== "x_news_trends"),
@@ -80,9 +78,22 @@ describe("Breaking Radar title-window contract", () => {
     expect(validateBreakingRadarTitleWindow(linked)).toContain(
       "liveRadar.items[0].href must remain null for title-window display",
     );
-    expect(validateBreakingRadarTitleWindow(bodyBearing)).toContain(
-      "liveRadar.items[0].body must be absent for title-window display",
-    );
+    for (const key of forbiddenPayloadKeys) {
+      const payloadBearing = {
+        ...base,
+        items: [
+          {
+            ...base.items[0],
+            [key]: "raw X recommendation body",
+          },
+          base.items[1],
+        ],
+      } as TerminalPreviewPublicTopology["liveRadar"];
+
+      expect(validateBreakingRadarTitleWindow(payloadBearing)).toContain(
+        `liveRadar.items[0].${key} must be absent for title-window display`,
+      );
+    }
     expect(validateBreakingRadarTitleWindow(missingX)).toContain(
       "liveRadar.items must include x_news_trends lane",
     );

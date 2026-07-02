@@ -24,9 +24,14 @@ const forbiddenVisibleText = [
   "screenshot",
 ];
 
-function hasBody(item: TerminalLiveRadarItem): boolean {
-  return Object.prototype.hasOwnProperty.call(item, "body");
-}
+const forbiddenPayloadKeys = [
+  "body",
+  "excerpt",
+  "articleText",
+  "screenshotText",
+  "rawPersonalizedText",
+  "rawRecommendationText",
+];
 
 function validateVisibleText(
   value: string,
@@ -61,10 +66,12 @@ function validateItem(
     );
   }
 
-  if (hasBody(item)) {
-    errors.push(
-      `liveRadar.items[${index}].body must be absent for title-window display`,
-    );
+  for (const key of forbiddenPayloadKeys) {
+    if (Object.prototype.hasOwnProperty.call(item, key)) {
+      errors.push(
+        `liveRadar.items[${index}].${key} must be absent for title-window display`,
+      );
+    }
   }
 
   if (item.displayMode !== "title_only") {
