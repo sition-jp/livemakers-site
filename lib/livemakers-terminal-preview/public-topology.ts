@@ -2,6 +2,7 @@ import type {
   TerminalArticleNewsFeedItem,
   TerminalPreviewPublicTopology,
 } from "./types";
+import { breakingRadarManualLinkNoteItems } from "./breaking-radar-manual-link-notes";
 import { validateBreakingRadarTitleWindow } from "./breaking-radar-title-window";
 
 const allowedPublishedArticleRoutes = [
@@ -142,6 +143,7 @@ export const readerTerminalPublicTopology: TerminalPreviewPublicTopology = {
         publishDecision: "not_authorized",
         href: null,
       },
+      ...breakingRadarManualLinkNoteItems,
     ],
   },
   articleNewsFeed: {
