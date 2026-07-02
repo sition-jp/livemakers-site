@@ -2,6 +2,7 @@ import type {
   TerminalArticleNewsFeedItem,
   TerminalPreviewPublicTopology,
 } from "./types";
+import { validateBreakingRadarTitleWindow } from "./breaking-radar-title-window";
 
 const allowedPublishedArticleRoutes = [
   /^\/brief\/[A-Za-z0-9-]+$/,
@@ -64,8 +65,10 @@ function validateArticleFeedItem(
 export function validateReaderTerminalPublicTopology(
   topology: TerminalPreviewPublicTopology,
 ): string[] {
-  return topology.articleNewsFeed.items.flatMap((item, index) =>
-    validateArticleFeedItem(item, index),
+  return validateBreakingRadarTitleWindow(topology.liveRadar).concat(
+    topology.articleNewsFeed.items.flatMap((item, index) =>
+      validateArticleFeedItem(item, index),
+    ),
   );
 }
 
@@ -80,8 +83,8 @@ export const readerTerminalPublicTopology: TerminalPreviewPublicTopology = {
         id: "radar.xnews.ai-model-policy.2026-07-01",
         sourceLane: "x_news_trends",
         sourceLabel: {
-          en: "X rising",
-          ja: "X浮上",
+          en: "X News / Trends",
+          ja: "X News / Trends",
         },
         family: "AI / Capital",
         title: {
@@ -93,14 +96,16 @@ export const readerTerminalPublicTopology: TerminalPreviewPublicTopology = {
           en: "Checking",
           ja: "確認中",
         },
+        displayMode: "title_only",
+        publishDecision: "not_authorized",
         href: null,
       },
       {
         id: "radar.sde.crypto-policy.2026-07-01",
         sourceLane: "sde_phase1_breaking_radar",
         sourceLabel: {
-          en: "SDE detected",
-          ja: "SDE検出",
+          en: "SDE Phase1 Breaking Radar",
+          ja: "SDE Phase1 Breaking Radar",
         },
         family: "Crypto / Policy",
         title: {
@@ -112,14 +117,16 @@ export const readerTerminalPublicTopology: TerminalPreviewPublicTopology = {
           en: "SDE review pending",
           ja: "SDE確認待ち",
         },
+        displayMode: "title_only",
+        publishDecision: "not_authorized",
         href: null,
       },
       {
         id: "radar.manual.onchain-state.2026-07-01",
         sourceLane: "manual_operator_observation",
         sourceLabel: {
-          en: "Checking",
-          ja: "確認中",
+          en: "Manual observation",
+          ja: "Manual observation",
         },
         family: "On-chain / Market",
         title: {
@@ -131,6 +138,8 @@ export const readerTerminalPublicTopology: TerminalPreviewPublicTopology = {
           en: "Checking",
           ja: "確認中",
         },
+        displayMode: "title_only",
+        publishDecision: "not_authorized",
         href: null,
       },
     ],

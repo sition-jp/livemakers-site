@@ -23,6 +23,8 @@ export interface TerminalLiveRadarItem {
   title: LocalizedText;
   status: TerminalLiveRadarStatus;
   freshnessLabel: LocalizedText;
+  displayMode: "title_only";
+  publishDecision: "not_authorized";
   href: null;
   body?: never;
 }
