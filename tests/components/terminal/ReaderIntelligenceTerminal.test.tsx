@@ -117,6 +117,10 @@ describe("ReaderIntelligenceTerminal", () => {
     expect(
       screen.getByText("AI model policy headlines are rising on X"),
     ).toBeInTheDocument();
+    expect(screen.getByText("X News / Trends")).toBeInTheDocument();
+    expect(screen.getByText("SDE Phase1 Breaking Radar")).toBeInTheDocument();
+    expect(screen.getAllByText("title_only").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("not_authorized").length).toBeGreaterThan(0);
     expect(
       screen.getByText(
         "On-chain state remains a Terminal data point, not a headline claim",
@@ -209,6 +213,7 @@ describe("ReaderIntelligenceTerminal", () => {
 
     expect(container.querySelector('a[href="/terminal-preview"]')).toBeNull();
     expect(container.querySelector('a[href^="file:"]')).toBeNull();
+    expect(container.textContent).not.toContain("raw X recommendation body");
     expect(container.textContent).not.toContain("site_publish_log");
     expect(container.textContent).not.toContain("article_queue");
   });

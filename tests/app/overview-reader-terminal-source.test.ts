@@ -40,6 +40,9 @@ describe("overview page reader terminal wiring", () => {
     expect(source).not.toContain("fetch(");
     expect(source).not.toContain("useSWR");
     expect(source).not.toContain("/api/");
+    expect(source).not.toContain("grok");
+    expect(source).not.toContain("browser");
+    expect(source).not.toContain("playwright");
     expect(source).not.toContain("site_publish_log");
     expect(source).not.toContain("article_queue");
     expect(source).not.toContain('href="/terminal-preview"');

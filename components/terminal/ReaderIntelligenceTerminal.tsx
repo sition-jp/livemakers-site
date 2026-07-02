@@ -201,6 +201,10 @@ export function ReaderIntelligenceTerminal({
                     <p className="text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
                       {item.status}
                     </p>
+                    <div className="mt-2 flex flex-wrap items-center gap-2 font-mono text-[10px] text-text-tertiary">
+                      <span>{item.displayMode}</span>
+                      <span>{item.publishDecision}</span>
+                    </div>
                     <p className="mt-2 text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
                       {pick(item.freshnessLabel, locale)}
                     </p>
