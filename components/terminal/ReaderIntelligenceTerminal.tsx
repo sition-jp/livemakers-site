@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import type { ReviewedReaderTerminalSourceProvenance } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 import type {
   LocalizedText,
   TerminalPreviewLocale,
@@ -10,6 +11,11 @@ export interface ReaderIntelligenceTerminalCopy {
   title: string;
   subtitle: string;
   currentStateTitle: string;
+  sourceStatusTitle: string;
+  sourceStatusReviewed: string;
+  sourceStatusFixtureOnly: string;
+  sourceStatusReviewedAt: string;
+  sourceStatusPacket: string;
 }
 
 function pick(text: LocalizedText, locale: TerminalPreviewLocale): string {
@@ -20,10 +26,12 @@ export function ReaderIntelligenceTerminal({
   locale,
   data,
   copy,
+  sourceProvenance,
 }: {
   locale: TerminalPreviewLocale;
   data: TerminalPreviewMock;
   copy: ReaderIntelligenceTerminalCopy;
+  sourceProvenance?: ReviewedReaderTerminalSourceProvenance;
 }) {
   const { liveRadar, articleNewsFeed } = data.publicTopology;
 
@@ -53,6 +61,28 @@ export function ReaderIntelligenceTerminal({
               <p className="font-mono text-[11px] text-text-tertiary">
                 {data.terminalState.asOfJst}
               </p>
+              {sourceProvenance && (
+                <div
+                  aria-label={copy.sourceStatusTitle}
+                  className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-label text-text-tertiary"
+                >
+                  <span className="text-text-secondary">
+                    {copy.sourceStatusTitle}
+                  </span>
+                  <span className="border border-border-primary px-2 py-0.5 text-pillar-overview">
+                    {copy.sourceStatusReviewed}
+                  </span>
+                  <span className="border border-border-primary px-2 py-0.5">
+                    {copy.sourceStatusFixtureOnly}
+                  </span>
+                  <span className="font-mono normal-case tracking-normal">
+                    {copy.sourceStatusReviewedAt} {sourceProvenance.reviewedAt}
+                  </span>
+                  <span className="font-mono normal-case tracking-normal">
+                    {copy.sourceStatusPacket} {sourceProvenance.packetId}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 

@@ -14,6 +14,8 @@ describe("overview page reader terminal wiring", () => {
     );
     expect(source).toContain("getReviewedReaderTerminalSource");
     expect(source).toContain("readerTerminalSource.data");
+    expect(source).toContain("sourceProvenance={readerTerminalSource.provenance}");
+    expect(source).toContain('readerTerminalT("sourceStatusTitle")');
     expect(source).not.toContain(
       "@/lib/livemakers-terminal-preview/adapter-fixture-data",
     );
@@ -37,6 +39,7 @@ describe("overview page reader terminal wiring", () => {
     expect(source).not.toContain("/api/");
     expect(source).not.toContain("site_publish_log");
     expect(source).not.toContain("article_queue");
+    expect(source).not.toContain('href="/terminal-preview"');
     expect(source).not.toContain('"/terminal-preview"');
     expect(source).not.toContain("'/terminal-preview'");
   });

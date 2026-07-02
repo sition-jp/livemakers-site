@@ -27,6 +27,11 @@ const copy = {
   subtitle:
     "A compact terminal surface for breaking candidates, current state, and published research.",
   currentStateTitle: "Current-state strip",
+  sourceStatusTitle: "Source status",
+  sourceStatusReviewed: "Reviewed fixture",
+  sourceStatusFixtureOnly: "Fixture only",
+  sourceStatusReviewedAt: "Reviewed",
+  sourceStatusPacket: "Packet",
 };
 
 describe("ReaderIntelligenceTerminal", () => {
@@ -36,6 +41,12 @@ describe("ReaderIntelligenceTerminal", () => {
         locale="en"
         data={terminalPreviewAdapterFixtureMock}
         copy={copy}
+        sourceProvenance={{
+          packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
+          sourceMode: "fixture_only",
+          reviewStatus: "reviewed_fixture",
+          reviewedAt: "2026-07-01T21:30:00+09:00",
+        }}
       />,
     );
 
@@ -69,6 +80,17 @@ describe("ReaderIntelligenceTerminal", () => {
     ).toBeInTheDocument();
     expect(screen.getByText("On-chain")).toBeInTheDocument();
     expect(screen.getByText("sde_review_pending")).toBeInTheDocument();
+    expect(screen.getByText("Source status")).toBeInTheDocument();
+    expect(screen.getByText("Reviewed fixture")).toBeInTheDocument();
+    expect(screen.getByText("Fixture only")).toBeInTheDocument();
+    expect(
+      screen.getByText(/Reviewed 2026-07-01T21:30:00\+09:00/),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Packet fixture\.reader_terminal_public_topology\.2026_07_01\.g31/,
+      ),
+    ).toBeInTheDocument();
   });
 
   it("keeps Live Radar title-only while article feed items are clickable", () => {

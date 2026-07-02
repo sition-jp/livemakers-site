@@ -166,7 +166,12 @@
       "eyebrow": "読者向けインテリジェンス・ターミナル",
       "title": "速報レーダーと公開済みインテリジェンス",
       "subtitle": "速報候補、現況データ、公開済みリサーチをひとつの小さなターミナル面にまとめます。",
-      "currentStateTitle": "現況ストリップ"
+      "currentStateTitle": "現況ストリップ",
+      "sourceStatusTitle": "ソース状態",
+      "sourceStatusReviewed": "確認済みフィクスチャ",
+      "sourceStatusFixtureOnly": "フィクスチャのみ",
+      "sourceStatusReviewedAt": "確認日時",
+      "sourceStatusPacket": "Packet"
     }
   },
   "terminalPreview": {

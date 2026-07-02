@@ -32,11 +32,17 @@ export default async function OverviewPage({
       <ReaderIntelligenceTerminal
         locale={readerTerminalLocale}
         data={readerTerminalSource.data}
+        sourceProvenance={readerTerminalSource.provenance}
         copy={{
           eyebrow: readerTerminalT("eyebrow"),
           title: readerTerminalT("title"),
           subtitle: readerTerminalT("subtitle"),
           currentStateTitle: readerTerminalT("currentStateTitle"),
+          sourceStatusTitle: readerTerminalT("sourceStatusTitle"),
+          sourceStatusReviewed: readerTerminalT("sourceStatusReviewed"),
+          sourceStatusFixtureOnly: readerTerminalT("sourceStatusFixtureOnly"),
+          sourceStatusReviewedAt: readerTerminalT("sourceStatusReviewedAt"),
+          sourceStatusPacket: readerTerminalT("sourceStatusPacket"),
         }}
       />
       {latest && (

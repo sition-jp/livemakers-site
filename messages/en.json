@@ -166,7 +166,12 @@
       "eyebrow": "Reader Intelligence Terminal",
       "title": "Live Radar and Published Intelligence",
       "subtitle": "Breaking candidates, current-state data, and published research in one compact terminal surface.",
-      "currentStateTitle": "Current-state strip"
+      "currentStateTitle": "Current-state strip",
+      "sourceStatusTitle": "Source status",
+      "sourceStatusReviewed": "Reviewed fixture",
+      "sourceStatusFixtureOnly": "Fixture only",
+      "sourceStatusReviewedAt": "Reviewed",
+      "sourceStatusPacket": "Packet"
     }
   },
   "terminalPreview": {
