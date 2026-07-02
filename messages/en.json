@@ -161,7 +161,13 @@
     "networkPulse": "NETWORK PULSE · AT PUBLISH",
     "fourPanelTitle": "STATUS SNAPSHOT",
     "recentBriefs": "RECENT BRIEFS",
-    "readFullBrief": "Read Full Brief →"
+    "readFullBrief": "Read Full Brief →",
+    "readerTerminal": {
+      "eyebrow": "Reader Intelligence Terminal",
+      "title": "Live Radar and Published Intelligence",
+      "subtitle": "Breaking candidates, current-state data, and published research in one compact terminal surface.",
+      "currentStateTitle": "Current-state strip"
+    }
   },
   "terminalPreview": {
     "mockBadge": "MOCK",

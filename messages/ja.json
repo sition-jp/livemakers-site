@@ -161,7 +161,13 @@
     "networkPulse": "ネットワーク・パルス · 発行時点スナップショット",
     "fourPanelTitle": "ステータス・スナップショット",
     "recentBriefs": "過去のブリーフ",
-    "readFullBrief": "ブリーフ全文を読む →"
+    "readFullBrief": "ブリーフ全文を読む →",
+    "readerTerminal": {
+      "eyebrow": "読者向けインテリジェンス・ターミナル",
+      "title": "速報レーダーと公開済みインテリジェンス",
+      "subtitle": "速報候補、現況データ、公開済みリサーチをひとつの小さなターミナル面にまとめます。",
+      "currentStateTitle": "現況ストリップ"
+    }
   },
   "terminalPreview": {
     "mockBadge": "MOCK",

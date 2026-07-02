@@ -1,5 +1,6 @@
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getAllBriefs, getLatestBrief } from "@/lib/briefs";
+import { ReaderIntelligenceTerminal } from "@/components/terminal/ReaderIntelligenceTerminal";
 import { TickerBar } from "@/components/terminal/TickerBar";
 import { SiteTagline } from "@/components/terminal/SiteTagline";
 import { EditorialHero } from "@/components/terminal/EditorialHero";
@@ -7,6 +8,7 @@ import { NetworkPulse } from "@/components/terminal/NetworkPulse";
 import { FourPanelStatus } from "@/components/terminal/FourPanelStatus";
 import { RecentBriefs } from "@/components/terminal/RecentBriefs";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { terminalPreviewAdapterFixtureMock } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
 
 export default async function OverviewPage({
   params,
@@ -15,6 +17,8 @@ export default async function OverviewPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const readerTerminalLocale = locale === "ja" ? "ja" : "en";
+  const readerTerminalT = await getTranslations("overview.readerTerminal");
 
   const latest = getLatestBrief();
   const allBriefs = getAllBriefs();
@@ -24,6 +28,16 @@ export default async function OverviewPage({
     <>
       <TickerBar />
       <SiteTagline />
+      <ReaderIntelligenceTerminal
+        locale={readerTerminalLocale}
+        data={terminalPreviewAdapterFixtureMock}
+        copy={{
+          eyebrow: readerTerminalT("eyebrow"),
+          title: readerTerminalT("title"),
+          subtitle: readerTerminalT("subtitle"),
+          currentStateTitle: readerTerminalT("currentStateTitle"),
+        }}
+      />
       {latest && (
         <>
           <EditorialHero brief={latest} locale={locale} />
