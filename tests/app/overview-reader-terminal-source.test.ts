@@ -10,8 +10,14 @@ describe("overview page reader terminal wiring", () => {
 
     expect(source).toContain("@/components/terminal/ReaderIntelligenceTerminal");
     expect(source).toContain(
+      "@/lib/livemakers-terminal-preview/reader-terminal-source",
+    );
+    expect(source).toContain("getReviewedReaderTerminalSource");
+    expect(source).toContain("readerTerminalSource.data");
+    expect(source).not.toContain(
       "@/lib/livemakers-terminal-preview/adapter-fixture-data",
     );
+    expect(source).not.toContain("terminalPreviewAdapterFixtureMock");
     expect(source).toContain("getTranslations");
 
     const siteTaglineIndex = source.indexOf("<SiteTagline />");

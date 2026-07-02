@@ -8,7 +8,7 @@ import { NetworkPulse } from "@/components/terminal/NetworkPulse";
 import { FourPanelStatus } from "@/components/terminal/FourPanelStatus";
 import { RecentBriefs } from "@/components/terminal/RecentBriefs";
 import { SectionDivider } from "@/components/ui/SectionDivider";
-import { terminalPreviewAdapterFixtureMock } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
+import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 
 export default async function OverviewPage({
   params,
@@ -19,6 +19,7 @@ export default async function OverviewPage({
   setRequestLocale(locale);
   const readerTerminalLocale = locale === "ja" ? "ja" : "en";
   const readerTerminalT = await getTranslations("overview.readerTerminal");
+  const readerTerminalSource = getReviewedReaderTerminalSource();
 
   const latest = getLatestBrief();
   const allBriefs = getAllBriefs();
@@ -30,7 +31,7 @@ export default async function OverviewPage({
       <SiteTagline />
       <ReaderIntelligenceTerminal
         locale={readerTerminalLocale}
-        data={terminalPreviewAdapterFixtureMock}
+        data={readerTerminalSource.data}
         copy={{
           eyebrow: readerTerminalT("eyebrow"),
           title: readerTerminalT("title"),
