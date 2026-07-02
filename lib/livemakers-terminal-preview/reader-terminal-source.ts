@@ -2,6 +2,7 @@ import {
   terminalPreviewAdapterFixtureMock,
   terminalPreviewAdapterFixturePacket,
 } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
+import { validateBreakingRadarTitleWindow } from "@/lib/livemakers-terminal-preview/breaking-radar-title-window";
 import { getScheduledSessionVisibility } from "@/lib/livemakers-terminal-preview/scheduled-session-visibility";
 import type { TerminalAdapterPacket } from "@/lib/livemakers-terminal-adapter/types";
 import type { TerminalPreviewMock } from "@/lib/livemakers-terminal-preview/types";
@@ -44,18 +45,34 @@ function requiredReviewedTimestamp(value: string | null, label: string): string 
   return value;
 }
 
+export function buildReviewedReaderTerminalData(
+  base: TerminalPreviewMock = terminalPreviewAdapterFixtureMock,
+): TerminalPreviewMock {
+  const radarErrors = validateBreakingRadarTitleWindow(
+    base.publicTopology.liveRadar,
+  );
+
+  if (radarErrors.length > 0) {
+    throw new Error(
+      `Breaking Radar title-window contract failed: ${radarErrors.join("; ")}`,
+    );
+  }
+
+  return {
+    ...base,
+    publicTopology: {
+      ...base.publicTopology,
+      scheduledSessionVisibility: getScheduledSessionVisibility(),
+    },
+  };
+}
+
 export function getReviewedReaderTerminalSource(
   options: ReviewedReaderTerminalSourceOptions = {},
 ): ReviewedReaderTerminalSourceSnapshot {
   const packet = options.packet ?? terminalPreviewAdapterFixturePacket;
   const reviewedAt = requiredReviewedTimestamp(packet.reviewed_at, "reviewed_at");
-  const data: TerminalPreviewMock = {
-    ...terminalPreviewAdapterFixtureMock,
-    publicTopology: {
-      ...terminalPreviewAdapterFixtureMock.publicTopology,
-      scheduledSessionVisibility: getScheduledSessionVisibility(),
-    },
-  };
+  const data = buildReviewedReaderTerminalData();
 
   return {
     sourceId: "reader_terminal.homepage.reviewed_fixture_source.g33",

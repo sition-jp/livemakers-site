@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { terminalPreviewAdapterFixtureMock } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
 import {
+  buildReviewedReaderTerminalData,
   getReviewedReaderTerminalSource,
   type ReviewedReaderTerminalSourceSnapshot,
 } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 import type { TerminalAdapterPacket } from "@/lib/livemakers-terminal-adapter/types";
+import type { TerminalPreviewMock } from "@/lib/livemakers-terminal-preview/types";
 
 function sourcePacketOverride(
   override: Partial<
@@ -75,6 +77,22 @@ describe("reviewed reader terminal source", () => {
       true,
     );
     expect(snapshot.data.publicTopology.liveRadar.items.length).toBeGreaterThan(0);
+    expect(
+      snapshot.data.publicTopology.liveRadar.items.map((item) => item.sourceLane),
+    ).toContain("x_news_trends");
+    expect(
+      snapshot.data.publicTopology.liveRadar.items.map((item) => item.sourceLane),
+    ).toContain("sde_phase1_breaking_radar");
+    expect(
+      snapshot.data.publicTopology.liveRadar.items.every(
+        (item) => item.displayMode === "title_only",
+      ),
+    ).toBe(true);
+    expect(
+      snapshot.data.publicTopology.liveRadar.items.every(
+        (item) => item.publishDecision === "not_authorized",
+      ),
+    ).toBe(true);
     expect(snapshot.data.publicTopology.articleNewsFeed.items.length).toBeGreaterThan(0);
   });
 
@@ -89,6 +107,29 @@ describe("reviewed reader terminal source", () => {
     expect(serialized).not.toContain("fetch(");
     expect(snapshot.data.sourceLedger.map((source) => source.confidence)).toEqual(
       snapshot.data.sourceLedger.map(() => "fixture_only"),
+    );
+  });
+
+  it("fails closed when reviewed reader terminal data violates the radar title-window contract", () => {
+    const unsafeData = {
+      ...terminalPreviewAdapterFixtureMock,
+      publicTopology: {
+        ...terminalPreviewAdapterFixtureMock.publicTopology,
+        liveRadar: {
+          ...terminalPreviewAdapterFixtureMock.publicTopology.liveRadar,
+          items: [
+            {
+              ...terminalPreviewAdapterFixtureMock.publicTopology.liveRadar.items[0],
+              href: "/brief/2026-W26-brief",
+            },
+            terminalPreviewAdapterFixtureMock.publicTopology.liveRadar.items[1],
+          ],
+        },
+      },
+    } as unknown as TerminalPreviewMock;
+
+    expect(() => buildReviewedReaderTerminalData(unsafeData)).toThrow(
+      /Breaking Radar title-window contract/i,
     );
   });
 
