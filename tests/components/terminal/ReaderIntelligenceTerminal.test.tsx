@@ -191,6 +191,37 @@ describe("ReaderIntelligenceTerminal", () => {
     ).toBeInTheDocument();
   });
 
+  it("keeps the homepage terminal root within the mobile viewport padding box", () => {
+    render(
+      <ReaderIntelligenceTerminal
+        locale="ja"
+        data={terminalData}
+        copy={jaCopy}
+        sourceProvenance={{
+          packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
+          sourceMode: "fixture_only",
+          reviewStatus: "reviewed_fixture",
+          reviewedAt: "2026-07-01T21:30:00+09:00",
+        }}
+      />,
+    );
+
+    const terminal = screen
+      .getByRole("heading", {
+        name: "速報レーダーと公開済みインテリジェンス",
+      })
+      .closest("section");
+
+    expect(terminal).toHaveClass("box-border");
+    expect(terminal).toHaveClass("w-full");
+
+    const contentGrid = terminal?.querySelector(".grid.gap-8");
+    expect(contentGrid).toHaveClass("grid-cols-[minmax(0,1fr)]");
+
+    const headerGrid = terminal?.querySelector(".grid.gap-4");
+    expect(headerGrid).toHaveClass("min-w-0");
+  });
+
   it("keeps Live Radar title-only while article feed items are clickable", () => {
     const { container } = render(
       <ReaderIntelligenceTerminal

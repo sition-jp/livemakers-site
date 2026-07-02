@@ -42,11 +42,11 @@ export function ReaderIntelligenceTerminal({
   return (
     <section
       aria-labelledby="reader-intelligence-terminal-title"
-      className="mx-auto max-w-7xl px-6 py-10"
+      className="mx-auto box-border w-full max-w-7xl px-6 py-10"
     >
       <div className="border-y border-border-primary py-6">
-        <div className="grid gap-8">
-          <div className="grid gap-4 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
+        <div className="grid grid-cols-[minmax(0,1fr)] gap-8">
+          <div className="grid min-w-0 gap-4 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
             <div>
               <p className="mb-3 text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
                 {copy.eyebrow}
