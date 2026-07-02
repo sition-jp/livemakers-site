@@ -17,14 +17,28 @@ export interface ReviewedReaderTerminalSourceSnapshot {
   data: TerminalPreviewMock;
 }
 
+function requiredReviewedTimestamp(value: string | null, label: string): string {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    throw new Error(`Reviewed reader terminal source missing ${label}`);
+  }
+
+  return value;
+}
+
 export function getReviewedReaderTerminalSource(): ReviewedReaderTerminalSourceSnapshot {
   return {
     sourceId: "reader_terminal.homepage.reviewed_fixture_source.g33",
     sourceMode: "fixture_only",
     reviewStatus: "reviewed_fixture",
     packetId: terminalPreviewAdapterFixturePacket.packet_id,
-    generatedAt: terminalPreviewAdapterFixturePacket.generated_at,
-    reviewedAt: terminalPreviewAdapterFixturePacket.reviewed_at,
+    generatedAt: requiredReviewedTimestamp(
+      terminalPreviewAdapterFixturePacket.generated_at,
+      "generated_at",
+    ),
+    reviewedAt: requiredReviewedTimestamp(
+      terminalPreviewAdapterFixturePacket.reviewed_at,
+      "reviewed_at",
+    ),
     data: terminalPreviewAdapterFixtureMock,
   };
 }
