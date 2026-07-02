@@ -45,6 +45,7 @@ export interface TerminalArticleNewsFeedItem {
 }
 
 export interface TerminalPreviewPublicTopology {
+  scheduledSessionVisibility?: TerminalScheduledSessionVisibility;
   liveRadar: {
     title: LocalizedText;
     items: TerminalLiveRadarItem[];
@@ -53,6 +54,40 @@ export interface TerminalPreviewPublicTopology {
     title: LocalizedText;
     items: TerminalArticleNewsFeedItem[];
   };
+}
+
+export type TerminalScheduledSessionVisibilityStatus =
+  | "detected"
+  | "classified"
+  | "surface_ready"
+  | "hold_watch"
+  | "verify_next"
+  | "signal_seed"
+  | "deepdive_seed"
+  | "already_covered"
+  | "excluded_with_reason";
+
+export interface TerminalScheduledSessionVisibilityItem {
+  id: string;
+  status: TerminalScheduledSessionVisibilityStatus;
+  family: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  sourceItemId: string;
+  reasonCode: string;
+  detectedAtJst: string;
+  href: null;
+  publishDecision: "not_authorized";
+}
+
+export interface TerminalScheduledSessionVisibility {
+  title: LocalizedText;
+  sessionLabel: LocalizedText;
+  sessionSlug: "asia_open" | "europe_bridge" | "ny_prep" | "ny_open_us_session";
+  internalSlot: "morning" | "midday" | "evening" | "night";
+  asOfJst: string;
+  sourcePacketId: string;
+  items: TerminalScheduledSessionVisibilityItem[];
 }
 
 export interface TerminalPreviewModuleContract {
