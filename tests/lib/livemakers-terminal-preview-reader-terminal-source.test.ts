@@ -45,7 +45,31 @@ describe("reviewed reader terminal source", () => {
       navLink: false,
       noindex: true,
     });
-    expect(snapshot.data).toBe(terminalPreviewAdapterFixtureMock);
+    expect(snapshot.data.publicTopology.liveRadar).toBe(
+      terminalPreviewAdapterFixtureMock.publicTopology.liveRadar,
+    );
+    expect(snapshot.data.publicTopology.articleNewsFeed).toBe(
+      terminalPreviewAdapterFixtureMock.publicTopology.articleNewsFeed,
+    );
+    expect(snapshot.data.publicTopology.scheduledSessionVisibility?.sessionSlug).toBe(
+      "asia_open",
+    );
+    expect(
+      snapshot.data.publicTopology.scheduledSessionVisibility?.items.map(
+        (item) => item.status,
+      ),
+    ).toEqual([
+      "classified",
+      "surface_ready",
+      "verify_next",
+      "signal_seed",
+      "already_covered",
+    ]);
+    expect(
+      snapshot.data.publicTopology.scheduledSessionVisibility?.items.every(
+        (item) => item.publishDecision === "not_authorized",
+      ),
+    ).toBe(true);
     expect(snapshot.data.modules.length).toBeGreaterThan(0);
     expect(snapshot.data.modules.every((module) => module.realDataConnection === false)).toBe(
       true,

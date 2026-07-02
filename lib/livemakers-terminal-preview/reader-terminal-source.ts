@@ -2,6 +2,7 @@ import {
   terminalPreviewAdapterFixtureMock,
   terminalPreviewAdapterFixturePacket,
 } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
+import { getScheduledSessionVisibility } from "@/lib/livemakers-terminal-preview/scheduled-session-visibility";
 import type { TerminalAdapterPacket } from "@/lib/livemakers-terminal-adapter/types";
 import type { TerminalPreviewMock } from "@/lib/livemakers-terminal-preview/types";
 
@@ -48,6 +49,13 @@ export function getReviewedReaderTerminalSource(
 ): ReviewedReaderTerminalSourceSnapshot {
   const packet = options.packet ?? terminalPreviewAdapterFixturePacket;
   const reviewedAt = requiredReviewedTimestamp(packet.reviewed_at, "reviewed_at");
+  const data: TerminalPreviewMock = {
+    ...terminalPreviewAdapterFixtureMock,
+    publicTopology: {
+      ...terminalPreviewAdapterFixtureMock.publicTopology,
+      scheduledSessionVisibility: getScheduledSessionVisibility(),
+    },
+  };
 
   return {
     sourceId: "reader_terminal.homepage.reviewed_fixture_source.g33",
@@ -65,6 +73,6 @@ export function getReviewedReaderTerminalSource(
       reviewStatus: "reviewed_fixture",
       reviewedAt,
     },
-    data: terminalPreviewAdapterFixtureMock,
+    data,
   };
 }
