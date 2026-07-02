@@ -32,6 +32,12 @@ describe("reviewed reader terminal source", () => {
     expect(snapshot.packetId).toBe(
       "fixture.reader_terminal_public_topology.2026_07_01.g31",
     );
+    expect(snapshot.provenance).toEqual({
+      packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
+      sourceMode: "fixture_only",
+      reviewStatus: "reviewed_fixture",
+      reviewedAt: "2026-07-01T21:30:00+09:00",
+    });
     expect(snapshot.generatedAt).toBe("2026-07-01T21:30:00+09:00");
     expect(snapshot.reviewedAt).toBe("2026-07-01T21:30:00+09:00");
     expect(snapshot.data.routePolicy).toEqual({

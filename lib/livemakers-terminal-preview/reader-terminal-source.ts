@@ -8,6 +8,13 @@ import type { TerminalPreviewMock } from "@/lib/livemakers-terminal-preview/type
 export type ReviewedReaderTerminalSourceMode = "fixture_only";
 export type ReviewedReaderTerminalReviewStatus = "reviewed_fixture";
 
+export interface ReviewedReaderTerminalSourceProvenance {
+  packetId: string;
+  sourceMode: ReviewedReaderTerminalSourceMode;
+  reviewStatus: ReviewedReaderTerminalReviewStatus;
+  reviewedAt: string;
+}
+
 export interface ReviewedReaderTerminalSourceSnapshot {
   sourceId: "reader_terminal.homepage.reviewed_fixture_source.g33";
   sourceMode: ReviewedReaderTerminalSourceMode;
@@ -15,6 +22,7 @@ export interface ReviewedReaderTerminalSourceSnapshot {
   packetId: string;
   generatedAt: string;
   reviewedAt: string;
+  provenance: ReviewedReaderTerminalSourceProvenance;
   data: TerminalPreviewMock;
 }
 
@@ -39,6 +47,7 @@ export function getReviewedReaderTerminalSource(
   options: ReviewedReaderTerminalSourceOptions = {},
 ): ReviewedReaderTerminalSourceSnapshot {
   const packet = options.packet ?? terminalPreviewAdapterFixturePacket;
+  const reviewedAt = requiredReviewedTimestamp(packet.reviewed_at, "reviewed_at");
 
   return {
     sourceId: "reader_terminal.homepage.reviewed_fixture_source.g33",
@@ -49,10 +58,13 @@ export function getReviewedReaderTerminalSource(
       packet.generated_at,
       "generated_at",
     ),
-    reviewedAt: requiredReviewedTimestamp(
-      packet.reviewed_at,
-      "reviewed_at",
-    ),
+    reviewedAt,
+    provenance: {
+      packetId: packet.packet_id,
+      sourceMode: "fixture_only",
+      reviewStatus: "reviewed_fixture",
+      reviewedAt,
+    },
     data: terminalPreviewAdapterFixtureMock,
   };
 }
