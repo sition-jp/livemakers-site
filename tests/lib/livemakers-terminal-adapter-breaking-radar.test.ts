@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { breakingRadarAdapterFixture } from "@/lib/livemakers-terminal-adapter/breaking-radar-fixture";
-import { TerminalAdapterPacketSchema } from "@/lib/livemakers-terminal-adapter/types";
+import { validateBreakingRadarFixtureProvenance } from "@/lib/livemakers-terminal-adapter/breaking-radar-provenance";
+import {
+  TerminalAdapterPacketSchema,
+  type TerminalAdapterPacket,
+} from "@/lib/livemakers-terminal-adapter/types";
 import { findForbiddenTerminalVisibleTerms } from "@/lib/livemakers-terminal-adapter/visible-copy-safety";
 
 describe("breaking radar adapter fixture", () => {
@@ -19,6 +23,49 @@ describe("breaking radar adapter fixture", () => {
 
   it("keeps visible copy free of trading, execution, paper, and live wording", () => {
     expect(findForbiddenTerminalVisibleTerms(breakingRadarAdapterFixture)).toEqual([]);
+  });
+
+  it("passes the G37-A Breaking Radar fixture provenance validator", () => {
+    expect(validateBreakingRadarFixtureProvenance(breakingRadarAdapterFixture)).toEqual([]);
+  });
+
+  it("rejects displayable Breaking Radar sources that are not sanitized mock fixtures", () => {
+    const unsafe = {
+      ...breakingRadarAdapterFixture,
+      source_ledger: breakingRadarAdapterFixture.source_ledger.map((source) =>
+        source.source_id === "source.breaking_radar.xnews_fixture"
+          ? {
+              ...source,
+              source_visibility: "public",
+              source_url_or_path: "https://x.com/example/status/1",
+            }
+          : source,
+      ),
+    } as TerminalAdapterPacket;
+
+    expect(validateBreakingRadarFixtureProvenance(unsafe)).toContain(
+      "source.breaking_radar.xnews_fixture must remain a mock fixture without URL/path",
+    );
+  });
+
+  it("rejects manual snapshot provenance if it becomes public-displayable", () => {
+    const unsafe = {
+      ...breakingRadarAdapterFixture,
+      source_ledger: breakingRadarAdapterFixture.source_ledger.map((source) =>
+        source.source_id === "source.breaking_radar.manual_snapshot_internal"
+          ? {
+              ...source,
+              source_visibility: "mock",
+              source_confidence: "mock",
+              public_display_allowed: true,
+            }
+          : source,
+      ),
+    } as TerminalAdapterPacket;
+
+    expect(validateBreakingRadarFixtureProvenance(unsafe)).toContain(
+      "source.breaking_radar.manual_snapshot_internal must remain internal_path/internal_only and not public-displayable",
+    );
   });
 
   it("normalizes Breaking Radar sources into adapter-safe fixture sources", () => {
