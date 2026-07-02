@@ -19,13 +19,16 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 import { ReaderIntelligenceTerminal } from "@/components/terminal/ReaderIntelligenceTerminal";
-import { terminalPreviewAdapterFixtureMock } from "@/lib/livemakers-terminal-preview/adapter-fixture-data";
+import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 
 const copy = {
   eyebrow: "Reader Intelligence Terminal",
   title: "Live Radar and Published Intelligence",
   subtitle:
     "A compact terminal surface for breaking candidates, current state, and published research.",
+  sessionVisibilityTitle: "SDE session visibility",
+  sessionVisibilityAsOf: "As of",
+  sessionVisibilityPacket: "Packet",
   currentStateTitle: "Current-state strip",
   sourceStatusTitle: "Source status",
   sourceStatusReviewed: "Reviewed fixture",
@@ -39,6 +42,9 @@ const jaCopy = {
   title: "速報レーダーと公開済みインテリジェンス",
   subtitle:
     "速報候補、現況データ、公開済みリサーチをひとつの小さなターミナル面にまとめます。",
+  sessionVisibilityTitle: "SDEセッション可視化",
+  sessionVisibilityAsOf: "基準時刻",
+  sessionVisibilityPacket: "パケット",
   currentStateTitle: "現況ストリップ",
   sourceStatusTitle: "ソース状態",
   sourceStatusReviewed: "確認済みフィクスチャ",
@@ -48,11 +54,13 @@ const jaCopy = {
 };
 
 describe("ReaderIntelligenceTerminal", () => {
+  const terminalData = getReviewedReaderTerminalSource().data;
+
   it("renders a compact public terminal from the G31 reader topology", () => {
     render(
       <ReaderIntelligenceTerminal
         locale="en"
-        data={terminalPreviewAdapterFixtureMock}
+        data={terminalData}
         copy={copy}
         sourceProvenance={{
           packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
@@ -70,6 +78,29 @@ describe("ReaderIntelligenceTerminal", () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { level: 3, name: "Live Radar" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "SDE session visibility",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Asia Open Terminal")).toBeInTheDocument();
+    expect(screen.getByText("surface_ready")).toBeInTheDocument();
+    expect(screen.getByText("verify_next")).toBeInTheDocument();
+    expect(screen.getByText("signal_seed")).toBeInTheDocument();
+    expect(screen.getByText("already_covered")).toBeInTheDocument();
+    expect(screen.getByText("Bank capital check")).toBeInTheDocument();
+    expect(
+      screen.getByText("Cardano status wording needs direct confirmation."),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("deferred_to_signal_or_deep_dive"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        /Packet fixture\.scheduled_session_visibility\.2026_06_25_asia_open/,
+      ),
     ).toBeInTheDocument();
     expect(
       screen.getByRole("heading", {
@@ -116,7 +147,7 @@ describe("ReaderIntelligenceTerminal", () => {
     render(
       <ReaderIntelligenceTerminal
         locale="ja"
-        data={terminalPreviewAdapterFixtureMock}
+        data={terminalData}
         copy={jaCopy}
         sourceProvenance={{
           packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
@@ -128,6 +159,16 @@ describe("ReaderIntelligenceTerminal", () => {
     );
 
     expect(screen.getByText("ソース状態")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", {
+        level: 3,
+        name: "SDEセッション可視化",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("銀行資本チェック")).toBeInTheDocument();
+    expect(
+      screen.getByText("Cardanoの状態表現は直接確認が必要です。"),
+    ).toBeInTheDocument();
     expect(screen.getByText("確認済みフィクスチャ")).toBeInTheDocument();
     expect(
       screen.getByText("reviewed_fixture", { selector: ".font-mono" }),
@@ -150,10 +191,13 @@ describe("ReaderIntelligenceTerminal", () => {
     const { container } = render(
       <ReaderIntelligenceTerminal
         locale="en"
-        data={terminalPreviewAdapterFixtureMock}
+        data={terminalData}
         copy={copy}
       />,
     );
+
+    const sessionTitle = screen.getByText("Bank capital check");
+    expect(sessionTitle.closest("a")).toBeNull();
 
     const radarTitle = screen.getByText("AI model policy headlines are rising on X");
     expect(radarTitle.closest("a")).toBeNull();

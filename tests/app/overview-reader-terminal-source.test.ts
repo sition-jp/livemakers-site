@@ -15,6 +15,9 @@ describe("overview page reader terminal wiring", () => {
     expect(source).toContain("getReviewedReaderTerminalSource");
     expect(source).toContain("readerTerminalSource.data");
     expect(source).toContain("sourceProvenance={readerTerminalSource.provenance}");
+    expect(source).toContain('readerTerminalT("sessionVisibilityTitle")');
+    expect(source).toContain('readerTerminalT("sessionVisibilityAsOf")');
+    expect(source).toContain('readerTerminalT("sessionVisibilityPacket")');
     expect(source).toContain('readerTerminalT("sourceStatusTitle")');
     expect(source).not.toContain(
       "@/lib/livemakers-terminal-preview/adapter-fixture-data",

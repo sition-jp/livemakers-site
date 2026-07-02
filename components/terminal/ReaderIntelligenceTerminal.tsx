@@ -10,6 +10,9 @@ export interface ReaderIntelligenceTerminalCopy {
   eyebrow: string;
   title: string;
   subtitle: string;
+  sessionVisibilityTitle: string;
+  sessionVisibilityAsOf: string;
+  sessionVisibilityPacket: string;
   currentStateTitle: string;
   sourceStatusTitle: string;
   sourceStatusReviewed: string;
@@ -33,7 +36,8 @@ export function ReaderIntelligenceTerminal({
   copy: ReaderIntelligenceTerminalCopy;
   sourceProvenance?: ReviewedReaderTerminalSourceProvenance;
 }) {
-  const { liveRadar, articleNewsFeed } = data.publicTopology;
+  const { scheduledSessionVisibility, liveRadar, articleNewsFeed } =
+    data.publicTopology;
 
   return (
     <section
@@ -91,6 +95,57 @@ export function ReaderIntelligenceTerminal({
               )}
             </div>
           </div>
+
+          {scheduledSessionVisibility && (
+            <section className="border border-border-primary bg-bg-primary p-5">
+              <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h3 className="text-xs font-semibold uppercase tracking-label text-text-tertiary">
+                    {copy.sessionVisibilityTitle}
+                  </h3>
+                  <p className="mt-2 text-sm font-semibold text-text-primary">
+                    {pick(scheduledSessionVisibility.sessionLabel, locale)}
+                  </p>
+                </div>
+                <div className="space-y-1 text-right font-mono text-[10px] text-text-tertiary">
+                  <p>
+                    {copy.sessionVisibilityAsOf}{" "}
+                    {scheduledSessionVisibility.asOfJst}
+                  </p>
+                  <p>
+                    {copy.sessionVisibilityPacket}{" "}
+                    {scheduledSessionVisibility.sourcePacketId}
+                  </p>
+                </div>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+                {scheduledSessionVisibility.items.map((item) => (
+                  <article
+                    key={item.id}
+                    className="border border-border-primary bg-bg-secondary/40 p-4"
+                  >
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      <span className="border border-border-primary px-2 py-0.5 font-mono text-[10px] font-semibold normal-case tracking-normal text-pillar-overview">
+                        {item.status}
+                      </span>
+                      <span className="text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
+                        {item.family}
+                      </span>
+                    </div>
+                    <h4 className="mb-2 text-sm font-semibold leading-snug text-text-primary">
+                      {pick(item.title, locale)}
+                    </h4>
+                    <p className="text-sm leading-relaxed text-text-secondary">
+                      {pick(item.summary, locale)}
+                    </p>
+                    <p className="mt-3 font-mono text-[10px] text-text-tertiary">
+                      {item.reasonCode}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
 
           <section className="border border-border-primary bg-bg-secondary/40 p-5">
             <h3 className="mb-4 text-xs font-semibold uppercase tracking-label text-text-tertiary">
