@@ -25,6 +25,13 @@ describe("scheduled session reader visibility", () => {
       "vis_003_ai_inference_cost_signal_seed",
       "vis_006_duplicate_fed_row_already_covered",
     ]);
+    expect(visibility.items.map((item) => item.family)).toEqual([
+      "market",
+      "macro_liquidity",
+      "other",
+      "ai_capital_cycle",
+      "editorial",
+    ]);
   });
 
   it("keeps session visibility non-clickable and non-publishing", () => {
@@ -55,6 +62,9 @@ describe("scheduled session reader visibility", () => {
     expect(serialized).not.toContain("article_queue");
     expect(serialized).not.toContain("publish_audit");
     expect(serialized).not.toContain("publish_candidates");
+    expect(serialized).not.toContain("internal_sde_state");
+    expect(serialized).not.toContain("internal_only");
+    expect(serialized).not.toContain("source.g6b_control_plane_fixture");
     expect(serialized).not.toContain("/api/");
     expect(serialized).not.toContain("process.env");
     expect(serialized).not.toContain("fetch(");

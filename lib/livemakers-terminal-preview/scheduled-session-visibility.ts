@@ -164,6 +164,14 @@ function moduleById(
   return module;
 }
 
+function readerFacingFamily(module: TerminalAdapterModule): string {
+  if (module.data_family === "internal_sde_state") {
+    return "editorial";
+  }
+
+  return module.data_family;
+}
+
 function itemFromModule(
   packet: TerminalAdapterPacket,
   entry: ScheduledSessionVisibilityMapEntry,
@@ -173,7 +181,7 @@ function itemFromModule(
   return {
     id: entry.sourceItemId,
     status: entry.status,
-    family: module.data_family,
+    family: readerFacingFamily(module),
     title: titleFromModule(module, entry),
     summary: summaryFromModule(module, entry),
     sourceItemId: entry.sourceItemId,
