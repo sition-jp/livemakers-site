@@ -34,6 +34,19 @@ const copy = {
   sourceStatusPacket: "Packet",
 };
 
+const jaCopy = {
+  eyebrow: "読者向けインテリジェンス・ターミナル",
+  title: "速報レーダーと公開済みインテリジェンス",
+  subtitle:
+    "速報候補、現況データ、公開済みリサーチをひとつの小さなターミナル面にまとめます。",
+  currentStateTitle: "現況ストリップ",
+  sourceStatusTitle: "ソース状態",
+  sourceStatusReviewed: "確認済みフィクスチャ",
+  sourceStatusFixtureOnly: "フィクスチャのみ",
+  sourceStatusReviewedAt: "確認日時",
+  sourceStatusPacket: "パケット",
+};
+
 describe("ReaderIntelligenceTerminal", () => {
   it("renders a compact public terminal from the G31 reader topology", () => {
     render(
@@ -84,11 +97,51 @@ describe("ReaderIntelligenceTerminal", () => {
     expect(screen.getByText("Reviewed fixture")).toBeInTheDocument();
     expect(screen.getByText("Fixture only")).toBeInTheDocument();
     expect(
+      screen.getByText("reviewed_fixture", { selector: ".font-mono" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("fixture_only", { selector: ".font-mono" }),
+    ).toBeInTheDocument();
+    expect(
       screen.getByText(/Reviewed 2026-07-01T21:30:00\+09:00/),
     ).toBeInTheDocument();
     expect(
       screen.getByText(
         /Packet fixture\.reader_terminal_public_topology\.2026_07_01\.g31/,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the Japanese provenance row with exact payload values", () => {
+    render(
+      <ReaderIntelligenceTerminal
+        locale="ja"
+        data={terminalPreviewAdapterFixtureMock}
+        copy={jaCopy}
+        sourceProvenance={{
+          packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
+          sourceMode: "fixture_only",
+          reviewStatus: "reviewed_fixture",
+          reviewedAt: "2026-07-01T21:30:00+09:00",
+        }}
+      />,
+    );
+
+    expect(screen.getByText("ソース状態")).toBeInTheDocument();
+    expect(screen.getByText("確認済みフィクスチャ")).toBeInTheDocument();
+    expect(
+      screen.getByText("reviewed_fixture", { selector: ".font-mono" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("フィクスチャのみ")).toBeInTheDocument();
+    expect(
+      screen.getByText("fixture_only", { selector: ".font-mono" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("確認日時 2026-07-01T21:30:00+09:00"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "パケット fixture.reader_terminal_public_topology.2026_07_01.g31",
       ),
     ).toBeInTheDocument();
   });

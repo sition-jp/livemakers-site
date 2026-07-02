@@ -70,10 +70,16 @@ export function ReaderIntelligenceTerminal({
                     {copy.sourceStatusTitle}
                   </span>
                   <span className="border border-border-primary px-2 py-0.5 text-pillar-overview">
-                    {copy.sourceStatusReviewed}
+                    <span>{copy.sourceStatusReviewed}</span>
+                    <span className="ml-2 font-mono normal-case tracking-normal text-text-primary">
+                      {sourceProvenance.reviewStatus}
+                    </span>
                   </span>
                   <span className="border border-border-primary px-2 py-0.5">
-                    {copy.sourceStatusFixtureOnly}
+                    <span>{copy.sourceStatusFixtureOnly}</span>
+                    <span className="ml-2 font-mono normal-case tracking-normal text-text-primary">
+                      {sourceProvenance.sourceMode}
+                    </span>
                   </span>
                   <span className="font-mono normal-case tracking-normal">
                     {copy.sourceStatusReviewedAt} {sourceProvenance.reviewedAt}
