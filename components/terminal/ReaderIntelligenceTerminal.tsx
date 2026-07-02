@@ -108,7 +108,7 @@ export function ReaderIntelligenceTerminal({
                       {pick(item.title, locale)}
                     </h4>
                     <p className="text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
-                      {item.status.replaceAll("_", " ")}
+                      {item.status}
                     </p>
                     <p className="mt-2 text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
                       {pick(item.freshnessLabel, locale)}
