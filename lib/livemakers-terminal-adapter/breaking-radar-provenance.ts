@@ -62,6 +62,27 @@ function validateInternalManualSnapshot(
   return [];
 }
 
+function validateModuleSourceRefs(packet: TerminalAdapterPacket): string[] {
+  const displayableIds = new Set(displayableSourceIds);
+  const errors: string[] = [];
+
+  for (const module of packet.modules) {
+    if (module.module_id.startsWith("breaking_radar.")) {
+      const hasOnlyDisplayableRefs = module.source_refs.every((sourceRef) =>
+        displayableIds.has(sourceRef),
+      );
+
+      if (!hasOnlyDisplayableRefs) {
+        errors.push(
+          `${module.module_id} must reference only displayable Breaking Radar fixture sources`,
+        );
+      }
+    }
+  }
+
+  return errors;
+}
+
 export function validateBreakingRadarFixtureProvenance(
   packet: TerminalAdapterPacket,
 ): string[] {
@@ -74,6 +95,7 @@ export function validateBreakingRadarFixtureProvenance(
       sourceById(packet, internalManualSnapshotSourceId),
     ),
   );
+  errors.push(...validateModuleSourceRefs(packet));
 
   return errors;
 }

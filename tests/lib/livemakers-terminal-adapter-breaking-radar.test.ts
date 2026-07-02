@@ -68,6 +68,26 @@ describe("breaking radar adapter fixture", () => {
     );
   });
 
+  it("rejects modules that reference internal manual snapshot provenance", () => {
+    const unsafe = {
+      ...breakingRadarAdapterFixture,
+      modules: [
+        {
+          ...breakingRadarAdapterFixture.modules[0],
+          source_refs: [
+            ...breakingRadarAdapterFixture.modules[0].source_refs,
+            "source.breaking_radar.manual_snapshot_internal",
+          ],
+        },
+        ...breakingRadarAdapterFixture.modules.slice(1),
+      ],
+    } as TerminalAdapterPacket;
+
+    expect(validateBreakingRadarFixtureProvenance(unsafe)).toContain(
+      "breaking_radar.what_happened.bank_capital must reference only displayable Breaking Radar fixture sources",
+    );
+  });
+
   it("normalizes Breaking Radar sources into adapter-safe fixture sources", () => {
     expect(breakingRadarAdapterFixture.source_ledger.map((source) => source.source_id)).toEqual([
       "source.breaking_radar.xnews_fixture",
