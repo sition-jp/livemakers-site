@@ -51,7 +51,7 @@ export function ThemeToggle() {
           type="button"
           aria-pressed={theme === option}
           onClick={() => select(option)}
-          className={`px-2 py-0.5 text-[10px] font-semibold uppercase tracking-label transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-pillar-overview ${
+          className={`px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-label transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-pillar-overview sm:px-2 ${
             theme === option
               ? "bg-text-primary text-bg-primary"
               : "text-text-tertiary hover:text-text-primary"
