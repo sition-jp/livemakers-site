@@ -7,6 +7,8 @@ import { useLocale, useTranslations } from "next-intl";
 // strip-and-prepend correctly. next-intl's usePathname strips the locale.
 import { usePathname } from "next/navigation";
 import { LogoSvg } from "@/components/ui/LogoSvg";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { LogoColorBand } from "@/components/layout/LogoColorBand";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -29,6 +31,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
+      <LogoColorBand />
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-3 text-text-primary">
           <LogoSvg className="h-7 w-7 text-pillar-overview" />
@@ -66,6 +69,7 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <span className="flex items-center gap-2 text-[10px] tracking-label text-text-tertiary">
             <span className="h-2 w-2 animate-pulse rounded-full bg-status-live" />
             {t("live")}
