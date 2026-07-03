@@ -7,6 +7,8 @@ import { useLocale, useTranslations } from "next-intl";
 // strip-and-prepend correctly. next-intl's usePathname strips the locale.
 import { usePathname } from "next/navigation";
 import { LogoSvg } from "@/components/ui/LogoSvg";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { LogoColorBand } from "@/components/layout/LogoColorBand";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -29,12 +31,15 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
+      <LogoColorBand />
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-3 text-text-primary">
           <LogoSvg className="h-7 w-7 text-pillar-overview" />
           <span className="flex items-center gap-2">
             <span className="text-sm font-bold tracking-logo">LIVEMAKERS</span>
-            <span className="rounded border border-border-primary px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-label text-text-secondary">
+            {/* Hidden below sm so the brand row and the theme toggle both fit
+                a 390px viewport (G39-A1 review fix). */}
+            <span className="hidden rounded border border-border-primary px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-label text-text-secondary sm:inline-block">
               {t("alpha")}
             </span>
           </span>
@@ -65,10 +70,14 @@ export function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        {/* gap-2 below sm and a dot-only LIVE indicator keep the control row
+            inside a 390px viewport now that the theme toggle joined it
+            (G39-A1 review fix); full labels return from sm up. */}
+        <div className="flex items-center gap-2 sm:gap-4">
+          <ThemeToggle />
           <span className="flex items-center gap-2 text-[10px] tracking-label text-text-tertiary">
             <span className="h-2 w-2 animate-pulse rounded-full bg-status-live" />
-            {t("live")}
+            <span className="hidden sm:inline">{t("live")}</span>
           </span>
           <span
             className="hidden text-[10px] tracking-label text-text-tertiary md:inline"
@@ -76,7 +85,7 @@ export function Header() {
           >
             v{process.env.NEXT_PUBLIC_APP_VERSION}
           </span>
-          <div className="flex items-center gap-1 text-[10px] tracking-label">
+          <div className="flex shrink-0 items-center gap-1 whitespace-nowrap text-[10px] tracking-label">
             <button
               type="button"
               onClick={() => switchLocale("en")}

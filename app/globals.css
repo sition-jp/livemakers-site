@@ -1,36 +1,117 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@theme {
-  /* Base dark palette */
-  --color-bg-primary: #0a0d13;
-  --color-bg-secondary: #111621;
-  --color-bg-tertiary: #060a0f;
-  --color-border-primary: #1f2738;
-  --color-border-hover: #2d3850;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #97a5bb;
-  --color-text-tertiary: #6b7686;
+/*
+ * G39-A1 two-theme token layer.
+ *
+ * Light is the default theme (doctrine:
+ * livemakers-interface-light-first-macro-crypto-rwa, 2026-07-03) and dark is
+ * the opt-in variant behind html[data-theme="dark"]. Every utility name the
+ * components already use (bg-bg-primary, text-pillar-*, …) keeps working:
+ * @theme inline maps them onto the --lmk-* runtime variables that flip per
+ * theme, so no component needs to change for theming.
+ *
+ * Light accent values are darkened from the dark-theme hues to keep WCAG AA
+ * contrast on the near-white ground (design spec
+ * 2026-07-03-livemakers-interface-design-claude-fable-design.md §10).
+ */
 
-  /* Tab semantic colors */
-  --color-pillar-overview: #60a5fa;
-  --color-pillar-market: #22d3ee;
-  --color-pillar-ecosystem: #34d399;
-  --color-pillar-governance: #fbbf24;
-  --color-pillar-midnight: #a78bfa;
-  --color-pillar-risk: #f87171;
-  --color-pillar-projects: #f59e0b;
+:root {
+  /* Light (default) — cool neutral ground, never beige/cream */
+  --lmk-bg-primary: #f4f6f9;
+  --lmk-bg-secondary: #ffffff;
+  --lmk-bg-tertiary: #edf1f6;
+  --lmk-border-primary: #d7dee8;
+  --lmk-border-hover: #b9c4d4;
+  --lmk-text-primary: #17202e;
+  --lmk-text-secondary: #4c5a6e;
+  --lmk-text-tertiary: #8593a6;
 
-  /* Status */
-  --color-status-up: #22c55e;
-  --color-status-down: #ef4444;
-  --color-status-live: #22c55e;
+  --lmk-pillar-overview: #2563c7;
+  --lmk-pillar-market: #0e7c97;
+  --lmk-pillar-ecosystem: #177a50;
+  --lmk-pillar-governance: #9a6b12;
+  --lmk-pillar-midnight: #6d4fc7;
+  --lmk-pillar-risk: #b3403e;
+  --lmk-pillar-projects: #9a5b0b;
+
+  --lmk-status-up: #177a50;
+  --lmk-status-down: #b3403e;
+  --lmk-status-live: #177a50;
+
+  --lmk-staleness-live: #177a50;
+  --lmk-staleness-warn: #9a6b12;
+  --lmk-staleness-stale: #9a5b0b;
+  --lmk-staleness-hard: #b3403e;
+
+  /* Placeholder until the LiveMakers logo mark lands; the header band reads
+     this token so the final logo color is a one-line swap. */
+  --lmk-logo-color: #8593a6;
+
+  --lmk-selection: rgb(37 99 199 / 0.18);
+}
+
+[data-theme="dark"] {
+  --lmk-bg-primary: #0a0d13;
+  --lmk-bg-secondary: #111621;
+  --lmk-bg-tertiary: #060a0f;
+  --lmk-border-primary: #1f2738;
+  --lmk-border-hover: #2d3850;
+  --lmk-text-primary: #ffffff;
+  --lmk-text-secondary: #97a5bb;
+  --lmk-text-tertiary: #6b7686;
+
+  --lmk-pillar-overview: #60a5fa;
+  --lmk-pillar-market: #22d3ee;
+  --lmk-pillar-ecosystem: #34d399;
+  --lmk-pillar-governance: #fbbf24;
+  --lmk-pillar-midnight: #a78bfa;
+  --lmk-pillar-risk: #f87171;
+  --lmk-pillar-projects: #f59e0b;
+
+  --lmk-status-up: #22c55e;
+  --lmk-status-down: #ef4444;
+  --lmk-status-live: #22c55e;
 
   /* Staleness tiers (spec 2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.3) */
-  --color-staleness-live: #22c55e;   /* < 60s   — fresh */
-  --color-staleness-warn: #fbbf24;   /* 60-180s — slightly stale */
-  --color-staleness-stale: #f59e0b;  /* 180-360s — stale */
-  --color-staleness-hard: #ef4444;   /* ≥ 360s — very stale */
+  --lmk-staleness-live: #22c55e;   /* < 60s   — fresh */
+  --lmk-staleness-warn: #fbbf24;   /* 60-180s — slightly stale */
+  --lmk-staleness-stale: #f59e0b;  /* 180-360s — stale */
+  --lmk-staleness-hard: #ef4444;   /* ≥ 360s — very stale */
+
+  --lmk-logo-color: #66738a;
+
+  --lmk-selection: rgb(96 165 250 / 0.25);
+}
+
+@theme inline {
+  --color-bg-primary: var(--lmk-bg-primary);
+  --color-bg-secondary: var(--lmk-bg-secondary);
+  --color-bg-tertiary: var(--lmk-bg-tertiary);
+  --color-border-primary: var(--lmk-border-primary);
+  --color-border-hover: var(--lmk-border-hover);
+  --color-text-primary: var(--lmk-text-primary);
+  --color-text-secondary: var(--lmk-text-secondary);
+  --color-text-tertiary: var(--lmk-text-tertiary);
+
+  --color-pillar-overview: var(--lmk-pillar-overview);
+  --color-pillar-market: var(--lmk-pillar-market);
+  --color-pillar-ecosystem: var(--lmk-pillar-ecosystem);
+  --color-pillar-governance: var(--lmk-pillar-governance);
+  --color-pillar-midnight: var(--lmk-pillar-midnight);
+  --color-pillar-risk: var(--lmk-pillar-risk);
+  --color-pillar-projects: var(--lmk-pillar-projects);
+
+  --color-status-up: var(--lmk-status-up);
+  --color-status-down: var(--lmk-status-down);
+  --color-status-live: var(--lmk-status-live);
+
+  --color-staleness-live: var(--lmk-staleness-live);
+  --color-staleness-warn: var(--lmk-staleness-warn);
+  --color-staleness-stale: var(--lmk-staleness-stale);
+  --color-staleness-hard: var(--lmk-staleness-hard);
+
+  --color-logo: var(--lmk-logo-color);
 
   /* Typography */
   --font-sans: "Inter", "Noto Sans JP", sans-serif;
@@ -42,18 +123,18 @@
 
 @layer base {
   html {
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    background-color: var(--lmk-bg-primary);
+    color: var(--lmk-text-primary);
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: var(--color-bg-primary);
-    color: var(--color-text-primary);
+    background-color: var(--lmk-bg-primary);
+    color: var(--lmk-text-primary);
     min-height: 100vh;
   }
 
   ::selection {
-    background-color: rgb(96 165 250 / 0.25);
+    background-color: var(--lmk-selection);
   }
 }

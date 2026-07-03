@@ -22,9 +22,15 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
 
+  // Applies a stored dark preference before first paint so there is no
+  // light-flash for returning dark users. Light is the default and needs no
+  // attribute; suppressHydrationWarning covers the client-set data-theme.
+  const themeInitScript = `try{if(localStorage.getItem("lmk-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}`;
+
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <NextIntlClientProvider messages={messages}>
           <Header />
           <main>{children}</main>
