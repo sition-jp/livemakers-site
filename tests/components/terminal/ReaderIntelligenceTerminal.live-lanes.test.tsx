@@ -37,6 +37,7 @@ const copy = {
   radarNextSessionLabel: "next session",
   titleOnlyBadge: "Title only · no link",
   archiveLinkLabel: "Intelligence archive",
+  publishedOnXLabel: "Also published on X",
   sourceStatusTitle: "Source status",
   sourceStatusReviewed: "Reviewed fixture",
   sourceStatusFixtureOnly: "Fixture only",
@@ -193,5 +194,54 @@ describe("ReaderIntelligenceTerminal (G39-B B2 live market lanes)", () => {
     expect(macroIndex).toBeGreaterThan(-1);
     expect(cryptoIndex).toBeGreaterThan(macroIndex);
     expect(rwaIndex).toBeGreaterThan(cryptoIndex);
+  });
+
+  it("renders the site-native brief feed as primary and X posts as an external-link secondary (B4)", () => {
+    render(
+      <ReaderIntelligenceTerminal
+        locale="en"
+        data={terminalData}
+        copy={copy}
+        marketLanes={liveLanes}
+        articleNewsFeed={{
+          title: { en: "Published Intelligence", ja: "公開済みインテリジェンス" },
+          items: [
+            {
+              id: "feed.brief.2026-W27-brief",
+              family: "Weekly Brief",
+              title: { en: "The Window That Opened", ja: "開いた窓" },
+              href: "/brief/2026-W27-brief",
+              publishedAt: "2026-07-04T18:00:00+09:00",
+              excerpt: { en: "A live site-native brief.", ja: "サイト内 brief。" },
+            },
+          ],
+        }}
+        publishedPosts={{
+          items: [
+            {
+              account: "SIPO_Tokyo",
+              date: "2026-07-04",
+              title: "エポックな日々：640",
+              type: "epoch_report",
+              url: "https://x.com/SIPO_Tokyo/status/2073312137804702076",
+            },
+          ],
+        }}
+      />,
+    );
+
+    // primary: the site-native brief is the featured internal link
+    const featured = screen.getByRole("link", { name: /The Window That Opened/ });
+    expect(featured).toHaveAttribute("href", "/brief/2026-W27-brief");
+
+    // secondary: the X post is an external link that opens safely
+    const xLink = screen.getByRole("link", { name: /エポックな日々：640/ });
+    expect(xLink).toHaveAttribute(
+      "href",
+      "https://x.com/SIPO_Tokyo/status/2073312137804702076",
+    );
+    expect(xLink).toHaveAttribute("target", "_blank");
+    expect(xLink).toHaveAttribute("rel", expect.stringContaining("noopener"));
+    expect(screen.getByText("Also published on X")).toBeInTheDocument();
   });
 });

@@ -4,6 +4,7 @@ import { TickerBar } from "@/components/terminal/TickerBar";
 import { SiteTagline } from "@/components/terminal/SiteTagline";
 import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
+import { buildSiteNativePublishedFeed } from "@/lib/terminal/published-window";
 
 /**
  * G39-A2: the homepage is the reader intelligence terminal, full stop.
@@ -30,6 +31,7 @@ export default async function OverviewPage({
   const readerTerminalT = await getTranslations("overview.readerTerminal");
   const readerTerminalSource = getReviewedReaderTerminalSource();
   const liveMarket = await fetchLiveMarketData();
+  const publishedFeed = buildSiteNativePublishedFeed();
 
   return (
     <>
@@ -42,6 +44,8 @@ export default async function OverviewPage({
         marketLanes={liveMarket?.lanes}
         liveRadar={liveMarket?.liveRadar}
         scheduledSession={liveMarket?.scheduledSession}
+        articleNewsFeed={publishedFeed}
+        publishedPosts={liveMarket?.published}
         copy={{
           eyebrow: readerTerminalT("eyebrow"),
           title: readerTerminalT("title"),
@@ -57,6 +61,7 @@ export default async function OverviewPage({
           radarNextSessionLabel: readerTerminalT("radarNextSessionLabel"),
           titleOnlyBadge: readerTerminalT("titleOnlyBadge"),
           archiveLinkLabel: readerTerminalT("archiveLinkLabel"),
+          publishedOnXLabel: readerTerminalT("publishedOnXLabel"),
           sourceStatusTitle: readerTerminalT("sourceStatusTitle"),
           sourceStatusReviewed: readerTerminalT("sourceStatusReviewed"),
           sourceStatusFixtureOnly: readerTerminalT("sourceStatusFixtureOnly"),

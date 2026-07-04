@@ -299,3 +299,85 @@ describe("mapTerminalFeed — live radar (B3)", () => {
     expect(nulls?.scheduledSession).toBeNull();
   });
 });
+
+function samplePublishedWindow() {
+  return {
+    title: { en: "Published Intelligence", ja: "公開済インテリジェンス" },
+    items: [
+      {
+        account: "SIPO_Tokyo",
+        date: "2026-07-04",
+        title: "エポックな日々：640",
+        type: "epoch_report",
+        url: "https://x.com/SIPO_Tokyo/status/2073312137804702076",
+      },
+      {
+        account: "SITIONjp",
+        date: "2026-07-03",
+        title: "Daily Intel headline",
+        type: "daily_intel",
+        url: "https://x.com/SITIONjp/status/2072900000000000000",
+      },
+    ],
+  };
+}
+
+describe("mapTerminalFeed — published X feed (B4)", () => {
+  it("maps the published window when every item passes the url allowlist", () => {
+    const feed = sampleFeed();
+    feed.windows.published = samplePublishedWindow() as never;
+    const data = mapTerminalFeed(feed);
+    expect(data?.published).not.toBeNull();
+    expect(data?.published?.items).toHaveLength(2);
+    expect(data?.published?.items[0].account).toBe("SIPO_Tokyo");
+    expect(data?.published?.items[0].url).toContain("x.com/SIPO_Tokyo");
+  });
+
+  it("returns null for the empty placeholder window (no empty secondary heading)", () => {
+    const data = mapTerminalFeed(sampleFeed());
+    expect(data).not.toBeNull();
+    expect(data?.published).toBeNull();
+  });
+
+  it("degrades the whole section to null when any url is off the host allowlist", () => {
+    const feed = sampleFeed();
+    const published = samplePublishedWindow();
+    published.items[1].url = "https://evil.example.com/phish";
+    feed.windows.published = published as never;
+    expect(mapTerminalFeed(feed)?.published).toBeNull();
+  });
+
+  it("rejects non-https urls (no javascript: or http: external surface)", () => {
+    const feed = sampleFeed();
+    const published = samplePublishedWindow();
+    published.items[0].url = "http://x.com/SIPO_Tokyo/status/1";
+    feed.windows.published = published as never;
+    expect(mapTerminalFeed(feed)?.published).toBeNull();
+
+    const feed2 = sampleFeed();
+    const published2 = samplePublishedWindow();
+    // eslint-disable-next-line no-script-url
+    published2.items[0].url = "javascript:alert(1)";
+    feed2.windows.published = published2 as never;
+    expect(mapTerminalFeed(feed2)?.published).toBeNull();
+  });
+
+  it("degrades to null when a published item carries a key outside the whitelist", () => {
+    const feed = sampleFeed();
+    const published = samplePublishedWindow();
+    (published.items[0] as Record<string, unknown>).body = "full X thread text";
+    feed.windows.published = published as never;
+    expect(mapTerminalFeed(feed)?.published).toBeNull();
+  });
+
+  it("keeps market lanes live even when the published section is malformed", () => {
+    const feed = sampleFeed();
+    const published = samplePublishedWindow();
+    published.items[0].url = "not-a-url";
+    feed.windows.published = published as never;
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.published).toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.86");
+  });
+});
