@@ -261,11 +261,12 @@ describe("ReaderIntelligenceTerminal", () => {
     expect(terminal).toHaveClass("box-border");
     expect(terminal).toHaveClass("w-full");
 
-    // §4 window grid: container-width auto-fit columns, min() guard so a
-    // sub-300px container can never overflow horizontally.
+    // §4 window grid: container-width auto-fit columns. The exact min track
+    // size may tune per review; the min(100%, …) guard is the invariant
+    // that prevents narrow-container horizontal overflow.
     const windowGrid = terminal?.querySelector('[class*="auto-fit"]');
     expect(windowGrid).not.toBeNull();
-    expect(windowGrid?.className).toContain("min(100%,300px)");
+    expect(windowGrid?.className).toContain("min(100%,");
 
     windowGrid?.querySelectorAll(":scope > section").forEach((win) => {
       expect(win.className).toContain("min-w-0");

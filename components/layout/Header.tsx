@@ -32,7 +32,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
       <LogoColorBand />
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-[1920px] items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-3 text-text-primary">
           <LogoSvg className="h-7 w-7 text-pillar-overview" />
           <span className="flex items-center gap-2">

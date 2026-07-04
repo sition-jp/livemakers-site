@@ -16,7 +16,10 @@
  * 2026-07-03-livemakers-interface-design-claude-fable-design.md §10).
  */
 
-:root {
+/* [data-theme="light"] lets a subtree (e.g. the terminal-preview surface
+   with its local toggle) pin the light palette even under a dark page. */
+:root,
+[data-theme="light"] {
   /* Light (default) — cool neutral ground, never beige/cream */
   --lmk-bg-primary: #f4f6f9;
   --lmk-bg-secondary: #ffffff;
@@ -112,13 +115,20 @@
   --color-staleness-hard: var(--lmk-staleness-hard);
 
   --color-logo: var(--lmk-logo-color);
+}
 
-  /* Typography */
-  --font-sans: "Inter", "Noto Sans JP", sans-serif;
-  --letter-spacing-tabs: 0.08em;
-  --letter-spacing-label: 0.12em;
-  --letter-spacing-logo: 0.15em;
-  --letter-spacing-title: -0.01em;
+/* Typography lives in a plain (non-inline) @theme so the variables are also
+   emitted at :root — the base body rule reads var(--font-sans) at runtime,
+   which an inline theme would swallow (G39-A3 regression fix: the article
+   body fell back to the browser serif). The --tracking-* namespace is what
+   generates the tracking-label / tracking-title utilities in Tailwind v4. */
+@theme {
+  --font-sans: var(--font-inter), var(--font-noto-sans-jp), "Inter",
+    "Noto Sans JP", sans-serif;
+  --tracking-tabs: 0.08em;
+  --tracking-label: 0.12em;
+  --tracking-logo: 0.15em;
+  --tracking-title: -0.01em;
 }
 
 /* Typography-plugin articles follow the theme tokens in both themes, so no
@@ -143,6 +153,21 @@
   --tw-prose-pre-bg: var(--lmk-bg-tertiary);
   --tw-prose-th-borders: var(--lmk-border-primary);
   --tw-prose-td-borders: var(--lmk-border-primary);
+}
+
+/* Japanese long-form typography (2026-07-04 review): CJK body text needs a
+   taller line box and a touch of tracking than the Latin plugin defaults;
+   headings tighten punctuation with palt instead of extra tracking. All
+   values are single-line tunables. Unlayered to outrank plugin styles. */
+:lang(ja) .prose :where(p, li, blockquote) {
+  line-height: 2;
+  letter-spacing: 0.02em;
+}
+
+:lang(ja) .prose :where(h1, h2, h3, h4) {
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  font-feature-settings: "palt";
 }
 
 @layer base {

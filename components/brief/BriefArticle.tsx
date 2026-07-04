@@ -24,14 +24,21 @@ export function BriefArticle({
   const title = lang === "ja" ? metadata.title_ja : metadata.title_en;
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-16">
+    <article className="mx-auto max-w-4xl px-6 py-16">
       <header className="mb-12">
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <span className="text-[10px] tracking-label text-text-tertiary">
             ISSUE #{metadata.issue_number} · {metadata.week_label}
           </span>
         </div>
-        <h1 className="mb-6 text-4xl font-light leading-tight tracking-title md:text-5xl md:leading-[1.2]">
+        {/* JA titles need a taller line box than the Latin leading-tight */}
+        <h1
+          className={`mb-6 text-4xl font-light tracking-title md:text-5xl ${
+            lang === "ja"
+              ? "leading-snug md:leading-[1.35]"
+              : "leading-tight md:leading-[1.2]"
+          }`}
+        >
           {title}
         </h1>
         <div className="mb-6 flex flex-wrap items-center gap-4 text-[10px] tracking-label text-text-tertiary">
