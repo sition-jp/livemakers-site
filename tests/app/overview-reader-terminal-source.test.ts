@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 const pagePath = path.join(process.cwd(), "app/[locale]/page.tsx");
 
 describe("overview page reader terminal wiring", () => {
-  it("places ReaderIntelligenceTerminal after SiteTagline and before EditorialHero", () => {
+  it("places ReaderIntelligenceTerminal after SiteTagline with the briefs framing retired (G39-A2)", () => {
     const source = fs.readFileSync(pagePath, "utf-8");
 
     expect(source).toContain("@/components/terminal/ReaderIntelligenceTerminal");
@@ -27,11 +27,16 @@ describe("overview page reader terminal wiring", () => {
 
     const siteTaglineIndex = source.indexOf("<SiteTagline />");
     const readerTerminalIndex = source.indexOf("<ReaderIntelligenceTerminal");
-    const editorialHeroIndex = source.indexOf("<EditorialHero");
 
     expect(siteTaglineIndex).toBeGreaterThan(-1);
     expect(readerTerminalIndex).toBeGreaterThan(siteTaglineIndex);
-    expect(editorialHeroIndex).toBeGreaterThan(readerTerminalIndex);
+
+    // Doctrine §2/§5: the Cardano/Midnight WEEKLY BRIEFS framing is retired
+    // from the homepage — the terminal is the page.
+    expect(source).not.toContain("<EditorialHero");
+    expect(source).not.toContain("<NetworkPulse");
+    expect(source).not.toContain("<FourPanelStatus");
+    expect(source).not.toContain("<RecentBriefs");
   });
 
   it("does not connect the overview terminal to live or internal sources", () => {

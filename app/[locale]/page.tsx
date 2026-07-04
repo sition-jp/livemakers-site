@@ -1,15 +1,16 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { getAllBriefs, getLatestBrief } from "@/lib/briefs";
 import { ReaderIntelligenceTerminal } from "@/components/terminal/ReaderIntelligenceTerminal";
 import { TickerBar } from "@/components/terminal/TickerBar";
 import { SiteTagline } from "@/components/terminal/SiteTagline";
-import { EditorialHero } from "@/components/terminal/EditorialHero";
-import { NetworkPulse } from "@/components/terminal/NetworkPulse";
-import { FourPanelStatus } from "@/components/terminal/FourPanelStatus";
-import { RecentBriefs } from "@/components/terminal/RecentBriefs";
-import { SectionDivider } from "@/components/ui/SectionDivider";
 import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 
+/**
+ * G39-A2: the homepage is the reader intelligence terminal, full stop.
+ * The Cardano/Midnight-centered WEEKLY BRIEFS framing (EditorialHero /
+ * NetworkPulse / FourPanelStatus / RecentBriefs) is retired per doctrine
+ * §2/§5 — past briefs stay reachable through the /brief archive, linked
+ * from the Published Intelligence window.
+ */
 export default async function OverviewPage({
   params,
 }: {
@@ -20,10 +21,6 @@ export default async function OverviewPage({
   const readerTerminalLocale = locale === "ja" ? "ja" : "en";
   const readerTerminalT = await getTranslations("overview.readerTerminal");
   const readerTerminalSource = getReviewedReaderTerminalSource();
-
-  const latest = getLatestBrief();
-  const allBriefs = getAllBriefs();
-  const recent = allBriefs.filter((b) => b.slug !== latest?.slug).slice(0, 3);
 
   return (
     <>
@@ -40,7 +37,12 @@ export default async function OverviewPage({
           sessionVisibilityTitle: readerTerminalT("sessionVisibilityTitle"),
           sessionVisibilityAsOf: readerTerminalT("sessionVisibilityAsOf"),
           sessionVisibilityPacket: readerTerminalT("sessionVisibilityPacket"),
-          currentStateTitle: readerTerminalT("currentStateTitle"),
+          laneMacro: readerTerminalT("laneMacro"),
+          laneCrypto: readerTerminalT("laneCrypto"),
+          laneRwa: readerTerminalT("laneRwa"),
+          fixtureLabel: readerTerminalT("fixtureLabel"),
+          titleOnlyBadge: readerTerminalT("titleOnlyBadge"),
+          archiveLinkLabel: readerTerminalT("archiveLinkLabel"),
           sourceStatusTitle: readerTerminalT("sourceStatusTitle"),
           sourceStatusReviewed: readerTerminalT("sourceStatusReviewed"),
           sourceStatusFixtureOnly: readerTerminalT("sourceStatusFixtureOnly"),
@@ -48,20 +50,6 @@ export default async function OverviewPage({
           sourceStatusPacket: readerTerminalT("sourceStatusPacket"),
         }}
       />
-      {latest && (
-        <>
-          <EditorialHero brief={latest} locale={locale} />
-          <NetworkPulse snapshot={latest.metadata.ticker_snapshot} />
-          <FourPanelStatus summary={latest.metadata.four_panel_summary} locale={locale} />
-          <SectionDivider />
-          <RecentBriefs briefs={recent} locale={locale} />
-        </>
-      )}
-      {!latest && (
-        <section className="mx-auto max-w-7xl px-6 py-32 text-center text-text-tertiary">
-          No briefs published yet.
-        </section>
-      )}
     </>
   );
 }

@@ -29,7 +29,12 @@ const copy = {
   sessionVisibilityTitle: "SDE session visibility",
   sessionVisibilityAsOf: "As of",
   sessionVisibilityPacket: "Packet",
-  currentStateTitle: "Current-state strip",
+  laneMacro: "Macro",
+  laneCrypto: "Crypto",
+  laneRwa: "RWA",
+  fixtureLabel: "FIXTURE",
+  titleOnlyBadge: "Title only · no link",
+  archiveLinkLabel: "Intelligence archive (incl. past Weekly Briefs)",
   sourceStatusTitle: "Source status",
   sourceStatusReviewed: "Reviewed fixture",
   sourceStatusFixtureOnly: "Fixture only",
@@ -45,7 +50,12 @@ const jaCopy = {
   sessionVisibilityTitle: "SDEセッション可視化",
   sessionVisibilityAsOf: "基準時刻",
   sessionVisibilityPacket: "パケット",
-  currentStateTitle: "現況ストリップ",
+  laneMacro: "マクロ",
+  laneCrypto: "暗号資産",
+  laneRwa: "RWA",
+  fixtureLabel: "FIXTURE",
+  titleOnlyBadge: "タイトルのみ・非リンク",
+  archiveLinkLabel: "過去のインテリジェンス一覧(旧 Weekly Brief 含む)",
   sourceStatusTitle: "ソース状態",
   sourceStatusReviewed: "確認済みフィクスチャ",
   sourceStatusFixtureOnly: "フィクスチャのみ",
@@ -53,21 +63,23 @@ const jaCopy = {
   sourceStatusPacket: "パケット",
 };
 
+const provenance = {
+  packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
+  sourceMode: "fixture_only" as const,
+  reviewStatus: "reviewed_fixture" as const,
+  reviewedAt: "2026-07-01T21:30:00+09:00",
+};
+
 describe("ReaderIntelligenceTerminal", () => {
   const terminalData = getReviewedReaderTerminalSource().data;
 
-  it("renders a compact public terminal from the G31 reader topology", () => {
+  it("renders the terminal windows from the reader topology and market lanes", () => {
     render(
       <ReaderIntelligenceTerminal
         locale="en"
         data={terminalData}
         copy={copy}
-        sourceProvenance={{
-          packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
-          sourceMode: "fixture_only",
-          reviewStatus: "reviewed_fixture",
-          reviewedAt: "2026-07-01T21:30:00+09:00",
-        }}
+        sourceProvenance={provenance}
       />,
     );
 
@@ -108,12 +120,22 @@ describe("ReaderIntelligenceTerminal", () => {
         name: "Published Intelligence",
       }),
     ).toBeInTheDocument();
+
+    // Market-lane windows replace the old current-state strip (doctrine §2)
     expect(
-      screen.getByRole("heading", {
-        level: 3,
-        name: "Current-state strip",
-      }),
+      screen.getByRole("heading", { level: 3, name: "Macro" }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Crypto" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 3, name: "RWA" }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText("FIXTURE").length).toBeGreaterThan(0);
+    expect(screen.getByText("BTC / USD")).toBeInTheDocument();
+    // Cardano stays a lane member, not a pillar
+    expect(screen.getByText("ADA / USD")).toBeInTheDocument();
+
     expect(
       screen.getByText("AI model policy headlines are rising on X"),
     ).toBeInTheDocument();
@@ -126,7 +148,6 @@ describe("ReaderIntelligenceTerminal", () => {
         "On-chain state remains a Terminal data point, not a headline claim",
       ),
     ).toBeInTheDocument();
-    expect(screen.getByText("On-chain")).toBeInTheDocument();
     expect(screen.getByText("sde_review_pending")).toBeInTheDocument();
     expect(screen.getByText("Source status")).toBeInTheDocument();
     expect(screen.getByText("Reviewed fixture")).toBeInTheDocument();
@@ -147,18 +168,48 @@ describe("ReaderIntelligenceTerminal", () => {
     ).toBeInTheDocument();
   });
 
+  it("orders the windows by the doctrine §4 ledger in DOM order", () => {
+    const { container } = render(
+      <ReaderIntelligenceTerminal
+        locale="en"
+        data={terminalData}
+        copy={copy}
+      />,
+    );
+
+    const windowIds = Array.from(
+      container.querySelectorAll('h3[id^="window-"]'),
+    ).map((el) => el.id);
+
+    expect(windowIds).toEqual([
+      "window-live-radar",
+      "window-lane-macro",
+      "window-lane-crypto",
+      "window-lane-rwa",
+      "window-published",
+    ]);
+  });
+
+  it("renders unavailable lane values as an em dash, never zero", () => {
+    render(
+      <ReaderIntelligenceTerminal
+        locale="en"
+        data={terminalData}
+        copy={copy}
+      />,
+    );
+
+    expect(screen.getByText("TOKENIZED STOCKS")).toBeInTheDocument();
+    expect(screen.getByText("—")).toBeInTheDocument();
+  });
+
   it("renders the Japanese provenance row with exact payload values", () => {
     render(
       <ReaderIntelligenceTerminal
         locale="ja"
         data={terminalData}
         copy={jaCopy}
-        sourceProvenance={{
-          packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
-          sourceMode: "fixture_only",
-          reviewStatus: "reviewed_fixture",
-          reviewedAt: "2026-07-01T21:30:00+09:00",
-        }}
+        sourceProvenance={provenance}
       />,
     );
 
@@ -197,12 +248,7 @@ describe("ReaderIntelligenceTerminal", () => {
         locale="ja"
         data={terminalData}
         copy={jaCopy}
-        sourceProvenance={{
-          packetId: "fixture.reader_terminal_public_topology.2026_07_01.g31",
-          sourceMode: "fixture_only",
-          reviewStatus: "reviewed_fixture",
-          reviewedAt: "2026-07-01T21:30:00+09:00",
-        }}
+        sourceProvenance={provenance}
       />,
     );
 
@@ -215,14 +261,21 @@ describe("ReaderIntelligenceTerminal", () => {
     expect(terminal).toHaveClass("box-border");
     expect(terminal).toHaveClass("w-full");
 
-    const contentGrid = terminal?.querySelector(".grid.gap-8");
-    expect(contentGrid).toHaveClass("grid-cols-[minmax(0,1fr)]");
+    // §4 window grid: container-width auto-fit columns, min() guard so a
+    // sub-300px container can never overflow horizontally.
+    const windowGrid = terminal?.querySelector('[class*="auto-fit"]');
+    expect(windowGrid).not.toBeNull();
+    expect(windowGrid?.className).toContain("min(100%,300px)");
+
+    windowGrid?.querySelectorAll(":scope > section").forEach((win) => {
+      expect(win.className).toContain("min-w-0");
+    });
 
     const headerGrid = terminal?.querySelector(".grid.gap-4");
     expect(headerGrid).toHaveClass("min-w-0");
   });
 
-  it("keeps Live Radar title-only while article feed items are clickable", () => {
+  it("keeps Live Radar title-only while published items are clickable", () => {
     const { container } = render(
       <ReaderIntelligenceTerminal
         locale="en"
@@ -234,13 +287,25 @@ describe("ReaderIntelligenceTerminal", () => {
     const sessionTitle = screen.getByText("Bank capital check");
     expect(sessionTitle.closest("a")).toBeNull();
 
-    const radarTitle = screen.getByText("AI model policy headlines are rising on X");
+    const radarTitle = screen.getByText(
+      "AI model policy headlines are rising on X",
+    );
     expect(radarTitle.closest("a")).toBeNull();
+
+    // Every radar item carries the reader-facing non-link badge
+    expect(screen.getAllByText("Title only · no link").length).toBeGreaterThan(
+      0,
+    );
 
     const feedLink = screen.getByRole("link", {
       name: /The Window That Didn't Open/i,
     });
     expect(feedLink).toHaveAttribute("href", "/brief/2026-W26-brief");
+
+    const archiveLink = screen.getByRole("link", {
+      name: /Intelligence archive/i,
+    });
+    expect(archiveLink).toHaveAttribute("href", "/brief");
 
     expect(container.querySelector('a[href="/terminal-preview"]')).toBeNull();
     expect(container.querySelector('a[href^="file:"]')).toBeNull();
