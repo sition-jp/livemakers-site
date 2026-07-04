@@ -17,7 +17,8 @@ import {
  * - the payload is validated with a strict zod schema — any unknown tile key,
  *   wrong type, or wrong schema_version rejects the whole payload and the
  *   caller falls back to the reviewed fixture (never a partial render);
- * - the RWA lane stays on the fixture until the B5 gap work provides data;
+ * - the RWA lane (B5) reads the delivered payload (RWA TVL live; TOKENIZED
+ *   STOCKS still "—"); an invalid section falls back to the reviewed fixture;
  * - unavailable values arrive as null and render as "—" (unavailable_not_zero);
  * - fetch failures fall back silently — the fixture with its FIXTURE badge is
  *   the honest degraded state (design §3-4).
@@ -211,6 +212,22 @@ function mapTile(tile: FeedTile): MarketLaneTile {
 }
 
 /**
+ * G39-B B5: map the RWA lane from the delivered payload (RWA TVL is now live
+ * via the isolated collector; TOKENIZED STOCKS stays unavailable → "—").
+ * Returns null on any schema mismatch → the caller keeps the reviewed RWA
+ * fixture (independent degradation, same posture as macro/crypto/radar).
+ */
+function mapRwaLane(section: unknown): MarketLane | null {
+  const parsed = laneSchema.safeParse(section);
+  if (!parsed.success || parsed.data.key !== "rwa") return null;
+  return {
+    key: "rwa",
+    badge: parsed.data.badge as MarketLaneBadge,
+    tiles: parsed.data.tiles.map(mapTile),
+  };
+}
+
+/**
  * Validate and map the radar section. Returns null (→ the window keeps its
  * reviewed fixture) unless the strict schema AND the unmodified PR #13
  * validator both pass. Never a partial radar render.
@@ -282,8 +299,8 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
       badge: windows.cryptoLane.badge as MarketLaneBadge,
       tiles: windows.cryptoLane.tiles.map(mapTile),
     },
-    // RWA stays on the reviewed fixture until B5 provides real sources.
-    rwaFixture,
+    // B5: RWA reads the delivered lane; an invalid section keeps the fixture.
+    mapRwaLane(windows.rwaLane) ?? rwaFixture,
   ];
 
   const tickerItems: MarketTickerItem[] = ticker.map((item) => {

@@ -381,3 +381,64 @@ describe("mapTerminalFeed — published X feed (B4)", () => {
     expect(data?.lanes[0].tiles[0].value).toBe("100.86");
   });
 });
+
+function sampleRwaLane() {
+  return {
+    key: "rwa",
+    badge: "SNAPSHOT",
+    tiles: [
+      {
+        id: "rwa.tvl",
+        label: "RWA TVL",
+        value: "$25.3B",
+        note: { en: "On-chain RWA total value locked (DefiLlama)", ja: "オンチェーンRWA総額(DefiLlama)" },
+        asOf: "2026-07-05T01:45:00+09:00",
+        badge: "SNAPSHOT",
+      },
+      {
+        id: "rwa.stocks",
+        label: "TOKENIZED STOCKS",
+        value: null,
+        note: { en: "Awaiting data source selection", ja: "データソース選定待ち" },
+        asOf: null,
+        badge: "SNAPSHOT",
+      },
+    ],
+  };
+}
+
+describe("mapTerminalFeed — RWA lane (B5)", () => {
+  it("maps the delivered RWA lane (TVL live, stocks unavailable)", () => {
+    const feed = sampleFeed();
+    feed.windows.rwaLane = sampleRwaLane() as never;
+    const data = mapTerminalFeed(feed);
+    const rwa = data?.lanes.find((lane) => lane.key === "rwa");
+    const tiles = Object.fromEntries((rwa?.tiles ?? []).map((t) => [t.id, t]));
+    expect(tiles["rwa.tvl"].value).toBe("$25.3B");
+    expect(tiles["rwa.tvl"].asOfLabel).toBe("2026-07-05 01:45 JST");
+    expect(tiles["rwa.stocks"].value).toBeNull();
+  });
+
+  it("falls back to the reviewed RWA fixture when the lane is invalid", () => {
+    const feed = sampleFeed();
+    // sampleFeed ships rwaLane with tiles: [] (fails laneSchema min(1))
+    const data = mapTerminalFeed(feed);
+    const rwa = data?.lanes.find((lane) => lane.key === "rwa");
+    const fixtureRwa = marketLanesFixture.find((lane) => lane.key === "rwa");
+    expect(rwa).toEqual(fixtureRwa);
+    // macro/crypto stay live regardless
+    expect(data?.lanes[0].tiles[0].value).toBe("100.86");
+  });
+
+  it("keeps macro/crypto live when the RWA section has a bad tile", () => {
+    const feed = sampleFeed();
+    const rwa = sampleRwaLane();
+    (rwa.tiles[0] as Record<string, unknown>).extraKey = "nope";
+    feed.windows.rwaLane = rwa as never;
+    const data = mapTerminalFeed(feed);
+    const rwaLane = data?.lanes.find((lane) => lane.key === "rwa");
+    const fixtureRwa = marketLanesFixture.find((lane) => lane.key === "rwa");
+    expect(rwaLane).toEqual(fixtureRwa);
+    expect(data?.lanes[1].tiles[0].value).toBe("$62,579");
+  });
+});
