@@ -161,7 +161,29 @@
     "networkPulse": "NETWORK PULSE · AT PUBLISH",
     "fourPanelTitle": "STATUS SNAPSHOT",
     "recentBriefs": "RECENT BRIEFS",
-    "readFullBrief": "Read Full Brief →"
+    "readFullBrief": "Read Full Brief →",
+    "readerTerminal": {
+      "eyebrow": "Reader Intelligence Terminal",
+      "title": "Live Radar and Published Intelligence",
+      "subtitle": "Breaking candidates, current-state data, and published research in one compact terminal surface.",
+      "sessionVisibilityTitle": "SDE session visibility",
+      "sessionVisibilityAsOf": "As of",
+      "sessionVisibilityPacket": "Packet",
+      "currentStateTitle": "Current-state strip",
+      "sourceStatusTitle": "Source status",
+      "sourceStatusReviewed": "Reviewed fixture",
+      "sourceStatusFixtureOnly": "Fixture only",
+      "sourceStatusReviewedAt": "Reviewed",
+      "sourceStatusPacket": "Packet"
+    }
+  },
+  "terminalPreview": {
+    "mockBadge": "MOCK",
+    "fixtureOnly": "Fixture only",
+    "unavailable": "Unavailable",
+    "boundaryTitle": "Boundary note",
+    "boundaryBody": "Static preview only. No real data connection, production publication, or site log mutation.",
+    "sourceLedgerTitle": "Source ledger"
   },
   "brief": {
     "title": "WEEKLY BRIEFS",

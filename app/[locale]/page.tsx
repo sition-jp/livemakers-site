@@ -1,5 +1,6 @@
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getAllBriefs, getLatestBrief } from "@/lib/briefs";
+import { ReaderIntelligenceTerminal } from "@/components/terminal/ReaderIntelligenceTerminal";
 import { TickerBar } from "@/components/terminal/TickerBar";
 import { SiteTagline } from "@/components/terminal/SiteTagline";
 import { EditorialHero } from "@/components/terminal/EditorialHero";
@@ -7,6 +8,7 @@ import { NetworkPulse } from "@/components/terminal/NetworkPulse";
 import { FourPanelStatus } from "@/components/terminal/FourPanelStatus";
 import { RecentBriefs } from "@/components/terminal/RecentBriefs";
 import { SectionDivider } from "@/components/ui/SectionDivider";
+import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
 
 export default async function OverviewPage({
   params,
@@ -15,6 +17,9 @@ export default async function OverviewPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const readerTerminalLocale = locale === "ja" ? "ja" : "en";
+  const readerTerminalT = await getTranslations("overview.readerTerminal");
+  const readerTerminalSource = getReviewedReaderTerminalSource();
 
   const latest = getLatestBrief();
   const allBriefs = getAllBriefs();
@@ -24,6 +29,25 @@ export default async function OverviewPage({
     <>
       <TickerBar />
       <SiteTagline />
+      <ReaderIntelligenceTerminal
+        locale={readerTerminalLocale}
+        data={readerTerminalSource.data}
+        sourceProvenance={readerTerminalSource.provenance}
+        copy={{
+          eyebrow: readerTerminalT("eyebrow"),
+          title: readerTerminalT("title"),
+          subtitle: readerTerminalT("subtitle"),
+          sessionVisibilityTitle: readerTerminalT("sessionVisibilityTitle"),
+          sessionVisibilityAsOf: readerTerminalT("sessionVisibilityAsOf"),
+          sessionVisibilityPacket: readerTerminalT("sessionVisibilityPacket"),
+          currentStateTitle: readerTerminalT("currentStateTitle"),
+          sourceStatusTitle: readerTerminalT("sourceStatusTitle"),
+          sourceStatusReviewed: readerTerminalT("sourceStatusReviewed"),
+          sourceStatusFixtureOnly: readerTerminalT("sourceStatusFixtureOnly"),
+          sourceStatusReviewedAt: readerTerminalT("sourceStatusReviewedAt"),
+          sourceStatusPacket: readerTerminalT("sourceStatusPacket"),
+        }}
+      />
       {latest && (
         <>
           <EditorialHero brief={latest} locale={locale} />

@@ -1,0 +1,288 @@
+import type {
+  TerminalAdapterModule,
+  TerminalAdapterPacket,
+  TerminalAdapterSafety,
+  TerminalAdapterSource,
+} from "./types";
+
+const generatedAt = "2026-07-01T12:24:00+09:00";
+const reviewedAt = "2026-07-01T12:24:00+09:00";
+const asOfJst = "2026-06-25T07:18:02+09:00";
+
+const scheduledSessionSafety: TerminalAdapterSafety = {
+  prohibited_couplings_checked: {
+    trading_signal: true,
+    order_instruction: true,
+    paper_live: true,
+    at_feedback: true,
+    secrets: true,
+  },
+  public_display_safety: "needs_review",
+  blocking_reason: null,
+};
+
+const sources: TerminalAdapterSource[] = [
+  {
+    source_id: "source.fed_stress_test",
+    source_name: "Federal Reserve stress test source",
+    source_kind: "official",
+    source_url_or_path: "https://www.federalreserve.gov/newsevents/pressreleases/",
+    source_visibility: "public",
+    source_confidence: "medium",
+    generated_at: generatedAt,
+    reviewed_at: reviewedAt,
+    freshness_tier: "fresh",
+    limitations_en: "Official release page must be refreshed before publication wording.",
+    limitations_ja: "公開文言に使う前に公式リリースページの再確認が必要です。",
+    public_display_allowed: true,
+  },
+  {
+    source_id: "source.cardano_hardfork_status",
+    source_name: "Cardano hard fork status source",
+    source_kind: "primary",
+    source_url_or_path: "https://cardano.org/hardforks",
+    source_visibility: "public",
+    source_confidence: "medium",
+    generated_at: generatedAt,
+    reviewed_at: reviewedAt,
+    freshness_tier: "fresh",
+    limitations_en: "Protocol status wording needs direct status recheck before publication.",
+    limitations_ja: "プロトコル状態の表現は公開前に直接再確認が必要です。",
+    public_display_allowed: true,
+  },
+  {
+    source_id: "source.ai_inference_cost_fixture",
+    source_name: "AI inference cost fixture source",
+    source_kind: "editorial",
+    source_url_or_path: "https://openai.com/",
+    source_visibility: "mock",
+    source_confidence: "medium",
+    generated_at: generatedAt,
+    reviewed_at: reviewedAt,
+    freshness_tier: "fresh",
+    limitations_en: "Exact report URL and official wording need refresh before publication.",
+    limitations_ja: "公開前に正確な報道URLと公式表現の再確認が必要です。",
+    public_display_allowed: true,
+  },
+  {
+    source_id: "source.market_snapshot_fixture",
+    source_name: "Market snapshot fixture source",
+    source_kind: "fixture",
+    source_url_or_path: null,
+    source_visibility: "mock",
+    source_confidence: "mock",
+    generated_at: generatedAt,
+    reviewed_at: reviewedAt,
+    freshness_tier: "fresh",
+    limitations_en: "Synthetic market context for adapter validation only.",
+    limitations_ja: "adapter検証専用の合成マーケット文脈です。",
+    public_display_allowed: true,
+  },
+  {
+    source_id: "source.g6b_control_plane_fixture",
+    source_name: "P2-TERMINAL-G6b Control Plane fixture",
+    source_kind: "fixture",
+    source_url_or_path: null,
+    source_visibility: "internal_path",
+    source_confidence: "internal_only",
+    generated_at: generatedAt,
+    reviewed_at: reviewedAt,
+    freshness_tier: "unknown",
+    limitations_en: "Internal fixture provenance only; not reader-facing source material.",
+    limitations_ja: "内部フィクスチャ来歴のみで、読者向けソースではありません。",
+    public_display_allowed: false,
+  },
+];
+
+const unavailable = {
+  display_label_en: "Unavailable",
+  display_label_ja: "利用不可",
+  reason: "not_reviewed" as const,
+};
+
+function moduleBase(
+  overrides: Partial<TerminalAdapterModule>,
+): TerminalAdapterModule {
+  return {
+    module_id: "scheduled.market_state_header",
+    display_surface: "market_state_header",
+    data_family: "market",
+    content_kind: "editorial_interpretation",
+    module_status: "degraded",
+    public_display_safety: "needs_review",
+    source_refs: ["source.market_snapshot_fixture", "source.g6b_control_plane_fixture"],
+    generated_at: generatedAt,
+    reviewed_at: reviewedAt,
+    freshness_tier: "fresh",
+    source_confidence: "medium",
+    null_policy: "unavailable_not_zero",
+    value_policy: {
+      may_show_numeric_value: false,
+      may_show_directional_language: false,
+      may_show_advice_language: false,
+    },
+    unavailable,
+    payload: {},
+    ...overrides,
+  };
+}
+
+const modules: TerminalAdapterModule[] = [
+  moduleBase({
+    module_id: "scheduled.market_state_header",
+    display_surface: "market_state_header",
+    data_family: "market",
+    content_kind: "editorial_interpretation",
+    source_refs: ["source.market_snapshot_fixture", "source.g6b_control_plane_fixture"],
+    payload: {
+      label_en: "Asia Open market state",
+      label_ja: "Asia Open市場状態",
+      summary_en: "Cross-asset pressure is treated as session context, not an article decision.",
+      summary_ja: "クロスアセットの圧力は記事判断ではなくセッション文脈として扱います。",
+      source_item_id: "vis_004_cross_asset_risk_classified",
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.what_happened.macro",
+    display_surface: "what_happened",
+    data_family: "macro_liquidity",
+    content_kind: "editorial_interpretation",
+    source_refs: ["source.fed_stress_test", "source.g6b_control_plane_fixture"],
+    payload: {
+      label_en: "Bank capital check",
+      label_ja: "銀行資本チェック",
+      summary_en: "The stress-test item is visible as macro and liquidity context, pending source refresh.",
+      summary_ja: "ストレステスト項目は、ソース再確認前のマクロ・流動性文脈として表示します。",
+      source_item_id: "vis_001_fed_stress_test_surface_ready",
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.what_happened.ai_cost",
+    display_surface: "what_happened",
+    data_family: "ai_capital_cycle",
+    content_kind: "watch_item",
+    source_refs: ["source.ai_inference_cost_fixture", "source.g6b_control_plane_fixture"],
+    payload: {
+      label_en: "AI inference cost watch",
+      label_ja: "AI推論コスト観測",
+      summary_en: "Inference-cost competition is held as future coverage seed material.",
+      summary_ja: "推論コスト競争は今後の深掘り候補として保持します。",
+      source_item_id: "vis_003_ai_inference_cost_signal_seed",
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.leading_indicators",
+    display_surface: "leading_indicators",
+    data_family: "other",
+    content_kind: "watch_item",
+    source_refs: [
+      "source.cardano_hardfork_status",
+      "source.ai_inference_cost_fixture",
+      "source.market_snapshot_fixture",
+      "source.g6b_control_plane_fixture",
+    ],
+    payload: {
+      label_en: "Next checks",
+      label_ja: "次の確認点",
+      items: [
+        "Cardano status wording needs direct confirmation.",
+        "AI cost claims need exact source refresh.",
+        "Cross-asset context stays terminal-only.",
+      ],
+      items_ja: [
+        "Cardanoの状態表現は直接確認が必要です。",
+        "AIコスト関連の主張は正確なソース再確認が必要です。",
+        "クロスアセット文脈はターミナル内の確認材料に留めます。",
+      ],
+      source_item_ids: [
+        "vis_002_cardano_hf_verify_next",
+        "vis_003_ai_inference_cost_signal_seed",
+        "vis_004_cross_asset_risk_classified",
+      ],
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.scenario_radar.policy_hold",
+    display_surface: "scenario_radar",
+    data_family: "policy_regulatory",
+    content_kind: "scenario",
+    source_refs: ["source.g6b_control_plane_fixture"],
+    source_confidence: "internal_only",
+    payload: {
+      label_en: "Policy hold watch",
+      label_ja: "政策保留観測",
+      summary_en: "The policy item stays held to avoid overclaiming a finalized event.",
+      summary_ja: "政策項目は確定イベントのように見せないため保留します。",
+      source_item_id: "vis_005_save_act_hold_watch",
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.source_ledger",
+    display_surface: "source_ledger",
+    data_family: "internal_sde_state",
+    content_kind: "reviewed_data",
+    source_refs: [
+      "source.fed_stress_test",
+      "source.cardano_hardfork_status",
+      "source.ai_inference_cost_fixture",
+      "source.market_snapshot_fixture",
+    ],
+    payload: {
+      label_en: "Source discipline",
+      label_ja: "ソース規律",
+      summary_en: "Public sources and fixture-only provenance stay separated.",
+      summary_ja: "公開ソースとフィクスチャ来歴を分けて扱います。",
+      source_count: 4,
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.already_covered.blocked",
+    display_surface: "boundary_note",
+    data_family: "internal_sde_state",
+    content_kind: "editorial_interpretation",
+    module_status: "blocked",
+    public_display_safety: "blocked",
+    source_refs: ["source.g6b_control_plane_fixture"],
+    source_confidence: "internal_only",
+    freshness_tier: "unknown",
+    payload: {},
+    unavailable: {
+      display_label_en: "Blocked",
+      display_label_ja: "ブロック",
+      reason: "safety_block",
+    },
+  }),
+  moduleBase({
+    module_id: "scheduled.boundary_note",
+    display_surface: "boundary_note",
+    data_family: "internal_sde_state",
+    content_kind: "editorial_interpretation",
+    module_status: "ready",
+    public_display_safety: "internal_only",
+    source_refs: ["source.g6b_control_plane_fixture"],
+    source_confidence: "internal_only",
+    freshness_tier: "unknown",
+    payload: {
+      label_en: "Boundary note",
+      label_ja: "境界メモ",
+      summary_en: "Fixture-only packet; no route, posting, or deployment change is authorized.",
+      summary_ja: "フィクスチャ専用packetであり、route・投稿・deployの変更は許可しません。",
+    },
+  }),
+];
+
+export const scheduledSessionVisibilityAdapterFixture: TerminalAdapterPacket = {
+  schema_version: "livemakers_terminal_adapter_packet_v0.1",
+  packet_id: "fixture.scheduled_session_visibility.2026_06_25_asia_open",
+  generated_at: generatedAt,
+  reviewed_at: reviewedAt,
+  as_of_jst: asOfJst,
+  locale_ready: {
+    en: true,
+    ja: true,
+  },
+  packet_status: "degraded",
+  modules,
+  source_ledger: sources,
+  safety: scheduledSessionSafety,
+};

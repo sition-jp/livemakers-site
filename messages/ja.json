@@ -161,7 +161,29 @@
     "networkPulse": "ネットワーク・パルス · 発行時点スナップショット",
     "fourPanelTitle": "ステータス・スナップショット",
     "recentBriefs": "過去のブリーフ",
-    "readFullBrief": "ブリーフ全文を読む →"
+    "readFullBrief": "ブリーフ全文を読む →",
+    "readerTerminal": {
+      "eyebrow": "読者向けインテリジェンス・ターミナル",
+      "title": "速報レーダーと公開済みインテリジェンス",
+      "subtitle": "速報候補、現況データ、公開済みリサーチをひとつの小さなターミナル面にまとめます。",
+      "sessionVisibilityTitle": "SDEセッション可視化",
+      "sessionVisibilityAsOf": "基準時刻",
+      "sessionVisibilityPacket": "パケット",
+      "currentStateTitle": "現況ストリップ",
+      "sourceStatusTitle": "ソース状態",
+      "sourceStatusReviewed": "確認済みフィクスチャ",
+      "sourceStatusFixtureOnly": "フィクスチャのみ",
+      "sourceStatusReviewedAt": "確認日時",
+      "sourceStatusPacket": "パケット"
+    }
+  },
+  "terminalPreview": {
+    "mockBadge": "MOCK",
+    "fixtureOnly": "フィクスチャのみ",
+    "unavailable": "利用不可",
+    "boundaryTitle": "境界メモ",
+    "boundaryBody": "静的 preview のみ。実データ接続、本番公開、site log mutation はありません。",
+    "sourceLedgerTitle": "ソース台帳"
   },
   "brief": {
     "title": "ウィークリー・ブリーフ",
