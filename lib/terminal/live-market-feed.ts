@@ -27,7 +27,14 @@ import {
  * (validateBreakingRadarTitleWindow) on top of a strict zod schema. Radar
  * degradation is independent: an invalid radar section nulls only
  * `liveRadar` (the window keeps its reviewed fixture) while the market
- * lanes and ticker stay live. The published window connects in B4.
+ * lanes and ticker stay live.
+ *
+ * G39-B B4: the published_log projection (X-published intelligence) is read
+ * as `published` — the secondary feed under the site-native brief list. It is
+ * the only external-link surface, so its urls are host-allowlisted; a
+ * malformed section nulls only `published` (the site-native briefs still
+ * render). The site-native primary feed is built separately at request time
+ * from the on-disk briefs (see lib/terminal/published-window.ts).
  */
 
 export const TERMINAL_FEED_ENV_KEY = "LIVEMAKERS_TERMINAL_FEED_URL";
@@ -104,6 +111,33 @@ const scheduledSessionSchema = z
   })
   .strict();
 
+/**
+ * G39-B B4: the published_log projection (X-published intelligence). This is
+ * the secondary feed under the site-native brief list, and the only external
+ * link surface in the whole terminal — so the url is host-allowlisted to the
+ * accounts SITION actually publishes from. Anything else rejects the whole
+ * section (never a partial external-link render).
+ */
+const PUBLISHED_URL_ALLOWLIST =
+  /^https:\/\/(www\.)?(x\.com|twitter\.com|sipo\.tokyo|livemakers\.com)\/[^\s]*$/;
+
+const publishedPostSchema = z
+  .object({
+    account: z.string().min(1).max(40),
+    date: z.string().min(1).max(32),
+    title: z.string().min(1).max(280),
+    type: z.string().min(1).max(40),
+    url: z.string().regex(PUBLISHED_URL_ALLOWLIST),
+  })
+  .strict();
+
+const publishedWindowSchema = z
+  .object({
+    title: localizedTextSchema,
+    items: z.array(publishedPostSchema),
+  })
+  .strict();
+
 const terminalFeedSchema = z
   .object({
     schema_version: z.literal(TERMINAL_FEED_SCHEMA_VERSION),
@@ -113,8 +147,8 @@ const terminalFeedSchema = z
         macroLane: laneSchema,
         cryptoLane: laneSchema,
       })
-      // liveRadar / scheduledSession are parsed separately (independent
-      // degradation — see mapLiveRadar); published stays unread until B4.
+      // liveRadar / scheduledSession / published are parsed separately
+      // (independent degradation — see mapLiveRadar / mapPublished).
       .passthrough(),
     ticker: z.array(tickerItemSchema),
   })
@@ -131,12 +165,25 @@ export interface ScheduledSessionTimes {
   nextScheduledLabel?: string;
 }
 
+export interface PublishedPost {
+  account: string;
+  date: string;
+  title: string;
+  type: string;
+  url: string;
+}
+
+export interface PublishedFeedData {
+  items: PublishedPost[];
+}
+
 export interface LiveMarketData {
   lanes: MarketLane[];
   ticker: MarketTickerItem[];
   generatedAt: string;
   liveRadar: LiveRadarData | null;
   scheduledSession: ScheduledSessionTimes | null;
+  published: PublishedFeedData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -197,6 +244,19 @@ function mapScheduledSession(section: unknown): ScheduledSessionTimes | null {
 }
 
 /**
+ * Validate and map the published (X) section. Returns null (→ the window shows
+ * only the site-native brief feed) unless every item passes the strict schema
+ * — including the url host allowlist. An empty list also returns null: no
+ * secondary feed rather than an empty heading.
+ */
+function mapPublished(section: unknown): PublishedFeedData | null {
+  const parsed = publishedWindowSchema.safeParse(section);
+  if (!parsed.success) return null;
+  if (parsed.data.items.length === 0) return null;
+  return { items: parsed.data.items };
+}
+
+/**
  * Validate and map a terminal feed payload. Returns null when the payload is
  * not exactly what the contract promises — the caller keeps the fixture.
  */
@@ -243,6 +303,7 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     generatedAt,
     liveRadar: mapLiveRadar(windows.liveRadar),
     scheduledSession: mapScheduledSession(windows.scheduledSession),
+    published: mapPublished(windows.published),
   };
 }
 

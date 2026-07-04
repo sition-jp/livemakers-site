@@ -181,7 +181,8 @@
       "radarUpdatedLabel": "updated",
       "radarNextSessionLabel": "next session",
       "titleOnlyBadge": "Title only · no link",
-      "archiveLinkLabel": "Intelligence archive (incl. past Weekly Briefs)"
+      "archiveLinkLabel": "Intelligence archive (incl. past Weekly Briefs)",
+      "publishedOnXLabel": "Also published on X"
     }
   },
   "terminalPreview": {

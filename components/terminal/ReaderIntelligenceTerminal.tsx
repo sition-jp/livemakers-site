@@ -8,8 +8,10 @@ import type {
 } from "@/lib/livemakers-terminal-preview/types";
 import type {
   LiveRadarData,
+  PublishedFeedData,
   ScheduledSessionTimes,
 } from "@/lib/terminal/live-market-feed";
+import type { SiteNativePublishedFeed } from "@/lib/terminal/published-window";
 import {
   marketLanesFixture,
   type MarketLane,
@@ -31,6 +33,7 @@ export interface ReaderIntelligenceTerminalCopy {
   radarNextSessionLabel: string;
   titleOnlyBadge: string;
   archiveLinkLabel: string;
+  publishedOnXLabel: string;
   sourceStatusTitle: string;
   sourceStatusReviewed: string;
   sourceStatusFixtureOnly: string;
@@ -100,6 +103,8 @@ export function ReaderIntelligenceTerminal({
   marketLanes = marketLanesFixture,
   liveRadar: liveRadarFeed = null,
   scheduledSession = null,
+  articleNewsFeed: liveArticleNewsFeed = null,
+  publishedPosts = null,
 }: {
   locale: TerminalPreviewLocale;
   data: TerminalPreviewMock;
@@ -108,9 +113,16 @@ export function ReaderIntelligenceTerminal({
   marketLanes?: MarketLane[];
   liveRadar?: LiveRadarData | null;
   scheduledSession?: ScheduledSessionTimes | null;
+  articleNewsFeed?: SiteNativePublishedFeed | null;
+  publishedPosts?: PublishedFeedData | null;
 }) {
-  const { scheduledSessionVisibility, liveRadar, articleNewsFeed } =
-    data.publicTopology;
+  const { scheduledSessionVisibility, liveRadar } = data.publicTopology;
+
+  /* G39-B B4: the Published window prefers the site-native brief feed (built
+     from disk); the reviewed fixture is the fallback. The X-published posts
+     render as a clearly-separated, badge-marked secondary feed below. */
+  const articleNewsFeed =
+    liveArticleNewsFeed ?? data.publicTopology.articleNewsFeed;
 
   /* G39-B B3: the radar window prefers the delivered (validator-gated) feed
      items; the reviewed fixture is the degraded state. The header stays
@@ -414,6 +426,35 @@ export function ReaderIntelligenceTerminal({
                   </Link>
                 </article>
               ))}
+            </div>
+          )}
+          {publishedPosts && publishedPosts.items.length > 0 && (
+            <div className="mt-6 border-t border-border-primary pt-4">
+              <p className="mb-3 text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
+                {copy.publishedOnXLabel}
+              </p>
+              <ul className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+                {publishedPosts.items.map((post) => (
+                  <li key={post.url} className="py-1.5">
+                    <a
+                      href={post.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-baseline gap-2"
+                    >
+                      <span className="shrink-0 border border-border-primary px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-label text-text-tertiary">
+                        {post.account}
+                      </span>
+                      <span className="min-w-0 flex-1 truncate text-xs leading-relaxed text-text-secondary group-hover:text-pillar-overview">
+                        {post.title}
+                      </span>
+                      <span className="shrink-0 font-mono text-[10px] text-text-tertiary">
+                        {post.date}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
           <Link

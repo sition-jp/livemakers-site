@@ -35,7 +35,8 @@ export type TerminalArticleFamily =
   | "Daily Intel"
   | "12 indicators"
   | "Next Era Map"
-  | "Weekend 12 indicators";
+  | "Weekend 12 indicators"
+  | "Weekly Brief";
 
 export interface TerminalArticleNewsFeedItem {
   id: string;
