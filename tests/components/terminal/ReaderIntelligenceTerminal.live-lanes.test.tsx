@@ -33,6 +33,8 @@ const copy = {
   laneCrypto: "Crypto",
   laneRwa: "RWA",
   fixtureLabel: "FIXTURE",
+  radarUpdatedLabel: "updated",
+  radarNextSessionLabel: "next session",
   titleOnlyBadge: "Title only · no link",
   archiveLinkLabel: "Intelligence archive",
   sourceStatusTitle: "Source status",
@@ -106,6 +108,71 @@ describe("ReaderIntelligenceTerminal (G39-B B2 live market lanes)", () => {
     expect(screen.getAllByText("—")).toHaveLength(2);
     // the RWA fixture lane still declares itself FIXTURE
     expect(screen.getAllByText("FIXTURE").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("renders delivered radar items with the session header (B3)", () => {
+    render(
+      <ReaderIntelligenceTerminal
+        locale="en"
+        data={terminalData}
+        copy={copy}
+        marketLanes={liveLanes}
+        liveRadar={{
+          badge: "SESSION",
+          asOfLabel: "2026-07-04 18:20 JST",
+          items: [
+            {
+              id: "radar.a1",
+              sourceLane: "x_news_trends",
+              sourceLabel: { en: "X", ja: "X" },
+              family: "market_news",
+              title: {
+                en: "Treasury tightens stablecoin oversight",
+                ja: "Treasury tightens stablecoin oversight",
+              },
+              status: "breaking",
+              freshnessLabel: { en: "as of 18:05 JST", ja: "18:05 JST 時点" },
+              displayMode: "title_only",
+              publishDecision: "not_authorized",
+              href: null,
+            },
+          ],
+        }}
+        scheduledSession={{
+          lastCompletedLabel: "2026-07-04 18:20 JST",
+          nextScheduledLabel: "2026-07-04 22:33 JST",
+        }}
+      />,
+    );
+
+    expect(
+      screen.getByText("Treasury tightens stablecoin oversight"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "SESSION · updated 2026-07-04 18:20 JST · next session 2026-07-04 22:33 JST",
+      ),
+    ).toBeInTheDocument();
+    // fixture radar items are replaced, not appended
+    expect(screen.getAllByText("Title only · no link").length).toBe(1);
+  });
+
+  it("keeps the reviewed fixture radar when the feed radar is absent (B3 degraded state)", () => {
+    render(
+      <ReaderIntelligenceTerminal
+        locale="en"
+        data={terminalData}
+        copy={copy}
+        marketLanes={liveLanes}
+        liveRadar={null}
+        scheduledSession={null}
+      />,
+    );
+    const fixtureItems = terminalData.publicTopology.liveRadar.items;
+    expect(fixtureItems.length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(fixtureItems[0].title.en),
+    ).toBeInTheDocument();
   });
 
   it("keeps the ledger window order macro → crypto → rwa", () => {

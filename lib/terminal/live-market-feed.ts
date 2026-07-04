@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { validateBreakingRadarTitleWindow } from "@/lib/livemakers-terminal-preview/breaking-radar-title-window";
+import type { TerminalLiveRadarItem } from "@/lib/livemakers-terminal-preview/types";
 import {
   marketLanesFixture,
   type MarketLane,
@@ -20,8 +22,12 @@ import {
  * - fetch failures fall back silently — the fixture with its FIXTURE badge is
  *   the honest degraded state (design §3-4).
  *
- * The Breaking Radar / published windows are NOT read from this feed in B2 —
- * those connect in B3/B4 behind the unmodified PR #13 validators.
+ * G39-B B3: the Live Radar window and the scheduled-session times are read
+ * from the same payload, gated by the UNMODIFIED PR #13 validator
+ * (validateBreakingRadarTitleWindow) on top of a strict zod schema. Radar
+ * degradation is independent: an invalid radar section nulls only
+ * `liveRadar` (the window keeps its reviewed fixture) while the market
+ * lanes and ticker stay live. The published window connects in B4.
  */
 
 export const TERMINAL_FEED_ENV_KEY = "LIVEMAKERS_TERMINAL_FEED_URL";
@@ -63,6 +69,41 @@ const tickerItemSchema = z
   })
   .strict();
 
+const radarItemSchema = z
+  .object({
+    id: z.string().min(1),
+    sourceLane: z.enum([
+      "x_news_trends",
+      "sde_phase1_breaking_radar",
+      "manual_operator_observation",
+    ]),
+    sourceLabel: localizedTextSchema,
+    family: z.string().min(1),
+    title: localizedTextSchema,
+    status: z.enum(["breaking", "checking", "sde_review_pending"]),
+    freshnessLabel: localizedTextSchema,
+    displayMode: z.literal("title_only"),
+    publishDecision: z.literal("not_authorized"),
+    href: z.null(),
+  })
+  .strict();
+
+const liveRadarWindowSchema = z
+  .object({
+    title: localizedTextSchema,
+    badge: badgeSchema,
+    asOf: z.string().nullable(),
+    items: z.array(radarItemSchema).min(1),
+  })
+  .strict();
+
+const scheduledSessionSchema = z
+  .object({
+    lastCompletedAt: z.string().nullable(),
+    nextScheduledAt: z.string().nullable(),
+  })
+  .strict();
+
 const terminalFeedSchema = z
   .object({
     schema_version: z.literal(TERMINAL_FEED_SCHEMA_VERSION),
@@ -72,16 +113,30 @@ const terminalFeedSchema = z
         macroLane: laneSchema,
         cryptoLane: laneSchema,
       })
-      // liveRadar / published / scheduledSession stay unread until B3/B4.
+      // liveRadar / scheduledSession are parsed separately (independent
+      // degradation — see mapLiveRadar); published stays unread until B4.
       .passthrough(),
     ticker: z.array(tickerItemSchema),
   })
   .passthrough();
 
+export interface LiveRadarData {
+  items: TerminalLiveRadarItem[];
+  badge: MarketLaneBadge;
+  asOfLabel?: string;
+}
+
+export interface ScheduledSessionTimes {
+  lastCompletedLabel?: string;
+  nextScheduledLabel?: string;
+}
+
 export interface LiveMarketData {
   lanes: MarketLane[];
   ticker: MarketTickerItem[];
   generatedAt: string;
+  liveRadar: LiveRadarData | null;
+  scheduledSession: ScheduledSessionTimes | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -106,6 +161,39 @@ function mapTile(tile: FeedTile): MarketLaneTile {
   const asOfLabel = formatAsOfLabel(tile.asOf);
   if (asOfLabel) mapped.asOfLabel = asOfLabel;
   return mapped;
+}
+
+/**
+ * Validate and map the radar section. Returns null (→ the window keeps its
+ * reviewed fixture) unless the strict schema AND the unmodified PR #13
+ * validator both pass. Never a partial radar render.
+ */
+function mapLiveRadar(section: unknown): LiveRadarData | null {
+  const parsed = liveRadarWindowSchema.safeParse(section);
+  if (!parsed.success) return null;
+  const errors = validateBreakingRadarTitleWindow({
+    title: parsed.data.title,
+    items: parsed.data.items,
+  });
+  if (errors.length > 0) return null;
+  const radar: LiveRadarData = {
+    items: parsed.data.items,
+    badge: parsed.data.badge as MarketLaneBadge,
+  };
+  const asOfLabel = formatAsOfLabel(parsed.data.asOf);
+  if (asOfLabel) radar.asOfLabel = asOfLabel;
+  return radar;
+}
+
+function mapScheduledSession(section: unknown): ScheduledSessionTimes | null {
+  const parsed = scheduledSessionSchema.safeParse(section);
+  if (!parsed.success) return null;
+  const times: ScheduledSessionTimes = {};
+  const last = formatAsOfLabel(parsed.data.lastCompletedAt);
+  const next = formatAsOfLabel(parsed.data.nextScheduledAt);
+  if (last) times.lastCompletedLabel = last;
+  if (next) times.nextScheduledLabel = next;
+  return last || next ? times : null;
 }
 
 /**
@@ -149,7 +237,13 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     return mapped;
   });
 
-  return { lanes, ticker: tickerItems, generatedAt };
+  return {
+    lanes,
+    ticker: tickerItems,
+    generatedAt,
+    liveRadar: mapLiveRadar(windows.liveRadar),
+    scheduledSession: mapScheduledSession(windows.scheduledSession),
+  };
 }
 
 /**
