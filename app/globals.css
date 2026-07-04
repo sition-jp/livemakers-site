@@ -121,6 +121,30 @@
   --letter-spacing-title: -0.01em;
 }
 
+/* Typography-plugin articles follow the theme tokens in both themes, so no
+   prose-invert flag is needed anywhere (G39-A1b: prose-invert left the
+   Weekly Brief body near-white on the light default). Unlayered on purpose:
+   it must outrank the plugin's own --tw-prose-* definitions. */
+.prose {
+  --tw-prose-body: var(--lmk-text-secondary);
+  --tw-prose-headings: var(--lmk-text-primary);
+  --tw-prose-lead: var(--lmk-text-secondary);
+  --tw-prose-links: var(--lmk-pillar-overview);
+  --tw-prose-bold: var(--lmk-text-primary);
+  --tw-prose-counters: var(--lmk-text-tertiary);
+  --tw-prose-bullets: var(--lmk-text-tertiary);
+  --tw-prose-hr: var(--lmk-border-primary);
+  --tw-prose-quotes: var(--lmk-text-primary);
+  --tw-prose-quote-borders: var(--lmk-border-primary);
+  --tw-prose-captions: var(--lmk-text-tertiary);
+  --tw-prose-kbd: var(--lmk-text-primary);
+  --tw-prose-code: var(--lmk-text-primary);
+  --tw-prose-pre-code: var(--lmk-text-secondary);
+  --tw-prose-pre-bg: var(--lmk-bg-tertiary);
+  --tw-prose-th-borders: var(--lmk-border-primary);
+  --tw-prose-td-borders: var(--lmk-border-primary);
+}
+
 @layer base {
   html {
     background-color: var(--lmk-bg-primary);
