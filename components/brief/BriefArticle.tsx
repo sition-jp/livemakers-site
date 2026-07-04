@@ -46,7 +46,9 @@ export function BriefArticle({
         </div>
       </header>
 
-      <div className="prose prose-invert max-w-none prose-headings:font-light prose-headings:tracking-title prose-a:text-pillar-overview">
+      {/* Prose colors come from the theme tokens in globals.css — never
+          prose-invert, which pins light-on-dark text regardless of theme. */}
+      <div className="prose max-w-none prose-headings:font-light prose-headings:tracking-title prose-a:text-pillar-overview">
         <MDXRemote source={body} options={mdxOptions} />
       </div>
     </article>
