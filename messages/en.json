@@ -178,6 +178,8 @@
       "laneCrypto": "Crypto",
       "laneRwa": "RWA",
       "fixtureLabel": "FIXTURE",
+      "radarUpdatedLabel": "updated",
+      "radarNextSessionLabel": "next session",
       "titleOnlyBadge": "Title only · no link",
       "archiveLinkLabel": "Intelligence archive (incl. past Weekly Briefs)"
     }

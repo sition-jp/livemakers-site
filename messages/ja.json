@@ -178,6 +178,8 @@
       "laneCrypto": "暗号資産",
       "laneRwa": "RWA",
       "fixtureLabel": "FIXTURE",
+      "radarUpdatedLabel": "更新",
+      "radarNextSessionLabel": "次セッション",
       "titleOnlyBadge": "タイトルのみ・非リンク",
       "archiveLinkLabel": "過去のインテリジェンス一覧(旧 Weekly Brief 含む)"
     }

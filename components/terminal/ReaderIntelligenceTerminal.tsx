@@ -6,6 +6,10 @@ import type {
   TerminalPreviewLocale,
   TerminalPreviewMock,
 } from "@/lib/livemakers-terminal-preview/types";
+import type {
+  LiveRadarData,
+  ScheduledSessionTimes,
+} from "@/lib/terminal/live-market-feed";
 import {
   marketLanesFixture,
   type MarketLane,
@@ -23,6 +27,8 @@ export interface ReaderIntelligenceTerminalCopy {
   laneCrypto: string;
   laneRwa: string;
   fixtureLabel: string;
+  radarUpdatedLabel: string;
+  radarNextSessionLabel: string;
   titleOnlyBadge: string;
   archiveLinkLabel: string;
   sourceStatusTitle: string;
@@ -92,15 +98,36 @@ export function ReaderIntelligenceTerminal({
   copy,
   sourceProvenance,
   marketLanes = marketLanesFixture,
+  liveRadar: liveRadarFeed = null,
+  scheduledSession = null,
 }: {
   locale: TerminalPreviewLocale;
   data: TerminalPreviewMock;
   copy: ReaderIntelligenceTerminalCopy;
   sourceProvenance?: ReviewedReaderTerminalSourceProvenance;
   marketLanes?: MarketLane[];
+  liveRadar?: LiveRadarData | null;
+  scheduledSession?: ScheduledSessionTimes | null;
 }) {
   const { scheduledSessionVisibility, liveRadar, articleNewsFeed } =
     data.publicTopology;
+
+  /* G39-B B3: the radar window prefers the delivered (validator-gated) feed
+     items; the reviewed fixture is the degraded state. The header stays
+     honest about cadence: session badge + updated time + next session time
+     ("RADAR — as of HH:MM", never a realtime claim). */
+  const radarItems = liveRadarFeed?.items ?? liveRadar.items;
+  const radarAside = liveRadarFeed
+    ? [
+        liveRadarFeed.badge,
+        liveRadarFeed.asOfLabel &&
+          `${copy.radarUpdatedLabel} ${liveRadarFeed.asOfLabel}`,
+        scheduledSession?.nextScheduledLabel &&
+          `${copy.radarNextSessionLabel} ${scheduledSession.nextScheduledLabel}`,
+      ]
+        .filter(Boolean)
+        .join(" · ")
+    : copy.fixtureLabel;
 
   const laneLabel: Record<MarketLaneKey, string> = {
     macro: copy.laneMacro,
@@ -177,10 +204,16 @@ export function ReaderIntelligenceTerminal({
             id="window-live-radar"
             label={pick(liveRadar.title, locale)}
             accent="bg-pillar-market"
-            aside={<FixtureMark label={copy.fixtureLabel} />}
+            aside={
+              /* The session label is long — unlike FixtureMark it must be
+                 allowed to shrink and wrap so the heading keeps its width. */
+              <span className="min-w-0 text-right font-mono text-[9px] uppercase tracking-normal text-text-tertiary">
+                {radarAside}
+              </span>
+            }
           />
           <div className="space-y-3">
-            {liveRadar.items.map((item) => (
+            {radarItems.map((item) => (
               <article
                 key={item.id}
                 className={`border border-border-primary border-l-2 bg-bg-secondary/40 p-4 ${radarStripe[item.status]}`}
