@@ -113,7 +113,7 @@ export function ReaderIntelligenceTerminal({
   return (
     <section
       aria-labelledby="reader-intelligence-terminal-title"
-      className="mx-auto box-border w-full max-w-7xl px-6 py-10"
+      className="mx-auto box-border w-full max-w-[1920px] px-6 py-10"
     >
       {/* Terminal masthead — flattened: rules + labels, no section boxes */}
       <div className="grid min-w-0 gap-4 border-t border-border-primary pt-6 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1.4fr)]">
@@ -170,7 +170,7 @@ export function ReaderIntelligenceTerminal({
           Live Radar → macro → crypto → RWA → Published Intelligence.
           Columns grow with container width (auto-fit); mobile stacks in the
           same order. The Source window ships in a later phase. */}
-      <div className="mt-8 grid grid-cols-[repeat(auto-fit,minmax(min(100%,300px),1fr))] gap-x-6 gap-y-8">
+      <div className="mt-8 grid grid-cols-[repeat(auto-fit,minmax(min(100%,360px),1fr))] gap-x-6 gap-y-8">
         {/* 1. Live Radar window (non-clickable early-alert surface) */}
         <section aria-labelledby="window-live-radar" className="min-w-0">
           <WindowHeading

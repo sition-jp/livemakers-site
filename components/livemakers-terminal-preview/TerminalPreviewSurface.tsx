@@ -81,7 +81,7 @@ export function TerminalPreviewSurface({
       data-testid="terminal-preview-surface"
       data-theme={themeName}
     >
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1920px] px-4 py-6 sm:px-6 lg:px-8">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-border-primary pb-4">
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-logo text-pillar-market">

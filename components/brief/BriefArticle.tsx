@@ -24,7 +24,7 @@ export function BriefArticle({
   const title = lang === "ja" ? metadata.title_ja : metadata.title_en;
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-16">
+    <article className="mx-auto max-w-4xl px-6 py-16">
       <header className="mb-12">
         <div className="mb-4 flex flex-wrap items-center gap-3">
           <span className="text-[10px] tracking-label text-text-tertiary">

@@ -24,7 +24,7 @@ export function TickerBar({
 }) {
   return (
     <div className="border-y border-border-primary bg-bg-secondary">
-      <div className="mx-auto flex max-w-7xl items-center gap-6 overflow-x-auto px-6 py-3 text-xs tracking-label">
+      <div className="mx-auto flex max-w-[1920px] items-center gap-6 overflow-x-auto px-6 py-3 text-xs tracking-label">
         <span className="shrink-0 border border-border-primary px-1.5 py-0.5 font-mono text-[9px] uppercase text-text-tertiary">
           Fixture
         </span>
