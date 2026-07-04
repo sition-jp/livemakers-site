@@ -16,7 +16,10 @@
  * 2026-07-03-livemakers-interface-design-claude-fable-design.md §10).
  */
 
-:root {
+/* [data-theme="light"] lets a subtree (e.g. the terminal-preview surface
+   with its local toggle) pin the light palette even under a dark page. */
+:root,
+[data-theme="light"] {
   /* Light (default) — cool neutral ground, never beige/cream */
   --lmk-bg-primary: #f4f6f9;
   --lmk-bg-secondary: #ffffff;
