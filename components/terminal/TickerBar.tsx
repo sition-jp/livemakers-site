@@ -5,16 +5,26 @@ import {
 
 /**
  * G39-A2: the ticker follows the doctrine lanes (macro / crypto / RWA)
- * instead of the retired ADA/EPOCH network strip. Values come from the
- * reviewed market-lane fixture until G39-B wires live lane sources, so the
- * strip carries an explicit FIXTURE marker. Server component — no client
- * fetch while the data is static.
+ * instead of the retired ADA/EPOCH network strip. G39-B B2 feeds it from the
+ * SDE terminal feed (same payload as the lane windows — doctrine §4: one
+ * payload, no per-window fetch); the fixture stays as fallback. The leading
+ * pill states the freshness provenance honestly (design §3: never fake
+ * real-time — SNAPSHOT/SESSION, or Fixture while unconnected). Server
+ * component — no client fetch.
  */
 
 function formatDelta(deltaPct: number | undefined): string {
   if (deltaPct === undefined) return "";
   const sign = deltaPct > 0 ? "+" : "";
   return `${sign}${deltaPct.toFixed(1)}%`;
+}
+
+function provenanceLabel(items: MarketTickerItem[]): string {
+  const badges = Array.from(
+    new Set(items.map((item) => item.badge ?? "FIXTURE")),
+  );
+  if (badges.length === 1 && badges[0] === "FIXTURE") return "Fixture";
+  return badges.join(" · ");
 }
 
 export function TickerBar({
@@ -26,7 +36,7 @@ export function TickerBar({
     <div className="border-y border-border-primary bg-bg-secondary">
       <div className="mx-auto flex max-w-[1920px] items-center gap-6 overflow-x-auto px-6 py-3 text-xs tracking-label">
         <span className="shrink-0 border border-border-primary px-1.5 py-0.5 font-mono text-[9px] uppercase text-text-tertiary">
-          Fixture
+          {provenanceLabel(items)}
         </span>
         {items.map((item) => {
           const delta = formatDelta(item.deltaPct);

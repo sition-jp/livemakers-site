@@ -3,6 +3,7 @@ import { ReaderIntelligenceTerminal } from "@/components/terminal/ReaderIntellig
 import { TickerBar } from "@/components/terminal/TickerBar";
 import { SiteTagline } from "@/components/terminal/SiteTagline";
 import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
+import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
 
 /**
  * G39-A2: the homepage is the reader intelligence terminal, full stop.
@@ -10,6 +11,11 @@ import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-previ
  * NetworkPulse / FourPanelStatus / RecentBriefs) is retired per doctrine
  * §2/§5 — past briefs stay reachable through the /brief archive, linked
  * from the Published Intelligence window.
+ *
+ * G39-B B2: the macro/crypto lane windows and the ticker read the delivered
+ * SDE terminal feed (one payload for all market surfaces); everything else
+ * (Live Radar, published, RWA) stays on the reviewed fixtures until B3/B4/B5.
+ * A missing or invalid feed falls back to the fixture with FIXTURE badges.
  */
 export default async function OverviewPage({
   params,
@@ -21,15 +27,17 @@ export default async function OverviewPage({
   const readerTerminalLocale = locale === "ja" ? "ja" : "en";
   const readerTerminalT = await getTranslations("overview.readerTerminal");
   const readerTerminalSource = getReviewedReaderTerminalSource();
+  const liveMarket = await fetchLiveMarketData();
 
   return (
     <>
-      <TickerBar />
+      <TickerBar items={liveMarket?.ticker} />
       <SiteTagline />
       <ReaderIntelligenceTerminal
         locale={readerTerminalLocale}
         data={readerTerminalSource.data}
         sourceProvenance={readerTerminalSource.provenance}
+        marketLanes={liveMarket?.lanes}
         copy={{
           eyebrow: readerTerminalT("eyebrow"),
           title: readerTerminalT("title"),

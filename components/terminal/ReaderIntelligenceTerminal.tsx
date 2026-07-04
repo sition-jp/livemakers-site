@@ -276,7 +276,7 @@ export function ReaderIntelligenceTerminal({
               id={`window-lane-${lane.key}`}
               label={laneLabel[lane.key]}
               accent={laneAccent[lane.key]}
-              aside={<FixtureMark label={copy.fixtureLabel} />}
+              aside={<FixtureMark label={lane.badge ?? copy.fixtureLabel} />}
             />
             <div className="grid gap-3">
               {lane.tiles.map((tile) => {
@@ -293,7 +293,9 @@ export function ReaderIntelligenceTerminal({
                       <span className="truncate text-[10px] font-semibold uppercase tracking-label text-text-tertiary">
                         {tile.label}
                       </span>
-                      <FixtureMark label={copy.fixtureLabel} />
+                      {/* G39-B B2: live tiles carry their own freshness badge
+                          (SNAPSHOT / SESSION); fixture tiles keep FIXTURE. */}
+                      <FixtureMark label={tile.badge ?? copy.fixtureLabel} />
                     </div>
                     <p className="mb-1 truncate text-2xl font-light tabular-nums text-text-primary">
                       {tile.value ?? "—"}
@@ -312,6 +314,11 @@ export function ReaderIntelligenceTerminal({
                     <p className="text-xs leading-relaxed text-text-secondary">
                       {pick(tile.note, locale)}
                     </p>
+                    {tile.asOfLabel && (
+                      <p className="mt-2 font-mono text-[10px] text-text-tertiary">
+                        {tile.asOfLabel}
+                      </p>
+                    )}
                   </article>
                 );
               })}
