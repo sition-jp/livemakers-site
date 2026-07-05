@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { validateBreakingRadarTitleWindow } from "@/lib/livemakers-terminal-preview/breaking-radar-title-window";
-import type { TerminalLiveRadarItem } from "@/lib/livemakers-terminal-preview/types";
+import type {
+  LocalizedText,
+  TerminalLiveRadarItem,
+} from "@/lib/livemakers-terminal-preview/types";
 import {
   marketLanesFixture,
   type MarketLane,
@@ -139,6 +142,146 @@ const publishedWindowSchema = z
   })
   .strict();
 
+const forbiddenSourceVisibleText = [
+  "site_publish_log",
+  "published_log",
+  "publish_audit",
+  "publish_candidates",
+  "article_queue",
+  "07_DATA",
+  "operator",
+  "draft",
+  "review-packet",
+  "file://",
+  "/Users/",
+  "http://",
+  "https://",
+  "raw X",
+  "screenshot",
+];
+
+const forbiddenSourceOpsTerms = [
+  "crawler",
+  "crawl",
+  "chrome mcp",
+  "cloudflare",
+  "fallback",
+  "partial_success",
+  "coverage",
+  "checkpoint",
+  "watchlist",
+  "websearch",
+  "source queue",
+  "rate_limit",
+  "rate limit",
+  "disposition",
+  "freshness_tier",
+  "raw_intelligence",
+  "query_group",
+  "twitterapi",
+  "phase 1",
+  "phase 2",
+  "phase1",
+  "phase2",
+  "jsonl",
+];
+
+const sourceUrlPattern =
+  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?/gi;
+const sourceHandlePattern = /(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/g;
+const sourceDomainPattern =
+  /^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i;
+
+function sourceVisibleTextViolations(value: string): string[] {
+  const found = forbiddenSourceVisibleText.filter((fragment) =>
+    value.includes(fragment),
+  );
+  const lower = value.toLowerCase();
+  return found.concat(
+    forbiddenSourceOpsTerms.filter((term) => lower.includes(term)),
+  );
+}
+
+function sourceUrlOrHandleViolations(value: string): string[] {
+  return [
+    ...value.matchAll(sourceUrlPattern),
+    ...value.matchAll(sourceHandlePattern),
+  ].map((match) => match[0]);
+}
+
+const sourceTitleTextSchema = z
+  .string()
+  .min(1)
+  .max(160)
+  .superRefine((value, ctx) => {
+    const visibleViolations = sourceVisibleTextViolations(value);
+    const patternViolations = sourceUrlOrHandleViolations(value);
+    if (visibleViolations.length > 0 || patternViolations.length > 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "unsafe source title",
+      });
+    }
+  });
+
+const sourceLocalizedTitleSchema = z
+  .object({ en: sourceTitleTextSchema, ja: sourceTitleTextSchema })
+  .strict();
+
+const sourceVisibleTextSchema = z
+  .string()
+  .min(1)
+  .max(120)
+  .superRefine((value, ctx) => {
+    if (sourceVisibleTextViolations(value).length > 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "unsafe source visible text",
+      });
+    }
+  });
+
+const sourceLocalizedVisibleSchema = z
+  .object({ en: sourceVisibleTextSchema, ja: sourceVisibleTextSchema })
+  .strict();
+
+const sourceDomainSchema = z
+  .string()
+  .min(1)
+  .max(120)
+  .superRefine((value, ctx) => {
+    if (
+      sourceVisibleTextViolations(value).length > 0 ||
+      value.includes("/") ||
+      value.startsWith("@") ||
+      !sourceDomainPattern.test(value)
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "sourceDomain must be a bare host",
+      });
+    }
+  });
+
+const sourceItemSchema = z
+  .object({
+    id: z.string().min(1),
+    title: sourceLocalizedTitleSchema,
+    sourceDomain: sourceDomainSchema,
+    category: sourceLocalizedVisibleSchema,
+    freshnessLabel: sourceLocalizedVisibleSchema,
+  })
+  .strict();
+
+const sourceWindowSchema = z
+  .object({
+    title: localizedTextSchema,
+    badge: badgeSchema,
+    asOf: z.string().nullable(),
+    items: z.array(sourceItemSchema).min(1),
+  })
+  .strict();
+
 const terminalFeedSchema = z
   .object({
     schema_version: z.literal(TERMINAL_FEED_SCHEMA_VERSION),
@@ -178,6 +321,21 @@ export interface PublishedFeedData {
   items: PublishedPost[];
 }
 
+export interface SourceFeedItem {
+  id: string;
+  title: LocalizedText;
+  sourceDomain: string;
+  category: LocalizedText;
+  freshnessLabel: LocalizedText;
+}
+
+export interface SourceFeedData {
+  title: LocalizedText;
+  badge: MarketLaneBadge;
+  asOfLabel?: string;
+  items: SourceFeedItem[];
+}
+
 export interface LiveMarketData {
   lanes: MarketLane[];
   ticker: MarketTickerItem[];
@@ -185,6 +343,7 @@ export interface LiveMarketData {
   liveRadar: LiveRadarData | null;
   scheduledSession: ScheduledSessionTimes | null;
   published: PublishedFeedData | null;
+  source: SourceFeedData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -274,6 +433,25 @@ function mapPublished(section: unknown): PublishedFeedData | null {
 }
 
 /**
+ * G39 v1.5 / Plan B: map the SDE Plan A `windows.source` projection.
+ * This is a non-clicking source flow: strict item whitelist, no href/url
+ * keys, title text scrubbed for handles + URL-like fragments, and independent
+ * degradation so a malformed Source window cannot take down the market lanes.
+ */
+function mapSourceFeed(section: unknown): SourceFeedData | null {
+  const parsed = sourceWindowSchema.safeParse(section);
+  if (!parsed.success) return null;
+  const source: SourceFeedData = {
+    title: parsed.data.title,
+    badge: parsed.data.badge as MarketLaneBadge,
+    items: parsed.data.items,
+  };
+  const asOfLabel = formatAsOfLabel(parsed.data.asOf);
+  if (asOfLabel) source.asOfLabel = asOfLabel;
+  return source;
+}
+
+/**
  * Validate and map a terminal feed payload. Returns null when the payload is
  * not exactly what the contract promises — the caller keeps the fixture.
  */
@@ -321,6 +499,7 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     liveRadar: mapLiveRadar(windows.liveRadar),
     scheduledSession: mapScheduledSession(windows.scheduledSession),
     published: mapPublished(windows.published),
+    source: mapSourceFeed(windows.source),
   };
 }
 

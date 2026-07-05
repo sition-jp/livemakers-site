@@ -76,6 +76,24 @@ const provenance = {
   reviewedAt: "2026-07-01T21:30:00+09:00",
 };
 
+const sourceFeed = {
+  title: { en: "Source", ja: "一次ソース" },
+  badge: "SESSION" as const,
+  asOfLabel: "2026-07-05 05:03 JST",
+  items: [
+    {
+      id: "source.alpha",
+      title: {
+        en: "Treasury liquidity stress draws renewed market attention",
+        ja: "米国債の流動性ストレスが市場の注目を再び集める",
+      },
+      sourceDomain: "reuters.com",
+      category: { en: "Macro", ja: "マクロ" },
+      freshnessLabel: { en: "as of 04:55 JST", ja: "04:55 JST 時点" },
+    },
+  ],
+};
+
 describe("ReaderIntelligenceTerminal", () => {
   const terminalData = getReviewedReaderTerminalSource().data;
 
@@ -180,6 +198,7 @@ describe("ReaderIntelligenceTerminal", () => {
         locale="en"
         data={terminalData}
         copy={copy}
+        sourceFeed={sourceFeed}
       />,
     );
 
@@ -193,7 +212,34 @@ describe("ReaderIntelligenceTerminal", () => {
       "window-lane-crypto",
       "window-lane-rwa",
       "window-published",
+      "window-source",
     ]);
+  });
+
+  it("renders the source window after Published as non-clicking ambient source flow", () => {
+    const { container } = render(
+      <ReaderIntelligenceTerminal
+        locale="en"
+        data={terminalData}
+        copy={copy}
+        sourceFeed={sourceFeed}
+      />,
+    );
+
+    expect(
+      screen.getByRole("heading", { level: 3, name: "Source" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Treasury liquidity stress draws renewed market attention"),
+    ).toBeInTheDocument();
+    expect(screen.getByText("reuters.com")).toBeInTheDocument();
+    expect(screen.getAllByText("Macro").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("as of 04:55 JST")).toBeInTheDocument();
+    expect(screen.getByText("SESSION · 2026-07-05 05:03 JST")).toBeInTheDocument();
+
+    const sourceWindow = container.querySelector('section[aria-labelledby="window-source"]');
+    expect(sourceWindow).not.toBeNull();
+    expect(sourceWindow?.querySelector("a")).toBeNull();
   });
 
   it("renders unavailable lane values as an em dash, never zero", () => {
@@ -288,6 +334,7 @@ describe("ReaderIntelligenceTerminal", () => {
         locale="en"
         data={terminalData}
         copy={copy}
+        sourceFeed={sourceFeed}
       />,
     );
 
@@ -303,6 +350,11 @@ describe("ReaderIntelligenceTerminal", () => {
     expect(screen.getAllByText("Title only · no link").length).toBeGreaterThan(
       0,
     );
+    expect(
+      screen
+        .getByText("Treasury liquidity stress draws renewed market attention")
+        .closest("a"),
+    ).toBeNull();
 
     const feedLink = screen.getByRole("link", {
       name: /The Window That Didn't Open/i,

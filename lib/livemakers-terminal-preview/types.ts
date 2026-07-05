@@ -47,6 +47,14 @@ export interface TerminalArticleNewsFeedItem {
   excerpt: LocalizedText;
 }
 
+export interface TerminalSourceFeedItem {
+  id: string;
+  title: LocalizedText;
+  sourceDomain: string;
+  category: LocalizedText;
+  freshnessLabel: LocalizedText;
+}
+
 export interface TerminalPreviewPublicTopology {
   scheduledSessionVisibility?: TerminalScheduledSessionVisibility;
   liveRadar: {
@@ -56,6 +64,12 @@ export interface TerminalPreviewPublicTopology {
   articleNewsFeed: {
     title: LocalizedText;
     items: TerminalArticleNewsFeedItem[];
+  };
+  source?: {
+    title: LocalizedText;
+    badge: "SNAPSHOT" | "SESSION" | "FIXTURE";
+    asOf: string | null;
+    items: TerminalSourceFeedItem[];
   };
 }
 

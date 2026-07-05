@@ -442,3 +442,111 @@ describe("mapTerminalFeed — RWA lane (B5)", () => {
     expect(data?.lanes[1].tiles[0].value).toBe("$62,579");
   });
 });
+
+function sampleSourceWindow() {
+  return {
+    title: { en: "Source", ja: "一次ソース" },
+    badge: "SESSION",
+    asOf: "2026-07-05T05:03:00+09:00",
+    items: [
+      {
+        id: "source.alpha",
+        title: {
+          en: "Treasury liquidity stress draws renewed market attention",
+          ja: "Treasury liquidity stress draws renewed market attention",
+        },
+        sourceDomain: "reuters.com",
+        category: { en: "Macro", ja: "マクロ" },
+        freshnessLabel: { en: "as of 04:55 JST", ja: "04:55 JST 時点" },
+      },
+      {
+        id: "source.beta",
+        title: {
+          en: "Stablecoin reserve bill advances through committee review",
+          ja: "Stablecoin reserve bill advances through committee review",
+        },
+        sourceDomain: "x.com",
+        category: { en: "Crypto", ja: "暗号資産" },
+        freshnessLabel: { en: "as of 04:40 JST", ja: "04:40 JST 時点" },
+      },
+    ],
+  };
+}
+
+describe("mapTerminalFeed — source window (Plan B)", () => {
+  it("maps the SDE Plan A source window as a non-click feed", () => {
+    const feed = sampleFeed();
+    (feed.windows as Record<string, unknown>).source = sampleSourceWindow();
+    const data = mapTerminalFeed(feed);
+
+    expect(data?.source).not.toBeNull();
+    expect(data?.source?.title.en).toBe("Source");
+    expect(data?.source?.badge).toBe("SESSION");
+    expect(data?.source?.asOfLabel).toBe("2026-07-05 05:03 JST");
+    expect(data?.source?.items[0]).toMatchObject({
+      id: "source.alpha",
+      sourceDomain: "reuters.com",
+      category: { en: "Macro", ja: "マクロ" },
+    });
+    expect(Object.keys(data?.source?.items[0] ?? {}).sort()).toEqual([
+      "category",
+      "freshnessLabel",
+      "id",
+      "sourceDomain",
+      "title",
+    ]);
+  });
+
+  it("returns null for missing or empty source windows", () => {
+    expect(mapTerminalFeed(sampleFeed())?.source).toBeNull();
+
+    const feed = sampleFeed();
+    (feed.windows as Record<string, unknown>).source = {
+      ...sampleSourceWindow(),
+      items: [],
+    };
+    expect(mapTerminalFeed(feed)?.source).toBeNull();
+  });
+
+  it("degrades source to null when any item carries url or href keys", () => {
+    const feed = sampleFeed();
+    const source = sampleSourceWindow();
+    (source.items[0] as Record<string, unknown>).url = "https://x.com/a";
+    (feed.windows as Record<string, unknown>).source = source;
+
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.source).toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.86");
+
+    const feed2 = sampleFeed();
+    const source2 = sampleSourceWindow();
+    (source2.items[0] as Record<string, unknown>).href = "/brief/2026-W27-brief";
+    (feed2.windows as Record<string, unknown>).source = source2;
+    expect(mapTerminalFeed(feed2)?.source).toBeNull();
+  });
+
+  it("degrades source to null when titles leak URL patterns, handles, or ops terms", () => {
+    const cases = [
+      "Market desks are watching bit.ly/abc today",
+      "Markets reacted to @macro_guru overnight",
+      "Source Queue retention moved the market narrative",
+    ];
+
+    for (const title of cases) {
+      const feed = sampleFeed();
+      const source = sampleSourceWindow();
+      source.items[0].title.en = title;
+      (feed.windows as Record<string, unknown>).source = source;
+      expect(mapTerminalFeed(feed)?.source).toBeNull();
+    }
+  });
+
+  it("degrades source to null when sourceDomain is not a bare host", () => {
+    const feed = sampleFeed();
+    const source = sampleSourceWindow();
+    source.items[0].sourceDomain = "reuters.com/markets";
+    (feed.windows as Record<string, unknown>).source = source;
+    expect(mapTerminalFeed(feed)?.source).toBeNull();
+  });
+});

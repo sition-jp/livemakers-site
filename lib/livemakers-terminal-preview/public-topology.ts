@@ -1,6 +1,7 @@
 import type {
   TerminalArticleNewsFeedItem,
   TerminalPreviewPublicTopology,
+  TerminalSourceFeedItem,
 } from "./types";
 import { breakingRadarManualLinkNoteItems } from "./breaking-radar-manual-link-notes";
 import { validateBreakingRadarTitleWindow } from "./breaking-radar-title-window";
@@ -27,6 +28,18 @@ const forbiddenHrefText = [
   "http://",
   "https://",
 ];
+
+const sourceItemWhitelist = [
+  "id",
+  "title",
+  "sourceDomain",
+  "category",
+  "freshnessLabel",
+];
+
+const sourceUrlPattern =
+  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?/gi;
+const sourceHandlePattern = /(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/g;
 
 function isAllowedPublishedArticleHref(href: string): boolean {
   return allowedPublishedArticleRoutes.some((pattern) => pattern.test(href));
@@ -63,6 +76,76 @@ function validateArticleFeedItem(
   return errors;
 }
 
+function validateSourceTitle(
+  title: TerminalSourceFeedItem["title"],
+  index: number,
+): string[] {
+  const errors: string[] = [];
+  for (const locale of ["en", "ja"] as const) {
+    const value = title[locale];
+    validateVisibleSourceText(
+      value,
+      `source.items[${index}].title.${locale}`,
+      errors,
+    );
+    for (const match of [
+      ...value.matchAll(sourceUrlPattern),
+      ...value.matchAll(sourceHandlePattern),
+    ]) {
+      errors.push(
+        `source.items[${index}].title.${locale} contains URL/handle pattern: ${match[0]}`,
+      );
+    }
+  }
+  return errors;
+}
+
+function validateVisibleSourceText(
+  value: string,
+  label: string,
+  errors: string[],
+): void {
+  for (const forbidden of forbiddenHrefText) {
+    if (value.includes(forbidden)) {
+      errors.push(`${label} contains forbidden internal text: ${forbidden}`);
+    }
+  }
+}
+
+function validateSourceFeedItem(
+  item: TerminalSourceFeedItem,
+  index: number,
+): string[] {
+  const errors: string[] = [];
+  for (const key of Object.keys(item)) {
+    if (!sourceItemWhitelist.includes(key)) {
+      errors.push(
+        `source.items[${index}].${key} is outside the non-click source whitelist`,
+      );
+    }
+  }
+  errors.push(...validateSourceTitle(item.title, index));
+  validateVisibleSourceText(
+    item.sourceDomain,
+    `source.items[${index}].sourceDomain`,
+    errors,
+  );
+  if (item.sourceDomain.includes("/") || item.sourceDomain.startsWith("@")) {
+    errors.push(`source.items[${index}].sourceDomain must be a bare host`);
+  }
+  return errors;
+}
+
+function validateSourceFeed(
+  topology: TerminalPreviewPublicTopology,
+): string[] {
+  return (
+    topology.source?.items.flatMap((item, index) =>
+      validateSourceFeedItem(item, index),
+    ) ?? []
+  );
+}
+
 export function validateReaderTerminalPublicTopology(
   topology: TerminalPreviewPublicTopology,
 ): string[] {
@@ -70,6 +153,7 @@ export function validateReaderTerminalPublicTopology(
     topology.articleNewsFeed.items.flatMap((item, index) =>
       validateArticleFeedItem(item, index),
     ),
+    validateSourceFeed(topology),
   );
 }
 
