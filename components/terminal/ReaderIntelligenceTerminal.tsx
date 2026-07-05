@@ -10,6 +10,7 @@ import type {
   LiveRadarData,
   PublishedFeedData,
   ScheduledSessionTimes,
+  SourceFeedData,
 } from "@/lib/terminal/live-market-feed";
 import type { SiteNativePublishedFeed } from "@/lib/terminal/published-window";
 import {
@@ -105,6 +106,7 @@ export function ReaderIntelligenceTerminal({
   scheduledSession = null,
   articleNewsFeed: liveArticleNewsFeed = null,
   publishedPosts = null,
+  sourceFeed = null,
 }: {
   locale: TerminalPreviewLocale;
   data: TerminalPreviewMock;
@@ -115,6 +117,7 @@ export function ReaderIntelligenceTerminal({
   scheduledSession?: ScheduledSessionTimes | null;
   articleNewsFeed?: SiteNativePublishedFeed | null;
   publishedPosts?: PublishedFeedData | null;
+  sourceFeed?: SourceFeedData | null;
 }) {
   const { scheduledSessionVisibility, liveRadar } = data.publicTopology;
 
@@ -206,9 +209,9 @@ export function ReaderIntelligenceTerminal({
       </div>
 
       {/* Doctrine §4 window grid. DOM order = the fixed window ledger:
-          Live Radar → macro → crypto → RWA → Published Intelligence.
+          Live Radar → macro → crypto → RWA → Published Intelligence → Source.
           Columns grow with container width (auto-fit); mobile stacks in the
-          same order. The Source window ships in a later phase. */}
+          same order. */}
       <div className="mt-8 grid grid-cols-[repeat(auto-fit,minmax(min(100%,360px),1fr))] gap-x-6 gap-y-8">
         {/* 1. Live Radar window (non-clickable early-alert surface) */}
         <section aria-labelledby="window-live-radar" className="min-w-0">
@@ -464,6 +467,49 @@ export function ReaderIntelligenceTerminal({
             {copy.archiveLinkLabel} →
           </Link>
         </section>
+
+        {sourceFeed && (
+          <section
+            aria-labelledby="window-source"
+            className="col-span-full min-w-0"
+          >
+            <WindowHeading
+              id="window-source"
+              label={pick(sourceFeed.title, locale)}
+              accent="bg-pillar-governance"
+              aside={
+                <span className="min-w-0 text-right font-mono text-[9px] uppercase tracking-normal text-text-tertiary">
+                  {[sourceFeed.badge, sourceFeed.asOfLabel]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </span>
+              }
+            />
+            <div className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
+              {sourceFeed.items.map((item) => (
+                <article
+                  key={item.id}
+                  className="min-w-0 border border-border-primary bg-bg-primary p-4"
+                >
+                  <div className="mb-2 flex flex-wrap items-center gap-2">
+                    <span className="border border-border-primary px-2 py-0.5 text-[10px] font-semibold uppercase tracking-label text-pillar-governance">
+                      {pick(item.category, locale)}
+                    </span>
+                    <span className="font-mono text-[10px] text-text-tertiary">
+                      {item.sourceDomain}
+                    </span>
+                    <span className="font-mono text-[10px] text-text-tertiary">
+                      {pick(item.freshnessLabel, locale)}
+                    </span>
+                  </div>
+                  <h4 className="text-sm font-semibold leading-snug text-text-primary">
+                    {pick(item.title, locale)}
+                  </h4>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
       </div>
     </section>
   );

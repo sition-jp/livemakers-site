@@ -82,4 +82,37 @@ describe("reader terminal public topology fixture", () => {
       "articleNewsFeed.items[5].href contains forbidden internal text: file://",
     ]);
   });
+
+  it("rejects clickable or unsanitized source-window items", () => {
+    const unsafe = {
+      ...readerTerminalPublicTopology,
+      source: {
+        title: { en: "Source", ja: "一次ソース" },
+        badge: "SESSION" as const,
+        asOf: "2026-07-05T05:03:00+09:00",
+        items: [
+          {
+            id: "source.bad",
+            title: {
+              en: "Market desks are watching bit.ly/abc and @macro_guru",
+              ja: "Market desks are watching bit.ly/abc and @macro_guru",
+            },
+            sourceDomain: "reuters.com/markets",
+            category: { en: "Macro", ja: "マクロ" },
+            freshnessLabel: { en: "as of 04:55 JST", ja: "04:55 JST 時点" },
+            href: "/brief/2026-W27-brief",
+          },
+        ],
+      },
+    };
+
+    expect(validateReaderTerminalPublicTopology(unsafe)).toEqual([
+      "source.items[0].href is outside the non-click source whitelist",
+      "source.items[0].title.en contains URL/handle pattern: bit.ly/abc",
+      "source.items[0].title.en contains URL/handle pattern: @macro_guru",
+      "source.items[0].title.ja contains URL/handle pattern: bit.ly/abc",
+      "source.items[0].title.ja contains URL/handle pattern: @macro_guru",
+      "source.items[0].sourceDomain must be a bare host",
+    ]);
+  });
 });
