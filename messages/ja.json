@@ -392,6 +392,24 @@
       "unavailable": "TradeIntent を一時的に取得できません。"
     }
   },
+  "articles": {
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "次の時代の地図",
+      "mkt12-morning": "朝の12指標",
+      "mkt12-weekend": "週末の12指標",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "セッション記事"
+    },
+    "todayTitle": "本日の記事一覧",
+    "todayEmpty": "本日の記事はこれから公開されます",
+    "latestTitle": "最近の記事",
+    "seriesTitle": "シリーズ一覧",
+    "briefArchiveNote": "これまでの Weekly Brief アーカイブはこちら"
+  },
   "turningPoints": {
     "page_title": "AI ターニングポイント検出ダッシュボード",
     "page_subtitle": "マーケット状態の分析 · BTC / ETH · 7日 / 30日 / 90日",

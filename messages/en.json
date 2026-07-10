@@ -392,6 +392,24 @@
       "unavailable": "TradeIntents are temporarily unavailable."
     }
   },
+  "articles": {
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "The Next Era Map",
+      "mkt12-morning": "12 Indicators: Morning",
+      "mkt12-weekend": "12 Indicators: Weekend",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "Session Article"
+    },
+    "todayTitle": "Today's articles",
+    "todayEmpty": "Today's articles will be published shortly.",
+    "latestTitle": "Recent articles",
+    "seriesTitle": "Series",
+    "briefArchiveNote": "Browse the Weekly Brief archive"
+  },
   "turningPoints": {
     "page_title": "AI Turning Point Detector",
     "page_subtitle": "Market state analysis · BTC / ETH · 7D / 30D / 90D",
