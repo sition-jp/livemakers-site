@@ -47,6 +47,14 @@ export function HomeComposition({
   return (
     <div className="mx-auto max-w-[1330px] space-y-8 px-4 pb-10 pt-6 md:px-8">
       <section data-ledger-group="lead" className="home-lead-grid">
+        <header className="home-lead-masthead" style={{ gridArea: "masthead" }}>
+          <h1 className="text-xl font-bold text-text-primary md:text-2xl">
+            {copy.masthead.title}
+          </h1>
+          <p className="mt-1 text-[11px] text-text-tertiary">
+            {copy.masthead.subtitle}
+          </p>
+        </header>
         <div data-lead-module="session-now" style={{ gridArea: "session" }}>
           {live && sessionProvenance ? (
             <SessionNowCard

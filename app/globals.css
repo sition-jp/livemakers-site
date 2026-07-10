@@ -231,7 +231,13 @@
 .home-lead-grid {
   display: grid;
   gap: 12px;
-  grid-template-areas: "session" "lead" "schedule" "focus" "series";
+  grid-template-areas:
+    "masthead"
+    "session"
+    "lead"
+    "schedule"
+    "focus"
+    "series";
 }
 
 @media (min-width: 768px) {
@@ -239,6 +245,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 22px;
     grid-template-areas:
+      "masthead masthead"
       "session lead"
       "schedule lead"
       "schedule series"

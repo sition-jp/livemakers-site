@@ -36,6 +36,10 @@ export interface HomeCopy {
   globalProvenanceNote: string;
   unavailable: string;
   noLiveSession: string;
+  masthead: {
+    title: string;
+    subtitle: string;
+  };
   sessionNow: SessionNowCopy;
   schedule: SessionScheduleCopy;
   focus: SessionFocusCopy;
@@ -105,6 +109,10 @@ export function buildHomeCopy(
     globalProvenanceNote: translate("provenance.note"),
     unavailable: translate("general.unavailable"),
     noLiveSession: translate("general.noLiveSession"),
+    masthead: {
+      title: translate("masthead.title"),
+      subtitle: translate("masthead.subtitle"),
+    },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
       nextUpdateLine: translate("sessionNow.nextUpdateLine", {

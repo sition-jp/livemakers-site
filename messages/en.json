@@ -406,6 +406,10 @@
       "packet": "Packet ID",
       "note": "Values are snapshots from the stated observation time."
     },
+    "masthead": {
+      "title": "See Now ⇄ Read Today",
+      "subtitle": "The market now and today's interpretation at a glance"
+    },
     "family": {
       "daily-intel": "Daily Intel",
       "signal": "Signal",
@@ -445,9 +449,9 @@
       "listLabel": "Index →"
     },
     "mkt12": {
-      "sectionTitle": "12 Indicators — Data and Reading",
-      "jointLabel": "From one observation to an article",
-      "articleTitle": "12 Indicators articles",
+      "sectionTitle": "12 Core Indicators — Current Data and Today's Reading",
+      "jointLabel": "The same 12 instruments",
+      "articleTitle": "Today's reading (07-10 morning edition)",
       "awaiting": "Today's 12 Indicators article is being prepared.",
       "previous": "Read the previous 12 Indicators →",
       "indicator": {
@@ -463,8 +467,8 @@
       }
     },
     "radar": {
-      "sectionTitle": "Breaking — Observations and Articles",
-      "jointLabel": "Verified before becoming an article",
+      "sectionTitle": "Breaking — From Observation to Article",
+      "jointLabel": "Published after verification",
       "lanes": {
         "xNews": "Surfaced on X",
         "sde": "Detected by SDE",
@@ -492,7 +496,7 @@
       "subtitle": "Complementary data beyond the 12 indicators"
     },
     "library": {
-      "title": "Article Library",
+      "title": "Article Library — Cross-Series",
       "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
       "archiveNote": "Four live sessions each day become articles over time."
     }

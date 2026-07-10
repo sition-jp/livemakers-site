@@ -1,5 +1,5 @@
 /* @vitest-environment jsdom */
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -25,6 +25,16 @@ vi.mock("@/i18n/navigation", () => ({
 describe("B+ home composition (doctrine §4 nine-group ledger)", () => {
   const props = buildHomeCompositionProps({ today: "2026-07-10" });
   const copy = buildTestHomeCopy();
+
+  it("renders the locked reader-facing co-equal masthead copy", () => {
+    render(<HomeComposition {...props} copy={copy} />);
+    expect(
+      screen.getByRole("heading", { name: "いまを見る ⇄ 今日を読む" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("市場のいまと、今日の読み解きをひと目で"),
+    ).toBeInTheDocument();
+  });
 
   it("orders priority groups exactly per the 2026-07-10 ledger", () => {
     const { container } = render(

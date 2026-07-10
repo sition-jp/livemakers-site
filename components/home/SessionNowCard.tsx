@@ -38,10 +38,12 @@ export function SessionNowCard({
         </span>
       </div>
       <ul className="mt-2 text-[13px] text-text-primary">
-        {record.bullets.map((bullet) => (
+        {record.bullets.map((bullet, index) => (
           <li
             key={bullet}
-            className="border-b border-dashed border-border-primary py-1.5 last:border-b-0"
+            className={`border-b border-dashed border-border-primary py-1.5 last:border-b-0 ${
+              index >= 2 ? "hidden md:list-item" : ""
+            }`}
           >
             {bullet}
           </li>
