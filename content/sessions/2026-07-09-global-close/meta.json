@@ -1,0 +1,19 @@
+{
+  "sessionId": "2026-07-09-global-close",
+  "date": "2026-07-09",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-07-09-global-close",
+  "canonicalArticleUrl": "/sessions/2026-07-09-global-close",
+  "publishedAt": "2026-07-09T23:20:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260709_global",
+  "asOfJst": "2026-07-09T23:03:00+09:00",
+  "focusInstruments": ["btc_usd", "gold"],
+  "titleJa": "Global Close — フロンティア観測の引き継ぎ",
+  "bullets": [
+    "米市場の引け後に残った値動きを整理",
+    "翌アジア時間へ持ち越す観測点を確認"
+  ]
+}

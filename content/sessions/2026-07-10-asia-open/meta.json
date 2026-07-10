@@ -1,0 +1,20 @@
+{
+  "sessionId": "2026-07-10-asia-open",
+  "date": "2026-07-10",
+  "sessionSlug": "asia-open",
+  "liveStatus": "live",
+  "articleStatus": "pending",
+  "currentUrl": "/sessions/2026-07-10-asia-open",
+  "canonicalArticleUrl": null,
+  "publishedAt": null,
+  "publishLogId": null,
+  "packetId": "sess_20260710_asia",
+  "asOfJst": "2026-07-10T05:03:00+09:00",
+  "focusInstruments": ["nikkei_futures", "usd_jpy", "btc_usd"],
+  "titleJa": "Asia Open Terminal",
+  "bullets": [
+    "米CPI通過後、最初のアジア時間。円と日経先物の初動が焦点",
+    "BTCは63K台で続伸。アジア時間の現物フローは薄く、方向感は米時間持ち越し",
+    "RWAレーンはトークン化国債への資金流入が3日連続。$10Bの節目が視野"
+  ]
+}
