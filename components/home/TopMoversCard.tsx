@@ -54,7 +54,7 @@ export function TopMoversCard({
             </span>
             <span
               className={`font-mono font-bold ${
-                cell.up ? "text-positive" : "text-negative"
+                cell.up ? "text-status-up" : "text-status-down"
               }`}
             >
               {cell.changeLabel}

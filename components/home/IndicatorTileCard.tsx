@@ -59,7 +59,7 @@ export function IndicatorTileCard({
               {cell.changeLabel ? (
                 <p
                   className={`mt-0.5 font-mono text-[10px] ${
-                    cell.up ? "text-positive" : "text-negative"
+                    cell.up ? "text-status-up" : "text-status-down"
                   }`}
                 >
                   {cell.changeLabel}

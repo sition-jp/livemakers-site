@@ -82,8 +82,8 @@ export function LaneBlock({
                 row.up === null
                   ? "text-text-tertiary"
                   : row.up
-                    ? "text-positive"
-                    : "text-negative"
+                    ? "text-status-up"
+                    : "text-status-down"
               }`}
             >
               {row.changeLabel ?? "—"}
