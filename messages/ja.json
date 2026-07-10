@@ -410,6 +410,14 @@
     "seriesTitle": "シリーズ一覧",
     "briefArchiveNote": "これまでの Weekly Brief アーカイブはこちら"
   },
+  "sessions": {
+    "family": "セッション記事",
+    "publishedAt": "記事化",
+    "liveAsOf": "更新",
+    "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
+    "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
+    "archiveNote": "1日4回、ライブは時間が経つと記事になります"
+  },
   "turningPoints": {
     "page_title": "AI ターニングポイント検出ダッシュボード",
     "page_subtitle": "マーケット状態の分析 · BTC / ETH · 7日 / 30日 / 90日",

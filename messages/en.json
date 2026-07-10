@@ -410,6 +410,14 @@
     "seriesTitle": "Series",
     "briefArchiveNote": "Browse the Weekly Brief archive"
   },
+  "sessions": {
+    "family": "Session Article",
+    "publishedAt": "Published",
+    "liveAsOf": "Updated",
+    "crystallizeNote": "This page becomes a permanent article when the next session begins.",
+    "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
+    "archiveNote": "Four live sessions each day become articles over time."
+  },
   "turningPoints": {
     "page_title": "AI Turning Point Detector",
     "page_subtitle": "Market state analysis · BTC / ETH · 7D / 30D / 90D",
