@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { IndicatorTileCard } from "@/components/home/IndicatorTileCard";
 import { RadarObservationsCard } from "@/components/home/RadarObservationsCard";
 import { RadarPromotedCard } from "@/components/home/RadarPromotedCard";
+import { selectTopMovers } from "@/components/home/TopMoversCard";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
 
 const cells = [
@@ -37,6 +38,23 @@ const provenanceLabels = {
 };
 
 describe("pair group (ledger groups 2-3)", () => {
+  it("derives the top movers from absolute percentage change", () => {
+    const movers = selectTopMovers([
+      ...cells,
+      {
+        instrumentId: "eth_usd",
+        nameJa: "ETH/USD",
+        value: "$1,748.07",
+        changeLabel: "-6.27%",
+        up: false,
+      },
+    ]);
+    expect(movers.map((cell) => cell.instrumentId)).toEqual([
+      "eth_usd",
+      "btc_usd",
+    ]);
+  });
+
   it("renders unavailable values and only shows an editorial regime when supplied", () => {
     const copy = {
       title: "12コア指標",

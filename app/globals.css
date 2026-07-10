@@ -187,3 +187,22 @@
     background-color: var(--lmk-selection);
   }
 }
+
+.home-lead-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-areas: "session" "lead" "schedule" "focus" "series";
+}
+
+@media (min-width: 768px) {
+  .home-lead-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    grid-template-areas:
+      "session lead"
+      "schedule lead"
+      "schedule series"
+      "focus series";
+    align-items: start;
+  }
+}

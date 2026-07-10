@@ -392,6 +392,109 @@
       "unavailable": "TradeIntent を一時的に取得できません。"
     }
   },
+  "home": {
+    "general": {
+      "unavailable": "—",
+      "noLiveSession": "現在のセッションは切替中です"
+    },
+    "provenance": {
+      "review": "審査状態",
+      "source": "ソース",
+      "asOf": "as-of",
+      "packet": "パケットID",
+      "note": "数値は取得時点のスナップショットです"
+    },
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "次の時代の地図",
+      "mkt12-morning": "朝の12指標",
+      "mkt12-weekend": "週末の12指標",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "セッション記事"
+    },
+    "sessionNow": {
+      "sessionBadgeSuffix": "JST 更新",
+      "nextUpdateLine": "次の更新: {name} {time} JST",
+      "readFull": "セッション全文を読む →"
+    },
+    "schedule": {
+      "title": "本日の更新予定",
+      "previous": "前回を読む →",
+      "archive": "セッション記事の一覧（時間が経つとライブは記事になります）→",
+      "compactBadge": "本日あと{count}回更新",
+      "compactPrevious": "前回セッションの記事を読む"
+    },
+    "focus": {
+      "title": "セッション・フォーカス",
+      "snapshotBadge": "SNAPSHOT",
+      "description": "{session} の注目指標 · 直近24時間 · セッションの切り替わりで銘柄も入れ替わります"
+    },
+    "lead": {
+      "pending": "記事化待ち",
+      "pendingNote": "朝刊の公開準備中です",
+      "previous": "前回の記事を読む →"
+    },
+    "seriesIndex": {
+      "title": "記事をたどる",
+      "subtitle": "シリーズ別の一覧",
+      "listLabel": "一覧 →"
+    },
+    "mkt12": {
+      "sectionTitle": "12指標 — 数値と読み物",
+      "jointLabel": "同じ観測から記事へ",
+      "articleTitle": "12指標の記事",
+      "awaiting": "本日の12指標記事は公開準備中です",
+      "previous": "前回の12指標を読む →",
+      "indicator": {
+        "title": "12コア指標",
+        "dataDatePrefix": "データ日付",
+        "snapshotBadge": "SNAPSHOT",
+        "scrollHint": "← 横スクロールで全12指標（第1画面には主要指標を先頭表示）",
+        "regimeLabel": "きょうの地合い"
+      },
+      "movers": {
+        "title": "変動幅 上位",
+        "subtitle": "同じ12銘柄データから"
+      }
+    },
+    "radar": {
+      "sectionTitle": "速報 — 観測と記事",
+      "jointLabel": "確認を経て記事へ",
+      "lanes": {
+        "xNews": "X浮上",
+        "sde": "SDE検出",
+        "checking": "確認中"
+      },
+      "promoted": {
+        "title": "速報レーダー — 記事になった観測",
+        "subtitle": "タイトルのみ · リンクなし",
+        "observedSuffix": "に観測 → 内容を確認のうえ、",
+        "publishedSuffix": "に Signal として公開。"
+      },
+      "observations": {
+        "title": "ほかに観測中のタイトル",
+        "note": "内容の確認が取れたものだけが記事になります。"
+      },
+      "recent": {
+        "title": "最近の Signal",
+        "subtitle": "速報の確認から生まれた記事（別の話題）"
+      }
+    },
+    "lanes": {
+      "macro": "MACRO",
+      "crypto": "CRYPTO",
+      "rwa": "RWA",
+      "subtitle": "12指標の補完データ"
+    },
+    "library": {
+      "title": "記事ライブラリ",
+      "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
+      "archiveNote": "1日4回、ライブは時間が経つと記事になります"
+    }
+  },
   "articles": {
     "family": {
       "daily-intel": "Daily Intel",

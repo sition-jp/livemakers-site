@@ -392,6 +392,109 @@
       "unavailable": "TradeIntents are temporarily unavailable."
     }
   },
+  "home": {
+    "general": {
+      "unavailable": "—",
+      "noLiveSession": "The current session is changing over."
+    },
+    "provenance": {
+      "review": "Review status",
+      "source": "Source",
+      "asOf": "as-of",
+      "packet": "Packet ID",
+      "note": "Values are snapshots from the stated observation time."
+    },
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "The Next Era Map",
+      "mkt12-morning": "12 Indicators: Morning",
+      "mkt12-weekend": "12 Indicators: Weekend",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "Session Article"
+    },
+    "sessionNow": {
+      "sessionBadgeSuffix": "JST update",
+      "nextUpdateLine": "Next update: {name} {time} JST",
+      "readFull": "Read the full session →"
+    },
+    "schedule": {
+      "title": "Today's update schedule",
+      "previous": "Read previous →",
+      "archive": "Session article index (sessions become articles over time) →",
+      "compactBadge": "{count} more updates today",
+      "compactPrevious": "Read the previous session article"
+    },
+    "focus": {
+      "title": "Session Focus",
+      "snapshotBadge": "SNAPSHOT",
+      "description": "Focus indicators for {session} · last 24 hours · instruments change with each session"
+    },
+    "lead": {
+      "pending": "Awaiting article",
+      "pendingNote": "The morning edition is being prepared.",
+      "previous": "Read the previous article →"
+    },
+    "seriesIndex": {
+      "title": "Browse articles",
+      "subtitle": "Indexes by series",
+      "listLabel": "Index →"
+    },
+    "mkt12": {
+      "sectionTitle": "12 Indicators — Data and Reading",
+      "jointLabel": "From one observation to an article",
+      "articleTitle": "12 Indicators articles",
+      "awaiting": "Today's 12 Indicators article is being prepared.",
+      "previous": "Read the previous 12 Indicators →",
+      "indicator": {
+        "title": "12 Core Indicators",
+        "dataDatePrefix": "Data date",
+        "snapshotBadge": "SNAPSHOT",
+        "scrollHint": "← Scroll horizontally for all 12 indicators (key indicators appear first)",
+        "regimeLabel": "Today's regime"
+      },
+      "movers": {
+        "title": "Largest moves",
+        "subtitle": "From the same 12-instrument dataset"
+      }
+    },
+    "radar": {
+      "sectionTitle": "Breaking — Observations and Articles",
+      "jointLabel": "Verified before becoming an article",
+      "lanes": {
+        "xNews": "Surfaced on X",
+        "sde": "Detected by SDE",
+        "checking": "Checking"
+      },
+      "promoted": {
+        "title": "Breaking Radar — Observation turned article",
+        "subtitle": "Title only · no link",
+        "observedSuffix": "observed → after review, published as Signal at ",
+        "publishedSuffix": "."
+      },
+      "observations": {
+        "title": "Other titles under observation",
+        "note": "Only observations whose contents are confirmed become articles."
+      },
+      "recent": {
+        "title": "Recent Signals",
+        "subtitle": "Articles born from verified observations (other topics)"
+      }
+    },
+    "lanes": {
+      "macro": "MACRO",
+      "crypto": "CRYPTO",
+      "rwa": "RWA",
+      "subtitle": "Complementary data beyond the 12 indicators"
+    },
+    "library": {
+      "title": "Article Library",
+      "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
+      "archiveNote": "Four live sessions each day become articles over time."
+    }
+  },
   "articles": {
     "family": {
       "daily-intel": "Daily Intel",
