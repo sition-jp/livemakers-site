@@ -71,6 +71,13 @@ describe("B+ home composition (doctrine §4 nine-group ledger)", () => {
       "focus",
       "series-index",
     ]);
+    const seriesIndex = lead.querySelector(
+      '[data-lead-module="series-index"]',
+    )!;
+    expect(seriesIndex.className).toContain("h-full");
+    expect(seriesIndex.querySelector("[data-index-nav]")?.className).toContain(
+      "h-full",
+    );
   });
 
   it("keeps the turning-point seat hidden and empty", () => {

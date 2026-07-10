@@ -118,7 +118,7 @@ describe("lead group (ledger group 1)", () => {
   });
 
   it("lists the eight series index links", () => {
-    render(
+    const { container } = render(
       <SeriesIndexCard
         copy={{
           title: "記事をたどる",
@@ -142,5 +142,10 @@ describe("lead group (ledger group 1)", () => {
     expect(links[0].getAttribute("href")).toContain(
       "/articles/series/daily-intel",
     );
+    const card = container.querySelector("[data-index-nav]")!;
+    const list = container.querySelector("[data-series-index-list]")!;
+    expect(card.className).toContain("h-full");
+    expect(list.children).toHaveLength(8);
+    expect(list.className).not.toContain("grid-cols-2");
   });
 });

@@ -98,7 +98,7 @@ export function HomeComposition({
         <div
           data-lead-module="series-index"
           style={{ gridArea: "series" }}
-          className="hidden md:block"
+          className="hidden h-full md:block"
         >
           <SeriesIndexCard copy={copy.seriesIndex} />
         </div>
