@@ -1,0 +1,17 @@
+[
+  { "instrumentId": "nikkei_futures", "atJst": "2026-07-09T12:03:00+09:00", "value": 68020 },
+  { "instrumentId": "nikkei_futures", "atJst": "2026-07-09T18:03:00+09:00", "value": 68240 },
+  { "instrumentId": "nikkei_futures", "atJst": "2026-07-09T23:03:00+09:00", "value": 68480 },
+  { "instrumentId": "nikkei_futures", "atJst": "2026-07-10T05:03:00+09:00", "value": 68810 },
+  { "instrumentId": "nikkei_futures", "atJst": "2026-07-10T07:30:00+09:00", "value": 69035 },
+  { "instrumentId": "usd_jpy", "atJst": "2026-07-09T12:03:00+09:00", "value": 161.82 },
+  { "instrumentId": "usd_jpy", "atJst": "2026-07-09T18:03:00+09:00", "value": 161.94 },
+  { "instrumentId": "usd_jpy", "atJst": "2026-07-09T23:03:00+09:00", "value": 162.08 },
+  { "instrumentId": "usd_jpy", "atJst": "2026-07-10T05:03:00+09:00", "value": 162.24 },
+  { "instrumentId": "usd_jpy", "atJst": "2026-07-10T07:30:00+09:00", "value": 162.343 },
+  { "instrumentId": "btc_usd", "atJst": "2026-07-09T12:03:00+09:00", "value": 61520 },
+  { "instrumentId": "btc_usd", "atJst": "2026-07-09T18:03:00+09:00", "value": 61980 },
+  { "instrumentId": "btc_usd", "atJst": "2026-07-09T23:03:00+09:00", "value": 62410 },
+  { "instrumentId": "btc_usd", "atJst": "2026-07-10T05:03:00+09:00", "value": 62940 },
+  { "instrumentId": "btc_usd", "atJst": "2026-07-10T07:30:00+09:00", "value": 63299 }
+]
