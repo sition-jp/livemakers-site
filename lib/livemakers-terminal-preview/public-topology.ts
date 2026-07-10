@@ -9,7 +9,20 @@ import { validateBreakingRadarTitleWindow } from "./breaking-radar-title-window"
 const allowedPublishedArticleRoutes = [
   /^\/brief\/[A-Za-z0-9-]+$/,
   /^\/signals\/[A-Za-z0-9_-]+$/,
+  /^\/articles\/[a-z0-9-]+$/,
+  /^\/articles\/today$/,
+  /^\/articles\/series\/(daily-intel|signal|deep-dive|future-map|mkt12-morning|mkt12-weekend|event-risk-radar|weekly-brief)$/,
+  /^\/sessions\/\d{4}-\d{2}-\d{2}-(asia-open|europe-bridge|ny-open|global-close)$/,
+  /^\/sessions\/archive$/,
 ];
+
+export const PAGE_CHROME_ROUTES = [
+  "/",
+  "/about",
+  "/brief",
+  "/articles/today",
+  "/sessions/archive",
+] as const;
 
 const forbiddenHrefText = [
   "terminal-preview",
@@ -41,8 +54,15 @@ const sourceUrlPattern =
   /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?/gi;
 const sourceHandlePattern = /(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/g;
 
-function isAllowedPublishedArticleHref(href: string): boolean {
+export function isAllowedPublishedArticleRoute(href: string): boolean {
+  if (href.includes("..") || href.startsWith("/ja/")) {
+    return false;
+  }
   return allowedPublishedArticleRoutes.some((pattern) => pattern.test(href));
+}
+
+export function isAllowedChromeRoute(href: string): boolean {
+  return (PAGE_CHROME_ROUTES as readonly string[]).includes(href);
 }
 
 function validateArticleFeedItem(
@@ -51,7 +71,7 @@ function validateArticleFeedItem(
 ): string[] {
   const errors: string[] = [];
 
-  if (!isAllowedPublishedArticleHref(item.href)) {
+  if (!isAllowedPublishedArticleRoute(item.href)) {
     errors.push(
       `articleNewsFeed.items[${index}].href is not an allowed published article route: ${item.href}`,
     );

@@ -142,7 +142,7 @@ const publishedWindowSchema = z
   })
   .strict();
 
-const forbiddenSourceVisibleText = [
+export const forbiddenSourceVisibleText = [
   "site_publish_log",
   "published_log",
   "publish_audit",
@@ -160,7 +160,7 @@ const forbiddenSourceVisibleText = [
   "screenshot",
 ];
 
-const forbiddenSourceOpsTerms = [
+export const forbiddenSourceOpsTerms = [
   "crawler",
   "crawl",
   "chrome mcp",
