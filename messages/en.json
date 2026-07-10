@@ -259,7 +259,7 @@
       "evidence_count_other": "{count} sources",
       "related_assets": "Related",
       "conviction": "conviction {value}",
-      "translation_pending": "EN translation pending — full translation in Phase 2.",
+      "translation_pending": "EN translation pending — full translation is being prepared.",
       "age_minutes": "{n}m ago",
       "age_hours": "{n}h ago",
       "age_days": "{n}d ago",
@@ -334,7 +334,7 @@
         "position_label": "position",
         "conviction_label": "conviction {value}",
         "evidence_header": "Evidence ({shown} of {total})",
-        "translation_pending_aside": "EN translation pending — full translation in Phase 2."
+        "translation_pending_aside": "EN translation pending — full translation is being prepared."
       },
       "referenced_by_intents": {
         "title": "Referenced by TradeIntents",

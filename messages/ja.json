@@ -259,7 +259,7 @@
       "evidence_count_other": "{count} 件のソース",
       "related_assets": "関連",
       "conviction": "確信度 {value}",
-      "translation_pending": "EN 訳は Phase 2 で本訳に置き換わります。",
+      "translation_pending": "EN 訳は準備中です。",
       "age_minutes": "{n}分前",
       "age_hours": "{n}時間前",
       "age_days": "{n}日前",
@@ -334,7 +334,7 @@
         "position_label": "ポジション",
         "conviction_label": "確信度 {value}",
         "evidence_header": "エビデンス ({shown} 件 / 全 {total} 件)",
-        "translation_pending_aside": "EN translation pending — 完全翻訳は Phase 2 にて。"
+        "translation_pending_aside": "EN translation pending — 完全翻訳は準備中です。"
       },
       "referenced_by_intents": {
         "title": "この Signal を参照する TradeIntent",
