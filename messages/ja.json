@@ -2,10 +2,12 @@
   "nav": {
     "overview": "OVERVIEW",
     "brief": "BRIEF",
+    "articles": "記事",
+    "archive": "アーカイブ",
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
-    "live": "LIVE",
+    "snapshot": "SNAPSHOT",
     "alpha": "ALPHA"
   },
   "assets": {

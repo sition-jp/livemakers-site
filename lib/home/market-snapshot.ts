@@ -99,3 +99,23 @@ export function loadMarketSnapshot(): MarketSnapshot {
     JSON.parse(fs.readFileSync(FIXTURE_PATH, "utf8")),
   );
 }
+
+export interface SnapshotChromeMeta {
+  dateLabel: string;
+  asOfLabel: string;
+}
+
+const JST_WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"] as const;
+
+export function formatJstDateLabel(dataDate: string): string {
+  const weekday = JST_WEEKDAYS[new Date(`${dataDate}T00:00:00Z`).getUTCDay()];
+  return `${dataDate}（${weekday}）`;
+}
+
+export function getSnapshotChromeMeta(): SnapshotChromeMeta {
+  const snapshot = loadMarketSnapshot();
+  return {
+    dateLabel: formatJstDateLabel(snapshot.dataDate),
+    asOfLabel: snapshot.asOfLabel,
+  };
+}
