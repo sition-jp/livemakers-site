@@ -1,4 +1,5 @@
 import type { FocusSeries } from "@/lib/sessions/focus-series";
+import { INSTRUMENT_DISPLAY_NAMES_JA } from "@/lib/home/instruments";
 import {
   WindowProvenanceRow,
   type ProvenanceLabels,
@@ -56,8 +57,11 @@ export function SessionFocusChart({
           item ? (
             <div key={item.instrumentId}>
               <div className="grid grid-cols-[minmax(0,1fr)_160px_auto] items-center gap-3">
-                <span className="truncate font-mono text-[11px] font-semibold text-text-secondary">
-                  {item.instrumentId}
+                <span
+                  data-focus-instrument-label
+                  className="truncate text-[11px] font-semibold text-text-secondary"
+                >
+                  {INSTRUMENT_DISPLAY_NAMES_JA[item.instrumentId]}
                 </span>
                 <svg
                   role="img"

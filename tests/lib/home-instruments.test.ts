@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   CHARTABLE_INSTRUMENTS,
   CORE_12_INSTRUMENTS,
+  INSTRUMENT_DISPLAY_NAMES_JA,
   LANE_ROWS,
   assertLaneRowsExcludeCore12,
 } from "@/lib/home/instruments";
@@ -70,6 +71,17 @@ describe("instrument registry + exclusion guard", () => {
       "sol_usd",
       "coin_stock",
     ]);
+  });
+
+  it("provides reader-facing labels for every chartable instrument", () => {
+    expect(
+      CHARTABLE_INSTRUMENTS.every(
+        (instrumentId) => INSTRUMENT_DISPLAY_NAMES_JA[instrumentId],
+      ),
+    ).toBe(true);
+    expect(INSTRUMENT_DISPLAY_NAMES_JA.nikkei_futures).toBe("日経平均先物");
+    expect(INSTRUMENT_DISPLAY_NAMES_JA.usd_jpy).toBe("USD/JPY");
+    expect(INSTRUMENT_DISPLAY_NAMES_JA.btc_usd).toBe("BTC/USD");
   });
 
   it("loads the market snapshot fixture with full as-of ISO and complete cells", () => {

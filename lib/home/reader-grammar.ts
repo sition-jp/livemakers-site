@@ -62,6 +62,15 @@ export function findLiveTokenViolations(text: string): string[] {
   return /(?<![A-Za-z])LIVE(?![A-Za-z])/.test(scrubbed) ? ["LIVE"] : [];
 }
 
+export function findRawInstrumentIdViolations(text: string): string[] {
+  return [
+    ...new Set(
+      text.match(/(?<![a-z0-9])[a-z][a-z0-9]*_[a-z0-9_]+(?![a-z0-9_])/g) ??
+        [],
+    ),
+  ];
+}
+
 export function collectScannableText(root: ParentNode): string {
   const parts = [root.textContent ?? ""];
   for (const element of root.querySelectorAll("[alt],[aria-label],[title]")) {

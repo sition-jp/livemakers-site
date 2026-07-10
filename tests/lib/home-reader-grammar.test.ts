@@ -4,6 +4,7 @@ import {
   findForbiddenDesignTerms,
   findForbiddenOpsTerms,
   findLiveTokenViolations,
+  findRawInstrumentIdViolations,
 } from "@/lib/home/reader-grammar";
 
 describe("reader grammar guards (D8/D9)", () => {
@@ -31,5 +32,14 @@ describe("reader grammar guards (D8/D9)", () => {
       findLiveTokenViolations("ライブは時間が経つと記事になります"),
     ).toEqual([]);
     expect(findLiveTokenViolations("DELIVERED")).toEqual([]);
+  });
+
+  it("flags raw instrument ids in reader-facing labels", () => {
+    expect(
+      findRawInstrumentIdViolations("nikkei_futures / usd_jpy / BTC/USD"),
+    ).toEqual(["nikkei_futures", "usd_jpy"]);
+    expect(
+      findRawInstrumentIdViolations("日経平均先物 / USD/JPY / BTC/USD"),
+    ).toEqual([]);
   });
 });

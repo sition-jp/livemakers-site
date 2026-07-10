@@ -19,6 +19,7 @@ import {
   findForbiddenDesignTerms,
   findForbiddenOpsTerms,
   findLiveTokenViolations,
+  findRawInstrumentIdViolations,
 } from "@/lib/home/reader-grammar";
 import {
   isAllowedChromeRoute,
@@ -185,6 +186,12 @@ describe("B+ safety regression gates (page-wide, fail-closed)", () => {
     const text = collectScannableText(container);
     expect(findForbiddenOpsTerms(text)).toEqual([]);
     expect(findForbiddenDesignTerms(text)).toEqual([]);
+    const focusLabels = [
+      ...container.querySelectorAll("[data-focus-instrument-label]"),
+    ]
+      .map((element) => element.textContent ?? "")
+      .join(" ");
+    expect(findRawInstrumentIdViolations(focusLabels)).toEqual([]);
   });
 
   it("gate 6: rendered article ids are unique outside index navigation", () => {

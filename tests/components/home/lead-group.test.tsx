@@ -72,7 +72,7 @@ describe("lead group (ledger group 1)", () => {
         windowEndJst: "2026-07-10T07:58:00+09:00",
       }),
     );
-    render(
+    const { container } = render(
       <SessionFocusChart
         sessionName="Asia Open Terminal"
         series={series}
@@ -91,6 +91,14 @@ describe("lead group (ledger group 1)", () => {
     expect(
       screen.getByText(/series\.2026-07-10\.nikkei_futures/),
     ).toBeInTheDocument();
+    expect(screen.getByText("日経平均先物")).toBeInTheDocument();
+    expect(screen.getByText("USD/JPY")).toBeInTheDocument();
+    expect(screen.getByText("BTC/USD")).toBeInTheDocument();
+    const labels = [
+      ...container.querySelectorAll("[data-focus-instrument-label]"),
+    ].map((element) => element.textContent ?? "");
+    expect(labels).toEqual(["日経平均先物", "USD/JPY", "BTC/USD"]);
+    expect(labels.some((label) => /[a-z]+_[a-z]+/.test(label))).toBe(false);
   });
 
   it("shows the pending article state without an empty link frame", () => {
