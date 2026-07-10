@@ -4,12 +4,22 @@ import { usePathname } from "next/navigation";
 import { describe, expect, it, vi } from "vitest";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 
+const chromeMeta = { dateLabel: "2026-07-10（金）", asOfLabel: "07:58 JST" };
+
 vi.mock("next/navigation", () => ({
   usePathname: vi.fn(),
 }));
 
 vi.mock("@/components/layout/Header", () => ({
-  Header: () => <nav data-testid="site-header">Header</nav>,
+  Header: ({
+    chromeMeta,
+  }: {
+    chromeMeta: { dateLabel: string; asOfLabel: string };
+  }) => (
+    <nav data-testid="site-header" data-as-of={chromeMeta.asOfLabel}>
+      Header
+    </nav>
+  ),
 }));
 
 vi.mock("@/components/layout/Footer", () => ({
@@ -23,7 +33,7 @@ describe("SiteChrome", () => {
     mockedUsePathname.mockReturnValue("/ja/terminal-preview");
 
     render(
-      <SiteChrome>
+      <SiteChrome chromeMeta={chromeMeta}>
         <div>Preview</div>
       </SiteChrome>,
     );
@@ -37,12 +47,16 @@ describe("SiteChrome", () => {
     mockedUsePathname.mockReturnValue("/ja/brief");
 
     render(
-      <SiteChrome>
+      <SiteChrome chromeMeta={chromeMeta}>
         <div>Brief</div>
       </SiteChrome>,
     );
 
     expect(screen.getByTestId("site-header")).toBeInTheDocument();
+    expect(screen.getByTestId("site-header")).toHaveAttribute(
+      "data-as-of",
+      chromeMeta.asOfLabel,
+    );
     expect(screen.getByText("Brief")).toBeInTheDocument();
     expect(screen.getByTestId("site-footer")).toBeInTheDocument();
   });

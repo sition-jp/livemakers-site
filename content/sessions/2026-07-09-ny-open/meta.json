@@ -1,0 +1,19 @@
+{
+  "sessionId": "2026-07-09-ny-open",
+  "date": "2026-07-09",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-07-09-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-07-09-ny-open",
+  "publishedAt": "2026-07-09T18:40:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260709_ny",
+  "asOfJst": "2026-07-09T18:03:00+09:00",
+  "focusInstruments": ["spx", "us10y"],
+  "titleJa": "NY Open — 株価と金利の初動を読む",
+  "bullets": [
+    "米市場開始時の株価と長期金利を並べて確認",
+    "初動と次の更新の差を観測点として残す"
+  ]
+}

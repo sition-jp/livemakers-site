@@ -2,10 +2,12 @@
   "nav": {
     "overview": "OVERVIEW",
     "brief": "BRIEF",
+    "articles": "ARTICLES",
+    "archive": "ARCHIVE",
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
-    "live": "LIVE",
+    "snapshot": "SNAPSHOT",
     "alpha": "ALPHA"
   },
   "assets": {
@@ -257,7 +259,7 @@
       "evidence_count_other": "{count} sources",
       "related_assets": "Related",
       "conviction": "conviction {value}",
-      "translation_pending": "EN translation pending — full translation in Phase 2.",
+      "translation_pending": "EN translation pending — full translation is being prepared.",
       "age_minutes": "{n}m ago",
       "age_hours": "{n}h ago",
       "age_days": "{n}d ago",
@@ -332,7 +334,7 @@
         "position_label": "position",
         "conviction_label": "conviction {value}",
         "evidence_header": "Evidence ({shown} of {total})",
-        "translation_pending_aside": "EN translation pending — full translation in Phase 2."
+        "translation_pending_aside": "EN translation pending — full translation is being prepared."
       },
       "referenced_by_intents": {
         "title": "Referenced by TradeIntents",
@@ -391,6 +393,144 @@
     "error": {
       "unavailable": "TradeIntents are temporarily unavailable."
     }
+  },
+  "home": {
+    "general": {
+      "unavailable": "—",
+      "noLiveSession": "The current session is changing over."
+    },
+    "provenance": {
+      "review": "Review status",
+      "source": "Source",
+      "asOf": "as-of",
+      "packet": "Packet ID",
+      "note": "Values are snapshots from the stated observation time."
+    },
+    "masthead": {
+      "title": "See Now ⇄ Read Today",
+      "subtitle": "The market now and today's interpretation at a glance"
+    },
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "The Next Era Map",
+      "mkt12-morning": "12 Indicators: Morning",
+      "mkt12-weekend": "12 Indicators: Weekend",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "Session Article"
+    },
+    "sessionNow": {
+      "sessionBadgeSuffix": "JST update",
+      "nextUpdateLine": "Next update: {name} {time} JST",
+      "readFull": "Read the full session →"
+    },
+    "schedule": {
+      "title": "Today's update schedule",
+      "previous": "Read previous →",
+      "archive": "Session article index (sessions become articles over time) →",
+      "compactBadge": "{count} more updates today",
+      "compactPrevious": "Read the previous session article"
+    },
+    "focus": {
+      "title": "Session Focus",
+      "snapshotBadge": "SNAPSHOT",
+      "description": "Focus indicators for {session} · last 24 hours · instruments change with each session"
+    },
+    "lead": {
+      "pending": "Awaiting article",
+      "pendingNote": "The morning edition is being prepared.",
+      "previous": "Read the previous article →"
+    },
+    "seriesIndex": {
+      "title": "Browse articles",
+      "subtitle": "Indexes by series",
+      "listLabel": "Index →"
+    },
+    "mkt12": {
+      "groupTitle": "Two Faces of the Market",
+      "groupSubtitle": "Current data and its interpretation",
+      "sectionTitle": "12 Core Indicators — Current Data and Today's Reading",
+      "jointLabel": "The same 12 instruments",
+      "articleTitle": "Today's reading (07-10 morning edition)",
+      "awaiting": "Today's 12 Indicators article is being prepared.",
+      "previous": "Read the previous 12 Indicators →",
+      "otherPeriods": "Same series · Other periods",
+      "archiveTitle": "12 Indicators archive",
+      "archiveSubtitle": "Previous articles in the same series",
+      "indicator": {
+        "title": "12 Core Indicators",
+        "dataDatePrefix": "Data date",
+        "snapshotBadge": "SNAPSHOT",
+        "scrollHint": "← Scroll horizontally for all 12 indicators (key indicators appear first)",
+        "regimeLabel": "Today's regime"
+      },
+      "movers": {
+        "title": "Largest moves",
+        "subtitle": "From the same 12-instrument dataset"
+      }
+    },
+    "radar": {
+      "sectionTitle": "Breaking — From Observation to Article",
+      "jointLabel": "Published after verification",
+      "lanes": {
+        "xNews": "Surfaced on X",
+        "sde": "Detected by SDE",
+        "checking": "Checking"
+      },
+      "promoted": {
+        "title": "Breaking Radar — Observation turned article",
+        "subtitle": "Title only · no link",
+        "observedSuffix": "observed → after review, published as Signal at ",
+        "publishedSuffix": "."
+      },
+      "observations": {
+        "title": "Other titles under observation",
+        "note": "Only observations whose contents are confirmed become articles."
+      },
+      "recent": {
+        "title": "Recent Signals",
+        "subtitle": "Articles born from verified observations (other topics)"
+      }
+    },
+    "lanes": {
+      "macro": "MACRO",
+      "crypto": "CRYPTO",
+      "rwa": "RWA",
+      "subtitle": "Complementary data beyond the 12 indicators"
+    },
+    "library": {
+      "title": "Article Library — Cross-Series",
+      "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
+      "archiveNote": "Four live sessions each day become articles over time."
+    }
+  },
+  "articles": {
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "The Next Era Map",
+      "mkt12-morning": "12 Indicators: Morning",
+      "mkt12-weekend": "12 Indicators: Weekend",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "Session Article"
+    },
+    "todayTitle": "Today's articles",
+    "todayEmpty": "Today's articles will be published shortly.",
+    "latestTitle": "Recent articles",
+    "seriesTitle": "Series",
+    "briefArchiveNote": "Browse the Weekly Brief archive"
+  },
+  "sessions": {
+    "family": "Session Article",
+    "publishedAt": "Published",
+    "liveAsOf": "Updated",
+    "crystallizeNote": "This page becomes a permanent article when the next session begins.",
+    "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
+    "archiveNote": "Four live sessions each day become articles over time."
   },
   "turningPoints": {
     "page_title": "AI Turning Point Detector",

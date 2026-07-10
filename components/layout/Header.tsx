@@ -6,11 +6,12 @@ import { useLocale, useTranslations } from "next-intl";
 // because switchLocale needs the RAW pathname including the /ja prefix to
 // strip-and-prepend correctly. next-intl's usePathname strips the locale.
 import { usePathname } from "next/navigation";
-import { LogoSvg } from "@/components/ui/LogoSvg";
+import { LogoMark } from "@/components/brand/LogoMark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
+import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
 
-export function Header() {
+export function Header({ chromeMeta }: { chromeMeta: SnapshotChromeMeta }) {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
@@ -32,9 +33,15 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
       <LogoColorBand />
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-3 text-text-primary">
-          <LogoSvg className="h-7 w-7 text-pillar-overview" />
+      {/* 390px ではブランド行と操作行の 2 段に折り返して横スクロールを出さない
+          （言語切替・SNAPSHOT チップは常時表示要件のため非表示にしない・T16 pinpoint） */}
+      <div className="mx-auto flex max-w-[1920px] flex-wrap items-center justify-between gap-y-2 px-4 py-3 sm:px-6 sm:py-4">
+        <Link
+          href="/"
+          aria-label="LIVEMAKERS"
+          className="flex items-center gap-2.5 text-text-primary"
+        >
+          <LogoMark className="h-7 w-7 shrink-0 text-text-primary" />
           <span className="flex items-center gap-2">
             <span className="text-sm font-bold tracking-logo">LIVEMAKERS</span>
             {/* Hidden below sm so the brand row and the theme toggle both fit
@@ -45,7 +52,7 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-4 lg:flex">
           <Link
             href="/"
             className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
@@ -57,6 +64,18 @@ export function Header() {
             className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
           >
             {t("brief")}
+          </Link>
+          <Link
+            href="/articles/today"
+            className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
+          >
+            {t("articles")}
+          </Link>
+          <Link
+            href="/sessions/archive"
+            className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
+          >
+            {t("archive")}
           </Link>
           {/* SIGNALS / SUBSCRIBE are temporarily hidden from nav while still
               in development. The pages themselves remain reachable via URL
@@ -70,17 +89,16 @@ export function Header() {
           </Link>
         </nav>
 
-        {/* gap-2 below sm and a dot-only LIVE indicator keep the control row
-            inside a 390px viewport now that the theme toggle joined it
-            (G39-A1 review fix); full labels return from sm up. */}
         <div className="flex items-center gap-2 sm:gap-4">
           <ThemeToggle />
-          <span className="flex items-center gap-2 text-[10px] tracking-label text-text-tertiary">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-status-live" />
-            <span className="hidden sm:inline">{t("live")}</span>
+          <span className="hidden font-mono text-[10px] text-text-tertiary xl:inline">
+            {chromeMeta.dateLabel}
+          </span>
+          <span className="max-w-[73px] overflow-hidden whitespace-nowrap rounded bg-bg-tertiary px-2 py-1 font-mono text-[9px] font-bold tracking-label text-text-secondary sm:max-w-none">
+            {t("snapshot")} {chromeMeta.asOfLabel}
           </span>
           <span
-            className="hidden text-[10px] tracking-label text-text-tertiary md:inline"
+            className="hidden text-[10px] tracking-label text-text-tertiary xl:inline"
             title={`build ${process.env.NEXT_PUBLIC_BUILD_SHA} · ${process.env.NEXT_PUBLIC_BUILD_DATE}`}
           >
             v{process.env.NEXT_PUBLIC_APP_VERSION}

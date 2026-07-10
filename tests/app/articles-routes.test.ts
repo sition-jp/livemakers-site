@@ -1,0 +1,44 @@
+import fs from "node:fs";
+import path from "node:path";
+
+import { describe, expect, it } from "vitest";
+
+import {
+  SERIES_SLUGS,
+  getAllArticles,
+} from "@/lib/articles/article-model";
+import { isAllowedPublishedArticleRoute } from "@/lib/livemakers-terminal-preview/public-topology";
+
+const read = (filePath: string): string =>
+  fs.readFileSync(path.join(process.cwd(), filePath), "utf8");
+
+describe("articles routes (G41)", () => {
+  it("article detail reads the model without runtime fetching", () => {
+    const source = read("app/[locale]/articles/[slug]/page.tsx");
+    expect(source).toContain("getArticleBySlug");
+    expect(source).toContain("getArticleBody");
+    expect(source).not.toMatch(/fetch\(|useSWR|\/api\//);
+    expect(source).toContain("generateStaticParams");
+  });
+
+  it("today uses the article loader and series rejects unknown slugs", () => {
+    expect(read("app/[locale]/articles/today/page.tsx")).toContain(
+      "getAllArticles",
+    );
+    const series = read("app/[locale]/articles/series/[series]/page.tsx");
+    expect(series).toContain("SERIES_SLUGS");
+    expect(series).toContain("notFound");
+  });
+
+  it("every fixture and series href passes the route ledger", () => {
+    for (const article of getAllArticles()) {
+      expect(isAllowedPublishedArticleRoute(article.href), article.href).toBe(
+        true,
+      );
+    }
+    for (const series of SERIES_SLUGS) {
+      const href = `/articles/series/${series}`;
+      expect(isAllowedPublishedArticleRoute(href), href).toBe(true);
+    }
+  });
+});

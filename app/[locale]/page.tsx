@@ -1,27 +1,12 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { ReaderIntelligenceTerminal } from "@/components/terminal/ReaderIntelligenceTerminal";
-import { TickerBar } from "@/components/terminal/TickerBar";
-import { SiteTagline } from "@/components/terminal/SiteTagline";
-import { getReviewedReaderTerminalSource } from "@/lib/livemakers-terminal-preview/reader-terminal-source";
-import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
-import { buildSiteNativePublishedFeed } from "@/lib/terminal/published-window";
 
-/**
- * G39-A2: the homepage is the reader intelligence terminal, full stop.
- * The Cardano/Midnight-centered WEEKLY BRIEFS framing (EditorialHero /
- * NetworkPulse / FourPanelStatus / RecentBriefs) is retired per doctrine
- * §2/§5 — past briefs stay reachable through the /brief archive, linked
- * from the Published Intelligence window.
- *
- * G39-B B2: the macro/crypto lane windows and the ticker read the delivered
- * SDE terminal feed (one payload for all market surfaces). B3: the Live
- * Radar window reads the same payload behind the unmodified PR #13
- * validator, with the session times in its header. Published / RWA stay on
- * the reviewed fixtures until B4/B5. A missing or invalid feed (or radar
- * section) falls back to the fixture with FIXTURE badges. v1.5 Plan B adds
- * the Source window render from the same SDE Plan A payload contract; it is
- * non-clicking and independently degraded.
- */
+import { GlobalProvenanceStrip } from "@/components/home/GlobalProvenanceStrip";
+import { HomeComposition } from "@/components/home/HomeComposition";
+import { TickerBar } from "@/components/terminal/TickerBar";
+import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import { buildHomeCopy } from "@/lib/home/home-copy";
+import { READER_SESSIONS } from "@/lib/sessions/session-registry";
+
 export default async function OverviewPage({
   params,
 }: {
@@ -29,49 +14,39 @@ export default async function OverviewPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const readerTerminalLocale = locale === "ja" ? "ja" : "en";
-  const readerTerminalT = await getTranslations("overview.readerTerminal");
-  const readerTerminalSource = getReviewedReaderTerminalSource();
-  const liveMarket = await fetchLiveMarketData();
-  const publishedFeed = buildSiteNativePublishedFeed();
+  const t = await getTranslations("home");
+  const props = buildHomeCompositionProps();
+  const currentIndex = props.live
+    ? READER_SESSIONS.findIndex(
+        (session) => session.slug === props.live?.sessionSlug,
+      )
+    : -1;
+  const nextSession =
+    READER_SESSIONS[(currentIndex + 1) % READER_SESSIONS.length];
+  const copy = buildHomeCopy(
+    (key, values) => t(key as never, values as never),
+    {
+      sessionName: props.live
+        ? READER_SESSIONS.find(
+            (session) => session.slug === props.live?.sessionSlug,
+          )!.nameEn
+        : t("general.noLiveSession"),
+      nextSessionName: nextSession.nameEn,
+      nextSessionTime: nextSession.updateTimeLabel,
+      remainingSessions: props.schedule.filter((item) => !item.isCurrent)
+        .length,
+    },
+  );
 
   return (
     <>
-      <TickerBar items={liveMarket?.ticker} />
-      <SiteTagline />
-      <ReaderIntelligenceTerminal
-        locale={readerTerminalLocale}
-        data={readerTerminalSource.data}
-        sourceProvenance={readerTerminalSource.provenance}
-        marketLanes={liveMarket?.lanes}
-        liveRadar={liveMarket?.liveRadar}
-        scheduledSession={liveMarket?.scheduledSession}
-        articleNewsFeed={publishedFeed}
-        publishedPosts={liveMarket?.published}
-        sourceFeed={liveMarket?.source}
-        copy={{
-          eyebrow: readerTerminalT("eyebrow"),
-          title: readerTerminalT("title"),
-          subtitle: readerTerminalT("subtitle"),
-          sessionVisibilityTitle: readerTerminalT("sessionVisibilityTitle"),
-          sessionVisibilityAsOf: readerTerminalT("sessionVisibilityAsOf"),
-          sessionVisibilityPacket: readerTerminalT("sessionVisibilityPacket"),
-          laneMacro: readerTerminalT("laneMacro"),
-          laneCrypto: readerTerminalT("laneCrypto"),
-          laneRwa: readerTerminalT("laneRwa"),
-          fixtureLabel: readerTerminalT("fixtureLabel"),
-          radarUpdatedLabel: readerTerminalT("radarUpdatedLabel"),
-          radarNextSessionLabel: readerTerminalT("radarNextSessionLabel"),
-          titleOnlyBadge: readerTerminalT("titleOnlyBadge"),
-          archiveLinkLabel: readerTerminalT("archiveLinkLabel"),
-          publishedOnXLabel: readerTerminalT("publishedOnXLabel"),
-          sourceStatusTitle: readerTerminalT("sourceStatusTitle"),
-          sourceStatusReviewed: readerTerminalT("sourceStatusReviewed"),
-          sourceStatusFixtureOnly: readerTerminalT("sourceStatusFixtureOnly"),
-          sourceStatusReviewedAt: readerTerminalT("sourceStatusReviewedAt"),
-          sourceStatusPacket: readerTerminalT("sourceStatusPacket"),
-        }}
+      <TickerBar items={props.tickerItems} />
+      <GlobalProvenanceStrip
+        provenance={props.pageProvenance}
+        labels={copy.provenance}
+        note={copy.globalProvenanceNote}
       />
+      <HomeComposition {...props} copy={copy} />
     </>
   );
 }

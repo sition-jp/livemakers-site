@@ -1,11 +1,13 @@
 {
   "nav": {
-    "overview": "OVERVIEW",
-    "brief": "BRIEF",
+    "overview": "トップ",
+    "brief": "ブリーフ",
+    "articles": "記事",
+    "archive": "アーカイブ",
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
-    "about": "ABOUT",
-    "live": "LIVE",
+    "about": "About",
+    "snapshot": "SNAPSHOT",
     "alpha": "ALPHA"
   },
   "assets": {
@@ -257,7 +259,7 @@
       "evidence_count_other": "{count} 件のソース",
       "related_assets": "関連",
       "conviction": "確信度 {value}",
-      "translation_pending": "EN 訳は Phase 2 で本訳に置き換わります。",
+      "translation_pending": "EN 訳は準備中です。",
       "age_minutes": "{n}分前",
       "age_hours": "{n}時間前",
       "age_days": "{n}日前",
@@ -332,7 +334,7 @@
         "position_label": "ポジション",
         "conviction_label": "確信度 {value}",
         "evidence_header": "エビデンス ({shown} 件 / 全 {total} 件)",
-        "translation_pending_aside": "EN translation pending — 完全翻訳は Phase 2 にて。"
+        "translation_pending_aside": "EN translation pending — 完全翻訳は準備中です。"
       },
       "referenced_by_intents": {
         "title": "この Signal を参照する TradeIntent",
@@ -391,6 +393,144 @@
     "error": {
       "unavailable": "TradeIntent を一時的に取得できません。"
     }
+  },
+  "home": {
+    "general": {
+      "unavailable": "—",
+      "noLiveSession": "現在のセッションは切替中です"
+    },
+    "provenance": {
+      "review": "審査状態",
+      "source": "ソース",
+      "asOf": "as-of",
+      "packet": "パケットID",
+      "note": "数値は取得時点のスナップショットです"
+    },
+    "masthead": {
+      "title": "いまを見る ⇄ 今日を読む",
+      "subtitle": "市場のいまと、今日の読み解きをひと目で"
+    },
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "次の時代の地図",
+      "mkt12-morning": "朝の12指標",
+      "mkt12-weekend": "週末の12指標",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "セッション記事"
+    },
+    "sessionNow": {
+      "sessionBadgeSuffix": "JST 更新",
+      "nextUpdateLine": "次の更新: {name} {time} JST",
+      "readFull": "セッション全文を読む →"
+    },
+    "schedule": {
+      "title": "本日の更新予定",
+      "previous": "前回を読む →",
+      "archive": "セッション記事の一覧（時間が経つとライブは記事になります）→",
+      "compactBadge": "本日あと{count}回更新",
+      "compactPrevious": "前回セッションの記事を読む"
+    },
+    "focus": {
+      "title": "セッション・フォーカス",
+      "snapshotBadge": "SNAPSHOT",
+      "description": "{session} の注目指標 · 直近24時間 · セッションの切り替わりで銘柄も入れ替わります"
+    },
+    "lead": {
+      "pending": "記事化待ち",
+      "pendingNote": "朝刊の公開準備中です",
+      "previous": "前回の記事を読む →"
+    },
+    "seriesIndex": {
+      "title": "記事をたどる",
+      "subtitle": "シリーズ別の一覧",
+      "listLabel": "一覧 →"
+    },
+    "mkt12": {
+      "groupTitle": "マーケットの二つの顔",
+      "groupSubtitle": "いまの数字と、その読み解き",
+      "sectionTitle": "12コア指標 — いまの数字と、今日の読み解き",
+      "jointLabel": "同じ12銘柄",
+      "articleTitle": "今日の読み解き（07-10 朝版）",
+      "awaiting": "本日の12指標記事は公開準備中です",
+      "previous": "前回の12指標を読む →",
+      "otherPeriods": "同じシリーズ · 別期間",
+      "archiveTitle": "12指標アーカイブ",
+      "archiveSubtitle": "同シリーズの過去記事",
+      "indicator": {
+        "title": "12コア指標",
+        "dataDatePrefix": "データ日付",
+        "snapshotBadge": "SNAPSHOT",
+        "scrollHint": "← 横スクロールで全12指標（第1画面には主要指標を先頭表示）",
+        "regimeLabel": "きょうの地合い"
+      },
+      "movers": {
+        "title": "変動幅 上位",
+        "subtitle": "同じ12銘柄データから"
+      }
+    },
+    "radar": {
+      "sectionTitle": "速報 — 観測から記事へ",
+      "jointLabel": "確認を経て記事化",
+      "lanes": {
+        "xNews": "X浮上",
+        "sde": "SDE検出",
+        "checking": "確認中"
+      },
+      "promoted": {
+        "title": "速報レーダー — 記事になった観測",
+        "subtitle": "タイトルのみ · リンクなし",
+        "observedSuffix": "に観測 → 内容を確認のうえ、",
+        "publishedSuffix": "に Signal として公開。"
+      },
+      "observations": {
+        "title": "ほかに観測中のタイトル",
+        "note": "内容の確認が取れたものだけが記事になります。"
+      },
+      "recent": {
+        "title": "最近の Signal",
+        "subtitle": "速報の確認から生まれた記事（別の話題）"
+      }
+    },
+    "lanes": {
+      "macro": "MACRO",
+      "crypto": "CRYPTO",
+      "rwa": "RWA",
+      "subtitle": "12指標の補完データ"
+    },
+    "library": {
+      "title": "記事ライブラリ — 横断・シリーズ",
+      "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
+      "archiveNote": "1日4回、ライブは時間が経つと記事になります"
+    }
+  },
+  "articles": {
+    "family": {
+      "daily-intel": "Daily Intel",
+      "signal": "Signal",
+      "deep-dive": "Deep Dive",
+      "future-map": "次の時代の地図",
+      "mkt12-morning": "朝の12指標",
+      "mkt12-weekend": "週末の12指標",
+      "event-risk-radar": "Event Risk Radar",
+      "weekly-brief": "Weekly Brief",
+      "session": "セッション記事"
+    },
+    "todayTitle": "本日の記事一覧",
+    "todayEmpty": "本日の記事はこれから公開されます",
+    "latestTitle": "最近の記事",
+    "seriesTitle": "シリーズ一覧",
+    "briefArchiveNote": "これまでの Weekly Brief アーカイブはこちら"
+  },
+  "sessions": {
+    "family": "セッション記事",
+    "publishedAt": "記事化",
+    "liveAsOf": "更新",
+    "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
+    "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
+    "archiveNote": "1日4回、ライブは時間が経つと記事になります"
   },
   "turningPoints": {
     "page_title": "AI ターニングポイント検出ダッシュボード",

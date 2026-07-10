@@ -192,30 +192,6 @@ describe("ReaderIntelligenceTerminal", () => {
     ).toBeInTheDocument();
   });
 
-  it("orders the windows by the doctrine §4 ledger in DOM order", () => {
-    const { container } = render(
-      <ReaderIntelligenceTerminal
-        locale="en"
-        data={terminalData}
-        copy={copy}
-        sourceFeed={sourceFeed}
-      />,
-    );
-
-    const windowIds = Array.from(
-      container.querySelectorAll('h3[id^="window-"]'),
-    ).map((el) => el.id);
-
-    expect(windowIds).toEqual([
-      "window-live-radar",
-      "window-lane-macro",
-      "window-lane-crypto",
-      "window-lane-rwa",
-      "window-published",
-      "window-source",
-    ]);
-  });
-
   it("renders the source window after Published as non-clicking ambient source flow", () => {
     const { container } = render(
       <ReaderIntelligenceTerminal

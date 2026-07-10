@@ -44,4 +44,9 @@ describe("i18n intents namespace parity", () => {
       (jaMessages as any).signals.detail.referenced_by_intents.title,
     ).toBeTruthy();
   });
+
+  it("I18N-4: public message payloads do not expose legacy rollout phases", () => {
+    expect(JSON.stringify(enMessages)).not.toMatch(/Phase\s*2/i);
+    expect(JSON.stringify(jaMessages)).not.toMatch(/Phase\s*2/i);
+  });
 });

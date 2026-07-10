@@ -21,14 +21,35 @@
 :root,
 [data-theme="light"] {
   /* Light (default) — cool neutral ground, never beige/cream */
-  --lmk-bg-primary: #f4f6f9;
+  --lmk-bg-primary: #f7f8f6;
   --lmk-bg-secondary: #ffffff;
-  --lmk-bg-tertiary: #edf1f6;
-  --lmk-border-primary: #d7dee8;
-  --lmk-border-hover: #b9c4d4;
-  --lmk-text-primary: #17202e;
-  --lmk-text-secondary: #4c5a6e;
-  --lmk-text-tertiary: #8593a6;
+  --lmk-bg-tertiary: #edf3f0;
+  --lmk-border-primary: #e3e8e4;
+  --lmk-border-hover: #c7d1cb;
+  --lmk-text-primary: #1b2523;
+  --lmk-text-secondary: #63706b;
+  --lmk-text-tertiary: #7c8b84;
+
+  --lmk-accent: #0e6b5c;
+  --lmk-chip-bg: #edf3f0;
+  --lmk-chip-ink: #0a4f44;
+  --lmk-lane-macro: #4a5b8c;
+  --lmk-lane-crypto: #0e6b5c;
+  --lmk-lane-rwa: #96601f;
+  --lmk-radar-bg: #f3f6f4;
+  --lmk-radar-line: #d9e2dc;
+  --lmk-radar-ink: #42514b;
+  --lmk-radar-sub: #7c8b84;
+
+  --lmk-family-intel: #0e6b5c;
+  --lmk-family-signal: #a9502c;
+  --lmk-family-deep-dive: #3e4e86;
+  --lmk-family-future-map: #7a4a78;
+  --lmk-family-mkt12: #46687f;
+  --lmk-family-mkt12-weekend: #46687f;
+  --lmk-family-event-risk: #92661c;
+  --lmk-family-weekly-brief: #3d6b44;
+  --lmk-family-session: #5c6a66;
 
   --lmk-pillar-overview: #2563c7;
   --lmk-pillar-market: #0e7c97;
@@ -38,31 +59,40 @@
   --lmk-pillar-risk: #b3403e;
   --lmk-pillar-projects: #9a5b0b;
 
-  --lmk-status-up: #177a50;
-  --lmk-status-down: #b3403e;
-  --lmk-status-live: #177a50;
+  --lmk-status-up: #c2402a;
+  --lmk-status-down: #2563a8;
+  --lmk-status-live: #0e6b5c;
 
   --lmk-staleness-live: #177a50;
   --lmk-staleness-warn: #9a6b12;
   --lmk-staleness-stale: #9a5b0b;
   --lmk-staleness-hard: #b3403e;
 
-  /* Placeholder until the LiveMakers logo mark lands; the header band reads
-     this token so the final logo color is a one-line swap. */
-  --lmk-logo-color: #8593a6;
+  --lmk-logo-color: #0a4f44;
 
-  --lmk-selection: rgb(37 99 199 / 0.18);
+  --lmk-selection: rgb(14 107 92 / 0.18);
 }
 
 [data-theme="dark"] {
-  --lmk-bg-primary: #0a0d13;
-  --lmk-bg-secondary: #111621;
-  --lmk-bg-tertiary: #060a0f;
-  --lmk-border-primary: #1f2738;
-  --lmk-border-hover: #2d3850;
-  --lmk-text-primary: #ffffff;
-  --lmk-text-secondary: #97a5bb;
-  --lmk-text-tertiary: #6b7686;
+  --lmk-bg-primary: #10161a;
+  --lmk-bg-secondary: #192226;
+  --lmk-bg-tertiary: #20302c;
+  --lmk-border-primary: #2b3639;
+  --lmk-border-hover: #3b484b;
+  --lmk-text-primary: #e6ecea;
+  --lmk-text-secondary: #93a2a4;
+  --lmk-text-tertiary: #7f8f87;
+
+  --lmk-accent: #54b9a4;
+  --lmk-chip-bg: #20302c;
+  --lmk-chip-ink: #8fd3c2;
+  --lmk-lane-macro: #4a5b8c;
+  --lmk-lane-crypto: #0e6b5c;
+  --lmk-lane-rwa: #96601f;
+  --lmk-radar-bg: #1b2320;
+  --lmk-radar-line: #33403a;
+  --lmk-radar-ink: #c8d6cf;
+  --lmk-radar-sub: #7f8f87;
 
   --lmk-pillar-overview: #60a5fa;
   --lmk-pillar-market: #22d3ee;
@@ -72,9 +102,9 @@
   --lmk-pillar-risk: #f87171;
   --lmk-pillar-projects: #f59e0b;
 
-  --lmk-status-up: #22c55e;
-  --lmk-status-down: #ef4444;
-  --lmk-status-live: #22c55e;
+  --lmk-status-up: #ff8e79;
+  --lmk-status-down: #82b8ec;
+  --lmk-status-live: #54b9a4;
 
   /* Staleness tiers (spec 2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.3) */
   --lmk-staleness-live: #22c55e;   /* < 60s   — fresh */
@@ -82,9 +112,9 @@
   --lmk-staleness-stale: #f59e0b;  /* 180-360s — stale */
   --lmk-staleness-hard: #ef4444;   /* ≥ 360s — very stale */
 
-  --lmk-logo-color: #66738a;
+  --lmk-logo-color: #0a4f44;
 
-  --lmk-selection: rgb(96 165 250 / 0.25);
+  --lmk-selection: rgb(84 185 164 / 0.25);
 }
 
 @theme inline {
@@ -96,6 +126,16 @@
   --color-text-primary: var(--lmk-text-primary);
   --color-text-secondary: var(--lmk-text-secondary);
   --color-text-tertiary: var(--lmk-text-tertiary);
+  --color-accent: var(--lmk-accent);
+  --color-chip-bg: var(--lmk-chip-bg);
+  --color-chip-ink: var(--lmk-chip-ink);
+  --color-lane-macro: var(--lmk-lane-macro);
+  --color-lane-crypto: var(--lmk-lane-crypto);
+  --color-lane-rwa: var(--lmk-lane-rwa);
+  --color-radar-bg: var(--lmk-radar-bg);
+  --color-radar-line: var(--lmk-radar-line);
+  --color-radar-ink: var(--lmk-radar-ink);
+  --color-radar-sub: var(--lmk-radar-sub);
 
   --color-pillar-overview: var(--lmk-pillar-overview);
   --color-pillar-market: var(--lmk-pillar-market);
@@ -185,5 +225,31 @@
 
   ::selection {
     background-color: var(--lmk-selection);
+  }
+}
+
+.home-lead-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-areas:
+    "masthead"
+    "session"
+    "lead"
+    "schedule"
+    "focus"
+    "series";
+}
+
+@media (min-width: 768px) {
+  .home-lead-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    grid-template-areas:
+      "masthead masthead"
+      "session lead"
+      "schedule lead"
+      "schedule series"
+      "focus series";
+    align-items: start;
   }
 }

@@ -102,10 +102,11 @@ describe("SignalCard", () => {
     // The body summary should have the marker stripped out
     const summary = screen.getByTestId("signal-summary");
     expect(summary.textContent).not.toMatch(/EN translation pending\./);
-    // Footer aside should be present
+    // Footer aside should be present without exposing an internal rollout phase.
     expect(
-      screen.getByText(/Phase 2/i)
+      screen.getByText(/full translation is being prepared/i)
     ).toBeInTheDocument();
+    expect(screen.queryByText(/Phase\s*2/i)).not.toBeInTheDocument();
   });
 
   it("UI-4: bucket=actionable — applies amber left border and shows alarm icon", () => {

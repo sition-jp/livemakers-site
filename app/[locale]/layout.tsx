@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Inter, Noto_Sans_JP } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 
 // Self-hosted via next/font so the design typeface renders identically on
 // every device (2026-07-04 review: system fallbacks drifted to serif when
@@ -38,6 +39,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
+  const chromeMeta = getSnapshotChromeMeta();
 
   // Applies a stored dark preference before first paint so there is no
   // light-flash for returning dark users. Light is the default and needs no
@@ -49,7 +51,7 @@ export default async function LocaleLayout({
       <body className={`${inter.variable} ${notoSansJp.variable}`}>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <NextIntlClientProvider messages={messages}>
-          <SiteChrome>{children}</SiteChrome>
+          <SiteChrome chromeMeta={chromeMeta}>{children}</SiteChrome>
         </NextIntlClientProvider>
       </body>
     </html>

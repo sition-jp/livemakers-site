@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { getBriefBySlug } from "@/lib/briefs";
 import {
+  isAllowedChromeRoute,
+  isAllowedPublishedArticleRoute,
   readerTerminalPublicTopology,
   validateReaderTerminalPublicTopology,
 } from "@/lib/livemakers-terminal-preview/public-topology";
@@ -114,5 +116,38 @@ describe("reader terminal public topology fixture", () => {
       "source.items[0].title.ja contains URL/handle pattern: @macro_guru",
       "source.items[0].sourceDomain must be a bare host",
     ]);
+  });
+
+  it("accepts the G41 article/session route families", () => {
+    const allowed = [
+      "/articles/daily-intel-2026-07-10",
+      "/articles/today",
+      "/articles/series/mkt12-morning",
+      "/sessions/2026-07-10-asia-open",
+      "/sessions/archive",
+    ];
+    for (const href of allowed) {
+      expect(isAllowedPublishedArticleRoute(href), href).toBe(true);
+    }
+  });
+
+  it("rejects locale-prefixed, traversal, and unknown routes", () => {
+    const rejected = [
+      "/ja/articles/daily-intel-2026-07-10",
+      "/articles/../secret",
+      "/articles/series/unknown-series",
+      "/sessions/2026-07-10-midnight-run",
+      "/terminal-preview",
+    ];
+    for (const href of rejected) {
+      expect(isAllowedPublishedArticleRoute(href), href).toBe(false);
+    }
+  });
+
+  it("keeps the chrome ledger separate and exact-match only", () => {
+    expect(isAllowedChromeRoute("/")).toBe(true);
+    expect(isAllowedChromeRoute("/brief")).toBe(true);
+    expect(isAllowedChromeRoute("/brief/2026-W26-brief")).toBe(false);
+    expect(isAllowedChromeRoute("/terminal-preview")).toBe(false);
   });
 });

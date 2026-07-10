@@ -1,0 +1,19 @@
+{
+  "sessionId": "2026-07-09-europe-bridge",
+  "date": "2026-07-09",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-07-09-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-07-09-europe-bridge",
+  "publishedAt": "2026-07-09T12:50:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260709_europe",
+  "asOfJst": "2026-07-09T12:03:00+09:00",
+  "focusInstruments": ["dxy", "us10y"],
+  "titleJa": "Europe Bridge — ドルと金利の橋渡し",
+  "bullets": [
+    "アジア時間から欧州時間へ移る局面を整理",
+    "ドル指数と米10年金利の方向を確認"
+  ]
+}
