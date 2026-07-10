@@ -74,6 +74,15 @@ describe("G41 page chrome", () => {
     ).toBeInTheDocument();
   });
 
+  it("keeps the Japanese navigation labels internally consistent", () => {
+    const { container } = renderChrome();
+    expect(
+      [...container.querySelectorAll("header nav a")].map(
+        (anchor) => anchor.textContent,
+      ),
+    ).toEqual(["トップ", "ブリーフ", "記事", "アーカイブ", "About"]);
+  });
+
   it("passes server-loaded chrome metadata through layout and SiteChrome", () => {
     const layout = fs.readFileSync(
       path.join(process.cwd(), "app/[locale]/layout.tsx"),

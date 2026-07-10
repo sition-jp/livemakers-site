@@ -105,6 +105,14 @@ export function HomeComposition({
       </section>
 
       <section data-ledger-group="mkt12">
+        <header className="mb-4">
+          <h2 className="text-lg font-bold text-text-primary">
+            {copy.mkt12.groupTitle}
+          </h2>
+          <p className="mt-1 text-[11px] text-text-tertiary">
+            {copy.mkt12.groupSubtitle}
+          </p>
+        </header>
         <PairSection
           title={copy.mkt12.sectionTitle}
           jointLabel={copy.mkt12.jointLabel}

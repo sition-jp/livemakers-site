@@ -120,7 +120,12 @@ describe("pair group (ledger groups 2-3)", () => {
       </>,
     );
     expect(container.querySelectorAll("a")).toHaveLength(0);
-    expect(container.querySelectorAll("[data-radar]")).toHaveLength(2);
+    const radarCards = [...container.querySelectorAll("[data-radar]")];
+    expect(radarCards).toHaveLength(2);
+    for (const card of radarCards) {
+      expect(card.className).toContain("bg-radar-bg");
+      expect(card.className).toContain("border-radar-line");
+    }
     expect(screen.getByText("SDE検出")).toBeInTheDocument();
     expect(
       screen.getByText(/内容を確認のうえ、06:10 に Signal として公開/),

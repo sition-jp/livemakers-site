@@ -1,12 +1,12 @@
 {
   "nav": {
-    "overview": "OVERVIEW",
-    "brief": "BRIEF",
+    "overview": "トップ",
+    "brief": "ブリーフ",
     "articles": "記事",
     "archive": "アーカイブ",
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
-    "about": "ABOUT",
+    "about": "About",
     "snapshot": "SNAPSHOT",
     "alpha": "ALPHA"
   },
@@ -449,6 +449,8 @@
       "listLabel": "一覧 →"
     },
     "mkt12": {
+      "groupTitle": "マーケットの二つの顔",
+      "groupSubtitle": "いまの数字と、その読み解き",
       "sectionTitle": "12コア指標 — いまの数字と、今日の読み解き",
       "jointLabel": "同じ12銘柄",
       "articleTitle": "今日の読み解き（07-10 朝版）",

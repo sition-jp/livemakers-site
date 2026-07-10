@@ -36,6 +36,16 @@ describe("B+ home composition (doctrine §4 nine-group ledger)", () => {
     ).toBeInTheDocument();
   });
 
+  it("introduces the paired market groups with the locked section heading", () => {
+    render(<HomeComposition {...props} copy={copy} />);
+    expect(
+      screen.getByRole("heading", { name: "マーケットの二つの顔" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("いまの数字と、その読み解き"),
+    ).toBeInTheDocument();
+  });
+
   it("orders priority groups exactly per the 2026-07-10 ledger", () => {
     const { container } = render(
       <HomeComposition {...props} copy={copy} />,

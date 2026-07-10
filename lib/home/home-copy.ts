@@ -46,6 +46,8 @@ export interface HomeCopy {
   lead: LeadArticleLabels;
   seriesIndex: SeriesIndexCopy;
   mkt12: {
+    groupTitle: string;
+    groupSubtitle: string;
     sectionTitle: string;
     jointLabel: string;
     articleTitle: string;
@@ -152,6 +154,8 @@ export function buildHomeCopy(
       familyLabels: seriesLabels,
     },
     mkt12: {
+      groupTitle: translate("mkt12.groupTitle"),
+      groupSubtitle: translate("mkt12.groupSubtitle"),
       sectionTitle: translate("mkt12.sectionTitle"),
       jointLabel: translate("mkt12.jointLabel"),
       articleTitle: translate("mkt12.articleTitle"),
