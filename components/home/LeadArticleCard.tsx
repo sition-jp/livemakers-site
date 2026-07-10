@@ -12,9 +12,11 @@ export interface LeadArticleLabels {
 export function LeadArticleCard({
   slot,
   labels,
+  headingLevel = "h2",
 }: {
   slot: HomeSlots["lead"];
   labels: LeadArticleLabels;
+  headingLevel?: "h2" | "h4";
 }) {
   if (!slot.article) {
     return (
@@ -40,6 +42,7 @@ export function LeadArticleCard({
   }
 
   const article = slot.article;
+  const Heading = headingLevel;
   return (
     <Link
       href={article.href}
@@ -64,9 +67,9 @@ export function LeadArticleCard({
             {article.publishedLabel}
           </time>
         </div>
-        <h2 className="mt-3 text-xl font-bold leading-snug text-text-primary group-hover:underline">
+        <Heading className="mt-3 text-xl font-bold leading-snug text-text-primary group-hover:underline">
           {article.titleJa}
-        </h2>
+        </Heading>
         {article.excerptJa ? (
           <p className="mt-3 text-sm leading-relaxed text-text-secondary">
             {article.excerptJa}

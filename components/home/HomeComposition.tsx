@@ -149,6 +149,7 @@ export function HomeComposition({
                       ...copy.lead,
                       family: familyLabels[slots.mkt12.article.family],
                     }}
+                    headingLevel="h4"
                   />
                 ) : (
                   <div className="rounded bg-bg-tertiary p-3 text-xs text-text-secondary">

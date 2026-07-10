@@ -66,6 +66,11 @@ describe("B+ home composition (doctrine §4 nine-group ledger)", () => {
       "mkt12-morning-2026-07-09",
       "mkt12-morning-2026-07-08",
     ]);
+    const hero = reading.querySelector('[data-mkt12-role="hero"]')!;
+    expect(hero.querySelector("h4")).toHaveTextContent(
+      props.slots.mkt12.article!.titleJa,
+    );
+    expect(hero.querySelector("h2")).toBeNull();
   });
 
   it("orders priority groups exactly per the 2026-07-10 ledger", () => {
