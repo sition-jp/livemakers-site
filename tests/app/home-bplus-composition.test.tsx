@@ -46,6 +46,28 @@ describe("B+ home composition (doctrine §4 nine-group ledger)", () => {
     ).toBeInTheDocument();
   });
 
+  it("stacks the mkt12 reading as hero, period divider, weekend, then archive", () => {
+    const { container } = render(
+      <HomeComposition {...props} copy={copy} />,
+    );
+    const reading = container.querySelector("[data-mkt12-reading]")!;
+    expect(
+      [...reading.querySelectorAll(":scope > [data-mkt12-role]")].map(
+        (element) => element.getAttribute("data-mkt12-role"),
+      ),
+    ).toEqual(["hero", "periods-divider", "weekend", "archive"]);
+    expect(
+      [...reading.querySelectorAll("[data-article-id]")].map((element) =>
+        element.getAttribute("data-article-id"),
+      ),
+    ).toEqual([
+      "mkt12-morning-2026-07-10",
+      "mkt12-weekend-2026-07-04",
+      "mkt12-morning-2026-07-09",
+      "mkt12-morning-2026-07-08",
+    ]);
+  });
+
   it("orders priority groups exactly per the 2026-07-10 ledger", () => {
     const { container } = render(
       <HomeComposition {...props} copy={copy} />,

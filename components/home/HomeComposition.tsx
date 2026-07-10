@@ -1,4 +1,5 @@
 import { ArticleCardSmall } from "./ArticleCardSmall";
+import { ArticleRow } from "./ArticleRow";
 import { IndicatorTileCard } from "./IndicatorTileCard";
 import { LaneBlock } from "./LaneBlock";
 import { LeadArticleCard } from "./LeadArticleCard";
@@ -35,11 +36,6 @@ export function HomeComposition({
   copy,
 }: HomeCompositionProps) {
   const familyLabels = copy.lanes.block.familyLabels;
-  const mkt12Articles = [
-    slots.mkt12.article,
-    slots.mkt12.weekend,
-    ...slots.mkt12.archive,
-  ].filter((article) => article !== null);
   const sessionName = live
     ? getSessionBySlug(live.sessionSlug).nameEn
     : copy.noLiveSession;
@@ -134,34 +130,80 @@ export function HomeComposition({
             </div>
           }
           right={
-            <section className="rounded-lg border border-border-primary bg-bg-secondary p-4">
+            <section
+              data-mkt12-reading
+              className="flex h-full flex-col rounded-lg border border-border-primary bg-bg-secondary p-4"
+            >
               <h3 className="text-sm font-bold text-text-primary">
                 {copy.mkt12.articleTitle}
               </h3>
-              {slots.mkt12.state === "awaiting" ? (
-                <div className="mt-3 rounded bg-bg-tertiary p-3 text-xs text-text-secondary">
-                  <p>{copy.mkt12.awaiting}</p>
-                  {slots.mkt12.previous ? (
-                    <div data-index-nav className="mt-2">
-                      <Link
-                        href={slots.mkt12.previous.href}
-                        className="font-bold text-accent"
-                      >
-                        {copy.mkt12.previous}
-                      </Link>
-                    </div>
-                  ) : null}
-                </div>
-              ) : null}
-              <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                {mkt12Articles.map((article) => (
-                  <ArticleCardSmall
-                    key={article.articleId}
-                    article={article}
-                    familyLabel={familyLabels[article.family]}
+              <div data-mkt12-role="hero" className="mt-3">
+                {slots.mkt12.article ? (
+                  <LeadArticleCard
+                    slot={{
+                      state: "today",
+                      article: slots.mkt12.article,
+                      previous: null,
+                    }}
+                    labels={{
+                      ...copy.lead,
+                      family: familyLabels[slots.mkt12.article.family],
+                    }}
                   />
-                ))}
+                ) : (
+                  <div className="rounded bg-bg-tertiary p-3 text-xs text-text-secondary">
+                    <p>{copy.mkt12.awaiting}</p>
+                    {slots.mkt12.previous ? (
+                      <div data-index-nav className="mt-2">
+                        <Link
+                          href={slots.mkt12.previous.href}
+                          className="font-bold text-accent"
+                        >
+                          {copy.mkt12.previous}
+                        </Link>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
               </div>
+              <div
+                data-mkt12-role="periods-divider"
+                className="my-4 flex items-center gap-3 text-[10px] font-bold tracking-label text-text-tertiary"
+              >
+                <span className="h-px flex-1 bg-border-primary" />
+                <span>{copy.mkt12.otherPeriods}</span>
+                <span className="h-px flex-1 bg-border-primary" />
+              </div>
+              <div data-mkt12-role="weekend">
+                {slots.mkt12.weekend ? (
+                  <ArticleCardSmall
+                    article={slots.mkt12.weekend}
+                    familyLabel={familyLabels[slots.mkt12.weekend.family]}
+                  />
+                ) : null}
+              </div>
+              <section
+                data-mkt12-role="archive"
+                className="mt-4 flex-1 rounded border border-border-primary"
+              >
+                <header className="border-b border-border-primary px-3 py-2.5">
+                  <h4 className="text-xs font-bold text-text-primary">
+                    {copy.mkt12.archiveTitle}
+                  </h4>
+                  <p className="mt-0.5 text-[10px] text-text-tertiary">
+                    {copy.mkt12.archiveSubtitle}
+                  </p>
+                </header>
+                <div>
+                  {slots.mkt12.archive.map((article) => (
+                    <ArticleRow
+                      key={article.articleId}
+                      article={article}
+                      familyLabel={familyLabels[article.family]}
+                    />
+                  ))}
+                </div>
+              </section>
             </section>
           }
         />

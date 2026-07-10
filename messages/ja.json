@@ -456,6 +456,9 @@
       "articleTitle": "今日の読み解き（07-10 朝版）",
       "awaiting": "本日の12指標記事は公開準備中です",
       "previous": "前回の12指標を読む →",
+      "otherPeriods": "同じシリーズ · 別期間",
+      "archiveTitle": "12指標アーカイブ",
+      "archiveSubtitle": "同シリーズの過去記事",
       "indicator": {
         "title": "12コア指標",
         "dataDatePrefix": "データ日付",

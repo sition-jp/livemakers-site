@@ -456,6 +456,9 @@
       "articleTitle": "Today's reading (07-10 morning edition)",
       "awaiting": "Today's 12 Indicators article is being prepared.",
       "previous": "Read the previous 12 Indicators →",
+      "otherPeriods": "Same series · Other periods",
+      "archiveTitle": "12 Indicators archive",
+      "archiveSubtitle": "Previous articles in the same series",
       "indicator": {
         "title": "12 Core Indicators",
         "dataDatePrefix": "Data date",
