@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 // because switchLocale needs the RAW pathname including the /ja prefix to
 // strip-and-prepend correctly. next-intl's usePathname strips the locale.
 import { usePathname } from "next/navigation";
-import { LogoSvg } from "@/components/ui/LogoSvg";
+import { LogoMark } from "@/components/brand/LogoMark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
 import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
@@ -34,8 +34,12 @@ export function Header({ chromeMeta }: { chromeMeta: SnapshotChromeMeta }) {
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
       <LogoColorBand />
       <div className="mx-auto flex max-w-[1920px] items-center justify-between px-6 py-4">
-        <Link href="/" className="flex items-center gap-3 text-text-primary">
-          <LogoSvg className="h-7 w-7 text-pillar-overview" />
+        <Link
+          href="/"
+          aria-label="LIVEMAKERS"
+          className="flex items-center gap-2.5 text-text-primary"
+        >
+          <LogoMark className="h-7 w-7 shrink-0 text-text-primary" />
           <span className="flex items-center gap-2">
             <span className="text-sm font-bold tracking-logo">LIVEMAKERS</span>
             {/* Hidden below sm so the brand row and the theme toggle both fit

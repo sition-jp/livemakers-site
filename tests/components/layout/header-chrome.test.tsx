@@ -63,6 +63,7 @@ describe("G41 page chrome", () => {
       findLiveTokenViolations(collectScannableText(container)),
     ).toEqual([]);
     expect(screen.getByText(/SNAPSHOT/)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "LIVEMAKERS" })).toBeInTheDocument();
   });
 
   it("reads the snapshot chip time from the fixture contract", () => {
