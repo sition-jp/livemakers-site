@@ -33,7 +33,9 @@ export function Header({ chromeMeta }: { chromeMeta: SnapshotChromeMeta }) {
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
       <LogoColorBand />
-      <div className="mx-auto flex max-w-[1920px] items-center justify-between px-6 py-4">
+      {/* 390px ではブランド行と操作行の 2 段に折り返して横スクロールを出さない
+          （言語切替・SNAPSHOT チップは常時表示要件のため非表示にしない・T16 pinpoint） */}
+      <div className="mx-auto flex max-w-[1920px] flex-wrap items-center justify-between gap-y-2 px-4 py-3 sm:px-6 sm:py-4">
         <Link
           href="/"
           aria-label="LIVEMAKERS"
