@@ -28,7 +28,7 @@ function cellMap(cells: MarketSnapshotCell[]) {
 }
 
 export function buildHomeCompositionProps(
-  args: { today?: string } = {},
+  args: { today?: string; contentDir?: string } = {},
 ) {
   assertRadarObservationContract(RADAR_OBSERVATIONS);
   const snapshot = loadMarketSnapshot();
@@ -40,7 +40,7 @@ export function buildHomeCompositionProps(
   }
 
   const raw = {
-    articles: getAllArticles(),
+    articles: getAllArticles({ contentDir: args.contentDir }),
     sessions: getAllSessionRecords(),
     radar: RADAR_OBSERVATIONS,
     promotions: RADAR_PROMOTIONS,

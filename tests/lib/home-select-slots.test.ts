@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import { getAllArticles } from "@/lib/articles/article-model";
@@ -10,8 +12,10 @@ import {
 } from "@/lib/home/select-home-slots";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
 
+const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+
 const input = () => ({
-  articles: getAllArticles(),
+  articles: getAllArticles({ contentDir: TEST_CONTENT_DIR }),
   sessions: getAllSessionRecords(),
   radar: RADAR_OBSERVATIONS,
   promotions: RADAR_PROMOTIONS,
@@ -96,6 +100,16 @@ describe("home slot selection (B+)", () => {
           observation.topicId === "stablecoin_supply_20260710",
       ),
     ).toBe(true);
+  });
+
+  it("keeps radar pair null and observations intact when promotions are empty", () => {
+    const slots = selectHomeSlots({
+      ...input(),
+      promotions: {},
+    });
+    expect(slots.radarPair).toBeNull();
+    expect(slots.observing.length).toBeGreaterThan(0);
+    expect(slots.observing).toHaveLength(RADAR_OBSERVATIONS.length);
   });
 
   it("uses the latest resolvable promotion", () => {

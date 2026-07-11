@@ -80,23 +80,30 @@ export const ArticleMetaSchema = z
 export type ParsedArticleMeta = z.infer<typeof ArticleMetaSchema>;
 export type ArticleMeta = ParsedArticleMeta & { href: string };
 
-const CONTENT_DIR = path.join(process.cwd(), "content", "articles");
+const DEFAULT_CONTENT_DIR = path.join(process.cwd(), "content", "articles");
 
-export function getAllArticles(): ArticleMeta[] {
-  if (!fs.existsSync(CONTENT_DIR)) {
+export interface ArticleLoadOptions {
+  contentDir?: string;
+}
+
+export function getAllArticles(
+  options: ArticleLoadOptions = {},
+): ArticleMeta[] {
+  const contentDir = options.contentDir ?? DEFAULT_CONTENT_DIR;
+  if (!fs.existsSync(contentDir)) {
     return [];
   }
 
   return fs
-    .readdirSync(CONTENT_DIR)
+    .readdirSync(contentDir)
     .filter((directory) =>
-      fs.existsSync(path.join(CONTENT_DIR, directory, "meta.json")),
+      fs.existsSync(path.join(contentDir, directory, "meta.json")),
     )
     .map((directory) => {
       const meta = ArticleMetaSchema.parse(
         JSON.parse(
           fs.readFileSync(
-            path.join(CONTENT_DIR, directory, "meta.json"),
+            path.join(contentDir, directory, "meta.json"),
             "utf8",
           ),
         ),
@@ -111,8 +118,11 @@ export function getAllArticles(): ArticleMeta[] {
     );
 }
 
-export function getArticleBySlug(slug: string): ArticleMeta {
-  const article = getAllArticles().find(
+export function getArticleBySlug(
+  slug: string,
+  options: ArticleLoadOptions = {},
+): ArticleMeta {
+  const article = getAllArticles(options).find(
     (candidate) => candidate.articleId === slug,
   );
   if (!article) {
@@ -121,10 +131,15 @@ export function getArticleBySlug(slug: string): ArticleMeta {
   return article;
 }
 
-export function getArticleBody(slug: string, locale: "ja" | "en"): string {
-  const localizedPath = path.join(CONTENT_DIR, slug, `${locale}.md`);
+export function getArticleBody(
+  slug: string,
+  locale: "ja" | "en",
+  options: ArticleLoadOptions = {},
+): string {
+  const contentDir = options.contentDir ?? DEFAULT_CONTENT_DIR;
+  const localizedPath = path.join(contentDir, slug, `${locale}.md`);
   if (fs.existsSync(localizedPath)) {
     return fs.readFileSync(localizedPath, "utf8");
   }
-  return fs.readFileSync(path.join(CONTENT_DIR, slug, "ja.md"), "utf8");
+  return fs.readFileSync(path.join(contentDir, slug, "ja.md"), "utf8");
 }

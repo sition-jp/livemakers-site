@@ -9,6 +9,8 @@ import {
 } from "@/lib/articles/article-model";
 import { isAllowedPublishedArticleRoute } from "@/lib/livemakers-terminal-preview/public-topology";
 
+const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+
 const read = (filePath: string): string =>
   fs.readFileSync(path.join(process.cwd(), filePath), "utf8");
 
@@ -31,7 +33,7 @@ describe("articles routes (G41)", () => {
   });
 
   it("every fixture and series href passes the route ledger", () => {
-    for (const article of getAllArticles()) {
+    for (const article of getAllArticles({ contentDir: TEST_CONTENT_DIR })) {
       expect(isAllowedPublishedArticleRoute(article.href), article.href).toBe(
         true,
       );

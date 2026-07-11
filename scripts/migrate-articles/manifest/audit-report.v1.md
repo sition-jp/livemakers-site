@@ -1,0 +1,379 @@
+# G42 Article Migration Audit Report v1
+
+- Total candidates: 286
+- Included evidence union: 94
+- Evidence union before remediation exclusions: 117
+- Remediation records: 23
+- Exclusion reason classes: `{"no publish evidence":166,"log row exists but lacks URL":2,"forbidden terms require remediation":23,"postId collision unresolved":1}`
+- Evidence kinds: `{"archive":5,"frontmatter":27,"log_verified":62}`
+- Families (all): `{"daily-intel":148,"deep-dive":23,"event-risk-radar":4,"mkt12-morning":3,"mkt12-weekend":8,"signal":100}`
+- Families (included): `{"daily-intel":60,"deep-dive":14,"event-risk-radar":4,"mkt12-weekend":3,"signal":13}`
+- Stages: `{"1":46,"2":48}`
+- Time basis: `{"null":280,"snowflake_url":6}`
+- Title transforms: `{"strip_prefix":235,"verbatim":51}`
+- Body selectors: `{"decorated_marker":2,"exact_marker":270,"external_file":2,"full_after_frontmatter":11,"xcopy_marker":1}`
+- H2 records: 46
+- All selected-body H2 records: 58
+- H2 records with sibling publication bodies: 12
+- H2 QA basis (46 records): `{"explicit_editorial_review":1,"external_body":12,"po_parser_boundary":33}`
+- H2 basis (all 58 records): `{"explicit_editorial_review":10,"external_body":12,"po_parser_boundary":36}`
+- Manual title matches: 3 total / 1 included
+- Unresolved records: 0
+- Collision records: 2
+- Unmatched evidence candidates: 77 records / 83 record-log pairs
+- Raw population: `{"main":271,"docs":16,"archive":7}`
+
+## Excluded
+
+- 2026-03-20_STN_A_001: no publish evidence
+- 2026-03-20_STN_A_002: no publish evidence
+- 2026-03-20_STN_A_003: no publish evidence
+- 2026-03-20_STN_B_001: no publish evidence
+- 2026-03-27_STN_B_002: no publish evidence
+- 2026-03-27_STN_B_003: no publish evidence
+- 2026-03-27_STN_B_004: no publish evidence
+- 2026-03-30_STN_DI_001: no publish evidence
+- 2026-04-01_STN_A_001: no publish evidence
+- 2026-04-17_STN_A_001: no publish evidence
+- 2026-04-17_STN_B_001: no publish evidence
+- 2026-04-17_STN_DD_001: no publish evidence
+- 2026-04-19_STN_A_001_hormuz-ceasefire-deadline: no publish evidence
+- 2026-04-19_STN_B_001_daily-intel: no publish evidence
+- 2026-04-19_STN_B_002_clarity-nc-bankers: no publish evidence
+- 2026-04-19_STN_B_003_sec-reg-crypto: no publish evidence
+- 2026-04-19_STN_B_004_boj-rate-outlook: no publish evidence
+- 2026-04-24_STN_B_001: no publish evidence
+- 2026-04-25_STN_B_001: no publish evidence
+- 2026-04-25_STN_B_002: no publish evidence
+- 2026-04-25_STN_B_003: no publish evidence
+- 2026-04-25_STN_B_004: no publish evidence
+- 2026-04-26_STN_12IND: no publish evidence
+- 2026-04-26_STN_A_001: no publish evidence
+- 2026-04-26_STN_A_002: no publish evidence
+- 2026-04-26_STN_A_003: no publish evidence
+- 2026-04-26_STN_B_001: no publish evidence
+- 2026-04-26_STN_B_002: no publish evidence
+- 2026-04-26_STN_B_003: no publish evidence
+- 2026-04-26_STN_B_004: no publish evidence
+- 2026-04-27_STN_A_001: no publish evidence
+- 2026-04-27_STN_A_002: no publish evidence
+- 2026-04-27_STN_B_001: no publish evidence
+- 2026-04-27_STN_B_002: no publish evidence
+- 2026-04-27_STN_B_003: no publish evidence
+- 2026-04-27_STN_B_004: no publish evidence
+- 2026-04-28_STN_A_001: no publish evidence
+- 2026-04-28_STN_B_001: no publish evidence
+- 2026-04-28_STN_B_002: no publish evidence
+- 2026-04-28_STN_B_003: no publish evidence
+- 2026-04-28_STN_B_004: no publish evidence
+- 2026-04-29_STN_A_001: no publish evidence
+- 2026-04-29_STN_B_001: no publish evidence
+- 2026-04-29_STN_B_002: no publish evidence
+- 2026-04-29_STN_B_003: no publish evidence
+- 2026-04-29_STN_B_004: no publish evidence
+- 2026-04-29_STN_MKT_001: no publish evidence
+- 2026-04-30_STN_A_001: no publish evidence
+- 2026-04-30_STN_B_001: no publish evidence
+- 2026-04-30_STN_B_002: no publish evidence
+- 2026-04-30_STN_B_003: no publish evidence
+- 2026-04-30_STN_B_004: no publish evidence
+- 2026-05-01_STN_A_001: no publish evidence
+- 2026-05-01_STN_A_002: no publish evidence
+- 2026-05-01_STN_B_001: no publish evidence
+- 2026-05-01_STN_B_002: no publish evidence
+- 2026-05-01_STN_B_003: no publish evidence
+- 2026-05-02_STN_A_001: no publish evidence
+- 2026-05-02_STN_A_002: no publish evidence
+- 2026-05-02_STN_B_001: no publish evidence
+- 2026-05-02_STN_B_002: no publish evidence
+- 2026-05-02_STN_B_003: no publish evidence
+- 2026-05-02_STN_B_004: no publish evidence
+- 2026-05-03_STN_B_001: no publish evidence
+- 2026-05-03_STN_B_002: no publish evidence
+- 2026-05-03_STN_B_003: no publish evidence
+- 2026-05-03_STN_B_004: no publish evidence
+- 2026-05-04_STN_A_001: no publish evidence
+- 2026-05-04_STN_A_002: no publish evidence
+- 2026-05-04_STN_B_001: no publish evidence
+- 2026-05-04_STN_B_002: no publish evidence
+- 2026-05-04_STN_B_003: no publish evidence
+- 2026-05-04_STN_B_004: no publish evidence
+- 2026-05-05_STN_A_001: no publish evidence
+- 2026-05-05_STN_A_002: no publish evidence
+- 2026-05-05_STN_B_001: no publish evidence
+- 2026-05-05_STN_B_002: no publish evidence
+- 2026-05-05_STN_B_003: no publish evidence
+- 2026-05-05_STN_B_004: no publish evidence
+- 2026-05-06_STN_A_001: no publish evidence
+- 2026-05-06_STN_A_002: no publish evidence
+- 2026-05-06_STN_A_003: no publish evidence
+- 2026-05-06_STN_A_004: no publish evidence
+- 2026-05-06_STN_A_005: no publish evidence
+- 2026-05-06_STN_A_006: no publish evidence
+- 2026-05-06_STN_B_001: no publish evidence
+- 2026-05-06_STN_B_002: no publish evidence
+- 2026-05-06_STN_B_003: no publish evidence
+- 2026-05-07_STN_A_001: no publish evidence
+- 2026-05-07_STN_A_002: no publish evidence
+- 2026-05-07_STN_A_003: no publish evidence
+- 2026-05-07_STN_A_004: no publish evidence
+- 2026-05-07_STN_A_005: no publish evidence
+- 2026-05-07_STN_A_006: no publish evidence
+- 2026-05-07_STN_A_007: no publish evidence
+- 2026-05-08_STN_A_001: no publish evidence
+- 2026-05-08_STN_A_002: no publish evidence
+- 2026-05-08_STN_A_003: no publish evidence
+- 2026-05-08_STN_A_004: no publish evidence
+- 2026-05-09_STN_A_001: no publish evidence
+- 2026-05-09_STN_A_002: no publish evidence
+- 2026-05-11_STN_A_001: no publish evidence
+- 2026-05-11_STN_A_002: no publish evidence
+- 2026-05-11_STN_A_003: no publish evidence
+- 2026-05-11_STN_A_004: no publish evidence
+- 2026-05-11_STN_B_002: no publish evidence
+- 2026-05-11_STN_B_003: no publish evidence
+- 2026-05-11_STN_B_004: no publish evidence
+- 2026-05-12_STN_A_003: no publish evidence
+- 2026-05-12_STN_A_004: no publish evidence
+- 2026-05-12_STN_A_005: no publish evidence
+- 2026-05-12_STN_A_006: no publish evidence
+- 2026-05-12_STN_A_007: no publish evidence
+- 2026-05-12_STN_B_002: no publish evidence
+- 2026-05-12_STN_B_003: no publish evidence
+- 2026-05-12_STN_B_004: no publish evidence
+- 2026-05-12_STN_DD_001: no publish evidence
+- 2026-05-13_STN_A_001: no publish evidence
+- 2026-05-13_STN_A_002: no publish evidence
+- 2026-05-13_STN_A_003: no publish evidence
+- 2026-05-13_STN_B_002: no publish evidence
+- 2026-05-13_STN_B_003: no publish evidence
+- 2026-05-13_STN_B_004: no publish evidence
+- 2026-05-13_STN_DD_001: no publish evidence
+- 2026-05-14_STN_A_001: no publish evidence
+- 2026-05-14_STN_A_002: no publish evidence
+- 2026-05-14_STN_A_003: no publish evidence
+- 2026-05-14_STN_A_004: no publish evidence
+- 2026-05-14_STN_B_002: no publish evidence
+- 2026-05-14_STN_B_003: no publish evidence
+- 2026-05-14_STN_B_004: no publish evidence
+- 2026-05-15_STN_A_001: no publish evidence
+- 2026-05-15_STN_A_002: no publish evidence
+- 2026-05-15_STN_A_003: no publish evidence
+- 2026-05-15_STN_A_004: no publish evidence
+- 2026-05-15_STN_A_005: no publish evidence
+- 2026-05-15_STN_B_002: no publish evidence
+- 2026-05-15_STN_MKT_001: no publish evidence
+- 2026-05-16_STN_A_001: no publish evidence
+- 2026-05-16_STN_A_002: no publish evidence
+- 2026-05-16_STN_A_003: no publish evidence
+- 2026-05-16_STN_A_004: no publish evidence
+- 2026-05-16_STN_B_001: forbidden terms require remediation: coverage, rate limit
+- 2026-05-17_STN_B_001: forbidden terms require remediation: fallback
+- 2026-05-18_STN_B_001: forbidden terms require remediation: fallback, websearch
+- 2026-05-19_STN_A_001: no publish evidence
+- 2026-05-20_STN_A_001: no publish evidence
+- 2026-05-20_STN_B_001: forbidden terms require remediation: cloudflare, fallback, websearch
+- 2026-05-21_STN_B_001: forbidden terms require remediation: cloudflare, fallback, websearch
+- 2026-05-25_STN_B_001: forbidden terms require remediation: chrome mcp, cloudflare, fallback, partial_success, websearch, phase 2
+- 2026-05-25_STN_DD_001: no publish evidence
+- 2026-05-26_STN_A_001: no publish evidence
+- 2026-05-26_STN_A_002: no publish evidence
+- 2026-05-26_STN_B_001: forbidden terms require remediation: twitterapi
+- 2026-05-27_STN_A_002: no publish evidence
+- 2026-05-28_STN_B_001: no publish evidence
+- 2026-05-28_STN_DD_001: forbidden terms require remediation: crawl
+- 2026-05-29_STN_B_001: forbidden terms require remediation: operator
+- 2026-05-30_STN_A_001: no publish evidence
+- 2026-05-30_STN_A_002: no publish evidence
+- 2026-05-30_STN_A_003: no publish evidence
+- 2026-05-30_STN_B_001: no publish evidence
+- 2026-06-01_STN_B_001: forbidden terms require remediation: phase1, sentinel
+- 2026-06-02_STN_B_001: no publish evidence
+- 2026-06-03_STN_A_001: no publish evidence
+- 2026-06-03_STN_B_001: forbidden terms require remediation: coverage
+- 2026-06-05_STN_A_001: no publish evidence
+- 2026-06-06_STN_B_001: forbidden terms require remediation: draft
+- 2026-06-09_STN_A_001_signal-clarity-tax-bifurcation: postId collision unresolved
+- 2026-06-09_STN_DD_001: no publish evidence
+- 2026-06-09_STN_DD_002: no publish evidence
+- 2026-06-11_STN_A_001: no publish evidence
+- 2026-06-11_STN_A_002: no publish evidence
+- 2026-06-12_STN_A_002: no publish evidence
+- 2026-06-18_STN_A_001: forbidden terms require remediation: coverage
+- 2026-06-20_STN_B_001: no publish evidence
+- 2026-06-20_STN_MKT_001: forbidden terms require remediation: 二面性
+- 2026-06-23_STN_A_002: no publish evidence
+- 2026-06-23_STN_B_001: forbidden terms require remediation: sentinel
+- 2026-06-25_STN_A_001: no publish evidence
+- 2026-06-26_STN_A_001: log row exists but lacks URL
+- 2026-06-26_STN_A_002: log row exists but lacks URL
+- 2026-06-26_STN_A_003: no publish evidence
+- 2026-06-29_STN_B_001: forbidden terms require remediation: cloudflare
+- 2026-07-02_STN_B_001: forbidden terms require remediation: fallback
+- 2026-07-02_STN_MKT_001: forbidden terms require remediation: jsonl, draft
+- 2026-07-03_STN_MKT_001: forbidden terms require remediation: jsonl, draft
+- 2026-07-11_STN_MKT_001: forbidden terms require remediation: jsonl
+- 2026-05-24_STN_DD_001: forbidden terms require remediation: 対1
+- 2026-05-24_STN_DD_003: forbidden terms require remediation: coverage
+- 2026-07-03_STN_A_glm52-export-control-18days: forbidden terms require remediation: raw_intelligence, jsonl, 07_DATA, /Users/
+- 2026-07-07_STN_MKT_001: no publish evidence
+
+## Unresolved H2 classifications
+
+- none. Ten audit proposals were resolved by Codex explicit editorial review:
+- 2026-03-27_STN_B_002: `## 代替案` = public (precedes `## 内部メモ`).
+- 2026-04-01_STN_A_001: `## 情報源` = internal (follows `## ファクトチェック記録`).
+- 2026-04-17_STN_A_001: seven article-section H2s = public.
+- 2026-04-17_STN_B_001: four article-section H2s = public.
+- 2026-04-17_STN_DD_001: article sections through summary = public; `## 情報源` = internal after fact-check notes.
+- 2026-04-19 STN_A/B four records: `## Xコピペ形式` = public; following thumbnail H2 = internal.
+
+## X Article publication-form precedence
+
+- Rule: when `_x_article_body.txt` exists, it is the authoritative publication-form sibling. `_x_paste_body.txt` is the announcement surface and is not used as the H2 classification basis.
+- `2026-07-10_STN_A_002`: evidence sibling = `07_DATA/content/drafts/SITIONjp/2026-07-10_STN_A_002_signal-grok45-agentic-price-cursor_x_article_body.txt`.
+- Public H2s: `## 1｜チャットから「仕事の完遂」へ` / `## 2｜性能だけでなく、「出力トークンの少なさ」を売る` / `## 3｜入力2ドル・出力6ドルが仕掛けるもの` / `## 4｜Cursorは配布先ではなく、学習現場でもある` / `## 5｜SpaceXAIが同時に取りに来た「配布網」` / `## 6｜企業導入で見るべきは、賢さだけではない` / `## SITION視点｜次の王者は「最も賢いAI」とは限らない` / `## 参考・一次ソース`.
+- Internal H2s: none (no production-meta H2 exists in the selected article body).
+
+## D2 hierarchy deviation — 2026-07-04_STN_MKT_001
+
+- Manifest intentionally retains `evidenceKind: frontmatter` and the main catalog source instead of selecting the archive copy.
+- Reason: the main catalog record contains the canonical detailed title and points to the exact `_x_paste_body.txt` publication body. Its `published_url` and `published_at` match the archive copy. The archive path `content-archive:210d91a3ccdf18dcc9fd0e5bb51113653d59dd70:08_DOCS/drafts/2026-07-04_STN_MKT_001_weekend_12-indicators.md` carries the generic title `公開用本文 (X post / @SITIONjp)`; adopting it as the content source would degrade the canonical title contract.
+- The archive copy remains independently covered by the archive-7 QA inventory; this is a documented source-selection exception, not a loss of publication evidence.
+
+## Snowflake timeBasis inventory
+
+- CP plan v1.7 expected 4 records; audit found 6. The additional two are the 2026-05-28 records below, whose declared non-ISO minute exactly matches the status-ID Snowflake minute.
+- `2026-05-23_STN_DD_001`: raw `published_at: "2026-05-23"` → `2026-05-23T11:59:00+09:00`.
+- `2026-05-24_STN_A_001`: raw `published_at: "2026-05-24"` → `2026-05-24T07:16:00+09:00`.
+- `2026-05-24_STN_DD_001`: raw `published_at: "2026-05-24"` → `2026-05-24T08:11:00+09:00`.
+- `2026-05-28_STN_A_001`: raw `published_at: "2026-05-28 14:03 JST"` → `2026-05-28T14:03:00+09:00`.
+- `2026-05-28_STN_DD_001`: raw `published_at: "2026-05-28 14:04 JST"` → `2026-05-28T14:04:00+09:00`.
+- `2026-07-03_STN_A_glm52-export-control-18days`: raw `published_at: 2026-07-03 10:12 JST` → `2026-07-03T10:12:00+09:00`.
+
+## PostId collision resolution
+
+- raw=2026-06-09_STN_A_001 manifest=2026-06-09_STN_A_001_signal-clarity-developer-money-transmitter include=true reason=resolved
+- raw=2026-06-09_STN_A_001 manifest=2026-06-09_STN_A_001_signal-clarity-tax-bifurcation include=false reason=postId collision unresolved
+
+## Remediation (not approved; fail-closed exclusions)
+
+- Count: 23
+- Grouped reasons: `{"forbidden terms require remediation: chrome mcp, cloudflare, fallback, partial_success, websearch, phase 2":1,"forbidden terms require remediation: cloudflare":1,"forbidden terms require remediation: cloudflare, fallback, websearch":2,"forbidden terms require remediation: coverage":3,"forbidden terms require remediation: coverage, rate limit":1,"forbidden terms require remediation: crawl":1,"forbidden terms require remediation: draft":1,"forbidden terms require remediation: fallback":2,"forbidden terms require remediation: fallback, websearch":1,"forbidden terms require remediation: jsonl":1,"forbidden terms require remediation: jsonl, draft":2,"forbidden terms require remediation: operator":1,"forbidden terms require remediation: phase1, sentinel":1,"forbidden terms require remediation: raw_intelligence, jsonl, 07_DATA, /Users/":1,"forbidden terms require remediation: sentinel":1,"forbidden terms require remediation: twitterapi":1,"forbidden terms require remediation: 二面性":1,"forbidden terms require remediation: 対1":1}`
+- 2026-05-16_STN_B_001: forbidden terms require remediation: coverage, rate limit
+- 2026-05-17_STN_B_001: forbidden terms require remediation: fallback
+- 2026-05-18_STN_B_001: forbidden terms require remediation: fallback, websearch
+- 2026-05-20_STN_B_001: forbidden terms require remediation: cloudflare, fallback, websearch
+- 2026-05-21_STN_B_001: forbidden terms require remediation: cloudflare, fallback, websearch
+- 2026-05-25_STN_B_001: forbidden terms require remediation: chrome mcp, cloudflare, fallback, partial_success, websearch, phase 2
+- 2026-05-26_STN_B_001: forbidden terms require remediation: twitterapi
+- 2026-05-28_STN_DD_001: forbidden terms require remediation: crawl
+- 2026-05-29_STN_B_001: forbidden terms require remediation: operator
+- 2026-06-01_STN_B_001: forbidden terms require remediation: phase1, sentinel
+- 2026-06-03_STN_B_001: forbidden terms require remediation: coverage
+- 2026-06-06_STN_B_001: forbidden terms require remediation: draft
+- 2026-06-18_STN_A_001: forbidden terms require remediation: coverage
+- 2026-06-20_STN_MKT_001: forbidden terms require remediation: 二面性
+- 2026-06-23_STN_B_001: forbidden terms require remediation: sentinel
+- 2026-06-29_STN_B_001: forbidden terms require remediation: cloudflare
+- 2026-07-02_STN_B_001: forbidden terms require remediation: fallback
+- 2026-07-02_STN_MKT_001: forbidden terms require remediation: jsonl, draft
+- 2026-07-03_STN_MKT_001: forbidden terms require remediation: jsonl, draft
+- 2026-07-11_STN_MKT_001: forbidden terms require remediation: jsonl
+- 2026-05-24_STN_DD_001: forbidden terms require remediation: 対1
+- 2026-05-24_STN_DD_003: forbidden terms require remediation: coverage
+- 2026-07-03_STN_A_glm52-export-control-18days: forbidden terms require remediation: raw_intelligence, jsonl, 07_DATA, /Users/
+
+## Unmatched evidence candidates
+
+- 2026-04-17_STN_DD_001 <- pub_20260417_STN_bip361_deep_dive (2026-04-17T00:00:00+09:00; https://x.com/SITIONjp/status/2044913634808402092)
+- 2026-04-24_STN_B_001 <- 2026-04-24_STN_B_001_daily-intel (2026-04-24T10:47:47.696706+00:00; https://x.com/SITIONjp/status/2047628564124872955)
+- 2026-04-25_STN_B_001 <- pl_20260425_morning_stn_001 (2026-04-25T06:03:16+09:00; https://x.com/SITIONjp/status/2047783454264434833)
+- 2026-04-25_STN_B_001 <- 2026-04-25_STN_B_001_daily-intel (2026-04-24T21:03:16.373529+00:00; https://x.com/SITIONjp/status/2047783454264434833)
+- 2026-04-25_STN_B_002 <- 2026-04-25_STN_B_002_daily-intel (2026-04-25T07:36:25.727083+00:00; https://x.com/SITIONjp/status/2047942793080017346)
+- 2026-04-25_STN_B_003 <- 2026-04-25_STN_B_003_daily-intel (2026-04-25T09:48:06.156128+00:00; https://x.com/SITIONjp/status/2047975929583186178)
+- 2026-04-26_STN_A_001 <- 2026-04-26_STN_A_001_aave-defi-united-25k-eth (2026-04-25T22:30:00+00:00; https://x.com/SITIONjp/status/2048169139152507002)
+- 2026-04-26_STN_B_001 <- 2026-04-26_STN_B_001_daily-intel (2026-04-25T20:48:05.542812+00:00; https://x.com/SITIONjp/status/2048142021848920250)
+- 2026-04-26_STN_B_002 <- 2026-04-26_STN_B_002_daily-intel (2026-04-26T03:48:06.454745+00:00; https://x.com/SITIONjp/status/2048247722206245228)
+- 2026-04-26_STN_B_003 <- 2026-04-26_STN_B_003_daily-intel (2026-04-26T09:48:05.541751+00:00; https://x.com/SITIONjp/status/2048338315100008877)
+- 2026-04-26_STN_B_004 <- 2026-04-26_STN_B_004_daily-intel (2026-04-26T14:48:05.086375+00:00; https://x.com/SITIONjp/status/2048413810596458709)
+- 2026-04-27_STN_A_001 <- 2026-04-27_STN_A_001_signal-iran-hormuz (2026-04-26T22:16:48.056851+00:00; https://x.com/SITIONjp/status/2048526734035910932)
+- 2026-04-27_STN_A_002 <- 2026-04-27_STN_A_002_signal-quantum-bitcoin (2026-04-26T22:17:52.110597+00:00; https://x.com/SITIONjp/status/2048527002354000230)
+- 2026-04-27_STN_B_001 <- 2026-04-27_STN_B_001_daily-intel (2026-04-26T20:48:04.573280+00:00; https://x.com/SITIONjp/status/2048504405738307842)
+- 2026-04-27_STN_B_002 <- 2026-04-27_STN_B_002_daily-intel (2026-04-27T03:48:05.425953+00:00; https://x.com/SITIONjp/status/2048610105428705358)
+- 2026-04-27_STN_B_003 <- 2026-04-27_STN_B_003_daily-intel (2026-04-27T09:48:04.901770+00:00; https://x.com/SITIONjp/status/2048700700423819522)
+- 2026-04-27_STN_B_004 <- 2026-04-27_STN_B_004_daily-intel (2026-04-27T14:48:06.467231+00:00; https://x.com/SITIONjp/status/2048776204308902195)
+- 2026-04-28_STN_B_001 <- 2026-04-28_STN_B_001_daily-intel (2026-04-27T20:48:05.265172+00:00; https://x.com/SITIONjp/status/2048866796384702583)
+- 2026-04-28_STN_B_002 <- 2026-04-28_STN_B_002_daily-intel (2026-04-28T05:09:17.960336+00:00; https://x.com/SITIONjp/status/2048992930405417246)
+- 2026-04-28_STN_B_003 <- 2026-04-28_STN_B_003_daily-intel (2026-04-28T15:49:31.447635+00:00; https://x.com/SITIONjp/status/2049154046599332152)
+- 2026-04-28_STN_B_004 <- 2026-04-28_STN_B_004_daily-intel (2026-04-28T15:52:00.726744+00:00; https://x.com/SITIONjp/status/2049154674314678776)
+- 2026-04-29_STN_B_001 <- 2026-04-29_STN_B_001_daily-intel (2026-04-28T22:02:47.911275+00:00; https://x.com/SITIONjp/status/2049247985578791115)
+- 2026-04-29_STN_B_002 <- 2026-04-29_STN_B_002_daily-intel (2026-04-29T03:48:06.759037+00:00; https://x.com/SITIONjp/status/2049334886503448735)
+- 2026-04-29_STN_B_003 <- 2026-04-29_STN_B_003_daily-intel (2026-04-29T10:59:05.976621+00:00; https://x.com/SITIONjp/status/2049443347010580938)
+- 2026-04-30_STN_B_001 <- 2026-04-30_STN_B_001_daily-intel (2026-04-29T22:22:25.019684+00:00; https://x.com/SITIONjp/status/2049615310593175821)
+- 2026-04-30_STN_B_002 <- 2026-04-30_STN_B_002_daily-intel (2026-04-30T04:31:13.098532+00:00; https://x.com/SITIONjp/status/2049708122546257954)
+- 2026-04-30_STN_B_003 <- 2026-04-30_STN_B_003_daily-intel (2026-04-30T10:30:05.663365+00:00; https://x.com/SITIONjp/status/2049798436720124372)
+- 2026-04-30_STN_B_004 <- 2026-04-30_STN_B_004_daily-intel (2026-04-30T15:30:04.884192+00:00; https://x.com/SITIONjp/status/2049873930887077958)
+- 2026-05-01_STN_B_001 <- 2026-05-01_STN_B_001_daily-intel (2026-04-30T21:30:04.996147+00:00; https://x.com/SITIONjp/status/2049964528318955804)
+- 2026-05-01_STN_B_002 <- 2026-05-01_STN_B_002_daily-intel (2026-05-01T06:20:27.964338+00:00; https://x.com/SITIONjp/status/2050098003625832624)
+- 2026-05-01_STN_B_003 <- 2026-05-01_STN_B_003_daily-intel (2026-05-01T10:30:05.979762+00:00; https://x.com/SITIONjp/status/2050160823579144527)
+- 2026-05-02_STN_A_002 <- pub_20260502_eve_STN_002 (2026-05-02T21:51:25+09:00; https://x.com/SITIONjp/status/2050558518290534492)
+- 2026-05-02_STN_B_001 <- morn_20260502_pub_stn_001 (2026-05-01T23:25:23.014958+00:00; https://x.com/SITIONjp/status/2050355839954043062)
+- 2026-05-02_STN_B_001 <- 2026-05-02_STN_B_001_daily-intel (2026-05-01T23:25:00.997696+00:00; https://x.com/SITIONjp/status/2050355839954043062)
+- 2026-05-02_STN_B_002 <- 2026-05-02_STN_B_002_daily-intel (2026-05-02T04:30:06.840895+00:00; https://x.com/SITIONjp/status/2050432620681642445)
+- 2026-05-02_STN_B_003 <- pub_20260502_eve_STN_001 (2026-05-02T12:35:06.698553+00:00; https://x.com/SITIONjp/status/2050554674118619282)
+- 2026-05-02_STN_B_003 <- 2026-05-02_STN_B_003_daily-intel (2026-05-02T12:35:06.698553+00:00; https://x.com/SITIONjp/status/2050554674118619282)
+- 2026-05-03_STN_B_001 <- 2026-05-03_STN_B_001_daily-intel (2026-05-02T21:30:06.647705+00:00; https://x.com/SITIONjp/status/2050689310731710479)
+- 2026-05-03_STN_B_002 <- pub_20260503_mid_STN_001 (2026-05-03T04:30:06.798370+00:00; https://x.com/SITIONjp/status/2050795008245272755)
+- 2026-05-03_STN_B_002 <- 2026-05-03_STN_B_002_daily-intel (2026-05-03T04:30:06.798370+00:00; https://x.com/SITIONjp/status/2050795008245272755)
+- 2026-05-03_STN_B_003 <- pub_20260503_eve_STN_001 (2026-05-03T10:30:05.865859+00:00; https://x.com/SITIONjp/status/2050885601097052400)
+- 2026-05-03_STN_B_003 <- 2026-05-03_STN_B_003_daily-intel (2026-05-03T10:30:05.865859+00:00; https://x.com/SITIONjp/status/2050885601097052400)
+- 2026-05-03_STN_B_004 <- pub_20260503_night_STN_001 (2026-05-03T15:30:30.169043+00:00; https://x.com/SITIONjp/status/2050961208938017194)
+- 2026-05-03_STN_B_004 <- 2026-05-03_STN_B_004_daily-intel (2026-05-03T15:30:30.169043+00:00; https://x.com/SITIONjp/status/2050961208938017194)
+- 2026-05-04_STN_B_001 <- 2026-05-04_STN_B_001_daily-intel (2026-05-03T21:30:13.607904+00:00; https://x.com/SITIONjp/status/2051051727936479322)
+- 2026-05-04_STN_B_002 <- 2026-05-04_STN_B_002_daily-intel (2026-05-04T05:18:59.308520+00:00; https://x.com/SITIONjp/status/2051169695827693881)
+- 2026-05-04_STN_B_003 <- 2026-05-04_STN_B_003_daily-intel (2026-05-04T10:30:06.798427+00:00; https://x.com/SITIONjp/status/2051247993047887942)
+- 2026-05-04_STN_B_004 <- 2026-05-04_STN_B_004_daily-intel (2026-05-04T15:30:08.782149+00:00; https://x.com/SITIONjp/status/2051323505715872051)
+- 2026-05-05_STN_B_001 <- 2026-05-05_STN_B_001_daily-intel (2026-05-04T22:36:50.353420+00:00; https://x.com/SITIONjp/status/2051430879134966204)
+- 2026-05-05_STN_B_002 <- 2026-05-05_STN_B_002_daily-intel (2026-05-05T04:30:06.907838+00:00; https://x.com/SITIONjp/status/2051519784584642763)
+- 2026-05-05_STN_B_003 <- 2026-05-05_STN_B_003_daily-intel (2026-05-05T10:30:06.818062+00:00; https://x.com/SITIONjp/status/2051610380871541040)
+- 2026-05-06_STN_B_001 <- 2026-05-06_STN_B_001_daily-intel (2026-05-05T21:30:07.540896+00:00; https://x.com/SITIONjp/status/2051776478736794066)
+- 2026-05-06_STN_B_002 <- 2026-05-06_STN_B_002_daily-intel (2026-05-06T05:59:06.135724+00:00; https://x.com/SITIONjp/status/2051904566573330926)
+- 2026-05-11_STN_A_001 <- 2026-05-11_STN_A_001_signal-agentic-commerce-crypto-rail (2026-05-10T22:21:58+00:00; https://x.com/SITIONjp/status/2053601468989776110)
+- 2026-05-11_STN_A_002 <- 2026-05-11_STN_A_002_signal-pakistan-icp-sovereign-cloud (2026-05-10T23:10:08+00:00; https://x.com/SITIONjp/status/2053613587944595928)
+- 2026-05-11_STN_A_003 <- 2026-05-11_STN_A_003_signal-clarity-act-may14-leading-indicators (2026-05-11T02:41:14+00:00; https://x.com/SITIONjp/status/2053666712642633995)
+- 2026-05-11_STN_A_004 <- 2026-05-11_STN_A_004_signal-bank-lobby-yield-compromise-scenarios (2026-05-11T06:33:13.398011+00:00; https://x.com/SITIONjp/status/2053724771196760087)
+- 2026-05-12_STN_A_007 <- 2026-05-12_STN_A_007_signal-clarity-act-309-page-text-precision-read (2026-05-12T10:30:00+00:00; https://x.com/SITIONjp/status/2054146933145690438)
+- 2026-05-12_STN_DD_001 <- 2026-05-12_STN_DD_001_deepdive-agentic-payment-stack-five-pieces (2026-05-12T11:16:00+00:00; https://x.com/SITIONjp/status/2054158449089581418)
+- 2026-05-13_STN_A_001 <- 2026-05-13_STN_A_001_signal-hayes-three-posts-24h (2026-05-12T22:59:24+00:00; https://x.com/SITIONjp/status/2054335664217600250)
+- 2026-05-13_STN_A_002 <- 2026-05-13_STN_A_002_signal-clarity-opposition-amendments (2026-05-13T05:04:30+00:00; https://x.com/SITIONjp/status/2054427541751140560)
+- 2026-05-13_STN_A_003 <- 2026-05-13_STN_A_003_signal-base-x402-batch-settlement (2026-05-13T05:05:58+00:00; https://x.com/SITIONjp/status/2054427914243063823)
+- 2026-05-13_STN_DD_001 <- 2026-05-13_STN_DD_001_deepdive-polymarket-no-rate-cuts (2026-05-13T05:19:36.355000+00:00; https://x.com/SITIONjp/status/2054431343162142801)
+- 2026-05-14_STN_A_001 <- 2026-05-14_STN_A_001_signal-warsh-fed-chairman-confirmed (2026-05-14T03:57:30.728000+00:00; https://x.com/SITIONjp/status/2054773071450620407)
+- 2026-05-14_STN_A_002 <- 2026-05-14_STN_A_002_signal-hayes-10yr-tsy-china-deal (2026-05-14T03:58:08.143000+00:00; https://x.com/SITIONjp/status/2054773228380532928)
+- 2026-05-14_STN_A_003 <- 2026-05-14_STN_A_003_signal-trump-xi-summit-opening (2026-05-14T04:13:33.954000+00:00; https://x.com/SITIONjp/status/2054777111513362939)
+- 2026-05-14_STN_A_004 <- 2026-05-14_STN_A_004_signal-clarity-99-percent-deal-failed-overnight (2026-05-14T05:05:50.680000+00:00; https://x.com/SITIONjp/status/2054790267895681343)
+- 2026-05-15_STN_A_001 <- 2026-05-15_STN_A_001_signal-clarity-act-15-9-banking-committee (2026-05-14T21:19:58.458000+00:00; https://x.com/SITIONjp/status/2055035415644741855)
+- 2026-05-15_STN_A_002 <- 2026-05-15_STN_A_002_signal-cme-nasdaq-crypto-index-futures (2026-05-14T21:43:41.390000+00:00; https://x.com/SITIONjp/status/2055041383854129526)
+- 2026-05-15_STN_A_003 <- 2026-05-15_STN_A_003_signal-trump-truth-social-xi-reframing (2026-05-15T05:01:39.880000+00:00; https://x.com/SITIONjp/status/2055151603829862420)
+- 2026-05-15_STN_A_004 <- 2026-05-15_STN_A_004_signal-miran-fed-resignation-bowman-banking (2026-05-15T06:43:17.071000+00:00; https://x.com/SITIONjp/status/2055177177302434099)
+- 2026-05-15_STN_MKT_001 <- mkt_indicators_20260515 (2026-05-14T23:58:41.624000+00:00; https://x.com/SITIONjp/status/2055075358698082695)
+- 2026-05-19_STN_A_001 <- 2026-05-19_STN_A_001_signal-fsa-foreign-stablecoin-cabinet-ordinance (2026-05-19T11:21:54+00:00; https://x.com/SITIONjp/status/2056694330950389772)
+- 2026-05-25_STN_DD_001 <- 2026-05-25_STN_DD_001_geopolitical-tail-risk-iran-oreshnik-icc (2026-05-25T02:29:19+00:00; https://x.com/SITIONjp/status/2058737143309312359)
+- 2026-05-26_STN_A_001 <- 2026-05-26_STN_A_001_signal-iran-hormuz-largely-negotiated (2026-05-26T09:06:00+09:00; https://x.com/SITIONjp/status/2059063539650928905)
+- 2026-05-26_STN_A_002 <- 2026-05-26_STN_A_002_signal-clarity-act-lummis-sustained-campaign (2026-05-26T10:35:00+09:00; https://x.com/SITIONjp/status/2059085966804156834)
+- 2026-05-28_STN_B_001 <- 2026-05-28_STN_B_001_daily-intel (2026-05-27T22:35:32.855758+00:00; https://x.com/SITIONjp/status/2059765474821632114)
+- 2026-05-30_STN_B_001 <- 2026-05-30_STN_B_001_daily-intel (2026-05-29T22:34:33.538764+00:00; https://x.com/SITIONjp/status/2060490001474019579)
+- 2026-06-09_STN_DD_002 <- 2026-06-09_STN_DD_002_deep-dive-ai-agent-economy-trust-layer (2026-06-09T12:36:00+09:00; https://x.com/SITIONjp/status/2064189965375058116)
+- 2026-06-11_STN_A_001 <- 2026-06-11_STN_A_001_signal-cpi-42-war-prices (2026-06-11T07:19:00+09:00; https://x.com/SITIONjp/status/2064834945835729304)
+- 2026-06-11_STN_A_002 <- 2026-06-11_STN_A_002_signal-cftc-prediction-market-nprm (2026-06-11T07:47:00+09:00; https://x.com/SITIONjp/status/2064841932057301041)
+- 2026-06-12_STN_A_002 <- 2026-06-12_STN_A_002_signal-japan-crypto-fiea-lower-house (2026-06-12T17:21:00+09:00; https://x.com/SITIONjp/status/2065348799640613189)
+- 2026-06-25_STN_A_001 <- x_manual_2069946850422280230 (2026-06-25T09:52:41+09:00; https://x.com/SITIONjp/status/2069946850422280230)
+
+## T3 finalization record
+
+- Manifest: `stn-migration.v1.json` (286 records / 94 include).
+- Source/body gate: schema, source hashes, evidence 4+2, primary evidence, H2 full coverage, and raw forbidden-hit declarations recomputed fresh.
+- `snowflake_url`: 6 records. Four are enumerated by CP plan v1.7; two additional 2026-05-28 records were accepted under the direct 2026-07-11 continuation approval after declared time and Snowflake minute matched.
+- Unmatched evidence candidates remain excluded: 77 records / 83 record-log pairs; no manual promotion in G42.
+- Remediation remains unapproved: all 23 records stay excluded and no `bodyPatch` is declared.
