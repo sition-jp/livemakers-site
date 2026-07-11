@@ -72,6 +72,51 @@ describe("article migration audit", () => {
     );
   });
 
+  it("keeps excluded daily records slug-unique for whole-manifest validation", async () => {
+    const { assignDailySlugs } = await import(
+      "../../scripts/migrate-articles/audit.mjs"
+    );
+    const records = [1, 2].map((number) => ({
+      postId: `2026-04-19_STN_B_00${number}`,
+      family: "daily-intel",
+      include: false,
+      publishedAtJst: "2026-04-19T00:00:00+09:00",
+      slug: "pending",
+    }));
+    assignDailySlugs(records);
+    expect(records.map((record) => record.slug)).toEqual([
+      "daily-intel-2026-04-19-morning",
+      "daily-intel-2026-04-19-morning-2",
+    ]);
+  });
+
+  it("does not let excluded siblings change an included singleton slug", async () => {
+    const { assignDailySlugs } = await import(
+      "../../scripts/migrate-articles/audit.mjs"
+    );
+    const records = [
+      {
+        postId: "2026-05-06_STN_B_004",
+        family: "daily-intel",
+        include: true,
+        publishedAtJst: "2026-05-06T15:30:00+09:00",
+        slug: "pending",
+      },
+      {
+        postId: "2026-05-06_STN_B_001",
+        family: "daily-intel",
+        include: false,
+        publishedAtJst: "2026-05-06T00:00:00+09:00",
+        slug: "pending",
+      },
+    ];
+    assignDailySlugs(records);
+    expect(records.map((record) => record.slug)).toEqual([
+      "daily-intel-2026-05-06",
+      "daily-intel-2026-05-06-morning",
+    ]);
+  });
+
   it("proposes H2 evidence and the bounded snowflake time basis", () => {
     const result = auditSourceRoot(sourceRoot, { includeArchive: false });
     const headings = result.records.find(

@@ -556,10 +556,10 @@ function initialSlug(record, candidate) {
   return `event-risk-radar-w${isoWeek(sourceDate(candidate))}`;
 }
 
-function assignDailySlugs(records) {
+export function assignDailySlugs(records) {
   const byDate = new Map();
   for (const record of records.filter(
-    (item) => item.include && item.family === "daily-intel",
+    (item) => item.family === "daily-intel",
   )) {
     const date = record.publishedAtJst.slice(0, 10);
     byDate.set(date, [...(byDate.get(date) ?? []), record]);
@@ -573,12 +573,15 @@ function assignDailySlugs(records) {
           ? "evening"
           : "night";
   for (const [date, group] of byDate) {
-    if (group.length === 1) {
-      group[0].slug = `daily-intel-${date}`;
-      continue;
-    }
+    const included = group.filter((record) => record.include);
+    const excluded = group.filter((record) => !record.include);
+    const used = new Set();
     const counts = new Map();
-    for (const record of group.toSorted((left, right) =>
+    if (included.length === 1) {
+      included[0].slug = `daily-intel-${date}`;
+      used.add(included[0].slug);
+    }
+    for (const record of (included.length > 1 ? included : []).toSorted((left, right) =>
       `${left.publishedAtJst}${left.postId}`.localeCompare(
         `${right.publishedAtJst}${right.postId}`,
       ),
@@ -589,6 +592,29 @@ function assignDailySlugs(records) {
       record.slug = `daily-intel-${date}-${slot}${
         count > 1 ? `-${count}` : ""
       }`;
+      used.add(record.slug);
+    }
+    if (included.length === 0 && excluded.length === 1) {
+      excluded[0].slug = `daily-intel-${date}`;
+      continue;
+    }
+    for (const record of excluded.toSorted((left, right) =>
+      `${left.publishedAtJst}${left.postId}`.localeCompare(
+        `${right.publishedAtJst}${right.postId}`,
+      ),
+    )) {
+      const slot = slotFor(record.publishedAtJst.slice(11, 16));
+      let count = (counts.get(slot) ?? 0) + 1;
+      let slug = `daily-intel-${date}-${slot}${
+        count > 1 ? `-${count}` : ""
+      }`;
+      while (used.has(slug)) {
+        count += 1;
+        slug = `daily-intel-${date}-${slot}-${count}`;
+      }
+      counts.set(slot, count);
+      record.slug = slug;
+      used.add(slug);
     }
   }
 }
