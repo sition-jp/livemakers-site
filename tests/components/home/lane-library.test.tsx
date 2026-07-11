@@ -1,4 +1,6 @@
 /* @vitest-environment jsdom */
+import path from "node:path";
+
 import { render, screen } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -29,6 +31,8 @@ const provenance = {
   reviewStatus: "reviewed_fixture" as const,
   asOfJst: "07:58 JST",
 };
+const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+const testOptions = { contentDir: TEST_CONTENT_DIR };
 const copy = {
   provenance: {
     review: "審査状態",
@@ -64,8 +68,8 @@ describe("lane + library (ledger groups 4-6, 8)", () => {
         subtitle="12指標の補完データ"
         rows={values}
         articles={[
-          getArticleBySlug("event-risk-radar-w29"),
-          getArticleBySlug("signal-dxy-plateau-2026-07-09"),
+          getArticleBySlug("event-risk-radar-w29", testOptions),
+          getArticleBySlug("signal-dxy-plateau-2026-07-09", testOptions),
         ]}
         asOfLabel="07:58 JST"
         provenance={provenance}
@@ -93,7 +97,7 @@ describe("lane + library (ledger groups 4-6, 8)", () => {
   it("appends the fixed session archive index card", () => {
     render(
       <LibraryShelf
-        articles={[getArticleBySlug("deep-dive-midnight-economy")]}
+        articles={[getArticleBySlug("deep-dive-midnight-economy", testOptions)]}
         copy={{
           familyLabels: copy.familyLabels,
           archiveTitle: "セッション記事アーカイブ — 朝昼夕夜の全記録",

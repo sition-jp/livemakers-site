@@ -1,4 +1,6 @@
 /* @vitest-environment jsdom */
+import path from "node:path";
+
 import { render } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
@@ -52,7 +54,11 @@ vi.mock("@/i18n/navigation", () => ({
   ),
 }));
 
-const props = buildHomeCompositionProps({ today: "2026-07-10" });
+const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+const props = buildHomeCompositionProps({
+  today: "2026-07-10",
+  contentDir: TEST_CONTENT_DIR,
+});
 const copy = buildTestHomeCopy();
 
 function renderFullPage() {
@@ -111,7 +117,9 @@ describe("B+ safety regression gates (page-wide, fail-closed)", () => {
       ).toBe(true);
       const article = href.match(/^\/articles\/([a-z0-9-]+)$/);
       if (article && article[1] !== "today") {
-        expect(() => getArticleBySlug(article[1])).not.toThrow();
+        expect(() =>
+          getArticleBySlug(article[1], { contentDir: TEST_CONTENT_DIR }),
+        ).not.toThrow();
       }
       const session = href.match(
         /^\/sessions\/(\d{4}-\d{2}-\d{2}-[a-z-]+)$/,

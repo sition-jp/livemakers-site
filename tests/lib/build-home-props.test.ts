@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
@@ -5,7 +7,10 @@ import { loadMarketSnapshot } from "@/lib/home/market-snapshot";
 import { loadFocusSeriesRecords } from "@/lib/sessions/focus-series";
 
 describe("build-home-props as-of integration (P1-2)", () => {
-  const props = buildHomeCompositionProps({ today: "2026-07-10" });
+  const props = buildHomeCompositionProps({
+    today: "2026-07-10",
+    contentDir: path.join(process.cwd(), "tests", "fixtures", "content", "articles"),
+  });
   const snapshot = loadMarketSnapshot();
 
   it("uses snapshot as-of for label and market provenance", () => {
@@ -42,5 +47,13 @@ describe("build-home-props as-of integration (P1-2)", () => {
     expect(() => buildHomeCompositionProps({ today: "2026-07-11" })).toThrow(
       /does not match today/,
     );
+  });
+
+  it("passes an injected contentDir through to article selection", () => {
+    const empty = buildHomeCompositionProps({
+      today: "2026-07-10",
+      contentDir: path.join(process.cwd(), "tests", "fixtures", "missing-content"),
+    });
+    expect(empty.slots.lead.state).toBe("pending");
   });
 });

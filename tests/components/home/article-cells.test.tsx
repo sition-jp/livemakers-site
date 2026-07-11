@@ -1,4 +1,6 @@
 /* @vitest-environment jsdom */
+import path from "node:path";
+
 import { render, screen } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -25,7 +27,9 @@ describe("shared article cells", () => {
   it("renders family, title, and published label as one article link", () => {
     render(
       <ArticleRow
-        article={getArticleBySlug("signal-dxy-plateau-2026-07-09")}
+        article={getArticleBySlug("signal-dxy-plateau-2026-07-09", {
+          contentDir: path.join(process.cwd(), "tests", "fixtures", "content", "articles"),
+        })}
         familyLabel="Signal"
       />,
     );

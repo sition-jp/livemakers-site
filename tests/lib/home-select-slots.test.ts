@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import { getAllArticles } from "@/lib/articles/article-model";
@@ -10,8 +12,10 @@ import {
 } from "@/lib/home/select-home-slots";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
 
+const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+
 const input = () => ({
-  articles: getAllArticles(),
+  articles: getAllArticles({ contentDir: TEST_CONTENT_DIR }),
   sessions: getAllSessionRecords(),
   radar: RADAR_OBSERVATIONS,
   promotions: RADAR_PROMOTIONS,

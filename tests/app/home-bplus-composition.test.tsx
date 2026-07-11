@@ -1,4 +1,6 @@
 /* @vitest-environment jsdom */
+import path from "node:path";
+
 import { render, screen } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
@@ -23,7 +25,10 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 describe("B+ home composition (doctrine §4 nine-group ledger)", () => {
-  const props = buildHomeCompositionProps({ today: "2026-07-10" });
+  const props = buildHomeCompositionProps({
+    today: "2026-07-10",
+    contentDir: path.join(process.cwd(), "tests", "fixtures", "content", "articles"),
+  });
   const copy = buildTestHomeCopy();
 
   it("renders the locked reader-facing co-equal masthead copy", () => {
