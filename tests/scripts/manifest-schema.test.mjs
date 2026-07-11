@@ -39,6 +39,7 @@ const valid = {
   trailingHashtagLine: null,
   manualReviewedBy: null,
   manualReviewReason: null,
+  timeBasis: null,
   forbiddenTermHits: [],
   bodyPatch: null,
   include: true,
@@ -173,6 +174,38 @@ describe("manifest schema v1.3", () => {
         titlePrefix: null,
       }),
     ).toThrow(/verbatim/);
+  });
+
+  it("enforces the snowflake time contract", () => {
+    const snowflakeRecord = {
+      ...valid,
+      family: "deep-dive",
+      slug: "deep-dive-warsh-fed-chair-policy-regime",
+      evidenceKind: "frontmatter",
+      primaryUrl: "https://x.com/SITIONjp/status/2058019904654319699",
+      sourceXUrl: "https://x.com/SITIONjp/status/2058019904654319699",
+      logId: null,
+      logUrl: null,
+      logPublishedAtUtc: null,
+      logTitle: null,
+      titleMatch: null,
+      timeBasis: "snowflake_url",
+      publishedAtJst: "2026-05-23T11:59:00+09:00",
+      stage: 2,
+    };
+    expect(() => ManifestRecordSchema.parse(snowflakeRecord)).not.toThrow();
+    expect(() =>
+      ManifestRecordSchema.parse({
+        ...snowflakeRecord,
+        publishedAtJst: "2026-05-23T12:00:00+09:00",
+      }),
+    ).toThrow(/snowflake/);
+    expect(() =>
+      ManifestRecordSchema.parse({
+        ...valid,
+        timeBasis: "snowflake_url",
+      }),
+    ).toThrow(/log_verified/);
   });
 
   it("requires H2 classification basis exactly when headings are declared", () => {

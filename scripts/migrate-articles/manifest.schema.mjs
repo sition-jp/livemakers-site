@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { snowflakeJstIso } from "./evidence.mjs";
+
 export const MANIFEST_FAMILIES = [
   "daily-intel",
   "signal",
@@ -102,6 +104,7 @@ export const ManifestRecordSchema = z
     trailingHashtagLine: z.string().min(1).nullable(),
     manualReviewedBy: z.enum(["codex", "fable5"]).nullable(),
     manualReviewReason: z.string().min(1).nullable(),
+    timeBasis: z.enum(["snowflake_url"]).nullable(),
     forbiddenTermHits: z.array(z.string()),
     bodyPatch: z
       .strictObject({
@@ -236,6 +239,18 @@ export const ManifestRecordSchema = z
         issue(
           "titleMatch manual requires manualReviewedBy and manualReviewReason",
         );
+      }
+      if (record.timeBasis === "snowflake_url") {
+        if (record.evidenceKind === "log_verified") {
+          issue("timeBasis snowflake_url is not valid for log_verified");
+        } else if (
+          record.sourceXUrl &&
+          snowflakeJstIso(record.sourceXUrl) !== record.publishedAtJst
+        ) {
+          issue(
+            "publishedAtJst must equal the snowflake-derived JST of sourceXUrl",
+          );
+        }
       }
       if (record.forbiddenTermHits.length > 0 && record.bodyPatch === null) {
         issue("forbidden term hits require an approved bodyPatch or exclusion");

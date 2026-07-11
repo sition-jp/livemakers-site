@@ -115,6 +115,30 @@ export function hoursBetween(isoA, isoB) {
   return Math.abs(a - b) / 3_600_000;
 }
 
+const TWITTER_EPOCH_MS = 1_288_834_974_657n;
+
+export function snowflakeUtcMs(statusId) {
+  if (typeof statusId !== "string" || !/^\d+$/.test(statusId)) {
+    return null;
+  }
+  return Number((BigInt(statusId) >> 22n) + TWITTER_EPOCH_MS);
+}
+
+export function snowflakeJstIso(statusXUrl) {
+  const match = (statusXUrl ?? "").match(
+    /^https:\/\/x\.com\/SITIONjp\/status\/(\d+)$/,
+  );
+  if (!match) return null;
+  const milliseconds = snowflakeUtcMs(match[1]);
+  if (milliseconds === null) return null;
+  const jst = new Date(milliseconds + 9 * 3_600_000);
+  return `${jst.getUTCFullYear()}-${pad2(jst.getUTCMonth() + 1)}-${pad2(
+    jst.getUTCDate(),
+  )}T${pad2(jst.getUTCHours())}:${pad2(
+    jst.getUTCMinutes(),
+  )}:00+09:00`;
+}
+
 export function checkLogEvidence(record, logIndex, sourceFileDate) {
   const failures = [];
   const rows = (logIndex.get(record.postId) ?? []).filter(
@@ -199,18 +223,52 @@ export function checkPrimaryEvidence(record, frontmatter) {
     failures.push(
       "frontmatter published_at missing (primary evidence requires it; reclassify as log_verified or exclude)",
     );
-  } else {
-    const jst = /\+09:00$/.test(frontmatter.publishedAt)
-      ? frontmatter.publishedAt
-      : utcToJstIso(frontmatter.publishedAt);
-    if (
-      !jst ||
-      jst.slice(0, 16) !== record.publishedAtJst.slice(0, 16)
-    ) {
+    return failures;
+  }
+  if (record.timeBasis === "snowflake_url") {
+    const fullIso = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(
+      frontmatter.publishedAt,
+    );
+    if (fullIso) {
       failures.push(
-        `publishedAtJst != frontmatter published_at (${record.publishedAtJst} vs ${frontmatter.publishedAt})`,
+        "timeBasis snowflake_url is only valid when published_at lacks a full ISO timestamp",
+      );
+      return failures;
+    }
+    const derived = snowflakeJstIso(record.sourceXUrl);
+    if (!derived) {
+      failures.push("snowflake derivation failed for sourceXUrl");
+      return failures;
+    }
+    if (derived !== record.publishedAtJst) {
+      failures.push(
+        `publishedAtJst != snowflake-derived JST (${record.publishedAtJst} vs ${derived})`,
       );
     }
+    const dateMatch = frontmatter.publishedAt.match(/(\d{4}-\d{2}-\d{2})/);
+    if (!dateMatch) {
+      failures.push(
+        `published_at has no parseable date part: ${frontmatter.publishedAt}`,
+      );
+    } else if (
+      hoursBetween(derived, `${dateMatch[1]}T00:00:00+09:00`) > 48
+    ) {
+      failures.push(
+        `snowflake time beyond ±48h of frontmatter date ${dateMatch[1]}`,
+      );
+    }
+    return failures;
+  }
+  const jst = /\+09:00$/.test(frontmatter.publishedAt)
+    ? frontmatter.publishedAt
+    : utcToJstIso(frontmatter.publishedAt);
+  if (
+    !jst ||
+    jst.slice(0, 16) !== record.publishedAtJst.slice(0, 16)
+  ) {
+    failures.push(
+      `publishedAtJst != frontmatter published_at (${record.publishedAtJst} vs ${frontmatter.publishedAt}; if published_at lacks a time, declare timeBasis snowflake_url)`,
+    );
   }
   return failures;
 }

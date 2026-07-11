@@ -6,6 +6,8 @@ import {
   checkPrimaryEvidence,
   hoursBetween,
   normalizeTitle,
+  snowflakeJstIso,
+  snowflakeUtcMs,
   utcToJstIso,
 } from "../../scripts/migrate-articles/evidence.mjs";
 
@@ -183,6 +185,67 @@ describe("evidence.mjs — primary and conflict checks", () => {
         { ...frontmatter, publishedAt: null },
       ).join(),
     ).toMatch(/published_at missing/);
+  });
+
+  it("derives and validates the bounded snowflake time contract", () => {
+    expect(snowflakeUtcMs("2058019904654319699")).toBe(1779505156087);
+    expect(
+      snowflakeJstIso(
+        "https://x.com/SITIONjp/status/2058019904654319699",
+      ),
+    ).toBe("2026-05-23T11:59:00+09:00");
+    expect(
+      snowflakeJstIso(
+        "https://x.com/SITIONjp/status/2072851050479190148",
+      ),
+    ).toBe("2026-07-03T10:12:00+09:00");
+    expect(snowflakeUtcMs("not-digits")).toBeNull();
+    expect(
+      snowflakeJstIso("https://x.com/other/status/2058019904654319699"),
+    ).toBeNull();
+
+    const snowflakeRecord = {
+      ...record,
+      primaryUrl: "https://x.com/SITIONjp/status/2058019904654319699",
+      sourceXUrl: "https://x.com/SITIONjp/status/2058019904654319699",
+      publishedAtJst: "2026-05-23T11:59:00+09:00",
+      timeBasis: "snowflake_url",
+    };
+    const dateOnlyFrontmatter = {
+      ...frontmatter,
+      publishedUrl: snowflakeRecord.primaryUrl,
+      publishedAt: "2026-05-23",
+    };
+    expect(
+      checkPrimaryEvidence(snowflakeRecord, dateOnlyFrontmatter),
+    ).toEqual([]);
+    expect(
+      checkPrimaryEvidence(
+        {
+          ...snowflakeRecord,
+          publishedAtJst: "2026-05-23T12:00:00+09:00",
+        },
+        dateOnlyFrontmatter,
+      ).join(),
+    ).toMatch(/snowflake-derived/);
+    expect(
+      checkPrimaryEvidence(snowflakeRecord, {
+        ...dateOnlyFrontmatter,
+        publishedAt: "2026-05-27",
+      }).join(),
+    ).toMatch(/48h/);
+    expect(
+      checkPrimaryEvidence(snowflakeRecord, {
+        ...dateOnlyFrontmatter,
+        publishedAt: "2026-05-23T11:59:00+09:00",
+      }).join(),
+    ).toMatch(/only valid when/);
+    expect(
+      checkPrimaryEvidence(
+        { ...snowflakeRecord, timeBasis: null },
+        dateOnlyFrontmatter,
+      ).join(),
+    ).toMatch(/declare timeBasis/);
   });
 
   it("detects published URL conflicts and ignores non-published rows", () => {
