@@ -11,7 +11,7 @@ import {
   parseFrontmatter,
   readSourceText,
 } from "./evidence.mjs";
-import { extractBody } from "./lib.mjs";
+import { escapeMdx, extractBody, publishedLabelFromJst } from "./lib.mjs";
 import { validateManifest } from "./manifest.schema.mjs";
 import { scanForbidden } from "./scan.mjs";
 
@@ -119,6 +119,104 @@ export function verifySourceRecords(records, sourceRoot) {
   return failures;
 }
 
+export function verifyContentRecords(records, contentDir, maxStage = 2) {
+  const expected = records.filter(
+    (record) =>
+      record.include && record.stage !== null && record.stage <= maxStage,
+  );
+  const expectedBySlug = new Map(
+    expected.map((record) => [record.slug, record]),
+  );
+  const failures = [];
+  if (!fs.existsSync(contentDir)) return [`missing content directory: ${contentDir}`];
+
+  const entries = fs.readdirSync(contentDir, { withFileTypes: true });
+  const actualDirs = new Set();
+  for (const entry of entries) {
+    if (!entry.isDirectory()) {
+      failures.push(`stray file in content/articles: ${entry.name}`);
+      continue;
+    }
+    actualDirs.add(entry.name);
+    const directory = path.join(contentDir, entry.name);
+    const files = fs.readdirSync(directory);
+    if (!files.includes("meta.json")) {
+      failures.push(`missing meta.json: ${entry.name}`);
+    }
+    for (const file of files) {
+      if (!["meta.json", "ja.md", "en.md"].includes(file)) {
+        failures.push(`disallowed file: ${entry.name}/${file}`);
+      }
+    }
+    const jaPath = path.join(directory, "ja.md");
+    if (!fs.existsSync(jaPath) || !fs.readFileSync(jaPath, "utf8").trim()) {
+      failures.push(`empty or missing ja.md: ${entry.name}`);
+    }
+  }
+  for (const slug of expectedBySlug.keys()) {
+    if (!actualDirs.has(slug)) {
+      failures.push(`missing (in manifest, not on disk): ${slug}`);
+    }
+  }
+  for (const directory of actualDirs) {
+    if (!expectedBySlug.has(directory)) {
+      failures.push(`extra (on disk, not in manifest): ${directory}`);
+    }
+  }
+
+  for (const record of expected) {
+    if (!actualDirs.has(record.slug)) continue;
+    const directory = path.join(contentDir, record.slug);
+    const metaPath = path.join(directory, "meta.json");
+    const jaPath = path.join(directory, "ja.md");
+    if (!fs.existsSync(metaPath) || !fs.existsSync(jaPath)) continue;
+    let meta;
+    try {
+      meta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
+    } catch (error) {
+      failures.push(`invalid meta.json ${record.slug}: ${error.message}`);
+      continue;
+    }
+    const body = fs.readFileSync(jaPath, "utf8");
+    if (meta.articleId !== record.slug) failures.push(`META articleId ${record.slug}`);
+    if (meta.family !== record.family) failures.push(`META family ${record.slug}`);
+    if (meta.titleJa !== record.titleJa) failures.push(`META titleJa ${record.slug}`);
+    if (meta.publishedAtJst !== record.publishedAtJst) {
+      failures.push(`META publishedAtJst ${record.slug}`);
+    }
+    if (meta.publishedLabel !== publishedLabelFromJst(record.publishedAtJst)) {
+      failures.push(`META publishedLabel ${record.slug}`);
+    }
+    if ((meta.dataDate ?? null) !== record.dataDate) {
+      failures.push(`META dataDate ${record.slug}`);
+    }
+    if (JSON.stringify(meta.lanes ?? []) !== JSON.stringify(record.lanes)) {
+      failures.push(`META lanes ${record.slug}`);
+    }
+    if ((meta.sourceXUrl ?? null) !== record.sourceXUrl) {
+      failures.push(`META sourceXUrl ${record.slug}`);
+    }
+    if (
+      record.titleTransform === "strip_prefix" &&
+      record.titlePrefix + record.titleJa !== record.titleOriginal
+    ) {
+      failures.push(`TITLE concat ${record.slug}`);
+    }
+    const hits = scanForbidden(body);
+    if (hits.length > 0) {
+      failures.push(`FORBIDDEN ${record.slug}: ${hits.join(",")}`);
+    }
+    const h2s = [...body.matchAll(/^## .*$/gm)].map((match) => match[0]);
+    const expectedH2s = record.publicH2s.map((heading) => escapeMdx(heading));
+    if (JSON.stringify(h2s) !== JSON.stringify(expectedH2s)) {
+      failures.push(
+        `PUBLIC H2 sequence ${record.slug}: got ${JSON.stringify(h2s)} expected ${JSON.stringify(expectedH2s)}`,
+      );
+    }
+  }
+  return failures;
+}
+
 function cli() {
   const manifestPath = path.join(
     process.cwd(),
@@ -150,6 +248,26 @@ function cli() {
       `OK: source/body recomputation passed for ${records.length} records; evidence passed for ${
         records.filter((record) => record.include).length
       } included records`,
+    );
+  }
+
+  if (process.argv.includes("--against-content")) {
+    const stageArg = process.argv.find((argument) =>
+      argument.startsWith("--stage="),
+    );
+    const maxStage = stageArg ? Number(stageArg.slice("--stage=".length)) : 2;
+    if (![1, 2].includes(maxStage)) {
+      console.error(`invalid stage: ${maxStage}`);
+      process.exit(1);
+    }
+    const contentDir = path.join(process.cwd(), "content", "articles");
+    const failures = verifyContentRecords(records, contentDir, maxStage);
+    if (failures.length > 0) {
+      console.error(`CONTENT GATE FAILED:\n${failures.join("\n")}`);
+      process.exit(1);
+    }
+    console.log(
+      `OK: ${records.filter((record) => record.include && record.stage <= maxStage).length} records match content/articles exactly (stage<=${maxStage})`,
     );
   }
 }

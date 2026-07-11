@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -39,5 +41,47 @@ describe("verify-manifest source recomputation", () => {
     expect(
       verifySourceRecords([excludedWithUncoveredH2], sourceRoot).join("\n"),
     ).toMatch(/uncovered H2/);
+  });
+
+  it("checks generated content structure, metadata, body, and public H2s", async () => {
+    const { verifyContentRecords } = await import(
+      "../../scripts/migrate-articles/verify-manifest.mjs"
+    );
+    const contentDir = fs.mkdtempSync(path.join(os.tmpdir(), "g42-content-"));
+    const record = {
+      include: true,
+      stage: 1,
+      slug: "signal-test-2026-07-10",
+      family: "signal",
+      titleJa: "テスト",
+      titleOriginal: "📡 Signal｜テスト",
+      titleTransform: "strip_prefix",
+      titlePrefix: "📡 Signal｜",
+      publishedAtJst: "2026-07-10T10:00:00+09:00",
+      dataDate: null,
+      lanes: ["macro"],
+      sourceXUrl: "https://x.com/SITIONjp/status/1",
+      publicH2s: ["## 公開章"],
+    };
+    const articleDir = path.join(contentDir, record.slug);
+    fs.mkdirSync(articleDir);
+    fs.writeFileSync(
+      path.join(articleDir, "meta.json"),
+      `${JSON.stringify({
+        articleId: record.slug,
+        family: record.family,
+        titleJa: record.titleJa,
+        publishedAtJst: record.publishedAtJst,
+        publishedLabel: "07-10 10:00 公開",
+        lanes: record.lanes,
+        sourceXUrl: record.sourceXUrl,
+      })}\n`,
+    );
+    fs.writeFileSync(path.join(articleDir, "ja.md"), "本文\n\n## 公開章\n章。\n");
+    expect(verifyContentRecords([record], contentDir, 1)).toEqual([]);
+    fs.writeFileSync(path.join(contentDir, "stray.txt"), "stray");
+    expect(verifyContentRecords([record], contentDir, 1).join("\n")).toMatch(
+      /stray file/,
+    );
   });
 });
