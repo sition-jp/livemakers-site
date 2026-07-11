@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 
 import { getAllArticles } from "@/lib/articles/article-model";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
-import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
   collectSelectedArticleIds,
   normalizeHomeInput,
@@ -13,12 +12,15 @@ import {
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
 
 const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+const TEST_PROMOTIONS = {
+  stablecoin_supply_20260710: "signal-stablecoin-supply-2026-07-10",
+};
 
 const input = () => ({
   articles: getAllArticles({ contentDir: TEST_CONTENT_DIR }),
   sessions: getAllSessionRecords(),
   radar: RADAR_OBSERVATIONS,
-  promotions: RADAR_PROMOTIONS,
+  promotions: TEST_PROMOTIONS,
   today: "2026-07-10",
 });
 
@@ -116,7 +118,7 @@ describe("home slot selection (B+)", () => {
     const slots = selectHomeSlots({
       ...input(),
       promotions: {
-        ...RADAR_PROMOTIONS,
+        ...TEST_PROMOTIONS,
         eu_stablecoin_guidance_20260710: "no-such-article",
       },
     });
@@ -207,7 +209,7 @@ describe("home slot selection (B+)", () => {
       ...input(),
       articles,
       promotions: {
-        ...RADAR_PROMOTIONS,
+        ...TEST_PROMOTIONS,
         eu_stablecoin_guidance_20260710:
           "signal-jgb-yield-move-2026-07-09",
       },

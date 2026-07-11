@@ -56,10 +56,8 @@ describe("radar strict title-only contract", () => {
     }
   });
 
-  it("keeps promotion association outside the payload", () => {
-    expect(RADAR_PROMOTIONS.stablecoin_supply_20260710).toBe(
-      "signal-stablecoin-supply-2026-07-10",
-    );
+  it("keeps optional promotion associations outside the payload", () => {
+    expect(RADAR_PROMOTIONS).toEqual({});
     expect(Object.keys(RADAR_OBSERVATIONS[0])).not.toContain(
       "promotedArticleId",
     );
