@@ -9,7 +9,7 @@ export default defineConfig({
     // leading /* @vitest-environment jsdom */ docblock. Default stays
     // node for API / lib tests that shouldn't pay the jsdom startup cost.
     environment: "node",
-    include: ["tests/**/*.test.{ts,tsx}"],
+    include: ["tests/**/*.test.{ts,tsx,mjs}"],
     setupFiles: ["./tests/setup.ts"],
   },
   resolve: {

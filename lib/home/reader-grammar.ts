@@ -30,7 +30,7 @@ export const FORBIDDEN_OPS_TERMS: readonly string[] = [
   ...EXTRA_OPS_TERMS,
 ];
 
-const ALLOWED_PUBLIC_LABELS = ["SDE検出"] as const;
+export const ALLOWED_PUBLIC_LABELS = ["SDE検出"] as const;
 
 export const matchesTerm = (haystackLower: string, term: string): boolean => {
   if (/^[a-z0-9_ /-]+$/.test(term)) {
