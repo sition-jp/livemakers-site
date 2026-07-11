@@ -102,6 +102,16 @@ describe("home slot selection (B+)", () => {
     ).toBe(true);
   });
 
+  it("keeps radar pair null and observations intact when promotions are empty", () => {
+    const slots = selectHomeSlots({
+      ...input(),
+      promotions: {},
+    });
+    expect(slots.radarPair).toBeNull();
+    expect(slots.observing.length).toBeGreaterThan(0);
+    expect(slots.observing).toHaveLength(RADAR_OBSERVATIONS.length);
+  });
+
   it("uses the latest resolvable promotion", () => {
     const slots = selectHomeSlots({
       ...input(),
