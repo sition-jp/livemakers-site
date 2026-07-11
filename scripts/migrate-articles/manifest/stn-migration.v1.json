@@ -10190,7 +10190,7 @@
     "forbiddenTermHits": [],
     "bodyPatch": null,
     "include": false,
-    "excludeReason": "no publish evidence",
+    "excludeReason": "log row exists but lacks URL",
     "stage": null
   },
   {
@@ -10234,7 +10234,7 @@
     "forbiddenTermHits": [],
     "bodyPatch": null,
     "include": false,
-    "excludeReason": "no publish evidence",
+    "excludeReason": "log row exists but lacks URL",
     "stage": null
   },
   {
@@ -11211,8 +11211,7 @@
     "bodySelector": "exact_marker",
     "bodySourcePath": null,
     "bodySourceSha256": null,
-    "publicH2s": [],
-    "internalH2s": [
+    "publicH2s": [
       "## 1｜チャットから「仕事の完遂」へ",
       "## 2｜性能だけでなく、「出力トークンの少なさ」を売る",
       "## 3｜入力2ドル・出力6ドルが仕掛けるもの",
@@ -11222,6 +11221,7 @@
       "## SITION視点｜次の王者は「最も賢いAI」とは限らない",
       "## 参考・一次ソース"
     ],
+    "internalH2s": [],
     "h2ClassificationBasis": "external_body",
     "leadDuplicateLine": null,
     "trailingHashtagLine": null,

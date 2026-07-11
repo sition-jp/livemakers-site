@@ -269,7 +269,7 @@ export function titleDeclaration(titleOriginal) {
 
 function siblingTextPaths(sourceRoot, candidate) {
   const stemPrefix = candidate.rawPostId;
-  return [MAIN_ROOT, DOCS_ROOT].flatMap((root) => {
+  const siblings = [MAIN_ROOT, DOCS_ROOT].flatMap((root) => {
     const directory = path.join(sourceRoot, root);
     if (!fs.existsSync(directory)) return [];
     return fs
@@ -281,6 +281,13 @@ function siblingTextPaths(sourceRoot, candidate) {
       )
       .map((name) => path.join(root, name));
   });
+  const unique = [...new Set(siblings)];
+  const articleBodies = unique.filter((sibling) =>
+    sibling.endsWith("_x_article_body.txt"),
+  );
+  return articleBodies.length > 0
+    ? articleBodies
+    : unique.filter((sibling) => sibling.endsWith("_x_paste_body.txt"));
 }
 
 function stripFrontmatter(text) {
@@ -345,17 +352,23 @@ function bodyDeclaration(sourceRoot, candidate, family) {
   const h2s = [...selectedText.matchAll(/^## .*$/gm)].map((match) =>
     match[0].trim(),
   );
-  const siblingTexts = siblings.map((sibling) =>
-    fs.readFileSync(path.join(sourceRoot, sibling), "utf8"),
-  );
+  const siblingTexts = siblings.map((sibling) => ({
+    path: sibling,
+    text: fs.readFileSync(path.join(sourceRoot, sibling), "utf8"),
+  }));
   const publicH2s = [];
   const internalH2s = [];
   const unresolvedH2s = [];
   for (const heading of h2s) {
     if (siblingTexts.length > 0) {
       if (
-        siblingTexts.some((text) =>
-          text.split("\n").some((line) => line.trim() === heading),
+        siblingTexts.some((sibling) =>
+          sibling.text.split("\n").some((line) => {
+            const expected = sibling.path.endsWith("_x_article_body.txt")
+              ? heading.replace(/^##\s*/, "")
+              : heading;
+            return line.trim() === expected;
+          }),
         )
       ) {
         publicH2s.push(heading);
@@ -503,7 +516,9 @@ function evidenceDeclaration(candidate, logIndex, archiveCommit) {
     include: false,
     excludeReason: candidate.collision
       ? "postId collision unresolved"
-      : "no publish evidence",
+      : row && !row.url
+        ? "log row exists but lacks URL"
+        : "no publish evidence",
     evidenceKind: "log_verified",
     primaryUrl: null,
     archiveCommit: null,

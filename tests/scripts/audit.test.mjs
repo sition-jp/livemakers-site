@@ -125,6 +125,14 @@ describe("article migration audit", () => {
     expect(headings.publicH2s).toEqual(["## 1｜公開章"]);
     expect(headings.internalH2s).toEqual(["## 編集メモ"]);
     expect(headings.h2ClassificationBasis).toBe("external_body");
+    expect(headings.audit.siblingPaths).toEqual([
+      "07_DATA/content/drafts/SITIONjp/2026-06-18_STN_A_001_x_article_body.txt",
+    ]);
+
+    const missingUrl = result.records.find(
+      (record) => record.postId === "2026-04-26_STN_12IND",
+    );
+    expect(missingUrl.excludeReason).toBe("log row exists but lacks URL");
 
     const snowflake = result.records.find(
       (record) => record.postId === "2026-05-23_STN_DD_001",

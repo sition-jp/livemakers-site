@@ -4,6 +4,7 @@
 - Included evidence union: 94
 - Evidence union before remediation exclusions: 117
 - Remediation records: 23
+- Exclusion reason classes: `{"no publish evidence":166,"log row exists but lacks URL":2,"forbidden terms require remediation":23,"postId collision unresolved":1}`
 - Evidence kinds: `{"archive":5,"frontmatter":27,"log_verified":62}`
 - Families (all): `{"daily-intel":148,"deep-dive":23,"event-risk-radar":4,"mkt12-morning":3,"mkt12-weekend":8,"signal":100}`
 - Families (included): `{"daily-intel":60,"deep-dive":14,"event-risk-radar":4,"mkt12-weekend":3,"signal":13}`
@@ -204,8 +205,8 @@
 - 2026-06-23_STN_A_002: no publish evidence
 - 2026-06-23_STN_B_001: forbidden terms require remediation: sentinel
 - 2026-06-25_STN_A_001: no publish evidence
-- 2026-06-26_STN_A_001: no publish evidence
-- 2026-06-26_STN_A_002: no publish evidence
+- 2026-06-26_STN_A_001: log row exists but lacks URL
+- 2026-06-26_STN_A_002: log row exists but lacks URL
 - 2026-06-26_STN_A_003: no publish evidence
 - 2026-06-29_STN_B_001: forbidden terms require remediation: cloudflare
 - 2026-07-02_STN_B_001: forbidden terms require remediation: fallback
@@ -226,6 +227,29 @@
 - 2026-04-17_STN_B_001: four article-section H2s = public.
 - 2026-04-17_STN_DD_001: article sections through summary = public; `## 情報源` = internal after fact-check notes.
 - 2026-04-19 STN_A/B four records: `## Xコピペ形式` = public; following thumbnail H2 = internal.
+
+## X Article publication-form precedence
+
+- Rule: when `_x_article_body.txt` exists, it is the authoritative publication-form sibling. `_x_paste_body.txt` is the announcement surface and is not used as the H2 classification basis.
+- `2026-07-10_STN_A_002`: evidence sibling = `07_DATA/content/drafts/SITIONjp/2026-07-10_STN_A_002_signal-grok45-agentic-price-cursor_x_article_body.txt`.
+- Public H2s: `## 1｜チャットから「仕事の完遂」へ` / `## 2｜性能だけでなく、「出力トークンの少なさ」を売る` / `## 3｜入力2ドル・出力6ドルが仕掛けるもの` / `## 4｜Cursorは配布先ではなく、学習現場でもある` / `## 5｜SpaceXAIが同時に取りに来た「配布網」` / `## 6｜企業導入で見るべきは、賢さだけではない` / `## SITION視点｜次の王者は「最も賢いAI」とは限らない` / `## 参考・一次ソース`.
+- Internal H2s: none (no production-meta H2 exists in the selected article body).
+
+## D2 hierarchy deviation — 2026-07-04_STN_MKT_001
+
+- Manifest intentionally retains `evidenceKind: frontmatter` and the main catalog source instead of selecting the archive copy.
+- Reason: the main catalog record contains the canonical detailed title and points to the exact `_x_paste_body.txt` publication body. Its `published_url` and `published_at` match the archive copy. The archive path `content-archive:210d91a3ccdf18dcc9fd0e5bb51113653d59dd70:08_DOCS/drafts/2026-07-04_STN_MKT_001_weekend_12-indicators.md` carries the generic title `公開用本文 (X post / @SITIONjp)`; adopting it as the content source would degrade the canonical title contract.
+- The archive copy remains independently covered by the archive-7 QA inventory; this is a documented source-selection exception, not a loss of publication evidence.
+
+## Snowflake timeBasis inventory
+
+- CP plan v1.7 expected 4 records; audit found 6. The additional two are the 2026-05-28 records below, whose declared non-ISO minute exactly matches the status-ID Snowflake minute.
+- `2026-05-23_STN_DD_001`: raw `published_at: "2026-05-23"` → `2026-05-23T11:59:00+09:00`.
+- `2026-05-24_STN_A_001`: raw `published_at: "2026-05-24"` → `2026-05-24T07:16:00+09:00`.
+- `2026-05-24_STN_DD_001`: raw `published_at: "2026-05-24"` → `2026-05-24T08:11:00+09:00`.
+- `2026-05-28_STN_A_001`: raw `published_at: "2026-05-28 14:03 JST"` → `2026-05-28T14:03:00+09:00`.
+- `2026-05-28_STN_DD_001`: raw `published_at: "2026-05-28 14:04 JST"` → `2026-05-28T14:04:00+09:00`.
+- `2026-07-03_STN_A_glm52-export-control-18days`: raw `published_at: 2026-07-03 10:12 JST` → `2026-07-03T10:12:00+09:00`.
 
 ## PostId collision resolution
 
