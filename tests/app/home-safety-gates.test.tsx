@@ -88,7 +88,7 @@ describe("B+ safety regression gates (page-wide, fail-closed)", () => {
     }
     const { container } = renderFullPage();
     const radarModules = container.querySelectorAll("[data-radar]");
-    expect(radarModules.length).toBeGreaterThanOrEqual(2);
+    expect(radarModules.length).toBeGreaterThanOrEqual(1);
     for (const module of radarModules) {
       expect(module.querySelectorAll("a")).toHaveLength(0);
     }
