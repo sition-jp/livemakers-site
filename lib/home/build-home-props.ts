@@ -100,7 +100,7 @@ function seriesProvenance(
     packetId: series.seriesPacketId,
     sourceMode: series.sourceMode,
     reviewStatus: series.reviewStatus,
-    asOfJst: `${series.points.at(-1)!.atJst.slice(11, 16)} JST`,
+    asOfJst: series.points.at(-1)!.atJst,
   } as WindowProvenance);
 }
 

@@ -20,16 +20,16 @@ const RecordSchema = z.strictObject({
 
 export type FocusSeriesRecord = z.infer<typeof RecordSchema>;
 
-export interface FocusSeries {
+interface FocusSeriesBase {
   instrumentId: InstrumentId;
   seriesPacketId: string;
   points: { atJst: string; value: number }[];
   baseValue: number;
   lastValue: number;
   changeFromBasePct: number;
-  sourceMode: ProvenanceState["sourceMode"];
-  reviewStatus: ProvenanceState["reviewStatus"];
 }
+
+export type FocusSeries = FocusSeriesBase & ProvenanceState;
 
 const FIXTURE_PATH = path.join(
   process.cwd(),

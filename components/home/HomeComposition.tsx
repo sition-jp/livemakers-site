@@ -27,17 +27,18 @@ export function HomeComposition({
   schedule,
   slots,
   focusSeries,
+  focusSessionSlug,
   snapshot,
   coreCells,
   laneCells,
-  pageProvenance,
+  laneProvenance,
   mkt12Provenance,
   sessionProvenance,
   copy,
 }: HomeCompositionProps) {
   const familyLabels = copy.lanes.block.familyLabels;
-  const sessionName = live
-    ? getSessionBySlug(live.sessionSlug).nameEn
+  const sessionName = focusSessionSlug
+    ? getSessionBySlug(focusSessionSlug).nameEn
     : copy.noLiveSession;
 
   return (
@@ -265,8 +266,8 @@ export function HomeComposition({
                 subtitle={copy.lanes.subtitle}
                 rows={laneCells[lane]}
                 articles={laneSlot.articles}
-                asOfLabel={snapshot.asOfLabel}
-                provenance={pageProvenance}
+                asOfLabel={laneProvenance[lane].asOfJst}
+                provenance={laneProvenance[lane]}
                 copy={copy.lanes.block}
               />
             </section>

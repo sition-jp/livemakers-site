@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Inter, Noto_Sans_JP } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 
 // Self-hosted via next/font so the design typeface renders identically on
@@ -39,7 +40,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
-  const chromeMeta = getSnapshotChromeMeta();
+  const props = await loadHomeCompositionProps();
+  const chromeMeta = getSnapshotChromeMeta(props.snapshot);
 
   // Applies a stored dark preference before first paint so there is no
   // light-flash for returning dark users. Light is the default and needs no

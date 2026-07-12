@@ -1,5 +1,6 @@
 /* @vitest-environment jsdom */
 import path from "node:path";
+import fs from "node:fs";
 
 import { render } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
@@ -28,6 +29,7 @@ import {
   isAllowedPublishedArticleRoute,
 } from "@/lib/livemakers-terminal-preview/public-topology";
 import { getSessionRecord } from "@/lib/sessions/session-content";
+import { mapTerminalFeed } from "@/lib/terminal/live-market-feed";
 import ja from "@/messages/ja.json";
 
 vi.mock("next/navigation", () => ({
@@ -77,6 +79,47 @@ function renderFullPage() {
       <Footer />
     </NextIntlClientProvider>,
   );
+}
+
+function reviewedProps() {
+  const feed = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        process.cwd(),
+        "tests/fixtures/terminal/terminal_feed_v0.2.home.sample.json",
+      ),
+      "utf8",
+    ),
+  );
+  const source = mapTerminalFeed(feed)?.home;
+  if (!source) throw new Error("valid reviewed fixture did not map");
+  return buildHomeCompositionProps({
+    source,
+    contentDir: TEST_CONTENT_DIR,
+    sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
+  });
+}
+
+function renderReviewedPage() {
+  const reviewed = reviewedProps();
+  return {
+    reviewed,
+    ...render(
+      <NextIntlClientProvider locale="ja" messages={ja}>
+        <Header chromeMeta={getSnapshotChromeMeta(reviewed.snapshot)} />
+        <main>
+          <TickerBar items={reviewed.tickerItems} />
+          <GlobalProvenanceStrip
+            provenance={reviewed.pageProvenance}
+            labels={copy.provenance}
+            note={copy.globalProvenanceNote}
+          />
+          <HomeComposition {...reviewed} copy={copy} />
+        </main>
+        <Footer />
+      </NextIntlClientProvider>,
+    ),
+  };
 }
 
 describe("B+ safety regression gates (page-wide, fail-closed)", () => {
@@ -164,7 +207,7 @@ describe("B+ safety regression gates (page-wide, fail-closed)", () => {
     );
     expect(strip).not.toBeNull();
     expect(strip!.getAttribute("data-packet-id")).toBe(
-      "lmk_20260710_0758_fx01",
+      "sess_20260710_asia",
     );
     expect(packetsOf('[data-ledger-group="flash"]')).toEqual([]);
 
@@ -211,5 +254,49 @@ describe("B+ safety regression gates (page-wide, fail-closed)", () => {
       .map((element) => element.getAttribute("data-article-id")!);
     expect(articleIds.length).toBeGreaterThanOrEqual(14);
     expect(new Set(articleIds).size).toBe(articleIds.length);
+  });
+
+  it("gate 7: mixed reviewed/fixture windows display only their real tuples", () => {
+    const { container, reviewed } = renderReviewedPage();
+    const packetsOf = (selector: string): string[] =>
+      [...container.querySelectorAll(`${selector} [data-packet-id]`)].map(
+        (element) => element.getAttribute("data-packet-id")!,
+      );
+
+    expect(packetsOf('[data-lead-module="session-now"]')).toEqual([]);
+    expect(packetsOf('[data-lead-module="focus"]')).toEqual([
+      "series.2026-07-12.btc_usd",
+      "series.2026-07-12.usd_jpy",
+    ]);
+    expect(packetsOf('[data-ledger-group="mkt12"]')).toEqual([
+      "mkt12_20260712_am",
+      "mkt12_20260712_am",
+    ]);
+    expect(packetsOf('[data-ledger-group="lane-macro"]')).toEqual([
+      "lmk_20260712_0730_a1",
+    ]);
+    expect(packetsOf('[data-ledger-group="lane-crypto"]')).toEqual([
+      "lmk_20260712_0730_a1",
+    ]);
+    expect(packetsOf('[data-ledger-group="lane-rwa"]')).toEqual([
+      "lmk_20260710_0758_fx01",
+    ]);
+
+    const strip = container.querySelector(
+      '[data-chrome="provenance-strip"][data-packet-id]',
+    )!;
+    expect(strip.getAttribute("data-packet-id")).toBe(
+      "lmk_20260710_0758_fx01",
+    );
+    expect(strip.textContent).toContain("fixture_only");
+    expect(strip.textContent).toContain("reviewed_fixture");
+    expect(strip.textContent).toContain("07:58 JST");
+    expect(reviewed.pageProvenance).toEqual(reviewed.laneProvenance.rwa);
+    expect(container.textContent).toContain("Asia Open");
+    expect(container.textContent).toContain("2026-07-12");
+    expect(container.textContent).toContain("07:30 JST");
+    expect(
+      findLiveTokenViolations(collectScannableText(container)),
+    ).toEqual([]);
   });
 });

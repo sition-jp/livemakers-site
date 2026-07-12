@@ -1,6 +1,10 @@
 import type { FocusSeries } from "@/lib/sessions/focus-series";
 import { INSTRUMENT_DISPLAY_NAMES_JA } from "@/lib/home/instruments";
 import {
+  makeWindowProvenance,
+  type WindowProvenance,
+} from "@/lib/provenance/window-provenance";
+import {
   WindowProvenanceRow,
   type ProvenanceLabels,
 } from "./WindowProvenanceRow";
@@ -93,12 +97,12 @@ export function SessionFocusChart({
                 </span>
               </div>
               <WindowProvenanceRow
-                provenance={{
+                provenance={makeWindowProvenance({
                   packetId: item.seriesPacketId,
-                  sourceMode: "fixture_only",
-                  reviewStatus: "reviewed_fixture",
+                  sourceMode: item.sourceMode,
+                  reviewStatus: item.reviewStatus,
                   asOfJst: item.points.at(-1)!.atJst,
-                }}
+                } as WindowProvenance)}
                 labels={copy.provenance}
               />
             </div>
