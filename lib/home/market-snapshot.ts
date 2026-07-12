@@ -112,8 +112,9 @@ export function formatJstDateLabel(dataDate: string): string {
   return `${dataDate}（${weekday}）`;
 }
 
-export function getSnapshotChromeMeta(): SnapshotChromeMeta {
-  const snapshot = loadMarketSnapshot();
+export function getSnapshotChromeMeta(
+  snapshot: MarketSnapshot = loadMarketSnapshot(),
+): SnapshotChromeMeta {
   return {
     dateLabel: formatJstDateLabel(snapshot.dataDate),
     asOfLabel: snapshot.asOfLabel,

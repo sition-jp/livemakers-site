@@ -1,19 +1,30 @@
 import { getAllArticles } from "@/lib/articles/article-model";
-import { getAllSessionRecords, getTodaySchedule } from "@/lib/sessions/session-content";
+import {
+  getAllSessionRecords,
+  getTodaySchedule,
+  type SessionRecord,
+} from "@/lib/sessions/session-content";
 import {
   buildFocusSeries,
   loadFocusSeriesRecords,
   resolveFocusInstruments,
 } from "@/lib/sessions/focus-series";
+import {
+  makeWindowProvenance,
+  selectMostConservativeProvenance,
+  type WindowProvenance,
+} from "@/lib/provenance/window-provenance";
+import type { ReviewedHomeData } from "@/lib/terminal/live-market-feed";
 import type { MarketTickerItem } from "@/lib/terminal/market-lanes";
-import { makeWindowProvenance } from "@/lib/provenance/window-provenance";
 import {
   CORE_12_INSTRUMENTS,
   LANE_ROWS,
   type LaneId,
 } from "./instruments";
 import {
+  SnapshotSchema,
   loadMarketSnapshot,
+  type MarketSnapshot,
   type MarketSnapshotCell,
 } from "./market-snapshot";
 import {
@@ -23,15 +34,89 @@ import {
 import { RADAR_PROMOTIONS } from "./radar-promotions";
 import { normalizeHomeInput, selectHomeSlots } from "./select-home-slots";
 
+export interface BuildHomeCompositionArgs {
+  today?: string;
+  contentDir?: string;
+  source?: ReviewedHomeData | null;
+  sessionRecords?: SessionRecord[];
+}
+
 function cellMap(cells: MarketSnapshotCell[]) {
   return new Map(cells.map((cell) => [cell.instrumentId, cell]));
 }
 
+function sameInstrumentOrder(
+  left: readonly string[],
+  right: readonly string[],
+): boolean {
+  return (
+    left.length === right.length &&
+    left.every((instrumentId, index) => instrumentId === right[index])
+  );
+}
+
+function reviewedSourceMatchesSidecar(
+  source: ReviewedHomeData,
+  sessions: readonly SessionRecord[],
+): boolean {
+  const sameDateLive = sessions.find(
+    (record) =>
+      record.date === source.dataDate && record.liveStatus === "live",
+  );
+  if (!sameDateLive) return true;
+  return (
+    sameDateLive.sessionSlug === source.focusSession.sessionSlug &&
+    sameInstrumentOrder(
+      resolveFocusInstruments(sameDateLive),
+      source.focusSession.focusInstruments,
+    )
+  );
+}
+
+function buildReviewedSnapshot(
+  source: ReviewedHomeData,
+  fixture: MarketSnapshot,
+): MarketSnapshot {
+  const fixtureByInstrument = cellMap(fixture.cells);
+  const rwaCells = LANE_ROWS.rwa.map(({ instrumentId }) => {
+    const cell = fixtureByInstrument.get(instrumentId);
+    if (!cell) throw new Error(`fixture is missing RWA cell: ${instrumentId}`);
+    return cell;
+  });
+  return SnapshotSchema.parse({
+    packetId: source.marketPacketId,
+    pagePacketId: source.pagePacketId,
+    asOfJst: source.asOfJst,
+    asOfLabel: `${source.asOfJst.slice(11, 16)} JST`,
+    dataDate: source.dataDate,
+    cells: [...source.cells, ...rwaCells],
+  });
+}
+
+function seriesProvenance(
+  series: NonNullable<ReturnType<typeof buildFocusSeries>>,
+): WindowProvenance {
+  return makeWindowProvenance({
+    packetId: series.seriesPacketId,
+    sourceMode: series.sourceMode,
+    reviewStatus: series.reviewStatus,
+    asOfJst: `${series.points.at(-1)!.atJst.slice(11, 16)} JST`,
+  } as WindowProvenance);
+}
+
 export function buildHomeCompositionProps(
-  args: { today?: string; contentDir?: string } = {},
+  args: BuildHomeCompositionArgs = {},
 ) {
   assertRadarObservationContract(RADAR_OBSERVATIONS);
-  const snapshot = loadMarketSnapshot();
+  const fixtureSnapshot = loadMarketSnapshot();
+  const sessionRecords = args.sessionRecords ?? getAllSessionRecords();
+  const reviewedSource =
+    args.source && reviewedSourceMatchesSidecar(args.source, sessionRecords)
+      ? args.source
+      : null;
+  const snapshot = reviewedSource
+    ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot)
+    : fixtureSnapshot;
   const today = args.today ?? snapshot.dataDate;
   if (!snapshot.asOfJst.startsWith(today)) {
     throw new Error(
@@ -41,7 +126,7 @@ export function buildHomeCompositionProps(
 
   const raw = {
     articles: getAllArticles({ contentDir: args.contentDir }),
-    sessions: getAllSessionRecords(),
+    sessions: sessionRecords,
     radar: RADAR_OBSERVATIONS,
     promotions: RADAR_PROMOTIONS,
     today,
@@ -52,26 +137,44 @@ export function buildHomeCompositionProps(
     null;
   const slots = selectHomeSlots(raw);
   const focusRecords = loadFocusSeriesRecords();
-  const focusSeries = live
-    ? resolveFocusInstruments(live).map((instrumentId) =>
-        buildFocusSeries(focusRecords, instrumentId, {
-          windowEndJst: snapshot.asOfJst,
-        }),
-      )
-    : [];
+  const focusSeries = reviewedSource
+    ? reviewedSource.focusSession.series
+    : live
+      ? resolveFocusInstruments(live).map((instrumentId) =>
+          buildFocusSeries(focusRecords, instrumentId, {
+            windowEndJst: snapshot.asOfJst,
+          }),
+        )
+      : [];
+  const focusSessionSlug = reviewedSource
+    ? reviewedSource.focusSession.sessionSlug
+    : (live?.sessionSlug ?? null);
   const asOfLabel = snapshot.asOfLabel;
-  const pageProvenance = makeWindowProvenance({
-    packetId: snapshot.pagePacketId,
-    sourceMode: "fixture_only",
-    reviewStatus: "reviewed_fixture",
-    asOfJst: asOfLabel,
-  });
+  const reviewedPair = reviewedSource?.provenance;
   const mkt12Provenance = makeWindowProvenance({
     packetId: snapshot.packetId,
+    sourceMode: reviewedPair?.sourceMode ?? "fixture_only",
+    reviewStatus: reviewedPair?.reviewStatus ?? "reviewed_fixture",
+    asOfJst: asOfLabel,
+  } as WindowProvenance);
+  const reviewedPageProvenance = reviewedSource
+    ? makeWindowProvenance({
+        packetId: reviewedSource.pagePacketId,
+        ...reviewedSource.provenance,
+        asOfJst: asOfLabel,
+      })
+    : null;
+  const fixturePageProvenance = makeWindowProvenance({
+    packetId: fixtureSnapshot.pagePacketId,
     sourceMode: "fixture_only",
     reviewStatus: "reviewed_fixture",
-    asOfJst: asOfLabel,
+    asOfJst: fixtureSnapshot.asOfLabel,
   });
+  const laneProvenance: Record<LaneId, WindowProvenance> = {
+    macro: reviewedPageProvenance ?? fixturePageProvenance,
+    crypto: reviewedPageProvenance ?? fixturePageProvenance,
+    rwa: fixturePageProvenance,
+  };
   const sessionProvenance = live
     ? makeWindowProvenance({
         packetId: live.packetId,
@@ -80,6 +183,18 @@ export function buildHomeCompositionProps(
         asOfJst: `${live.asOfJst.slice(11, 16)} JST`,
       })
     : null;
+  const visibleWindowProvenance = [
+    ...(sessionProvenance ? [sessionProvenance] : []),
+    ...focusSeries.filter((series) => series !== null).map(seriesProvenance),
+    mkt12Provenance,
+    laneProvenance.macro,
+    laneProvenance.crypto,
+    laneProvenance.rwa,
+  ];
+  const pageProvenance = selectMostConservativeProvenance(
+    visibleWindowProvenance,
+  );
+
   const byInstrument = cellMap(snapshot.cells);
   const coreCells = CORE_12_INSTRUMENTS.map(
     (instrumentId) => byInstrument.get(instrumentId)!,
@@ -107,13 +222,15 @@ export function buildHomeCompositionProps(
     today,
     asOfLabel,
     live,
-    schedule: getTodaySchedule(today, live),
+    schedule: getTodaySchedule(today, live, normalized.sessions),
     slots,
     focusSeries,
+    focusSessionSlug,
     snapshot,
     coreCells,
     laneCells,
     tickerItems,
+    laneProvenance,
     pageProvenance,
     mkt12Provenance,
     sessionProvenance,

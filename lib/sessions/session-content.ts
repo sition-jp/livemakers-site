@@ -187,8 +187,8 @@ export function getSessionRecord(sessionId: string): SessionRecord {
 export function getTodaySchedule(
   today: string,
   live: SessionRecord | null,
+  records: SessionRecord[] = getAllSessionRecords(),
 ) {
-  const records = getAllSessionRecords();
   return READER_SESSIONS.map((definition) => ({
     def: definition,
     isCurrent: live?.sessionSlug === definition.slug && live.date === today,
