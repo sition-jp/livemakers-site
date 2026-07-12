@@ -31,4 +31,28 @@ describe("WindowProvenanceRow", () => {
       "sess_20260710_asia",
     );
   });
+
+  it("renders a reviewed snapshot tuple verbatim", () => {
+    const { container } = render(
+      <WindowProvenanceRow
+        provenance={{
+          packetId: "series.2026-07-12.btc_usd",
+          sourceMode: "reviewed_live",
+          reviewStatus: "reviewed_snapshot",
+          asOfJst: "2026-07-12T07:30:00+09:00",
+        }}
+        labels={{
+          review: "審査状態",
+          source: "ソース",
+          asOf: "as-of",
+          packet: "パケットID",
+        }}
+      />,
+    );
+    expect(screen.getByText("reviewed_live")).toBeInTheDocument();
+    expect(screen.getByText("reviewed_snapshot")).toBeInTheDocument();
+    expect(container.firstElementChild?.getAttribute("data-packet-id")).toBe(
+      "series.2026-07-12.btc_usd",
+    );
+  });
 });

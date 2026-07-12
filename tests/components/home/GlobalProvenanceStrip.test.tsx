@@ -65,4 +65,32 @@ describe("GlobalProvenanceStrip", () => {
       true,
     );
   });
+
+  it("renders the reviewed tuple verbatim without adding a LIVE badge", () => {
+    const { container } = render(
+      <GlobalProvenanceStrip
+        provenance={{
+          packetId: "lmk_20260712_0730_a1",
+          sourceMode: "reviewed_live",
+          reviewStatus: "reviewed_snapshot",
+          asOfJst: "07:30 JST",
+        }}
+        labels={{
+          review: "審査状態",
+          source: "ソース",
+          asOf: "as-of",
+          packet: "パケットID",
+        }}
+        note="数値は取得時点のスナップショットです"
+      />,
+    );
+    expect(screen.getByText("reviewed_live")).toBeInTheDocument();
+    expect(screen.getByText("reviewed_snapshot")).toBeInTheDocument();
+    expect(screen.queryByText("LIVE")).toBeNull();
+    expect(
+      container
+        .querySelector('[data-chrome="provenance-strip"]')
+        ?.getAttribute("data-packet-id"),
+    ).toBe("lmk_20260712_0730_a1");
+  });
 });
