@@ -261,6 +261,12 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
       },
     ],
     [
+      "invalid page packet suffix",
+      (feed: Record<string, any>) => {
+        feed.home.pagePacketId = "lmk_20260712_0730_A1";
+      },
+    ],
+    [
       "cross provenance pair",
       (feed: Record<string, any>) => {
         feed.home.reviewStatus = "reviewed_fixture";
@@ -279,6 +285,18 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
       },
     ],
     [
+      "focus session date mismatch",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.sessionDate = "2026-07-11";
+      },
+    ],
+    [
+      "unknown focus session slug",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.sessionSlug = "tokyo-close";
+      },
+    ],
+    [
       "one-point series",
       (feed: Record<string, any>) => {
         feed.home.focusSession.series[0].points = [
@@ -294,9 +312,59 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
       },
     ],
     [
+      "duplicate point timestamp",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points[1].atJst =
+          feed.home.focusSession.series[0].points[0].atJst;
+      },
+    ],
+    [
+      "reverse-ordered points",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points.reverse();
+      },
+    ],
+    [
+      "point older than 24 hours",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points[0].atJst =
+          "2026-07-11T07:29:59+09:00";
+      },
+    ],
+    [
+      "seven-point series",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points = Array.from(
+          { length: 7 },
+          (_, index) => ({
+            atJst: `2026-07-12T0${index + 1}:30:00+09:00`,
+            value: 62000 + index,
+          }),
+        );
+      },
+    ],
+    [
       "unknown home key",
       (feed: Record<string, any>) => {
         feed.home.internalPath = "/Users/operator/raw.jsonl";
+      },
+    ],
+    [
+      "unknown cell key",
+      (feed: Record<string, any>) => {
+        feed.home.cells[0].rawSource = "internal";
+      },
+    ],
+    [
+      "unknown point key",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points[0].interpolated = true;
+      },
+    ],
+    [
+      "empty rendered cell value",
+      (feed: Record<string, any>) => {
+        feed.home.cells[0].value = "";
       },
     ],
   ])("degrades only home for %s", (_label, mutate) => {

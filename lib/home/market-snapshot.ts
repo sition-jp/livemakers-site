@@ -20,7 +20,7 @@ export const MarketSnapshotCellSchema = z
   .strictObject({
     instrumentId: z.enum(INSTRUMENT_IDS),
     nameJa: z.string().min(1),
-    value: z.string().nullable(),
+    value: z.string().min(1).nullable(),
     changeLabel: z
       .string()
       .regex(/^[+-]\d+(\.\d+)?%$/)
