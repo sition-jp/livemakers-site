@@ -423,6 +423,7 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
+      "freshnessPrefix": "スナップショット",
       "nextUpdateLine": "次の更新: {name} {time} JST",
       "readFull": "セッション全文を読む →"
     },
@@ -431,11 +432,13 @@
       "previous": "前回を読む →",
       "archive": "セッション記事の一覧（時間が経つとライブは記事になります）→",
       "compactBadge": "本日あと{count}回更新",
-      "compactPrevious": "前回セッションの記事を読む"
+      "compactPrevious": "前回セッションの記事を読む",
+      "focusPrefix": "注目:"
     },
     "focus": {
       "title": "セッション・フォーカス",
       "snapshotBadge": "SNAPSHOT",
+      "basePrefix": "起点",
       "description": "{session} の注目指標 · 直近24時間 · セッションの切り替わりで銘柄も入れ替わります"
     },
     "lead": {
@@ -526,6 +529,8 @@
   },
   "sessions": {
     "family": "セッション記事",
+    "prev": "前のセッション",
+    "next": "次のセッション",
     "publishedAt": "記事化",
     "liveAsOf": "更新",
     "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",

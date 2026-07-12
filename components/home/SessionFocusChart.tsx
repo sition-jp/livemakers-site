@@ -12,6 +12,7 @@ import {
 export interface SessionFocusCopy {
   title: string;
   snapshotBadge: string;
+  basePrefix: string;
   description: string;
   provenance: ProvenanceLabels;
 }
@@ -95,6 +96,10 @@ export function SessionFocusChart({
                     {item.changeFromBasePct.toFixed(2)}%
                   </span>
                 </span>
+              </div>
+              <div className="mt-1 font-mono text-[10px] text-text-tertiary">
+                {copy.basePrefix} {item.baseValue.toLocaleString()} →{" "}
+                {item.lastValue.toLocaleString()}
               </div>
               <WindowProvenanceRow
                 provenance={makeWindowProvenance({
