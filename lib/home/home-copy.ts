@@ -120,6 +120,7 @@ export function buildHomeCopy(
     },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
+      freshnessPrefix: translate("sessionNow.freshnessPrefix"),
       nextUpdateLine: translate("sessionNow.nextUpdateLine", {
         name: context.nextSessionName,
         time: context.nextSessionTime,
@@ -135,10 +136,12 @@ export function buildHomeCopy(
         count: context.remainingSessions,
       }),
       compactPrevious: translate("schedule.compactPrevious"),
+      focusPrefix: translate("schedule.focusPrefix"),
     },
     focus: {
       title: translate("focus.title"),
       snapshotBadge: translate("focus.snapshotBadge"),
+      basePrefix: translate("focus.basePrefix"),
       description: translate("focus.description", {
         session: context.sessionName,
       }),

@@ -50,6 +50,7 @@ describe("lead group (ledger group 1)", () => {
         provenance={provenance}
         copy={{
           sessionBadgeSuffix: "JST 更新",
+          freshnessPrefix: "スナップショット",
           nextUpdateLine: "次の更新: Europe Bridge 12:03 JST",
           readFull: "セッション全文を読む →",
           provenance: provenanceLabels,
@@ -80,6 +81,7 @@ describe("lead group (ledger group 1)", () => {
         copy={{
           title: "セッション・フォーカス",
           snapshotBadge: "SNAPSHOT",
+          basePrefix: "起点",
           description:
             "Asia Open Terminal の注目指標 · 直近24時間 · セッションの切り替わりで銘柄も入れ替わります",
           provenance: provenanceLabels,

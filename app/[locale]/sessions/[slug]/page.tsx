@@ -3,8 +3,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
+import { Link } from "@/i18n/navigation";
 import {
   getAllSessionRecords,
+  getDaySessionNav,
   getSessionRecord,
 } from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
@@ -31,6 +33,7 @@ export default async function SessionPage({
     notFound();
   }
   const definition = getSessionBySlug(record.sessionSlug);
+  const nav = getDaySessionNav(record.sessionId);
 
   return (
     <article className="mx-auto w-full max-w-[72ch] px-4 py-10 sm:px-6">
@@ -73,6 +76,27 @@ export default async function SessionPage({
           </p>
         </>
       )}
+
+      <nav className="mt-10 flex justify-between border-t border-border-primary pt-4 text-sm">
+        {nav.prev ? (
+          <Link
+            href={nav.prev.currentUrl}
+            className="font-bold text-accent"
+          >
+            ← {t("prev")}
+          </Link>
+        ) : (
+          <span />
+        )}
+        {nav.next ? (
+          <Link
+            href={nav.next.currentUrl}
+            className="ml-auto font-bold text-accent"
+          >
+            {t("next")} →
+          </Link>
+        ) : null}
+      </nav>
     </article>
   );
 }

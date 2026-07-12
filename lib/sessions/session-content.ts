@@ -199,3 +199,26 @@ export function getTodaySchedule(
     ),
   }));
 }
+
+export function getDaySessionNav(sessionId: string): {
+  prev: SessionRecord | null;
+  next: SessionRecord | null;
+} {
+  const all = getAllSessionRecords();
+  const current = all.find((record) => record.sessionId === sessionId);
+  if (!current) {
+    return { prev: null, next: null };
+  }
+  const order = READER_SESSIONS.map((definition) => definition.slug);
+  const sameDay = all
+    .filter((record) => record.date === current.date)
+    .sort(
+      (left, right) =>
+        order.indexOf(left.sessionSlug) - order.indexOf(right.sessionSlug),
+    );
+  const index = sameDay.findIndex((record) => record.sessionId === sessionId);
+  return {
+    prev: index > 0 ? sameDay[index - 1] : null,
+    next: index >= 0 && index < sameDay.length - 1 ? sameDay[index + 1] : null,
+  };
+}
