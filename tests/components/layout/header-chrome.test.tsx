@@ -92,7 +92,8 @@ describe("G41 page chrome", () => {
       path.join(process.cwd(), "components/layout/SiteChrome.tsx"),
       "utf8",
     );
-    expect(layout).toContain("getSnapshotChromeMeta()");
+    expect(layout).toContain("await loadHomeCompositionProps()");
+    expect(layout).toContain("getSnapshotChromeMeta(props.snapshot)");
     expect(layout).toContain("<SiteChrome chromeMeta={chromeMeta}>");
     expect(siteChrome).toContain("<Header chromeMeta={chromeMeta} />");
   });
