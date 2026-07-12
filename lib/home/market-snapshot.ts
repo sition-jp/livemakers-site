@@ -16,7 +16,7 @@ const INSTRUMENT_IDS = [
   ...LANE_ROWS.rwa.map((row) => row.instrumentId),
 ] as [InstrumentId, ...InstrumentId[]];
 
-const CellSchema = z
+export const MarketSnapshotCellSchema = z
   .strictObject({
     instrumentId: z.enum(INSTRUMENT_IDS),
     nameJa: z.string().min(1),
@@ -48,7 +48,7 @@ export const SnapshotSchema = z
       .regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?\+09:00$/),
     asOfLabel: z.string().min(1),
     dataDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    cells: z.array(CellSchema),
+    cells: z.array(MarketSnapshotCellSchema),
   })
   .superRefine((snapshot, context) => {
     if (!snapshot.asOfJst.startsWith(snapshot.dataDate)) {
@@ -84,7 +84,7 @@ export const SnapshotSchema = z
     }
   });
 
-export type MarketSnapshotCell = z.infer<typeof CellSchema>;
+export type MarketSnapshotCell = z.infer<typeof MarketSnapshotCellSchema>;
 export type MarketSnapshot = z.infer<typeof SnapshotSchema>;
 
 const FIXTURE_PATH = path.join(

@@ -1,11 +1,29 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   TERMINAL_FEED_ENV_KEY,
+  TERMINAL_FEED_REVALIDATE_SECONDS,
   fetchLiveMarketData,
   formatAsOfLabel,
   mapTerminalFeed,
 } from "@/lib/terminal/live-market-feed";
 import { marketLanesFixture } from "@/lib/terminal/market-lanes";
+
+const HOME_V02_FIXTURE = JSON.parse(
+  fs.readFileSync(
+    path.join(
+      process.cwd(),
+      "tests/fixtures/terminal/terminal_feed_v0.2.home.sample.json",
+    ),
+    "utf8",
+  ),
+) as Record<string, any>;
+
+function sampleHomeV02(): Record<string, any> {
+  return structuredClone(HOME_V02_FIXTURE);
+}
 
 /** Mirrors what the SDE-side generator (livemakers_export) emits. */
 function sampleFeed() {
@@ -158,7 +176,11 @@ describe("fetchLiveMarketData", () => {
 
   it("returns null when the feed URL env is unset (fixture fallback)", async () => {
     vi.stubEnv(TERMINAL_FEED_ENV_KEY, "");
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
     expect(await fetchLiveMarketData()).toBeNull();
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(300);
   });
 
   it("returns mapped data for a valid delivered payload", async () => {
@@ -182,6 +204,108 @@ describe("fetchLiveMarketData", () => {
       }),
     );
     expect(await fetchLiveMarketData()).toBeNull();
+  });
+});
+
+describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
+  it("maps the exact 18 cells and focus-session series", () => {
+    const data = mapTerminalFeed(sampleHomeV02());
+    expect(data).not.toBeNull();
+    expect(data?.home?.pagePacketId).toBe("lmk_20260712_0730_a1");
+    expect(data?.home?.marketPacketId).toBe("mkt12_20260712_am");
+    expect(data?.home?.cells).toHaveLength(18);
+    expect(data?.home?.focusSession.focusInstruments).toEqual([
+      "btc_usd",
+      "usd_jpy",
+    ]);
+    expect(data?.home?.focusSession.series).toHaveLength(2);
+    expect(data?.home?.focusSession.series[0]).toMatchObject({
+      instrumentId: "btc_usd",
+      seriesPacketId: "series.2026-07-12.btc_usd",
+      baseValue: 61520,
+      lastValue: 63299,
+      sourceMode: "reviewed_live",
+      reviewStatus: "reviewed_snapshot",
+    });
+    expect(data?.home?.provenance).toEqual({
+      sourceMode: "reviewed_live",
+      reviewStatus: "reviewed_snapshot",
+    });
+  });
+
+  it("keeps v0.1 market data compatible while exposing no reviewed home", () => {
+    const data = mapTerminalFeed(sampleFeed());
+    expect(data).not.toBeNull();
+    expect(data?.home).toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.86");
+  });
+
+  it.each([
+    ["missing cell", (feed: Record<string, any>) => feed.home.cells.pop()],
+    [
+      "duplicate cell",
+      (feed: Record<string, any>) =>
+        feed.home.cells.push(structuredClone(feed.home.cells[0])),
+    ],
+    [
+      "RWA cell",
+      (feed: Record<string, any>) => {
+        feed.home.cells[17].instrumentId = "rwa_tvl";
+        feed.home.cells[17].nameJa = "RWA TVL";
+      },
+    ],
+    [
+      "packet date mismatch",
+      (feed: Record<string, any>) => {
+        feed.home.pagePacketId = "lmk_20260711_0730_a1";
+      },
+    ],
+    [
+      "cross provenance pair",
+      (feed: Record<string, any>) => {
+        feed.home.reviewStatus = "reviewed_fixture";
+      },
+    ],
+    [
+      "display-name mismatch",
+      (feed: Record<string, any>) => {
+        feed.home.cells[0].nameJa = "Bitcoin";
+      },
+    ],
+    [
+      "focus set mismatch",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.focusInstruments[1] = "gold";
+      },
+    ],
+    [
+      "one-point series",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points = [
+          feed.home.focusSession.series[0].points[0],
+        ];
+      },
+    ],
+    [
+      "future point",
+      (feed: Record<string, any>) => {
+        feed.home.focusSession.series[0].points[1].atJst =
+          "2026-07-12T08:00:00+09:00";
+      },
+    ],
+    [
+      "unknown home key",
+      (feed: Record<string, any>) => {
+        feed.home.internalPath = "/Users/operator/raw.jsonl";
+      },
+    ],
+  ])("degrades only home for %s", (_label, mutate) => {
+    const feed = sampleHomeV02();
+    mutate(feed);
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.home).toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
   });
 });
 
