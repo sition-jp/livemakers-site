@@ -1,17 +1,24 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { TERMINAL_FEED_REVALIDATE_SECONDS } from "@/lib/terminal/live-market-feed";
 
 const pagePath = path.join(process.cwd(), "app/[locale]/page.tsx");
+const layoutPath = path.join(process.cwd(), "app/[locale]/layout.tsx");
 
 describe("overview page B+ composition wiring", () => {
-  it("composes the fixture-only home props, ticker, provenance, and B+ groups", () => {
+  it("composes the cached home source, ticker, provenance, and B+ groups", () => {
     const source = fs.readFileSync(pagePath, "utf-8");
+    const layoutSource = fs.readFileSync(layoutPath, "utf-8");
 
     expect(source).toContain("@/components/home/HomeComposition");
     expect(source).toContain("@/components/home/GlobalProvenanceStrip");
-    expect(source).toContain("@/lib/home/build-home-props");
-    expect(source).toContain("buildHomeCompositionProps");
+    expect(source).toContain("@/lib/home/load-home-composition");
+    expect(source).toContain("await loadHomeCompositionProps()");
+    expect(source).toContain("export const revalidate = 300");
+    expect(layoutSource).toContain("@/lib/home/load-home-composition");
+    expect(layoutSource).toContain("await loadHomeCompositionProps()");
+    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(300);
     expect(source).toContain("<TickerBar");
     expect(source).toContain("<GlobalProvenanceStrip");
     expect(source).toContain("<HomeComposition");
@@ -22,6 +29,7 @@ describe("overview page B+ composition wiring", () => {
     expect(source).toContain("getTranslations");
     expect(source).not.toContain("ReaderIntelligenceTerminal");
     expect(source).not.toContain("fetchLiveMarketData");
+    expect(layoutSource).not.toContain("fetch(");
     expect(source).not.toContain("<EditorialHero");
     expect(source).not.toContain("<NetworkPulse");
     expect(source).not.toContain("<FourPanelStatus");

@@ -13,10 +13,10 @@ describe("build-home-props as-of integration (P1-2)", () => {
   });
   const snapshot = loadMarketSnapshot();
 
-  it("uses snapshot as-of for label and market provenance", () => {
+  it("uses snapshot as-of for market provenance and a real visible tuple globally", () => {
     expect(props.asOfLabel).toBe(snapshot.asOfLabel);
-    expect(props.pageProvenance.asOfJst).toBe(snapshot.asOfLabel);
     expect(props.mkt12Provenance.asOfJst).toBe(snapshot.asOfLabel);
+    expect(props.pageProvenance).toEqual(props.sessionProvenance);
   });
 
   it("includes the newest fixture record through the snapshot window end", () => {
@@ -55,5 +55,11 @@ describe("build-home-props as-of integration (P1-2)", () => {
       contentDir: path.join(process.cwd(), "tests", "fixtures", "missing-content"),
     });
     expect(empty.slots.lead.state).toBe("pending");
+  });
+
+  it("treats explicit null as the reviewed-source fallback path", () => {
+    const fallback = buildHomeCompositionProps({ source: null });
+    expect(fallback.snapshot).toEqual(snapshot);
+    expect(fallback.mkt12Provenance.sourceMode).toBe("fixture_only");
   });
 });

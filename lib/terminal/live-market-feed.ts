@@ -1,9 +1,21 @@
 import { z } from "zod";
+import {
+  CHARTABLE_INSTRUMENTS,
+  INSTRUMENT_DISPLAY_NAMES_JA,
+  type InstrumentId,
+} from "@/lib/home/instruments";
+import {
+  MarketSnapshotCellSchema,
+  type MarketSnapshotCell,
+} from "@/lib/home/market-snapshot";
 import { validateBreakingRadarTitleWindow } from "@/lib/livemakers-terminal-preview/breaking-radar-title-window";
 import type {
   LocalizedText,
   TerminalLiveRadarItem,
 } from "@/lib/livemakers-terminal-preview/types";
+import type { ProvenanceState } from "@/lib/provenance/window-provenance";
+import type { FocusSeries } from "@/lib/sessions/focus-series";
+import type { ReaderSessionSlug } from "@/lib/sessions/session-registry";
 import {
   marketLanesFixture,
   type MarketLane,
@@ -42,7 +54,9 @@ import {
  */
 
 export const TERMINAL_FEED_ENV_KEY = "LIVEMAKERS_TERMINAL_FEED_URL";
-export const TERMINAL_FEED_SCHEMA_VERSION = "livemakers_terminal_feed_v0.1";
+export const TERMINAL_FEED_SCHEMA_V01 = "livemakers_terminal_feed_v0.1";
+export const TERMINAL_FEED_SCHEMA_V02 = "livemakers_terminal_feed_v0.2";
+export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 export const TERMINAL_FEED_REVALIDATE_SECONDS = 300;
 
 const localizedTextSchema = z.object({ en: z.string(), ja: z.string() });
@@ -282,9 +296,163 @@ const sourceWindowSchema = z
   })
   .strict();
 
+const JST_ISO_PATTERN =
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?\+09:00$/;
+const PAGE_PACKET_PATTERN = /^lmk_(\d{8})_(\d{4})_[a-z0-9]+$/;
+const MARKET_PACKET_PATTERN = /^mkt12_(\d{8})_(am|eod)$/;
+
+const homeSeriesPointSchema = z
+  .object({
+    atJst: z.string().regex(JST_ISO_PATTERN),
+    value: z.number().finite().positive(),
+  })
+  .strict();
+
+const homeFocusSeriesSchema = z
+  .object({
+    instrumentId: z.enum(CHARTABLE_INSTRUMENTS),
+    seriesPacketId: z.string().min(1),
+    points: z.array(homeSeriesPointSchema).min(2).max(6),
+  })
+  .strict();
+
+const homeFocusSessionSchema = z
+  .object({
+    sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    sessionSlug: z.enum([
+      "asia-open",
+      "europe-bridge",
+      "ny-open",
+      "global-close",
+    ]),
+    focusInstruments: z
+      .array(z.enum(CHARTABLE_INSTRUMENTS))
+      .min(2)
+      .max(3),
+    series: z.array(homeFocusSeriesSchema).min(2).max(3),
+  })
+  .strict();
+
+const reviewedHomeSchema = z
+  .object({
+    pagePacketId: z.string().regex(PAGE_PACKET_PATTERN),
+    marketPacketId: z.string().regex(MARKET_PACKET_PATTERN),
+    asOfJst: z.string().regex(JST_ISO_PATTERN),
+    dataDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    sourceMode: z.literal("reviewed_live"),
+    reviewStatus: z.literal("reviewed_snapshot"),
+    cells: z.array(MarketSnapshotCellSchema).length(
+      CHARTABLE_INSTRUMENTS.length,
+    ),
+    focusSession: homeFocusSessionSchema,
+  })
+  .strict()
+  .superRefine((home, context) => {
+    const compactDate = home.dataDate.replaceAll("-", "");
+    if (!home.asOfJst.startsWith(`${home.dataDate}T`)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "home asOfJst date must equal dataDate",
+      });
+    }
+    if (PAGE_PACKET_PATTERN.exec(home.pagePacketId)?.[1] !== compactDate) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "pagePacketId date must equal dataDate",
+      });
+    }
+    if (MARKET_PACKET_PATTERN.exec(home.marketPacketId)?.[1] !== compactDate) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "marketPacketId date must equal dataDate",
+      });
+    }
+
+    const actualIds = home.cells.map((cell) => cell.instrumentId);
+    if (
+      actualIds.length !== CHARTABLE_INSTRUMENTS.length ||
+      actualIds.some(
+        (instrumentId, index) =>
+          instrumentId !== CHARTABLE_INSTRUMENTS[index],
+      )
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "home cells must equal the ordered chartable registry",
+      });
+    }
+    for (const cell of home.cells) {
+      if (cell.nameJa !== INSTRUMENT_DISPLAY_NAMES_JA[cell.instrumentId]) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `home cell display name mismatch: ${cell.instrumentId}`,
+        });
+      }
+    }
+
+    if (home.focusSession.sessionDate !== home.dataDate) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "focus session date must equal dataDate",
+      });
+    }
+    const focusIds = home.focusSession.focusInstruments;
+    if (new Set(focusIds).size !== focusIds.length) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "focus instruments must be unique",
+      });
+    }
+    const seriesIds = home.focusSession.series.map(
+      (series) => series.instrumentId,
+    );
+    if (
+      focusIds.length !== seriesIds.length ||
+      focusIds.some((instrumentId, index) => instrumentId !== seriesIds[index])
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "focus series must match focus instruments in order",
+      });
+    }
+
+    const endMs = new Date(home.asOfJst).getTime();
+    const startMs = endMs - 24 * 60 * 60 * 1000;
+    for (const series of home.focusSession.series) {
+      if (
+        series.seriesPacketId !==
+        `series.${home.dataDate}.${series.instrumentId}`
+      ) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `series packet mismatch: ${series.instrumentId}`,
+        });
+      }
+      let previous = -Infinity;
+      for (const point of series.points) {
+        const timestamp = new Date(point.atJst).getTime();
+        if (
+          !Number.isFinite(timestamp) ||
+          timestamp <= previous ||
+          timestamp < startMs ||
+          timestamp > endMs
+        ) {
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: `invalid focus point window/order: ${series.instrumentId}`,
+          });
+        }
+        previous = timestamp;
+      }
+    }
+  });
+
 const terminalFeedSchema = z
   .object({
-    schema_version: z.literal(TERMINAL_FEED_SCHEMA_VERSION),
+    schema_version: z.enum([
+      TERMINAL_FEED_SCHEMA_V01,
+      TERMINAL_FEED_SCHEMA_V02,
+    ]),
     generated_at: z.string(),
     windows: z
       .object({
@@ -336,6 +504,24 @@ export interface SourceFeedData {
   items: SourceFeedItem[];
 }
 
+export interface ReviewedHomeData {
+  cells: MarketSnapshotCell[];
+  pagePacketId: string;
+  marketPacketId: string;
+  asOfJst: string;
+  dataDate: string;
+  focusSession: {
+    sessionDate: string;
+    sessionSlug: ReaderSessionSlug;
+    focusInstruments: InstrumentId[];
+    series: FocusSeries[];
+  };
+  provenance: Extract<
+    ProvenanceState,
+    { sourceMode: "reviewed_live" }
+  >;
+}
+
 export interface LiveMarketData {
   lanes: MarketLane[];
   ticker: MarketTickerItem[];
@@ -344,6 +530,7 @@ export interface LiveMarketData {
   scheduledSession: ScheduledSessionTimes | null;
   published: PublishedFeedData | null;
   source: SourceFeedData | null;
+  home: ReviewedHomeData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -451,6 +638,46 @@ function mapSourceFeed(section: unknown): SourceFeedData | null {
   return source;
 }
 
+function mapReviewedHome(section: unknown): ReviewedHomeData | null {
+  const parsed = reviewedHomeSchema.safeParse(section);
+  if (!parsed.success) return null;
+
+  const provenance = {
+    sourceMode: parsed.data.sourceMode,
+    reviewStatus: parsed.data.reviewStatus,
+  } as const;
+  const series: FocusSeries[] = parsed.data.focusSession.series.map(
+    (item) => {
+      const baseValue = item.points[0].value;
+      const lastValue = item.points.at(-1)!.value;
+      return {
+        instrumentId: item.instrumentId,
+        seriesPacketId: item.seriesPacketId,
+        points: item.points,
+        baseValue,
+        lastValue,
+        changeFromBasePct: ((lastValue - baseValue) / baseValue) * 100,
+        ...provenance,
+      };
+    },
+  );
+
+  return {
+    cells: parsed.data.cells,
+    pagePacketId: parsed.data.pagePacketId,
+    marketPacketId: parsed.data.marketPacketId,
+    asOfJst: parsed.data.asOfJst,
+    dataDate: parsed.data.dataDate,
+    focusSession: {
+      sessionDate: parsed.data.focusSession.sessionDate,
+      sessionSlug: parsed.data.focusSession.sessionSlug,
+      focusInstruments: parsed.data.focusSession.focusInstruments,
+      series,
+    },
+    provenance,
+  };
+}
+
 /**
  * Validate and map a terminal feed payload. Returns null when the payload is
  * not exactly what the contract promises — the caller keeps the fixture.
@@ -458,7 +685,12 @@ function mapSourceFeed(section: unknown): SourceFeedData | null {
 export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
   const parsed = terminalFeedSchema.safeParse(payload);
   if (!parsed.success) return null;
-  const { windows, ticker, generated_at: generatedAt } = parsed.data;
+  const {
+    schema_version: schemaVersion,
+    windows,
+    ticker,
+    generated_at: generatedAt,
+  } = parsed.data;
   if (windows.macroLane.key !== "macro" || windows.cryptoLane.key !== "crypto") {
     return null;
   }
@@ -500,6 +732,10 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     scheduledSession: mapScheduledSession(windows.scheduledSession),
     published: mapPublished(windows.published),
     source: mapSourceFeed(windows.source),
+    home:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V02
+        ? mapReviewedHome(parsed.data.home)
+        : null,
   };
 }
 

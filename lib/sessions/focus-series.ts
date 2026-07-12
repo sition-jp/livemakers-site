@@ -4,6 +4,7 @@ import path from "node:path";
 import { z } from "zod";
 
 import type { InstrumentId } from "@/lib/home/instruments";
+import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import {
   normalizeFocusInstruments,
   type SessionRecord,
@@ -19,7 +20,7 @@ const RecordSchema = z.strictObject({
 
 export type FocusSeriesRecord = z.infer<typeof RecordSchema>;
 
-export interface FocusSeries {
+interface FocusSeriesBase {
   instrumentId: InstrumentId;
   seriesPacketId: string;
   points: { atJst: string; value: number }[];
@@ -27,6 +28,8 @@ export interface FocusSeries {
   lastValue: number;
   changeFromBasePct: number;
 }
+
+export type FocusSeries = FocusSeriesBase & ProvenanceState;
 
 const FIXTURE_PATH = path.join(
   process.cwd(),
@@ -78,6 +81,8 @@ export function buildFocusSeries(
     baseValue,
     lastValue,
     changeFromBasePct: ((lastValue - baseValue) / baseValue) * 100,
+    sourceMode: "fixture_only",
+    reviewStatus: "reviewed_fixture",
   };
 }
 
