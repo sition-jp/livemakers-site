@@ -58,6 +58,12 @@ describe("G43 reviewed home source resolution", () => {
     expect(props.today).toBe("2026-07-12");
     expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
     expect(props.snapshot.cells).toHaveLength(21);
+    expect(
+      props.snapshot.cells.find((cell) => cell.instrumentId === "night_usd"),
+    ).toMatchObject({ nameJa: "NIGHT/USD", direction: "down" });
+    expect(
+      props.snapshot.cells.find((cell) => cell.instrumentId === "ada_usd"),
+    ).toMatchObject({ changeLabel: "0.00%", direction: "flat" });
     expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
     expect(props.laneProvenance.macro.sourceMode).toBe("reviewed_live");
     expect(props.laneProvenance.crypto.sourceMode).toBe("reviewed_live");

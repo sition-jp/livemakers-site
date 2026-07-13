@@ -299,7 +299,39 @@ const sourceWindowSchema = z
 const JST_ISO_PATTERN =
   /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2})?\+09:00$/;
 const PAGE_PACKET_PATTERN = /^lmk_(\d{8})_(\d{4})_[a-z0-9]+$/;
-const MARKET_PACKET_PATTERN = /^mkt12_(\d{8})_(am|eod)$/;
+const MARKET_PACKET_PATTERN =
+  /^mkt12_(\d{8})_(asia|am|europe|ny|close)$/;
+
+const MARKET_ANCHORS = {
+  asia: "05:03",
+  am: "07:30",
+  europe: "12:03",
+  ny: "18:03",
+  close: "23:03",
+} as const;
+
+function validatePacketAnchor(home: {
+  dataDate: string;
+  asOfJst: string;
+  pagePacketId: string;
+  marketPacketId: string;
+}): string | null {
+  const market = MARKET_PACKET_PATTERN.exec(home.marketPacketId);
+  const page = PAGE_PACKET_PATTERN.exec(home.pagePacketId);
+  if (!market || !page) return "packet pattern mismatch";
+  const suffix = market[2] as keyof typeof MARKET_ANCHORS;
+  const anchorMs = Date.parse(
+    `${home.dataDate}T${MARKET_ANCHORS[suffix]}:00+09:00`,
+  );
+  const asOfMs = Date.parse(home.asOfJst);
+  if (asOfMs < anchorMs || asOfMs > anchorMs + 7 * 60 * 1000) {
+    return "home asOfJst is outside semantic anchor completion window";
+  }
+  if (page[2] !== home.asOfJst.slice(11, 16).replace(":", "")) {
+    return "pagePacketId HHmm must equal home asOfJst";
+  }
+  return null;
+}
 
 const homeSeriesPointSchema = z
   .object({
@@ -365,6 +397,13 @@ const reviewedHomeSchema = z
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: "marketPacketId date must equal dataDate",
+      });
+    }
+    const packetAnchorError = validatePacketAnchor(home);
+    if (packetAnchorError) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: packetAnchorError,
       });
     }
 
