@@ -3,6 +3,8 @@ import type {
   ArticleMeta,
 } from "@/lib/articles/article-model";
 import type { InstrumentId, LaneId } from "@/lib/home/instruments";
+import { marketDirectionClass } from "@/lib/home/market-direction";
+import type { MarketDirection } from "@/lib/home/market-snapshot";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
 import { ArticleRow } from "./ArticleRow";
 import {
@@ -15,7 +17,7 @@ export interface LaneValueRow {
   nameJa: string;
   value: string | null;
   changeLabel: string | null;
-  up: boolean | null;
+  direction: MarketDirection | null;
 }
 
 export interface LaneBlockCopy {
@@ -78,13 +80,7 @@ export function LaneBlock({
               {row.value ?? "—"}
             </span>
             <span
-              className={`min-w-14 text-right font-mono text-[10px] ${
-                row.up === null
-                  ? "text-text-tertiary"
-                  : row.up
-                    ? "text-status-up"
-                    : "text-status-down"
-              }`}
+              className={`min-w-14 text-right font-mono text-[10px] ${marketDirectionClass(row.direction)}`}
             >
               {row.changeLabel ?? "—"}
             </span>

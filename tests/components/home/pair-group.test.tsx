@@ -14,16 +14,23 @@ const cells = [
     nameJa: "BTC/USD",
     value: "$63,299",
     changeLabel: "+1.72%",
-    up: true,
+    direction: "up" as const,
   },
   {
     instrumentId: "vix" as const,
     nameJa: "VIX",
     value: null,
     changeLabel: null,
-    up: null,
+    direction: null,
   },
 ];
+const flatCell = {
+  instrumentId: "spx" as const,
+  nameJa: "S&P 500",
+  value: "7,543.64",
+  changeLabel: "0.00%",
+  direction: "flat" as const,
+};
 const provenance = {
   packetId: "mkt12_20260710_am",
   sourceMode: "fixture_only" as const,
@@ -46,7 +53,7 @@ describe("pair group (ledger groups 2-3)", () => {
         nameJa: "ETH/USD",
         value: "$1,748.07",
         changeLabel: "-6.27%",
-        up: false,
+        direction: "down",
       },
     ]);
     expect(movers.map((cell) => cell.instrumentId)).toEqual([
@@ -66,7 +73,7 @@ describe("pair group (ledger groups 2-3)", () => {
     };
     const { rerender } = render(
       <IndicatorTileCard
-        cells={cells}
+        cells={[...cells, flatCell]}
         dataDate="2026-07-10"
         asOfLabel="07:58 JST"
         regimeNoteJa="リスクオン — BTC・ETH上昇・VIX低位安定"
@@ -75,11 +82,12 @@ describe("pair group (ledger groups 2-3)", () => {
       />,
     );
     expect(screen.getByText("—")).toBeInTheDocument();
+    expect(screen.getByText("0.00%")).toHaveClass("text-text-secondary");
     expect(screen.getByText(/きょうの地合い/)).toBeInTheDocument();
 
     rerender(
       <IndicatorTileCard
-        cells={cells}
+        cells={[...cells, flatCell]}
         dataDate="2026-07-10"
         asOfLabel="07:58 JST"
         regimeNoteJa={undefined}

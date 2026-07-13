@@ -16,6 +16,8 @@ const INSTRUMENT_IDS = [
   ...LANE_ROWS.rwa.map((row) => row.instrumentId),
 ] as [InstrumentId, ...InstrumentId[]];
 
+export type MarketDirection = "up" | "down" | "flat";
+
 export const MarketSnapshotCellSchema = z
   .strictObject({
     instrumentId: z.enum(INSTRUMENT_IDS),
@@ -23,18 +25,46 @@ export const MarketSnapshotCellSchema = z
     value: z.string().min(1).nullable(),
     changeLabel: z
       .string()
-      .regex(/^[+-]\d+(\.\d+)?%$/)
+      .regex(/^(?:[+-]\d+(?:\.\d+)?|0\.00)%$/)
       .nullable(),
-    up: z.boolean().nullable(),
+    direction: z.enum(["up", "down", "flat"]).nullable(),
   })
   .superRefine((cell, context) => {
-    const nullCount = [cell.value, cell.changeLabel, cell.up].filter(
+    const nullCount = [cell.value, cell.changeLabel, cell.direction].filter(
       (value) => value === null,
     ).length;
     if (nullCount !== 0 && nullCount !== 3) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `cell ${cell.instrumentId}: value/changeLabel/up must be all-null or all-present`,
+        message: `cell ${cell.instrumentId}: value/changeLabel/direction must be all-null or all-present`,
+      });
+    }
+
+    if (nullCount !== 0) return;
+
+    const change = Number.parseFloat(cell.changeLabel!);
+    if (cell.direction === "flat" && cell.changeLabel !== "0.00%") {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `cell ${cell.instrumentId}: flat requires 0.00%`,
+      });
+    }
+    if (
+      cell.direction === "up" &&
+      !(change > 0 && cell.changeLabel!.startsWith("+"))
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `cell ${cell.instrumentId}: up requires a positive label`,
+      });
+    }
+    if (
+      cell.direction === "down" &&
+      !(change < 0 && cell.changeLabel!.startsWith("-"))
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `cell ${cell.instrumentId}: down requires a negative label`,
       });
     }
   });

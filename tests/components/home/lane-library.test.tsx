@@ -59,7 +59,7 @@ describe("lane + library (ledger groups 4-6, 8)", () => {
       ...row,
       value: ["26,206.89", "52,487.41", "$76.00"][index],
       changeLabel: ["+1.30%", "+0.27%", "-2.59%"][index],
-      up: [true, true, false][index],
+      direction: ["up", "up", "down"][index] as "up" | "down",
     }));
     const { rerender } = render(
       <LaneBlock
@@ -92,6 +92,43 @@ describe("lane + library (ledger groups 4-6, 8)", () => {
       />,
     );
     expect(screen.queryByRole("link")).toBeNull();
+  });
+
+  it("renders flat and unavailable directions with neutral color", () => {
+    render(
+      <LaneBlock
+        lane="macro"
+        title="MACRO"
+        subtitle="12指標の補完データ"
+        rows={[
+          {
+            ...LANE_ROWS.macro[0],
+            value: "26,206.89",
+            changeLabel: "0.00%",
+            direction: "flat",
+          },
+          {
+            ...LANE_ROWS.macro[1],
+            value: null,
+            changeLabel: null,
+            direction: null,
+          },
+        ]}
+        articles={[]}
+        asOfLabel="07:58 JST"
+        provenance={provenance}
+        copy={copy}
+      />,
+    );
+
+    expect(screen.getByText("0.00%")).toHaveClass("text-text-secondary");
+    const unavailableRow = screen.getByText("NYダウ").parentElement;
+    expect(unavailableRow?.querySelector("span:last-child")).toHaveTextContent(
+      "—",
+    );
+    expect(unavailableRow?.querySelector("span:last-child")).toHaveClass(
+      "text-text-secondary",
+    );
   });
 
   it("appends the fixed session archive index card", () => {
