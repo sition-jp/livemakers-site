@@ -2,7 +2,7 @@ export type InstrumentId =
   | "btc_usd"
   | "eth_usd"
   | "ada_usd"
-  | "night_usdt"
+  | "night_usd"
   | "spx"
   | "nikkei_futures"
   | "dxy"
@@ -25,7 +25,7 @@ export const INSTRUMENT_DISPLAY_NAMES_JA = {
   btc_usd: "BTC/USD",
   eth_usd: "ETH/USD",
   ada_usd: "ADA/USD",
-  night_usdt: "NIGHT/USDT",
+  night_usd: "NIGHT/USD",
   spx: "S&P 500",
   nikkei_futures: "日経平均先物",
   dxy: "DXY",
@@ -49,7 +49,7 @@ export const CORE_12_INSTRUMENTS = [
   "btc_usd",
   "eth_usd",
   "ada_usd",
-  "night_usdt",
+  "night_usd",
   "spx",
   "nikkei_futures",
   "dxy",

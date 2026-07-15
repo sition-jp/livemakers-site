@@ -241,6 +241,84 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
   });
 
   it.each([
+    ["asia", "05:03", "05:10"],
+    ["am", "07:30", "07:37"],
+    ["europe", "12:03", "12:10"],
+    ["ny", "18:03", "18:10"],
+    ["close", "23:03", "23:10"],
+  ])("accepts %s completion through +7 minutes", (suffix, anchor, boundary) => {
+    const feed = sampleHomeV02();
+    const date = feed.home.dataDate.replaceAll("-", "");
+    feed.home.asOfJst = `${feed.home.dataDate}T${boundary}:00+09:00`;
+    feed.home.pagePacketId = `lmk_${date}_${boundary.replace(":", "")}_a1`;
+    feed.home.marketPacketId = `mkt12_${date}_${suffix}`;
+    for (const series of feed.home.focusSession.series) {
+      series.points[0].atJst = `${feed.home.dataDate}T${anchor}:00+09:00`;
+      series.points.at(-1).atJst = feed.home.asOfJst;
+    }
+
+    expect(mapTerminalFeed(feed)?.home).not.toBeNull();
+  });
+
+  it("rejects completion after the +7 minute boundary", () => {
+    const feed = sampleHomeV02();
+    feed.home.asOfJst = `${feed.home.dataDate}T07:37:01+09:00`;
+    feed.home.pagePacketId = "lmk_20260712_0737_a1";
+    for (const series of feed.home.focusSession.series) {
+      series.points.at(-1).atJst = feed.home.asOfJst;
+    }
+
+    expect(mapTerminalFeed(feed)?.home).toBeNull();
+  });
+
+  it("rejects a page packet HHmm that differs from home asOfJst", () => {
+    const feed = sampleHomeV02();
+    feed.home.pagePacketId = "lmk_20260712_0731_a1";
+
+    expect(mapTerminalFeed(feed)?.home).toBeNull();
+  });
+
+  it("rejects a semantic suffix that differs from the completion anchor", () => {
+    const feed = sampleHomeV02();
+    feed.home.asOfJst = `${feed.home.dataDate}T05:10:00+09:00`;
+    feed.home.pagePacketId = "lmk_20260712_0510_a1";
+    for (const series of feed.home.focusSession.series) {
+      series.points[0].atJst = `${feed.home.dataDate}T05:03:00+09:00`;
+      series.points.at(-1).atJst = feed.home.asOfJst;
+    }
+
+    expect(mapTerminalFeed(feed)?.home).toBeNull();
+  });
+
+  it.each([
+    [
+      "legacy night identity",
+      (feed: Record<string, any>) => {
+        feed.home.cells[3].instrumentId = "night_usdt";
+        feed.home.cells[3].nameJa = "NIGHT/USDT";
+      },
+    ],
+    [
+      "legacy boolean direction",
+      (feed: Record<string, any>) => {
+        delete feed.home.cells[0].direction;
+        feed.home.cells[0].up = true;
+      },
+    ],
+    [
+      "partial-null direction",
+      (feed: Record<string, any>) => {
+        feed.home.cells[0].direction = null;
+      },
+    ],
+  ])("rejects %s", (_label, mutate) => {
+    const feed = sampleHomeV02();
+    mutate(feed);
+
+    expect(mapTerminalFeed(feed)?.home).toBeNull();
+  });
+
+  it.each([
     ["missing cell", (feed: Record<string, any>) => feed.home.cells.pop()],
     [
       "duplicate cell",

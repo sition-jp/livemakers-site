@@ -1,4 +1,5 @@
 import type { MarketSnapshotCell } from "@/lib/home/market-snapshot";
+import { marketDirectionClass } from "@/lib/home/market-direction";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
 import {
   WindowProvenanceRow,
@@ -53,9 +54,7 @@ export function TopMoversCard({
               {cell.nameJa}
             </span>
             <span
-              className={`font-mono font-bold ${
-                cell.up ? "text-status-up" : "text-status-down"
-              }`}
+              className={`font-mono font-bold ${marketDirectionClass(cell.direction)}`}
             >
               {cell.changeLabel}
             </span>

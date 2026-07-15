@@ -1,4 +1,5 @@
 import type { MarketSnapshotCell } from "@/lib/home/market-snapshot";
+import { marketDirectionClass } from "@/lib/home/market-direction";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
 import {
   WindowProvenanceRow,
@@ -56,11 +57,9 @@ export function IndicatorTileCard({
               <p className="mt-1 font-mono text-sm font-bold text-text-primary">
                 {cell.value ?? "—"}
               </p>
-              {cell.changeLabel ? (
+              {cell.changeLabel !== null ? (
                 <p
-                  className={`mt-0.5 font-mono text-[10px] ${
-                    cell.up ? "text-status-up" : "text-status-down"
-                  }`}
+                  className={`mt-0.5 font-mono text-[10px] ${marketDirectionClass(cell.direction)}`}
                 >
                   {cell.changeLabel}
                 </p>
