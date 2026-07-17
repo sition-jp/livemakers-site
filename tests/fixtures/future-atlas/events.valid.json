@@ -1,0 +1,23 @@
+[
+  {
+    "type": "resolution",
+    "eventId": "ev-example-resolution",
+    "date": "2027-06-30",
+    "forecastId": "fc-example-1",
+    "articleId": "future-map-example",
+    "materials": ["https://example.com/evidence"],
+    "resolutionStatus": "true",
+    "decidedBy": "tabira"
+  },
+  {
+    "type": "metadata_correction",
+    "eventId": "ev-example-metadata",
+    "date": "2026-07-18",
+    "articleId": "future-map-example",
+    "field": "themes",
+    "before": ["ai"],
+    "after": ["ai", "finance"],
+    "reason": "棚移動",
+    "materials": []
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "themes": [
+    {
+      "key": "ai",
+      "titleJa": "AI",
+      "titleEn": "AI",
+      "order": 0
+    }
+  ],
+  "entries": [
+    {
+      "articleId": "future-map-example",
+      "kind": "forecast",
+      "themes": ["ai"],
+      "atlasPlacement": 0,
+      "relatedArticleIds": [],
+      "authorDisplay": "田平茂樹",
+      "authorshipMode": "human_written"
+    }
+  ]
+}
