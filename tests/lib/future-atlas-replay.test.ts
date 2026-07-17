@@ -151,7 +151,7 @@ describe("Future Atlas forecast replay", () => {
       reason: "棚移動",
       materials: [],
     };
-    const state = replayForecast("fc-a", [metadata]);
+    const state = replayForecast("fc-a", [metadata], "future-map-resolution");
 
     expect(state).toMatchObject({
       forecastId: "fc-a",
@@ -161,6 +161,36 @@ describe("Future Atlas forecast replay", () => {
       supersededByForecastId: null,
     });
     expect(state.history).toEqual([metadata]);
+  });
+
+  it("isolates each forecast history while retaining metadata corrections for its article", () => {
+    const resolutionA = resolutionEvent("fc-a", "true", { eventId: "ev-a" });
+    const resolutionB = resolutionEvent("fc-b", "false", { eventId: "ev-b" });
+    const metadataA: Extract<ForecastEvent, { type: "metadata_correction" }> = {
+      type: "metadata_correction",
+      eventId: "ev-meta-a",
+      date: "2027-07-01",
+      articleId: "future-map-a",
+      field: "themes",
+      before: ["ai"],
+      after: ["ai", "finance"],
+      reason: "棚移動",
+      materials: [],
+    };
+    const metadataB = {
+      ...metadataA,
+      eventId: "ev-meta-b",
+      articleId: "future-map-b",
+      forecastId: "fc-a",
+    };
+
+    const state = replayForecast(
+      "fc-a",
+      [resolutionA, resolutionB, metadataA, metadataB],
+      "future-map-a",
+    );
+
+    expect(state.history.map((event) => event.eventId)).toEqual(["ev-a", "ev-meta-a"]);
   });
 
   it("retains the immutable event snapshot when an update supersedes the forecast", () => {

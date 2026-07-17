@@ -15,7 +15,9 @@ const isResolutionEvent = (event: ForecastEvent): event is ResolutionEvent =>
   event.type === "resolution" || event.type === "resolution_correction";
 
 const belongsToForecast = (event: ForecastEvent, forecastId: string): boolean =>
-  "forecastId" in event && event.forecastId === forecastId;
+  event.type !== "metadata_correction"
+    && "forecastId" in event
+    && event.forecastId === forecastId;
 
 const assertAcyclic = (eventsById: Map<string, ResolutionEvent>) => {
   const visiting = new Set<string>();
@@ -35,9 +37,16 @@ const assertAcyclic = (eventsById: Map<string, ResolutionEvent>) => {
   for (const eventId of eventsById.keys()) visit(eventId);
 };
 
-export function replayForecast(forecastId: string, events: ForecastEvent[]): ForecastRuntimeState {
-  const history = events;
-  const forecastEvents = events.filter((event) => belongsToForecast(event, forecastId));
+export function replayForecast(
+  forecastId: string,
+  events: ForecastEvent[],
+  articleId?: string,
+): ForecastRuntimeState {
+  const history = events.filter(
+    (event) => belongsToForecast(event, forecastId)
+      || (event.type === "metadata_correction" && event.articleId === articleId),
+  );
+  const forecastEvents = history.filter((event) => belongsToForecast(event, forecastId));
   const resolutionEvents = forecastEvents.filter(isResolutionEvent);
   const directResolutions = resolutionEvents.filter((event) => event.type === "resolution");
 

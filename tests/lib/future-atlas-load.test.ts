@@ -107,6 +107,16 @@ afterEach(() => {
 });
 
 describe("Future Atlas content loader", () => {
+  it("validates the repository content through schemas, cross-store checks, and replay", async () => {
+    const data = await loadFutureAtlas();
+
+    expect(data.config.schemaVersion).toBe(1);
+    expect(data.states.size).toBe(data.contracts.length);
+    for (const contractItem of data.contracts) {
+      expect(data.states.get(contractItem.forecastId)?.forecastId).toBe(contractItem.forecastId);
+    }
+  });
+
   it("loads contracts, articles, and replayed states from an injected content root", async () => {
     const fixture = createFixture();
 

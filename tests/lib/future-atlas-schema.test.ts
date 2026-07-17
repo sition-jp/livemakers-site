@@ -23,15 +23,21 @@ const validContract = readFixture<Record<string, unknown>>("contract.valid.json"
 const validEvents = readFixture<Record<string, unknown>[]>("events.valid.json");
 
 describe("Future Atlas schema layer", () => {
-  it("keeps the initial content ledger empty and parseable", () => {
-    expect(JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, "config.json"), "utf8"))).toEqual(validConfig);
-    expect(JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, "manifest.json"), "utf8"))).toEqual({
-      schemaVersion: 1,
-      themes: [],
-      entries: [],
-    });
-    expect(fs.statSync(path.join(CONTENT_DIR, "events.jsonl")).size).toBe(0);
-    expect(fs.statSync(path.join(CONTENT_DIR, "contracts", ".gitkeep")).size).toBe(0);
+  it("keeps the current repository content parseable without freezing ledger cardinality", () => {
+    const config = JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, "config.json"), "utf8"));
+    const manifest = JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, "manifest.json"), "utf8"));
+    const contractValues = fs.readdirSync(path.join(CONTENT_DIR, "contracts"))
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, "contracts", name), "utf8")));
+    const eventValues = fs.readFileSync(path.join(CONTENT_DIR, "events.jsonl"), "utf8")
+      .split(/\r?\n/)
+      .filter((line) => line.trim().length > 0)
+      .map((line) => JSON.parse(line));
+
+    expect(AtlasConfigSchema.parse(config)).toEqual(config);
+    expect(ManifestSchema.parse(manifest)).toEqual(manifest);
+    expect(() => loadContracts(contractValues)).not.toThrow();
+    for (const event of eventValues) expect(() => ForecastEventSchema.parse(event)).not.toThrow();
     expect(AtlasConfigSchema.parse(validConfig)).toEqual(validConfig);
     expect(ManifestSchema.parse(validManifest)).toEqual(validManifest);
     expect(ContractSchema.parse(validContract)).toEqual(validContract);

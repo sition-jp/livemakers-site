@@ -4,7 +4,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 
-import { matchesTermEdgeAware } from "../migrate-articles/scan.mjs";
+import { matchesTermEdgeAware, scanForbidden } from "../migrate-articles/scan.mjs";
 
 const args = process.argv.slice(2);
 const baseIndex = args.indexOf("--base");
@@ -259,7 +259,10 @@ const run = () => {
   const headEntries = new Map((manifest.entries ?? []).map((entry) => [entry.articleId, entry]));
   for (const [articleId, baseEntry] of baseEntries) {
     const headEntry = headEntries.get(articleId);
-    if (!headEntry) continue;
+    if (!headEntry) {
+      fail(`manifest entry deleted; articleId is immutable: ${articleId}`);
+      continue;
+    }
     if (baseEntry.kind !== headEntry.kind) {
       fail(`guard #18 kind is immutable for ${articleId}: ${baseEntry.kind} -> ${headEntry.kind}`);
     }
@@ -385,6 +388,9 @@ const run = () => {
     const scanFailures = new Set();
     for (const [label, text] of publicStrings) {
       if (typeof text !== "string") continue;
+      for (const term of scanForbidden(text)) {
+        scanFailures.add(`forbidden public term ${term} in ${label}`);
+      }
       for (const token of vocabulary.forbiddenExactTokens ?? []) {
         if (matchesTermEdgeAware(text.toLowerCase(), token.toLowerCase())) {
           scanFailures.add(`forbidden token ${token} in ${label}`);
@@ -396,7 +402,11 @@ const run = () => {
 
   if (baseConfig.surfacePublished === false && config.surfacePublished === true) {
     const entries = manifest.entries ?? [];
-    const themeCount = new Set((manifest.themes ?? []).map((theme) => theme.key)).size;
+    const declaredThemeKeys = new Set((manifest.themes ?? []).map((theme) => theme.key));
+    const themeCount = new Set(
+      entries.flatMap((entry) => entry.themes ?? [])
+        .filter((themeKey) => declaredThemeKeys.has(themeKey)),
+    ).size;
     const visionCount = entries.filter((entry) => entry.kind === "vision").length;
     const reportCount = entries.filter((entry) => entry.kind === "structural_report").length;
     const forecastCount = entries.filter(

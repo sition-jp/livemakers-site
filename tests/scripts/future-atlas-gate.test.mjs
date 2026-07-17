@@ -334,6 +334,18 @@ describe("future-atlas gate", () => {
     expectFail(root, /kind.*immutable/i);
   });
 
+  it("rejects deletion of an existing manifest entry", () => {
+    const root = initRepo();
+    addVision(root, "future-map-a", "vision");
+    commitAll(root, "add vision");
+    markBase(root);
+    const manifest = readJson(root, "content/future-atlas/manifest.json");
+    manifest.entries = [];
+    writeJson(root, "content/future-atlas/manifest.json", manifest);
+    commitAll(root, "delete manifest entry");
+    expectFail(root, /manifest entry.*deleted|articleId.*immutable/i);
+  });
+
   it("requires resolution materials to reference a named resolution source (guard #19)", () => {
     const root = initRepo();
     addForecast(root);
@@ -415,6 +427,19 @@ describe("future-atlas gate", () => {
     expectPass(root);
   });
 
+  it("also scans the existing public-ops forbidden vocabulary", () => {
+    const root = initRepo();
+    writeJson(root, "scripts/migrate-articles/forbidden-terms.json", {
+      allowedPublicLabels: [],
+      designTerms: [],
+      opsTerms: ["draft"],
+      bodyExemptTerms: [],
+    });
+    addVision(root, "future-map-a", "vision", "ai", { ja: "draft のまま公開" });
+    commitAll(root, "add existing forbidden public term");
+    expectFail(root, /forbidden public term.*draft/i);
+  });
+
   it.each([
     ["deletion", (tokens) => tokens.slice(1)],
     ["modification", (tokens) => ["CHANGED", ...tokens.slice(1)]],
@@ -451,6 +476,23 @@ describe("future-atlas gate", () => {
     writeJson(root, "content/future-atlas/config.json", { schemaVersion: 1, surfacePublished: true });
     commitAll(root, "publish empty surface");
     expectFail(root, /publish threshold/i);
+  });
+
+  it("does not count empty declared shelves toward the three-theme publication threshold", () => {
+    const root = initRepo();
+    addVision(root, "vision-1", "vision", "ai");
+    addVision(root, "vision-2", "vision", "ai");
+    addVision(root, "report-1", "structural_report", "ai");
+    addVision(root, "report-2", "structural_report", "ai");
+    addForecast(root, "fc-1", "forecast-1", { theme: "ai" });
+    addForecast(root, "fc-2", "forecast-2", { theme: "ai" });
+    const manifest = readJson(root, "content/future-atlas/manifest.json");
+    ensureTheme(manifest, "finance");
+    ensureTheme(manifest, "energy");
+    writeJson(root, "content/future-atlas/manifest.json", manifest);
+    writeJson(root, "content/future-atlas/config.json", { schemaVersion: 1, surfacePublished: true });
+    commitAll(root, "publish with empty declared shelves");
+    expectFail(root, /publish threshold.*themes=1\/3/i);
   });
 
   it("accepts surface publication after all content thresholds are met", () => {

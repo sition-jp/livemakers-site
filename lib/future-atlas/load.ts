@@ -173,7 +173,7 @@ export async function loadFutureAtlas(
   const states = new Map(
     contracts.map((contractItem) => [
       contractItem.forecastId,
-      replayForecast(contractItem.forecastId, events),
+      replayForecast(contractItem.forecastId, events, contractItem.articleId),
     ]),
   );
 
