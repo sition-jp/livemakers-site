@@ -14,6 +14,8 @@ const allowedPublishedArticleRoutes = [
   /^\/articles\/series\/(daily-intel|signal|deep-dive|future-map|mkt12-morning|mkt12-weekend|event-risk-radar|weekly-brief)$/,
   /^\/sessions\/\d{4}-\d{2}-\d{2}-(asia-open|europe-bridge|ny-open|global-close)$/,
   /^\/sessions\/archive$/,
+  /^\/future-atlas$/,
+  /^\/future-atlas\/(ledger|methodology)$/,
 ];
 
 export const PAGE_CHROME_ROUTES = [
@@ -22,6 +24,9 @@ export const PAGE_CHROME_ROUTES = [
   "/brief",
   "/articles/today",
   "/sessions/archive",
+  "/future-atlas",
+  "/future-atlas/ledger",
+  "/future-atlas/methodology",
 ] as const;
 
 const forbiddenHrefText = [
