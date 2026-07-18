@@ -1,32 +1,17 @@
-import type { ForecastRuntimeState } from "@/lib/future-atlas/replay";
+import { useTranslations } from "next-intl";
 
-const STATUS_LABELS: Record<"ja" | "en", Record<ForecastRuntimeState["resolutionStatus"], string>> = {
-  ja: {
-    open: "観測中",
-    true: "判定: 的中",
-    false: "判定: 外れ",
-    indeterminate: "判定不能",
-    void: "無効",
-  },
-  en: {
-    open: "Monitoring",
-    true: "Resolved: correct",
-    false: "Resolved: incorrect",
-    indeterminate: "Indeterminate",
-    void: "Void",
-  },
-};
+import type { ForecastRuntimeState } from "@/lib/future-atlas/replay";
 
 export function ForecastStatusChip({
   status,
-  locale = "ja",
 }: {
   status: ForecastRuntimeState["resolutionStatus"];
-  locale?: "ja" | "en";
 }) {
+  const t = useTranslations("futureAtlas.status");
+
   return (
     <span className="inline-flex rounded-full border border-border-primary px-2 py-1 text-xs font-medium text-text-secondary">
-      {STATUS_LABELS[locale][status]}
+      {t(status)}
     </span>
   );
 }

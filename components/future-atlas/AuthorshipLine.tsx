@@ -1,18 +1,17 @@
-import type { ManifestEntry } from "@/lib/future-atlas/schema";
+import { useTranslations } from "next-intl";
 
-const AUTHORSHIP_COPY: Record<ManifestEntry["authorshipMode"], string> = {
-  human_written: "執筆: 田平茂樹 · 調査・検証補助にAIを使用",
-  ai_draft_human_edited: "AI下書き · 田平茂樹が編集・検証・承認",
-};
+import type { ManifestEntry } from "@/lib/future-atlas/schema";
 
 export function AuthorshipLine({
   authorshipMode,
 }: {
   authorshipMode: ManifestEntry["authorshipMode"];
 }) {
+  const t = useTranslations("futureAtlas.authorship");
+
   return (
     <p data-atlas-authorship className="mb-4 text-sm text-text-secondary">
-      {AUTHORSHIP_COPY[authorshipMode]}
+      {t(authorshipMode)}
     </p>
   );
 }

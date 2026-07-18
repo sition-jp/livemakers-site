@@ -1,6 +1,7 @@
 /* @vitest-environment jsdom */
 
 import { renderToStaticMarkup } from "react-dom/server";
+import { NextIntlClientProvider } from "next-intl";
 import { describe, expect, it, vi } from "vitest";
 
 type ContractFixture = {
@@ -63,6 +64,8 @@ vi.mock("@/lib/future-atlas/load", () => ({
 
 import ArticleDetailPage from "@/app/[locale]/articles/[slug]/page";
 import { ForecastStatusChip } from "@/components/future-atlas/ForecastStatusChip";
+import en from "@/messages/en.json";
+import ja from "@/messages/ja.json";
 
 const contract = (forecastId: string, overrides: Partial<ContractFixture> = {}): ContractFixture => ({
   forecastId,
@@ -115,9 +118,11 @@ const setAtlasData = ({
 };
 
 const renderPage = async (slug: string, locale = "ja"): Promise<Document> => {
-  const html = renderToStaticMarkup(await ArticleDetailPage({
-    params: Promise.resolve({ locale, slug }),
-  }));
+  const html = renderToStaticMarkup(
+    <NextIntlClientProvider locale={locale} messages={locale === "en" ? en : ja}>
+      {await ArticleDetailPage({ params: Promise.resolve({ locale, slug }) })}
+    </NextIntlClientProvider>,
+  );
   const result = document.implementation.createHTMLDocument("Future Atlas article chrome");
   result.body.innerHTML = html;
   return result;
@@ -128,15 +133,15 @@ describe("Future Atlas article chrome", () => {
     const labels = {
       ja: {
         open: "観測中",
-        true: "判定: 的中",
-        false: "判定: 外れ",
+        true: "的中",
+        false: "外れ",
         indeterminate: "判定不能",
         void: "無効",
       },
       en: {
         open: "Monitoring",
-        true: "Resolved: correct",
-        false: "Resolved: incorrect",
+        true: "Correct",
+        false: "Incorrect",
         indeterminate: "Indeterminate",
         void: "Void",
       },
@@ -144,9 +149,28 @@ describe("Future Atlas article chrome", () => {
 
     for (const [locale, expected] of Object.entries(labels) as Array<["ja" | "en", typeof labels.ja]>) {
       for (const [status, label] of Object.entries(expected) as Array<[keyof typeof expected, string]>) {
-        expect(renderToStaticMarkup(<ForecastStatusChip status={status} locale={locale} />)).toContain(label);
+        expect(renderToStaticMarkup(
+          <NextIntlClientProvider locale={locale} messages={locale === "ja" ? ja : en}>
+            <ForecastStatusChip status={status} />
+          </NextIntlClientProvider>,
+        )).toContain(label);
       }
     }
+  });
+
+  it("keeps all Future Atlas reader copy in both locale message namespaces", () => {
+    expect(ja.futureAtlas.status).toMatchObject({
+      open: "観測中",
+      overdue: "判定期限超過",
+      withdrawn: "支持撤回",
+    });
+    expect(ja.futureAtlas.confidence).toMatchObject({
+      leaning: "有力仮説",
+      base_case: "基本シナリオ",
+      high_conviction: "高確信",
+    });
+    expect(en.futureAtlas.surface.title).toBe("Future Atlas");
+    expect(en.futureAtlas.authorship.human_written).toBeTruthy();
   });
 
   it("renders the manifest-listed forecast contract immediately after the header", async () => {

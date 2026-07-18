@@ -53,6 +53,15 @@ function renderChrome(futureAtlasNav = false) {
   );
 }
 
+function renderEnglishChrome(futureAtlasNav = false) {
+  return render(
+    <NextIntlClientProvider locale="en" messages={en}>
+      <Header chromeMeta={getSnapshotChromeMeta()} futureAtlasNav={futureAtlasNav} />
+      <Footer futureAtlasNav={futureAtlasNav} />
+    </NextIntlClientProvider>,
+  );
+}
+
 describe("G41 page chrome", () => {
   it("links only to chrome-ledger routes and renders no LIVE indicator", () => {
     const { container } = renderChrome();
@@ -106,6 +115,21 @@ describe("G41 page chrome", () => {
       "未来アトラス",
       "未来アトラス",
     ]);
+  });
+
+  it("places exact English FUTURE ATLAS immediately after ARCHIVE in both navs", () => {
+    const { container } = renderEnglishChrome(true);
+
+    for (const nav of container.querySelectorAll("header nav, footer nav")) {
+      const links = Array.from(nav.querySelectorAll("a"), (anchor) => ({
+        href: anchor.getAttribute("href"),
+        text: anchor.textContent,
+      }));
+      const archive = links.findIndex((link) => link.href === "/sessions/archive");
+
+      expect(links[archive]).toEqual({ href: "/sessions/archive", text: "ARCHIVE" });
+      expect(links[archive + 1]).toEqual({ href: "/future-atlas", text: "FUTURE ATLAS" });
+    }
   });
 
   it("uses the Future Atlas display name across Japanese and English family labels", () => {

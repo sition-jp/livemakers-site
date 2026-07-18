@@ -69,7 +69,6 @@ export default async function ArticleDetailPage({
             key={contract.forecastId}
             contract={contract}
             state={state}
-            language={language}
           />
         );
       })}
