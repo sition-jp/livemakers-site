@@ -14,7 +14,7 @@ const sourceRoot = path.join(
 describe("article migration audit", () => {
   it("classifies all body selectors and collapses location copies", () => {
     const result = auditSourceRoot(sourceRoot, { includeArchive: false });
-    expect(result.records).toHaveLength(9);
+    expect(result.records).toHaveLength(11);
     expect(new Set(result.records.map((record) => record.bodySelector))).toEqual(
       new Set([
         "exact_marker",
@@ -144,18 +144,58 @@ describe("article migration audit", () => {
       "2026-05-23T11:59:00+09:00",
     );
     expect(result.summary.timeBasis).toEqual({
-      null: 8,
+      null: 10,
       snowflake_url: 1,
     });
     expect(result.summary.titleTransform).toEqual({
-      strip_prefix: 8,
-      verbatim: 1,
+      strip_prefix: 9,
+      verbatim: 2,
     });
     expect(result.summary.unmatchedEvidenceCandidates).toBe(1);
     expect(result.summary.unmatchedEvidencePairs).toBe(1);
     expect(result.report).toContain(
       "2026-06-17_STN_DD_001 <- x_manual_markerless",
     );
+  });
+
+  it("enumerates the P0-4 recovery roots with account and notes-file filters", () => {
+    const result = auditSourceRoot(sourceRoot, { includeArchive: false });
+
+    const recovered = result.records.find(
+      (record) => record.postId === "2026-07-16_STN_A_009",
+    );
+    expect(recovered).toBeDefined();
+    expect(recovered.sourcePath).toBe(
+      "08_DOCS/reports/manual_articles/2026-07-16/2026-07-16_STN_A_009_signal-fixture-topic.md",
+    );
+    expect(recovered.family).toBe("signal");
+    expect(recovered.evidenceKind).toBe("frontmatter");
+    expect(recovered.include).toBe(true);
+    expect(recovered.slug).toBe("signal-fixture-topic-2026-07-16");
+    expect(recovered.leadDuplicateLine).toBe(
+      "📡 Signal｜フィクスチャの見出し——回収レコードの型",
+    );
+    expect(recovered.trailingHashtagLine).toBe("#Fixture #SITION");
+
+    const map = result.records.find(
+      (record) => record.postId === "2026-07-12_STN_ARTICLE_099",
+    );
+    expect(map).toBeDefined();
+    expect(map.family).toBe("future-map");
+    expect(map.slug).toBe("future-map-fixture-map");
+    expect(map.include).toBe(true);
+    expect(map.evidenceKind).toBe("frontmatter");
+
+    expect(
+      result.records.some((record) =>
+        /(?:editorial-notes|research-notes|\.x-article)\.md$/.test(
+          record.sourcePath,
+        ),
+      ),
+    ).toBe(false);
+    expect(
+      result.records.some((record) => record.postId === "2026-07-16_SPO_A_001"),
+    ).toBe(false);
   });
 
   it("recognizes the remaining declared catalog title prefixes", async () => {
