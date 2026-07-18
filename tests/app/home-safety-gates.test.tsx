@@ -66,7 +66,7 @@ const copy = buildTestHomeCopy();
 function renderFullPage() {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header chromeMeta={getSnapshotChromeMeta()} />
+      <Header chromeMeta={getSnapshotChromeMeta()} futureAtlasNav={false} />
       <main>
         <TickerBar items={props.tickerItems} />
         <GlobalProvenanceStrip
@@ -76,7 +76,7 @@ function renderFullPage() {
         />
         <HomeComposition {...props} copy={copy} />
       </main>
-      <Footer />
+      <Footer futureAtlasNav={false} />
     </NextIntlClientProvider>,
   );
 }
@@ -106,7 +106,10 @@ function renderReviewedPage() {
     reviewed,
     ...render(
       <NextIntlClientProvider locale="ja" messages={ja}>
-        <Header chromeMeta={getSnapshotChromeMeta(reviewed.snapshot)} />
+        <Header
+          chromeMeta={getSnapshotChromeMeta(reviewed.snapshot)}
+          futureAtlasNav={false}
+        />
         <main>
           <TickerBar items={reviewed.tickerItems} />
           <GlobalProvenanceStrip
@@ -116,7 +119,7 @@ function renderReviewedPage() {
           />
           <HomeComposition {...reviewed} copy={copy} />
         </main>
-        <Footer />
+        <Footer futureAtlasNav={false} />
       </NextIntlClientProvider>,
     ),
   };

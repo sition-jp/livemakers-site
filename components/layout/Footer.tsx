@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
-export function Footer() {
+export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
   // Build metadata injected at build time via next.config.ts.
@@ -20,6 +20,9 @@ export function Footer() {
           <Link href="/brief">{nav("brief")}</Link>
           <Link href="/articles/today">{nav("articles")}</Link>
           <Link href="/sessions/archive">{nav("archive")}</Link>
+          {futureAtlasNav && (
+            <Link href="/future-atlas">{nav("futureAtlas")}</Link>
+          )}
           <Link href="/about">{nav("about")}</Link>
         </nav>
         <div className="italic tracking-label">{t("disclaimer")}</div>

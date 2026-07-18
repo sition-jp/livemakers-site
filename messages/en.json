@@ -7,6 +7,7 @@
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
+    "futureAtlas": "FUTURE ATLAS",
     "snapshot": "SNAPSHOT",
     "alpha": "ALPHA"
   },
@@ -414,7 +415,7 @@
       "daily-intel": "Daily Intel",
       "signal": "Signal",
       "deep-dive": "Deep Dive",
-      "future-map": "The Next Era Map",
+      "future-map": "Future Atlas",
       "mkt12-morning": "12 Indicators: Morning",
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
@@ -511,7 +512,7 @@
       "daily-intel": "Daily Intel",
       "signal": "Signal",
       "deep-dive": "Deep Dive",
-      "future-map": "The Next Era Map",
+      "future-map": "Future Atlas",
       "mkt12-morning": "12 Indicators: Morning",
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
@@ -522,6 +523,7 @@
     "todayEmpty": "Today's articles will be published shortly.",
     "latestTitle": "Recent articles",
     "seriesTitle": "Series",
+    "futureAtlasGuide": "View Future Atlas →",
     "briefArchiveNote": "Browse the Weekly Brief archive"
   },
   "sessions": {
@@ -603,6 +605,75 @@
     "backtestProvisional": {
       "title": "Provisional v0.1 backtest metrics",
       "body": "These metrics are intended for pipeline validation, not model-performance benchmarking. Real OI/funding history and full sliding-window context land in v0.2."
+    }
+  },
+  "futureAtlas": {
+    "surface": {
+      "eyebrow": "Future Atlas",
+      "title": "Future Atlas",
+      "definition": "Record testable views without claiming certainty about the future.",
+      "methodologyLink": "Forecast methodology",
+      "themesAriaLabel": "Future Atlas by theme"
+    },
+    "kind": {
+      "vision": "Vision",
+      "structural_report": "Structural report",
+      "forecast": "Forecast"
+    },
+    "summary": {
+      "ariaLabel": "Future Atlas summary",
+      "total": "Total",
+      "open": "Monitoring",
+      "overdue": "Past resolution deadline",
+      "true": "Correct",
+      "false": "Incorrect",
+      "indeterminate": "Indeterminate",
+      "void": "Void",
+      "withdrawn": "Support withdrawn",
+      "hitRate": "Hit rate",
+      "nonBinaryResolutionRate": "Non-binary resolution rate"
+    },
+    "status": {
+      "open": "Monitoring",
+      "true": "Correct",
+      "false": "Incorrect",
+      "indeterminate": "Indeterminate",
+      "void": "Void",
+      "overdue": "Past resolution deadline",
+      "withdrawn": "Support withdrawn",
+      "active": "Supported"
+    },
+    "confidence": {
+      "leaning": "Leaning",
+      "base_case": "Base case",
+      "high_conviction": "High conviction"
+    },
+    "ledger": {
+      "eyebrow": "Future Atlas",
+      "title": "Forecast ledger",
+      "ariaLabel": "Forecast ledger",
+      "empty": "No forecasts recorded",
+      "dueAt": "Due date",
+      "confidence": "Confidence",
+      "endorsement": "Author support",
+      "frozenClaim": "Frozen claim",
+      "resolutionSources": "Resolution sources",
+      "withdrawalReason": "Reason for withdrawal",
+      "resolutionArticle": "Resolution article",
+      "resolutionMaterials": "Resolution materials",
+      "correctionHistory": "Resolution history",
+      "supersededBy": "Updated forecast available"
+    },
+    "contract": {
+      "title": "Forecast contract",
+      "claim": "Frozen claim",
+      "dueAt": "Due date",
+      "resolutionCriteria": "Resolution criteria",
+      "confidence": "Confidence band"
+    },
+    "authorship": {
+      "human_written": "Written by: Shigeki Tabira · AI used for research and verification support",
+      "ai_draft_human_edited": "AI-assisted text · Edited, verified, and approved by Shigeki Tabira"
     }
   }
 }

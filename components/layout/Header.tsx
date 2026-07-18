@@ -11,7 +11,13 @@ import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
 import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
 
-export function Header({ chromeMeta }: { chromeMeta: SnapshotChromeMeta }) {
+export function Header({
+  chromeMeta,
+  futureAtlasNav,
+}: {
+  chromeMeta: SnapshotChromeMeta;
+  futureAtlasNav: boolean;
+}) {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
@@ -77,6 +83,14 @@ export function Header({ chromeMeta }: { chromeMeta: SnapshotChromeMeta }) {
           >
             {t("archive")}
           </Link>
+          {futureAtlasNav && (
+            <Link
+              href="/future-atlas"
+              className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
+            >
+              {t("futureAtlas")}
+            </Link>
+          )}
           {/* SIGNALS / SUBSCRIBE are temporarily hidden from nav while still
               in development. The pages themselves remain reachable via URL
               (livemakers.com/signals, /subscribe). Restore these <Link>

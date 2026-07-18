@@ -370,6 +370,13 @@ describe("future-atlas gate", () => {
     expectFail(root, /forbidden token.*EWS/i);
   });
 
+  it("rejects the exact forbidden token Layer B in a Japanese article body", () => {
+    const root = initRepo();
+    addVision(root, "future-map-a", "vision", "ai", { ja: "Layer B を本文に含める" });
+    commitAll(root, "add Japanese forbidden article body");
+    expectFail(root, /forbidden token.*Layer B.*article future-map-a ja/i);
+  });
+
   it.each([
     ["resolution material", {
       type: "resolution", eventId: "ev-resolution", date: "2027-07-17", forecastId: "fc-a",

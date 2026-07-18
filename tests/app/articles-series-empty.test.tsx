@@ -3,6 +3,10 @@ import { render, screen } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
+const { atlasConfig } = vi.hoisted(() => ({
+  atlasConfig: { surfacePublished: false },
+}));
+
 vi.mock("next/navigation", () => ({
   notFound: () => {
     throw new Error("notFound");
@@ -36,6 +40,10 @@ vi.mock("@/lib/articles/article-model", async (importOriginal) => {
   return { ...original, getAllArticles: () => [] };
 });
 
+vi.mock("@/lib/future-atlas/load", () => ({
+  loadFutureAtlas: vi.fn(async () => ({ config: atlasConfig })),
+}));
+
 import ArticleSeriesPage from "@/app/[locale]/articles/series/[series]/page";
 
 describe("series page with empty inventory", () => {
@@ -47,5 +55,24 @@ describe("series page with empty inventory", () => {
     expect(screen.getByRole("heading", { level: 1 })).toBeInTheDocument();
     expect(document.querySelectorAll("[data-article-id]")).toHaveLength(0);
     expect(screen.getByRole("link").getAttribute("href")).toBe("/brief");
+  });
+
+  it("shows one Future Atlas guidance link only after the surface is published", async () => {
+    atlasConfig.surfacePublished = true;
+    const publishedPage = await ArticleSeriesPage({
+      params: Promise.resolve({ locale: "ja", series: "future-map" }),
+    });
+    const { unmount } = render(publishedPage);
+    expect(
+      screen.getByRole("link", { name: "futureAtlasGuide" }).getAttribute("href"),
+    ).toBe("/future-atlas");
+    unmount();
+
+    atlasConfig.surfacePublished = false;
+    const hiddenPage = await ArticleSeriesPage({
+      params: Promise.resolve({ locale: "ja", series: "future-map" }),
+    });
+    render(hiddenPage);
+    expect(screen.queryByRole("link", { name: "futureAtlasGuide" })).toBeNull();
   });
 });

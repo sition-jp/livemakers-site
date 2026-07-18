@@ -12,9 +12,11 @@ function isTerminalPreviewPath(pathname: string): boolean {
 export function SiteChrome({
   children,
   chromeMeta,
+  futureAtlasNav,
 }: {
   children: React.ReactNode;
   chromeMeta: SnapshotChromeMeta;
+  futureAtlasNav: boolean;
 }) {
   const pathname = usePathname();
 
@@ -24,9 +26,9 @@ export function SiteChrome({
 
   return (
     <>
-      <Header chromeMeta={chromeMeta} />
+      <Header chromeMeta={chromeMeta} futureAtlasNav={futureAtlasNav} />
       <main>{children}</main>
-      <Footer />
+      <Footer futureAtlasNav={futureAtlasNav} />
     </>
   );
 }
