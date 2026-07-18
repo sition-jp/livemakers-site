@@ -270,7 +270,11 @@ describe("Future Atlas routes", () => {
 
     expect(result.querySelector('[data-atlas-non-binary-resolution-rate="33%"]')?.textContent)
       .toContain("非二値判定率 33%");
-    expect(result.querySelector("[data-atlas-ratios]"))?.not.toBeNull();
+    const ratios = result.querySelector<HTMLElement>("[data-atlas-ratios]");
+    expect(ratios).not.toBeNull();
+    expect(ratios?.className).toContain("sm:grid-flow-col");
+    expect(ratios?.className).toContain("sm:auto-cols-fr");
+    expect(ratios?.className).not.toContain("sm:grid-cols-2");
     expect(result.querySelector("[data-atlas-ratios] [data-atlas-count]"))?.toBeNull();
   });
 

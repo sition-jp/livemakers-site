@@ -158,6 +158,16 @@ describe("Future Atlas article chrome", () => {
     }
   });
 
+  it("keeps the forecast status chip sized to its label in a column layout", () => {
+    const html = renderToStaticMarkup(
+      <NextIntlClientProvider locale="ja" messages={ja}>
+        <ForecastStatusChip status="open" />
+      </NextIntlClientProvider>,
+    );
+
+    expect(html).toContain("self-start");
+  });
+
   it("keeps all Future Atlas reader copy in both locale message namespaces", () => {
     expect(ja.futureAtlas.status).toMatchObject({
       open: "観測中",

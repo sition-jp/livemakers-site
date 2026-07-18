@@ -10,7 +10,7 @@ export function ForecastStatusChip({
   const t = useTranslations("futureAtlas.status");
 
   return (
-    <span className="inline-flex rounded-full border border-border-primary px-2 py-1 text-xs font-medium text-text-secondary">
+    <span className="inline-flex self-start rounded-full border border-border-primary px-2 py-1 text-xs font-medium text-text-secondary">
       {t(status)}
     </span>
   );

@@ -27,7 +27,7 @@ export function LedgerSummaryBand({ summary }: { summary: LedgerSummary }) {
         ))}
       </div>
       {(summary.hitRate !== null || summary.nonBinaryResolutionRate !== null) && (
-        <div data-atlas-ratios className="mt-px grid gap-px overflow-hidden border border-border-primary bg-border-primary sm:grid-cols-2">
+        <div data-atlas-ratios className="mt-px grid gap-px overflow-hidden border border-border-primary bg-border-primary sm:grid-flow-col sm:auto-cols-fr">
           {summary.hitRate !== null && (
             <p
               data-atlas-hit-rate={`${Math.round(summary.hitRate * 100)}%`}
