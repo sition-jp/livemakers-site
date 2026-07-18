@@ -33,7 +33,7 @@ describe("SiteChrome", () => {
     mockedUsePathname.mockReturnValue("/ja/terminal-preview");
 
     render(
-      <SiteChrome chromeMeta={chromeMeta}>
+      <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={false}>
         <div>Preview</div>
       </SiteChrome>,
     );
@@ -47,7 +47,7 @@ describe("SiteChrome", () => {
     mockedUsePathname.mockReturnValue("/ja/brief");
 
     render(
-      <SiteChrome chromeMeta={chromeMeta}>
+      <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={false}>
         <div>Brief</div>
       </SiteChrome>,
     );

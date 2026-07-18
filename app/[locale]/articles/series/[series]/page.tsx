@@ -8,6 +8,7 @@ import {
   getAllArticles,
   type SeriesSlug,
 } from "@/lib/articles/article-model";
+import { loadFutureAtlas } from "@/lib/future-atlas/load";
 
 export function generateStaticParams() {
   return SERIES_SLUGS.map((series) => ({ series }));
@@ -29,6 +30,7 @@ export default async function ArticleSeriesPage({
   }
 
   const t = await getTranslations("articles");
+  const futureAtlas = await loadFutureAtlas();
   const articles = getAllArticles().filter(
     (article) => article.family === series,
   );
@@ -41,6 +43,13 @@ export default async function ArticleSeriesPage({
       <h1 className="mt-2 text-3xl font-bold text-text-primary">
         {t(`family.${series}`)}
       </h1>
+      {series === "future-map" && futureAtlas.config.surfacePublished && (
+        <p className="mt-4 text-sm text-text-secondary">
+          <Link href="/future-atlas" className="underline underline-offset-4">
+            {t("futureAtlasGuide")}
+          </Link>
+        </p>
+      )}
       {series === "weekly-brief" && (
         <p className="mt-4 text-sm text-text-secondary">
           <Link href="/brief" className="underline underline-offset-4">

@@ -7,6 +7,7 @@
     "signals": "SIGNALS",
     "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
+    "futureAtlas": "FUTURE ATLAS",
     "snapshot": "SNAPSHOT",
     "alpha": "ALPHA"
   },
@@ -414,7 +415,7 @@
       "daily-intel": "Daily Intel",
       "signal": "Signal",
       "deep-dive": "Deep Dive",
-      "future-map": "The Next Era Map",
+      "future-map": "Future Atlas",
       "mkt12-morning": "12 Indicators: Morning",
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
@@ -511,7 +512,7 @@
       "daily-intel": "Daily Intel",
       "signal": "Signal",
       "deep-dive": "Deep Dive",
-      "future-map": "The Next Era Map",
+      "future-map": "Future Atlas",
       "mkt12-morning": "12 Indicators: Morning",
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
@@ -522,6 +523,7 @@
     "todayEmpty": "Today's articles will be published shortly.",
     "latestTitle": "Recent articles",
     "seriesTitle": "Series",
+    "futureAtlasGuide": "View Future Atlas →",
     "briefArchiveNote": "Browse the Weekly Brief archive"
   },
   "sessions": {

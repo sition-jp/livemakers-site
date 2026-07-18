@@ -14,6 +14,7 @@ import {
   findLiveTokenViolations,
 } from "@/lib/home/reader-grammar";
 import { isAllowedChromeRoute } from "@/lib/livemakers-terminal-preview/public-topology";
+import en from "@/messages/en.json";
 import ja from "@/messages/ja.json";
 
 vi.mock("next/navigation", () => ({
@@ -40,11 +41,14 @@ vi.mock("@/i18n/navigation", () => ({
   ),
 }));
 
-function renderChrome() {
+function renderChrome(futureAtlasNav = false) {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header chromeMeta={getSnapshotChromeMeta()} />
-      <Footer />
+      <Header
+        chromeMeta={getSnapshotChromeMeta()}
+        futureAtlasNav={futureAtlasNav}
+      />
+      <Footer futureAtlasNav={futureAtlasNav} />
     </NextIntlClientProvider>,
   );
 }
@@ -83,6 +87,34 @@ describe("G41 page chrome", () => {
     ).toEqual(["トップ", "ブリーフ", "記事", "アーカイブ", "About"]);
   });
 
+  it("renders the Future Atlas link in both chrome navs only when published", () => {
+    const { container, rerender } = renderChrome(false);
+    expect(container.querySelectorAll('a[href="/future-atlas"]')).toHaveLength(0);
+
+    rerender(
+      <NextIntlClientProvider locale="ja" messages={ja}>
+        <Header
+          chromeMeta={getSnapshotChromeMeta()}
+          futureAtlasNav
+        />
+        <Footer futureAtlasNav />
+      </NextIntlClientProvider>,
+    );
+
+    const links = [...container.querySelectorAll('a[href="/future-atlas"]')];
+    expect(links.map((link) => link.textContent)).toEqual([
+      "未来アトラス",
+      "未来アトラス",
+    ]);
+  });
+
+  it("uses the Future Atlas display name across Japanese and English family labels", () => {
+    expect(ja.home.family["future-map"]).toBe("未来アトラス");
+    expect(ja.articles.family["future-map"]).toBe("未来アトラス");
+    expect(en.home.family["future-map"]).toBe("Future Atlas");
+    expect(en.articles.family["future-map"]).toBe("Future Atlas");
+  });
+
   it("passes server-loaded chrome metadata through layout and SiteChrome", () => {
     const layout = fs.readFileSync(
       path.join(process.cwd(), "app/[locale]/layout.tsx"),
@@ -94,7 +126,11 @@ describe("G41 page chrome", () => {
     );
     expect(layout).toContain("await loadHomeCompositionProps()");
     expect(layout).toContain("getSnapshotChromeMeta(props.snapshot)");
-    expect(layout).toContain("<SiteChrome chromeMeta={chromeMeta}>");
-    expect(siteChrome).toContain("<Header chromeMeta={chromeMeta} />");
+    expect(layout).toContain("await loadFutureAtlas()");
+    expect(layout).toContain("<SiteChrome chromeMeta={chromeMeta} futureAtlasNav={futureAtlas.config.surfacePublished}>");
+    expect(siteChrome).toContain(
+      "<Header chromeMeta={chromeMeta} futureAtlasNav={futureAtlasNav} />",
+    );
+    expect(siteChrome).toContain("<Footer futureAtlasNav={futureAtlasNav} />");
   });
 });

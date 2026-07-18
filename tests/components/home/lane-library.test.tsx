@@ -44,7 +44,7 @@ const copy = {
     "daily-intel": "Daily Intel",
     signal: "Signal",
     "deep-dive": "Deep Dive",
-    "future-map": "次の時代の地図",
+    "future-map": "未来アトラス",
     "mkt12-morning": "朝の12指標",
     "mkt12-weekend": "週末の12指標",
     "event-risk-radar": "Event Risk Radar",
