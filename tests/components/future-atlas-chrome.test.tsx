@@ -62,6 +62,7 @@ vi.mock("@/lib/future-atlas/load", () => ({
 }));
 
 import ArticleDetailPage from "@/app/[locale]/articles/[slug]/page";
+import { ForecastStatusChip } from "@/components/future-atlas/ForecastStatusChip";
 
 const contract = (forecastId: string, overrides: Partial<ContractFixture> = {}): ContractFixture => ({
   forecastId,
@@ -123,6 +124,31 @@ const renderPage = async (slug: string, locale = "ja"): Promise<Document> => {
 };
 
 describe("Future Atlas article chrome", () => {
+  it("uses canonical Japanese and English forecast status labels", () => {
+    const labels = {
+      ja: {
+        open: "観測中",
+        true: "判定: 的中",
+        false: "判定: 外れ",
+        indeterminate: "判定不能",
+        void: "無効",
+      },
+      en: {
+        open: "Monitoring",
+        true: "Resolved: correct",
+        false: "Resolved: incorrect",
+        indeterminate: "Indeterminate",
+        void: "Void",
+      },
+    } as const;
+
+    for (const [locale, expected] of Object.entries(labels) as Array<["ja" | "en", typeof labels.ja]>) {
+      for (const [status, label] of Object.entries(expected) as Array<[keyof typeof expected, string]>) {
+        expect(renderToStaticMarkup(<ForecastStatusChip status={status} locale={locale} />)).toContain(label);
+      }
+    }
+  });
+
   it("renders the manifest-listed forecast contract immediately after the header", async () => {
     setAtlasData();
 
@@ -139,17 +165,27 @@ describe("Future Atlas article chrome", () => {
     expect(block!.textContent).toContain("2027-07-18");
     expect(block!.textContent).toContain("fc-one の判定条件");
     expect(block!.textContent).toContain("基本シナリオ");
-    expect(block!.textContent).toContain("判定待ち");
+    expect(block!.textContent).toContain("観測中");
     expect(block!.compareDocumentPosition(result.querySelector("[data-mdx-body]")!)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 
     const english = await renderPage("forecast-article", "en");
-    expect(english.querySelector("[data-atlas-contract=fc-one]")?.textContent).toContain("Base case");
+    const englishContract = english.querySelector("[data-atlas-contract=fc-one]")?.textContent;
+    expect(englishContract).toContain("Base case");
+    expect(englishContract).toContain("Monitoring");
+    expect(englishContract).not.toContain("観測中");
   });
 
   it("joins every contract for one manifest-listed forecast article", async () => {
     setAtlasData({
       authorshipMode: "ai_draft_human_edited",
-      contracts: [contract("fc-one"), contract("fc-two", { confidence: "high_conviction" })],
+      contracts: [
+        contract("fc-one"),
+        contract("fc-two", {
+          dueAt: "2028-01-20",
+          resolutionCriteria: "fc-two の個別判定条件",
+          confidence: "high_conviction",
+        }),
+      ],
     });
 
     const result = await renderPage("forecast-article");
@@ -159,7 +195,10 @@ describe("Future Atlas article chrome", () => {
     expect(result.querySelector("[data-atlas-contract=fc-one]")?.textContent).toContain("fc-one の凍結主張");
     const second = result.querySelector("[data-atlas-contract=fc-two]");
     expect(second?.textContent).toContain("fc-two の凍結主張");
+    expect(second?.textContent).toContain("2028-01-20");
+    expect(second?.textContent).toContain("fc-two の個別判定条件");
     expect(second?.textContent).toContain("高確信");
+    expect(second?.textContent).toContain("観測中");
   });
 
   it("renders only human authorship for a manifest-listed vision article", async () => {
@@ -171,12 +210,15 @@ describe("Future Atlas article chrome", () => {
     expect(result.querySelector("[data-atlas-contract]")).toBeNull();
   });
 
-  it("adds no chrome to a manifest-unlisted ordinary article", async () => {
+  it("preserves representative ordinary article markup without Future Atlas chrome", async () => {
     setAtlasData({ articleId: "different-atlas-article" });
 
     const result = await renderPage("ordinary-article");
 
     expect(result.querySelector("[data-atlas-authorship]")).toBeNull();
     expect(result.querySelector("[data-atlas-contract]")).toBeNull();
+    expect(result.querySelector("header")?.textContent).toContain("テスト記事");
+    expect(result.querySelector("[data-mdx-body]")?.textContent).toBe("本文");
+    expect(Array.from(result.querySelector("article")!.children, (node) => node.tagName)).toEqual(["HEADER", "DIV"]);
   });
 });

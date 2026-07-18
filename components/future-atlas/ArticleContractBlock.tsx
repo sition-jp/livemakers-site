@@ -55,7 +55,7 @@ export function ArticleContractBlock({
           <p className="font-mono text-xs text-text-tertiary">{contract.forecastId}</p>
           <h2 className="mt-1 text-base font-semibold text-text-primary">{copy.title}</h2>
         </div>
-        <ForecastStatusChip status={state.resolutionStatus} />
+        <ForecastStatusChip status={state.resolutionStatus} locale={language} />
       </div>
       <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
         <div className="sm:col-span-2">

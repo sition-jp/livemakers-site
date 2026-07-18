@@ -271,7 +271,7 @@ describe("Future Atlas routes", () => {
 
     const withdrawn = forecastRow(result, "fc-withdrawn");
     expect(withdrawn.textContent).toContain("撤回しても凍結原文は残る");
-    expect(withdrawn.textContent).toContain("判定待ち");
+    expect(withdrawn.textContent).toContain("観測中");
     expect(withdrawn.textContent).toContain("期日: 2027-08-01");
     expect(withdrawn.textContent).toContain("確信度: リーン");
     expect(auditDetail(withdrawn, "resolution-sources").textContent).toContain("撤回前の一次資料");
@@ -300,7 +300,7 @@ describe("Future Atlas routes", () => {
 
     const successor = forecastRow(result, "fc-successor");
     expect(successor.textContent).toContain("更新版への導線を残す");
-    expect(successor.textContent).toContain("判定待ち");
+    expect(successor.textContent).toContain("観測中");
     expect(successor.textContent).toContain("期日: 2027-08-04");
     expect(successor.textContent).toContain("確信度: ベースケース");
     expect(auditDetail(successor, "resolution-sources").textContent).toContain("更新資料");
