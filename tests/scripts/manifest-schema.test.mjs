@@ -363,3 +363,71 @@ describe("manifest schema v1.3", () => {
     ).toBe(true);
   });
 });
+
+describe("P0-4 interim recovery source roots", () => {
+  const frontmatterRecovery = {
+    ...valid,
+    postId: "2026-07-16_STN_A_009",
+    sourcePath:
+      "08_DOCS/reports/manual_articles/2026-07-16/2026-07-16_STN_A_009_signal-fixture-topic.md",
+    family: "signal",
+    slug: "signal-fixture-topic-2026-07-16",
+    titleJa: "フィクスチャの見出し——回収レコードの型",
+    titleOriginal: "📡 Signal｜フィクスチャの見出し——回収レコードの型",
+    titlePrefix: "📡 Signal｜",
+    publishedAtJst: "2026-07-16T09:30:00+09:00",
+    sourceXUrl: "https://x.com/SITIONjp/status/2077551452260859999",
+    evidenceKind: "frontmatter",
+    primaryUrl: "https://x.com/SITIONjp/status/2077551452260859999",
+    logId: null,
+    logUrl: null,
+    logPublishedAtUtc: null,
+    logTitle: null,
+    titleMatch: null,
+    leadDuplicateLine: "📡 Signal｜フィクスチャの見出し——回収レコードの型",
+    trailingHashtagLine: "#Fixture #SITION",
+  };
+
+  it("accepts sourcePath under 08_DOCS/reports/manual_articles/", () => {
+    expect(() =>
+      ManifestRecordSchema.parse(frontmatterRecovery),
+    ).not.toThrow();
+  });
+
+  it("accepts a future-map record under 08_DOCS/reports/next_era_map/", () => {
+    expect(() =>
+      ManifestRecordSchema.parse({
+        ...frontmatterRecovery,
+        postId: "2026-07-12_STN_ARTICLE_099",
+        sourcePath:
+          "08_DOCS/reports/next_era_map/2026-07-12-fixture-map.md",
+        family: "future-map",
+        slug: "future-map-fixture-map",
+        titleJa: "次の時代の地図 #99：フィクスチャ編",
+        titleOriginal: "次の時代の地図 #99：フィクスチャ編",
+        titleTransform: "verbatim",
+        titlePrefix: null,
+        publishedAtJst: "2026-07-12T09:00:00+09:00",
+        sourceXUrl: "https://x.com/SITIONjp/status/2076079249010999999",
+        primaryUrl: "https://x.com/SITIONjp/status/2076079249010999999",
+        leadDuplicateLine: "次の時代の地図 #99：フィクスチャ編",
+      }),
+    ).not.toThrow();
+  });
+
+  it("still rejects sourcePath outside the allowed roots", () => {
+    expect(() =>
+      ManifestRecordSchema.parse({
+        ...frontmatterRecovery,
+        sourcePath: "08_DOCS/reports/other_dir/2026-07-16_STN_A_009.md",
+      }),
+    ).toThrow();
+    expect(() =>
+      ManifestRecordSchema.parse({
+        ...frontmatterRecovery,
+        sourcePath:
+          "08_DOCS/reports/manual_articles/../../secrets/2026-07-16.md",
+      }),
+    ).toThrow();
+  });
+});

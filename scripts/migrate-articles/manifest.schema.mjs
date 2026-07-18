@@ -15,6 +15,8 @@ export const MANIFEST_FAMILIES = [
 const ALLOWED_SOURCE_ROOTS = [
   "07_DATA/content/drafts/SITIONjp/",
   "08_DOCS/drafts/",
+  "08_DOCS/reports/manual_articles/",
+  "08_DOCS/reports/next_era_map/",
 ];
 const RESERVED_SLUGS = ["today", "series", "archive"];
 const STAGE1_FROM = "2026-06-11";

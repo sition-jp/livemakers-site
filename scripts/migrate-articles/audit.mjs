@@ -19,6 +19,14 @@ import { scanForbidden } from "./scan.mjs";
 
 const MAIN_ROOT = "07_DATA/content/drafts/SITIONjp";
 const DOCS_ROOT = "08_DOCS/drafts";
+// P0-4 interim (P2-SDE-OUT-G1): recovery sources for manual X publishes whose
+// canonical body lives outside the two catalog roots.
+const RECOVERY_ROOTS = [
+  "08_DOCS/reports/manual_articles",
+  "08_DOCS/reports/next_era_map",
+];
+const RECOVERY_NOTES_FILE =
+  /(?:\.editorial-notes|\.research-notes|\.x-article)\.md$/;
 const STAGE1_FROM = "2026-06-11";
 const INTERNAL_H2 =
   /(?:サムネ|編集メモ|Canva|Midjourney|短縮投稿用|公開後|ファクトチェック|クロスポスト|内部メモ|画像生成|Thumbnail|関連(?:記事|投稿))/i;
@@ -66,6 +74,9 @@ function titleFrom(candidate) {
 function familyFrom(candidate) {
   const id = candidate.rawPostId;
   const type = frontmatterValue(candidate.text, "type") ?? "";
+  if (/_STN_ARTICLE_/.test(id) || /^X Article$/i.test(type)) {
+    return "future-map";
+  }
   if (/_STN_(?:B|DI)_/.test(id)) {
     return "daily-intel";
   }
@@ -146,7 +157,30 @@ function collectWorktreeCandidates(sourceRoot) {
         frontmatterValue(candidate.text, "account") === "SITIONjp" ||
         /(?:^|_)STN(?:_|-)/.test(path.basename(candidate.sourcePath)),
     );
-  return { main, docs };
+  const recovery = RECOVERY_ROOTS.flatMap((root) =>
+    walkFiles(path.join(sourceRoot, root)),
+  )
+    .filter(
+      (file) =>
+        file.endsWith(".md") &&
+        !RECOVERY_NOTES_FILE.test(file) &&
+        !/(?:_mj)?_thumbnail_prompts\.md$/.test(file) &&
+        !/_review_notes\.md$/.test(file),
+    )
+    .map((file) => {
+      const sourcePath = path.relative(sourceRoot, file);
+      return candidateFromText(
+        sourceRoot,
+        "worktree",
+        sourcePath,
+        fs.readFileSync(file, "utf8"),
+      );
+    })
+    .filter(
+      (candidate) =>
+        frontmatterValue(candidate.text, "account") === "SITIONjp",
+    );
+  return { main, docs, recovery };
 }
 
 function collectArchiveCandidates(sourceRoot) {
@@ -536,6 +570,7 @@ function evidenceDeclaration(candidate, logIndex, archiveCommit) {
 function topicFromPath(candidate) {
   const stem = manifestStem(candidate)
     .replace(/^\d{4}-\d{2}-\d{2}_STN_(?:A|DD|SDE)_(?:\d{3}_)?/i, "")
+    .replace(/^\d{4}-\d{2}-\d{2}[-_]/, "")
     .replace(/^(?:signal|deep-dive)-/i, "")
     .replace(/_/g, "-")
     .toLowerCase()
@@ -567,6 +602,9 @@ function initialSlug(record, candidate) {
   }
   if (record.family === "mkt12-weekend") {
     return `mkt12-weekend-${sourceDate(candidate)}`;
+  }
+  if (record.family === "future-map") {
+    return `future-map-${topicFromPath(candidate)}`;
   }
   return `event-risk-radar-w${isoWeek(sourceDate(candidate))}`;
 }
@@ -878,13 +916,14 @@ function renderReport(summary, records, unmatchedEvidence) {
 }
 
 export function auditSourceRoot(sourceRoot, options = {}) {
-  const { main, docs } = collectWorktreeCandidates(sourceRoot);
+  const { main, docs, recovery } = collectWorktreeCandidates(sourceRoot);
   const archive = options.includeArchive === false
     ? { commit: null, candidates: [] }
     : collectArchiveCandidates(sourceRoot);
   const selected = selectLogicalCandidates([
     ...main,
     ...docs,
+    ...recovery,
     ...archive.candidates,
   ]);
   const logIndex = loadPublishedLog(sourceRoot);
@@ -896,6 +935,7 @@ export function auditSourceRoot(sourceRoot, options = {}) {
   const summary = summarize(records, {
     main: main.length,
     docs: docs.length,
+    recovery: recovery.length,
     archive: archive.candidates.length,
   }, unmatchedEvidence);
   return {
