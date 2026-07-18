@@ -1,0 +1,21 @@
+name: future-atlas-guards
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  guards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: git fetch origin "${{ github.base_ref }}"
+      - run: node scripts/future-atlas/gate.mjs --base "origin/${{ github.base_ref }}"

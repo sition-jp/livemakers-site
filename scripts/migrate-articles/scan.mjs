@@ -11,7 +11,7 @@ const registry = JSON.parse(
   ),
 );
 
-const matchesTermEdgeAware = (haystackLower, term) => {
+export const matchesTermEdgeAware = (haystackLower, term) => {
   if (/^[a-z0-9_ /-]+$/.test(term)) {
     const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     const lead = /^[a-z0-9]/.test(term) ? "(?<![a-z0-9])" : "";

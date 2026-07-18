@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "forecastId": "fc-example-1",
+  "claim": "2027年6月末までに、日本の主要行1行以上が円建てステーブルコインを商用発行する",
+  "evidenceCutoff": "2026-07-15",
+  "publishedAtJst": "2026-07-17T09:00:00+09:00",
+  "dueAt": "2027-06-30",
+  "resolutionCriteria": "対象主要行の公式発表と商用サービス開始日を確認できれば true",
+  "resolutionSources": ["対象行の公式プレスリリース", "金融庁 公表資料"],
+  "confidence": "base_case",
+  "articleId": "future-map-example",
+  "authorId": "tabira"
+}

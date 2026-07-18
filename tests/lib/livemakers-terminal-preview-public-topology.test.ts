@@ -125,6 +125,9 @@ describe("reader terminal public topology fixture", () => {
       "/articles/series/mkt12-morning",
       "/sessions/2026-07-10-asia-open",
       "/sessions/archive",
+      "/future-atlas",
+      "/future-atlas/ledger",
+      "/future-atlas/methodology",
     ];
     for (const href of allowed) {
       expect(isAllowedPublishedArticleRoute(href), href).toBe(true);
@@ -138,6 +141,8 @@ describe("reader terminal public topology fixture", () => {
       "/articles/series/unknown-series",
       "/sessions/2026-07-10-midnight-run",
       "/terminal-preview",
+      "/future-atlas/unknown",
+      "/ja/future-atlas",
     ];
     for (const href of rejected) {
       expect(isAllowedPublishedArticleRoute(href), href).toBe(false);
@@ -149,5 +154,8 @@ describe("reader terminal public topology fixture", () => {
     expect(isAllowedChromeRoute("/brief")).toBe(true);
     expect(isAllowedChromeRoute("/brief/2026-W26-brief")).toBe(false);
     expect(isAllowedChromeRoute("/terminal-preview")).toBe(false);
+    expect(isAllowedChromeRoute("/future-atlas")).toBe(true);
+    expect(isAllowedChromeRoute("/future-atlas/ledger")).toBe(true);
+    expect(isAllowedChromeRoute("/future-atlas/methodology")).toBe(true);
   });
 });

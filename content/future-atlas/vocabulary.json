@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "forbiddenExactTokens": [
+    "EWS",
+    "LIS",
+    "20 Scenarios",
+    "20シナリオ",
+    "Layer A",
+    "Layer B",
+    "Layer C",
+    "G0_docs_only",
+    "G1_read_only_observation",
+    "Phase 2-A",
+    "EWS Composite",
+    "Convergence",
+    "昇格ゲート",
+    "Signal 昇格"
+  ],
+  "allowedPublicTerms": [
+    "先行指標"
+  ],
+  "notes": "append-only. 正本移行元 = CP specs/2026-07-17-livemakers-future-atlas-vocabulary-translation-table-v1.md"
+}
