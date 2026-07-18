@@ -4,11 +4,14 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
 import { FAMILY_COLORS } from "@/components/home/ArticleRow";
+import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractBlock";
+import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
 import {
   getAllArticles,
   getArticleBody,
   getArticleBySlug,
 } from "@/lib/articles/article-model";
+import { loadFutureAtlas } from "@/lib/future-atlas/load";
 
 export function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.articleId }));
@@ -33,6 +36,11 @@ export default async function ArticleDetailPage({
   const language = locale === "en" ? "en" : "ja";
   const body = getArticleBody(slug, language);
   const title = language === "en" ? (article.titleEn ?? article.titleJa) : article.titleJa;
+  const futureAtlas = await loadFutureAtlas();
+  const manifestEntry = futureAtlas.manifest.entries.find((entry) => entry.articleId === article.articleId);
+  const contracts = manifestEntry?.kind === "forecast"
+    ? futureAtlas.contracts.filter((contract) => contract.articleId === article.articleId)
+    : [];
 
   return (
     <article className="mx-auto w-full max-w-[72ch] px-4 py-10 sm:px-6">
@@ -50,6 +58,21 @@ export default async function ArticleDetailPage({
           {article.publishedLabel}
         </time>
       </header>
+      {manifestEntry && <AuthorshipLine authorshipMode={manifestEntry.authorshipMode} />}
+      {contracts.map((contract) => {
+        const state = futureAtlas.states.get(contract.forecastId);
+        if (!state) {
+          throw new Error(`missing replay state for ${contract.forecastId}`);
+        }
+        return (
+          <ArticleContractBlock
+            key={contract.forecastId}
+            contract={contract}
+            state={state}
+            language={language}
+          />
+        );
+      })}
       <div className="prose prose-neutral max-w-none dark:prose-invert">
         <MDXRemote source={body} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
       </div>
