@@ -62,7 +62,11 @@ export function LedgerTable({
         const successorArticle = successor ? data.articles.get(successor.articleId) : undefined;
 
         return (
-          <article key={state.forecastId} className="border border-border-primary p-4 sm:p-5">
+          <article
+            key={state.forecastId}
+            data-atlas-forecast={state.forecastId}
+            className="border border-border-primary p-4 sm:p-5"
+          >
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <p className="font-mono text-xs text-text-tertiary">{state.forecastId}</p>

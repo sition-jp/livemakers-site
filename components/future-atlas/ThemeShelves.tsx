@@ -25,7 +25,10 @@ export function ThemeShelves({ data }: { data: FutureAtlasData }) {
 
                 return (
                   <article key={entry.articleId} className="border-l-2 border-border-primary pl-3">
-                    <span className="inline-flex rounded-sm border border-border-primary px-1.5 py-0.5 text-[10px] font-bold tracking-label text-text-secondary">
+                    <span
+                      data-atlas-format={entry.kind}
+                      className="inline-flex rounded-sm border border-border-primary px-1.5 py-0.5 text-[10px] font-bold tracking-label text-text-secondary"
+                    >
                       {KIND_LABELS[entry.kind]}
                     </span>
                     <h3 className="mt-2 text-sm font-semibold text-text-primary">

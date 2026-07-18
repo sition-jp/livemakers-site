@@ -3,6 +3,11 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it, vi } from "vitest";
 
+import FutureAtlasLedgerPage from "@/app/[locale]/future-atlas/ledger/page";
+import FutureAtlasPage from "@/app/[locale]/future-atlas/page";
+import { LedgerSummaryBand } from "@/components/future-atlas/LedgerSummaryBand";
+import type { LedgerSummary } from "@/lib/future-atlas/snapshot";
+
 type AtlasData = {
   config: { surfacePublished: boolean };
   manifest: {
@@ -36,9 +41,9 @@ type AtlasData = {
 };
 
 let atlasData: AtlasData;
-const notFound = vi.fn(() => {
+const notFound = vi.hoisted(() => vi.fn(() => {
   throw new Error("not-found");
-});
+}));
 
 vi.mock("next/navigation", () => ({ notFound }));
 vi.mock("next-intl/server", () => ({ setRequestLocale: vi.fn() }));
@@ -58,6 +63,38 @@ const emptyAtlas = (): AtlasData => ({
   states: new Map(),
   articles: new Map(),
 });
+
+const REQUIRED_COUNT_ANCHORS = [
+  "total",
+  "open",
+  "overdue",
+  "true",
+  "false",
+  "indeterminate",
+  "void",
+  "withdrawn",
+] as const;
+
+const asDocument = (html: string): Document => {
+  const result = document.implementation.createHTMLDocument("Future Atlas");
+  result.body.innerHTML = html;
+  return result;
+};
+
+const renderLedger = async (): Promise<Document> =>
+  asDocument(renderToStaticMarkup(await FutureAtlasLedgerPage({ params: Promise.resolve({ locale: "ja" }) })));
+
+const forecastRow = (result: Document, forecastId: string): HTMLElement => {
+  const row = result.querySelector<HTMLElement>(`[data-atlas-forecast="${forecastId}"]`);
+  expect(row, `missing forecast row for ${forecastId}`).not.toBeNull();
+  return row!;
+};
+
+const auditDetail = (row: HTMLElement, audit: string): HTMLElement => {
+  const detail = row.querySelector<HTMLElement>(`[data-atlas-audit="${audit}"]`);
+  expect(detail, `missing ${audit} for ${row.dataset.atlasForecast}`).not.toBeNull();
+  return detail!;
+};
 
 const atlasFixture = (): AtlasData => {
   const contracts: AtlasData["contracts"] = [
@@ -161,97 +198,114 @@ const atlasFixture = (): AtlasData => {
   };
 };
 
-async function importRoute(path: string) {
-  return import(/* @vite-ignore */ path).catch(() => null);
-}
-
 describe("Future Atlas routes", () => {
-  it("provides the T7 surface and always-public ledger route modules", async () => {
-    const [surface, ledger] = await Promise.all([
-      importRoute("../../app/[locale]/future-atlas/page"),
-      importRoute("../../app/[locale]/future-atlas/ledger/page"),
-    ]);
+  it("renders a non-null hit rate as a visible ledger metric", () => {
+    const summary: LedgerSummary = {
+      total: 10,
+      open: 0,
+      overdue: 0,
+      trueCount: 6,
+      falseCount: 4,
+      indeterminate: 0,
+      voidCount: 0,
+      withdrawn: 0,
+      binaryResolved: 10,
+      hitRate: 0.6,
+      nonBinaryResolutionRate: null,
+      warnings: [],
+    };
 
-    expect(surface).not.toBeNull();
-    expect(ledger).not.toBeNull();
+    const html = renderToStaticMarkup(<LedgerSummaryBand summary={summary} />);
+
+    expect(html).toContain('data-atlas-hit-rate="60%"');
+    expect(html).toContain("的中率 60%");
+    expect(html).not.toContain("sr-only");
   });
 
   it("calls notFound only for the unpublished surface", async () => {
     atlasData = emptyAtlas();
     notFound.mockClear();
-    const surface = await importRoute("../../app/[locale]/future-atlas/page");
-    if (!surface) {
-      expect(surface).not.toBeNull();
-      return;
-    }
 
-    await expect(surface.default({ params: Promise.resolve({ locale: "ja" }) })).rejects.toThrow("not-found");
+    await expect(FutureAtlasPage({ params: Promise.resolve({ locale: "ja" }) })).rejects.toThrow("not-found");
     expect(notFound).toHaveBeenCalledOnce();
   });
 
   it("renders an empty ledger with all eight summary anchors while the flag is false", async () => {
     atlasData = emptyAtlas();
     notFound.mockClear();
-    const ledger = await importRoute("../../app/[locale]/future-atlas/ledger/page");
-    if (!ledger) {
-      expect(ledger).not.toBeNull();
-      return;
-    }
 
-    const html = renderToStaticMarkup(await ledger.default({ params: Promise.resolve({ locale: "ja" }) }));
-    for (const count of ["total", "open", "overdue", "true", "false", "indeterminate", "void", "withdrawn"]) {
-      expect(html).toContain(`data-atlas-count="${count}"`);
-    }
-    expect(html).toContain("登録 0 件");
+    const result = await renderLedger();
+    expect(
+      Array.from(result.querySelectorAll<HTMLElement>("[data-atlas-count]"), (anchor) => anchor.dataset.atlasCount),
+    ).toEqual(REQUIRED_COUNT_ANCHORS);
+    expect(result.body.textContent).toContain("登録 0 件");
     expect(notFound).not.toHaveBeenCalled();
   });
 
   it("renders the published surface definition, methodology link, summary, and mixed format shelves", async () => {
     atlasData = atlasFixture();
-    const surface = await importRoute("../../app/[locale]/future-atlas/page");
-    if (!surface) {
-      expect(surface).not.toBeNull();
-      return;
-    }
-
-    const html = renderToStaticMarkup(await surface.default({ params: Promise.resolve({ locale: "ja" }) }));
-    expect(html).toContain("未来を断言せず、検証可能な見立てを台帳として残す");
-    expect(html).toContain('href="/future-atlas/methodology"');
-    expect(html).toContain('data-atlas-count="total"');
-    expect(html).toContain("展望");
-    expect(html).toContain("構造レポート");
-    expect(html).toContain("未来予測");
+    const result = asDocument(renderToStaticMarkup(await FutureAtlasPage({ params: Promise.resolve({ locale: "ja" }) })));
+    expect(result.body.textContent).toContain("未来を断言せず、検証可能な見立てを台帳として残す");
+    expect(result.querySelector('a[href="/future-atlas/methodology"]')?.textContent).toBe("未来予測の作法");
+    expect(result.querySelector("[data-atlas-count=total]")?.textContent).toBe("4");
+    expect(
+      Array.from(result.querySelectorAll<HTMLElement>("[data-atlas-format]"), (chip) => ({
+        format: chip.dataset.atlasFormat,
+        label: chip.textContent,
+      })),
+    ).toEqual([
+      { format: "vision", label: "展望" },
+      { format: "structural_report", label: "構造レポート" },
+      { format: "forecast", label: "未来予測" },
+      { format: "forecast", label: "未来予測" },
+      { format: "forecast", label: "未来予測" },
+      { format: "structural_report", label: "構造レポート" },
+      { format: "forecast", label: "未来予測" },
+    ]);
   });
 
   it("hides hit rate below ten binary resolutions and renders all forecast audit records", async () => {
     atlasData = atlasFixture();
-    const ledger = await importRoute("../../app/[locale]/future-atlas/ledger/page");
-    if (!ledger) {
-      expect(ledger).not.toBeNull();
-      return;
-    }
+    const result = await renderLedger();
+    expect(result.querySelector("[data-atlas-hit-rate]")).toBeNull();
 
-    const html = renderToStaticMarkup(await ledger.default({ params: Promise.resolve({ locale: "ja" }) }));
-    expect(html).not.toContain("的中率");
-    for (const forecastId of ["fc-withdrawn", "fc-true", "fc-correction", "fc-successor"]) {
-      expect(html).toContain(forecastId);
-    }
-    expect(html).toContain("判定: 的中");
-    expect(html).toContain("期日: 2027-08-02");
-    expect(html).toContain("確信度: ベースケース");
-    expect(html).toContain('data-atlas-audit="resolution-sources"');
-    expect(html).toContain("公式発表");
-    expect(html).toContain('data-atlas-audit="withdrawal-reason"');
-    expect(html).toContain("検証可能性が失われたため撤回");
-    expect(html).toContain('data-atlas-audit="resolution-article"');
-    expect(html).toContain("判定記事");
-    expect(html).toContain('data-atlas-audit="resolution-materials"');
-    expect(html).toContain("公式発表の資料");
-    expect(html).toContain('data-atlas-audit="correction-history"');
-    expect(html).toContain("ev-original");
-    expect(html).toContain("ev-correction");
-    expect(html).toContain('data-atlas-audit="superseded-by"');
-    expect(html).toContain("更新版あり");
+    const withdrawn = forecastRow(result, "fc-withdrawn");
+    expect(withdrawn.textContent).toContain("撤回しても凍結原文は残る");
+    expect(withdrawn.textContent).toContain("判定待ち");
+    expect(withdrawn.textContent).toContain("期日: 2027-08-01");
+    expect(withdrawn.textContent).toContain("確信度: リーン");
+    expect(auditDetail(withdrawn, "resolution-sources").textContent).toContain("撤回前の一次資料");
+    expect(auditDetail(withdrawn, "withdrawal-reason").textContent).toContain("検証可能性が失われたため撤回");
+
+    const resolved = forecastRow(result, "fc-true");
+    expect(resolved.textContent).toContain("判定: 的中");
+    expect(resolved.textContent).toContain("期日: 2027-08-02");
+    expect(resolved.textContent).toContain("確信度: ベースケース");
+    expect(resolved.textContent).toContain("真の判定を監査できる");
+    expect(auditDetail(resolved, "resolution-sources").textContent).toContain("公式発表");
+    expect(auditDetail(resolved, "resolution-article").textContent).toContain("判定記事");
+    expect(auditDetail(resolved, "resolution-materials").textContent).toContain("公式発表の資料");
+
+    const corrected = forecastRow(result, "fc-correction");
+    expect(corrected.textContent).toContain("誤判定の訂正履歴を残す");
+    expect(corrected.textContent).toContain("判定: 外れ");
+    expect(corrected.textContent).toContain("期日: 2027-08-03");
+    expect(corrected.textContent).toContain("確信度: 高確信");
+    expect(auditDetail(corrected, "resolution-sources").textContent).toContain("判定時の一次資料");
+    const correctionHistory = auditDetail(corrected, "correction-history").textContent ?? "";
+    const originalResolutionIndex = correctionHistory.indexOf("ev-original");
+    const correctionIndex = correctionHistory.indexOf("ev-correction");
+    expect(originalResolutionIndex).toBeGreaterThanOrEqual(0);
+    expect(correctionIndex).toBeGreaterThan(originalResolutionIndex);
+
+    const successor = forecastRow(result, "fc-successor");
+    expect(successor.textContent).toContain("更新版への導線を残す");
+    expect(successor.textContent).toContain("判定待ち");
+    expect(successor.textContent).toContain("期日: 2027-08-04");
+    expect(successor.textContent).toContain("確信度: ベースケース");
+    expect(auditDetail(successor, "resolution-sources").textContent).toContain("更新資料");
+    const successorLink = auditDetail(successor, "superseded-by").querySelector('a[href="/articles/forecast-true"]');
+    expect(successorLink?.textContent).toBe("記事 fc-true");
   });
 
   it("locks the injected JST overdue boundary at fourteen and fifteen days", async () => {

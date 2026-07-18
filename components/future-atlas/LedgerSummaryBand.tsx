@@ -21,7 +21,12 @@ export function LedgerSummaryBand({ summary }: { summary: LedgerSummary }) {
         </div>
       ))}
       {summary.hitRate !== null && (
-        <p className="sr-only">的中率 {Math.round(summary.hitRate * 100)}%</p>
+        <p
+          data-atlas-hit-rate={`${Math.round(summary.hitRate * 100)}%`}
+          className="bg-bg-primary px-3 py-3 text-sm font-semibold text-text-primary"
+        >
+          的中率 {Math.round(summary.hitRate * 100)}%
+        </p>
       )}
     </section>
   );
