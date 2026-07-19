@@ -25,7 +25,14 @@ export default async function ArticleInflowPreviewDetailPage({ params }: { param
         data-rendered-body-checksum={detail.renderedBodyChecksum}
         className="prose prose-neutral max-w-none dark:prose-invert"
       >
-        <MDXRemote source={detail.body} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
+        <MDXRemote
+          source={detail.body}
+          options={{
+            blockJS: true,
+            blockDangerousJS: true,
+            mdxOptions: { format: "md", remarkPlugins: [remarkGfm] },
+          }}
+        />
       </div>
     </article>
   );

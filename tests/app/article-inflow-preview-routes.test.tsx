@@ -1,7 +1,7 @@
 /* @vitest-environment jsdom */
 import fs from "node:fs";
 import path from "node:path";
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -19,7 +19,9 @@ vi.mock("@/i18n/navigation", () => ({
   ),
 }));
 vi.mock("next-mdx-remote/rsc", () => ({
-  MDXRemote: ({ source }: { source: string }) => <div data-testid="rendered-markdown">{source}</div>,
+  MDXRemote: ({ source, options }: { source: string; options?: { mdxOptions?: { format?: string } } }) => (
+    <div data-testid="rendered-markdown" data-source-format={options?.mdxOptions?.format}>{source}</div>
+  ),
 }));
 vi.mock("remark-gfm", () => ({ default: vi.fn() }));
 vi.mock("@/lib/articles/article-inflow-feed", () => ({
@@ -57,6 +59,16 @@ const articles = [
     declaredBodyChecksum: checksum,
     inflowBody: "# Exact body\n",
   },
+  {
+    articleId: "session-20260719",
+    family: "session",
+    titleJa: "Session article",
+    publishedAtJst: "2026-07-19T06:00:00+09:00",
+    publishedLabel: "07-19 06:00 公開",
+    lanes: [],
+    href: "/article-inflow-preview/articles/session-20260719",
+    source: "repository",
+  },
 ];
 
 beforeEach(() => {
@@ -87,6 +99,13 @@ describe("article inflow preview routes", () => {
     expect(screen.getByTestId("article-inflow-feed-checksum")).toHaveTextContent("8f36d3924040c7aa");
   });
 
+  it("does not offer a rejected series route for a session-family row", async () => {
+    render(await PreviewPage({ params: Promise.resolve({ locale: "ja" }) }));
+    const sessionRow = screen.getByText("Session article").closest("li");
+    expect(sessionRow).not.toBeNull();
+    expect(within(sessionRow!).queryByRole("link", { name: "series preview" })).toBeNull();
+  });
+
   it("filters the shared catalog on a valid series", async () => {
     render(await PreviewSeriesPage({ params: Promise.resolve({ locale: "ja", series: "daily-intel" }) }));
     expect(screen.getByText("Feed article")).toBeInTheDocument();
@@ -99,6 +118,7 @@ describe("article inflow preview routes", () => {
     expect(body).toHaveAttribute("data-declared-body-checksum", checksum);
     expect(body).toHaveAttribute("data-rendered-body-checksum", checksum);
     expect(screen.getByTestId("rendered-markdown")).toHaveTextContent("# Exact body");
+    expect(screen.getByTestId("rendered-markdown")).toHaveAttribute("data-source-format", "md");
   });
 
   it("returns not found for an unknown detail slug", async () => {
@@ -119,5 +139,11 @@ describe("article inflow preview routes", () => {
       const source = fs.readFileSync(path.join(process.cwd(), relativePath), "utf8");
       expect(source).not.toContain("fetch(");
     }
+  });
+
+  it("documents that the flag alone controls route availability", () => {
+    const source = fs.readFileSync(path.join(process.cwd(), "docs/article-inflow-preview.md"), "utf8");
+    expect(source).toContain("The preview flag alone controls route availability.");
+    expect(source).toContain("The feed URL is optional for route availability");
   });
 });

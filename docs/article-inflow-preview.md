@@ -1,9 +1,14 @@
 # Article inflow hidden preview
 
-This internal T7b surface is unavailable unless both variables are configured at runtime:
+The preview flag alone controls route availability. Configure it at runtime:
 
 - `LIVEMAKERS_ARTICLE_INFLOW_PREVIEW_ENABLED=true`
+
+The feed URL is optional for route availability:
+
 - `LIVEMAKERS_ARTICLE_INFLOW_FEED_URL=<versioned JSON feed URL>`
+
+Without the feed URL, the enabled preview remains repository-only.
 
 The only network reader is `lib/articles/article-inflow-feed.ts`. Any fetch, JSON, schema, validator, duplicate-slug, or body-checksum failure returns the repository-only catalog. Repository slugs win over matching feed slugs.
 

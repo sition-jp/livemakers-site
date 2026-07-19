@@ -1,5 +1,7 @@
 import "server-only";
 
+import { compileSync } from "@mdx-js/mdx";
+
 import {
   getAllArticles,
   getArticleBody,
@@ -21,6 +23,113 @@ export interface ArticleInflowPreviewDetail {
   body: string;
   declaredBodyChecksum: string;
   renderedBodyChecksum: string;
+}
+
+type AstNode = {
+  type?: string;
+  children?: AstNode[];
+  data?: { estree?: unknown };
+  [key: string]: unknown;
+};
+
+class UnsafeArticleInflowBodyError extends Error {}
+
+function visitAst(node: AstNode, visitor: (node: AstNode) => void): void {
+  visitor(node);
+  for (const child of node.children ?? []) visitAst(child, visitor);
+}
+
+function isAstNode(value: unknown): value is AstNode {
+  return typeof value === "object" && value !== null && typeof (value as AstNode).type === "string";
+}
+
+function isPassiveEstree(node: unknown): boolean {
+  if (!isAstNode(node)) return false;
+  switch (node.type) {
+    case "Program":
+      return Array.isArray(node.body) && node.body.every(isPassiveEstree);
+    case "ExpressionStatement":
+      return isPassiveEstree(node.expression);
+    case "Identifier":
+    case "Literal":
+    case "TemplateElement":
+      return true;
+    case "BinaryExpression":
+    case "LogicalExpression":
+      return isPassiveEstree(node.left) && isPassiveEstree(node.right);
+    case "UnaryExpression":
+      return node.operator !== "delete" && isPassiveEstree(node.argument);
+    case "ConditionalExpression":
+      return isPassiveEstree(node.test)
+        && isPassiveEstree(node.consequent)
+        && isPassiveEstree(node.alternate);
+    case "SequenceExpression":
+      return Array.isArray(node.expressions) && node.expressions.every(isPassiveEstree);
+    case "TemplateLiteral":
+      return Array.isArray(node.quasis)
+        && node.quasis.every(isPassiveEstree)
+        && Array.isArray(node.expressions)
+        && node.expressions.every(isPassiveEstree);
+    case "ArrayExpression":
+      return Array.isArray(node.elements)
+        && node.elements.every((element) => element === null || isPassiveEstree(element));
+    case "ObjectExpression":
+      return Array.isArray(node.properties) && node.properties.every(isPassiveEstree);
+    case "Property":
+      return node.kind === "init"
+        && node.method !== true
+        && isPassiveEstree(node.key)
+        && isPassiveEstree(node.value);
+    case "ParenthesizedExpression":
+      return isPassiveEstree(node.expression);
+    default:
+      return false;
+  }
+}
+
+function rejectRawHtml() {
+  return (tree: AstNode) => {
+    visitAst(tree, (node) => {
+      if (node.type === "html") throw new UnsafeArticleInflowBodyError("raw HTML");
+    });
+  };
+}
+
+function rejectExecutableMdx() {
+  return (tree: AstNode) => {
+    visitAst(tree, (node) => {
+      if (
+        node.type === "mdxjsEsm"
+        || node.type === "mdxJsxFlowElement"
+        || node.type === "mdxJsxTextElement"
+      ) {
+        throw new UnsafeArticleInflowBodyError("MDX JSX or ESM");
+      }
+      if (
+        (node.type === "mdxFlowExpression" || node.type === "mdxTextExpression")
+        && !isPassiveEstree(node.data?.estree)
+      ) {
+        throw new UnsafeArticleInflowBodyError("executable MDX expression");
+      }
+    });
+  };
+}
+
+export function isSafeArticleInflowBody(body: string): boolean {
+  try {
+    compileSync(body, { format: "md", remarkPlugins: [rejectRawHtml] });
+  } catch {
+    return false;
+  }
+
+  try {
+    compileSync(body, { format: "mdx", remarkPlugins: [rejectExecutableMdx] });
+  } catch (error) {
+    // Invalid MDX syntax is inert in the Markdown-only renderer. Explicitly
+    // unsafe AST nodes still fail closed through the sentinel above.
+    return !(error instanceof UnsafeArticleInflowBodyError);
+  }
+  return true;
 }
 
 export function isArticleInflowPreviewEnabled(): boolean {
@@ -45,6 +154,11 @@ export async function fetchArticleInflowFeed(
     const feed = parseArticleInflowFeed(await response.json());
     if (!feed) {
       console.warn("[article-inflow] feed contract rejected; using repository-only content");
+      return null;
+    }
+    if (feed.articles.some((article) => !isSafeArticleInflowBody(article.body))) {
+      console.warn("[article-inflow] feed body safety rejected; using repository-only content");
+      return null;
     }
     return feed;
   } catch {

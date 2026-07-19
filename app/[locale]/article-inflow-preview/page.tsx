@@ -2,6 +2,7 @@ import { setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 import { loadArticleInflowPreviewCatalog } from "@/lib/articles/article-inflow-feed";
+import { SERIES_SLUGS, type SeriesSlug } from "@/lib/articles/article-model";
 
 export default async function ArticleInflowPreviewPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -22,9 +23,11 @@ export default async function ArticleInflowPreviewPage({ params }: { params: Pro
             <Link href={article.href} className="mt-1 block font-semibold text-text-primary underline underline-offset-4">
               {article.titleJa}
             </Link>
-            <Link href={`/article-inflow-preview/series/${article.family}`} className="mt-1 inline-block text-xs text-text-secondary">
-              series preview
-            </Link>
+            {SERIES_SLUGS.includes(article.family as SeriesSlug) ? (
+              <Link href={`/article-inflow-preview/series/${article.family}`} className="mt-1 inline-block text-xs text-text-secondary">
+                series preview
+              </Link>
+            ) : null}
           </li>
         ))}
       </ul>
