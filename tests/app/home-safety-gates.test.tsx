@@ -95,6 +95,7 @@ function reviewedProps() {
   if (!source) throw new Error("valid reviewed fixture did not map");
   return buildHomeCompositionProps({
     source,
+    now: new Date("2026-07-12T08:00:00+09:00"),
     contentDir: TEST_CONTENT_DIR,
     sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
   });
@@ -296,8 +297,22 @@ describe("B+ safety regression gates (page-wide, fail-closed)", () => {
     expect(strip.textContent).toContain("07:58 JST");
     expect(reviewed.pageProvenance).toEqual(reviewed.laneProvenance.rwa);
     expect(container.textContent).toContain("Asia Open");
-    expect(container.textContent).toContain("2026-07-12");
-    expect(container.textContent).toContain("07:30 JST");
+    expect(container.textContent).toContain("2026-07-12 07:30 JST");
+    expect(
+      container.querySelector('[data-ledger-group="mkt12"]')?.textContent,
+    ).toContain("2026-07-12 07:30 JST");
+    expect(
+      container.querySelector('[data-ledger-group="lane-macro"]')?.textContent,
+    ).toContain("2026-07-12 07:30 JST");
+    expect(
+      container.querySelector('[data-lead-module="focus"]')?.textContent,
+    ).toContain("2026-07-12 07:30 JST");
+    expect(container.textContent).not.toContain(
+      "2026-07-12T07:30:00+09:00",
+    );
+    expect(
+      container.querySelector('[data-ledger-group="lane-rwa"]')?.textContent,
+    ).toContain("07:58 JST");
     expect(
       findLiveTokenViolations(collectScannableText(container)),
     ).toEqual([]);

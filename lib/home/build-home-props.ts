@@ -14,7 +14,10 @@ import {
   selectMostConservativeProvenance,
   type WindowProvenance,
 } from "@/lib/provenance/window-provenance";
-import type { ReviewedHomeData } from "@/lib/terminal/live-market-feed";
+import {
+  formatAsOfLabel,
+  type ReviewedHomeData,
+} from "@/lib/terminal/live-market-feed";
 import type { MarketTickerItem } from "@/lib/terminal/market-lanes";
 import {
   CORE_12_INSTRUMENTS,
@@ -36,10 +39,13 @@ import { normalizeHomeInput, selectHomeSlots } from "./select-home-slots";
 
 export interface BuildHomeCompositionArgs {
   today?: string;
+  now?: Date;
   contentDir?: string;
   source?: ReviewedHomeData | null;
   sessionRecords?: SessionRecord[];
 }
+
+const REVIEWED_HOME_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
 function cellMap(cells: MarketSnapshotCell[]) {
   return new Map(cells.map((cell) => [cell.instrumentId, cell]));
@@ -73,10 +79,20 @@ function reviewedSourceMatchesSidecar(
   );
 }
 
+function reviewedSourceIsFresh(source: ReviewedHomeData, now: Date): boolean {
+  const sourceMs = Date.parse(source.asOfJst);
+  const nowMs = now.getTime();
+  if (!Number.isFinite(sourceMs) || !Number.isFinite(nowMs)) return false;
+  const ageMs = nowMs - sourceMs;
+  return ageMs >= 0 && ageMs <= REVIEWED_HOME_MAX_AGE_MS;
+}
+
 function buildReviewedSnapshot(
   source: ReviewedHomeData,
   fixture: MarketSnapshot,
 ): MarketSnapshot {
+  const asOfLabel = formatAsOfLabel(source.asOfJst);
+  if (!asOfLabel) throw new Error("reviewed home asOfJst is not displayable");
   const fixtureByInstrument = cellMap(fixture.cells);
   const rwaCells = LANE_ROWS.rwa.map(({ instrumentId }) => {
     const cell = fixtureByInstrument.get(instrumentId);
@@ -87,7 +103,7 @@ function buildReviewedSnapshot(
     packetId: source.marketPacketId,
     pagePacketId: source.pagePacketId,
     asOfJst: source.asOfJst,
-    asOfLabel: `${source.asOfJst.slice(11, 16)} JST`,
+    asOfLabel,
     dataDate: source.dataDate,
     cells: [...source.cells, ...rwaCells],
   });
@@ -96,11 +112,15 @@ function buildReviewedSnapshot(
 function seriesProvenance(
   series: NonNullable<ReturnType<typeof buildFocusSeries>>,
 ): WindowProvenance {
+  const asOfJst = series.points.at(-1)!.atJst;
   return makeWindowProvenance({
     packetId: series.seriesPacketId,
     sourceMode: series.sourceMode,
     reviewStatus: series.reviewStatus,
-    asOfJst: series.points.at(-1)!.atJst,
+    asOfJst:
+      series.sourceMode === "reviewed_live"
+        ? (formatAsOfLabel(asOfJst) ?? asOfJst)
+        : asOfJst,
   } as WindowProvenance);
 }
 
@@ -110,8 +130,11 @@ export function buildHomeCompositionProps(
   assertRadarObservationContract(RADAR_OBSERVATIONS);
   const fixtureSnapshot = loadMarketSnapshot();
   const sessionRecords = args.sessionRecords ?? getAllSessionRecords();
+  const now = args.now ?? new Date();
   const reviewedSource =
-    args.source && reviewedSourceMatchesSidecar(args.source, sessionRecords)
+    args.source &&
+    reviewedSourceIsFresh(args.source, now) &&
+    reviewedSourceMatchesSidecar(args.source, sessionRecords)
       ? args.source
       : null;
   const snapshot = reviewedSource
