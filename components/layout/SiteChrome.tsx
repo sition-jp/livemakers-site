@@ -5,8 +5,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
 
-function isTerminalPreviewPath(pathname: string): boolean {
-  return /^\/(?:en\/|ja\/)?terminal-preview\/?$/.test(pathname);
+function isHiddenPreviewPath(pathname: string): boolean {
+  return /^\/(?:en\/|ja\/)?terminal-preview\/?$/.test(pathname)
+    || /^\/(?:en\/|ja\/)?article-inflow-preview(?:\/|$)/.test(pathname);
 }
 
 export function SiteChrome({
@@ -20,7 +21,7 @@ export function SiteChrome({
 }) {
   const pathname = usePathname();
 
-  if (isTerminalPreviewPath(pathname)) {
+  if (isHiddenPreviewPath(pathname)) {
     return <main>{children}</main>;
   }
 
