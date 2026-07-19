@@ -4,6 +4,7 @@ import {
   makeWindowProvenance,
   type WindowProvenance,
 } from "@/lib/provenance/window-provenance";
+import { formatAsOfLabel } from "@/lib/terminal/live-market-feed";
 import {
   WindowProvenanceRow,
   type ProvenanceLabels,
@@ -106,7 +107,11 @@ export function SessionFocusChart({
                   packetId: item.seriesPacketId,
                   sourceMode: item.sourceMode,
                   reviewStatus: item.reviewStatus,
-                  asOfJst: item.points.at(-1)!.atJst,
+                  asOfJst:
+                    item.sourceMode === "reviewed_live"
+                      ? (formatAsOfLabel(item.points.at(-1)!.atJst) ??
+                        item.points.at(-1)!.atJst)
+                      : item.points.at(-1)!.atJst,
                 } as WindowProvenance)}
                 labels={copy.provenance}
               />

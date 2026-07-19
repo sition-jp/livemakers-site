@@ -4,6 +4,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import { loadMarketSnapshot } from "@/lib/home/market-snapshot";
 import { getSessionRecord, type SessionRecord } from "@/lib/sessions/session-content";
 import { mapTerminalFeed, type ReviewedHomeData } from "@/lib/terminal/live-market-feed";
 
@@ -14,6 +15,11 @@ const TEST_CONTENT_DIR = path.join(
   "content",
   "articles",
 );
+const REVIEWED_AS_OF = "2026-07-12T07:30:00+09:00";
+
+function nowAt(value: string): Date {
+  return new Date(value);
+}
 
 function reviewedHomeSource(): ReviewedHomeData {
   const payload = JSON.parse(
@@ -51,6 +57,7 @@ describe("G43 reviewed home source resolution", () => {
   it("uses one coherent reviewed bundle for snapshot, series and provenance", () => {
     const props = buildHomeCompositionProps({
       source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
       contentDir: TEST_CONTENT_DIR,
       sessionRecords: [],
     });
@@ -92,6 +99,7 @@ describe("G43 reviewed home source resolution", () => {
   it("renders feed focus when the old fixture session is demoted by dataDate", () => {
     const props = buildHomeCompositionProps({
       source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
       sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
     });
     expect(props.today).toBe("2026-07-12");
@@ -103,6 +111,7 @@ describe("G43 reviewed home source resolution", () => {
   it("falls back the whole bundle when a same-date live sidecar disagrees", () => {
     const props = buildHomeCompositionProps({
       source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
       sessionRecords: [mismatchedSameDateLive()],
     });
     expect(props.today).toBe("2026-07-10");
@@ -112,5 +121,101 @@ describe("G43 reviewed home source resolution", () => {
         (series) => series === null || series.sourceMode === "fixture_only",
       ),
     ).toBe(true);
+  });
+
+  it("accepts a reviewed snapshot exactly 24 hours old", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt("2026-07-13T07:30:00+09:00"),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+    });
+
+    expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
+    expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
+  });
+
+  it("accepts a second-precision reviewed snapshot through 24 hours and 999 milliseconds", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt("2026-07-13T07:30:00.999+09:00"),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+    });
+
+    expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
+    expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
+  });
+
+  it("rejects a reviewed snapshot older than 24 hours", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt("2026-07-13T07:30:01+09:00"),
+    });
+
+    expect(props.snapshot).toEqual(loadMarketSnapshot());
+    expect(props.mkt12Provenance.sourceMode).toBe("fixture_only");
+  });
+
+  it("rejects a future-dated reviewed snapshot", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt("2026-07-12T07:29:59+09:00"),
+    });
+
+    expect(props.snapshot).toEqual(loadMarketSnapshot());
+    expect(props.mkt12Provenance.sourceMode).toBe("fixture_only");
+  });
+
+  it("falls back without reviewed focus or provenance leakage and keeps fixture windows usable", () => {
+    const source = reviewedHomeSource();
+    const props = buildHomeCompositionProps({
+      source,
+      now: nowAt("2026-07-13T07:30:01+09:00"),
+    });
+
+    expect(props.coreCells).toHaveLength(12);
+    expect(props.laneCells.macro.length).toBeGreaterThan(0);
+    expect(props.laneCells.crypto.length).toBeGreaterThan(0);
+    expect(props.laneCells.rwa.length).toBeGreaterThan(0);
+    expect(props.mkt12Provenance).toMatchObject({
+      sourceMode: "fixture_only",
+      reviewStatus: "reviewed_fixture",
+    });
+    expect(props.laneProvenance.macro).toMatchObject({
+      sourceMode: "fixture_only",
+      reviewStatus: "reviewed_fixture",
+    });
+    expect(props.focusSeries.filter(Boolean).length).toBeGreaterThan(0);
+    expect(
+      props.focusSeries.every(
+        (series) => series === null || series.sourceMode === "fixture_only",
+      ),
+    ).toBe(true);
+    expect(
+      props.focusSeries.some((series) =>
+        source.focusSession.series.some(
+          (reviewed) => reviewed.seriesPacketId === series?.seriesPacketId,
+        ),
+      ),
+    ).toBe(false);
+  });
+
+  it("surfaces a reviewed snapshot with an explicit JST calendar date and time", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+    });
+
+    expect(props.snapshot.asOfLabel).toBe("2026-07-12 07:30 JST");
+    expect(props.asOfLabel).toBe("2026-07-12 07:30 JST");
+    expect(props.mkt12Provenance.asOfJst).toBe(
+      "2026-07-12 07:30 JST",
+    );
+    expect(props.laneProvenance.macro.asOfJst).toBe(
+      "2026-07-12 07:30 JST",
+    );
   });
 });

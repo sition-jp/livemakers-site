@@ -89,10 +89,15 @@ export const SnapshotSchema = z
     }
 
     const hourMinute = snapshot.asOfJst.slice(11, 16);
-    if (snapshot.asOfLabel !== `${hourMinute} JST`) {
+    const allowedLabels = [
+      `${hourMinute} JST`,
+      `${snapshot.dataDate} ${hourMinute} JST`,
+    ];
+    if (!allowedLabels.includes(snapshot.asOfLabel)) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "asOfLabel must equal '<hh:mm> JST' of asOfJst",
+        message:
+          "asOfLabel must equal '<hh:mm> JST' or '<yyyy-mm-dd> <hh:mm> JST' of asOfJst",
       });
     }
 
