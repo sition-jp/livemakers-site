@@ -43,6 +43,22 @@ describe("SiteChrome", () => {
     expect(screen.queryByTestId("site-footer")).toBeNull();
   });
 
+  it("removes shared site chrome from nested article inflow preview routes", () => {
+    mockedUsePathname.mockReturnValue(
+      "/ja/article-inflow-preview/articles/daily-intel-20260719-48cea1b8",
+    );
+
+    render(
+      <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={false}>
+        <div>Inflow Preview</div>
+      </SiteChrome>,
+    );
+
+    expect(screen.getByText("Inflow Preview")).toBeInTheDocument();
+    expect(screen.queryByTestId("site-header")).toBeNull();
+    expect(screen.queryByTestId("site-footer")).toBeNull();
+  });
+
   it("keeps shared site chrome for normal site routes", () => {
     mockedUsePathname.mockReturnValue("/ja/brief");
 
