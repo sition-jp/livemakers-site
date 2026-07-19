@@ -81,8 +81,9 @@ function reviewedSourceMatchesSidecar(
 
 function reviewedSourceIsFresh(source: ReviewedHomeData, now: Date): boolean {
   const sourceMs = Date.parse(source.asOfJst);
-  const nowMs = now.getTime();
-  if (!Number.isFinite(sourceMs) || !Number.isFinite(nowMs)) return false;
+  const rawNowMs = now.getTime();
+  if (!Number.isFinite(sourceMs) || !Number.isFinite(rawNowMs)) return false;
+  const nowMs = Math.floor(rawNowMs / 1000) * 1000;
   const ageMs = nowMs - sourceMs;
   return ageMs >= 0 && ageMs <= REVIEWED_HOME_MAX_AGE_MS;
 }

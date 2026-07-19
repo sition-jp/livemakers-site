@@ -135,6 +135,18 @@ describe("G43 reviewed home source resolution", () => {
     expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
   });
 
+  it("accepts a second-precision reviewed snapshot through 24 hours and 999 milliseconds", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt("2026-07-13T07:30:00.999+09:00"),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+    });
+
+    expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
+    expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
+  });
+
   it("rejects a reviewed snapshot older than 24 hours", () => {
     const props = buildHomeCompositionProps({
       source: reviewedHomeSource(),
