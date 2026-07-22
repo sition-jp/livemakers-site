@@ -67,6 +67,8 @@ export interface ArticleInflowPreviewCatalog {
   articles: ArticleInflowPreviewArticle[];
   feedChecksum: string | null;
 }
+export type ArticleInflowPublicArticle = ArticleInflowPreviewArticle;
+export type ArticleInflowPublicCatalog = ArticleInflowPreviewCatalog;
 
 export function calculateArticleBodyChecksum(body: string): string {
   return createHash("sha256").update(body, "utf8").digest("hex");
@@ -85,7 +87,10 @@ function toJstParts(value: string) {
   return { date, time, iso: `${date}T${time}:${pad(jst.getUTCSeconds())}+09:00` };
 }
 
-function mapInflowArticle(article: ArticleInflowFeed["articles"][number]): ArticleInflowPreviewArticle {
+function mapInflowArticle(
+  article: ArticleInflowFeed["articles"][number],
+  hrefBase: string,
+): ArticleInflowPreviewArticle {
   const jst = toJstParts(article.published_at);
   const parsed = ArticleMetaSchema.parse({
     articleId: article.slug,
@@ -99,10 +104,32 @@ function mapInflowArticle(article: ArticleInflowFeed["articles"][number]): Artic
   });
   return {
     ...parsed,
-    href: `/article-inflow-preview/articles/${article.slug}`,
+    href: `${hrefBase}/${article.slug}`,
     source: "inflow",
     declaredBodyChecksum: article.body_checksum,
     inflowBody: article.body,
+  };
+}
+
+function buildArticleInflowCatalog(
+  repositoryArticles: ArticleMeta[],
+  feed: ArticleInflowFeed | null,
+  hrefBase: string,
+): ArticleInflowPreviewCatalog {
+  const repositorySlugs = new Set(repositoryArticles.map((article) => article.articleId));
+  const repository = repositoryArticles.map((article) => ({
+    ...article,
+    href: `${hrefBase}/${article.articleId}`,
+    source: "repository" as const,
+  }));
+  const inflow = (feed?.articles ?? [])
+    .filter((article) => !repositorySlugs.has(article.slug))
+    .map((article) => mapInflowArticle(article, hrefBase));
+  return {
+    articles: [...repository, ...inflow].sort((left, right) =>
+      right.publishedAtJst.localeCompare(left.publishedAtJst),
+    ),
+    feedChecksum: feed?.feed_checksum ?? null,
   };
 }
 
@@ -110,19 +137,16 @@ export function buildArticleInflowPreviewCatalog(
   repositoryArticles: ArticleMeta[],
   feed: ArticleInflowFeed | null,
 ): ArticleInflowPreviewCatalog {
-  const repositorySlugs = new Set(repositoryArticles.map((article) => article.articleId));
-  const repository = repositoryArticles.map((article) => ({
-    ...article,
-    href: `/article-inflow-preview/articles/${article.articleId}`,
-    source: "repository" as const,
-  }));
-  const inflow = (feed?.articles ?? [])
-    .filter((article) => !repositorySlugs.has(article.slug))
-    .map(mapInflowArticle);
-  return {
-    articles: [...repository, ...inflow].sort((left, right) =>
-      right.publishedAtJst.localeCompare(left.publishedAtJst),
-    ),
-    feedChecksum: feed?.feed_checksum ?? null,
-  };
+  return buildArticleInflowCatalog(
+    repositoryArticles,
+    feed,
+    "/article-inflow-preview/articles",
+  );
+}
+
+export function buildArticleInflowPublicCatalog(
+  repositoryArticles: ArticleMeta[],
+  feed: ArticleInflowFeed | null,
+): ArticleInflowPublicCatalog {
+  return buildArticleInflowCatalog(repositoryArticles, feed, "/articles");
 }

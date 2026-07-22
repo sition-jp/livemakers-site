@@ -1,8 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ArticleRow } from "@/components/home/ArticleRow";
-import { getAllArticles } from "@/lib/articles/article-model";
+import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { loadMarketSnapshot } from "@/lib/home/market-snapshot";
+
+export const revalidate = 300;
 
 const LATEST_FALLBACK_COUNT = 5;
 
@@ -14,7 +16,7 @@ export default async function TodayArticlesPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("articles");
-  const articles = getAllArticles();
+  const { articles } = await loadPublicArticleInflowCatalog();
   const today = loadMarketSnapshot().dataDate;
   const todaysArticles = articles.filter((article) =>
     article.publishedAtJst.startsWith(today),

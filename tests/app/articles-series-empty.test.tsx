@@ -40,6 +40,13 @@ vi.mock("@/lib/articles/article-model", async (importOriginal) => {
   return { ...original, getAllArticles: () => [] };
 });
 
+vi.mock("@/lib/articles/article-inflow-feed", () => ({
+  loadPublicArticleInflowCatalog: vi.fn(async () => ({
+    articles: [],
+    feedChecksum: null,
+  })),
+}));
+
 vi.mock("@/lib/future-atlas/load", () => ({
   loadFutureAtlas: vi.fn(async () => ({ config: atlasConfig })),
 }));
