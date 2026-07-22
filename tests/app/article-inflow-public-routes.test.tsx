@@ -100,6 +100,7 @@ describe("public article inflow routes", () => {
 
     const body = screen.getByTestId("article-inflow-public-body");
     expect(body).toHaveAttribute("data-article-source", "inflow");
+    expect(body).toHaveAttribute("data-article-slug", "daily-intel-20260719-48cea1b8");
     expect(body).toHaveAttribute("data-declared-body-checksum", checksum);
     expect(body).toHaveAttribute("data-rendered-body-checksum", checksum);
     expect(screen.getByTestId("rendered-markdown")).toHaveTextContent("# Exact body");

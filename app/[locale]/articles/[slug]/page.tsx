@@ -72,6 +72,7 @@ export default async function ArticleDetailPage({
       <div
         data-testid="article-inflow-public-body"
         data-article-source={article.source}
+        data-article-slug={article.articleId}
         data-declared-body-checksum={detail.declaredBodyChecksum}
         data-rendered-body-checksum={detail.renderedBodyChecksum}
         className="prose prose-neutral max-w-none dark:prose-invert"

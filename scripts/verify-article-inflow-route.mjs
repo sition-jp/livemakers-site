@@ -1,24 +1,48 @@
 #!/usr/bin/env node
 
-import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
-const SCHEMA_VERSION = "livemakers_article_inflow_feed_v0";
-const CHECKSUM = /^[0-9a-f]{64}$/;
+import {
+  ARTICLE_INFLOW_SCHEMA_VERSION,
+  calculateArticleBodyChecksum,
+  parseArticleInflowFeed,
+} from "../lib/articles/article-inflow-validation.mjs";
 
-function sha256(body) {
-  return createHash("sha256").update(body, "utf8").digest("hex");
-}
+const CHECKSUM = /^[0-9a-f]{64}$/;
 
 function readSingleAttribute(html, name) {
   const matches = [...html.matchAll(new RegExp(`${name}=["']([^"']*)["']`, "g"))];
   return matches.length === 1 ? matches[0][1] : null;
 }
 
+function routeIdentity(value) {
+  try {
+    const url = new URL(value);
+    return `${url.origin}${url.pathname}`;
+  } catch {
+    return null;
+  }
+}
+
+function isCanonicalRouteUrl(value, slug) {
+  try {
+    const url = new URL(value);
+    return url.origin === "https://livemakers.com"
+      && (url.pathname === `/ja/articles/${slug}` || url.pathname === `/en/articles/${slug}`)
+      && url.search === ""
+      && url.hash === "";
+  } catch {
+    return false;
+  }
+}
+
 export function verifyArticleInflowRouteEvidence({
   feed,
   slug,
   routeStatus,
+  routeUrl,
+  finalRouteUrl,
+  routeRedirected,
   routeHtml,
   feedStatus = 200,
 }) {
@@ -29,9 +53,19 @@ export function verifyArticleInflowRouteEvidence({
 
   if (feedStatus !== 200) errors.push("feed_http_status");
   if (routeStatus !== 200) errors.push("route_http_status");
-  if (schemaVersion !== SCHEMA_VERSION) errors.push("feed_schema_version");
+  if (!isCanonicalRouteUrl(routeUrl, slug)) errors.push("canonical_route_url");
+  if (
+    routeIdentity(finalRouteUrl) === null
+    || routeIdentity(finalRouteUrl) !== routeIdentity(routeUrl)
+  ) {
+    errors.push("final_route_url");
+  }
+  if (routeRedirected !== false) errors.push("route_redirect");
+  if (schemaVersion !== ARTICLE_INFLOW_SCHEMA_VERSION) errors.push("feed_schema_version");
   if (environment !== "production") errors.push("feed_environment");
 
+  const validatedFeed = parseArticleInflowFeed(feed);
+  if (!validatedFeed) errors.push("feed_contract");
   const articles = Array.isArray(feed?.articles) ? feed.articles : [];
   const matches = articles.filter((article) => article?.slug === slug);
   if (matches.length !== 1) errors.push("target_article_count");
@@ -40,7 +74,7 @@ export function verifyArticleInflowRouteEvidence({
   const declaredBodyChecksum = typeof article?.body_checksum === "string"
     ? article.body_checksum
     : null;
-  const exactBodyChecksum = body === null ? null : sha256(body);
+  const exactBodyChecksum = body === null ? null : calculateArticleBodyChecksum(body);
 
   if (!CHECKSUM.test(declaredBodyChecksum ?? "")) {
     errors.push("feed_declared_checksum_format");
@@ -54,6 +88,7 @@ export function verifyArticleInflowRouteEvidence({
 
   const html = typeof routeHtml === "string" ? routeHtml : "";
   const pageSource = readSingleAttribute(html, "data-article-source");
+  const pageArticleSlug = readSingleAttribute(html, "data-article-slug");
   const pageDeclaredBodyChecksum = readSingleAttribute(
     html,
     "data-declared-body-checksum",
@@ -64,6 +99,7 @@ export function verifyArticleInflowRouteEvidence({
   );
 
   if (pageSource !== "inflow") errors.push("page_source");
+  if (pageArticleSlug !== slug) errors.push("page_article_slug");
   if (
     !CHECKSUM.test(pageDeclaredBodyChecksum ?? "")
     || pageDeclaredBodyChecksum !== declaredBodyChecksum
@@ -84,9 +120,13 @@ export function verifyArticleInflowRouteEvidence({
     errors,
     slug,
     route_http_status: routeStatus,
+    requested_route_url: routeUrl,
+    final_route_url: finalRouteUrl,
+    route_redirected: routeRedirected,
     schema_version: schemaVersion,
     environment,
     feed_checksum: feedChecksum,
+    page_article_slug: pageArticleSlug,
     declared_body_checksum: declaredBodyChecksum,
     page_declared_body_checksum: pageDeclaredBodyChecksum,
     rendered_body_checksum: renderedBodyChecksum,
@@ -125,6 +165,7 @@ async function main() {
     fetch(cacheBusted(routeUrl, nonce), {
       headers: { Accept: "text/html" },
       cache: "no-store",
+      redirect: "manual",
     }),
   ]);
   let feed = null;
@@ -138,6 +179,9 @@ async function main() {
     slug,
     feedStatus: feedResponse.status,
     routeStatus: routeResponse.status,
+    routeUrl,
+    finalRouteUrl: routeResponse.url,
+    routeRedirected: routeResponse.redirected,
     routeHtml: await routeResponse.text(),
   });
   process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);

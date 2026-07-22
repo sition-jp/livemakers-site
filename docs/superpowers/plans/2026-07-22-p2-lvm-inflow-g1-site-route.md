@@ -86,3 +86,12 @@
 6. Measure a generic canonical repository route to prove deployment health. Do not fabricate target evidence while the target is absent from Production feed.
 7. When the authorized Production sequence makes the named target available, run the verifier and retain HTTP 200 plus declared/rendered/exact-body checksum evidence.
 8. Report that first Production emission remains stopped until Acceptance (a), (b), and (c) are all satisfied and the PR #89-equivalent integrated SDE main SHA is received.
+
+## Independent review follow-up
+
+Claude Code Opus was unavailable because its token allocation was exhausted. A separate-context Codex reviewer inspected `e9a89d..8c407e1` read-only and returned `P1=0 / P2=2 / P3=0`:
+
+1. Bind verifier evidence to the canonical requested URL, non-redirected final URL, and page-declared article slug.
+2. Make the site loader and independent verifier use the same complete feed schema/checksum/duplicate/body-safety validator.
+
+Both findings require RED tests, targeted/full regression verification, and a fresh independent rereview before merge.

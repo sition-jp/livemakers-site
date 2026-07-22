@@ -42,11 +42,12 @@ npm run verify:article-inflow-route -- \
 
 Exit status is zero only when all of the following hold:
 
+- the requested URL is exactly `https://livemakers.com/{ja|en}/articles/<slug>`, the final response stays on that route, and no redirect is followed;
 - canonical route HTTP status is 200;
-- feed schema is the approved version and `environment=production`;
+- the complete feed passes the same schema, duplicate-slug, exact-body-checksum, and Markdown-safety validator used by the site loader, and `environment=production`;
 - exactly one feed article owns the slug and its validator verdict is green;
 - SHA-256 of the exact UTF-8 feed `body` equals its `body_checksum`;
-- the page declares `data-article-source=inflow`;
+- the page declares `data-article-source=inflow` and `data-article-slug=<slug>`;
 - `data-declared-body-checksum` and `data-rendered-body-checksum` both equal the feed declaration and exact-body hash.
 
 Retain the JSON output with the deployment URL/commit and UTC/JST observation time as Acceptance (a) evidence.
