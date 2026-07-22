@@ -5,10 +5,12 @@ import { ArticleRow } from "@/components/home/ArticleRow";
 import { Link } from "@/i18n/navigation";
 import {
   SERIES_SLUGS,
-  getAllArticles,
   type SeriesSlug,
 } from "@/lib/articles/article-model";
+import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return SERIES_SLUGS.map((series) => ({ series }));
@@ -31,7 +33,8 @@ export default async function ArticleSeriesPage({
 
   const t = await getTranslations("articles");
   const futureAtlas = await loadFutureAtlas();
-  const articles = getAllArticles().filter(
+  const catalog = await loadPublicArticleInflowCatalog();
+  const articles = catalog.articles.filter(
     (article) => article.family === series,
   );
 

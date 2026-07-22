@@ -8,10 +8,12 @@ import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractB
 import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
 import {
   getAllArticles,
-  getArticleBody,
-  getArticleBySlug,
 } from "@/lib/articles/article-model";
+import { loadPublicArticleInflowDetail } from "@/lib/articles/article-inflow-feed";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+
+export const dynamicParams = true;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.articleId }));
@@ -26,15 +28,10 @@ export default async function ArticleDetailPage({
   setRequestLocale(locale);
   const t = await getTranslations("articles");
 
-  let article;
-  try {
-    article = getArticleBySlug(slug);
-  } catch {
-    notFound();
-  }
-
   const language = locale === "en" ? "en" : "ja";
-  const body = getArticleBody(slug, language);
+  const detail = await loadPublicArticleInflowDetail(slug, language);
+  if (!detail) notFound();
+  const { article, body } = detail;
   const title = language === "en" ? (article.titleEn ?? article.titleJa) : article.titleJa;
   const futureAtlas = await loadFutureAtlas();
   const manifestEntry = futureAtlas.manifest.entries.find((entry) => entry.articleId === article.articleId);
@@ -72,8 +69,22 @@ export default async function ArticleDetailPage({
           />
         );
       })}
-      <div className="prose prose-neutral max-w-none dark:prose-invert">
-        <MDXRemote source={body} options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }} />
+      <div
+        data-testid="article-inflow-public-body"
+        data-article-source={article.source}
+        data-article-slug={article.articleId}
+        data-declared-body-checksum={detail.declaredBodyChecksum}
+        data-rendered-body-checksum={detail.renderedBodyChecksum}
+        className="prose prose-neutral max-w-none dark:prose-invert"
+      >
+        <MDXRemote
+          source={body}
+          options={{
+            blockJS: true,
+            blockDangerousJS: true,
+            mdxOptions: { format: "md", remarkPlugins: [remarkGfm] },
+          }}
+        />
       </div>
     </article>
   );

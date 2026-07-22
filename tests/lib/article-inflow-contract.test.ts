@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 import {
   ARTICLE_INFLOW_SCHEMA_VERSION,
+  buildArticleInflowPublicCatalog,
   buildArticleInflowPreviewCatalog,
   calculateArticleBodyChecksum,
   parseArticleInflowFeed,
@@ -84,5 +85,47 @@ describe("article inflow contract", () => {
       source: "repository",
       href: "/article-inflow-preview/articles/repo-owned",
     });
+  });
+
+  it("builds public hrefs while preserving repository priority and newest-first order", () => {
+    const repository: ArticleMeta[] = [
+      {
+        articleId: "repo-owned",
+        family: "daily-intel",
+        titleJa: "Repository title",
+        publishedAtJst: "2026-07-19T08:00:00+09:00",
+        publishedLabel: "07-19 08:00 公開",
+        lanes: [],
+        href: "/articles/repo-owned",
+      },
+    ];
+    const candidate = {
+      ...validPayload().articles[0],
+      published_at: "2026-07-19T01:00:00+00:00",
+    };
+    const feed = parseArticleInflowFeed({
+      ...validPayload(),
+      environment: "production",
+      articles: [
+        candidate,
+        {
+          ...candidate,
+          slug: "repo-owned",
+          title: "Feed must lose",
+          published_at: "2026-07-20T00:00:00+00:00",
+        },
+      ],
+    });
+
+    const catalog = buildArticleInflowPublicCatalog(repository, feed);
+
+    expect(catalog.articles.map((article) => article.articleId)).toEqual([
+      "daily-intel-20260719-48cea1b8",
+      "repo-owned",
+    ]);
+    expect(catalog.articles).toMatchObject([
+      { source: "inflow", href: "/articles/daily-intel-20260719-48cea1b8" },
+      { source: "repository", href: "/articles/repo-owned", titleJa: "Repository title" },
+    ]);
   });
 });

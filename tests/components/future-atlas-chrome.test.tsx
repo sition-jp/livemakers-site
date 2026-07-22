@@ -58,6 +58,23 @@ vi.mock("@/lib/articles/article-model", () => ({
   })),
   getArticleBody: vi.fn(() => "本文"),
 }));
+vi.mock("@/lib/articles/article-inflow-feed", () => ({
+  loadPublicArticleInflowDetail: vi.fn(async (articleId: string) => ({
+    article: {
+      articleId,
+      family: articleId === "ordinary-article" ? "signal" : "future-map",
+      titleJa: "テスト記事",
+      publishedAtJst: "2026-07-18T09:00:00+09:00",
+      publishedLabel: "2026-07-18",
+      lanes: [],
+      href: `/articles/${articleId}`,
+      source: "repository",
+    },
+    body: "本文",
+    declaredBodyChecksum: "0".repeat(64),
+    renderedBodyChecksum: "0".repeat(64),
+  })),
+}));
 vi.mock("@/lib/future-atlas/load", () => ({
   loadFutureAtlas: vi.fn(async () => atlasState.data),
 }));
