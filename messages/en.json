@@ -411,6 +411,15 @@
       "title": "See Now ⇄ Read Today",
       "subtitle": "The market now and today's interpretation at a glance"
     },
+    "gradient": {
+      "signalTitle": "Recent Signals",
+      "laneValuesTitle": "Lane readings",
+      "deepDiveTitle": "Deep Dive — featured longform",
+      "latestTitle": "Latest articles",
+      "viewAll": "View all",
+      "atlasHeadingUnpublished": "Map of the future",
+      "atlasHeadingPublished": "Future Atlas"
+    },
     "hero": {
       "sessionLabel": "Current session",
       "leadPending": "Today's article is in preparation"

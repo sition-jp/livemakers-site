@@ -27,6 +27,8 @@ export function HomeComposition({
   focusSessionSlug,
   snapshot,
   coreCells,
+  laneCells,
+  laneProvenance,
   mkt12Provenance,
   sessionProvenance,
   copy,
@@ -49,10 +51,16 @@ export function HomeComposition({
           slots={slots}
           snapshot={snapshot}
           coreCells={coreCells}
+          laneCells={laneCells}
+          laneProvenance={laneProvenance}
           mkt12Provenance={mkt12Provenance}
           copy={copy}
         />
-        <LaggingColumn surfacePublished={surfacePublished} />
+        <LaggingColumn
+          slots={slots}
+          surfacePublished={surfacePublished}
+          copy={copy}
+        />
       </div>
     </div>
   );

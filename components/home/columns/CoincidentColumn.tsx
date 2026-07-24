@@ -9,7 +9,9 @@ import type { HomeCompositionProps } from "../HomeComposition";
 import { ArticleCardSmall } from "../ArticleCardSmall";
 import { ArticleRow } from "../ArticleRow";
 import { IndicatorTileCard } from "../IndicatorTileCard";
+import { LaneValuesCard } from "../LaneValuesCard";
 import { LeadArticleCard } from "../LeadArticleCard";
+import { SignalTimeline } from "../SignalTimeline";
 import { TopMoversCard } from "../TopMoversCard";
 
 const REGION = "coincident" satisfies GradientRegion;
@@ -23,7 +25,13 @@ const REGION = "coincident" satisfies GradientRegion;
  */
 export type CoincidentColumnProps = Pick<
   HomeCompositionProps,
-  "slots" | "snapshot" | "coreCells" | "mkt12Provenance" | "copy"
+  | "slots"
+  | "snapshot"
+  | "coreCells"
+  | "laneCells"
+  | "laneProvenance"
+  | "mkt12Provenance"
+  | "copy"
 >;
 
 const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
@@ -34,10 +42,12 @@ export function CoincidentColumn({
   slots,
   snapshot,
   coreCells,
+  laneCells,
+  laneProvenance,
   mkt12Provenance,
   copy,
 }: CoincidentColumnProps) {
-  const familyLabels = copy.lanes.block.familyLabels;
+  const familyLabels = copy.familyLabels;
 
   const renderModule = (module: string): ReactNode => {
     switch (module) {
@@ -140,8 +150,28 @@ export function CoincidentColumn({
             </section>
           </section>
         );
-      // "signal-timeline" (T9: SignalTimeline) / "lane-values"
-      // (T9: LaneValuesCard) は空プレースホルダ。
+      case "signal-timeline":
+        return (
+          <SignalTimeline
+            articles={slots.signalTimeline}
+            copy={{
+              title: copy.gradient.signalTitle,
+              familyLabels: copy.familyLabels,
+            }}
+          />
+        );
+      case "lane-values":
+        return (
+          <LaneValuesCard
+            laneCells={laneCells}
+            laneProvenance={laneProvenance}
+            copy={{
+              title: copy.gradient.laneValuesTitle,
+              laneLabels: copy.lanes.titles,
+              provenance: copy.provenance,
+            }}
+          />
+        );
       default:
         return null;
     }
