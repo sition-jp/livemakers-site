@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { getAllArticles } from "@/lib/articles/article-model";
+import { getAllArticles, type ArticleMeta } from "@/lib/articles/article-model";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
 import {
   collectSelectedArticleIds,
@@ -10,6 +10,15 @@ import {
   selectHomeSlots,
 } from "@/lib/home/select-home-slots";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
+
+const isDescending = (articles: ArticleMeta[]): boolean =>
+  articles.every(
+    (article, index) =>
+      index === 0 ||
+      articles[index - 1].publishedAtJst.localeCompare(
+        article.publishedAtJst,
+      ) >= 0,
+  );
 
 const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
 const TEST_PROMOTIONS = {
@@ -164,36 +173,44 @@ describe("home slot selection (B+)", () => {
     ).toBe(true);
   });
 
-  it("obeys lane inventory boundaries 2, 1, and 0", () => {
-    const full = selectHomeSlots(input());
-    expect(full.lanes.map((lane) => lane.lane)).toEqual([
-      "macro",
-      "crypto",
-      "rwa",
-    ]);
-    for (const lane of full.lanes) {
-      expect(lane.articles).toHaveLength(2);
-    }
-
-    const thin = input().articles.filter(
-      (article) =>
-        !article.lanes.includes("rwa") ||
-        article.articleId === "deep-dive-tokenized-treasuries",
-    );
+  it("supplies the signal timeline excluding the promoted pair", () => {
+    const slots = selectHomeSlots(input());
+    expect(slots.signalTimeline.length).toBeGreaterThanOrEqual(10);
     expect(
-      selectHomeSlots({ ...input(), articles: thin })
-        .lanes.find((lane) => lane.lane === "rwa")
-        ?.articles.map((article) => article.articleId),
-    ).toEqual(["deep-dive-tokenized-treasuries"]);
-
-    const none = input().articles.filter(
-      (article) => !article.lanes.includes("rwa"),
-    );
+      slots.signalTimeline.every((article) => article.family === "signal"),
+    ).toBe(true);
+    expect(isDescending(slots.signalTimeline)).toBe(true);
     expect(
-      selectHomeSlots({ ...input(), articles: none }).lanes.find(
-        (lane) => lane.lane === "rwa",
-      )?.articles,
-    ).toEqual([]);
+      slots.signalTimeline.map((article) => article.articleId),
+    ).not.toContain("signal-stablecoin-supply-2026-07-10");
+  });
+
+  it("shelves five deep dives newest-first with the featured lead", () => {
+    const slots = selectHomeSlots(input());
+    expect(slots.deepDives).toHaveLength(5);
+    expect(isDescending(slots.deepDives)).toBe(true);
+    expect(slots.deepDives[0].articleId).toBe(
+      "deep-dive-tokenized-treasuries",
+    );
+  });
+
+  it("lists the ten latest articles across families", () => {
+    const slots = selectHomeSlots(input());
+    expect(slots.latestArticles).toHaveLength(10);
+    expect(isDescending(slots.latestArticles)).toBe(true);
+    expect(
+      new Set(slots.latestArticles.map((article) => article.family)).size,
+    ).toBeGreaterThan(1);
+  });
+
+  it("resolves the per-family latest slots for the index modules", () => {
+    const slots = selectHomeSlots(input());
+    expect(slots.eventRiskLatest?.articleId).toBe("event-risk-radar-w29");
+    expect(slots.mkt12WeekendLatest?.articleId).toBe(
+      "mkt12-weekend-2026-07-04",
+    );
+    expect(slots.atlasLatest?.articleId).toBe("future-map-financial-reset-3");
+    expect(slots.weeklyBriefLatest?.articleId).toBe("weekly-brief-001");
   });
 
   it("prefers the newest observation when two promotions resolve", () => {
@@ -228,13 +245,5 @@ describe("home slot selection (B+)", () => {
   it("dedupes article ids across the whole page", () => {
     const ids = collectSelectedArticleIds(selectHomeSlots(input()));
     expect(new Set(ids).size).toBe(ids.length);
-  });
-
-  it("prefers unseen families on the library shelf", () => {
-    const slots = selectHomeSlots(input());
-    const families = slots.library.map((article) => article.family);
-    expect(families).toContain("weekly-brief");
-    expect(families).toContain("future-map");
-    expect(slots.library).toHaveLength(3);
   });
 });
