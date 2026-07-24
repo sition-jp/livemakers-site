@@ -1,0 +1,11 @@
+{
+  "articleId": "deep-dive-rwa-settlement-layer",
+  "family": "deep-dive",
+  "titleJa": "RWAの決済レイヤー — 償還と保有主体が結ぶ金利の入口",
+  "excerptJa": "決済レイヤーの実装差を、保有主体と償還経路の観点から分解する長編。",
+  "publishedAtJst": "2026-07-06T21:00:00+09:00",
+  "publishedLabel": "07-06 21:00 公開",
+  "lanes": [
+    "rwa"
+  ]
+}
