@@ -1,9 +1,13 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { buildNavModel } from "@/lib/home/nav-model";
 
 export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
+  const navModel = buildNavModel(futureAtlasNav);
+  // Footer mirrors the same nav-model as the header (G44 D3), rendered flat.
+  const items = [...navModel.articlesGroup, ...navModel.topLevel];
   // Build metadata injected at build time via next.config.ts.
   const version = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
   const sha = process.env.NEXT_PUBLIC_BUILD_SHA ?? "dev";
@@ -15,15 +19,16 @@ export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
         <div className="mb-2 tracking-logo text-text-primary">{t("brand")}</div>
         <div className="mb-1 tracking-label">{t("identity")}</div>
         <div className="mb-4 tracking-label">{t("dataSources")}</div>
-        <nav className="mb-6 flex flex-wrap justify-center gap-x-5 gap-y-2 tracking-label">
+        <nav
+          className="mb-6 flex flex-wrap justify-center gap-x-5 gap-y-2 tracking-label"
+          aria-label="footer"
+        >
           <Link href="/">{nav("overview")}</Link>
-          <Link href="/brief">{nav("brief")}</Link>
-          <Link href="/articles/today">{nav("articles")}</Link>
-          <Link href="/sessions/archive">{nav("archive")}</Link>
-          {futureAtlasNav && (
-            <Link href="/future-atlas">{nav("futureAtlas")}</Link>
-          )}
-          <Link href="/about">{nav("about")}</Link>
+          {items.map((item) => (
+            <Link key={item.key} href={item.href}>
+              {nav(item.key)}
+            </Link>
+          ))}
         </nav>
         <div className="italic tracking-label">{t("disclaimer")}</div>
         <div className="mt-6 text-text-tertiary/70">{t("copyright")}</div>

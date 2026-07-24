@@ -9,7 +9,18 @@
     "about": "ABOUT",
     "futureAtlas": "FUTURE ATLAS",
     "snapshot": "SNAPSHOT",
-    "alpha": "ALPHA"
+    "alpha": "ALPHA",
+    "articlesGroup": "ARTICLES",
+    "menu": "MENU",
+    "dailyIntel": "DAILY INTEL",
+    "signal": "SIGNAL",
+    "deepDive": "DEEP DIVE",
+    "mkt12Morning": "MORNING 12",
+    "mkt12Weekend": "WEEKEND 12",
+    "eventRiskRadar": "EVENT RISK",
+    "weeklyBrief": "WEEKLY BRIEF",
+    "futureMap": "MAP OF THE FUTURE",
+    "sessionTerminal": "SESSION TERMINAL"
   },
   "assets": {
     "dashboard": {

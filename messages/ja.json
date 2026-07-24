@@ -9,7 +9,18 @@
     "about": "About",
     "futureAtlas": "未来アトラス",
     "snapshot": "SNAPSHOT",
-    "alpha": "ALPHA"
+    "alpha": "ALPHA",
+    "articlesGroup": "記事",
+    "menu": "メニュー",
+    "dailyIntel": "Daily Intel",
+    "signal": "Signal",
+    "deepDive": "Deep Dive",
+    "mkt12Morning": "朝の12指標",
+    "mkt12Weekend": "週末の12指標",
+    "eventRiskRadar": "Event Risk Radar",
+    "weeklyBrief": "Weekly Brief",
+    "futureMap": "未来の地図",
+    "sessionTerminal": "Session Terminal"
   },
   "assets": {
     "dashboard": {
