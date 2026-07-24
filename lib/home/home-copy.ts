@@ -1,17 +1,10 @@
 import jaMessages from "@/messages/ja.json";
 
-import type {
-  ArticleFamily,
-  SeriesSlug,
-} from "@/lib/articles/article-model";
+import type { ArticleFamily } from "@/lib/articles/article-model";
 import type { IndicatorTileCopy } from "@/components/home/IndicatorTileCard";
-import type { LaneBlockCopy } from "@/components/home/LaneBlock";
 import type { LeadArticleLabels } from "@/components/home/LeadArticleCard";
-import type { LibraryShelfCopy } from "@/components/home/LibraryShelf";
 import type { RadarObservationsCopy } from "@/components/home/RadarObservationsCard";
 import type { RadarPromotedCopy } from "@/components/home/RadarPromotedCard";
-import type { RecentSignalsCopy } from "@/components/home/RecentSignalsCard";
-import type { SeriesIndexCopy } from "@/components/home/SeriesIndexCard";
 import type { SessionFocusCopy } from "@/components/home/SessionFocusChart";
 import type { SessionNowCopy } from "@/components/home/SessionNowCard";
 import type { SessionScheduleCopy } from "@/components/home/SessionScheduleCard";
@@ -36,15 +29,32 @@ export interface HomeCopy {
   globalProvenanceNote: string;
   unavailable: string;
   noLiveSession: string;
+  // 記事 family → 読者向けラベル (family.* キー由来・locale 依存)。勾配カラムの共通記事
+  // 行部品 (ArticleRow / ArticleCardSmall) が使う恒久的な family ラベル源 (G44 D5/D7)。
+  familyLabels: Record<ArticleFamily, string>;
   masthead: {
     title: string;
     subtitle: string;
+  };
+  hero: {
+    sessionLabel: string;
+    sessionFallback: string;
+    leadFamily: string;
+    leadPending: string;
+  };
+  gradient: {
+    signalTitle: string;
+    laneValuesTitle: string;
+    deepDiveTitle: string;
+    latestTitle: string;
+    viewAll: string;
+    atlasHeadingUnpublished: string;
+    atlasHeadingPublished: string;
   };
   sessionNow: SessionNowCopy;
   schedule: SessionScheduleCopy;
   focus: SessionFocusCopy;
   lead: LeadArticleLabels;
-  seriesIndex: SeriesIndexCopy;
   mkt12: {
     groupTitle: string;
     groupSubtitle: string;
@@ -64,16 +74,10 @@ export interface HomeCopy {
     jointLabel: string;
     promoted: RadarPromotedCopy;
     observations: RadarObservationsCopy;
-    recent: RecentSignalsCopy;
   };
   lanes: {
     titles: Record<LaneId, string>;
     subtitle: string;
-    block: LaneBlockCopy;
-  };
-  library: {
-    title: string;
-    shelf: LibraryShelfCopy;
   };
 }
 
@@ -100,9 +104,6 @@ export function buildHomeCopy(
       "session",
     ].map((family) => [family, translate(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;
-  const seriesLabels = Object.fromEntries(
-    Object.entries(familyLabels).filter(([family]) => family !== "session"),
-  ) as Record<SeriesSlug, string>;
   const laneLabels = {
     x_news_trends: translate("radar.lanes.xNews"),
     sde_phase1_breaking_radar: translate("radar.lanes.sde"),
@@ -114,9 +115,25 @@ export function buildHomeCopy(
     globalProvenanceNote: translate("provenance.note"),
     unavailable: translate("general.unavailable"),
     noLiveSession: translate("general.noLiveSession"),
+    familyLabels,
     masthead: {
       title: translate("masthead.title"),
       subtitle: translate("masthead.subtitle"),
+    },
+    hero: {
+      sessionLabel: translate("hero.sessionLabel"),
+      sessionFallback: translate("general.noLiveSession"),
+      leadFamily: familyLabels["daily-intel"],
+      leadPending: translate("hero.leadPending"),
+    },
+    gradient: {
+      signalTitle: translate("gradient.signalTitle"),
+      laneValuesTitle: translate("gradient.laneValuesTitle"),
+      deepDiveTitle: translate("gradient.deepDiveTitle"),
+      latestTitle: translate("gradient.latestTitle"),
+      viewAll: translate("gradient.viewAll"),
+      atlasHeadingUnpublished: translate("gradient.atlasHeadingUnpublished"),
+      atlasHeadingPublished: translate("gradient.atlasHeadingPublished"),
     },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
@@ -152,12 +169,6 @@ export function buildHomeCopy(
       pendingNote: translate("lead.pendingNote"),
       previous: translate("lead.previous"),
       family: familyLabels["daily-intel"],
-    },
-    seriesIndex: {
-      title: translate("seriesIndex.title"),
-      subtitle: translate("seriesIndex.subtitle"),
-      listLabel: translate("seriesIndex.listLabel"),
-      familyLabels: seriesLabels,
     },
     mkt12: {
       groupTitle: translate("mkt12.groupTitle"),
@@ -199,11 +210,6 @@ export function buildHomeCopy(
         note: translate("radar.observations.note"),
         laneLabels,
       },
-      recent: {
-        title: translate("radar.recent.title"),
-        subtitle: translate("radar.recent.subtitle"),
-        familyLabel: familyLabels.signal,
-      },
     },
     lanes: {
       titles: {
@@ -212,15 +218,6 @@ export function buildHomeCopy(
         rwa: translate("lanes.rwa"),
       },
       subtitle: translate("lanes.subtitle"),
-      block: { provenance, familyLabels },
-    },
-    library: {
-      title: translate("library.title"),
-      shelf: {
-        familyLabels,
-        archiveTitle: translate("library.archiveTitle"),
-        archiveNote: translate("library.archiveNote"),
-      },
     },
   };
 }

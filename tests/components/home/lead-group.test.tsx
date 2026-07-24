@@ -4,7 +4,6 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { LeadArticleCard } from "@/components/home/LeadArticleCard";
-import { SeriesIndexCard } from "@/components/home/SeriesIndexCard";
 import { SessionFocusChart } from "@/components/home/SessionFocusChart";
 import { SessionNowCard } from "@/components/home/SessionNowCard";
 import {
@@ -117,37 +116,5 @@ describe("lead group (ledger group 1)", () => {
     );
     expect(screen.getByText("記事化待ち")).toBeInTheDocument();
     expect(screen.queryByRole("link")).toBeNull();
-  });
-
-  it("lists the eight series index links", () => {
-    const { container } = render(
-      <SeriesIndexCard
-        copy={{
-          title: "記事をたどる",
-          subtitle: "シリーズ別の一覧",
-          listLabel: "一覧 →",
-          familyLabels: {
-            "daily-intel": "Daily Intel",
-            signal: "Signal",
-            "deep-dive": "Deep Dive",
-            "future-map": "未来アトラス",
-            "mkt12-morning": "朝の12指標",
-            "mkt12-weekend": "週末の12指標",
-            "event-risk-radar": "Event Risk Radar",
-            "weekly-brief": "Weekly Brief",
-          },
-        }}
-      />,
-    );
-    const links = screen.getAllByRole("link");
-    expect(links).toHaveLength(8);
-    expect(links[0].getAttribute("href")).toContain(
-      "/articles/series/daily-intel",
-    );
-    const card = container.querySelector("[data-index-nav]")!;
-    const list = container.querySelector("[data-series-index-list]")!;
-    expect(card.className).toContain("h-full");
-    expect(list.children).toHaveLength(8);
-    expect(list.className).not.toContain("grid-cols-2");
   });
 });

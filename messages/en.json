@@ -9,7 +9,18 @@
     "about": "ABOUT",
     "futureAtlas": "FUTURE ATLAS",
     "snapshot": "SNAPSHOT",
-    "alpha": "ALPHA"
+    "alpha": "ALPHA",
+    "articlesGroup": "ARTICLES",
+    "menu": "MENU",
+    "dailyIntel": "DAILY INTEL",
+    "signal": "SIGNAL",
+    "deepDive": "DEEP DIVE",
+    "mkt12Morning": "MORNING 12",
+    "mkt12Weekend": "WEEKEND 12",
+    "eventRiskRadar": "EVENT RISK",
+    "weeklyBrief": "WEEKLY BRIEF",
+    "futureMap": "MAP OF THE FUTURE",
+    "sessionTerminal": "SESSION TERMINAL"
   },
   "assets": {
     "dashboard": {
@@ -410,6 +421,19 @@
     "masthead": {
       "title": "See Now ⇄ Read Today",
       "subtitle": "The market now and today's interpretation at a glance"
+    },
+    "gradient": {
+      "signalTitle": "Recent Signals",
+      "laneValuesTitle": "Lane readings",
+      "deepDiveTitle": "Deep Dive — featured longform",
+      "latestTitle": "Latest articles",
+      "viewAll": "View all",
+      "atlasHeadingUnpublished": "Map of the future",
+      "atlasHeadingPublished": "Future Atlas"
+    },
+    "hero": {
+      "sessionLabel": "Current session",
+      "leadPending": "Today's article is in preparation"
     },
     "family": {
       "daily-intel": "Daily Intel",

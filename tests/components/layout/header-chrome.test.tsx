@@ -89,11 +89,17 @@ describe("G41 page chrome", () => {
 
   it("keeps the Japanese navigation labels internally consistent", () => {
     const { container } = renderChrome();
+    // D3 grouped nav: 記事 dropdown trigger (button) + top-level links; the
+    // series entries live inside the (closed) dropdown, not the top row.
+    expect(
+      container.querySelector('button[aria-controls="articles-menu"]')
+        ?.textContent,
+    ).toContain("記事");
     expect(
       [...container.querySelectorAll("header nav a")].map(
         (anchor) => anchor.textContent,
       ),
-    ).toEqual(["トップ", "ブリーフ", "記事", "アーカイブ", "About"]);
+    ).toEqual(["Session Terminal", "About"]);
   });
 
   it("renders the Future Atlas link in both chrome navs only when published", () => {
@@ -117,7 +123,7 @@ describe("G41 page chrome", () => {
     ]);
   });
 
-  it("places exact English FUTURE ATLAS immediately after ARCHIVE in both navs", () => {
+  it("places English FUTURE ATLAS immediately before SESSION TERMINAL in both navs (D3 order)", () => {
     const { container } = renderEnglishChrome(true);
 
     for (const nav of container.querySelectorAll("header nav, footer nav")) {
@@ -125,10 +131,14 @@ describe("G41 page chrome", () => {
         href: anchor.getAttribute("href"),
         text: anchor.textContent,
       }));
-      const archive = links.findIndex((link) => link.href === "/sessions/archive");
+      const atlas = links.findIndex((link) => link.href === "/future-atlas");
 
-      expect(links[archive]).toEqual({ href: "/sessions/archive", text: "ARCHIVE" });
-      expect(links[archive + 1]).toEqual({ href: "/future-atlas", text: "FUTURE ATLAS" });
+      expect(atlas).toBeGreaterThanOrEqual(0);
+      expect(links[atlas]).toEqual({ href: "/future-atlas", text: "FUTURE ATLAS" });
+      expect(links[atlas + 1]).toEqual({
+        href: "/sessions/archive",
+        text: "SESSION TERMINAL",
+      });
     }
   });
 
