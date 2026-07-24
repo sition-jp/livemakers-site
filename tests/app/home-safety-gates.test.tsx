@@ -74,7 +74,7 @@ function renderFullPage() {
           labels={copy.provenance}
           note={copy.globalProvenanceNote}
         />
-        <HomeComposition {...props} copy={copy} />
+        <HomeComposition {...props} surfacePublished={false} copy={copy} />
       </main>
       <Footer futureAtlasNav={false} />
     </NextIntlClientProvider>,
@@ -118,7 +118,11 @@ function renderReviewedPage() {
             labels={copy.provenance}
             note={copy.globalProvenanceNote}
           />
-          <HomeComposition {...reviewed} copy={copy} />
+          <HomeComposition
+            {...reviewed}
+            surfacePublished={false}
+            copy={copy}
+          />
         </main>
         <Footer futureAtlasNav={false} />
       </NextIntlClientProvider>,

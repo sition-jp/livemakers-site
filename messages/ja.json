@@ -411,6 +411,10 @@
       "title": "いまを見る ⇄ 今日を読む",
       "subtitle": "市場のいまと、今日の読み解きをひと目で"
     },
+    "hero": {
+      "sessionLabel": "いまのセッション",
+      "leadPending": "本日の記事は準備中"
+    },
     "family": {
       "daily-intel": "Daily Intel",
       "signal": "Signal",

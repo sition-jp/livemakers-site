@@ -40,6 +40,12 @@ export interface HomeCopy {
     title: string;
     subtitle: string;
   };
+  hero: {
+    sessionLabel: string;
+    sessionFallback: string;
+    leadFamily: string;
+    leadPending: string;
+  };
   sessionNow: SessionNowCopy;
   schedule: SessionScheduleCopy;
   focus: SessionFocusCopy;
@@ -117,6 +123,12 @@ export function buildHomeCopy(
     masthead: {
       title: translate("masthead.title"),
       subtitle: translate("masthead.subtitle"),
+    },
+    hero: {
+      sessionLabel: translate("hero.sessionLabel"),
+      sessionFallback: translate("general.noLiveSession"),
+      leadFamily: familyLabels["daily-intel"],
+      leadPending: translate("hero.leadPending"),
     },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),

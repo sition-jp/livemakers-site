@@ -411,6 +411,10 @@
       "title": "See Now ⇄ Read Today",
       "subtitle": "The market now and today's interpretation at a glance"
     },
+    "hero": {
+      "sessionLabel": "Current session",
+      "leadPending": "Today's article is in preparation"
+    },
     "family": {
       "daily-intel": "Daily Intel",
       "signal": "Signal",
