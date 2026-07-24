@@ -39,6 +39,7 @@ export function HomeComposition({
         <LeadingColumn
           live={live}
           schedule={schedule}
+          slots={slots}
           focusSeries={focusSeries}
           focusSessionSlug={focusSessionSlug}
           sessionProvenance={sessionProvenance}

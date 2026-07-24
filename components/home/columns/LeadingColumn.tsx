@@ -6,6 +6,8 @@ import {
 } from "@/lib/home/gradient-ledger";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
+import { EventRiskCard } from "../EventRiskCard";
+import { FlashPromotionCard } from "../FlashPromotionCard";
 import { SessionFocusChart } from "../SessionFocusChart";
 import { SessionNowCard } from "../SessionNowCard";
 import { SessionScheduleCard } from "../SessionScheduleCard";
@@ -15,13 +17,14 @@ const REGION = "leading" satisfies GradientRegion;
 /**
  * 左カラム = 先行 (G44 D5)。モジュール順は勾配台帳 REGION_MODULES.leading。
  * session-now は D8 の単一表現ルールで desktop 専用 (mobile は CompositeHero が担う)。
- * flash-promotion / event-risk は T8 が FlashPromotionCard / EventRiskCard を
- * 実装するまで空プレースホルダ (data-column-module スロットのみ保持)。
+ * flash-promotion = FlashPromotionCard (昇格ペア or 空状態)・event-risk = EventRiskCard
+ * (観測 title-only + 最新記事) を描画する。
  */
 export type LeadingColumnProps = Pick<
   HomeCompositionProps,
   | "live"
   | "schedule"
+  | "slots"
   | "focusSeries"
   | "focusSessionSlug"
   | "sessionProvenance"
@@ -36,6 +39,7 @@ const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
 export function LeadingColumn({
   live,
   schedule,
+  slots,
   focusSeries,
   focusSessionSlug,
   sessionProvenance,
@@ -83,8 +87,29 @@ export function LeadingColumn({
             copy={copy.focus}
           />
         );
-      // "flash-promotion" (T8: FlashPromotionCard) / "event-risk"
-      // (T8: EventRiskCard) は空プレースホルダ。
+      case "flash-promotion":
+        return (
+          <FlashPromotionCard
+            pair={slots.radarPair}
+            copy={{
+              sectionTitle: copy.radar.sectionTitle,
+              promoted: copy.radar.promoted,
+              emptyNote: copy.radar.observations.note,
+              familyLabels: copy.familyLabels,
+            }}
+          />
+        );
+      case "event-risk":
+        return (
+          <EventRiskCard
+            observations={slots.observing}
+            latest={slots.eventRiskLatest}
+            copy={{
+              observations: copy.radar.observations,
+              familyLabels: copy.familyLabels,
+            }}
+          />
+        );
       default:
         return null;
     }
