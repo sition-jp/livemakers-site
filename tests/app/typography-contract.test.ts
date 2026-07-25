@@ -7,6 +7,24 @@ const layoutSource = readFileSync(
   "utf-8",
 );
 
+const globalsCss = readFileSync(
+  path.join(process.cwd(), "app", "globals.css"),
+  "utf-8",
+);
+
+/**
+ * テーマ宣言ブロックの本文を取り出す。
+ *
+ * ⚠️ `indexOf('[data-theme="dark"]')` は使えない — globals.css 冒頭の解説コメントに
+ * `html[data-theme="dark"]` という文字列があり、実ルールより先にヒットしてしまう
+ * (実測: コメント offset 250 / 実ルール offset 2324)。セレクタが**行頭から始まる**
+ * ことを `^` (m フラグ) で要求して実ルールだけを掴む。
+ */
+const LIGHT_BLOCK =
+  globalsCss.match(/^:root,\s*\[data-theme="light"\]\s*\{([\s\S]*?)\n\}/m)?.[1] ?? "";
+const DARK_BLOCK =
+  globalsCss.match(/^\[data-theme="dark"\]\s*\{([\s\S]*?)\n\}/m)?.[1] ?? "";
+
 /**
  * G48 D1 — フォント適用の構造ガード。
  *
@@ -36,5 +54,25 @@ describe("G48 D1: next/font variable classes", () => {
   it("does not leave the font variables on <body>", () => {
     expect(bodyTag).not.toContain("inter.variable");
     expect(bodyTag).not.toContain("notoSansJp.variable");
+  });
+});
+
+describe("G48 D2: body ink token", () => {
+  it("locates both theme blocks (guards the regex itself)", () => {
+    expect(LIGHT_BLOCK).toContain("--lmk-text-primary: #1b2523");
+    expect(DARK_BLOCK).toContain("--lmk-text-primary: #e6ecea");
+  });
+
+  it("defines --lmk-text-body in the light theme", () => {
+    expect(LIGHT_BLOCK).toContain("--lmk-text-body: #3f4a47");
+  });
+
+  it("defines --lmk-text-body in the dark theme", () => {
+    expect(DARK_BLOCK).toContain("--lmk-text-body: #c3cecb");
+  });
+
+  it("wires prose body ink to the new token, not text-secondary", () => {
+    expect(globalsCss).toContain("--tw-prose-body: var(--lmk-text-body)");
+    expect(globalsCss).not.toContain("--tw-prose-body: var(--lmk-text-secondary)");
   });
 });
