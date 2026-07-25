@@ -21,6 +21,17 @@ vi.mock("next-mdx-remote/rsc", () => ({
 vi.mock("remark-gfm", () => ({ default: vi.fn() }));
 vi.mock("@/lib/articles/article-model", () => ({
   SERIES_SLUGS: ["daily-intel", "signal", "future-map", "weekly-brief"],
+  ARTICLE_FAMILIES: [
+    "daily-intel",
+    "signal",
+    "deep-dive",
+    "future-map",
+    "mkt12-morning",
+    "mkt12-weekend",
+    "event-risk-radar",
+    "weekly-brief",
+    "session",
+  ],
   getAllArticles: vi.fn(() => []),
 }));
 vi.mock("@/lib/articles/article-inflow-feed", () => ({

@@ -548,7 +548,20 @@
     "latestTitle": "Recent articles",
     "seriesTitle": "Series",
     "futureAtlasGuide": "View Future Atlas →",
-    "briefArchiveNote": "Browse the Weekly Brief archive"
+    "briefArchiveNote": "Browse the Weekly Brief archive",
+    "detail": {
+      "tocTitle": "Contents",
+      "prevLabel": "Previous {series}",
+      "nextLabel": "Next {series}",
+      "relatedTitle": "Related articles",
+      "railTitle": "More series",
+      "currentSeriesTitle": "More from this series",
+      "viewAll": "View all",
+      "sessionTerminalHeading": "Session Terminal",
+      "sessionTerminalEntry": "View archive",
+      "atlasPublishedHeading": "Future Atlas",
+      "atlasUnpublishedHeading": "Future Map"
+    }
   },
   "sessions": {
     "family": "Session Article",

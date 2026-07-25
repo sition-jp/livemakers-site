@@ -2,6 +2,7 @@
 
 import { renderToStaticMarkup } from "react-dom/server";
 import { NextIntlClientProvider } from "next-intl";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 type ContractFixture = {
@@ -37,6 +38,23 @@ const atlasState = vi.hoisted(() => ({
 }));
 
 vi.mock("next/navigation", () => ({ notFound: vi.fn() }));
+// G44 PR-2: 記事詳細が SeriesRail / ArticlePrevNext / RelatedArticles を描画するようになり、
+// これらが Link を @/i18n/navigation から取るため実モジュールが読まれる (next-intl の
+// createNavigation → next/navigation の ESM 解決で落ちる)。他テストと同じ Link mock を置く。
+vi.mock("@/i18n/navigation", () => ({
+  Link: ({
+    href,
+    children,
+    ...props
+  }: AnchorHTMLAttributes<HTMLAnchorElement> & {
+    href: string;
+    children: ReactNode;
+  }) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}));
 vi.mock("next-intl/server", () => ({
   setRequestLocale: vi.fn(),
   getTranslations: async () => (key: string) => key,
@@ -46,8 +64,22 @@ vi.mock("next-mdx-remote/rsc", () => ({
 }));
 vi.mock("@/components/home/ArticleRow", () => ({
   FAMILY_COLORS: { "future-map": "#000", signal: "#000" },
+  // G44 PR-2: SeriesRail / RelatedArticles が ArticleRow を使う
+  ArticleRow: () => null,
 }));
 vi.mock("@/lib/articles/article-model", () => ({
+  // G44 PR-2: page が familyLabels 導出で ARTICLE_FAMILIES を使う
+  ARTICLE_FAMILIES: [
+    "daily-intel",
+    "signal",
+    "deep-dive",
+    "future-map",
+    "mkt12-morning",
+    "mkt12-weekend",
+    "event-risk-radar",
+    "weekly-brief",
+    "session",
+  ],
   getAllArticles: vi.fn(() => []),
   getArticleBySlug: vi.fn((articleId: string) => ({
     articleId,
@@ -59,6 +91,8 @@ vi.mock("@/lib/articles/article-model", () => ({
   getArticleBody: vi.fn(() => "本文"),
 }));
 vi.mock("@/lib/articles/article-inflow-feed", () => ({
+  // G44 PR-2: page が前後ナビ / 関連 / レール用に catalog を読む
+  loadPublicArticleInflowCatalog: vi.fn(async () => ({ articles: [] })),
   loadPublicArticleInflowDetail: vi.fn(async (articleId: string) => ({
     article: {
       articleId,

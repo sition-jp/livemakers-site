@@ -551,7 +551,20 @@
     "latestTitle": "最近の記事",
     "seriesTitle": "シリーズ一覧",
     "futureAtlasGuide": "未来アトラスを見る →",
-    "briefArchiveNote": "これまでの Weekly Brief アーカイブはこちら"
+    "briefArchiveNote": "これまでの Weekly Brief アーカイブはこちら",
+    "detail": {
+      "tocTitle": "目次",
+      "prevLabel": "前の{series}",
+      "nextLabel": "次の{series}",
+      "relatedTitle": "関連記事",
+      "railTitle": "ほかのシリーズ",
+      "currentSeriesTitle": "このシリーズの他の記事",
+      "viewAll": "一覧を見る",
+      "sessionTerminalHeading": "Session Terminal",
+      "sessionTerminalEntry": "アーカイブを見る",
+      "atlasPublishedHeading": "未来アトラス",
+      "atlasUnpublishedHeading": "未来の地図"
+    }
   },
   "sessions": {
     "family": "セッション記事",
