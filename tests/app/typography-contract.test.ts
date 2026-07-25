@@ -26,6 +26,16 @@ const DARK_BLOCK =
   globalsCss.match(/^\[data-theme="dark"\]\s*\{([\s\S]*?)\n\}/m)?.[1] ?? "";
 
 /**
+ * セレクタの assertion は**実ルールだけ**を対象にする。
+ *
+ * ⚠️ globals.css の解説コメントには、変更の経緯として旧セレクタ `:lang(ja) .prose`
+ * が文字列で書かれている。生ソースに対して否定 assertion を書くと、実ルールが
+ * 正しく `.prose:lang(ja)` へ直っていてもコメントの記述にヒットして落ちる
+ * (逆に、コメントを消すと通ってしまい guard として機能しない)。
+ */
+const globalsRules = globalsCss.replace(/\/\*[\s\S]*?\*\//g, "");
+
+/**
  * G48 D1 — フォント適用の構造ガード。
  *
  * globals.css の `--font-sans` は `@theme` により `:root` で宣言される。その値は
@@ -72,7 +82,40 @@ describe("G48 D2: body ink token", () => {
   });
 
   it("wires prose body ink to the new token, not text-secondary", () => {
-    expect(globalsCss).toContain("--tw-prose-body: var(--lmk-text-body)");
-    expect(globalsCss).not.toContain("--tw-prose-body: var(--lmk-text-secondary)");
+    expect(globalsRules).toContain("--tw-prose-body: var(--lmk-text-body)");
+    expect(globalsRules).not.toContain("--tw-prose-body: var(--lmk-text-secondary)");
+  });
+});
+
+const articlePageSource = readFileSync(
+  path.join(process.cwd(), "app", "[locale]", "articles", "[slug]", "page.tsx"),
+  "utf-8",
+);
+
+describe("G48 D3: Japanese body typography reaches the default route", () => {
+  it("marks the article body element as Japanese content", () => {
+    // 既定ルートは html lang="en" (defaultLocale:"en" / localePrefix:"as-needed") だが
+    // 本文は常に ja.md。要素側で lang を宣言してロケール経路に依存させない。
+    const bodyDiv = articlePageSource.match(
+      /<div\s+data-testid="article-inflow-public-body"[\s\S]*?>/,
+    )?.[0] ?? "";
+    expect(bodyDiv).toContain('lang="ja"');
+  });
+
+  it("scopes Japanese metrics to the element itself, not an ancestor", () => {
+    // `:lang(ja) .prose` だと祖先 (html) が ja のときしか当たらない
+    expect(globalsRules).not.toMatch(/:lang\(ja\)\s+\.prose/);
+    expect(globalsRules).toMatch(/\.prose:lang\(ja\)/);
+  });
+
+  it("raises the Japanese prose base with a rem unit, not px", () => {
+    expect(globalsRules).toMatch(/\.prose:lang\(ja\)\s*\{[^}]*font-size:\s*1\.0625rem/);
+    expect(globalsRules).not.toMatch(/font-size:\s*17px/);
+  });
+
+  it("keeps the Japanese long-form line-height at 2", () => {
+    expect(globalsRules).toMatch(
+      /\.prose:lang\(ja\)\s+:where\(p, li, blockquote\)\s*\{[^}]*line-height:\s*2/,
+    );
   });
 });

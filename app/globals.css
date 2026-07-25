@@ -205,13 +205,25 @@
 /* Japanese long-form typography (2026-07-04 review): CJK body text needs a
    taller line box and a touch of tracking than the Latin plugin defaults;
    headings tighten punctuation with palt instead of extra tracking. All
-   values are single-line tunables. Unlayered to outrank plugin styles. */
-:lang(ja) .prose :where(p, li, blockquote) {
+   values are single-line tunables. Unlayered to outrank plugin styles.
+
+   G48 (2026-07-25): セレクタを `:lang(ja) .prose` から `.prose:lang(ja)` へ変更。
+   既定ルートは defaultLocale:"en" / localePrefix:"as-needed" のため
+   `/articles/<slug>` が `html lang="en"` で描画されるが、本文は常に日本語 (ja.md)。
+   祖先依存をやめ、本文要素自身の lang で判定する。これにより既定ルートでも
+   行間・字間・サイズが正しく当たる (2026-07-04 以降ずっと当たっていなかった)。
+   Weekly Brief (components/brief/BriefArticle.tsx) は実在の en.md を描画するため、
+   スコープを外さずこの形にしている。 */
+.prose:lang(ja) {
+  font-size: 1.0625rem;   /* 既定 16px 環境で 17px。rem スケーリングを保つ */
+}
+
+.prose:lang(ja) :where(p, li, blockquote) {
   line-height: 2;
   letter-spacing: 0.02em;
 }
 
-:lang(ja) .prose :where(h1, h2, h3, h4) {
+.prose:lang(ja) :where(h1, h2, h3, h4) {
   line-height: 1.5;
   letter-spacing: 0.01em;
   font-feature-settings: "palt";
