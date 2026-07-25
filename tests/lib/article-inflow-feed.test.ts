@@ -29,7 +29,7 @@ function payload(body = "# Exact body\n") {
     generated_at: "2026-07-19T09:56:11.862371+09:00",
     feed_checksum: "8f36d3924040c7aa",
     articles: [{
-      slug: "daily-intel-20260719-48cea1b8",
+      slug: "daily-intel-20260101-feedtest",
       title: "Daily Intel",
       family: "daily-intel",
       source_x_url: "https://x.com/SITIONjp/status/2078605793587503344",
@@ -224,7 +224,7 @@ describe("article inflow server boundary", () => {
     vi.stubGlobal("fetch", vi.fn(async () => ({ ok: true, json: async () => production })));
 
     const detail = await loadPublicArticleInflowDetail(
-      "daily-intel-20260719-48cea1b8",
+      "daily-intel-20260101-feedtest",
       "ja",
     );
 
@@ -232,7 +232,7 @@ describe("article inflow server boundary", () => {
       body: "# Exact body\n",
       declaredBodyChecksum: production.articles[0].body_checksum,
       renderedBodyChecksum: production.articles[0].body_checksum,
-      article: { source: "inflow", href: "/articles/daily-intel-20260719-48cea1b8" },
+      article: { source: "inflow", href: "/articles/daily-intel-20260101-feedtest" },
     });
   });
 
