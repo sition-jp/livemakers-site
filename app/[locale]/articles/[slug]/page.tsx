@@ -156,6 +156,7 @@ export default async function ArticleDetailPage({
         ) : null}
         <div
           data-testid="article-inflow-public-body"
+          lang="ja"
           data-article-source={article.source}
           data-article-slug={article.articleId}
           data-declared-body-checksum={detail.declaredBodyChecksum}

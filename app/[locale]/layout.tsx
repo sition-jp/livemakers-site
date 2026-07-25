@@ -12,6 +12,14 @@ import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 // every device (2026-07-04 review: system fallbacks drifted to serif when
 // Inter / Noto Sans JP were not installed locally). --font-sans in
 // globals.css consumes these variables.
+//
+// G48 (2026-07-25): the variable classes MUST be applied to <html>, not
+// <body>. globals.css declares --font-sans on :root, and a custom property
+// whose value contains an unresolvable var() computes to the
+// guaranteed-invalid value at the element where it is declared. With the
+// classes on <body>, --font-inter was absent from :root, so --font-sans
+// resolved to the empty string and every page silently fell back to the
+// Tailwind default ui-sans-serif stack.
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -51,8 +59,12 @@ export default async function LocaleLayout({
   const themeInitScript = `try{if(localStorage.getItem("lmk-theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}`;
 
   return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={`${inter.variable} ${notoSansJp.variable}`}>
+    <html
+      lang={locale}
+      className={`${inter.variable} ${notoSansJp.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <NextIntlClientProvider messages={messages}>
           <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={futureAtlas.config.surfacePublished}>

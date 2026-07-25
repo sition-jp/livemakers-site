@@ -29,6 +29,11 @@
   --lmk-text-primary: #1b2523;
   --lmk-text-secondary: #63706b;
   --lmk-text-tertiary: #7c8b84;
+  /* G48 D2: 記事本文専用の濃度。--lmk-text-secondary は本文以外(キャプション・
+     メタ)でも使われるため値を変えず、本文だけをこのトークンで濃くする。
+     対 --lmk-bg-primary(#f7f8f6) = 8.64:1 (WCAG AAA)。記事本文の実背景は
+     bg-secondary ではなく bg-primary (2026-07-25 本番 computed 実測)。 */
+  --lmk-text-body: #3f4a47;
 
   --lmk-accent: #0e6b5c;
   --lmk-chip-bg: #edf3f0;
@@ -82,6 +87,8 @@
   --lmk-text-primary: #e6ecea;
   --lmk-text-secondary: #93a2a4;
   --lmk-text-tertiary: #7f8f87;
+  /* G48 D2: 対 --lmk-bg-primary(#10161a) = 11.30:1 (WCAG AAA)。 */
+  --lmk-text-body: #c3cecb;
 
   --lmk-accent: #54b9a4;
   --lmk-chip-bg: #20302c;
@@ -176,7 +183,7 @@
    Weekly Brief body near-white on the light default). Unlayered on purpose:
    it must outrank the plugin's own --tw-prose-* definitions. */
 .prose {
-  --tw-prose-body: var(--lmk-text-secondary);
+  --tw-prose-body: var(--lmk-text-body);
   --tw-prose-headings: var(--lmk-text-primary);
   --tw-prose-lead: var(--lmk-text-secondary);
   --tw-prose-links: var(--lmk-pillar-overview);
@@ -198,13 +205,25 @@
 /* Japanese long-form typography (2026-07-04 review): CJK body text needs a
    taller line box and a touch of tracking than the Latin plugin defaults;
    headings tighten punctuation with palt instead of extra tracking. All
-   values are single-line tunables. Unlayered to outrank plugin styles. */
-:lang(ja) .prose :where(p, li, blockquote) {
+   values are single-line tunables. Unlayered to outrank plugin styles.
+
+   G48 (2026-07-25): セレクタを `:lang(ja) .prose` から `.prose:lang(ja)` へ変更。
+   既定ルートは defaultLocale:"en" / localePrefix:"as-needed" のため
+   `/articles/<slug>` が `html lang="en"` で描画されるが、本文は常に日本語 (ja.md)。
+   祖先依存をやめ、本文要素自身の lang で判定する。これにより既定ルートでも
+   行間・字間・サイズが正しく当たる (2026-07-04 以降ずっと当たっていなかった)。
+   Weekly Brief (components/brief/BriefArticle.tsx) は実在の en.md を描画するため、
+   スコープを外さずこの形にしている。 */
+.prose:lang(ja) {
+  font-size: 1.0625rem;   /* 既定 16px 環境で 17px。rem スケーリングを保つ */
+}
+
+.prose:lang(ja) :where(p, li, blockquote) {
   line-height: 2;
   letter-spacing: 0.02em;
 }
 
-:lang(ja) .prose :where(h1, h2, h3, h4) {
+.prose:lang(ja) :where(h1, h2, h3, h4) {
   line-height: 1.5;
   letter-spacing: 0.01em;
   font-feature-settings: "palt";
