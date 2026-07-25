@@ -119,3 +119,53 @@ describe("G48 D3: Japanese body typography reaches the default route", () => {
     );
   });
 });
+
+/**
+ * 一次ソースの URL 横あふれ (2026-07-25 修正)。
+ *
+ * 記事本文の「一次ソース」節は裸の URL を書いており、remark-gfm の autolink
+ * literal が `<a>` に変える。アンカーのテキストが URL そのもの = 既定の
+ * `overflow-wrap: normal` では改行機会のない 1 語になるため、375px 幅では
+ * 本文カラム (315px) を越えて描画され、祖先が全て overflow-x:visible なので
+ * ページ全体が横スクロールした (実測 body.scrollWidth 704px / 全 127 記事)。
+ */
+describe("prose: unbreakable URLs must not overflow the column", () => {
+  const proseBlocks = [...globalsRules.matchAll(/(?:^|\})\s*(\.prose[^{}]*)\{([^}]*)\}/g)];
+
+  const blockFor = (selectorTest: (selector: string) => boolean) =>
+    proseBlocks.filter(([, selector]) => selectorTest(selector.trim()));
+
+  it("locates the .prose rules (guards the regex itself)", () => {
+    // 抽出に失敗すると以降の assertion が空振りで PASS してしまう。
+    expect(proseBlocks.length).toBeGreaterThan(0);
+    expect(blockFor((s) => s === ".prose").length).toBeGreaterThan(0);
+  });
+
+  it("relaxes overflow-wrap on the bare .prose container", () => {
+    const bare = blockFor((s) => s === ".prose")
+      .map(([, , body]) => body)
+      .join("\n");
+    expect(bare).toMatch(/overflow-wrap:\s*break-word/);
+  });
+
+  it("does not scope the wrap fix to Japanese only", () => {
+    // Weekly Brief (components/brief/BriefArticle.tsx) は実在の en.md を描画する。
+    // `.prose:lang(ja)` 側だけに置くと英語面が直らない。
+    const jaOnly = blockFor((s) => s.includes(":lang(ja)"))
+      .map(([, , body]) => body)
+      .join("\n");
+    expect(jaOnly).not.toMatch(/overflow-wrap/);
+  });
+
+  it("does not reach for break-all, which would also break normal words", () => {
+    // `word-break: break-all` は「収まらない語」に限定されず、通常の英単語まで
+    // 任意位置で折る。日本語混じりの本文で可読性が落ちるため使わない。
+    expect(globalsRules).not.toMatch(/word-break:\s*break-all/);
+  });
+
+  it("does not use overflow-wrap: anywhere, which resizes auto-layout tables", () => {
+    // `anywhere` は min-content 幅にも効くため table-layout:auto の列幅が変わる。
+    // Weekly Brief の表組みへ意図しない再レイアウトを持ち込まない。
+    expect(globalsRules).not.toMatch(/overflow-wrap:\s*anywhere/);
+  });
+});

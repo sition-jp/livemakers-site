@@ -200,6 +200,21 @@
   --tw-prose-pre-bg: var(--lmk-bg-tertiary);
   --tw-prose-th-borders: var(--lmk-border-primary);
   --tw-prose-td-borders: var(--lmk-border-primary);
+
+  /* 記事末尾の「一次ソース」節は裸の URL を書いており、remark-gfm の autolink
+     literal がそれを `<a>` にする。アンカーのテキストが URL そのもの = 既定の
+     `overflow-wrap: normal` では改行機会を持たない 1 語になるため、375px 幅では
+     本文カラム (315px) を越えて描画される。祖先は全て overflow-x:visible なので
+     はみ出しがルートまで伝播し、ページ全体が横スクロールしていた
+     (2026-07-25 実測 375px: 記事 123 面のうち 111 面で再現。最悪は
+     daily-intel-2026-07-15 の body.scrollWidth 929px)。
+
+     `break-word` は「その行に収まらない語」だけを折る。min-content 幅には
+     影響しないため table-layout:auto の列幅は不変で、日本語本文は文字間に
+     改行機会があり本プロパティが参照されないので組版も変わらない。
+     `anywhere` (min-content に効く) と `word-break: break-all`
+     (収まる語まで折る) は副作用が広いので採らない。 */
+  overflow-wrap: break-word;
 }
 
 /* Japanese long-form typography (2026-07-04 review): CJK body text needs a
