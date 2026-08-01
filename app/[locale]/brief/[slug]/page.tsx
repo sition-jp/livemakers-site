@@ -2,12 +2,21 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { getBriefBySlug } from "@/lib/briefs";
+import { briefSlugParams } from "@/lib/static-params";
 import {
   pickBriefImage,
   stripMarkdown,
   truncate,
 } from "@/lib/brief-metadata";
 import { BriefArticle } from "@/components/brief/BriefArticle";
+
+// ISR cost doctrine (2026-08-01): prerender every published brief at build;
+// unknown slugs 404 statically without invoking a function.
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return briefSlugParams();
+}
 
 export async function generateMetadata({
   params,

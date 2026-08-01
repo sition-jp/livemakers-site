@@ -2,7 +2,17 @@ import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { TerminalAsset } from "@/lib/terminal/asset-summary";
+import { terminalAssetParams } from "@/lib/static-params";
 import { AssetDetailFeed } from "@/components/terminal/asset/AssetDetailFeed";
+
+// ISR cost doctrine (2026-08-01): the asset set is a closed enum — prerender
+// all four at build; anything else 404s statically without invoking a
+// function.
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return terminalAssetParams();
+}
 
 /**
  * /assets/{btc|eth|ada|night} — asset detail page.

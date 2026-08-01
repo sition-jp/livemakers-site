@@ -8,6 +8,7 @@
  */
 import { setRequestLocale } from "next-intl/server";
 import { IntentFeed } from "@/components/terminal/IntentFeed";
+import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
 import {
   buildIntentListResponse,
   readAndParseIntents,
@@ -24,9 +25,10 @@ export default async function IntentsListPage({ params }: PageProps) {
   const normalizedLocale: "en" | "ja" = locale === "ja" ? "ja" : "en";
 
   const read = readAndParseIntents(resolveIntentsPath());
-  const mtimeMs = read.mtimeMs ?? 0;
-  const freshnessSec =
-    mtimeMs === 0 ? -1 : Math.max(0, Math.floor((Date.now() - mtimeMs) / 1000));
+  // Build-anchored (NOT Date.now()) so ISR regenerations of unchanged data
+  // render identical output → no billed write. Client SWR refreshes live
+  // freshness within one 30s poll (ISR cost doctrine, 2026-08-01).
+  const freshnessSec = deploymentFreshnessSec(read.mtimeMs);
 
   const initialData = buildIntentListResponse(read.intents, freshnessSec);
 

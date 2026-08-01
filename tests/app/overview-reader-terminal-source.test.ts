@@ -18,7 +18,7 @@ describe("overview page B+ composition wiring", () => {
     expect(source).toContain("export const revalidate = 300");
     expect(layoutSource).toContain("@/lib/home/load-home-composition");
     expect(layoutSource).toContain("await loadHomeCompositionProps()");
-    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(300);
+    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(3600);
     expect(source).toContain("<TickerBar");
     expect(source).toContain("<GlobalProvenanceStrip");
     expect(source).toContain("<HomeComposition");
