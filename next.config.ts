@@ -36,6 +36,11 @@ const nextConfig = {
     NEXT_PUBLIC_APP_VERSION: pkg.version,
     NEXT_PUBLIC_BUILD_SHA: gitShortSha(),
     NEXT_PUBLIC_BUILD_DATE: new Date().toISOString().slice(0, 10),
+    // Deployment-stable clock anchor for server-rendered freshness values
+    // (lib/deployment-freshness.ts). Baked once per build so ISR
+    // regenerations of unchanged data render byte-identical output — Vercel
+    // then skips the billed write (ISR cost doctrine, 2026-08-01).
+    NEXT_PUBLIC_BUILD_TIME_MS: String(Date.now()),
   },
 };
 

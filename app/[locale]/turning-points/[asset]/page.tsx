@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { turningPointAssetParams } from "@/lib/static-params";
 import { readAssetsSnapshot } from "@/lib/pivots/pivots-reader";
 import {
   AssetSymbolSchema,
@@ -20,6 +21,16 @@ import { Freshness } from "@/components/turning-points/Freshness";
  * works on the uppercase symbol. Default horizon is 30D (PRD §28 dashboard
  * recommendation centers on 30D).
  */
+// ISR cost doctrine (2026-08-01): the pivots asset set is a closed enum.
+// The page itself stays request-time dynamic (it reads searchParams for the
+// horizon switch), but dynamicParams=false makes unknown asset paths 404 at
+// the router without invoking the function.
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return turningPointAssetParams();
+}
+
 export default async function TurningPointAssetPage({
   params,
   searchParams,

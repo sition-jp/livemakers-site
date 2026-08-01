@@ -57,7 +57,14 @@ export const TERMINAL_FEED_ENV_KEY = "LIVEMAKERS_TERMINAL_FEED_URL";
 export const TERMINAL_FEED_SCHEMA_V01 = "livemakers_terminal_feed_v0.1";
 export const TERMINAL_FEED_SCHEMA_V02 = "livemakers_terminal_feed_v0.2";
 export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
-export const TERMINAL_FEED_REVALIDATE_SECONDS = 300;
+// ISR cost doctrine (2026-08-01): the feed is delivered to Blob hourly
+// (crontab :45), so a 300s revalidate meant 12 regenerations per delivery
+// with identical upstream data. This fetch runs in the [locale] layout, so
+// its revalidate becomes the ISR interval for EVERY page on the site —
+// 3600s matches the actual delivery cadence and cuts ISR writes ~12x.
+// Client-side live surfaces (/api/dashboard/live no-store, /api/ticker,
+// SWR polling) are unaffected.
+export const TERMINAL_FEED_REVALIDATE_SECONDS = 3600;
 
 const localizedTextSchema = z.object({ en: z.string(), ja: z.string() });
 

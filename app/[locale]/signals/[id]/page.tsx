@@ -11,6 +11,8 @@
  */
 import { setRequestLocale } from "next-intl/server";
 import { SignalDetailFeed } from "@/components/terminal/SignalDetailFeed";
+import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
+import { signalIdParams } from "@/lib/static-params";
 import {
   buildSignalDetailResponse,
   readAndParseSignals,
@@ -20,6 +22,15 @@ import {
   readAndParseIntents,
   resolveIntentsPath,
 } from "@/lib/intents-reader";
+
+// ISR cost doctrine (2026-08-01): prerender every linkable signal page at
+// build; unknown ids 404 statically without invoking a function (each
+// on-demand render of a crawler-probed path was a billed ISR write).
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return signalIdParams();
+}
 import type { TradeIntent } from "@/lib/intents";
 
 interface PageProps {
@@ -46,9 +57,10 @@ export default async function SignalDetailPage({ params }: PageProps) {
     );
   }
 
-  const mtimeMs = readResult.mtimeMs ?? 0;
-  const freshnessSec =
-    mtimeMs === 0 ? -1 : Math.max(0, Math.floor((Date.now() - mtimeMs) / 1000));
+  // Build-anchored (NOT Date.now()) so ISR regenerations of unchanged data
+  // render identical output → no billed write. Client SWR refreshes live
+  // freshness within one poll (ISR cost doctrine, 2026-08-01).
+  const freshnessSec = deploymentFreshnessSec(readResult.mtimeMs);
 
   const initialData = buildSignalDetailResponse(
     readResult.signals,
