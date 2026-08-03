@@ -15,6 +15,12 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./"),
+      // Next provides this marker at runtime. Vitest needs a resolvable no-op
+      // module so jsdom tests can exercise the real server-side public loader.
+      "server-only": path.resolve(
+        __dirname,
+        "./tests/fixtures/server-only.ts",
+      ),
     },
   },
 });
