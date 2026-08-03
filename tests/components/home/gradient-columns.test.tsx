@@ -29,6 +29,7 @@ vi.mock("@/i18n/navigation", () => ({
 
 const props = buildHomeCompositionProps({
   today: "2026-07-10",
+  articleCutoffToday: "2026-07-10",
   contentDir: path.join(
     process.cwd(),
     "tests",

@@ -193,34 +193,6 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
 
     expect(props.slots.latestArticles.length).toBeGreaterThan(0);
   });
-
-  it("keeps an explicit today as the legacy article clock when now is omitted", () => {
-    const current = article(
-      "daily-intel-20260710-current",
-      "2026-07-10T12:00:00+09:00",
-      "daily-intel",
-    );
-    const later = article(
-      "daily-intel-20260711-later",
-      "2026-07-11T12:00:00+09:00",
-      "daily-intel",
-    );
-
-    const props = buildHomeCompositionProps({
-      source: null,
-      today: "2026-07-10",
-      sessionRecords: [],
-      articles: [later, current],
-    });
-
-    expect(props.slots.lead).toMatchObject({
-      state: "today",
-      article: { articleId: current.articleId },
-    });
-    expect(props.slots.latestArticles.map((item) => item.articleId)).toEqual([
-      current.articleId,
-    ]);
-  });
 });
 
 describe("article clock (articleToday) consistency", () => {

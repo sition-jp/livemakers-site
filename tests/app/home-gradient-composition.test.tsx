@@ -31,6 +31,7 @@ vi.mock("@/i18n/navigation", () => ({
 describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => {
   const props = buildHomeCompositionProps({
     today: "2026-07-10",
+    articleCutoffToday: "2026-07-10",
     contentDir: path.join(process.cwd(), "tests", "fixtures", "content", "articles"),
   });
   const copy = buildTestHomeCopy();

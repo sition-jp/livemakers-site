@@ -151,11 +151,7 @@ export function buildHomeCompositionProps(
   const today = args.today ?? snapshot.dataDate;
   const articleCutoffToday =
     args.articleCutoffToday ??
-    (reviewedAdopted
-      ? snapshot.dataDate
-      : args.today !== undefined && args.now === undefined
-        ? args.today
-        : resolveTodayJst(now));
+    (reviewedAdopted ? snapshot.dataDate : resolveTodayJst(now));
   if (!snapshot.asOfJst.startsWith(today)) {
     throw new Error(
       `market snapshot asOfJst (${snapshot.asOfJst}) does not match today (${today})`,
