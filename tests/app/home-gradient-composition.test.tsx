@@ -48,6 +48,22 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(groups).toEqual([...GRADIENT_REGIONS]);
   });
 
+  it("exposes the server-selected article catalog source on the root", () => {
+    const { container } = render(
+      <HomeComposition
+        {...props}
+        catalogSource="repository_plus_feed"
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-home-catalog-source",
+      "repository_plus_feed",
+    );
+  });
+
   it("renders modules per region in ledger order", () => {
     const { container } = renderHome();
     for (const region of GRADIENT_REGIONS) {
