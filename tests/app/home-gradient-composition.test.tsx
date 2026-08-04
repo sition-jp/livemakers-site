@@ -31,6 +31,7 @@ vi.mock("@/i18n/navigation", () => ({
 describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => {
   const props = buildHomeCompositionProps({
     today: "2026-07-10",
+    articleCutoffToday: "2026-07-10",
     contentDir: path.join(process.cwd(), "tests", "fixtures", "content", "articles"),
   });
   const copy = buildTestHomeCopy();
@@ -46,6 +47,22 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       (element) => element.getAttribute("data-ledger-group"),
     );
     expect(groups).toEqual([...GRADIENT_REGIONS]);
+  });
+
+  it("exposes the server-selected article catalog source on the root", () => {
+    const { container } = render(
+      <HomeComposition
+        {...props}
+        catalogSource="repository_plus_feed"
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-home-catalog-source",
+      "repository_plus_feed",
+    );
   });
 
   it("renders modules per region in ledger order", () => {

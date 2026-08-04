@@ -9,6 +9,7 @@ import { loadFocusSeriesRecords } from "@/lib/sessions/focus-series";
 describe("build-home-props as-of integration (P1-2)", () => {
   const props = buildHomeCompositionProps({
     today: "2026-07-10",
+    articleCutoffToday: "2026-07-10",
     contentDir: path.join(process.cwd(), "tests", "fixtures", "content", "articles"),
   });
   const snapshot = loadMarketSnapshot();

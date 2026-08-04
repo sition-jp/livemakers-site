@@ -21,7 +21,10 @@ export interface ArticleInflowPreviewCatalog {
   feedChecksum: string | null;
 }
 export type ArticleInflowPublicArticle = ArticleInflowPreviewArticle;
-export type ArticleInflowPublicCatalog = ArticleInflowPreviewCatalog;
+export interface ArticleInflowPublicCatalog
+  extends ArticleInflowPreviewCatalog {
+  feedPresent: boolean;
+}
 
 function toJstParts(value: string) {
   const jst = new Date(new Date(value).getTime() + 9 * 60 * 60 * 1000);
@@ -92,5 +95,8 @@ export function buildArticleInflowPublicCatalog(
   repositoryArticles: ArticleMeta[],
   feed: ArticleInflowFeed | null,
 ): ArticleInflowPublicCatalog {
-  return buildArticleInflowCatalog(repositoryArticles, feed, "/articles");
+  return {
+    ...buildArticleInflowCatalog(repositoryArticles, feed, "/articles"),
+    feedPresent: feed !== null,
+  };
 }

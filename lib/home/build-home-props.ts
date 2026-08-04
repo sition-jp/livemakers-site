@@ -1,4 +1,7 @@
-import { getAllArticles } from "@/lib/articles/article-model";
+import {
+  getAllArticles,
+  type ArticleMeta,
+} from "@/lib/articles/article-model";
 import {
   getAllSessionRecords,
   getTodaySchedule,
@@ -35,6 +38,7 @@ import {
   assertRadarObservationContract,
 } from "./radar-observations";
 import { RADAR_PROMOTIONS } from "./radar-promotions";
+import { resolveTodayJst } from "./resolve-today";
 import { normalizeHomeInput, selectHomeSlots } from "./select-home-slots";
 
 export interface BuildHomeCompositionArgs {
@@ -43,6 +47,8 @@ export interface BuildHomeCompositionArgs {
   contentDir?: string;
   source?: ReviewedHomeData | null;
   sessionRecords?: SessionRecord[];
+  articles?: ArticleMeta[];
+  articleCutoffToday?: string;
 }
 
 const REVIEWED_HOME_MAX_AGE_MS = 24 * 60 * 60 * 1000;
@@ -141,7 +147,11 @@ export function buildHomeCompositionProps(
   const snapshot = reviewedSource
     ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot)
     : fixtureSnapshot;
+  const reviewedAdopted = reviewedSource !== null;
   const today = args.today ?? snapshot.dataDate;
+  const articleCutoffToday =
+    args.articleCutoffToday ??
+    (reviewedAdopted ? snapshot.dataDate : resolveTodayJst(now));
   if (!snapshot.asOfJst.startsWith(today)) {
     throw new Error(
       `market snapshot asOfJst (${snapshot.asOfJst}) does not match today (${today})`,
@@ -149,11 +159,13 @@ export function buildHomeCompositionProps(
   }
 
   const raw = {
-    articles: getAllArticles({ contentDir: args.contentDir }),
+    articles:
+      args.articles ?? getAllArticles({ contentDir: args.contentDir }),
     sessions: sessionRecords,
     radar: RADAR_OBSERVATIONS,
     promotions: RADAR_PROMOTIONS,
     today,
+    articleCutoffToday,
   };
   const normalized = normalizeHomeInput(raw);
   const live =

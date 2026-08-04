@@ -65,6 +65,7 @@ vi.mock("@/i18n/navigation", () => ({
 const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
 const props = buildHomeCompositionProps({
   today: "2026-07-10",
+  articleCutoffToday: "2026-07-10",
   contentDir: TEST_CONTENT_DIR,
 });
 const copy = buildTestHomeCopy();

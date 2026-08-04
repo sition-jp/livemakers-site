@@ -8,7 +8,12 @@ The public consumer overlays a validated Production feed on repository articles 
 - `/ja/articles/today` and `/en/articles/today`
 - `/ja/articles/series/<series>` and `/en/articles/series/<series>`
 
-Home and G44 remain repository-only. Hidden preview keeps its separate staging-capable URL and flag.
+The former repository-only Home restriction is superseded as of 2026-08-03 by
+P2-LVM-HOME-G1. Home now consumes the same fail-closed repository plus validated
+Production-feed catalog as the public article routes, while exposing the active
+catalog source through `data-home-catalog-source`. G44's market/session contracts,
+the hidden preview's staging-capable URL and flag, and all existing safety gates
+remain unchanged.
 
 ## Vercel Production configuration
 

@@ -9,7 +9,12 @@ export interface HomeSlotInput {
   radar: readonly RadarObservation[];
   promotions: Readonly<Record<string, string>>;
   today: string;
+  articleCutoffToday?: string;
 }
+
+type NormalizedHomeSlotInput = HomeSlotInput & {
+  articleCutoffToday: string;
+};
 
 export type LeadState = "today" | "latest" | "pending";
 
@@ -43,10 +48,14 @@ export interface HomeSlots {
 const dateOf = (article: ArticleMeta): string =>
   article.publishedAtJst.slice(0, 10);
 
-export function normalizeHomeInput(input: HomeSlotInput): HomeSlotInput {
+export function normalizeHomeInput(
+  input: HomeSlotInput,
+): NormalizedHomeSlotInput {
+  const articleToday = input.articleCutoffToday ?? input.today;
   return {
     ...input,
-    articles: input.articles.filter((article) => dateOf(article) <= input.today),
+    articleCutoffToday: articleToday,
+    articles: input.articles.filter((article) => dateOf(article) <= articleToday),
     sessions: input.sessions.map((session) =>
       session.liveStatus === "live" && session.date !== input.today
         ? { ...session, liveStatus: "closed" as const }
@@ -57,6 +66,7 @@ export function normalizeHomeInput(input: HomeSlotInput): HomeSlotInput {
 
 export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const input = normalizeHomeInput(rawInput);
+  const articleToday = input.articleCutoffToday;
   const used = new Set<string>();
   const take = (article: ArticleMeta | undefined): ArticleMeta | undefined => {
     if (article) {
@@ -71,7 +81,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     (article) => article.family === "daily-intel",
   );
   const todayIntel = dailyIntel.find(
-    (article) => dateOf(article) === input.today,
+    (article) => dateOf(article) === articleToday,
   );
   const lead: HomeSlots["lead"] = todayIntel
     ? { state: "today", article: take(todayIntel) ?? null, previous: null }
@@ -87,7 +97,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     (article) => article.family === "mkt12-morning",
   );
   const todayMorning = mornings.find(
-    (article) => (article.dataDate ?? dateOf(article)) === input.today,
+    (article) => (article.dataDate ?? dateOf(article)) === articleToday,
   );
   const previousMornings = mornings.filter(
     (article) => article !== todayMorning,
@@ -133,9 +143,9 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const observing = input.radar.filter(
     (observation) => observation !== radarPair?.observation,
   );
-  // now は builder input に無いので input.today の JST end-of-day から決定的に導出する
+  // now は builder input に無いので articleToday の JST end-of-day から決定的に導出する
   // (buildHomeCompositionProps の入力契約を変えないための D13 制約)。
-  const now = new Date(`${input.today}T23:59:59+09:00`);
+  const now = new Date(`${articleToday}T23:59:59+09:00`);
   // D5 対称契約: 昇格ペアが存在し記事リンクを描くときに限り、その Signal を時系列から除外する。
   const excludeIds = radarPair ? [radarPair.article.articleId] : [];
   const signalTimeline = selectSignalTimeline({

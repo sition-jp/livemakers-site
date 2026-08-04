@@ -49,7 +49,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
-  const props = await loadHomeCompositionProps();
+  const { props } = await loadHomeCompositionProps();
   const futureAtlas = await loadFutureAtlas();
   const chromeMeta = getSnapshotChromeMeta(props.snapshot);
 
