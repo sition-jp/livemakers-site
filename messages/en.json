@@ -448,6 +448,7 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
+      "freshnessPrefix": "Snapshot",
       "nextUpdateLine": "Next update: {name} {time} JST",
       "readFull": "Read the full session →"
     },
@@ -456,11 +457,13 @@
       "previous": "Read previous →",
       "archive": "Session article index (sessions become articles over time) →",
       "compactBadge": "{count} more updates today",
-      "compactPrevious": "Read the previous session article"
+      "compactPrevious": "Read the previous session article",
+      "focusPrefix": "Focus:"
     },
     "focus": {
       "title": "Session Focus",
       "snapshotBadge": "SNAPSHOT",
+      "basePrefix": "Base",
       "description": "Focus indicators for {session} · last 24 hours · instruments change with each session"
     },
     "lead": {
@@ -565,6 +568,8 @@
   },
   "sessions": {
     "family": "Session Article",
+    "prev": "Previous session",
+    "next": "Next session",
     "publishedAt": "Published",
     "liveAsOf": "Updated",
     "crystallizeNote": "This page becomes a permanent article when the next session begins.",
