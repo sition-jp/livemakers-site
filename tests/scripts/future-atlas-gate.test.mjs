@@ -35,8 +35,8 @@ const readJson = (root, relativePath) =>
 
 const safeMessages = () => ({
   nav: { futureAtlas: "未来アトラス" },
-  home: { family: { "future-map": "未来アトラス" } },
-  articles: { family: { "future-map": "未来アトラス" } },
+  home: { family: { "future-map": "次の時代の地図" } },
+  articles: { family: { "future-map": "次の時代の地図" } },
   futureAtlas: { heading: "未来を考えるための地図" },
 });
 

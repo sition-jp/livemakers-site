@@ -149,11 +149,15 @@ describe("G41 page chrome", () => {
     }
   });
 
-  it("uses the Future Atlas display name across Japanese and English family labels", () => {
-    expect(ja.home.family["future-map"]).toBe("未来アトラス");
-    expect(ja.articles.family["future-map"]).toBe("未来アトラス");
-    expect(en.home.family["future-map"]).toBe("Future Atlas");
-    expect(en.articles.family["future-map"]).toBe("Future Atlas");
+  it("names the future-map series 次の時代の地図 across locales (2026-08-07 田平氏裁定)", () => {
+    // 「次の時代の地図」(future-map シリーズ) と「未来アトラス」(future-atlas・
+    // 田平氏手動記事) は別物 — シリーズ側に未来アトラスの名を使わない
+    expect(ja.home.family["future-map"]).toBe("次の時代の地図");
+    expect(ja.articles.family["future-map"]).toBe("次の時代の地図");
+    expect(en.home.family["future-map"]).toBe("Map of the Next Era");
+    expect(en.articles.family["future-map"]).toBe("Map of the Next Era");
+    expect(ja.articles.family["future-atlas"]).toBe("未来アトラス");
+    expect(en.articles.family["future-atlas"]).toBe("Future Atlas");
   });
 
   it("passes server-loaded chrome metadata through layout and SiteChrome", () => {

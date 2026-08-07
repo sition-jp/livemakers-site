@@ -19,7 +19,7 @@
     "mkt12Weekend": "WEEKEND 12",
     "eventRiskRadar": "EVENT RISK",
     "weeklyBrief": "WEEKLY BRIEF",
-    "futureMap": "MAP OF THE FUTURE",
+    "futureMap": "MAP OF THE NEXT ERA",
     "sessionTerminal": "SESSION TERMINAL"
   },
   "assets": {
@@ -428,7 +428,7 @@
       "deepDiveTitle": "Deep Dive — featured longform",
       "latestTitle": "Latest articles",
       "viewAll": "View all",
-      "atlasHeadingUnpublished": "Map of the future",
+      "atlasHeadingUnpublished": "Map of the Next Era",
       "atlasHeadingPublished": "Future Atlas"
     },
     "hero": {
@@ -439,7 +439,7 @@
       "daily-intel": "Daily Intel",
       "signal": "Signal",
       "deep-dive": "Deep Dive",
-      "future-map": "Future Atlas",
+      "future-map": "Map of the Next Era",
       "mkt12-morning": "12 Indicators: Morning",
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
@@ -537,7 +537,7 @@
       "daily-intel": "Daily Intel",
       "signal": "Signal",
       "deep-dive": "Deep Dive",
-      "future-map": "Future Atlas",
+      "future-map": "Map of the Next Era",
       "mkt12-morning": "12 Indicators: Morning",
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
