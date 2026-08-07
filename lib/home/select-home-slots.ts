@@ -56,8 +56,11 @@ export function normalizeHomeInput(
     ...input,
     articleCutoffToday: articleToday,
     articles: input.articles.filter((article) => dateOf(article) <= articleToday),
+    // P0-1b (G44 Amendment A): the live demote clock is the reader-facing
+    // articleCutoffToday, not the market snapshot date — a fixture session
+    // must never present as live once the real date has moved past it.
     sessions: input.sessions.map((session) =>
-      session.liveStatus === "live" && session.date !== input.today
+      session.liveStatus === "live" && session.date !== articleToday
         ? { ...session, liveStatus: "closed" as const }
         : session,
     ),

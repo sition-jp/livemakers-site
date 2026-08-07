@@ -173,6 +173,38 @@ describe("home slot selection (B+)", () => {
     ).toBe(true);
   });
 
+  it("demotes a fixture live session once articleCutoffToday moves past it (P0-1b)", () => {
+    // fixture degrade: market today stays on the fixture dataDate while the
+    // reader-facing clock (articleCutoffToday) is the real JST date.
+    const normalized = normalizeHomeInput({
+      ...input(),
+      articleCutoffToday: "2026-08-07",
+    });
+    expect(
+      normalized.sessions.every((record) => record.liveStatus !== "live"),
+    ).toBe(true);
+  });
+
+  it("keeps a live session dated articleCutoffToday even when market today lags (P0-1b)", () => {
+    const fresh = input().sessions.map((record) =>
+      record.sessionId === "2026-07-10-asia-open"
+        ? { ...record, date: "2026-08-07" }
+        : record,
+    );
+    const normalized = normalizeHomeInput({
+      ...input(),
+      sessions: fresh,
+      articleCutoffToday: "2026-08-07",
+    });
+    expect(
+      normalized.sessions.some(
+        (record) =>
+          record.sessionId === "2026-07-10-asia-open" &&
+          record.liveStatus === "live",
+      ),
+    ).toBe(true);
+  });
+
   it("supplies the signal timeline excluding the promoted pair", () => {
     const slots = selectHomeSlots(input());
     expect(slots.signalTimeline.length).toBeGreaterThanOrEqual(10);
