@@ -87,3 +87,39 @@ describe("SessionNowCard", () => {
     expect(container.textContent).not.toMatch(/\bLIVE\b/);
   });
 });
+
+describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e)", () => {
+  it("routes the full-session CTA to /sessions/archive while the session is pending", () => {
+    expect(record.articleStatus).toBe("pending");
+    render(
+      <SessionNowCard record={record} provenance={provenance} copy={copy} />,
+    );
+    expect(
+      screen
+        .getByRole("link", { name: /セッション全文を読む/ })
+        .getAttribute("href"),
+    ).toBe("/sessions/archive");
+  });
+
+  it("routes the full-session CTA to currentUrl once the session is published", () => {
+    const publishedRecord: SessionRecord = {
+      ...record,
+      liveStatus: "closed",
+      articleStatus: "published",
+      canonicalArticleUrl: record.currentUrl,
+      publishedAt: "2026-07-10T06:00:00+09:00",
+    };
+    render(
+      <SessionNowCard
+        record={publishedRecord}
+        provenance={provenance}
+        copy={copy}
+      />,
+    );
+    expect(
+      screen
+        .getByRole("link", { name: /セッション全文を読む/ })
+        .getAttribute("href"),
+    ).toBe(publishedRecord.currentUrl);
+  });
+});

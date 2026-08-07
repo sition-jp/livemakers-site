@@ -9,6 +9,7 @@ import { CompositeHero } from "@/components/home/CompositeHero";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import type { HomeSlots } from "@/lib/home/select-home-slots";
+import type { SessionRecord } from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 
 vi.mock("@/i18n/navigation", () => ({
@@ -39,8 +40,13 @@ const pendingLead: HomeSlots["lead"] = {
 };
 
 describe("composite hero (mobile single representation, G44 D8)", () => {
-  it("links the session line to the current session surface with freshness", () => {
+  // D6 (crystallize 前の 404 回避, G43-e): the fixture's live session is
+  // articleStatus=pending (not yet crystallized), so the CTA must route to
+  // the archive chrome route, not a session detail route that may not exist
+  // as a static page yet.
+  it("routes to /sessions/archive while the live session is pending (D6)", () => {
     expect(props.live).not.toBeNull();
+    expect(props.live!.articleStatus).toBe("pending");
     const { container } = render(
       <CompositeHero live={props.live} lead={props.slots.lead} copy={copy.hero} />,
     );
@@ -49,12 +55,31 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
     )!;
     const link = line.querySelector("a")!;
     expect(link).not.toBeNull();
-    expect(link.getAttribute("href")).toBe(props.live!.currentUrl);
+    expect(link.getAttribute("href")).toBe("/sessions/archive");
     expect(link.hasAttribute("data-index-nav")).toBe(true);
     expect(link.textContent).toContain(
       getSessionBySlug(props.live!.sessionSlug).nameJa,
     );
     expect(link.textContent).toContain(props.live!.asOfJst.slice(11, 16));
+  });
+
+  it("routes to currentUrl once the live session is published (D6)", () => {
+    expect(props.live).not.toBeNull();
+    const publishedLive: SessionRecord = {
+      ...props.live!,
+      liveStatus: "closed",
+      articleStatus: "published",
+      canonicalArticleUrl: props.live!.currentUrl,
+      publishedAt: "2026-07-10T06:00:00+09:00",
+    };
+    const { container } = render(
+      <CompositeHero live={publishedLive} lead={props.slots.lead} copy={copy.hero} />,
+    );
+    const line = container.querySelector(
+      '[data-column-module="hero-session-line"]',
+    )!;
+    const link = line.querySelector("a")!;
+    expect(link.getAttribute("href")).toBe(publishedLive.currentUrl);
   });
 
   it("falls back to the session archive link when no session is live", () => {

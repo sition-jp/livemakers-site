@@ -59,11 +59,15 @@ describe("lead group (ledger group 1)", () => {
     expect(screen.getByText("Asia Open Terminal")).toBeInTheDocument();
     const bullet = screen.getByText(/米CPI通過後、最初のアジア時間/);
     expect(bullet.closest("a")).toBeNull();
+    // D6 (crystallize 前の 404 回避, G43-e): this repo fixture record is
+    // articleStatus=pending, so the CTA routes to the archive chrome route
+    // rather than the (not yet crystallized) session detail route.
+    expect(record.articleStatus).toBe("pending");
     expect(
       screen
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
-    ).toContain("/sessions/2026-07-10-asia-open");
+    ).toBe("/sessions/archive");
   });
 
   it("renders one sparkline and series packet per available focus instrument", () => {

@@ -37,9 +37,17 @@ export function CompositeHero({
         const sessionName = live
           ? getSessionBySlug(live.sessionSlug).nameJa
           : copy.sessionFallback;
+        // D6 (crystallize 前の 404 回避, G43-e): only a published session has
+        // a materialized detail page — a pending session (repo or feed) may
+        // not exist as a static route yet, so route to the archive chrome
+        // route instead.
+        const sessionHref =
+          live && live.articleStatus === "published"
+            ? live.currentUrl
+            : "/sessions/archive";
         return (
           <Link
-            href={live?.currentUrl ?? "/sessions/archive"}
+            href={sessionHref}
             data-index-nav
             className="flex items-baseline gap-2 rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary px-4 py-3"
           >

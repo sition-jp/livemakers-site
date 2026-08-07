@@ -63,8 +63,16 @@ export function SessionNowCard({
       </ul>
       <div className="mt-2 flex items-center gap-3 text-[11.5px] text-text-tertiary">
         <span>{copy.nextUpdateLine}</span>
+        {/* D6 (crystallize 前の 404 回避, G43-e): only a published session has
+            a materialized detail page — a pending session (repo or feed) may
+            not exist as a static route yet, so route to the archive chrome
+            route instead. */}
         <Link
-          href={record.currentUrl}
+          href={
+            record.articleStatus === "published"
+              ? record.currentUrl
+              : "/sessions/archive"
+          }
           className="ml-auto shrink-0 text-[12.5px] font-bold text-accent"
         >
           {copy.readFull}
