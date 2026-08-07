@@ -60,7 +60,10 @@ export function LeadingColumn({
           />
         ) : (
           <section className="rounded-lg border border-border-primary bg-bg-secondary p-4 text-sm text-text-tertiary">
-            {copy.noLiveSession}
+            <p>{copy.noLiveSession}</p>
+            <p className="mt-1 font-mono text-[11px]">
+              {copy.sessionNow.nextUpdateLine}
+            </p>
           </section>
         );
       case "schedule":

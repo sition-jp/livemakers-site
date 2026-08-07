@@ -125,15 +125,16 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
     );
   });
 
-  it("fixture degrade preserves returned today, live session, focusSeries, and top-level keys", () => {
+  it("fixture degrade preserves returned today, focusSeries, and top-level keys while demoting the fixture session (P0-1b)", () => {
     const props = buildHomeCompositionProps({ source: null, now: NOW });
 
     expect(props.today).toBe("2026-07-10");
     expect(props.snapshot.pagePacketId).toContain("_fx01");
-    expect(props.live).toMatchObject({
-      date: "2026-07-10",
-      liveStatus: "live",
-    });
+    // P0-1b (G44 Amendment A): the 2026-07-10 fixture session must not
+    // present as live once the real date has moved past it. The focus
+    // fallback still renders fixture series with fixture provenance.
+    expect(props.live).toBeNull();
+    expect(props.focusSessionSlug).toBe("asia-open");
     expect(props.focusSeries.filter(Boolean).length).toBeGreaterThan(0);
     expect(Object.keys(props).sort()).toEqual([
       "asOfLabel",
@@ -302,18 +303,30 @@ describe("article clock (articleToday) consistency", () => {
     });
   });
 
-  it("keeps session live demotion on market today", () => {
+  it("keeps session live demotion on the article clock (P0-1b)", () => {
+    // P0-1b (G44 Amendment A) superseded the market-today demotion clock:
+    // a session dated articleCutoffToday stays live even when the market
+    // snapshot date lags, and a session behind the article clock demotes.
     const session = {
       ...getSessionRecord("2026-07-10-asia-open"),
       date: "2026-08-03",
     };
 
-    const normalized = normalizeHomeInput({
-      ...slotInput([]),
-      sessions: [session],
+    const base = { ...slotInput([]), sessions: [session] };
+    const onArticleToday = normalizeHomeInput({
+      ...base,
+      articleCutoffToday: "2026-08-03",
+    });
+    expect(onArticleToday.sessions[0]).toMatchObject({
+      date: "2026-08-03",
+      liveStatus: "live",
     });
 
-    expect(normalized.sessions[0]).toMatchObject({
+    const behindArticleToday = normalizeHomeInput({
+      ...base,
+      articleCutoffToday: "2026-08-04",
+    });
+    expect(behindArticleToday.sessions[0]).toMatchObject({
       date: "2026-08-03",
       liveStatus: "closed",
     });

@@ -55,6 +55,34 @@ function renderLeading() {
 }
 
 describe("LeadingColumn (gradient leading, D5)", () => {
+  it("shows an honest session fallback with the next update line when degraded (P0-1b)", () => {
+    const degraded = buildHomeCompositionProps({
+      today: "2026-07-10",
+      articleCutoffToday: "2026-08-07",
+      contentDir: path.join(
+        process.cwd(),
+        "tests",
+        "fixtures",
+        "content",
+        "articles",
+      ),
+    });
+    expect(degraded.live).toBeNull();
+    const { getByText } = render(
+      <LeadingColumn
+        live={degraded.live}
+        schedule={degraded.schedule}
+        slots={degraded.slots}
+        focusSeries={degraded.focusSeries}
+        focusSessionSlug={degraded.focusSessionSlug}
+        sessionProvenance={degraded.sessionProvenance}
+        copy={copy}
+      />,
+    );
+    getByText("現在のセッションは切替中です");
+    getByText("次の更新: Europe Bridge Terminal 12:03 JST");
+  });
+
   it("renders modules in the ledger order", () => {
     const { container } = renderLeading();
     expect(

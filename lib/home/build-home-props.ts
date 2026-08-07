@@ -171,12 +171,17 @@ export function buildHomeCompositionProps(
   const live =
     normalized.sessions.find((record) => record.liveStatus === "live") ??
     null;
+  // P0-1b (G44 Amendment A): a session demoted by the article clock still
+  // anchors the fixture focus fallback — degrade keeps fixture charts with
+  // fixture provenance; only the session card drops its live claim.
+  const declaredLive =
+    raw.sessions.find((record) => record.liveStatus === "live") ?? null;
   const slots = selectHomeSlots(raw);
   const focusRecords = loadFocusSeriesRecords();
   const focusSeries = reviewedSource
     ? reviewedSource.focusSession.series
-    : live
-      ? resolveFocusInstruments(live).map((instrumentId) =>
+    : declaredLive
+      ? resolveFocusInstruments(declaredLive).map((instrumentId) =>
           buildFocusSeries(focusRecords, instrumentId, {
             windowEndJst: snapshot.asOfJst,
           }),
@@ -184,7 +189,7 @@ export function buildHomeCompositionProps(
       : [];
   const focusSessionSlug = reviewedSource
     ? reviewedSource.focusSession.sessionSlug
-    : (live?.sessionSlug ?? null);
+    : (declaredLive?.sessionSlug ?? null);
   const asOfLabel = snapshot.asOfLabel;
   const reviewedPair = reviewedSource?.provenance;
   const mkt12Provenance = makeWindowProvenance({
