@@ -13,7 +13,7 @@ import type {
   LocalizedText,
   TerminalLiveRadarItem,
 } from "@/lib/livemakers-terminal-preview/types";
-import { matchesTerm } from "@/lib/home/matches-term";
+import { findLiveTokenViolations, matchesTerm } from "@/lib/home/matches-term";
 import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import type { FocusSeries } from "@/lib/sessions/focus-series";
 import {
@@ -643,9 +643,30 @@ export interface SessionsFeedData {
   records: SessionRecordMeta[];
 }
 
+/**
+ * Validate and map the sessions bundle. Returns null (→ the caller falls
+ * back to the repo-only session state, never a stale/mixed record) unless
+ * the strict schema passes AND every record's titleJa + bullets[] clears the
+ * same word-boundary forbidden-vocabulary scan mapRadarBundle applies to
+ * titleJa, plus the reader-grammar LIVE-token check (fix round 2 / I-1) —
+ * one violation anywhere nulls the whole bundle (fail-closed, never a
+ * partial sessions render).
+ */
 function mapSessionsBundle(section: unknown): SessionsFeedData | null {
   const parsed = sessionsBundleSchema.safeParse(section);
   if (!parsed.success) return null;
+  for (const record of parsed.data.records) {
+    for (const text of [record.titleJa, ...record.bullets]) {
+      const lower = text.toLowerCase();
+      for (const term of [
+        ...forbiddenSourceVisibleText,
+        ...forbiddenSourceOpsTerms,
+      ]) {
+        if (matchesTerm(lower, term.toLowerCase())) return null;
+      }
+      if (findLiveTokenViolations(text).length > 0) return null;
+    }
+  }
   return { records: parsed.data.records };
 }
 

@@ -1133,4 +1133,28 @@ describe("mapTerminalFeed — sessions bundle (G43-e S2)", () => {
     expect(data?.sessions).toBeNull();
     expect(data?.home).not.toBeNull();
   });
+
+  // fix round 2 / I-1: same word-boundary forbidden-vocabulary + LIVE-token
+  // scan mapRadarBundle applies to titleJa, extended to sessions' titleJa AND
+  // every bullets[] entry — one violation anywhere nulls the whole bundle
+  // (fail-closed), the rest of the feed stays live (independent degradation).
+  it("degrades the whole bundle to null when a bullet leaks forbidden visible text (fail-closed, fix round 2 / I-1)", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.records[0].bullets[0] = "published_log の更新を検出";
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    // independent degradation: home and market lanes stay live.
+    expect(data?.home).not.toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
+  });
+
+  it("degrades the whole bundle to null when titleJa carries a bare LIVE token (fix round 2 / I-1)", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.records[0].titleJa = "LIVE Asia Open Terminal";
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    expect(data?.home).not.toBeNull();
+  });
 });

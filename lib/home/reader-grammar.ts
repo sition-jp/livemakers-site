@@ -2,9 +2,9 @@ import {
   forbiddenSourceOpsTerms,
   forbiddenSourceVisibleText,
 } from "@/lib/terminal/live-market-feed";
-import { matchesTerm } from "./matches-term";
+import { findLiveTokenViolations, matchesTerm } from "./matches-term";
 
-export { matchesTerm };
+export { matchesTerm, findLiveTokenViolations };
 
 export const FORBIDDEN_DESIGN_TERMS = [
   "CO-EQUAL",
@@ -48,11 +48,6 @@ export function findForbiddenOpsTerms(text: string): string[] {
   return FORBIDDEN_OPS_TERMS.filter((term) =>
     matchesTerm(lower, term.toLowerCase()),
   );
-}
-
-export function findLiveTokenViolations(text: string): string[] {
-  const scrubbed = text.replaceAll("LIVEMAKERS", "");
-  return /(?<![A-Za-z])LIVE(?![A-Za-z])/.test(scrubbed) ? ["LIVE"] : [];
 }
 
 export function findRawInstrumentIdViolations(text: string): string[] {
