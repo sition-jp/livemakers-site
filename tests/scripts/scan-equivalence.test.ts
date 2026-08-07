@@ -25,7 +25,13 @@ describe("forbidden registry / scanner equivalence", () => {
         forbidden.bodyExemptTerms.includes(term),
       ),
     ).toEqual([]);
-    expect(forbidden.bodyExemptTerms).toEqual(["https://", "http://"]);
+    // "cloudflare" は 2026-08-07 に opsTerms から移設。union (= FORBIDDEN_OPS_TERMS)
+    // は不変なので terminal 面の遮断は維持され、記事本文だけが免除される。
+    expect(forbidden.bodyExemptTerms).toEqual([
+      "https://",
+      "http://",
+      "cloudflare",
+    ]);
   });
 
   const directCases: Array<[string, string[]]> = [
@@ -43,6 +49,17 @@ describe("forbidden registry / scanner equivalence", () => {
     ["/Users/sition/private.md を参照", ["/Users/"]],
     ["07_DATA/content の位置", ["07_DATA"]],
     ["無関係の安全な本文です", []],
+    // 2026-08-07: Cloudflare は報道対象の企業名として記事本文に正当に出る。
+    // terminal 面 (FORBIDDEN_OPS_TERMS) では内部運用語として遮断を維持しつつ、
+    // 本文スキャンからは外す = bodyExemptTerms 行き。
+    ["Cloudflareがエージェント向けブラウザKitesurfをWorkers上で公開した", []],
+    ["Cloudflare網の通信の半分が非人間になった", []],
+    // 免除しても「取得手段の失敗を語る」本来の leak は他の ops 語で捕捉が続く
+    [
+      "Truth Social は Cloudflare の SPA shell を返し chrome mcp 経由では取得できない",
+      ["chrome mcp"],
+    ],
+    ["Cloudflare 由来の fallback が partial_success で止まった", ["fallback", "partial_success"]],
   ];
 
   it("returns exactly the expected hits", () => {
