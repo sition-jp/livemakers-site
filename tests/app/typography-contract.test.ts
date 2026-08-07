@@ -113,9 +113,15 @@ describe("G48 D3: Japanese body typography reaches the default route", () => {
     expect(globalsRules).not.toMatch(/font-size:\s*17px/);
   });
 
-  it("keeps the Japanese long-form line-height at 2", () => {
+  it("keeps the Japanese long-form line-height at 1.85 (2026-08-07 田平氏要望で 2 から一段詰め)", () => {
     expect(globalsRules).toMatch(
-      /\.prose:lang\(ja\)\s+:where\(p, li, blockquote\)\s*\{[^}]*line-height:\s*2/,
+      /\.prose:lang\(ja\)\s+:where\(p, li, blockquote\)\s*\{[^}]*line-height:\s*1\.85/,
+    );
+  });
+
+  it("keeps anchored prose headings clear of the sticky header on toc jumps", () => {
+    expect(globalsRules).toMatch(
+      /\.prose\s+:where\(h2\[id\], h3\[id\]\)\s*\{[^}]*scroll-margin-top/,
     );
   });
 });

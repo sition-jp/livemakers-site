@@ -234,7 +234,7 @@
 }
 
 .prose:lang(ja) :where(p, li, blockquote) {
-  line-height: 2;
+  line-height: 1.85; /* 2026-08-07 田平氏要望で 2 から一段詰め */
   letter-spacing: 0.02em;
 }
 
@@ -242,6 +242,12 @@
   line-height: 1.5;
   letter-spacing: 0.01em;
   font-feature-settings: "palt";
+}
+
+/* TOC アンカージャンプの着地位置 (2026-08-07)。ヘッダーが sticky (65px) なので
+   scroll-margin なしだと飛び先見出しがヘッダーの下に隠れる。 */
+.prose :where(h2[id], h3[id]) {
+  scroll-margin-top: 5rem;
 }
 
 @layer base {
