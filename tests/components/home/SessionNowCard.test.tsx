@@ -41,6 +41,11 @@ const record: SessionRecord = {
   ],
   focusFallbackApplied: false,
   bodyJa: null,
+  // Explicit repo-origin marker (fix round 2 / I-2) — this fixture represents
+  // a session already crystallized to content/sessions/, matching what
+  // getAllSessionRecords() would return, distinct from the feed-lifted,
+  // not-yet-materialized fixture used below.
+  hasMaterializedRoute: true,
 };
 
 const copy = {
@@ -88,9 +93,10 @@ describe("SessionNowCard", () => {
   });
 });
 
-describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e)", () => {
-  it("routes the full-session CTA to /sessions/archive while the session is pending", () => {
+describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e / fix round 2 I-2)", () => {
+  it("routes the full-session CTA to currentUrl for a repo-origin pending session (②)", () => {
     expect(record.articleStatus).toBe("pending");
+    expect(record.hasMaterializedRoute).toBe(true);
     render(
       <SessionNowCard record={record} provenance={provenance} copy={copy} />,
     );
@@ -98,10 +104,10 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e)"
       screen
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
-    ).toBe("/sessions/archive");
+    ).toBe(record.currentUrl);
   });
 
-  it("routes the full-session CTA to currentUrl once the session is published", () => {
+  it("routes the full-session CTA to currentUrl once the session is published (③)", () => {
     const publishedRecord: SessionRecord = {
       ...record,
       liveStatus: "closed",
@@ -121,5 +127,24 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e)"
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
     ).toBe(publishedRecord.currentUrl);
+  });
+
+  it("routes the full-session CTA to /sessions/archive when the record is feed-origin and not yet materialized (①)", () => {
+    const feedOnlyRecord: SessionRecord = {
+      ...record,
+      hasMaterializedRoute: false,
+    };
+    render(
+      <SessionNowCard
+        record={feedOnlyRecord}
+        provenance={provenance}
+        copy={copy}
+      />,
+    );
+    expect(
+      screen
+        .getByRole("link", { name: /セッション全文を読む/ })
+        .getAttribute("href"),
+    ).toBe("/sessions/archive");
   });
 });

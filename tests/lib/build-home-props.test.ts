@@ -263,6 +263,10 @@ describe("build-home-props sessions feed adoption (G43-e S2)", () => {
     expect(props.live!.focusFallbackApplied).toBe(false);
     expect(props.live!.focusInstruments).toEqual(["btc_usd", "usd_jpy"]);
     expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
+    // fix round 2 / I-2, ①: no repo record shares this sessionId (sessionRecords
+    // is []), so the lifted record was never crystallized to content/sessions/
+    // — generateStaticParams would not produce a route for it.
+    expect(props.live!.hasMaterializedRoute).toBe(false);
   });
 
   it("dedups by sessionId — the feed record wins over a same-id repo record", () => {
@@ -296,6 +300,11 @@ describe("build-home-props sessions feed adoption (G43-e S2)", () => {
     expect(props.live!.titleJa).toBe(sessions.records[0].titleJa);
     expect(props.live!.packetId).toBe(sessions.records[0].packetId);
     expect(props.live!.titleJa).not.toBe("REPO STALE TITLE");
+    // fix round 2 / I-2: the feed record wins the dedup, but a repo record
+    // with the same sessionId DOES exist (staleRepoRecord) — the session was
+    // already crystallized on disk, so the lifted (feed-content) record is
+    // still materialized.
+    expect(props.live!.hasMaterializedRoute).toBe(true);
   });
 
   it("falls back to repo-only when the market source is stale even though the sessions bundle is valid", () => {

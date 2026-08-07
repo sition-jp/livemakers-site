@@ -63,13 +63,15 @@ export function SessionNowCard({
       </ul>
       <div className="mt-2 flex items-center gap-3 text-[11.5px] text-text-tertiary">
         <span>{copy.nextUpdateLine}</span>
-        {/* D6 (crystallize 前の 404 回避, G43-e): only a published session has
-            a materialized detail page — a pending session (repo or feed) may
-            not exist as a static route yet, so route to the archive chrome
-            route instead. */}
+        {/* D6 (crystallize 前の 404 回避, G43-e / fix round 2 I-2): route by
+            whether the record is actually materialized in the repo (has a
+            generateStaticParams route for currentUrl), not by articleStatus.
+            A repo-origin record (published or still pending) is always
+            materialized; a feed-lifted record without a matching repo entry
+            is not — see SessionRecord.hasMaterializedRoute. */}
         <Link
           href={
-            record.articleStatus === "published"
+            record.hasMaterializedRoute !== false
               ? record.currentUrl
               : "/sessions/archive"
           }

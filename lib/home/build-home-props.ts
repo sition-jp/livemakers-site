@@ -184,8 +184,16 @@ export type HomeSessionsSource = "feed_today" | "repo";
  * only for its string[] -> InstrumentId[] narrowing, not for its fallback
  * signal, since the wire contract's reused SessionMetaSchema already
  * guarantees the record is otherwise well-formed.
+ *
+ * G43-e (fix round 2 / I-2): hasMaterializedRoute is threaded through
+ * explicitly by the caller (mergeSessionRecords) rather than computed here —
+ * this function has no repo context of its own, only the one record being
+ * lifted.
  */
-function toSessionRecord(meta: SessionRecordMeta): SessionRecord {
+function toSessionRecord(
+  meta: SessionRecordMeta,
+  hasMaterializedRoute: boolean,
+): SessionRecord {
   const { instruments } = normalizeFocusInstruments(
     meta.focusInstruments,
     meta.sessionSlug,
@@ -195,6 +203,7 @@ function toSessionRecord(meta: SessionRecordMeta): SessionRecord {
     focusInstruments: instruments,
     focusFallbackApplied: false,
     bodyJa: null,
+    hasMaterializedRoute,
   };
 }
 
@@ -204,13 +213,24 @@ function toSessionRecord(meta: SessionRecordMeta): SessionRecord {
  * re-sorted newest-first to preserve getAllSessionRecords()'s existing
  * invariant, which downstream .find() callers rely on (the live-record
  * lookup, and per-slug "previous" resolution in getTodaySchedule).
+ *
+ * G43-e (fix round 2 / I-2): a feed record's hasMaterializedRoute is derived
+ * from this same dedup check — if its sessionId also appears among the repo
+ * records, the session was already crystallized on disk (a real
+ * content/sessions/ directory exists, so generateStaticParams produces a
+ * route for it) and the lifted record is materialized even though the feed
+ * copy wins the merge; otherwise the sessionId has never been crystallized
+ * and the route would 404, so the lifted record is not materialized.
  */
 function mergeSessionRecords(
   feedRecords: readonly SessionRecordMeta[],
   repoRecords: readonly SessionRecord[],
 ): SessionRecord[] {
+  const repoIds = new Set(repoRecords.map((record) => record.sessionId));
   const feedIds = new Set(feedRecords.map((record) => record.sessionId));
-  const feedSessionRecords = feedRecords.map(toSessionRecord);
+  const feedSessionRecords = feedRecords.map((record) =>
+    toSessionRecord(record, repoIds.has(record.sessionId)),
+  );
   const dedupedRepo = repoRecords.filter(
     (record) => !feedIds.has(record.sessionId),
   );

@@ -59,15 +59,17 @@ describe("lead group (ledger group 1)", () => {
     expect(screen.getByText("Asia Open Terminal")).toBeInTheDocument();
     const bullet = screen.getByText(/米CPI通過後、最初のアジア時間/);
     expect(bullet.closest("a")).toBeNull();
-    // D6 (crystallize 前の 404 回避, G43-e): this repo fixture record is
-    // articleStatus=pending, so the CTA routes to the archive chrome route
-    // rather than the (not yet crystallized) session detail route.
+    // D6 (crystallize 前の 404 回避, G43-e / fix round 2 I-2): this repo
+    // fixture record is articleStatus=pending but already materialized
+    // (getSessionRecord reads it off content/sessions/), so the CTA routes
+    // to its real currentUrl rather than the archive chrome route.
     expect(record.articleStatus).toBe("pending");
+    expect(record.hasMaterializedRoute).toBe(true);
     expect(
       screen
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
-    ).toBe("/sessions/archive");
+    ).toBe(record.currentUrl);
   });
 
   it("renders one sparkline and series packet per available focus instrument", () => {

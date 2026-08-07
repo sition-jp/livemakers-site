@@ -107,6 +107,21 @@ export interface SessionRecord
   focusInstruments: InstrumentId[];
   focusFallbackApplied: boolean;
   bodyJa: string | null;
+  /**
+   * G43-e (fix round 2 / I-2): true when this record's sessionId exists in
+   * the repo's content/sessions/ directory — i.e. generateStaticParams
+   * (app/[locale]/sessions/[slug]/page.tsx) will materialize a route for
+   * `currentUrl`, so linking to it can never dead-end in a 404. Repo reads
+   * (getAllSessionRecords below) always set this true. A feed sessions
+   * bundle record (site-first live-session consumer) may or may not be
+   * materialized — see lib/home/build-home-props.ts's mergeSessionRecords /
+   * toSessionRecord, which derive it from the same repo-dedup check that
+   * decides whether the feed record wins over a same-sessionId repo row.
+   * Optional so pre-existing hand-built test fixtures keep compiling;
+   * consumers treat a missing value as materialized (`!== false`) — the only
+   * construction site that can produce `false` is the feed-lift path.
+   */
+  hasMaterializedRoute?: boolean;
 }
 
 export function normalizeFocusInstruments(
@@ -169,6 +184,7 @@ export function getAllSessionRecords(): SessionRecord[] {
         focusInstruments: focus.instruments,
         focusFallbackApplied: focus.fallbackApplied,
         bodyJa,
+        hasMaterializedRoute: true,
       };
     })
     .sort((left, right) => right.asOfJst.localeCompare(left.asOfJst));
