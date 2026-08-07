@@ -15,9 +15,9 @@ import type { ArticleMeta } from "@/lib/articles/article-model";
  * 画像ソースだけ public/ のファイルから feed 由来の Blob URL
  * (`ArticleMeta.thumbnailUrl` — 検証通過済み) に差し替えている。
  *
- * description の優先順: excerpt → 本文のリード段落 → 省略。
- * サイト共通 description を継承させない (記事ごとに違う説明という前提が
- * 崩れる) が、嘘の説明文を作るよりは省略する。
+ * description の優先順: excerpt → 本文のリード段落 → 省略。素材が無い
+ * ときに嘘の説明文は作らない (省略時は Next の浅いマージで root layout の
+ * サイト共通 description が残るが、実経路では body が常に渡る)。
  */
 
 /** 記事サムネの実寸 (16:9)。ArticleThumbnail の img と揃える。 */
@@ -34,8 +34,17 @@ export type ArticleMetadataSource = Pick<
   Partial<Pick<ArticleMeta, "titleEn" | "excerptJa" | "thumbnailUrl">>;
 
 /**
+ * 素のラベル行と本文を分ける下限。Daily Intel の B'' ブロック見出し
+ * (`🎯 今日の主役` / `📎 直近24時間の動き` など) は `#` を持たないため
+ * Markdown 見出しのスキップに掛からない。実ビルドの HTML で
+ * og:description が「🎯 今日の主役」になっていたのを見て追加した。
+ * リード段落がこれを下回ることは実質ない。
+ */
+const LEAD_MIN_CHARS = 30;
+
+/**
  * MDX 本文の先頭リード段落を取り出す。見出し・引用・リスト・コード
- * フェンス・HTML/JSX 行は本文の導入ではないので飛ばす。
+ * フェンス・HTML/JSX 行、および短すぎるラベル行は導入ではないので飛ばす。
  */
 function leadParagraph(body: string): string | null {
   for (const block of body.split(/\n{2,}/)) {
@@ -43,7 +52,9 @@ function leadParagraph(body: string): string | null {
     if (!text) continue;
     if (/^(#{1,6}\s|>\s|[-*+]\s|\d+\.\s|```|<|\||:{3})/.test(text)) continue;
     const flattened = stripMarkdown(text);
-    if (flattened) return flattened;
+    if (flattened && Array.from(flattened).length >= LEAD_MIN_CHARS) {
+      return flattened;
+    }
   }
   return null;
 }

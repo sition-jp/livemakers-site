@@ -116,10 +116,25 @@ describe("lib/articles/article-metadata", () => {
       );
     });
 
+    it("skips bare section labels when picking the body lead", () => {
+      // Daily Intel の B'' ブロック見出し (🎯 今日の主役 / 📎 直近24時間の動き
+      // など) は `#` を持たない素のラベル行なので、Markdown 見出しの
+      // スキップには掛からない。実ビルドの HTML で og:description が
+      // 「🎯 今日の主役」になっていたのを検出して追加 (2026-08-07)。
+      const meta = buildArticleMetadata({
+        article: BASE,
+        lang: "ja",
+        body: "🎯 今日の主役\n\n日本の証券とステーブルコイン決済が、二つの陣営に分かれ始めた。片方はSBI。",
+      });
+      expect(meta.description).toBe(
+        "日本の証券とステーブルコイン決済が、二つの陣営に分かれ始めた。片方はSBI。",
+      );
+    });
+
     it("omits the description when neither excerpt nor body is available", () => {
-      // 継承させない: root layout のサイト共通 description が降りてくると
-      // 記事ごとに違う説明文という前提が崩れる — が、嘘の説明文を作るより
-      // 無い方がよい (X は og:title と画像でカードを組める)。
+      // 素材が無いなら作らない (嘘の説明文を出さない)。この場合 Next の
+      // 浅いマージで root layout のサイト共通 description が残るが、
+      // 実経路では body が常に渡るのでリード段落まで落ちれば足りる。
       const meta = buildArticleMetadata({ article: BASE, lang: "ja" });
       expect(meta.description).toBeUndefined();
       expect(meta.openGraph?.description).toBeUndefined();
