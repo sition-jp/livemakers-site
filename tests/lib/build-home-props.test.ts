@@ -6,11 +6,15 @@ import { describe, expect, it } from "vitest";
 import {
   buildHomeCompositionProps,
   resolveHomeRadarSource,
+  resolveHomeSessionsSource,
 } from "@/lib/home/build-home-props";
 import { loadMarketSnapshot } from "@/lib/home/market-snapshot";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
 import { loadFocusSeriesRecords } from "@/lib/sessions/focus-series";
-import { getSessionRecord } from "@/lib/sessions/session-content";
+import {
+  getSessionRecord,
+  type SessionRecord,
+} from "@/lib/sessions/session-content";
 import { mapTerminalFeed } from "@/lib/terminal/live-market-feed";
 
 const TEST_CONTENT_DIR = path.join(
@@ -21,8 +25,8 @@ const TEST_CONTENT_DIR = path.join(
   "articles",
 );
 
-function radarFeedFixture() {
-  const feed = JSON.parse(
+function v03Fixture() {
+  return JSON.parse(
     fs.readFileSync(
       path.join(
         process.cwd(),
@@ -31,11 +35,22 @@ function radarFeedFixture() {
       "utf8",
     ),
   );
-  const data = mapTerminalFeed(feed);
+}
+
+function radarFeedFixture() {
+  const data = mapTerminalFeed(v03Fixture());
   if (!data?.home || !data.radar) {
     throw new Error("valid v0.3 radar fixture did not map");
   }
   return { home: data.home, radar: data.radar };
+}
+
+function sessionsFeedFixture() {
+  const data = mapTerminalFeed(v03Fixture());
+  if (!data?.home || !data.sessions) {
+    throw new Error("valid v0.3 sessions fixture did not map");
+  }
+  return { home: data.home, sessions: data.sessions };
 }
 
 describe("build-home-props as-of integration (P1-2)", () => {
@@ -201,5 +216,107 @@ describe("build-home-props radar honest-empty / feed adoption (G43-d)", () => {
     expect(props.slots.observing.length + (props.slots.radarPair ? 1 : 0)).toBe(
       RADAR_OBSERVATIONS.length,
     );
+  });
+});
+
+describe("build-home-props sessions feed adoption (G43-e S2)", () => {
+  it("stays repo-only when no feed sessions bundle is supplied", () => {
+    expect(resolveHomeSessionsSource({})).toBe("repo");
+  });
+
+  it("stays repo-only when a feed sessions bundle is supplied but the reviewed market source is not adopted", () => {
+    const { sessions } = sessionsFeedFixture();
+    expect(resolveHomeSessionsSource({ feedSessions: sessions })).toBe("repo");
+    const props = buildHomeCompositionProps({
+      today: "2026-07-10",
+      articleCutoffToday: "2026-07-10",
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      feedSessions: sessions,
+    });
+    // no source adopted -> feed session record never enters raw.sessions
+    expect(props.live).toBeNull();
+  });
+
+  it("adopts the feed sessions bundle once the reviewed market source is adopted, and lifts the record to SessionRecord", () => {
+    const { home, sessions } = sessionsFeedFixture();
+    const now = new Date("2026-07-12T08:00:00+09:00");
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(
+      resolveHomeSessionsSource({
+        source: home,
+        feedSessions: sessions,
+        now,
+        sessionRecords: [],
+      }),
+    ).toBe("feed_today");
+    expect(props.live).not.toBeNull();
+    expect(props.live!.sessionId).toBe(sessions.records[0].sessionId);
+    expect(props.live!.articleStatus).toBe("pending");
+    expect(props.live!.bodyJa).toBeNull();
+    expect(props.live!.focusFallbackApplied).toBe(false);
+    expect(props.live!.focusInstruments).toEqual(["btc_usd", "usd_jpy"]);
+    expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
+  });
+
+  it("dedups by sessionId — the feed record wins over a same-id repo record", () => {
+    const { home, sessions } = sessionsFeedFixture();
+    const now = new Date("2026-07-12T08:00:00+09:00");
+    const staleRepoRecord: SessionRecord = {
+      sessionId: sessions.records[0].sessionId,
+      date: sessions.records[0].date,
+      sessionSlug: sessions.records[0].sessionSlug,
+      liveStatus: "live",
+      articleStatus: "pending",
+      currentUrl: sessions.records[0].currentUrl,
+      canonicalArticleUrl: null,
+      publishedAt: null,
+      publishLogId: null,
+      packetId: "sess_20260712_asia_repo_stale",
+      asOfJst: "2026-07-12T05:03:00+09:00",
+      focusInstruments: ["btc_usd", "usd_jpy"],
+      titleJa: "REPO STALE TITLE",
+      bullets: ["repo stale bullet 1", "repo stale bullet 2"],
+      focusFallbackApplied: false,
+      bodyJa: null,
+    };
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now,
+      sessionRecords: [staleRepoRecord],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live!.titleJa).toBe(sessions.records[0].titleJa);
+    expect(props.live!.packetId).toBe(sessions.records[0].packetId);
+    expect(props.live!.titleJa).not.toBe("REPO STALE TITLE");
+  });
+
+  it("falls back to repo-only when the market source is stale even though the sessions bundle is valid", () => {
+    const { home, sessions } = sessionsFeedFixture();
+    const staleNow = new Date("2026-07-20T08:00:00+09:00"); // 24h+ past home.asOfJst
+    expect(
+      resolveHomeSessionsSource({
+        source: home,
+        feedSessions: sessions,
+        now: staleNow,
+        sessionRecords: [],
+      }),
+    ).toBe("repo");
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now: staleNow,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live).toBeNull();
+    expect(props.mkt12Provenance.sourceMode).toBe("fixture_only");
   });
 });

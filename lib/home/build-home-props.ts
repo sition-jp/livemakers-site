@@ -5,7 +5,9 @@ import {
 import {
   getAllSessionRecords,
   getTodaySchedule,
+  normalizeFocusInstruments,
   type SessionRecord,
+  type SessionRecordMeta,
 } from "@/lib/sessions/session-content";
 import {
   buildFocusSeries,
@@ -21,6 +23,7 @@ import {
   formatAsOfLabel,
   type RadarFeedData,
   type ReviewedHomeData,
+  type SessionsFeedData,
 } from "@/lib/terminal/live-market-feed";
 import type { MarketTickerItem } from "@/lib/terminal/market-lanes";
 import {
@@ -53,6 +56,8 @@ export interface BuildHomeCompositionArgs {
   source?: ReviewedHomeData | null;
   /** The mapped (but not yet freshness-gated) feed `radar` bundle. */
   feedRadar?: RadarFeedData | null;
+  /** The mapped (but not yet freshness-gated) feed `sessions` bundle. */
+  feedSessions?: SessionsFeedData | null;
   /** Test injection — highest priority when either is provided. */
   radar?: readonly RadarObservation[];
   promotions?: Readonly<Record<string, string>>;
@@ -190,22 +195,137 @@ export function resolveHomeRadarSource(args: {
   return "empty";
 }
 
+/**
+ * G43-e (S2): root observability for where the "いまのセッション" panel's live
+ * record came from — same mirrored posture as HomeRadarSource /
+ * HomeCatalogSource. Rendered on HomeComposition's root as
+ * data-home-sessions-source, without altering any other returned prop.
+ */
+export type HomeSessionsSource = "feed_today" | "repo";
+
+/**
+ * G43-e (S2): lifts a validated feed session record (the wire shape,
+ * SessionRecordMeta) to the site-facing SessionRecord shape used everywhere
+ * else on the home page. bodyJa is always null (feed sessions never carry an
+ * article body — crystallize, materializing a feed session into a repo
+ * content/sessions/ directory, is a separate not-yet-wired gate) and
+ * focusFallbackApplied is always false — normalizeFocusInstruments is reused
+ * only for its string[] -> InstrumentId[] narrowing, not for its fallback
+ * signal, since the wire contract's reused SessionMetaSchema already
+ * guarantees the record is otherwise well-formed.
+ */
+function toSessionRecord(meta: SessionRecordMeta): SessionRecord {
+  const { instruments } = normalizeFocusInstruments(
+    meta.focusInstruments,
+    meta.sessionSlug,
+  );
+  return {
+    ...meta,
+    focusInstruments: instruments,
+    focusFallbackApplied: false,
+    bodyJa: null,
+  };
+}
+
+/**
+ * Merges today's feed session records into the repo sidecar list. The feed
+ * wins on a sessionId collision (the repo row is dropped); the merged list is
+ * re-sorted newest-first to preserve getAllSessionRecords()'s existing
+ * invariant, which downstream .find() callers rely on (the live-record
+ * lookup, and per-slug "previous" resolution in getTodaySchedule).
+ */
+function mergeSessionRecords(
+  feedRecords: readonly SessionRecordMeta[],
+  repoRecords: readonly SessionRecord[],
+): SessionRecord[] {
+  const feedIds = new Set(feedRecords.map((record) => record.sessionId));
+  const feedSessionRecords = feedRecords.map(toSessionRecord);
+  const dedupedRepo = repoRecords.filter(
+    (record) => !feedIds.has(record.sessionId),
+  );
+  return [...feedSessionRecords, ...dedupedRepo].sort((left, right) =>
+    right.asOfJst.localeCompare(left.asOfJst),
+  );
+}
+
+/**
+ * G43-e (S2): resolves the sessions rail's observability label using the
+ * exact same reviewed-source adoption predicate buildHomeCompositionProps
+ * uses internally to pick the effective session records — same "two call
+ * sites can never drift apart" posture as resolveHomeRadarSource (G43-d fix
+ * round 1). The merge candidate fed into reviewedSourceMatchesSidecar here is
+ * a pure function of (feedSessions, sessionRecords), so recomputing it with
+ * identical inputs inside buildHomeCompositionProps always yields an
+ * identical conclusion — no duplicated adoption logic, only a duplicated
+ * (pure, deterministic) merge.
+ */
+export function resolveHomeSessionsSource(args: {
+  source?: ReviewedHomeData | null;
+  feedSessions?: SessionsFeedData | null;
+  sessionRecords?: SessionRecord[];
+  now?: Date;
+}): HomeSessionsSource {
+  const sessionRecords = args.sessionRecords ?? getAllSessionRecords();
+  const now = args.now ?? new Date();
+  const feedSessionMetas = args.feedSessions?.records ?? [];
+  if (feedSessionMetas.length === 0) return "repo";
+  const candidateSessionRecords = mergeSessionRecords(
+    feedSessionMetas,
+    sessionRecords,
+  );
+  const reviewedAdopted =
+    !!args.source &&
+    reviewedSourceIsFresh(args.source, now) &&
+    reviewedSourceMatchesSidecar(args.source, candidateSessionRecords);
+  return reviewedAdopted ? "feed_today" : "repo";
+}
+
 export function buildHomeCompositionProps(
   args: BuildHomeCompositionArgs = {},
 ) {
   const fixtureSnapshot = loadMarketSnapshot();
   const sessionRecords = args.sessionRecords ?? getAllSessionRecords();
   const now = args.now ?? new Date();
+
+  // G43-e (S2): speculative merge — feed session records (today, pending-only;
+  // enforced upstream by live-market-feed.ts's fail-closed wire contract)
+  // replace any same-sessionId repo row BEFORE reviewedSourceMatchesSidecar
+  // runs, so a feed-declared newer live session can (dis)confirm the reviewed
+  // market source exactly like a crystallized repo session would. The merge
+  // is a pure function of (feedSessionMetas, sessionRecords) — candidateSessionRecords
+  // here is byte-for-byte what resolveHomeSessionsSource computes internally
+  // for the same args, so reviewedAdopted and sessionsSource can never
+  // disagree even though sessionsSource is derived by calling that exported
+  // function rather than by re-deriving its result inline.
+  const feedSessionMetas = args.feedSessions?.records ?? [];
+  const candidateSessionRecords =
+    feedSessionMetas.length > 0
+      ? mergeSessionRecords(feedSessionMetas, sessionRecords)
+      : sessionRecords;
+
   const reviewedSource =
     args.source &&
     reviewedSourceIsFresh(args.source, now) &&
-    reviewedSourceMatchesSidecar(args.source, sessionRecords)
+    reviewedSourceMatchesSidecar(args.source, candidateSessionRecords)
       ? args.source
       : null;
   const snapshot = reviewedSource
     ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot)
     : fixtureSnapshot;
   const reviewedAdopted = reviewedSource !== null;
+
+  // sessionsSource itself is NOT part of this function's return value (same
+  // frozen-return posture as radarSource, G44 D13) — resolveHomeSessionsSource
+  // is the single source of truth callers outside the builder use to derive
+  // the same label (see load-home-composition.ts).
+  const sessionsSource: HomeSessionsSource = resolveHomeSessionsSource({
+    source: args.source,
+    feedSessions: args.feedSessions,
+    sessionRecords,
+    now,
+  });
+  const effectiveSessionRecords =
+    sessionsSource === "feed_today" ? candidateSessionRecords : sessionRecords;
 
   // G43-d: radar/promotions honest-empty degrade. Test injection (either key
   // explicitly provided) wins outright; otherwise the feed radar bundle is
@@ -248,7 +368,7 @@ export function buildHomeCompositionProps(
   const raw = {
     articles:
       args.articles ?? getAllArticles({ contentDir: args.contentDir }),
-    sessions: sessionRecords,
+    sessions: effectiveSessionRecords,
     radar,
     promotions,
     today,
