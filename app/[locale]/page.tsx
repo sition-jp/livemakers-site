@@ -19,7 +19,7 @@ export default async function OverviewPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
-  const { props, catalogSource } = await loadHomeCompositionProps();
+  const { props, catalogSource, radarSource } = await loadHomeCompositionProps();
   const futureAtlas = await loadFutureAtlas();
   const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
   const currentIndex = props.focusSessionSlug
@@ -67,6 +67,7 @@ export default async function OverviewPage({
       <HomeComposition
         {...props}
         catalogSource={catalogSource}
+        radarSource={radarSource}
         copy={copy}
         surfacePublished={surfacePublished}
       />

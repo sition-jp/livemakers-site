@@ -3,7 +3,10 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import {
+  buildHomeCompositionProps,
+  resolveHomeRadarSource,
+} from "@/lib/home/build-home-props";
 import { loadMarketSnapshot } from "@/lib/home/market-snapshot";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
 import { loadFocusSeriesRecords } from "@/lib/sessions/focus-series";
@@ -101,7 +104,9 @@ describe("build-home-props radar honest-empty / feed adoption (G43-d)", () => {
       articleCutoffToday: "2026-07-10",
       contentDir: TEST_CONTENT_DIR,
     });
-    expect(props.radarSource).toBe("empty");
+    // radarSource is resolved outside the builder (fix round 1, mirrors
+    // catalogSource) — resolveHomeRadarSource is the single source of truth.
+    expect(resolveHomeRadarSource({})).toBe("empty");
     expect(props.slots.observing).toEqual([]);
     expect(props.slots.radarPair).toBeNull();
   });
@@ -114,20 +119,24 @@ describe("build-home-props radar honest-empty / feed adoption (G43-d)", () => {
       contentDir: TEST_CONTENT_DIR,
       feedRadar: radar,
     });
-    expect(props.radarSource).toBe("empty");
+    expect(resolveHomeRadarSource({ feedRadar: radar })).toBe("empty");
     expect(props.slots.observing).toEqual([]);
   });
 
   it("adopts the feed radar bundle only once the reviewed market source is adopted", () => {
     const { home, radar } = radarFeedFixture();
+    const now = new Date("2026-07-12T08:00:00+09:00");
+    const sessionRecords = [getSessionRecord("2026-07-10-asia-open")];
     const props = buildHomeCompositionProps({
       source: home,
       feedRadar: radar,
-      now: new Date("2026-07-12T08:00:00+09:00"),
-      sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
+      now,
+      sessionRecords,
       contentDir: TEST_CONTENT_DIR,
     });
-    expect(props.radarSource).toBe("feed");
+    expect(
+      resolveHomeRadarSource({ source: home, feedRadar: radar, now, sessionRecords }),
+    ).toBe("feed");
     expect(props.slots.observing.map((observation) => observation.topicId)).toEqual([
       "stablecoin_supply_20260712",
       "tokenized_mmf_report_20260712",
@@ -147,15 +156,19 @@ describe("build-home-props radar honest-empty / feed adoption (G43-d)", () => {
 
   it("falls back to honest empty when the market source is stale (reviewed source not adopted)", () => {
     const { home, radar } = radarFeedFixture();
+    // 24h+ past home.asOfJst (2026-07-12T07:30) → reviewedSource not adopted.
+    const now = new Date("2026-07-20T08:00:00+09:00");
+    const sessionRecords = [getSessionRecord("2026-07-10-asia-open")];
     const props = buildHomeCompositionProps({
       source: home,
       feedRadar: radar,
-      // 24h+ past home.asOfJst (2026-07-12T07:30) → reviewedSource not adopted.
-      now: new Date("2026-07-20T08:00:00+09:00"),
-      sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
+      now,
+      sessionRecords,
       contentDir: TEST_CONTENT_DIR,
     });
-    expect(props.radarSource).toBe("empty");
+    expect(
+      resolveHomeRadarSource({ source: home, feedRadar: radar, now, sessionRecords }),
+    ).toBe("empty");
     expect(props.slots.observing).toEqual([]);
   });
 
@@ -164,16 +177,27 @@ describe("build-home-props radar honest-empty / feed adoption (G43-d)", () => {
     const injectedPromotions = {
       [RADAR_OBSERVATIONS[0].topicId]: "signal-injected-promotion",
     };
+    const now = new Date("2026-07-12T08:00:00+09:00");
+    const sessionRecords = [getSessionRecord("2026-07-10-asia-open")];
     const props = buildHomeCompositionProps({
       source: home,
       feedRadar: radar,
-      now: new Date("2026-07-12T08:00:00+09:00"),
-      sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
+      now,
+      sessionRecords,
       contentDir: TEST_CONTENT_DIR,
       radar: RADAR_OBSERVATIONS,
       promotions: injectedPromotions,
     });
-    expect(props.radarSource).toBe("injected");
+    expect(
+      resolveHomeRadarSource({
+        source: home,
+        feedRadar: radar,
+        now,
+        sessionRecords,
+        radar: RADAR_OBSERVATIONS,
+        promotions: injectedPromotions,
+      }),
+    ).toBe("injected");
     expect(props.slots.observing.length + (props.slots.radarPair ? 1 : 0)).toBe(
       RADAR_OBSERVATIONS.length,
     );

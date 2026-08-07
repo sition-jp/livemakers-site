@@ -1,4 +1,7 @@
-import type { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import type {
+  buildHomeCompositionProps,
+  HomeRadarSource,
+} from "@/lib/home/build-home-props";
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeCatalogSource } from "@/lib/home/load-home-composition";
 import { CompositeHero } from "./CompositeHero";
@@ -12,6 +15,8 @@ export type HomeCompositionProps = ReturnType<
   copy: HomeCopy;
   surfacePublished: boolean;
   catalogSource?: HomeCatalogSource;
+  /** G43-d (fix round 1): resolved outside the builder — see load-home-composition.ts. */
+  radarSource?: HomeRadarSource;
 };
 
 /**
@@ -33,10 +38,10 @@ export function HomeComposition({
   laneProvenance,
   mkt12Provenance,
   sessionProvenance,
-  radarSource,
   copy,
   surfacePublished,
   catalogSource = "repository_only",
+  radarSource = "empty",
 }: HomeCompositionProps) {
   return (
     <div

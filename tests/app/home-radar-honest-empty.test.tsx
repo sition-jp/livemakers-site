@@ -6,7 +6,10 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { HomeComposition } from "@/components/home/HomeComposition";
-import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import {
+  buildHomeCompositionProps,
+  resolveHomeRadarSource,
+} from "@/lib/home/build-home-props";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 
 vi.mock("@/i18n/navigation", () => ({
@@ -51,15 +54,24 @@ function productionEquivalentProps() {
 describe("home radar rail — production-equivalent honest empty (G43-d)", () => {
   it("selects zero observations and a null radarPair", () => {
     const props = productionEquivalentProps();
-    expect(props.radarSource).toBe("empty");
+    // radarSource is resolved outside the builder (fix round 1, mirrors
+    // catalogSource) — production-equivalent args (no source, no injection)
+    // resolve to the honest-empty label via resolveHomeRadarSource.
+    expect(resolveHomeRadarSource({})).toBe("empty");
     expect(props.slots.observing).toEqual([]);
     expect(props.slots.radarPair).toBeNull();
   });
 
   it("renders FlashPromotionCard and EventRiskCard in their documented empty states", () => {
     const props = productionEquivalentProps();
+    const radarSource = resolveHomeRadarSource({});
     const { container } = render(
-      <HomeComposition {...props} surfacePublished={false} copy={copy} />,
+      <HomeComposition
+        {...props}
+        radarSource={radarSource}
+        surfacePublished={false}
+        copy={copy}
+      />,
     );
 
     expect(container.firstElementChild).toHaveAttribute(

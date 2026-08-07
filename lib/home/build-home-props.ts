@@ -161,6 +161,35 @@ function seriesProvenance(
   } as WindowProvenance);
 }
 
+/**
+ * G43-d (fix round 1): resolves the radar rail's observability label using
+ * the exact same reviewed-source adoption predicate buildHomeCompositionProps
+ * uses internally to pick `radar`/`promotions` — extracted to a single
+ * exported function so the two call sites (the builder itself, and
+ * load-home-composition.ts computing it outside the frozen builder return
+ * — same posture as HomeCatalogSource) can never drift apart.
+ */
+export function resolveHomeRadarSource(args: {
+  source?: ReviewedHomeData | null;
+  feedRadar?: RadarFeedData | null;
+  radar?: readonly RadarObservation[];
+  promotions?: Readonly<Record<string, string>>;
+  sessionRecords?: SessionRecord[];
+  now?: Date;
+}): HomeRadarSource {
+  const radarInjected =
+    args.radar !== undefined || args.promotions !== undefined;
+  if (radarInjected) return "injected";
+  const sessionRecords = args.sessionRecords ?? getAllSessionRecords();
+  const now = args.now ?? new Date();
+  const reviewedAdopted =
+    !!args.source &&
+    reviewedSourceIsFresh(args.source, now) &&
+    reviewedSourceMatchesSidecar(args.source, sessionRecords);
+  if (reviewedAdopted && args.feedRadar) return "feed";
+  return "empty";
+}
+
 export function buildHomeCompositionProps(
   args: BuildHomeCompositionArgs = {},
 ) {
@@ -183,22 +212,28 @@ export function buildHomeCompositionProps(
   // only trusted once the reviewed market source itself is adopted (same
   // delivery, same freshness gate); anything else is an honest empty state
   // — RADAR_OBSERVATIONS/RADAR_PROMOTIONS are no longer supplied here.
-  const radarInjected = args.radar !== undefined || args.promotions !== undefined;
+  // radarSource itself is NOT part of this function's return value (G44 D13
+  // frozen top-level key set) — resolveHomeRadarSource is the single source
+  // of truth callers outside the builder use to derive the same label.
+  const radarSource = resolveHomeRadarSource({
+    source: args.source,
+    feedRadar: args.feedRadar,
+    radar: args.radar,
+    promotions: args.promotions,
+    sessionRecords,
+    now,
+  });
   let radar: readonly RadarObservation[];
   let promotions: Readonly<Record<string, string>>;
-  let radarSource: HomeRadarSource;
-  if (radarInjected) {
+  if (radarSource === "injected") {
     radar = args.radar ?? [];
     promotions = args.promotions ?? {};
-    radarSource = "injected";
-  } else if (reviewedAdopted && args.feedRadar) {
-    radar = args.feedRadar.observations.map(toRadarObservation);
-    promotions = args.feedRadar.promotions;
-    radarSource = "feed";
+  } else if (radarSource === "feed") {
+    radar = args.feedRadar!.observations.map(toRadarObservation);
+    promotions = args.feedRadar!.promotions;
   } else {
     radar = [];
     promotions = {};
-    radarSource = "empty";
   }
   const today = args.today ?? snapshot.dataDate;
   const articleCutoffToday =
@@ -327,6 +362,5 @@ export function buildHomeCompositionProps(
     pageProvenance,
     mkt12Provenance,
     sessionProvenance,
-    radarSource,
   };
 }

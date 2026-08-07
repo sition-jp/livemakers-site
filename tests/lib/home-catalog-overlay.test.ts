@@ -146,7 +146,6 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
       "live",
       "mkt12Provenance",
       "pageProvenance",
-      "radarSource",
       "schedule",
       "sessionProvenance",
       "slots",
