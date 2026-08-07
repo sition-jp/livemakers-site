@@ -16,6 +16,10 @@ import type {
 import { matchesTerm } from "@/lib/home/matches-term";
 import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import type { FocusSeries } from "@/lib/sessions/focus-series";
+import {
+  SessionMetaSchema,
+  type SessionRecordMeta,
+} from "@/lib/sessions/session-content";
 import type { ReaderSessionSlug } from "@/lib/sessions/session-registry";
 import {
   marketLanesFixture,
@@ -313,6 +317,7 @@ const PAGE_PACKET_PATTERN = /^lmk_(\d{8})_(\d{4})_[a-z0-9]+$/;
 const MARKET_PACKET_PATTERN =
   /^mkt12_(\d{8})_(asia|am|europe|ny|close)$/;
 const RADAR_PACKET_PATTERN = /^radar_\d{8}_\d{4}_[a-z0-9]+$/;
+const SESSIONS_PACKET_PATTERN = /^sess_\d{8}_\d{4}_[0-9a-f]{8}$/;
 
 const MARKET_ANCHORS = {
   asia: "05:03",
@@ -588,6 +593,62 @@ function mapRadarBundle(section: unknown): RadarFeedData | null {
   };
 }
 
+/**
+ * G43-e (S2): the feed `sessions` bundle (site-first live-session consumer).
+ * A top-level v0.3-only section, same independent-degradation posture as
+ * radar/home/liveRadar/published: an invalid bundle nulls only `sessions`,
+ * never the rest of the feed. Records are validated with the SITE-side
+ * SessionMetaSchema verbatim (imported, not duplicated) so the wire contract
+ * and the on-disk repo contract can never drift apart.
+ *
+ * Two additional fail-closed checks beyond SessionMetaSchema itself, both
+ * pre-crystallize wire-contract requirements (crystallize — materializing a
+ * feed session into a repo content/sessions/ directory — is a separate,
+ * not-yet-wired gate):
+ *  - every record's `date` must equal the bundle's `asOfJst` calendar date
+ *    (a stale or future-dated record nulls the whole bundle);
+ *  - every record's `articleStatus` must be "pending" (a "published" record
+ *    arriving over the feed would imply crystallize already happened, which
+ *    this wire contract does not yet support — reject rather than trust).
+ */
+const sessionsBundleSchema = z
+  .object({
+    schemaVersion: z.literal("livemakers_sessions_v1"),
+    packetId: z.string().regex(SESSIONS_PACKET_PATTERN),
+    asOfJst: z.string().regex(JST_ISO_PATTERN),
+    records: z.array(SessionMetaSchema).max(4),
+  })
+  .strict()
+  .superRefine((bundle, ctx) => {
+    const bundleDate = bundle.asOfJst.slice(0, 10);
+    bundle.records.forEach((record, index) => {
+      if (record.date !== bundleDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `session record date must equal bundle asOfJst date: ${record.sessionId}`,
+          path: ["records", index, "date"],
+        });
+      }
+      if (record.articleStatus !== "pending") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `session record articleStatus must be pending pre-crystallize: ${record.sessionId}`,
+          path: ["records", index, "articleStatus"],
+        });
+      }
+    });
+  });
+
+export interface SessionsFeedData {
+  records: SessionRecordMeta[];
+}
+
+function mapSessionsBundle(section: unknown): SessionsFeedData | null {
+  const parsed = sessionsBundleSchema.safeParse(section);
+  if (!parsed.success) return null;
+  return { records: parsed.data.records };
+}
+
 const terminalFeedSchema = z
   .object({
     schema_version: z.enum([
@@ -674,6 +735,7 @@ export interface LiveMarketData {
   source: SourceFeedData | null;
   home: ReviewedHomeData | null;
   radar: RadarFeedData | null;
+  sessions: SessionsFeedData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -886,6 +948,12 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     radar:
       schemaVersion === TERMINAL_FEED_SCHEMA_V03
         ? mapRadarBundle(parsed.data.radar)
+        : null,
+    // G43-e (S2): the sessions bundle is v0.3-only, same version-gated
+    // (not key-presence-gated) posture as radar above.
+    sessions:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03
+        ? mapSessionsBundle(parsed.data.sessions)
         : null,
   };
 }

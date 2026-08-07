@@ -1000,3 +1000,137 @@ describe("mapTerminalFeed — radar bundle (G43-d)", () => {
     expect(data?.radar).not.toBeNull();
   });
 });
+
+/** G43-e S2: the feed `sessions` bundle (site-consumer side of the contract). */
+function sampleSessionsBundle() {
+  return {
+    schemaVersion: "livemakers_sessions_v1",
+    packetId: "sess_20260712_0730_ab12cd34",
+    asOfJst: "2026-07-12T07:30:00+09:00",
+    records: [
+      {
+        sessionId: "2026-07-12-asia-open",
+        date: "2026-07-12",
+        sessionSlug: "asia-open",
+        liveStatus: "live",
+        articleStatus: "pending",
+        currentUrl: "/sessions/2026-07-12-asia-open",
+        canonicalArticleUrl: null,
+        publishedAt: null,
+        publishLogId: null,
+        packetId: "sess_20260712_asia",
+        asOfJst: "2026-07-12T07:30:00+09:00",
+        focusInstruments: ["btc_usd", "usd_jpy"],
+        titleJa: "Asia Open Terminal",
+        bullets: [
+          "フィード経由で観測されたアジア時間の初動",
+          "BTCとドル円の値動きを軸に整理",
+        ],
+      },
+    ],
+  };
+}
+
+describe("mapTerminalFeed — sessions bundle (G43-e S2)", () => {
+  it("maps a valid v0.3 sessions bundle, reusing SessionMetaSchema verbatim", () => {
+    const data = mapTerminalFeed(sampleHomeV03());
+    expect(data?.sessions).not.toBeNull();
+    expect(data?.sessions?.records).toHaveLength(1);
+    expect(data?.sessions?.records[0]).toMatchObject({
+      sessionId: "2026-07-12-asia-open",
+      date: "2026-07-12",
+      sessionSlug: "asia-open",
+      liveStatus: "live",
+      articleStatus: "pending",
+      focusInstruments: ["btc_usd", "usd_jpy"],
+    });
+  });
+
+  it("never reads sessions off a v0.1 or v0.2 payload, even if the key is present", () => {
+    const feedV1 = sampleFeed() as Record<string, unknown>;
+    feedV1.sessions = sampleSessionsBundle();
+    expect(mapTerminalFeed(feedV1)?.sessions).toBeNull();
+
+    const feedV2 = sampleHomeV02();
+    feedV2.sessions = sampleSessionsBundle();
+    const dataV2 = mapTerminalFeed(feedV2);
+    expect(dataV2?.sessions).toBeNull();
+    // v0.2 home stays fully mapped regardless.
+    expect(dataV2?.home).not.toBeNull();
+  });
+
+  it("accepts an empty records array as a valid (quiet) sessions bundle", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.records = [];
+    const data = mapTerminalFeed(feed);
+    expect(data?.sessions).not.toBeNull();
+    expect(data?.sessions?.records).toEqual([]);
+  });
+
+  it("degrades sessions to null on a bad schemaVersion literal — market lanes and home stay live", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.schemaVersion = "livemakers_sessions_v2";
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    expect(data?.home).not.toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
+  });
+
+  it("degrades sessions to null on a malformed packetId", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.packetId = "not-a-packet-id";
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("degrades sessions to null when asOfJst is not a JST ISO string", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.asOfJst = "2026-07-12 07:30";
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("degrades sessions to null when records exceed the 4-record cap", () => {
+    const feed = sampleHomeV03();
+    const record = feed.sessions.records[0];
+    feed.sessions.records = Array.from({ length: 5 }, () => ({ ...record }));
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("degrades sessions to null when a record fails the reused SessionMetaSchema itself", () => {
+    const feed = sampleHomeV03();
+    (feed.sessions.records[0] as Record<string, unknown>).extraKey = "nope";
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("degrades sessions to null when the bundle carries an extra top-level key", () => {
+    const feed = sampleHomeV03();
+    (feed.sessions as Record<string, unknown>).extra = "nope";
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("degrades the whole bundle to null when a record's date does not match the bundle asOfJst date", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.records[0].date = "2026-07-11";
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    // independent degradation: home and market lanes stay live.
+    expect(data?.home).not.toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
+  });
+
+  it("degrades the whole bundle to null when a record's articleStatus is published (crystallize not yet wired)", () => {
+    const feed = sampleHomeV03();
+    feed.sessions.records[0] = {
+      ...feed.sessions.records[0],
+      liveStatus: "closed",
+      articleStatus: "published",
+      canonicalArticleUrl: feed.sessions.records[0].currentUrl,
+      publishedAt: "2026-07-12T07:35:00+09:00",
+    };
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    expect(data?.home).not.toBeNull();
+  });
+});

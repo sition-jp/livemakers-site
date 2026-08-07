@@ -125,5 +125,31 @@
     ],
     "promotions": {},
     "truncated": false
+  },
+  "sessions": {
+    "schemaVersion": "livemakers_sessions_v1",
+    "packetId": "sess_20260712_0730_ab12cd34",
+    "asOfJst": "2026-07-12T07:30:00+09:00",
+    "records": [
+      {
+        "sessionId": "2026-07-12-asia-open",
+        "date": "2026-07-12",
+        "sessionSlug": "asia-open",
+        "liveStatus": "live",
+        "articleStatus": "pending",
+        "currentUrl": "/sessions/2026-07-12-asia-open",
+        "canonicalArticleUrl": null,
+        "publishedAt": null,
+        "publishLogId": null,
+        "packetId": "sess_20260712_asia",
+        "asOfJst": "2026-07-12T07:30:00+09:00",
+        "focusInstruments": ["btc_usd", "usd_jpy"],
+        "titleJa": "Asia Open Terminal",
+        "bullets": [
+          "フィード経由で観測されたアジア時間の初動",
+          "BTCとドル円の値動きを軸に整理"
+        ]
+      }
+    ]
   }
 }
