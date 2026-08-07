@@ -153,7 +153,7 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     const layout = container.querySelector("[data-article-layout]")!;
     expect(layout.className).toContain("lg:grid");
     const body = container.querySelector("article")!;
-    expect(body.className).toContain("max-w-[72ch]");
+    expect(body.className).toContain("max-w-[80ch]");
     const rail = container.querySelector("[data-article-rail]")!;
     expect(rail.compareDocumentPosition(body) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
   });
@@ -222,6 +222,49 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     mockDetail(catalog[1], SHORT_BODY);
     const short = await renderDetail("sig-mid");
     expect(short.container.querySelector("[data-article-toc]")).toBeNull();
+  });
+
+  it("builds the toc from standalone ■ marker lines (X 公開体裁の mirror 本文)", async () => {
+    const markerBody = [
+      "リード文。",
+      "",
+      "■ 発表されたこと",
+      "",
+      "本文。",
+      "",
+      "■ 三日で二件",
+      "",
+      "本文。",
+      "",
+      "■ 今後 48-72 時間",
+      "",
+      "・観察点",
+    ].join("\n");
+    mockDetail(catalog[1], markerBody);
+    const { container } = await renderDetail("sig-mid");
+    const anchors = [...container.querySelectorAll("[data-article-toc] a")].map((a) =>
+      a.getAttribute("href"),
+    );
+    expect(anchors).toEqual([
+      "#■-発表されたこと",
+      "#■-三日で二件",
+      "#■-今後-48-72-時間",
+    ]);
+  });
+
+  it("shows the excerpt as a dek under the header only when the article carries one", async () => {
+    mockDetail(
+      { ...catalog[1], excerptJa: "一段落の要約テキスト。" },
+      LONG_BODY,
+    );
+    const withExcerpt = await renderDetail("sig-mid");
+    const dek = withExcerpt.container.querySelector("[data-article-excerpt]")!;
+    expect(dek).not.toBeNull();
+    expect(dek.textContent).toBe("一段落の要約テキスト。");
+
+    mockDetail(catalog[1], LONG_BODY);
+    const without = await renderDetail("sig-mid");
+    expect(without.container.querySelector("[data-article-excerpt]")).toBeNull();
   });
 
   it("keeps every rail / prev-next / related link inside the public ledgers", async () => {

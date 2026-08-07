@@ -2,11 +2,11 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import type { ComponentProps, ReactNode } from "react";
 
 import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractBlock";
 import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
+import { createArticleMdxComponents } from "@/components/articles/ArticleBodyComponents";
 import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { SeriesRail, type SeriesRailCopy } from "@/components/articles/SeriesRail";
@@ -20,7 +20,7 @@ import {
   loadPublicArticleInflowDetail,
 } from "@/lib/articles/article-inflow-feed";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
-import { extractToc, slugifyHeading } from "@/lib/articles/toc";
+import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 
@@ -31,30 +31,6 @@ const TOC_MIN_HEADINGS = 3;
 
 export function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.articleId }));
-}
-
-/**
- * markdown の h2 に extractToc と同一規則の id を与え、TOC のアンカーリンクを
- * クライアント JS なしで成立させる (G44 D10)。id は見出し自身のテキストから
- * 導出するため、TOC 抽出と描画がずれても各見出しは常に自分の id を持つ。
- */
-function createHeadingRenderer() {
-  const used = new Map<string, number>();
-  const textOf = (children: ReactNode): string => {
-    if (typeof children === "string") return children;
-    if (Array.isArray(children)) return children.map(textOf).join("");
-    return "";
-  };
-  return function H2({ children, ...props }: ComponentProps<"h2">) {
-    const base = slugifyHeading(textOf(children));
-    const count = (used.get(base) ?? 0) + 1;
-    used.set(base, count);
-    return (
-      <h2 id={count === 1 ? base : `${base}-${count}`} {...props}>
-        {children}
-      </h2>
-    );
-  };
 }
 
 export default async function ArticleDetailPage({
@@ -102,9 +78,9 @@ export default async function ArticleDetailPage({
   return (
     <div
       data-article-layout=""
-      className="mx-auto w-full max-w-[1360px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-12"
+      className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-8"
     >
-      <article className="mx-auto w-full max-w-[72ch] min-w-0">
+      <article className="mx-auto w-full max-w-[80ch] min-w-0">
         <header className="mb-8 border-b border-border-primary pb-6">
           <p
             className="mb-3 font-mono text-[10px] font-bold uppercase tracking-label"
@@ -118,6 +94,16 @@ export default async function ArticleDetailPage({
           <time className="mt-4 block font-mono text-xs text-text-tertiary">
             {article.publishedLabel}
           </time>
+          {article.excerptJa ? (
+            // site-first 記事の packet meta 由来の要約 (TQ3)。mirror 記事は
+            // excerpt を持たない = 冒頭リード段落がその役割を担う (非表示)
+            <p
+              data-article-excerpt=""
+              className="mt-4 border-l-2 border-border-primary pl-4 text-[15px] leading-relaxed text-text-secondary"
+            >
+              {article.excerptJa}
+            </p>
+          ) : null}
         </header>
         {article.thumbnailUrl ? (
           // site-first 記事のみ (T4-2): 生成サムネ (Blob) をリード画像に。
@@ -180,7 +166,7 @@ export default async function ArticleDetailPage({
         >
           <MDXRemote
             source={body}
-            components={{ h2: createHeadingRenderer() }}
+            components={createArticleMdxComponents(body)}
             options={{
               blockJS: true,
               blockDangerousJS: true,
