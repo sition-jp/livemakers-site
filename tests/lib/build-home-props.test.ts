@@ -320,3 +320,67 @@ describe("build-home-props sessions feed adoption (G43-e S2)", () => {
     expect(props.mkt12Provenance.sourceMode).toBe("fixture_only");
   });
 });
+
+describe("build-home-props combined-bundle identity consistency (fix round 1 / G43-d+e)", () => {
+  it("does not adopt the radar bundle when the sessions bundle's live record conflicts with focusSession, even though the plain (unmerged) repo sessionRecords are empty and would otherwise look consistent", () => {
+    const { home, radar, sessions } = (() => {
+      const data = mapTerminalFeed(v03Fixture());
+      if (!data?.home || !data.radar || !data.sessions) {
+        throw new Error("valid v0.3 fixture did not map");
+      }
+      return { home: data.home, radar: data.radar, sessions: data.sessions };
+    })();
+    // home.focusSession.sessionSlug is "asia-open" (see fixture); this feed
+    // session record claims a *different* slug for the exact same date and
+    // liveStatus=live — a same-date-live record that disagrees with what the
+    // reviewed home packet computed as the live focus session. Pre-fix,
+    // resolveHomeRadarSource only ever saw the plain (unmerged, here empty)
+    // sessionRecords, so it never noticed this conflict and adopted "feed"
+    // anyway — a self-contradictory page (radar="feed" + sessions="repo").
+    const mismatchedSessions = {
+      records: [
+        {
+          ...sessions.records[0],
+          sessionId: "2026-07-12-europe-bridge",
+          sessionSlug: "europe-bridge" as const,
+          currentUrl: "/sessions/2026-07-12-europe-bridge",
+        },
+      ],
+    };
+    const now = new Date("2026-07-12T08:00:00+09:00");
+
+    const sessionsSource = resolveHomeSessionsSource({
+      source: home,
+      feedSessions: mismatchedSessions,
+      now,
+      sessionRecords: [],
+    });
+    expect(sessionsSource).toBe("repo");
+
+    const radarSource = resolveHomeRadarSource({
+      source: home,
+      feedRadar: radar,
+      feedSessions: mismatchedSessions,
+      now,
+      sessionRecords: [],
+    });
+    // The self-contradictory pairing this closes off: radarSource must never
+    // say "feed" while sessionsSource says "repo" for the same combined
+    // bundle.
+    expect(radarSource).toBe("empty");
+
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedRadar: radar,
+      feedSessions: mismatchedSessions,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    // The builder's own internal radar/promotions selection must agree —
+    // not just the exported resolver.
+    expect(props.slots.observing).toEqual([]);
+    expect(props.slots.radarPair).toBeNull();
+    expect(props.live).toBeNull();
+  });
+});

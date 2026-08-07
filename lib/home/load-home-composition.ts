@@ -27,12 +27,17 @@ export const loadHomeCompositionProps = cache(async () => {
   // posture as catalogSource above — so the frozen builder return object
   // never carries it. `now`/`sessionRecords` are pinned once here and threaded
   // into both calls so the label and the actually-selected radar data can
-  // never drift apart.
+  // never drift apart. feedSessions is also threaded through (fix round 1)
+  // so radarSource is checked against the same merged candidate session
+  // records as sessionsSource below — resolveHomeRadarSource and
+  // resolveHomeSessionsSource can never disagree about whether the reviewed
+  // source is adopted.
   const now = new Date();
   const sessionRecords = getAllSessionRecords();
   const radarSource: HomeRadarSource = resolveHomeRadarSource({
     source: feed?.home ?? null,
     feedRadar: feed?.radar ?? null,
+    feedSessions: feed?.sessions ?? null,
     sessionRecords,
     now,
   });
