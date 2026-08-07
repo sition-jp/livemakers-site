@@ -2,6 +2,9 @@ import {
   forbiddenSourceOpsTerms,
   forbiddenSourceVisibleText,
 } from "@/lib/terminal/live-market-feed";
+import { matchesTerm } from "./matches-term";
+
+export { matchesTerm };
 
 export const FORBIDDEN_DESIGN_TERMS = [
   "CO-EQUAL",
@@ -31,16 +34,6 @@ export const FORBIDDEN_OPS_TERMS: readonly string[] = [
 ];
 
 export const ALLOWED_PUBLIC_LABELS = ["SDE検出"] as const;
-
-export const matchesTerm = (haystackLower: string, term: string): boolean => {
-  if (/^[a-z0-9_ /-]+$/.test(term)) {
-    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(
-      `(?<![a-z0-9])${escaped}(?![a-z0-9])`,
-    ).test(haystackLower);
-  }
-  return haystackLower.includes(term);
-};
 
 export function findForbiddenDesignTerms(text: string): string[] {
   const scrubbed = ALLOWED_PUBLIC_LABELS.reduce(
