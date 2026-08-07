@@ -15,6 +15,9 @@ export type ArticleInflowPreviewArticle = ArticleMeta & {
   source: "repository" | "inflow";
   declaredBodyChecksum?: string;
   inflowBody?: string;
+  /** site-first 記事のみ (T4-2・生成サムネの Blob URL) */
+  thumbnailUrl?: string;
+  thumbnailChecksum?: string;
 };
 export interface ArticleInflowPreviewCatalog {
   articles: ArticleInflowPreviewArticle[];
@@ -43,10 +46,13 @@ function mapInflowArticle(
     articleId: article.slug,
     family: article.family,
     titleJa: article.title,
+    // TQ3: site-first 記事は packet meta 由来の excerpt / lanes を伝播。
+    // mirror 記事は従来どおり (excerpt なし・lanes 空)
+    excerptJa: article.excerpt,
     publishedAtJst: jst.iso,
     publishedLabel: `${jst.date.slice(5)} ${jst.time} 公開`,
     dataDate: article.family.startsWith("mkt12-") ? jst.date : undefined,
-    lanes: [],
+    lanes: article.lanes ?? [],
     sourceXUrl: article.source_x_url,
   });
   return {
@@ -55,6 +61,8 @@ function mapInflowArticle(
     source: "inflow",
     declaredBodyChecksum: article.body_checksum,
     inflowBody: article.body,
+    thumbnailUrl: article.thumbnail_url,
+    thumbnailChecksum: article.thumbnail_checksum,
   };
 }
 

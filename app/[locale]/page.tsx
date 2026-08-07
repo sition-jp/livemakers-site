@@ -4,6 +4,7 @@ import { GlobalProvenanceStrip } from "@/components/home/GlobalProvenanceStrip";
 import { HomeComposition } from "@/components/home/HomeComposition";
 import { TickerBar } from "@/components/terminal/TickerBar";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { buildHomeCopy } from "@/lib/home/home-copy";
 import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { READER_SESSIONS } from "@/lib/sessions/session-registry";
@@ -20,6 +21,7 @@ export default async function OverviewPage({
   const t = await getTranslations("home");
   const { props, catalogSource } = await loadHomeCompositionProps();
   const futureAtlas = await loadFutureAtlas();
+  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
   const currentIndex = props.focusSessionSlug
     ? READER_SESSIONS.findIndex(
         (session) => session.slug === props.focusSessionSlug,
@@ -66,7 +68,7 @@ export default async function OverviewPage({
         {...props}
         catalogSource={catalogSource}
         copy={copy}
-        surfacePublished={futureAtlas.config.surfacePublished}
+        surfacePublished={surfacePublished}
       />
     </>
   );

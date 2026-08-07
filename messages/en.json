@@ -444,7 +444,8 @@
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
-      "session": "Session Article"
+      "session": "Session Article",
+      "future-atlas": "Future Atlas"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
@@ -541,7 +542,8 @@
       "mkt12-weekend": "12 Indicators: Weekend",
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
-      "session": "Session Article"
+      "session": "Session Article",
+      "future-atlas": "Future Atlas"
     },
     "todayTitle": "Today's articles",
     "todayEmpty": "Today's articles will be published shortly.",

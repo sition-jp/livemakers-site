@@ -6,6 +6,7 @@ import { getForecastSnapshotStates } from "@/components/future-atlas/LedgerTable
 import { ThemeShelves } from "@/components/future-atlas/ThemeShelves";
 import { Link } from "@/i18n/navigation";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { buildLedgerSummary, currentJstDate } from "@/lib/future-atlas/snapshot";
 
 export const revalidate = 300;
@@ -18,7 +19,7 @@ export default async function FutureAtlasPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const data = await loadFutureAtlas();
-  if (!data.config.surfacePublished) notFound();
+  if (!(await loadEffectiveSurfacePublished(data))) notFound();
   const language = locale === "en" ? "en" : "ja";
   const t = await getTranslations({ locale, namespace: "futureAtlas.surface" });
 

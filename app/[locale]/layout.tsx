@@ -5,6 +5,7 @@ import { Inter, Noto_Sans_JP } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 
@@ -51,6 +52,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
   const { props } = await loadHomeCompositionProps();
   const futureAtlas = await loadFutureAtlas();
+  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
   const chromeMeta = getSnapshotChromeMeta(props.snapshot);
 
   // Applies a stored dark preference before first paint so there is no
@@ -67,7 +69,7 @@ export default async function LocaleLayout({
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <NextIntlClientProvider messages={messages}>
-          <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={futureAtlas.config.surfacePublished}>
+          <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={surfacePublished}>
             {children}
           </SiteChrome>
         </NextIntlClientProvider>
