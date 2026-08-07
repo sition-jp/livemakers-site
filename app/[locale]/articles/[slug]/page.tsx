@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -20,6 +21,7 @@ import {
   loadPublicArticleInflowCatalog,
   loadPublicArticleInflowDetail,
 } from "@/lib/articles/article-inflow-feed";
+import { buildArticleMetadata } from "@/lib/articles/article-metadata";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
 import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
 import { extractToc } from "@/lib/articles/toc";
@@ -33,6 +35,29 @@ const TOC_MIN_HEADINGS = 3;
 
 export function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.articleId }));
+}
+
+/**
+ * 記事固有の OG / Twitter Card (2026-08-07 修復).
+ *
+ * これが無いと root layout の既定 metadata がそのまま外へ出て、X の
+ * カードは記事タイトルでもサムネでもなくサイト共通の説明文になる。
+ * 組み立ては lib/articles/article-metadata.ts (テスト対象) に置く。
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const language = locale === "en" ? "en" : "ja";
+  const detail = await loadPublicArticleInflowDetail(slug, language);
+  if (!detail) return {};
+  return buildArticleMetadata({
+    article: detail.article,
+    lang: language,
+    body: detail.body,
+  });
 }
 
 export default async function ArticleDetailPage({
