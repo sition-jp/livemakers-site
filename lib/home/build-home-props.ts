@@ -480,13 +480,27 @@ export function buildHomeCompositionProps(
     crypto: reviewedPageProvenance ?? fixturePageProvenance,
     rwa: fixturePageProvenance,
   };
+  // fix round 1 / G34: a live record adopted from the feed (sessionsSource
+  // === "feed_today") is not a fixture — it carries the reviewed home
+  // packet's own provenance pair, same defensive `??` pattern as
+  // mkt12Provenance above (reviewedPair is guaranteed non-null whenever
+  // sessionsSource is "feed_today", since resolveHomeSessionsSource only
+  // returns that label when isReviewedSourceAdopted(args.source, ...) is
+  // true against the identical merged candidate records). A repo/fixture
+  // live record keeps the fixture label unchanged.
   const sessionProvenance = live
     ? makeWindowProvenance({
         packetId: live.packetId,
-        sourceMode: "fixture_only",
-        reviewStatus: "reviewed_fixture",
+        sourceMode:
+          sessionsSource === "feed_today"
+            ? (reviewedPair?.sourceMode ?? "fixture_only")
+            : "fixture_only",
+        reviewStatus:
+          sessionsSource === "feed_today"
+            ? (reviewedPair?.reviewStatus ?? "reviewed_fixture")
+            : "reviewed_fixture",
         asOfJst: `${live.asOfJst.slice(11, 16)} JST`,
-      })
+      } as WindowProvenance)
     : null;
   const visibleWindowProvenance = [
     ...(sessionProvenance ? [sessionProvenance] : []),
