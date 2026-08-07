@@ -1,6 +1,8 @@
 export const ARTICLE_INFLOW_SCHEMA_VERSION: "livemakers_article_inflow_feed_v0";
 export const SITE_FIRST_LANE: "P2-LVM-SITEFIRST-G1";
 export const SITE_FIRST_DOCTRINE: "livemakers-sitefirst-policy-publish";
+export const ARTICLE_THUMBNAIL_DOCTRINE: "no_overlay";
+export const ARTICLE_THUMBNAIL_ORIGIN: "https://p80f4ywborfbatou.public.blob.vercel-storage.com";
 
 export type ArticleInflowFamily =
   | "daily-intel"
@@ -32,6 +34,7 @@ export interface ArticleInflowItem {
   provenance?: ArticleInflowProvenance;
   thumbnail_url?: string;
   thumbnail_checksum?: string;
+  thumbnail_doctrine?: typeof ARTICLE_THUMBNAIL_DOCTRINE;
   excerpt?: string;
   lanes?: Array<"macro" | "crypto" | "rwa">;
   published_at: string;

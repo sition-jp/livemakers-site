@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
 import type { HomeSlots } from "@/lib/home/select-home-slots";
 import { FAMILY_COLORS } from "./ArticleRow";
 
@@ -49,11 +50,11 @@ export function LeadArticleCard({
       data-article-id={article.articleId}
       className="group block overflow-hidden rounded-lg border border-border-primary bg-bg-secondary transition-colors hover:border-border-hover"
     >
-      <div
-        className="h-24 opacity-80"
-        style={{
-          background: `linear-gradient(120deg, ${FAMILY_COLORS[article.family]}, transparent)`,
-        }}
+      <ArticleThumbnail
+        thumbnailUrl={article.thumbnailUrl}
+        family={article.family}
+        title={article.titleJa}
+        variant="lead"
       />
       <div className="p-5">
         <div className="flex items-center justify-between gap-3">

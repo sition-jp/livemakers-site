@@ -3,6 +3,7 @@ import { render } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import { calculateArticleBodyChecksum } from "@/lib/articles/article-inflow-contract";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 import {
   collectScannableText,
@@ -250,6 +251,45 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
       "#■-三日で二件",
       "#■-今後-48-72-時間",
     ]);
+  });
+
+  it("separates source / display checksums with an inert transform (INFLOW-G2 T1a)", async () => {
+    mockDetail(catalog[1], LONG_BODY);
+    const { container } = await renderDetail("sig-mid");
+    const body = container.querySelector('[data-testid="article-inflow-public-body"]')!;
+    // alias (rendered) と source は同値・同義 (受領 body の checksum)
+    expect(body.getAttribute("data-source-body-checksum")).toBe(
+      body.getAttribute("data-rendered-body-checksum"),
+    );
+    // transform inert (none) の間、display は受領 body の実 checksum に一致
+    expect(body.getAttribute("data-display-body-checksum")).toBe(
+      calculateArticleBodyChecksum(LONG_BODY),
+    );
+    expect(body.getAttribute("data-display-transform-id")).toBe("none");
+    expect(body.getAttribute("data-declared-body-checksum")).toBe("c0ffee");
+  });
+
+  it("renders the thumbnail placeholder frame on the detail hero (CLS ゼロ)", async () => {
+    mockDetail(catalog[1], LONG_BODY);
+    const { container } = await renderDetail("sig-mid");
+    const frame = container.querySelector("article [data-article-thumbnail]")!;
+    expect(frame.getAttribute("data-article-thumbnail")).toBe("placeholder");
+    expect(frame.className).toContain("aspect-[16/9]");
+
+    mockDetail(
+      {
+        ...catalog[1],
+        thumbnailUrl:
+          "https://p80f4ywborfbatou.public.blob.vercel-storage.com/livemakers/thumbnails/a/aa.webp",
+      },
+      LONG_BODY,
+    );
+    const withImage = await renderDetail("sig-mid");
+    const present = withImage.container.querySelector(
+      'article [data-article-thumbnail="present"]',
+    )!;
+    expect(present).not.toBeNull();
+    expect(present.querySelector("img")!.getAttribute("alt")).toContain("記事");
   });
 
   it("shows the excerpt as a dek under the header only when the article carries one", async () => {

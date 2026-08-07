@@ -6,6 +6,8 @@ import type { ArticleInflowFeed } from "@/lib/articles/article-inflow-validation
 
 export {
   ARTICLE_INFLOW_SCHEMA_VERSION,
+  ARTICLE_THUMBNAIL_DOCTRINE,
+  ARTICLE_THUMBNAIL_ORIGIN,
   calculateArticleBodyChecksum,
   isSafeArticleInflowBody,
   parseArticleInflowFeed,
@@ -15,8 +17,7 @@ export type ArticleInflowPreviewArticle = ArticleMeta & {
   source: "repository" | "inflow";
   declaredBodyChecksum?: string;
   inflowBody?: string;
-  /** site-first 記事のみ (T4-2・生成サムネの Blob URL) */
-  thumbnailUrl?: string;
+  // thumbnailUrl は ArticleMeta へ移動 (INFLOW-G2 T1a — mirror 記事も運ぶため)
   thumbnailChecksum?: string;
 };
 export interface ArticleInflowPreviewCatalog {
@@ -54,6 +55,11 @@ function mapInflowArticle(
     dataDate: article.family.startsWith("mkt12-") ? jst.date : undefined,
     lanes: article.lanes ?? [],
     sourceXUrl: article.source_x_url,
+    // INFLOW-G2 T1a: ここへ届く thumbnail_url は検証通過済み
+    // (stripUnverifiedThumbnails が feed 取得時に不正分を剥がしている)。
+    // ArticleMeta に載せることで home slots (LeadArticleCard / ArticleCardSmall)
+    // まで追加配線なしで伝播する
+    thumbnailUrl: article.thumbnail_url,
   });
   return {
     ...parsed,
@@ -61,7 +67,6 @@ function mapInflowArticle(
     source: "inflow",
     declaredBodyChecksum: article.body_checksum,
     inflowBody: article.body,
-    thumbnailUrl: article.thumbnail_url,
     thumbnailChecksum: article.thumbnail_checksum,
   };
 }

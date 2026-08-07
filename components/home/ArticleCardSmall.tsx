@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 import { FAMILY_COLORS } from "./ArticleRow";
 
@@ -15,6 +16,13 @@ export function ArticleCardSmall({
       data-article-id={article.articleId}
       className="group block border border-border-primary bg-bg-secondary p-3 transition-colors hover:border-border-hover"
     >
+      <ArticleThumbnail
+        thumbnailUrl={article.thumbnailUrl}
+        family={article.family}
+        title={article.titleJa}
+        variant="fixed"
+        className="mb-2"
+      />
       <div className="mb-2 flex items-center justify-between gap-2">
         <span
           className="text-[9px] font-bold tracking-label"

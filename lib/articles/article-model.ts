@@ -53,6 +53,9 @@ export const ArticleMetaSchema = z
     dataDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
     lanes: z.array(z.enum(ARTICLE_LANES)).default([]),
     regimeNoteJa: z.string().min(1).optional(),
+    // INFLOW-G2 T1a: 検証済みサムネの Blob URL (feed 由来・検証は
+    // thumbnail-verification.ts が担い、ここには通過済みの値だけが入る)
+    thumbnailUrl: z.string().url().startsWith("https://").optional(),
     sourceXUrl: z
       .string()
       .regex(/^https:\/\/x\.com\/[A-Za-z0-9_]+\/status\/\d+$/)
