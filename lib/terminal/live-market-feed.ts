@@ -601,7 +601,7 @@ function mapRadarBundle(section: unknown): RadarFeedData | null {
  * SessionMetaSchema verbatim (imported, not duplicated) so the wire contract
  * and the on-disk repo contract can never drift apart.
  *
- * Two additional fail-closed checks beyond SessionMetaSchema itself, both
+ * Four additional fail-closed checks beyond SessionMetaSchema itself, all
  * pre-crystallize wire-contract requirements (crystallize — materializing a
  * feed session into a repo content/sessions/ directory — is a separate,
  * not-yet-wired gate):
@@ -609,7 +609,12 @@ function mapRadarBundle(section: unknown): RadarFeedData | null {
  *    (a stale or future-dated record nulls the whole bundle);
  *  - every record's `articleStatus` must be "pending" (a "published" record
  *    arriving over the feed would imply crystallize already happened, which
- *    this wire contract does not yet support — reject rather than trust).
+ *    this wire contract does not yet support — reject rather than trust);
+ *  - no two records may share the same `sessionId` (fix round 2 / I-3 —
+ *    a duplicate id is malformed, not just undesirable);
+ *  - at most one record may declare `liveStatus === "live"` (fix round 2 /
+ *    I-3 — the site only ever surfaces a single "いまのセッション" slot, so a
+ *    bundle claiming two simultaneous live sessions is malformed).
  */
 const sessionsBundleSchema = z
   .object({
@@ -621,6 +626,8 @@ const sessionsBundleSchema = z
   .strict()
   .superRefine((bundle, ctx) => {
     const bundleDate = bundle.asOfJst.slice(0, 10);
+    const seenSessionIds = new Set<string>();
+    let liveCount = 0;
     bundle.records.forEach((record, index) => {
       if (record.date !== bundleDate) {
         ctx.addIssue({
@@ -636,7 +643,25 @@ const sessionsBundleSchema = z
           path: ["records", index, "articleStatus"],
         });
       }
+      if (seenSessionIds.has(record.sessionId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `duplicate session record sessionId: ${record.sessionId}`,
+          path: ["records", index, "sessionId"],
+        });
+      }
+      seenSessionIds.add(record.sessionId);
+      if (record.liveStatus === "live") {
+        liveCount += 1;
+      }
     });
+    if (liveCount > 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `sessions bundle may declare at most one live record, found ${liveCount}`,
+        path: ["records"],
+      });
+    }
   });
 
 export interface SessionsFeedData {

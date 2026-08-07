@@ -1157,4 +1157,37 @@ describe("mapTerminalFeed — sessions bundle (G43-e S2)", () => {
     expect(data?.sessions).toBeNull();
     expect(data?.home).not.toBeNull();
   });
+
+  // fix round 2 / I-3: two additional fail-closed structural checks on the
+  // records array itself (mirrors radarBundleSchema's duplicate-topicId
+  // check), applied via superRefine so a violation degrades sessions to null
+  // through the same safeParse-failure path as every other check above.
+  it("degrades sessions to null when two records share the same sessionId (fix round 2 / I-3)", () => {
+    const feed = sampleHomeV03();
+    const record = feed.sessions.records[0];
+    feed.sessions.records = [record, { ...record, liveStatus: "closed" }];
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    expect(data?.home).not.toBeNull();
+  });
+
+  it("degrades sessions to null when more than one record is live (fix round 2 / I-3)", () => {
+    const feed = sampleHomeV03();
+    const record = feed.sessions.records[0];
+    feed.sessions.records = [
+      record,
+      {
+        ...record,
+        sessionId: "2026-07-12-europe-bridge",
+        sessionSlug: "europe-bridge",
+        currentUrl: "/sessions/2026-07-12-europe-bridge",
+        packetId: "sess_20260712_europe",
+      },
+    ];
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.sessions).toBeNull();
+    expect(data?.home).not.toBeNull();
+  });
 });
