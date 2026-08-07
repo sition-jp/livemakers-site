@@ -33,6 +33,7 @@ export function HomeComposition({
   laneProvenance,
   mkt12Provenance,
   sessionProvenance,
+  radarSource,
   copy,
   surfacePublished,
   catalogSource = "repository_only",
@@ -40,6 +41,7 @@ export function HomeComposition({
   return (
     <div
       data-home-catalog-source={catalogSource}
+      data-home-radar-source={radarSource}
       className="mx-auto max-w-[1760px] px-4 pb-10 pt-6 md:px-8"
     >
       <CompositeHero live={live} lead={slots.lead} copy={copy.hero} />

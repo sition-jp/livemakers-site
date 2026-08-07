@@ -19,6 +19,7 @@ import {
 } from "@/lib/provenance/window-provenance";
 import {
   formatAsOfLabel,
+  type RadarFeedData,
   type ReviewedHomeData,
 } from "@/lib/terminal/live-market-feed";
 import type { MarketTickerItem } from "@/lib/terminal/market-lanes";
@@ -33,19 +34,28 @@ import {
   type MarketSnapshot,
   type MarketSnapshotCell,
 } from "./market-snapshot";
-import {
-  RADAR_OBSERVATIONS,
-  assertRadarObservationContract,
-} from "./radar-observations";
-import { RADAR_PROMOTIONS } from "./radar-promotions";
+import type { RadarObservation } from "./radar-observations";
 import { resolveTodayJst } from "./resolve-today";
 import { normalizeHomeInput, selectHomeSlots } from "./select-home-slots";
+
+/**
+ * G43-d: root observability for where the home radar population came from —
+ * mirrors HomeCatalogSource (data-home-catalog-source). Rendered on
+ * HomeComposition's root as data-home-radar-source, without altering any
+ * other returned prop.
+ */
+export type HomeRadarSource = "feed" | "empty" | "injected";
 
 export interface BuildHomeCompositionArgs {
   today?: string;
   now?: Date;
   contentDir?: string;
   source?: ReviewedHomeData | null;
+  /** The mapped (but not yet freshness-gated) feed `radar` bundle. */
+  feedRadar?: RadarFeedData | null;
+  /** Test injection — highest priority when either is provided. */
+  radar?: readonly RadarObservation[];
+  promotions?: Readonly<Record<string, string>>;
   sessionRecords?: SessionRecord[];
   articles?: ArticleMeta[];
   articleCutoffToday?: string;
@@ -116,6 +126,26 @@ function buildReviewedSnapshot(
   });
 }
 
+/**
+ * Projects a feed-mapped radar observation down to the site-facing
+ * RadarObservation shape (drops observedAtJst, the feed-only ordering
+ * field select-home-slots does not need).
+ */
+function toRadarObservation(
+  observation: RadarFeedData["observations"][number],
+): RadarObservation {
+  const {
+    topicId,
+    lane,
+    titleJa,
+    observedAtLabel,
+    href,
+    displayMode,
+    publishDecision,
+  } = observation;
+  return { topicId, lane, titleJa, observedAtLabel, href, displayMode, publishDecision };
+}
+
 function seriesProvenance(
   series: NonNullable<ReturnType<typeof buildFocusSeries>>,
 ): WindowProvenance {
@@ -134,7 +164,6 @@ function seriesProvenance(
 export function buildHomeCompositionProps(
   args: BuildHomeCompositionArgs = {},
 ) {
-  assertRadarObservationContract(RADAR_OBSERVATIONS);
   const fixtureSnapshot = loadMarketSnapshot();
   const sessionRecords = args.sessionRecords ?? getAllSessionRecords();
   const now = args.now ?? new Date();
@@ -148,6 +177,29 @@ export function buildHomeCompositionProps(
     ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot)
     : fixtureSnapshot;
   const reviewedAdopted = reviewedSource !== null;
+
+  // G43-d: radar/promotions honest-empty degrade. Test injection (either key
+  // explicitly provided) wins outright; otherwise the feed radar bundle is
+  // only trusted once the reviewed market source itself is adopted (same
+  // delivery, same freshness gate); anything else is an honest empty state
+  // — RADAR_OBSERVATIONS/RADAR_PROMOTIONS are no longer supplied here.
+  const radarInjected = args.radar !== undefined || args.promotions !== undefined;
+  let radar: readonly RadarObservation[];
+  let promotions: Readonly<Record<string, string>>;
+  let radarSource: HomeRadarSource;
+  if (radarInjected) {
+    radar = args.radar ?? [];
+    promotions = args.promotions ?? {};
+    radarSource = "injected";
+  } else if (reviewedAdopted && args.feedRadar) {
+    radar = args.feedRadar.observations.map(toRadarObservation);
+    promotions = args.feedRadar.promotions;
+    radarSource = "feed";
+  } else {
+    radar = [];
+    promotions = {};
+    radarSource = "empty";
+  }
   const today = args.today ?? snapshot.dataDate;
   const articleCutoffToday =
     args.articleCutoffToday ??
@@ -162,8 +214,8 @@ export function buildHomeCompositionProps(
     articles:
       args.articles ?? getAllArticles({ contentDir: args.contentDir }),
     sessions: sessionRecords,
-    radar: RADAR_OBSERVATIONS,
-    promotions: RADAR_PROMOTIONS,
+    radar,
+    promotions,
     today,
     articleCutoffToday,
   };
@@ -275,5 +327,6 @@ export function buildHomeCompositionProps(
     pageProvenance,
     mkt12Provenance,
     sessionProvenance,
+    radarSource,
   };
 }

@@ -19,6 +19,7 @@ export const loadHomeCompositionProps = cache(async () => {
   return {
     props: buildHomeCompositionProps({
       source: feed?.home ?? null,
+      feedRadar: feed?.radar ?? null,
       articles: inflow.articles,
     }),
     catalogSource,

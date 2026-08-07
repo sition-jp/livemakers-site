@@ -65,6 +65,17 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     );
   });
 
+  it("exposes the honest-empty radar source on the root when nothing was injected (G43-d)", () => {
+    // The fixture-backed `props` above never injects radar/promotions, so
+    // buildHomeCompositionProps degrades to the honest-empty default.
+    expect(props.radarSource).toBe("empty");
+    const { container } = renderHome();
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-home-radar-source",
+      "empty",
+    );
+  });
+
   it("renders modules per region in ledger order", () => {
     const { container } = renderHome();
     for (const region of GRADIENT_REGIONS) {
