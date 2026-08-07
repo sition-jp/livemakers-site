@@ -11,12 +11,19 @@ const TITLE = "📡 Signal｜法案が止まっても、規制は止まらない
 const BODY = `${TITLE}\n\nリード文。\n\n■ 章\n\n本文。`;
 
 describe("applyArticleDisplayTransform (INFLOW-G2 D2)", () => {
-  it("stays inert while the active transform id is none (T1a 停止線)", () => {
-    expect(ACTIVE_ARTICLE_DISPLAY_TRANSFORM_ID).toBe("none");
+  it("is active (T1b) and drops the duplicated title by default", () => {
+    expect(ACTIVE_ARTICLE_DISPLAY_TRANSFORM_ID).toBe(DROP_LEADING_EXACT_TITLE_V1);
     const result = applyArticleDisplayTransform(BODY, TITLE);
-    expect(result.displayBody).toBe(BODY);
+    expect(result.displayBody).toBe("\nリード文。\n\n■ 章\n\n本文。");
+    expect(result.displayTransformId).toBe(DROP_LEADING_EXACT_TITLE_V1);
+  });
+
+  it("fails open to none for bodies without a duplicated title (display == source)", () => {
+    const body = "リード文のみ。\n\n本文。";
+    const result = applyArticleDisplayTransform(body, TITLE);
+    expect(result.displayBody).toBe(body);
     expect(result.displayTransformId).toBe("none");
-    expect(result.displayBodyChecksum).toBe(calculateArticleBodyChecksum(BODY));
+    expect(result.displayBodyChecksum).toBe(calculateArticleBodyChecksum(body));
   });
 
   it("drops exactly the leading title line on trim-only exact match", () => {
