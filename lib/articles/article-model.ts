@@ -13,6 +13,7 @@ export const ARTICLE_FAMILIES = [
   "event-risk-radar",
   "weekly-brief",
   "session",
+  "future-atlas",
 ] as const;
 export type ArticleFamily = (typeof ARTICLE_FAMILIES)[number];
 

@@ -9,6 +9,7 @@ import {
 } from "@/lib/articles/article-model";
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 
 export const revalidate = 300;
 
@@ -33,6 +34,7 @@ export default async function ArticleSeriesPage({
 
   const t = await getTranslations("articles");
   const futureAtlas = await loadFutureAtlas();
+  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
   const catalog = await loadPublicArticleInflowCatalog();
   const articles = catalog.articles.filter(
     (article) => article.family === series,
@@ -46,7 +48,7 @@ export default async function ArticleSeriesPage({
       <h1 className="mt-2 text-3xl font-bold text-text-primary">
         {t(`family.${series}`)}
       </h1>
-      {series === "future-map" && futureAtlas.config.surfacePublished && (
+      {series === "future-map" && surfacePublished && (
         <p className="mt-4 text-sm text-text-secondary">
           <Link href="/future-atlas" className="underline underline-offset-4">
             {t("futureAtlasGuide")}

@@ -25,7 +25,7 @@ describe("article model + lane taxonomy", () => {
     expect(getAllArticles({ contentDir: missing })).toEqual([]);
   });
 
-  it("declares the eight G40 families plus session", () => {
+  it("declares the eight G40 families plus session and future-atlas", () => {
     expect(ARTICLE_FAMILIES).toEqual([
       "daily-intel",
       "signal",
@@ -36,6 +36,7 @@ describe("article model + lane taxonomy", () => {
       "event-risk-radar",
       "weekly-brief",
       "session",
+      "future-atlas",   // T4-2: site-first go_record 面 (P0-7)
     ]);
     expect(SERIES_SLUGS).toEqual([
       "daily-intel",

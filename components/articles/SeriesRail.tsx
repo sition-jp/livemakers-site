@@ -203,6 +203,7 @@ export function buildTestSeriesRailCopy(): SeriesRailCopy {
       "mkt12-weekend": "週末の12指標",
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
+      "future-atlas": "未来アトラス（承認公開）",
       session: "セッション記事",
     },
   };

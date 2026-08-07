@@ -40,6 +40,13 @@ vi.mock("@/lib/articles/article-inflow-feed", () => ({
   loadPublicArticleInflowCatalog: mocks.loadCatalog,
   loadPublicArticleInflowDetail: mocks.loadDetail,
 }));
+vi.mock("@/lib/future-atlas/surface", () => ({
+  // T4-2: 実効 surface は config 値へ縮退させる (feed 照会は結合対象外)
+  loadEffectiveSurfacePublished: vi.fn(
+    async (data: { config: { surfacePublished: boolean } }) =>
+      data.config.surfacePublished,
+  ),
+}));
 vi.mock("@/lib/future-atlas/load", () => ({
   loadFutureAtlas: vi.fn(async () => ({
     manifest: { entries: [] },

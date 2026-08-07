@@ -444,7 +444,8 @@
       "mkt12-weekend": "週末の12指標",
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
-      "session": "セッション記事"
+      "session": "セッション記事",
+      "future-atlas": "未来アトラス（承認公開）"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
@@ -544,7 +545,8 @@
       "mkt12-weekend": "週末の12指標",
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
-      "session": "セッション記事"
+      "session": "セッション記事",
+      "future-atlas": "未来アトラス（承認公開）"
     },
     "todayTitle": "本日の記事一覧",
     "todayEmpty": "本日の記事はこれから公開されます",

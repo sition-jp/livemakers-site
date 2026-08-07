@@ -17,6 +17,13 @@ import { isAllowedChromeRoute } from "@/lib/livemakers-terminal-preview/public-t
 import en from "@/messages/en.json";
 import ja from "@/messages/ja.json";
 
+vi.mock("@/lib/future-atlas/surface", () => ({
+  // T4-2: 実効 surface は config 値へ縮退させる (feed 照会は結合対象外)
+  loadEffectiveSurfacePublished: vi.fn(
+    async (data: { config: { surfacePublished: boolean } }) =>
+      data.config.surfacePublished,
+  ),
+}));
 vi.mock("next/navigation", () => ({
   usePathname: () => "/ja",
   useRouter: () => ({
@@ -161,7 +168,9 @@ describe("G41 page chrome", () => {
     expect(layout).toContain("await loadHomeCompositionProps()");
     expect(layout).toContain("getSnapshotChromeMeta(props.snapshot)");
     expect(layout).toContain("await loadFutureAtlas()");
-    expect(layout).toContain("<SiteChrome chromeMeta={chromeMeta} futureAtlasNav={futureAtlas.config.surfacePublished}>");
+    // T4-2 (P0-7): nav は実効 surfacePublished (config OR feed) を参照する
+    expect(layout).toContain("<SiteChrome chromeMeta={chromeMeta} futureAtlasNav={surfacePublished}>");
+    expect(layout).toContain("loadEffectiveSurfacePublished(futureAtlas)");
     expect(siteChrome).toContain(
       "<Header chromeMeta={chromeMeta} futureAtlasNav={futureAtlasNav} />",
     );

@@ -22,6 +22,7 @@ import {
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
 import { extractToc, slugifyHeading } from "@/lib/articles/toc";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
+import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 
 export const dynamicParams = true;
 export const revalidate = 300;
@@ -71,6 +72,7 @@ export default async function ArticleDetailPage({
   const { article, body } = detail;
   const title = language === "en" ? (article.titleEn ?? article.titleJa) : article.titleJa;
   const futureAtlas = await loadFutureAtlas();
+  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
   const manifestEntry = futureAtlas.manifest.entries.find((entry) => entry.articleId === article.articleId);
   const contracts = manifestEntry?.kind === "forecast"
     ? futureAtlas.contracts.filter((contract) => contract.articleId === article.articleId)
@@ -117,6 +119,19 @@ export default async function ArticleDetailPage({
             {article.publishedLabel}
           </time>
         </header>
+        {article.thumbnailUrl ? (
+          // site-first 記事のみ (T4-2): 生成サムネ (Blob) をリード画像に。
+          // mirror 記事は thumbnailUrl を持たない = 従来どおり画像なし
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={article.thumbnailUrl}
+            alt=""
+            width={1600}
+            height={900}
+            data-article-thumbnail=""
+            className="mb-8 w-full rounded-lg border border-border-primary"
+          />
+        ) : null}
         {manifestEntry && <AuthorshipLine authorshipMode={manifestEntry.authorshipMode} />}
         {contracts.map((contract) => {
           const state = futureAtlas.states.get(contract.forecastId);
@@ -188,7 +203,7 @@ export default async function ArticleDetailPage({
       <SeriesRail
         articles={catalog.articles}
         current={article}
-        surfacePublished={futureAtlas.config.surfacePublished}
+        surfacePublished={surfacePublished}
         copy={railCopy}
       />
     </div>

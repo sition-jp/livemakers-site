@@ -15,6 +15,7 @@ export const FAMILY_COLORS: Record<ArticleFamily, string> = {
   "event-risk-radar": "var(--lmk-family-event-risk)",
   "weekly-brief": "var(--lmk-family-weekly-brief)",
   session: "var(--lmk-family-session)",
+  "future-atlas": "var(--lmk-family-future-map)",
 };
 
 /**

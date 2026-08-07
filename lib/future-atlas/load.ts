@@ -42,6 +42,22 @@ const DEFAULT_ARTICLE_CONTENT_DIR = path.join(process.cwd(), "content", "article
 const EMPTY_CONFIG: AtlasConfig = { schemaVersion: 1, surfacePublished: false };
 const EMPTY_MANIFEST: Manifest = { schemaVersion: 1, themes: [], entries: [] };
 
+/**
+ * P0-7 (T4-2): feed-derived surface opening。
+ * 実効 surfacePublished = config.surfacePublished OR
+ * (production feed に family="future-atlas" の記事が存在)。
+ * 初回 go_record 承認記事が feed に載るまで inert (挙動不変)。
+ * consolidation (T9・GO#3) が config.json を true へ恒久化する。
+ * feed が読めない時 (null) は config 値へ fail-closed。
+ */
+export function effectiveSurfacePublished(
+  config: Pick<AtlasConfig, "surfacePublished">,
+  feedArticles: ReadonlyArray<{ family: string }> | null | undefined,
+): boolean {
+  if (config.surfacePublished) return true;
+  return (feedArticles ?? []).some((article) => article.family === "future-atlas");
+}
+
 const readJson = (filePath: string): unknown =>
   JSON.parse(fs.readFileSync(filePath, "utf8"));
 
