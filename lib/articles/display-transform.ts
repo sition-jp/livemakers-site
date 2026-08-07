@@ -19,8 +19,9 @@ import { calculateArticleBodyChecksum } from "@/lib/articles/article-inflow-vali
 
 export const DROP_LEADING_EXACT_TITLE_V1 = "drop-leading-exact-title-v1";
 
-/** T1b でここを DROP_LEADING_EXACT_TITLE_V1 に切り替える (それ以外は触らない) */
-export const ACTIVE_ARTICLE_DISPLAY_TRANSFORM_ID: string = "none";
+/** T1b (2026-08-07) で有効化済み。T2a (observer 3 点検証) が merge 済みで
+ * あることが停止線 — 12:20 配信前に両側が揃わない場合は merge を次サイクルへ */
+export const ACTIVE_ARTICLE_DISPLAY_TRANSFORM_ID: string = DROP_LEADING_EXACT_TITLE_V1;
 
 export interface ArticleDisplayResult {
   displayBody: string;
