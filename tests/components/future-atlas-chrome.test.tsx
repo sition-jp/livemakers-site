@@ -311,6 +311,9 @@ describe("Future Atlas article chrome", () => {
     expect(result.querySelector("[data-atlas-contract]")).toBeNull();
     expect(result.querySelector("header")?.textContent).toContain("テスト記事");
     expect(result.querySelector("[data-mdx-body]")?.textContent).toBe("本文");
-    expect(Array.from(result.querySelector("article")!.children, (node) => node.tagName)).toEqual(["HEADER", "DIV"]);
+    // INFLOW-G2 T1a: header 直後に 16:9 サムネ枠 (placeholder) が常設された
+    const children = Array.from(result.querySelector("article")!.children);
+    expect(children.map((node) => node.tagName)).toEqual(["HEADER", "DIV", "DIV"]);
+    expect(children[1].getAttribute("data-article-thumbnail")).toBe("placeholder");
   });
 });

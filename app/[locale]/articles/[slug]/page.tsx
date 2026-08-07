@@ -8,6 +8,7 @@ import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractB
 import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
 import { createArticleMdxComponents } from "@/components/articles/ArticleBodyComponents";
 import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
+import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { SeriesRail, type SeriesRailCopy } from "@/components/articles/SeriesRail";
 import {
@@ -20,6 +21,7 @@ import {
   loadPublicArticleInflowDetail,
 } from "@/lib/articles/article-inflow-feed";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
+import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
 import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
@@ -57,7 +59,11 @@ export default async function ArticleDetailPage({
   const catalog = await loadPublicArticleInflowCatalog();
   const neighbors = getSeriesNeighbors(catalog.articles, article);
   const related = getRelatedArticles(catalog.articles, article);
-  const toc = extractToc(body);
+  // INFLOW-G2 D2: 表示層タイトル抑止。受領 body (= source) は不変のまま、
+  // MDX へ渡すテキストだけを変換する。T1a 時点では transform は inert
+  // (ACTIVE_ARTICLE_DISPLAY_TRANSFORM_ID = "none"・display == source)
+  const display = applyArticleDisplayTransform(body, title);
+  const toc = extractToc(display.displayBody);
   const showToc = toc.length >= TOC_MIN_HEADINGS;
 
   const familyLabel = t(`family.${article.family}`);
@@ -105,19 +111,6 @@ export default async function ArticleDetailPage({
             </p>
           ) : null}
         </header>
-        {article.thumbnailUrl ? (
-          // site-first 記事のみ (T4-2): 生成サムネ (Blob) をリード画像に。
-          // mirror 記事は thumbnailUrl を持たない = 従来どおり画像なし
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={article.thumbnailUrl}
-            alt=""
-            width={1600}
-            height={900}
-            data-article-thumbnail=""
-            className="mb-8 w-full rounded-lg border border-border-primary"
-          />
-        ) : null}
         {manifestEntry && <AuthorshipLine authorshipMode={manifestEntry.authorshipMode} />}
         {contracts.map((contract) => {
           const state = futureAtlas.states.get(contract.forecastId);
@@ -132,6 +125,16 @@ export default async function ArticleDetailPage({
             />
           );
         })}
+        {/* INFLOW-G2 T1a (D4): 検証済みサムネ or placeholder 帯。固定 16:9 枠で
+            画像有無により本文位置が動かない (CLS ゼロ)。atlas chrome の
+            「authorship は header 直後」契約を守るため authorship/contract の後段 */}
+        <ArticleThumbnail
+          thumbnailUrl={article.thumbnailUrl}
+          family={article.family}
+          title={title}
+          variant="fixed"
+          className="mb-8 rounded-lg border border-border-primary"
+        />
         {showToc ? (
           <nav
             data-article-toc=""
@@ -161,12 +164,18 @@ export default async function ArticleDetailPage({
           data-article-source={article.source}
           data-article-slug={article.articleId}
           data-declared-body-checksum={detail.declaredBodyChecksum}
+          data-source-body-checksum={detail.renderedBodyChecksum}
+          data-display-body-checksum={display.displayBodyChecksum}
+          data-display-transform-id={display.displayTransformId}
+          /* data-rendered-body-checksum = deprecated compatibility alias
+             (値 = 受領 body の checksum)。新 observer は source/display の
+             3 点 (T2a) を検証根拠にし、この alias を根拠にしない */
           data-rendered-body-checksum={detail.renderedBodyChecksum}
           className="prose prose-neutral max-w-none dark:prose-invert"
         >
           <MDXRemote
-            source={body}
-            components={createArticleMdxComponents(body)}
+            source={display.displayBody}
+            components={createArticleMdxComponents(display.displayBody)}
             options={{
               blockJS: true,
               blockDangerousJS: true,
