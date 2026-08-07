@@ -5,6 +5,9 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   TERMINAL_FEED_ENV_KEY,
   TERMINAL_FEED_REVALIDATE_SECONDS,
+  TERMINAL_FEED_SCHEMA_V01,
+  TERMINAL_FEED_SCHEMA_V02,
+  TERMINAL_FEED_SCHEMA_V03,
   fetchLiveMarketData,
   formatAsOfLabel,
   mapTerminalFeed,
@@ -23,6 +26,20 @@ const HOME_V02_FIXTURE = JSON.parse(
 
 function sampleHomeV02(): Record<string, any> {
   return structuredClone(HOME_V02_FIXTURE);
+}
+
+const HOME_V03_FIXTURE = JSON.parse(
+  fs.readFileSync(
+    path.join(
+      process.cwd(),
+      "tests/fixtures/terminal/terminal_feed_v0.3.home.sample.json",
+    ),
+    "utf8",
+  ),
+) as Record<string, any>;
+
+function sampleHomeV03(): Record<string, any> {
+  return structuredClone(HOME_V03_FIXTURE);
 }
 
 /** Mirrors what the SDE-side generator (livemakers_export) emits. */
@@ -818,5 +835,157 @@ describe("mapTerminalFeed — source window (Plan B)", () => {
     source.items[0].sourceDomain = "reuters.com/markets";
     (feed.windows as Record<string, unknown>).source = source;
     expect(mapTerminalFeed(feed)?.source).toBeNull();
+  });
+});
+
+describe("schema_version enum (G43-d T1)", () => {
+  it("names the three accepted schema versions", () => {
+    expect(TERMINAL_FEED_SCHEMA_V01).toBe("livemakers_terminal_feed_v0.1");
+    expect(TERMINAL_FEED_SCHEMA_V02).toBe("livemakers_terminal_feed_v0.2");
+    expect(TERMINAL_FEED_SCHEMA_V03).toBe("livemakers_terminal_feed_v0.3");
+  });
+
+  it("still maps a v0.1 payload (non-breaking)", () => {
+    expect(mapTerminalFeed(sampleFeed())).not.toBeNull();
+  });
+
+  it("still maps a v0.2 payload with full home functionality (non-breaking)", () => {
+    const data = mapTerminalFeed(sampleHomeV02());
+    expect(data).not.toBeNull();
+    expect(data?.home).not.toBeNull();
+    expect(data?.radar).toBeNull();
+  });
+
+  it("maps a v0.3 payload with both home and radar (superset of v0.2)", () => {
+    const data = mapTerminalFeed(sampleHomeV03());
+    expect(data).not.toBeNull();
+    expect(data?.home).not.toBeNull();
+    expect(data?.home?.pagePacketId).toBe("lmk_20260712_0730_a1");
+    expect(data?.radar).not.toBeNull();
+  });
+});
+
+/** G43-d T2/T3: the feed `radar` bundle (site-consumer side of the contract). */
+describe("mapTerminalFeed — radar bundle (G43-d)", () => {
+  it("maps observations and promotions from a valid v0.3 radar bundle", () => {
+    const data = mapTerminalFeed(sampleHomeV03());
+    expect(data?.radar).not.toBeNull();
+    expect(data?.radar?.observations).toHaveLength(2);
+    expect(data?.radar?.observations[0]).toEqual({
+      topicId: "stablecoin_supply_20260712",
+      lane: "sde_phase1_breaking_radar",
+      titleJa: "ステーブルコイン供給の週次増分が再加速",
+      observedAtLabel: "05:12",
+      observedAtJst: "2026-07-12T05:12:00+09:00",
+      href: null,
+      displayMode: "title_only",
+      publishDecision: "not_authorized",
+    });
+    expect(data?.radar?.promotions).toEqual({});
+  });
+
+  it("never reads radar off a v0.1 or v0.2 payload, even if the key is present", () => {
+    const feedV1 = sampleFeed() as Record<string, unknown>;
+    feedV1.radar = sampleHomeV03().radar;
+    expect(mapTerminalFeed(feedV1)?.radar).toBeNull();
+
+    const feedV2 = sampleHomeV02();
+    feedV2.radar = sampleHomeV03().radar;
+    expect(mapTerminalFeed(feedV2)?.radar).toBeNull();
+    // v0.2 home stays fully mapped regardless.
+    expect(mapTerminalFeed(feedV2)?.home).not.toBeNull();
+  });
+
+  it("degrades radar to null on a bad schemaVersion literal — market lanes and home stay live", () => {
+    const feed = sampleHomeV03();
+    feed.radar.schemaVersion = "livemakers_radar_v2";
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.radar).toBeNull();
+    expect(data?.home).not.toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
+  });
+
+  it("degrades radar to null on a malformed packetId", () => {
+    const feed = sampleHomeV03();
+    feed.radar.packetId = "not-a-packet-id";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when asOfJst is not a JST ISO string", () => {
+    const feed = sampleHomeV03();
+    feed.radar.asOfJst = "2026-07-12 07:30";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when an observation carries a non-null href", () => {
+    const feed = sampleHomeV03();
+    feed.radar.observations[0].href = "https://example.com";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when an observation carries a forbidden payload key", () => {
+    const feed = sampleHomeV03();
+    (feed.radar.observations[0] as Record<string, unknown>).body = "full text";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when an observation is missing observedAtJst", () => {
+    const feed = sampleHomeV03();
+    delete feed.radar.observations[0].observedAtJst;
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when an observation carries an unknown lane", () => {
+    const feed = sampleHomeV03();
+    feed.radar.observations[0].lane = "unknown_lane";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when promotions carries a non-string value", () => {
+    const feed = sampleHomeV03();
+    feed.radar.promotions = { topic_a: 123 };
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("degrades radar to null when the bundle carries an extra top-level key", () => {
+    const feed = sampleHomeV03();
+    feed.radar.extra = "nope";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("accepts an empty observations array as a valid (quiet) radar bundle", () => {
+    const feed = sampleHomeV03();
+    feed.radar.observations = [];
+    const data = mapTerminalFeed(feed);
+    expect(data?.radar).not.toBeNull();
+    expect(data?.radar?.observations).toEqual([]);
+  });
+
+  it("degrades the whole radar bundle to null when a single title leaks forbidden visible text (fail-closed)", () => {
+    const feed = sampleHomeV03();
+    feed.radar.observations[0].titleJa = "published_log の更新を検出";
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.radar).toBeNull();
+    // independent degradation: the rest of the feed stays live.
+    expect(data?.home).not.toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
+  });
+
+  it("degrades the whole radar bundle to null when a single title leaks an internal ops term", () => {
+    const feed = sampleHomeV03();
+    feed.radar.observations[1].titleJa = "crawler が拾った話題を確認中";
+    expect(mapTerminalFeed(feed)?.radar).toBeNull();
+  });
+
+  it("keeps forbidden-term scanning word-boundary aware (no false positive)", () => {
+    // "一次ソース検証" legitimately contains no forbidden substrings once
+    // word-boundary matching is applied — mirrors the existing
+    // assertRadarObservationContract / findForbiddenOpsTerms behaviour.
+    const feed = sampleHomeV03();
+    feed.radar.observations[0].titleJa = "一次ソース検証を経た話題を観測中";
+    const data = mapTerminalFeed(feed);
+    expect(data?.radar).not.toBeNull();
   });
 });

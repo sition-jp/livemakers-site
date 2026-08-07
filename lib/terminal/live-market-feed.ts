@@ -13,6 +13,7 @@ import type {
   LocalizedText,
   TerminalLiveRadarItem,
 } from "@/lib/livemakers-terminal-preview/types";
+import { matchesTerm } from "@/lib/home/matches-term";
 import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import type { FocusSeries } from "@/lib/sessions/focus-series";
 import type { ReaderSessionSlug } from "@/lib/sessions/session-registry";
@@ -56,6 +57,9 @@ import {
 export const TERMINAL_FEED_ENV_KEY = "LIVEMAKERS_TERMINAL_FEED_URL";
 export const TERMINAL_FEED_SCHEMA_V01 = "livemakers_terminal_feed_v0.1";
 export const TERMINAL_FEED_SCHEMA_V02 = "livemakers_terminal_feed_v0.2";
+// G43-d T1: v0.3 is additive over v0.2 (home stays fully supported) and adds
+// the optional top-level `radar` bundle (see radarBundleSchema / mapRadarBundle).
+export const TERMINAL_FEED_SCHEMA_V03 = "livemakers_terminal_feed_v0.3";
 export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 // ISR cost doctrine (2026-08-01): the feed is delivered to Blob hourly
 // (crontab :45), so a 300s revalidate meant 12 regenerations per delivery
@@ -308,6 +312,7 @@ const JST_ISO_PATTERN =
 const PAGE_PACKET_PATTERN = /^lmk_(\d{8})_(\d{4})_[a-z0-9]+$/;
 const MARKET_PACKET_PATTERN =
   /^mkt12_(\d{8})_(asia|am|europe|ny|close)$/;
+const RADAR_PACKET_PATTERN = /^radar_\d{8}_\d{4}_[a-z0-9]+$/;
 
 const MARKET_ANCHORS = {
   asia: "05:03",
@@ -493,11 +498,84 @@ const reviewedHomeSchema = z
     }
   });
 
+/**
+ * G43-d: the feed `radar` bundle (site-first speed-radar consumer). A
+ * top-level v0.3-only section, parsed separately from terminalFeedSchema —
+ * same independent-degradation posture as home/liveRadar/published: an
+ * invalid bundle nulls only `radar`, never the rest of the feed.
+ *
+ * The per-observation shape mirrors lib/home/radar-observations.ts's
+ * RadarObservationSchema (+ observedAtJst). It is duplicated here rather
+ * than imported to avoid a circular dependency — radar-observations.ts
+ * already imports forbiddenSourceOpsTerms/forbiddenSourceVisibleText FROM
+ * this file.
+ */
+const radarBundleObservationSchema = z
+  .object({
+    topicId: z.string().min(1),
+    lane: z.enum([
+      "x_news_trends",
+      "sde_phase1_breaking_radar",
+      "manual_operator_observation",
+    ]),
+    titleJa: z.string().min(1),
+    observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
+    observedAtJst: z.string().regex(JST_ISO_PATTERN),
+    href: z.null(),
+    displayMode: z.literal("title_only"),
+    publishDecision: z.literal("not_authorized"),
+  })
+  .strict();
+
+const radarBundleSchema = z
+  .object({
+    schemaVersion: z.literal("livemakers_radar_v1"),
+    packetId: z.string().regex(RADAR_PACKET_PATTERN),
+    asOfJst: z.string().regex(JST_ISO_PATTERN),
+    observations: z.array(radarBundleObservationSchema),
+    promotions: z.record(z.string().min(1), z.string().min(1)),
+    truncated: z.boolean(),
+  })
+  .strict();
+
+export type RadarFeedObservation = z.infer<typeof radarBundleObservationSchema>;
+
+export interface RadarFeedData {
+  observations: RadarFeedObservation[];
+  promotions: Readonly<Record<string, string>>;
+}
+
+/**
+ * Validate and map the radar bundle. Returns null (→ the caller falls back
+ * to an honest empty radar/promotions pair, never a stale fixture) unless
+ * the strict schema passes AND every titleJa clears the same word-boundary
+ * forbidden-vocabulary scan used by assertRadarObservationContract — one
+ * violation nulls the whole bundle (fail-closed, never a partial radar).
+ */
+function mapRadarBundle(section: unknown): RadarFeedData | null {
+  const parsed = radarBundleSchema.safeParse(section);
+  if (!parsed.success) return null;
+  for (const observation of parsed.data.observations) {
+    const lower = observation.titleJa.toLowerCase();
+    for (const term of [
+      ...forbiddenSourceVisibleText,
+      ...forbiddenSourceOpsTerms,
+    ]) {
+      if (matchesTerm(lower, term.toLowerCase())) return null;
+    }
+  }
+  return {
+    observations: parsed.data.observations,
+    promotions: parsed.data.promotions,
+  };
+}
+
 const terminalFeedSchema = z
   .object({
     schema_version: z.enum([
       TERMINAL_FEED_SCHEMA_V01,
       TERMINAL_FEED_SCHEMA_V02,
+      TERMINAL_FEED_SCHEMA_V03,
     ]),
     generated_at: z.string(),
     windows: z
@@ -577,6 +655,7 @@ export interface LiveMarketData {
   published: PublishedFeedData | null;
   source: SourceFeedData | null;
   home: ReviewedHomeData | null;
+  radar: RadarFeedData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -779,8 +858,16 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     published: mapPublished(windows.published),
     source: mapSourceFeed(windows.source),
     home:
-      schemaVersion === TERMINAL_FEED_SCHEMA_V02
+      schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03
         ? mapReviewedHome(parsed.data.home)
+        : null,
+    // G43-d: the radar bundle is v0.3-only — v0.1/v0.2 payloads never read it,
+    // even if the key happens to be present (schema-version-gated, not
+    // key-presence-gated).
+    radar:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03
+        ? mapRadarBundle(parsed.data.radar)
         : null,
   };
 }
