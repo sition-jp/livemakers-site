@@ -15,6 +15,7 @@ import {
   type ArticleInflowPreviewArticle,
   type ArticleInflowPreviewCatalog,
 } from "@/lib/articles/article-inflow-contract";
+import { stripUnverifiedThumbnails } from "@/lib/articles/thumbnail-verification";
 
 export const ARTICLE_INFLOW_FEED_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_FEED_URL";
 export const ARTICLE_INFLOW_PREVIEW_FLAG_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_PREVIEW_ENABLED";
@@ -60,7 +61,9 @@ async function fetchValidatedArticleInflowFeed(
       console.warn("[article-inflow] feed contract rejected; using repository-only content");
       return null;
     }
-    return feed;
+    // T1a (INFLOW-G2 D3): サムネは origin / atomic union / bytes checksum を
+    // 検証し、通らない記事はサムネのみ剥がす (記事と feed は生存)
+    return await stripUnverifiedThumbnails(feed, fetcher);
   } catch {
     console.warn("[article-inflow] feed request failed; using repository-only content");
     return null;

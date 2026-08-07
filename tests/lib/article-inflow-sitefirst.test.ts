@@ -112,12 +112,33 @@ describe("site-first provenance (T4-1 mirror of sub-repo contract)", () => {
     ["duplicate lanes", () => siteFirstArticle({ lanes: ["crypto", "crypto"] })],
     ["bad thumbnail checksum", () =>
       siteFirstArticle({ thumbnail_checksum: "zz" })],
-    ["mirror carrying site-first fields", () => ({
+    ["mirror carrying site-first-only fields", () => ({
+      ...mirrorArticle(),
+      excerpt: "mirror は excerpt を運べない",
+    })],
+    ["overlay-derived thumbnail doctrine", () => ({
       ...mirrorArticle(),
       thumbnail_url: "https://blob.example/t.webp",
+      thumbnail_checksum: "a".repeat(64),
+      thumbnail_doctrine: "overlay",
     })],
   ])("rejects %s", (_label, build) => {
     expect(parseArticleInflowFeed(feedWith([build()]))).toBeNull();
+  });
+
+  // INFLOW-G2 (P0 承認 2026-08-07): mirror 記事もサムネ 3 項目を運べる。
+  // origin / bytes checksum の検証は thumbnail-verification.ts 側の責務
+  it("accepts a mirror article carrying the thumbnail atomic union", () => {
+    const parsed = parseArticleInflowFeed(feedWith([
+      {
+        ...mirrorArticle(),
+        thumbnail_url: "https://blob.vercel-storage.example/livemakers/thumbnails/t.webp",
+        thumbnail_checksum: "a".repeat(64),
+        thumbnail_doctrine: "no_overlay",
+      },
+    ]));
+    expect(parsed).not.toBeNull();
+    expect(parsed?.articles[0].thumbnail_doctrine).toBe("no_overlay");
   });
 
   it("maps site-first lanes / excerpt / thumbnail into the catalog (TQ3)", () => {
