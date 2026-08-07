@@ -942,6 +942,17 @@ describe("mapTerminalFeed — radar bundle (G43-d)", () => {
     expect(mapTerminalFeed(feed)?.radar).toBeNull();
   });
 
+  it("degrades radar to null on a duplicate observation topicId — feed stays live (fix round 1)", () => {
+    const feed = sampleHomeV03();
+    feed.radar.observations[1].topicId = feed.radar.observations[0].topicId;
+    const data = mapTerminalFeed(feed);
+    expect(data).not.toBeNull();
+    expect(data?.radar).toBeNull();
+    // independent degradation: home and market lanes stay live.
+    expect(data?.home).not.toBeNull();
+    expect(data?.lanes[0].tiles[0].value).toBe("100.94");
+  });
+
   it("degrades radar to null when promotions carries a non-string value", () => {
     const feed = sampleHomeV03();
     feed.radar.promotions = { topic_a: 123 };

@@ -536,7 +536,25 @@ const radarBundleSchema = z
     promotions: z.record(z.string().min(1), z.string().min(1)),
     truncated: z.boolean(),
   })
-  .strict();
+  .strict()
+  // G43-d (fix round 1): a duplicate topicId is malformed, not just
+  // undesirable — reject via the same fail-closed posture as every other
+  // radar bundle check (safeParse failure → mapRadarBundle returns null →
+  // independent degradation nulls only `radar`, never a throw).
+  .superRefine((bundle, ctx) => {
+    const seen = new Set<string>();
+    for (const observation of bundle.observations) {
+      if (seen.has(observation.topicId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `duplicate radar observation topicId: ${observation.topicId}`,
+          path: ["observations"],
+        });
+        return;
+      }
+      seen.add(observation.topicId);
+    }
+  });
 
 export type RadarFeedObservation = z.infer<typeof radarBundleObservationSchema>;
 
