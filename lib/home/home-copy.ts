@@ -29,6 +29,7 @@ export interface HomeCopy {
   globalProvenanceNote: string;
   unavailable: string;
   noLiveSession: string;
+  intelligenceTerminal: string;
   // 記事 family → 読者向けラベル (family.* キー由来・locale 依存)。勾配カラムの共通記事
   // 行部品 (ArticleRow / ArticleCardSmall) が使う恒久的な family ラベル源 (G44 D5/D7)。
   familyLabels: Record<ArticleFamily, string>;
@@ -115,6 +116,7 @@ export function buildHomeCopy(
     globalProvenanceNote: translate("provenance.note"),
     unavailable: translate("general.unavailable"),
     noLiveSession: translate("general.noLiveSession"),
+    intelligenceTerminal: translate("general.intelligenceTerminal"),
     familyLabels,
     masthead: {
       title: translate("masthead.title"),
@@ -143,6 +145,8 @@ export function buildHomeCopy(
         time: context.nextSessionTime,
       }),
       readFull: translate("sessionNow.readFull"),
+      editorialPrefix: translate("sessionNow.editorialPrefix"),
+      editorialSuffix: translate("sessionNow.editorialSuffix"),
       provenance,
     },
     schedule: {

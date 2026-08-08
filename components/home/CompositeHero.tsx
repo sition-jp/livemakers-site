@@ -10,6 +10,10 @@ import type { HomeSlots } from "@/lib/home/select-home-slots";
 import type { SessionRecord } from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import { FAMILY_COLORS } from "./ArticleRow";
+import {
+  firstLeadSentences,
+  type SessionNowCopy,
+} from "./SessionNowCard";
 
 const REGION = "hero" satisfies GradientRegion;
 
@@ -26,10 +30,14 @@ export function CompositeHero({
   live,
   lead,
   copy,
+  editorialCopy,
+  showSessionEditorial = true,
 }: {
   live: SessionRecord | null;
   lead: HomeSlots["lead"];
   copy: HomeCopy["hero"];
+  editorialCopy?: SessionNowCopy;
+  showSessionEditorial?: boolean;
 }) {
   const renderModule = (module: string): ReactNode => {
     switch (module) {
@@ -43,26 +51,41 @@ export function CompositeHero({
         // A repo-origin record (published or still pending) is always
         // materialized; a feed-lifted record without a matching repo entry
         // is not — see SessionRecord.hasMaterializedRoute.
+        const editorial =
+          showSessionEditorial && editorialCopy ? live?.editorial : undefined;
         const sessionHref =
-          live && live.hasMaterializedRoute !== false
+          live && (live.hasMaterializedRoute !== false || live.editorial)
             ? live.currentUrl
             : "/sessions/archive";
         return (
           <Link
             href={sessionHref}
             data-index-nav
-            className="flex items-baseline gap-2 rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary px-4 py-3"
+            className="block rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary px-4 py-3"
           >
-            <span className="shrink-0 text-[10px] font-bold tracking-label text-text-tertiary">
-              {copy.sessionLabel}
-            </span>
-            <span className="min-w-0 flex-1 truncate text-sm font-bold text-text-primary">
-              {sessionName}
-            </span>
-            {live ? (
-              <span className="shrink-0 font-mono text-[10px] text-text-tertiary">
-                {live.date} · {live.asOfJst.slice(11, 16)} JST
+            <span className="flex items-baseline gap-2">
+              <span className="shrink-0 text-[10px] font-bold tracking-label text-text-tertiary">
+                {copy.sessionLabel}
               </span>
+              <span className="min-w-0 flex-1 truncate text-sm font-bold text-text-primary">
+                {sessionName}
+              </span>
+              {live ? (
+                <span className="shrink-0 font-mono text-[10px] text-text-tertiary">
+                  {live.date} · {live.asOfJst.slice(11, 16)} JST
+                </span>
+              ) : null}
+            </span>
+            {editorial && editorialCopy ? (
+              <>
+                <span className="mt-2 block text-xs leading-relaxed text-text-secondary">
+                  {firstLeadSentences(editorial.lead)}
+                </span>
+                <span className="mt-2 block text-right text-xs font-bold text-accent">
+                  {editorialCopy.editorialPrefix} {editorial.items.length}{" "}
+                  {editorialCopy.editorialSuffix}
+                </span>
+              </>
             ) : null}
           </Link>
         );

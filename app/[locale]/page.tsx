@@ -70,6 +70,7 @@ export default async function OverviewPage({
         catalogSource={catalogSource}
         radarSource={radarSource}
         sessionsSource={sessionsSource}
+        showSessionEditorial={locale === "ja"}
         copy={copy}
         surfacePublished={surfacePublished}
       />

@@ -190,7 +190,7 @@ export type HomeSessionsSource = "feed_today" | "repo";
  * this function has no repo context of its own, only the one record being
  * lifted.
  */
-function toSessionRecord(
+function toFeedSessionRecord(
   meta: SessionRecordMeta,
   hasMaterializedRoute: boolean,
 ): SessionRecord {
@@ -229,7 +229,7 @@ function mergeSessionRecords(
   const repoIds = new Set(repoRecords.map((record) => record.sessionId));
   const feedIds = new Set(feedRecords.map((record) => record.sessionId));
   const feedSessionRecords = feedRecords.map((record) =>
-    toSessionRecord(record, repoIds.has(record.sessionId)),
+    toFeedSessionRecord(record, repoIds.has(record.sessionId)),
   );
   const dedupedRepo = repoRecords.filter(
     (record) => !feedIds.has(record.sessionId),

@@ -23,6 +23,92 @@ const SESSION_SLUGS = [
 ] as const;
 const slugEnum = z.enum(SESSION_SLUGS);
 const JST_ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?\+09:00$/;
+const EDITORIAL_ANCHOR_BY_SLUG = {
+  "asia-open": "05:03",
+  "europe-bridge": "12:03",
+  "ny-open": "18:03",
+  "global-close": "23:03",
+} as const;
+const EDITORIAL_URL_OR_HANDLE_PATTERN =
+  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?|(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/i;
+const EDITORIAL_RANK_PATTERN =
+  /\brank\s*[ABC]\b|ランク\s*[ABC]|[ABC]\s*層/i;
+const EDITORIAL_ENGAGEMENT_PATTERN =
+  /いいね\s*[\d,]+|[\d,]+\s*likes|RT\s*[\d,]+|リポスト\s*[\d,]+|エンゲージメント/i;
+const EDITORIAL_FIRST_PERSON_PATTERN =
+  /私|筆者|我々|われわれ|\b(?:I|we|my|our|me)\b/i;
+const EDITORIAL_CERTAINTY_PATTERN =
+  /確実|間違いなく|断定(?:した|する)|絶対|必ず|保証(?:する|される)|\b(?:definitely|certainly|surely)\b|\bguarantee(?:d|s|ing)?\b|\bis certain to\b/i;
+const EDITORIAL_CONSPIRACY_HYPE_PATTERN =
+  /陰謀|黒幕|隠蔽|仕組んだ|劇的|衝撃的|\bconspir(?:acy|atorial)\b|\bmastermind\b/i;
+
+export function sessionEditorialTextViolations(value: string): string[] {
+  return [
+    ["url_or_handle", EDITORIAL_URL_OR_HANDLE_PATTERN],
+    ["rank", EDITORIAL_RANK_PATTERN],
+    ["engagement", EDITORIAL_ENGAGEMENT_PATTERN],
+    ["first_person", EDITORIAL_FIRST_PERSON_PATTERN],
+    ["unsupported_certainty", EDITORIAL_CERTAINTY_PATTERN],
+    ["conspiracy_hype", EDITORIAL_CONSPIRACY_HYPE_PATTERN],
+  ]
+    .filter(([, pattern]) => (pattern as RegExp).test(value))
+    .map(([name]) => name as string);
+}
+
+const SessionEditorialItemSchema = z
+  .object({
+    headline: z.string().trim().min(1).max(80),
+    note: z.string().trim().min(1).max(200).optional(),
+    sourceUrl: z
+      .string()
+      .url()
+      .refine((value) => value.startsWith("https://"), "sourceUrl must be HTTPS"),
+  })
+  .strict();
+
+export const SessionEditorialSchema = z
+  .object({
+    digestId: z.string().regex(/^dig_[a-zA-Z0-9_-]+$/),
+    crawlAnchorJst: z.string().regex(JST_ISO),
+    writtenAtJst: z.string().regex(JST_ISO),
+    lead: z.string().trim().min(1).max(400),
+    items: z.array(SessionEditorialItemSchema),
+    watch: z.array(z.string().trim().min(1).max(120)).min(1).max(3),
+  })
+  .strict()
+  .superRefine((editorial, context) => {
+    if (editorial.writtenAtJst <= editorial.crawlAnchorJst) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "writtenAtJst must be later than crawlAnchorJst",
+        path: ["writtenAtJst"],
+      });
+    }
+    const textFields: Array<{ value: string; path: (string | number)[] }> = [
+      { value: editorial.lead, path: ["lead"] },
+      ...editorial.items.flatMap((item, index) => [
+        { value: item.headline, path: ["items", index, "headline"] },
+        ...(item.note
+          ? [{ value: item.note, path: ["items", index, "note"] }]
+          : []),
+      ]),
+      ...editorial.watch.map((value, index) => ({
+        value,
+        path: ["watch", index],
+      })),
+    ];
+    for (const field of textFields) {
+      if (sessionEditorialTextViolations(field.value).length > 0) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "editorial text violates public-purity contract",
+          path: field.path,
+        });
+      }
+    }
+  });
+
+export type SessionEditorial = z.infer<typeof SessionEditorialSchema>;
 
 export const SessionMetaSchema = z
   .strictObject({
@@ -44,6 +130,7 @@ export const SessionMetaSchema = z
     focusInstruments: z.array(z.string()),
     titleJa: z.string().min(1),
     bullets: z.array(z.string().min(1)).min(1),
+    editorial: SessionEditorialSchema.optional(),
   })
   .superRefine((meta, context) => {
     if (meta.currentUrl !== `${SESSION_URL_PREFIX}${meta.sessionId}`) {
@@ -59,6 +146,17 @@ export const SessionMetaSchema = z
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: "sessionId must equal <date>-<sessionSlug>",
+      });
+    }
+    if (
+      meta.editorial &&
+      meta.editorial.crawlAnchorJst !==
+        `${meta.date}T${EDITORIAL_ANCHOR_BY_SLUG[meta.sessionSlug]}:00+09:00`
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "editorial crawlAnchorJst must match date and session slug",
+        path: ["editorial", "crawlAnchorJst"],
       });
     }
     if (
@@ -160,6 +258,24 @@ export function normalizeFocusInstruments(
   };
 }
 
+/** Lift a validated sidecar/feed meta object into the shared render shape. */
+export function toSessionRecord(
+  meta: SessionRecordMeta,
+  options: { bodyJa?: string | null; hasMaterializedRoute?: boolean } = {},
+): SessionRecord {
+  const focus = normalizeFocusInstruments(
+    meta.focusInstruments,
+    meta.sessionSlug,
+  );
+  return {
+    ...meta,
+    focusInstruments: focus.instruments,
+    focusFallbackApplied: focus.fallbackApplied,
+    bodyJa: options.bodyJa ?? null,
+    hasMaterializedRoute: options.hasMaterializedRoute ?? false,
+  };
+}
+
 const CONTENT_DIR = path.join(process.cwd(), "content", "sessions");
 
 export function parseSessionMeta(raw: unknown): SessionRecordMeta {
@@ -192,29 +308,29 @@ export function getAllSessionRecords(): SessionRecord[] {
           `published session requires ja.md body: ${meta.sessionId}`,
         );
       }
-      const focus = normalizeFocusInstruments(
-        meta.focusInstruments,
-        meta.sessionSlug,
-      );
-      return {
-        ...meta,
-        focusInstruments: focus.instruments,
-        focusFallbackApplied: focus.fallbackApplied,
+      return toSessionRecord(meta, {
         bodyJa,
         hasMaterializedRoute: true,
-      };
+      });
     })
     .sort((left, right) => right.asOfJst.localeCompare(left.asOfJst));
 }
 
 export function getSessionRecord(sessionId: string): SessionRecord {
-  const record = getAllSessionRecords().find(
-    (candidate) => candidate.sessionId === sessionId,
-  );
+  const record = findSessionRecord(sessionId);
   if (!record) {
     throw new Error(`session not found: ${sessionId}`);
   }
   return record;
+}
+
+/** Missing is nullable; malformed repo content still throws fail-closed. */
+export function findSessionRecord(sessionId: string): SessionRecord | null {
+  return (
+    getAllSessionRecords().find(
+      (candidate) => candidate.sessionId === sessionId,
+    ) ?? null
+  );
 }
 
 export function getTodaySchedule(

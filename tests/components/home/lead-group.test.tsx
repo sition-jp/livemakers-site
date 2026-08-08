@@ -52,6 +52,8 @@ describe("lead group (ledger group 1)", () => {
           freshnessPrefix: "スナップショット",
           nextUpdateLine: "次の更新: Europe Bridge 12:03 JST",
           readFull: "セッション全文を読む →",
+          editorialPrefix: "インテリジェンス",
+          editorialSuffix: "本 →",
           provenance: provenanceLabels,
         }}
       />,

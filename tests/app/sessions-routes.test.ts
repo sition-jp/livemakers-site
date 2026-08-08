@@ -12,11 +12,14 @@ const read = (filePath: string): string =>
 describe("session routes (G-a lifecycle)", () => {
   it("renders live view or crystallized article at the same URL", () => {
     const source = read("app/[locale]/sessions/[slug]/page.tsx");
-    expect(source).toContain("getSessionRecord");
+    expect(source).toContain("findSessionRecord");
     expect(source).toContain('articleStatus === "published"');
-    expect(source).toContain("bullets");
+    expect(source).toContain('locale === "ja"');
+    expect(source).toContain("SessionPendingView");
+    expect(source).toContain("resolveSessionPageRecord");
     expect(source).toContain("bodyJa");
     expect(source).not.toMatch(/fetch\(|useSWR|\/api\//);
+    expect(source).not.toMatch(/try\s*\{|catch\s*\{/);
   });
 
   it("archive lists only crystallized sessions", () => {

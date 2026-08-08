@@ -12,24 +12,45 @@ export interface SessionNowCopy {
   freshnessPrefix: string;
   nextUpdateLine: string;
   readFull: string;
+  editorialPrefix: string;
+  editorialSuffix: string;
   provenance: ProvenanceLabels;
+}
+
+export function firstLeadSentences(lead: string, limit = 2): string {
+  return (
+    lead
+      .match(/[^。！？!?]+[。！？!?]?/g)
+      ?.map((sentence) => sentence.trim())
+      .filter(Boolean)
+      .slice(0, limit)
+      .join("") ?? lead
+  );
 }
 
 export function SessionNowCard({
   record,
   provenance,
   copy,
+  showEditorial = true,
 }: {
   record: SessionRecord;
   provenance: WindowProvenance;
   copy: SessionNowCopy;
+  showEditorial?: boolean;
 }) {
   const definition = getSessionBySlug(record.sessionSlug);
   const [headline, ...restBullets] = record.bullets;
   const freshnessHm = record.asOfJst.slice(11, 16);
+  const editorial = showEditorial ? record.editorial : undefined;
+  const sessionHref =
+    record.hasMaterializedRoute !== false || record.editorial
+      ? record.currentUrl
+      : "/sessions/archive";
   return (
     <section
       aria-label={definition.nameEn}
+      data-session-editorial={editorial ? "present" : "absent"}
       className="rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary p-4"
     >
       <div className="flex items-center gap-2.5">
@@ -49,6 +70,11 @@ export function SessionNowCard({
       <p className="mt-1 font-mono text-[11px] text-text-tertiary">
         {copy.freshnessPrefix} {record.date} · {freshnessHm} JST
       </p>
+      {editorial ? (
+        <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
+          {firstLeadSentences(editorial.lead)}
+        </p>
+      ) : null}
       <ul className="mt-2 text-[13px] text-text-primary">
         {restBullets.map((bullet, index) => (
           <li
@@ -70,14 +96,12 @@ export function SessionNowCard({
             materialized; a feed-lifted record without a matching repo entry
             is not — see SessionRecord.hasMaterializedRoute. */}
         <Link
-          href={
-            record.hasMaterializedRoute !== false
-              ? record.currentUrl
-              : "/sessions/archive"
-          }
+          href={sessionHref}
           className="ml-auto shrink-0 text-[12.5px] font-bold text-accent"
         >
-          {copy.readFull}
+          {editorial
+            ? `${copy.editorialPrefix} ${editorial.items.length} ${copy.editorialSuffix}`
+            : copy.readFull}
         </Link>
       </div>
       <WindowProvenanceRow

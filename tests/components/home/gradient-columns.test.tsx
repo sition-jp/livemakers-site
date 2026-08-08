@@ -1,7 +1,7 @@
 /* @vitest-environment jsdom */
 import path from "node:path";
 
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
@@ -55,6 +55,14 @@ function renderLeading() {
 }
 
 describe("LeadingColumn (gradient leading, D5)", () => {
+  it("labels the lane Intelligence Terminal without renaming the four sessions", () => {
+    renderLeading();
+    expect(
+      screen.getByRole("heading", { name: "Intelligence Terminal" }),
+    ).toBeInTheDocument();
+    expect(screen.getAllByText("Asia Open Terminal").length).toBeGreaterThan(0);
+  });
+
   it("shows an honest session fallback with the next update line when degraded (P0-1b)", () => {
     const degraded = buildHomeCompositionProps({
       today: "2026-07-10",
