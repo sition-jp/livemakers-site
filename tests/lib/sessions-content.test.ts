@@ -1,12 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  editorialUrlOrHandleMatches,
   formatSessionTimestamp,
   findSessionRecord,
   getAllSessionRecords,
   getSessionRecord,
   normalizeFocusInstruments,
   parseSessionMeta,
+  sessionEditorialTextViolations,
 } from "@/lib/sessions/session-content";
 
 describe("formatSessionTimestamp", () => {
@@ -152,5 +154,68 @@ describe("session content lifecycle (G-a)", () => {
       "2026-08-07-ny-open",
       "2026-08-07-asia-open",
     ]);
+  });
+});
+
+// PR #61 Fable5 レビュー P2-2。純度違反 1 件で sessions bundle 全体が null に
+// 落ちるので、誤爆の可用性コストが大きい。以下 2 つのコーパスは producer 側
+// (sition-discovery-engine `livemakers_export/tests/test_session_digest_reader.py`
+// の同名ブロック) と対で維持する — 片側だけ緩めると producer が通した本文を
+// site が落とす。
+describe("editorial purity regex calibration", () => {
+  it.each([
+    // 「必ずしも」は断定ではなく打ち消し
+    "政策変更は必ずしも即時の資金流入を意味しない。",
+    "必ずしも連動しない指標の乖離を確認する。",
+    // 「私◯」は一人称ではなく private の複合語
+    "私募債の発行枠が拡大したと公表された。",
+    "私的整理の手続きに入ったと明らかにされた。",
+    "私立大学の基金が運用方針を見直した。",
+    "私有地の再開発計画が承認された。",
+    // 「不確実(性)」は確信の反対語
+    "不確実性が高まったとの認識が示された。",
+    // 「絶対値」「絶対収益」は金融の技術用語
+    "絶対収益型の資金流入が続いた。",
+    "絶対値での乖離幅を確認する。",
+  ])("clears calibrated vocabulary: %s", (text) => {
+    expect(sessionEditorialTextViolations(text)).toEqual([]);
+  });
+
+  it.each([
+    // 除外集合に入れてはいけない一人称 — 自 / 共 / 見
+    ["私自身が現場で確認した。", "first_person"],
+    ["私共は現場で確認した。", "first_person"],
+    ["私見では上昇が続く。", "first_person"],
+    ["私が確認する。", "first_person"],
+    // 打ち消し・複合語を伴わない断定は従来どおり RED
+    ["市場は必ず上がる。", "unsupported_certainty"],
+    ["価格は絶対に上昇する。", "unsupported_certainty"],
+    ["確実性の高い展開になる。", "unsupported_certainty"],
+  ])("still flags a true violation: %s", (text, expected) => {
+    expect(sessionEditorialTextViolations(text)).toContain(expected);
+  });
+});
+
+// P2-5: URL/handle パターンは session-content 側の 1 実装だけを正本にし、
+// live-market-feed.ts はこの関数を import する (以前は両者が同型の regex を
+// 二重定義していた)。
+describe("editorialUrlOrHandleMatches", () => {
+  it("returns every URL and handle it found", () => {
+    expect(
+      editorialUrlOrHandleMatches("example.org/news と @official を確認した。"),
+    ).toEqual(["example.org/news", "@official"]);
+  });
+
+  it("returns nothing for clean editorial prose", () => {
+    expect(
+      editorialUrlOrHandleMatches("公式発表では次の判断材料が示された。"),
+    ).toEqual([]);
+  });
+
+  it("is not stateful across calls", () => {
+    const text = "https://example.org/a を確認した。";
+    expect(editorialUrlOrHandleMatches(text)).toEqual(
+      editorialUrlOrHandleMatches(text),
+    );
   });
 });
