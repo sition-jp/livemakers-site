@@ -14,7 +14,8 @@ describe("session routes (G-a lifecycle)", () => {
     const source = read("app/[locale]/sessions/[slug]/page.tsx");
     expect(source).toContain("getSessionRecord");
     expect(source).toContain('articleStatus === "published"');
-    expect(source).toContain("bullets");
+    expect(source).toContain("SessionPendingView");
+    expect(source).toContain("resolveSessionPageRecord");
     expect(source).toContain("bodyJa");
     expect(source).not.toMatch(/fetch\(|useSWR|\/api\//);
   });

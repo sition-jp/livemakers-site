@@ -29,6 +29,7 @@ export type LeadingColumnProps = Pick<
   | "focusSessionSlug"
   | "sessionProvenance"
   | "copy"
+  | "showSessionEditorial"
 >;
 
 const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
@@ -44,6 +45,7 @@ export function LeadingColumn({
   focusSessionSlug,
   sessionProvenance,
   copy,
+  showSessionEditorial = true,
 }: LeadingColumnProps) {
   const sessionName = focusSessionSlug
     ? getSessionBySlug(focusSessionSlug).nameEn
@@ -57,6 +59,7 @@ export function LeadingColumn({
             record={live}
             provenance={sessionProvenance}
             copy={copy.sessionNow}
+            showEditorial={showSessionEditorial}
           />
         ) : (
           <section className="rounded-lg border border-border-primary bg-bg-secondary p-4 text-sm text-text-tertiary">
@@ -120,6 +123,9 @@ export function LeadingColumn({
 
   return (
     <section data-ledger-group={REGION} className="min-w-0 space-y-6">
+      <h2 className="text-xs font-bold uppercase tracking-label text-text-tertiary">
+        {copy.intelligenceTerminal}
+      </h2>
       {REGION_MODULES[REGION].map((module) => (
         <div
           key={module}

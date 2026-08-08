@@ -409,7 +409,8 @@
   "home": {
     "general": {
       "unavailable": "—",
-      "noLiveSession": "The current session is changing over."
+      "noLiveSession": "The current session is changing over.",
+      "intelligenceTerminal": "Intelligence Terminal"
     },
     "provenance": {
       "review": "Review status",
@@ -450,7 +451,9 @@
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
       "nextUpdateLine": "Next update: {name} {time} JST",
-      "readFull": "Read the full session →"
+      "readFull": "Read the full session →",
+      "editorialPrefix": "Intelligence",
+      "editorialSuffix": "items →"
     },
     "schedule": {
       "title": "Today's update schedule",
@@ -569,6 +572,9 @@
     "family": "Session Article",
     "publishedAt": "Published",
     "liveAsOf": "Updated",
+    "snapshotHeading": "Data snapshot",
+    "highlightsHeading": "Primary-source highlights",
+    "watchHeading": "What to watch next",
     "crystallizeNote": "This page becomes a permanent article when the next session begins.",
     "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
     "archiveNote": "Four live sessions each day become articles over time."

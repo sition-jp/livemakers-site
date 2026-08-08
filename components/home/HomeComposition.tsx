@@ -20,6 +20,7 @@ export type HomeCompositionProps = ReturnType<
   radarSource?: HomeRadarSource;
   /** G43-e (S2): resolved outside the builder — same posture, see load-home-composition.ts. */
   sessionsSource?: HomeSessionsSource;
+  showSessionEditorial?: boolean;
 };
 
 /**
@@ -46,15 +47,23 @@ export function HomeComposition({
   catalogSource = "repository_only",
   radarSource = "empty",
   sessionsSource = "repo",
+  showSessionEditorial = true,
 }: HomeCompositionProps) {
   return (
     <div
       data-home-catalog-source={catalogSource}
       data-home-radar-source={radarSource}
       data-home-sessions-source={sessionsSource}
+      data-home-sessions-editorial={live?.editorial ? "present" : "absent"}
       className="mx-auto max-w-[1760px] px-4 pb-10 pt-6 md:px-8"
     >
-      <CompositeHero live={live} lead={slots.lead} copy={copy.hero} />
+      <CompositeHero
+        live={live}
+        lead={slots.lead}
+        copy={copy.hero}
+        editorialCopy={copy.sessionNow}
+        showSessionEditorial={showSessionEditorial}
+      />
       <div className="mt-8 space-y-8 xl:mt-8 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-8 xl:space-y-0">
         <LeadingColumn
           live={live}
@@ -64,6 +73,7 @@ export function HomeComposition({
           focusSessionSlug={focusSessionSlug}
           sessionProvenance={sessionProvenance}
           copy={copy}
+          showSessionEditorial={showSessionEditorial}
         />
         <CoincidentColumn
           slots={slots}

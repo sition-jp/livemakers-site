@@ -8,6 +8,7 @@ import {
   TERMINAL_FEED_SCHEMA_V01,
   TERMINAL_FEED_SCHEMA_V02,
   TERMINAL_FEED_SCHEMA_V03,
+  TERMINAL_FEED_SCHEMA_V04,
   fetchLiveMarketData,
   formatAsOfLabel,
   mapTerminalFeed,
@@ -40,6 +41,26 @@ const HOME_V03_FIXTURE = JSON.parse(
 
 function sampleHomeV03(): Record<string, any> {
   return structuredClone(HOME_V03_FIXTURE);
+}
+
+function sampleHomeV04(): Record<string, any> {
+  const feed = sampleHomeV03();
+  feed.schema_version = TERMINAL_FEED_SCHEMA_V04;
+  feed.sessions.records[0].editorial = {
+    digestId: "dig_20260712_0730_ab12cd34",
+    crawlAnchorJst: "2026-07-12T05:03:00+09:00",
+    writtenAtJst: "2026-07-12T07:12:00+09:00",
+    lead: "市場は政策発言を受けて方向感を探っている。一次情報では次の判断材料が示された。",
+    items: [
+      {
+        headline: "一次情報で確認された主要な動き",
+        note: "発表主体は次の対応方針を示した。",
+        sourceUrl: "https://primary.example.org/news/123",
+      },
+    ],
+    watch: ["次の公式発表で時期と対象範囲を確認する。"],
+  };
+  return feed;
 }
 
 /** Mirrors what the SDE-side generator (livemakers_export) emits. */
@@ -1189,5 +1210,114 @@ describe("mapTerminalFeed — sessions bundle (G43-e S2)", () => {
     expect(data).not.toBeNull();
     expect(data?.sessions).toBeNull();
     expect(data?.home).not.toBeNull();
+  });
+});
+
+describe("feed sessions editorial v0.4 (P2-LVM-IT-G1 T4)", () => {
+  it("accepts the strict optional editorial section only under v0.4", () => {
+    const feed = sampleHomeV04();
+    expect(mapTerminalFeed(feed)?.sessions?.records[0].editorial).toEqual(
+      feed.sessions.records[0].editorial,
+    );
+
+    feed.schema_version = TERMINAL_FEED_SCHEMA_V03;
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("keeps mechanical v0.4 records valid when editorial is absent", () => {
+    const feed = sampleHomeV04();
+    delete feed.sessions.records[0].editorial;
+    expect(mapTerminalFeed(feed)?.sessions?.records[0].editorial).toBeUndefined();
+  });
+
+  it("accepts one previous-day global-close at 00:45 and 04:45", () => {
+    for (const asOf of [
+      "2026-07-13T00:45:00+09:00",
+      "2026-07-13T04:45:00+09:00",
+    ]) {
+      const feed = sampleHomeV04();
+      feed.sessions.asOfJst = asOf;
+      feed.sessions.records[0] = {
+        ...feed.sessions.records[0],
+        sessionId: "2026-07-12-global-close",
+        date: "2026-07-12",
+        sessionSlug: "global-close",
+        currentUrl: "/sessions/2026-07-12-global-close",
+        packetId: "sess_20260712_global",
+        asOfJst: "2026-07-12T23:03:00+09:00",
+        editorial: {
+          ...feed.sessions.records[0].editorial,
+          crawlAnchorJst: "2026-07-12T23:03:00+09:00",
+          writtenAtJst: "2026-07-13T00:05:00+09:00",
+        },
+      };
+      expect(mapTerminalFeed(feed)?.sessions?.records).toHaveLength(1);
+    }
+  });
+
+  it.each([
+    ["05:03 expiry", "2026-07-13T05:03:00+09:00", "global-close", "2026-07-12"],
+    ["previous non-global", "2026-07-13T04:45:00+09:00", "asia-open", "2026-07-12"],
+    ["future record", "2026-07-12T23:45:00+09:00", "global-close", "2026-07-13"],
+  ])("rejects the whole bundle for %s", (_label, bundleAsOf, slug, recordDate) => {
+    const feed = sampleHomeV04();
+    feed.sessions.asOfJst = bundleAsOf;
+    feed.sessions.records[0] = {
+      ...feed.sessions.records[0],
+      sessionId: `${recordDate}-${slug}`,
+      date: recordDate,
+      sessionSlug: slug,
+      currentUrl: `/sessions/${recordDate}-${slug}`,
+      packetId: `sess_${recordDate.replaceAll("-", "")}_${slug.replaceAll("-", "")}`,
+      editorial: {
+        ...feed.sessions.records[0].editorial,
+        crawlAnchorJst: `${recordDate}T${
+          slug === "global-close" ? "23:03" : "05:03"
+        }:00+09:00`,
+        writtenAtJst:
+          slug === "global-close"
+            ? `${recordDate}T23:30:00+09:00`
+            : `${recordDate}T07:12:00+09:00`,
+      },
+    };
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
+  it("rejects unknown editorial keys and unsafe editorial text fail-closed", () => {
+    const unknown = sampleHomeV04();
+    unknown.sessions.records[0].editorial.extra = "nope";
+    expect(mapTerminalFeed(unknown)?.sessions).toBeNull();
+
+    const unsafe = sampleHomeV04();
+    unsafe.sessions.records[0].editorial.lead =
+      "crawler の checkpoint を確認した。一次情報を整理した。";
+    expect(mapTerminalFeed(unsafe)?.sessions).toBeNull();
+  });
+
+  it("rejects more than one previous-day global-close record", () => {
+    const feed = sampleHomeV04();
+    feed.sessions.asOfJst = "2026-07-13T04:45:00+09:00";
+    const record = {
+      ...feed.sessions.records[0],
+      sessionId: "2026-07-12-global-close",
+      date: "2026-07-12",
+      sessionSlug: "global-close",
+      currentUrl: "/sessions/2026-07-12-global-close",
+      packetId: "sess_20260712_global",
+      editorial: {
+        ...feed.sessions.records[0].editorial,
+        crawlAnchorJst: "2026-07-12T23:03:00+09:00",
+        writtenAtJst: "2026-07-12T23:30:00+09:00",
+      },
+    };
+    feed.sessions.records = [
+      record,
+      {
+        ...record,
+        sessionId: "2026-07-12-global-close-copy",
+        currentUrl: "/sessions/2026-07-12-global-close-copy",
+      },
+    ];
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
   });
 });

@@ -64,6 +64,7 @@ export const TERMINAL_FEED_SCHEMA_V02 = "livemakers_terminal_feed_v0.2";
 // G43-d T1: v0.3 is additive over v0.2 (home stays fully supported) and adds
 // the optional top-level `radar` bundle (see radarBundleSchema / mapRadarBundle).
 export const TERMINAL_FEED_SCHEMA_V03 = "livemakers_terminal_feed_v0.3";
+export const TERMINAL_FEED_SCHEMA_V04 = "livemakers_terminal_feed_v0.4";
 export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 // ISR cost doctrine (2026-08-01): the feed is delivered to Blob hourly
 // (crontab :45), so a 300s revalidate meant 12 regenerations per delivery
@@ -605,8 +606,8 @@ function mapRadarBundle(section: unknown): RadarFeedData | null {
  * pre-crystallize wire-contract requirements (crystallize — materializing a
  * feed session into a repo content/sessions/ directory — is a separate,
  * not-yet-wired gate):
- *  - every record's `date` must equal the bundle's `asOfJst` calendar date
- *    (a stale or future-dated record nulls the whole bundle);
+ *  - every record's `date` normally equals the bundle's `asOfJst` calendar
+ *    date; v0.4 alone permits one previous-day global-close through 05:02;
  *  - every record's `articleStatus` must be "pending" (a "published" record
  *    arriving over the feed would imply crystallize already happened, which
  *    this wire contract does not yet support — reject rather than trust);
@@ -629,13 +630,6 @@ const sessionsBundleSchema = z
     const seenSessionIds = new Set<string>();
     let liveCount = 0;
     bundle.records.forEach((record, index) => {
-      if (record.date !== bundleDate) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: `session record date must equal bundle asOfJst date: ${record.sessionId}`,
-          path: ["records", index, "date"],
-        });
-      }
       if (record.articleStatus !== "pending") {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -677,11 +671,63 @@ export interface SessionsFeedData {
  * one violation anywhere nulls the whole bundle (fail-closed, never a
  * partial sessions render).
  */
-function mapSessionsBundle(section: unknown): SessionsFeedData | null {
+function previousIsoDate(date: string): string {
+  const value = new Date(`${date}T00:00:00Z`);
+  value.setUTCDate(value.getUTCDate() - 1);
+  return value.toISOString().slice(0, 10);
+}
+
+function isAllowedSessionRecordDate(
+  record: SessionRecordMeta,
+  bundleAsOfJst: string,
+  allowPreviousGlobalClose: boolean,
+): boolean {
+  const bundleDate = bundleAsOfJst.slice(0, 10);
+  if (record.date === bundleDate) return true;
+  if (!allowPreviousGlobalClose) return false;
+  const hhmm = bundleAsOfJst.slice(11, 16);
+  return (
+    record.sessionSlug === "global-close" &&
+    record.date === previousIsoDate(bundleDate) &&
+    hhmm <= "05:02"
+  );
+}
+
+function mapSessionsBundle(
+  section: unknown,
+  options: {
+    allowEditorial: boolean;
+    allowPreviousGlobalClose: boolean;
+  },
+): SessionsFeedData | null {
   const parsed = sessionsBundleSchema.safeParse(section);
   if (!parsed.success) return null;
+  let previousGlobalCloseCount = 0;
   for (const record of parsed.data.records) {
-    for (const text of [record.titleJa, ...record.bullets]) {
+    if (record.editorial && !options.allowEditorial) return null;
+    if (
+      !isAllowedSessionRecordDate(
+        record,
+        parsed.data.asOfJst,
+        options.allowPreviousGlobalClose,
+      )
+    ) {
+      return null;
+    }
+    if (record.date !== parsed.data.asOfJst.slice(0, 10)) {
+      previousGlobalCloseCount += 1;
+      if (previousGlobalCloseCount > 1) return null;
+    }
+    const editorialText = record.editorial
+      ? [
+          record.editorial.lead,
+          ...record.editorial.items.flatMap((item) =>
+            item.note ? [item.headline, item.note] : [item.headline],
+          ),
+          ...record.editorial.watch,
+        ]
+      : [];
+    for (const text of [record.titleJa, ...record.bullets, ...editorialText]) {
       const lower = text.toLowerCase();
       for (const term of [
         ...forbiddenSourceVisibleText,
@@ -690,6 +736,7 @@ function mapSessionsBundle(section: unknown): SessionsFeedData | null {
         if (matchesTerm(lower, term.toLowerCase())) return null;
       }
       if (findLiveTokenViolations(text).length > 0) return null;
+      if (sourceUrlOrHandleViolations(text).length > 0) return null;
     }
   }
   return { records: parsed.data.records };
@@ -701,6 +748,7 @@ const terminalFeedSchema = z
       TERMINAL_FEED_SCHEMA_V01,
       TERMINAL_FEED_SCHEMA_V02,
       TERMINAL_FEED_SCHEMA_V03,
+      TERMINAL_FEED_SCHEMA_V04,
     ]),
     generated_at: z.string(),
     windows: z
@@ -985,21 +1033,28 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     source: mapSourceFeed(windows.source),
     home:
       schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||
-      schemaVersion === TERMINAL_FEED_SCHEMA_V03
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V04
         ? mapReviewedHome(parsed.data.home)
         : null,
     // G43-d: the radar bundle is v0.3-only — v0.1/v0.2 payloads never read it,
     // even if the key happens to be present (schema-version-gated, not
     // key-presence-gated).
     radar:
-      schemaVersion === TERMINAL_FEED_SCHEMA_V03
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V04
         ? mapRadarBundle(parsed.data.radar)
         : null,
     // G43-e (S2): the sessions bundle is v0.3-only, same version-gated
     // (not key-presence-gated) posture as radar above.
     sessions:
-      schemaVersion === TERMINAL_FEED_SCHEMA_V03
-        ? mapSessionsBundle(parsed.data.sessions)
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V04
+        ? mapSessionsBundle(parsed.data.sessions, {
+            allowEditorial: schemaVersion === TERMINAL_FEED_SCHEMA_V04,
+            allowPreviousGlobalClose:
+              schemaVersion === TERMINAL_FEED_SCHEMA_V04,
+          })
         : null,
   };
 }

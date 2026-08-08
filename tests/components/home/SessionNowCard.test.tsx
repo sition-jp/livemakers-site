@@ -48,11 +48,32 @@ const record: SessionRecord = {
   hasMaterializedRoute: true,
 };
 
+const editorial = {
+  digestId: "dig_20260710_0712_ab12cd34",
+  crawlAnchorJst: "2026-07-10T05:03:00+09:00",
+  writtenAtJst: "2026-07-10T07:12:00+09:00",
+  lead: "市場は政策発言を受けて方向感を探っている。一次情報では次の判断材料が示された。三文目はカードに出さない。",
+  items: [
+    {
+      headline: "一次情報で確認された主要な動き",
+      note: "発表主体は次の対応方針を示した。",
+      sourceUrl: "https://primary.example.org/news/123",
+    },
+    {
+      headline: "二つ目の確認事項",
+      sourceUrl: "https://primary.example.org/news/456",
+    },
+  ],
+  watch: ["次の公式発表を確認する。"],
+};
+
 const copy = {
   sessionBadgeSuffix: "JST 更新",
   freshnessPrefix: "スナップショット",
   nextUpdateLine: "次の更新: Europe Bridge Terminal 12:03 JST",
   readFull: "セッション全文を読む →",
+  editorialPrefix: "インテリジェンス",
+  editorialSuffix: "本 →",
   provenance: {
     review: "審査状態",
     source: "ソース",
@@ -146,5 +167,43 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
     ).toBe("/sessions/archive");
+  });
+
+  it("routes an editorial feed session to the same currentUrl and shows exactly the first two lead sentences", () => {
+    const feedEditorialRecord: SessionRecord = {
+      ...record,
+      editorial,
+      hasMaterializedRoute: false,
+    };
+    const { container } = render(
+      <SessionNowCard
+        record={feedEditorialRecord}
+        provenance={provenance}
+        copy={copy}
+      />,
+    );
+    expect(container).toHaveTextContent(
+      "市場は政策発言を受けて方向感を探っている。一次情報では次の判断材料が示された。",
+    );
+    expect(container).not.toHaveTextContent("三文目はカードに出さない");
+    expect(
+      screen.getByRole("link", { name: "インテリジェンス 2 本 →" }),
+    ).toHaveAttribute("href", record.currentUrl);
+  });
+
+  it("hides editorial content for the English surface", () => {
+    const { container } = render(
+      <SessionNowCard
+        record={{ ...record, editorial, hasMaterializedRoute: false }}
+        provenance={provenance}
+        copy={copy}
+        showEditorial={false}
+      />,
+    );
+    expect(container).not.toHaveTextContent(editorial.lead);
+    expect(screen.queryByText(/インテリジェンス 2 本/)).toBeNull();
+    expect(
+      screen.getByRole("link", { name: /セッション全文を読む/ }),
+    ).toHaveAttribute("href", "/sessions/archive");
   });
 });

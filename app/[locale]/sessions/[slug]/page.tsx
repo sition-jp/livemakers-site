@@ -4,6 +4,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 
 import { Link } from "@/i18n/navigation";
+import { SessionPendingView } from "@/components/sessions/SessionPendingView";
 import {
   formatSessionTimestamp,
   getAllSessionRecords,
@@ -11,6 +12,8 @@ import {
   getSessionRecord,
 } from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
+import { resolveSessionPageRecord } from "@/lib/sessions/session-page-resolver";
+import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
 
 export function generateStaticParams() {
   return getAllSessionRecords().map((record) => ({
@@ -27,12 +30,19 @@ export default async function SessionPage({
   setRequestLocale(locale);
   const t = await getTranslations("sessions");
 
-  let record;
+  let repoRecord = null;
   try {
-    record = getSessionRecord(slug);
+    repoRecord = getSessionRecord(slug);
   } catch {
-    notFound();
+    // A pre-crystallize record may still resolve from the accepted feed.
   }
+  const feed = await fetchLiveMarketData();
+  const record = resolveSessionPageRecord({
+    slug,
+    repoRecords: repoRecord ? [repoRecord] : [],
+    feedSessions: feed?.sessions ?? null,
+  });
+  if (!record) notFound();
   const definition = getSessionBySlug(record.sessionSlug);
   const nav = getDaySessionNav(record.sessionId);
 
@@ -61,21 +71,16 @@ export default async function SessionPage({
           />
         </div>
       ) : (
-        <>
-          <ul className="mt-6 space-y-3 text-[15px] text-text-primary">
-            {record.bullets.map((bullet) => (
-              <li
-                key={bullet}
-                className="border-b border-dashed border-border-primary pb-3"
-              >
-                {bullet}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 text-sm text-text-tertiary">
-            {t("crystallizeNote")}
-          </p>
-        </>
+        <SessionPendingView
+          record={record}
+          locale={locale}
+          copy={{
+            snapshotHeading: t("snapshotHeading"),
+            highlightsHeading: t("highlightsHeading"),
+            watchHeading: t("watchHeading"),
+            crystallizeNote: t("crystallizeNote"),
+          }}
+        />
       )}
 
       <nav className="mt-10 flex justify-between border-t border-border-primary pt-4 text-sm">

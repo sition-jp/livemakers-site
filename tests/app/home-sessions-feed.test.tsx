@@ -72,6 +72,40 @@ function renderLeading(props: ReturnType<typeof buildHomeCompositionProps>) {
 }
 
 describe("home sessions rail — feed adoption end to end (G43-e S2)", () => {
+  it.each([
+    "2026-07-13T00:45:00+09:00",
+    "2026-07-13T04:45:00+09:00",
+  ])("adopts the sole previous-day global-close through the %s boundary", (nowIso) => {
+    const { home, sessions } = sessionsFeedFixture();
+    home.focusSession.sessionSlug = "global-close";
+    const record = sessions.records[0];
+    sessions.records[0] = {
+      ...record,
+      sessionId: "2026-07-12-global-close",
+      sessionSlug: "global-close",
+      currentUrl: "/sessions/2026-07-12-global-close",
+      packetId: "sess_20260712_global",
+      asOfJst: "2026-07-12T23:04:00+09:00",
+    };
+    const now = new Date(nowIso);
+    expect(
+      resolveHomeSessionsSource({
+        source: home,
+        feedSessions: sessions,
+        now,
+        sessionRecords: [],
+      }),
+    ).toBe("feed_today");
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live?.sessionId).toBe("2026-07-12-global-close");
+  });
+
   it("① renders the feed's today session as live and clears the 切替中 fallback", () => {
     const { home, sessions } = sessionsFeedFixture();
     const now = new Date("2026-07-12T08:00:00+09:00");
@@ -143,6 +177,10 @@ describe("home sessions rail — feed adoption end to end (G43-e S2)", () => {
       "data-home-sessions-source",
       "feed_today",
     );
+    expect(adoptedContainer.firstElementChild).toHaveAttribute(
+      "data-home-sessions-editorial",
+      "absent",
+    );
 
     const repoProps = buildHomeCompositionProps({
       today: "2026-07-10",
@@ -159,6 +197,43 @@ describe("home sessions rail — feed adoption end to end (G43-e S2)", () => {
     expect(repoContainer.firstElementChild).toHaveAttribute(
       "data-home-sessions-source",
       "repo",
+    );
+  });
+
+  it("marks editorial presence on the home root without changing the sessions source label", () => {
+    const { home, sessions } = sessionsFeedFixture();
+    sessions.records[0].editorial = {
+      digestId: "dig_20260712_0712_ab12cd34",
+      crawlAnchorJst: "2026-07-12T05:03:00+09:00",
+      writtenAtJst: "2026-07-12T07:12:00+09:00",
+      lead: "市場は方向感を探っている。一次情報では判断材料が示された。",
+      items: [
+        {
+          headline: "一次情報で確認された主要な動き",
+          sourceUrl: "https://primary.example.org/news/123",
+        },
+      ],
+      watch: ["次の公式発表を確認する。"],
+    };
+    const now = new Date("2026-07-12T08:00:00+09:00");
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    const { container } = render(
+      <HomeComposition
+        {...props}
+        sessionsSource="feed_today"
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-home-sessions-editorial",
+      "present",
     );
   });
 

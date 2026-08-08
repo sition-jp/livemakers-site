@@ -409,7 +409,8 @@
   "home": {
     "general": {
       "unavailable": "—",
-      "noLiveSession": "現在のセッションは切替中です"
+      "noLiveSession": "現在のセッションは切替中です",
+      "intelligenceTerminal": "Intelligence Terminal"
     },
     "provenance": {
       "review": "審査状態",
@@ -451,7 +452,9 @@
       "sessionBadgeSuffix": "JST 更新",
       "freshnessPrefix": "スナップショット",
       "nextUpdateLine": "次の更新: {name} {time} JST",
-      "readFull": "セッション全文を読む →"
+      "readFull": "セッション全文を読む →",
+      "editorialPrefix": "インテリジェンス",
+      "editorialSuffix": "本 →"
     },
     "schedule": {
       "title": "本日の更新予定",
@@ -574,6 +577,9 @@
     "next": "次のセッション",
     "publishedAt": "記事化",
     "liveAsOf": "更新",
+    "snapshotHeading": "数値スナップショット",
+    "highlightsHeading": "一次情報ハイライト",
+    "watchHeading": "次の見どころ",
     "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
     "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
     "archiveNote": "1日4回、ライブは時間が経つと記事になります"
