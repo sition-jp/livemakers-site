@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 
 import { Link } from "@/i18n/navigation";
 import {
+  formatSessionTimestamp,
   getAllSessionRecords,
   getDaySessionNav,
   getSessionRecord,
@@ -47,8 +48,8 @@ export default async function SessionPage({
         <p className="mt-2 text-sm text-text-secondary">{record.titleJa}</p>
         <p className="mt-4 font-mono text-xs text-text-tertiary">
           {record.articleStatus === "published"
-            ? `${t("publishedAt")} ${record.publishedAt}`
-            : `${t("liveAsOf")} ${record.asOfJst}`}
+            ? `${t("publishedAt")} ${formatSessionTimestamp(record.publishedAt)}`
+            : `${t("liveAsOf")} ${formatSessionTimestamp(record.asOfJst)}`}
         </p>
       </header>
 

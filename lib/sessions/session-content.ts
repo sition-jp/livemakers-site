@@ -102,6 +102,23 @@ export const SessionMetaSchema = z
 
 export type SessionRecordMeta = z.infer<typeof SessionMetaSchema>;
 
+/** `2026-08-08T23:44:59+09:00` -> `2026-08-08 23:44 JST` (読者向け表示).
+ *
+ * schema (`JST_ISO`) が `+09:00` を強制するので、日付・時刻はそのまま JST。
+ * Date を経由しないのは、実行環境の TZ で日付がずれるのを避けるため。
+ * 想定外の形は整形せず原文を返す — 黙って誤った時刻を見せない。
+ */
+export function formatSessionTimestamp(value: string | null): string | null {
+  if (value === null) {
+    return null;
+  }
+  const match = value.match(JST_ISO);
+  if (!match) {
+    return value;
+  }
+  return `${value.slice(0, 10)} ${value.slice(11, 16)} JST`;
+}
+
 export interface SessionRecord
   extends Omit<SessionRecordMeta, "focusInstruments"> {
   focusInstruments: InstrumentId[];

@@ -1,7 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
-import { getAllSessionRecords } from "@/lib/sessions/session-content";
+import {
+  formatSessionTimestamp,
+  getAllSessionRecords,
+} from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 
 export default async function SessionArchivePage({
@@ -38,8 +41,11 @@ export default async function SessionArchivePage({
               <span className="min-w-0 text-sm font-semibold text-text-primary group-hover:underline">
                 {definition.nameEn} {record.date}
               </span>
-              <time className="whitespace-nowrap font-mono text-[10px] text-text-tertiary">
-                {record.publishedAt}
+              <time
+                dateTime={record.publishedAt ?? undefined}
+                className="whitespace-nowrap font-mono text-[10px] text-text-tertiary"
+              >
+                {formatSessionTimestamp(record.publishedAt)}
               </time>
             </Link>
           );

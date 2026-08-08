@@ -1,11 +1,39 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  formatSessionTimestamp,
   getAllSessionRecords,
   getSessionRecord,
   normalizeFocusInstruments,
   parseSessionMeta,
 } from "@/lib/sessions/session-content";
+
+describe("formatSessionTimestamp", () => {
+  // 生 ISO (2026-08-08T23:44:59+09:00) をそのまま読者に見せない。
+  // schema (JST_ISO) が +09:00 を強制するので、表示は常に JST。
+  it("renders a JST label without the ISO offset or seconds", () => {
+    expect(formatSessionTimestamp("2026-08-08T23:44:59+09:00")).toBe(
+      "2026-08-08 23:44 JST",
+    );
+  });
+
+  it("accepts the seconds-less form the schema also allows", () => {
+    expect(formatSessionTimestamp("2026-08-07T05:03+09:00")).toBe(
+      "2026-08-07 05:03 JST",
+    );
+  });
+
+  it("returns null for a missing timestamp", () => {
+    expect(formatSessionTimestamp(null)).toBeNull();
+  });
+
+  it("passes through anything that is not the expected JST shape", () => {
+    // 想定外の形を勝手に整形して誤表示するより、原文を出して気づけるようにする
+    expect(formatSessionTimestamp("2026-08-08T23:44:59Z")).toBe(
+      "2026-08-08T23:44:59Z",
+    );
+  });
+});
 
 describe("session content lifecycle (G-a)", () => {
   it("loads the live fixture session with lifecycle fields", () => {
@@ -80,12 +108,13 @@ describe("session content lifecycle (G-a)", () => {
   });
 
   it("crystallizes past sessions at the same URL", () => {
-    const record = getSessionRecord("2026-07-09-global-close");
+    const record = getSessionRecord("2026-08-07-global-close");
     expect(record.liveStatus).toBe("closed");
     expect(record.articleStatus).toBe("published");
     expect(record.canonicalArticleUrl).toBe(record.currentUrl);
-    expect(record.publishedAt).toMatch(/^2026-07-09T/);
-    expect(record.bodyJa).toContain("フロンティア");
+    // publishedAt = crystallize 実行時刻 (セッション当日ではない)
+    expect(record.publishedAt).toMatch(/^2026-08-08T/);
+    expect(record.bodyJa).toContain("数値スナップショット");
   });
 
   it("rejects a published session whose canonical URL differs", () => {
@@ -114,9 +143,9 @@ describe("session content lifecycle (G-a)", () => {
       (record) => record.articleStatus === "published",
     );
     expect(published.map((record) => record.sessionId)).toEqual([
-      "2026-07-09-global-close",
-      "2026-07-09-ny-open",
-      "2026-07-09-europe-bridge",
+      "2026-08-07-global-close",
+      "2026-08-07-ny-open",
+      "2026-08-07-asia-open",
     ]);
   });
 });
