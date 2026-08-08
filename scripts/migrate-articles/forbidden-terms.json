@@ -21,7 +21,6 @@
     "crawler",
     "crawl",
     "chrome mcp",
-    "cloudflare",
     "fallback",
     "partial_success",
     "coverage",
@@ -57,6 +56,6 @@
     "preflight",
     "sentinel"
   ],
-  "bodyExemptTerms": ["https://", "http://"],
+  "bodyExemptTerms": ["https://", "http://", "cloudflare"],
   "allowedPublicLabels": ["SDE検出"]
 }
