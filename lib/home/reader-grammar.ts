@@ -2,6 +2,9 @@ import {
   forbiddenSourceOpsTerms,
   forbiddenSourceVisibleText,
 } from "@/lib/terminal/live-market-feed";
+import { findLiveTokenViolations, matchesTerm } from "./matches-term";
+
+export { matchesTerm, findLiveTokenViolations };
 
 export const FORBIDDEN_DESIGN_TERMS = [
   "CO-EQUAL",
@@ -32,16 +35,6 @@ export const FORBIDDEN_OPS_TERMS: readonly string[] = [
 
 export const ALLOWED_PUBLIC_LABELS = ["SDE検出"] as const;
 
-export const matchesTerm = (haystackLower: string, term: string): boolean => {
-  if (/^[a-z0-9_ /-]+$/.test(term)) {
-    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    return new RegExp(
-      `(?<![a-z0-9])${escaped}(?![a-z0-9])`,
-    ).test(haystackLower);
-  }
-  return haystackLower.includes(term);
-};
-
 export function findForbiddenDesignTerms(text: string): string[] {
   const scrubbed = ALLOWED_PUBLIC_LABELS.reduce(
     (current, label) => current.split(label).join(""),
@@ -55,11 +48,6 @@ export function findForbiddenOpsTerms(text: string): string[] {
   return FORBIDDEN_OPS_TERMS.filter((term) =>
     matchesTerm(lower, term.toLowerCase()),
   );
-}
-
-export function findLiveTokenViolations(text: string): string[] {
-  const scrubbed = text.replaceAll("LIVEMAKERS", "");
-  return /(?<![A-Za-z])LIVE(?![A-Za-z])/.test(scrubbed) ? ["LIVE"] : [];
 }
 
 export function findRawInstrumentIdViolations(text: string): string[] {

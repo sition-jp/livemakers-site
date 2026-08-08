@@ -9,6 +9,7 @@ import { CompositeHero } from "@/components/home/CompositeHero";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import type { HomeSlots } from "@/lib/home/select-home-slots";
+import type { SessionRecord } from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 
 vi.mock("@/i18n/navigation", () => ({
@@ -39,8 +40,15 @@ const pendingLead: HomeSlots["lead"] = {
 };
 
 describe("composite hero (mobile single representation, G44 D8)", () => {
-  it("links the session line to the current session surface with freshness", () => {
+  // D6 (crystallize 前の 404 回避, G43-e / fix round 2 I-2): the fixture's
+  // live session is articleStatus=pending but repo-origin — getAllSessionRecords()
+  // (the real generateStaticParams source) already crystallized it on disk, so
+  // it IS materialized and the CTA must route to currentUrl, not the archive
+  // chrome route. Materialization, not articleStatus, is what avoids 404s.
+  it("routes to currentUrl for a repo-origin pending live session (D6 fix round 2 / I-2, ②)", () => {
     expect(props.live).not.toBeNull();
+    expect(props.live!.articleStatus).toBe("pending");
+    expect(props.live!.hasMaterializedRoute).not.toBe(false);
     const { container } = render(
       <CompositeHero live={props.live} lead={props.slots.lead} copy={copy.hero} />,
     );
@@ -55,6 +63,45 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
       getSessionBySlug(props.live!.sessionSlug).nameJa,
     );
     expect(link.textContent).toContain(props.live!.asOfJst.slice(11, 16));
+  });
+
+  it("routes to currentUrl once the live session is published (D6, ③)", () => {
+    expect(props.live).not.toBeNull();
+    const publishedLive: SessionRecord = {
+      ...props.live!,
+      liveStatus: "closed",
+      articleStatus: "published",
+      canonicalArticleUrl: props.live!.currentUrl,
+      publishedAt: "2026-07-10T06:00:00+09:00",
+    };
+    const { container } = render(
+      <CompositeHero live={publishedLive} lead={props.slots.lead} copy={copy.hero} />,
+    );
+    const line = container.querySelector(
+      '[data-column-module="hero-session-line"]',
+    )!;
+    const link = line.querySelector("a")!;
+    expect(link.getAttribute("href")).toBe(publishedLive.currentUrl);
+  });
+
+  // D6 (fix round 2 / I-2, ①): a feed-lifted live record whose sessionId has
+  // no matching repo entry (never crystallized to content/sessions/) must
+  // route to the archive chrome route — currentUrl would 404, since
+  // generateStaticParams only ever sources routes from getAllSessionRecords().
+  it("routes to /sessions/archive when the live session is feed-origin and not yet materialized (D6 fix round 2 / I-2, ①)", () => {
+    expect(props.live).not.toBeNull();
+    const feedOnlyLive: SessionRecord = {
+      ...props.live!,
+      hasMaterializedRoute: false,
+    };
+    const { container } = render(
+      <CompositeHero live={feedOnlyLive} lead={props.slots.lead} copy={copy.hero} />,
+    );
+    const line = container.querySelector(
+      '[data-column-module="hero-session-line"]',
+    )!;
+    const link = line.querySelector("a")!;
+    expect(link.getAttribute("href")).toBe("/sessions/archive");
   });
 
   it("falls back to the session archive link when no session is live", () => {

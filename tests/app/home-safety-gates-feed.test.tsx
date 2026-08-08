@@ -70,6 +70,7 @@ import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { buildNavModel } from "@/lib/home/nav-model";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
+import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
   collectScannableText,
   findForbiddenDesignTerms,
@@ -157,6 +158,12 @@ function buildOverlayProps(
     today: "2026-07-10",
     articleCutoffToday: "2026-07-10",
     articles,
+    // G43-d: production default radar is now honest-empty (no feed/
+    // injection). These page-wide gates inject the former fixture
+    // population explicitly so their assertions keep exercising a
+    // populated radar (gate meaning unchanged).
+    radar: RADAR_OBSERVATIONS,
+    promotions: RADAR_PROMOTIONS,
     ...extra,
   });
 }

@@ -37,9 +37,19 @@ export function CompositeHero({
         const sessionName = live
           ? getSessionBySlug(live.sessionSlug).nameJa
           : copy.sessionFallback;
+        // D6 (crystallize 前の 404 回避, G43-e / fix round 2 I-2): route by
+        // whether the record is actually materialized in the repo (has a
+        // generateStaticParams route for currentUrl), not by articleStatus.
+        // A repo-origin record (published or still pending) is always
+        // materialized; a feed-lifted record without a matching repo entry
+        // is not — see SessionRecord.hasMaterializedRoute.
+        const sessionHref =
+          live && live.hasMaterializedRoute !== false
+            ? live.currentUrl
+            : "/sessions/archive";
         return (
           <Link
-            href={live?.currentUrl ?? "/sessions/archive"}
+            href={sessionHref}
             data-index-nav
             className="flex items-baseline gap-2 rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary px-4 py-3"
           >

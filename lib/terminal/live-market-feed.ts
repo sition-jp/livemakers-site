@@ -13,8 +13,13 @@ import type {
   LocalizedText,
   TerminalLiveRadarItem,
 } from "@/lib/livemakers-terminal-preview/types";
+import { findLiveTokenViolations, matchesTerm } from "@/lib/home/matches-term";
 import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import type { FocusSeries } from "@/lib/sessions/focus-series";
+import {
+  SessionMetaSchema,
+  type SessionRecordMeta,
+} from "@/lib/sessions/session-content";
 import type { ReaderSessionSlug } from "@/lib/sessions/session-registry";
 import {
   marketLanesFixture,
@@ -56,6 +61,9 @@ import {
 export const TERMINAL_FEED_ENV_KEY = "LIVEMAKERS_TERMINAL_FEED_URL";
 export const TERMINAL_FEED_SCHEMA_V01 = "livemakers_terminal_feed_v0.1";
 export const TERMINAL_FEED_SCHEMA_V02 = "livemakers_terminal_feed_v0.2";
+// G43-d T1: v0.3 is additive over v0.2 (home stays fully supported) and adds
+// the optional top-level `radar` bundle (see radarBundleSchema / mapRadarBundle).
+export const TERMINAL_FEED_SCHEMA_V03 = "livemakers_terminal_feed_v0.3";
 export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 // ISR cost doctrine (2026-08-01): the feed is delivered to Blob hourly
 // (crontab :45), so a 300s revalidate meant 12 regenerations per delivery
@@ -308,6 +316,8 @@ const JST_ISO_PATTERN =
 const PAGE_PACKET_PATTERN = /^lmk_(\d{8})_(\d{4})_[a-z0-9]+$/;
 const MARKET_PACKET_PATTERN =
   /^mkt12_(\d{8})_(asia|am|europe|ny|close)$/;
+const RADAR_PACKET_PATTERN = /^radar_\d{8}_\d{4}_[a-z0-9]+$/;
+const SESSIONS_PACKET_PATTERN = /^sess_\d{8}_\d{4}_[0-9a-f]{8}$/;
 
 const MARKET_ANCHORS = {
   asia: "05:03",
@@ -493,11 +503,204 @@ const reviewedHomeSchema = z
     }
   });
 
+/**
+ * G43-d: the feed `radar` bundle (site-first speed-radar consumer). A
+ * top-level v0.3-only section, parsed separately from terminalFeedSchema —
+ * same independent-degradation posture as home/liveRadar/published: an
+ * invalid bundle nulls only `radar`, never the rest of the feed.
+ *
+ * The per-observation shape mirrors lib/home/radar-observations.ts's
+ * RadarObservationSchema (+ observedAtJst). It is duplicated here rather
+ * than imported to avoid a circular dependency — radar-observations.ts
+ * already imports forbiddenSourceOpsTerms/forbiddenSourceVisibleText FROM
+ * this file.
+ */
+const radarBundleObservationSchema = z
+  .object({
+    topicId: z.string().min(1),
+    lane: z.enum([
+      "x_news_trends",
+      "sde_phase1_breaking_radar",
+      "manual_operator_observation",
+    ]),
+    titleJa: z.string().min(1),
+    observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
+    observedAtJst: z.string().regex(JST_ISO_PATTERN),
+    href: z.null(),
+    displayMode: z.literal("title_only"),
+    publishDecision: z.literal("not_authorized"),
+  })
+  .strict();
+
+const radarBundleSchema = z
+  .object({
+    schemaVersion: z.literal("livemakers_radar_v1"),
+    packetId: z.string().regex(RADAR_PACKET_PATTERN),
+    asOfJst: z.string().regex(JST_ISO_PATTERN),
+    observations: z.array(radarBundleObservationSchema),
+    promotions: z.record(z.string().min(1), z.string().min(1)),
+    truncated: z.boolean(),
+  })
+  .strict()
+  // G43-d (fix round 1): a duplicate topicId is malformed, not just
+  // undesirable — reject via the same fail-closed posture as every other
+  // radar bundle check (safeParse failure → mapRadarBundle returns null →
+  // independent degradation nulls only `radar`, never a throw).
+  .superRefine((bundle, ctx) => {
+    const seen = new Set<string>();
+    for (const observation of bundle.observations) {
+      if (seen.has(observation.topicId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `duplicate radar observation topicId: ${observation.topicId}`,
+          path: ["observations"],
+        });
+        return;
+      }
+      seen.add(observation.topicId);
+    }
+  });
+
+export type RadarFeedObservation = z.infer<typeof radarBundleObservationSchema>;
+
+export interface RadarFeedData {
+  observations: RadarFeedObservation[];
+  promotions: Readonly<Record<string, string>>;
+}
+
+/**
+ * Validate and map the radar bundle. Returns null (→ the caller falls back
+ * to an honest empty radar/promotions pair, never a stale fixture) unless
+ * the strict schema passes AND every titleJa clears the same word-boundary
+ * forbidden-vocabulary scan used by assertRadarObservationContract — one
+ * violation nulls the whole bundle (fail-closed, never a partial radar).
+ */
+function mapRadarBundle(section: unknown): RadarFeedData | null {
+  const parsed = radarBundleSchema.safeParse(section);
+  if (!parsed.success) return null;
+  for (const observation of parsed.data.observations) {
+    const lower = observation.titleJa.toLowerCase();
+    for (const term of [
+      ...forbiddenSourceVisibleText,
+      ...forbiddenSourceOpsTerms,
+    ]) {
+      if (matchesTerm(lower, term.toLowerCase())) return null;
+    }
+  }
+  return {
+    observations: parsed.data.observations,
+    promotions: parsed.data.promotions,
+  };
+}
+
+/**
+ * G43-e (S2): the feed `sessions` bundle (site-first live-session consumer).
+ * A top-level v0.3-only section, same independent-degradation posture as
+ * radar/home/liveRadar/published: an invalid bundle nulls only `sessions`,
+ * never the rest of the feed. Records are validated with the SITE-side
+ * SessionMetaSchema verbatim (imported, not duplicated) so the wire contract
+ * and the on-disk repo contract can never drift apart.
+ *
+ * Four additional fail-closed checks beyond SessionMetaSchema itself, all
+ * pre-crystallize wire-contract requirements (crystallize — materializing a
+ * feed session into a repo content/sessions/ directory — is a separate,
+ * not-yet-wired gate):
+ *  - every record's `date` must equal the bundle's `asOfJst` calendar date
+ *    (a stale or future-dated record nulls the whole bundle);
+ *  - every record's `articleStatus` must be "pending" (a "published" record
+ *    arriving over the feed would imply crystallize already happened, which
+ *    this wire contract does not yet support — reject rather than trust);
+ *  - no two records may share the same `sessionId` (fix round 2 / I-3 —
+ *    a duplicate id is malformed, not just undesirable);
+ *  - at most one record may declare `liveStatus === "live"` (fix round 2 /
+ *    I-3 — the site only ever surfaces a single "いまのセッション" slot, so a
+ *    bundle claiming two simultaneous live sessions is malformed).
+ */
+const sessionsBundleSchema = z
+  .object({
+    schemaVersion: z.literal("livemakers_sessions_v1"),
+    packetId: z.string().regex(SESSIONS_PACKET_PATTERN),
+    asOfJst: z.string().regex(JST_ISO_PATTERN),
+    records: z.array(SessionMetaSchema).max(4),
+  })
+  .strict()
+  .superRefine((bundle, ctx) => {
+    const bundleDate = bundle.asOfJst.slice(0, 10);
+    const seenSessionIds = new Set<string>();
+    let liveCount = 0;
+    bundle.records.forEach((record, index) => {
+      if (record.date !== bundleDate) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `session record date must equal bundle asOfJst date: ${record.sessionId}`,
+          path: ["records", index, "date"],
+        });
+      }
+      if (record.articleStatus !== "pending") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `session record articleStatus must be pending pre-crystallize: ${record.sessionId}`,
+          path: ["records", index, "articleStatus"],
+        });
+      }
+      if (seenSessionIds.has(record.sessionId)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `duplicate session record sessionId: ${record.sessionId}`,
+          path: ["records", index, "sessionId"],
+        });
+      }
+      seenSessionIds.add(record.sessionId);
+      if (record.liveStatus === "live") {
+        liveCount += 1;
+      }
+    });
+    if (liveCount > 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `sessions bundle may declare at most one live record, found ${liveCount}`,
+        path: ["records"],
+      });
+    }
+  });
+
+export interface SessionsFeedData {
+  records: SessionRecordMeta[];
+}
+
+/**
+ * Validate and map the sessions bundle. Returns null (→ the caller falls
+ * back to the repo-only session state, never a stale/mixed record) unless
+ * the strict schema passes AND every record's titleJa + bullets[] clears the
+ * same word-boundary forbidden-vocabulary scan mapRadarBundle applies to
+ * titleJa, plus the reader-grammar LIVE-token check (fix round 2 / I-1) —
+ * one violation anywhere nulls the whole bundle (fail-closed, never a
+ * partial sessions render).
+ */
+function mapSessionsBundle(section: unknown): SessionsFeedData | null {
+  const parsed = sessionsBundleSchema.safeParse(section);
+  if (!parsed.success) return null;
+  for (const record of parsed.data.records) {
+    for (const text of [record.titleJa, ...record.bullets]) {
+      const lower = text.toLowerCase();
+      for (const term of [
+        ...forbiddenSourceVisibleText,
+        ...forbiddenSourceOpsTerms,
+      ]) {
+        if (matchesTerm(lower, term.toLowerCase())) return null;
+      }
+      if (findLiveTokenViolations(text).length > 0) return null;
+    }
+  }
+  return { records: parsed.data.records };
+}
+
 const terminalFeedSchema = z
   .object({
     schema_version: z.enum([
       TERMINAL_FEED_SCHEMA_V01,
       TERMINAL_FEED_SCHEMA_V02,
+      TERMINAL_FEED_SCHEMA_V03,
     ]),
     generated_at: z.string(),
     windows: z
@@ -577,6 +780,8 @@ export interface LiveMarketData {
   published: PublishedFeedData | null;
   source: SourceFeedData | null;
   home: ReviewedHomeData | null;
+  radar: RadarFeedData | null;
+  sessions: SessionsFeedData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -779,8 +984,22 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
     published: mapPublished(windows.published),
     source: mapSourceFeed(windows.source),
     home:
-      schemaVersion === TERMINAL_FEED_SCHEMA_V02
+      schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03
         ? mapReviewedHome(parsed.data.home)
+        : null,
+    // G43-d: the radar bundle is v0.3-only — v0.1/v0.2 payloads never read it,
+    // even if the key happens to be present (schema-version-gated, not
+    // key-presence-gated).
+    radar:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03
+        ? mapRadarBundle(parsed.data.radar)
+        : null,
+    // G43-e (S2): the sessions bundle is v0.3-only, same version-gated
+    // (not key-presence-gated) posture as radar above.
+    sessions:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03
+        ? mapSessionsBundle(parsed.data.sessions)
         : null,
   };
 }

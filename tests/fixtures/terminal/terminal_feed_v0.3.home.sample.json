@@ -1,0 +1,155 @@
+{
+  "schema_version": "livemakers_terminal_feed_v0.3",
+  "feed_id": "sde_local.terminal_feed.2026_07_12",
+  "generated_at": "2026-07-12T07:30:00+09:00",
+  "source_mode": "sde_local_projection",
+  "delivery": "vercel_blob",
+  "windows": {
+    "macroLane": {
+      "key": "macro",
+      "badge": "SNAPSHOT",
+      "tiles": [
+        {
+          "id": "macro.dxy",
+          "label": "DXY",
+          "value": "100.94",
+          "deltaPct": -0.11,
+          "note": { "en": "US dollar index", "ja": "米ドル指数" },
+          "asOf": "2026-07-12T07:30:00+09:00",
+          "badge": "SNAPSHOT"
+        }
+      ]
+    },
+    "cryptoLane": {
+      "key": "crypto",
+      "badge": "SNAPSHOT",
+      "tiles": [
+        {
+          "id": "crypto.btc",
+          "label": "BTC / USD",
+          "value": "$63,299",
+          "deltaPct": 1.72,
+          "note": { "en": "Bitcoin", "ja": "ビットコイン" },
+          "asOf": "2026-07-12T07:30:00+09:00",
+          "badge": "SNAPSHOT"
+        }
+      ]
+    }
+  },
+  "ticker": [
+    {
+      "id": "ticker.btc",
+      "label": "BTC",
+      "value": "$63,299",
+      "deltaPct": 1.72,
+      "asOf": "2026-07-12T07:30:00+09:00",
+      "badge": "SNAPSHOT"
+    }
+  ],
+  "home": {
+    "pagePacketId": "lmk_20260712_0730_a1",
+    "marketPacketId": "mkt12_20260712_am",
+    "asOfJst": "2026-07-12T07:30:00+09:00",
+    "dataDate": "2026-07-12",
+    "sourceMode": "reviewed_live",
+    "reviewStatus": "reviewed_snapshot",
+    "cells": [
+      { "instrumentId": "btc_usd", "nameJa": "BTC/USD", "value": "$63,299", "changeLabel": "+1.72%", "direction": "up" },
+      { "instrumentId": "eth_usd", "nameJa": "ETH/USD", "value": "$1,748.07", "changeLabel": "+0.58%", "direction": "up" },
+      { "instrumentId": "ada_usd", "nameJa": "ADA/USD", "value": "$0.1670", "changeLabel": "0.00%", "direction": "flat" },
+      { "instrumentId": "night_usd", "nameJa": "NIGHT/USD", "value": "$0.03129", "changeLabel": "-0.41%", "direction": "down" },
+      { "instrumentId": "spx", "nameJa": "S&P 500", "value": "7,543.64", "changeLabel": "+0.81%", "direction": "up" },
+      { "instrumentId": "nikkei_futures", "nameJa": "日経平均先物", "value": "69,035", "changeLabel": "+1.72%", "direction": "up" },
+      { "instrumentId": "dxy", "nameJa": "DXY", "value": "100.937", "changeLabel": "-0.11%", "direction": "down" },
+      { "instrumentId": "usd_jpy", "nameJa": "USD/JPY", "value": "162.343", "changeLabel": "-0.01%", "direction": "down" },
+      { "instrumentId": "gold", "nameJa": "Gold", "value": "$4,132.40", "changeLabel": "+1.51%", "direction": "up" },
+      { "instrumentId": "wti", "nameJa": "WTI", "value": "$71.80", "changeLabel": "-2.34%", "direction": "down" },
+      { "instrumentId": "us10y", "nameJa": "米10年金利", "value": "4.539%", "changeLabel": "-0.66%", "direction": "down" },
+      { "instrumentId": "vix", "nameJa": "VIX", "value": "15.84", "changeLabel": "-6.27%", "direction": "down" },
+      { "instrumentId": "nasdaq", "nameJa": "NASDAQ総合", "value": "26,206.89", "changeLabel": "+1.30%", "direction": "up" },
+      { "instrumentId": "dow", "nameJa": "NYダウ", "value": "52,487.41", "changeLabel": "+0.27%", "direction": "up" },
+      { "instrumentId": "brent", "nameJa": "Brent原油", "value": "$76.00", "changeLabel": "-2.59%", "direction": "down" },
+      { "instrumentId": "xrp_usd", "nameJa": "XRP/USD", "value": "$1.097", "changeLabel": "+0.56%", "direction": "up" },
+      { "instrumentId": "sol_usd", "nameJa": "SOL/USD", "value": "$78.12", "changeLabel": "+1.08%", "direction": "up" },
+      { "instrumentId": "coin_stock", "nameJa": "COIN（米上場株）", "value": "$158.44", "changeLabel": "-0.58%", "direction": "down" }
+    ],
+    "focusSession": {
+      "sessionDate": "2026-07-12",
+      "sessionSlug": "asia-open",
+      "focusInstruments": ["btc_usd", "usd_jpy"],
+      "series": [
+        {
+          "instrumentId": "btc_usd",
+          "seriesPacketId": "series.2026-07-12.btc_usd",
+          "points": [
+            { "atJst": "2026-07-11T12:03:00+09:00", "value": 61520 },
+            { "atJst": "2026-07-12T07:30:00+09:00", "value": 63299 }
+          ]
+        },
+        {
+          "instrumentId": "usd_jpy",
+          "seriesPacketId": "series.2026-07-12.usd_jpy",
+          "points": [
+            { "atJst": "2026-07-11T12:03:00+09:00", "value": 161.82 },
+            { "atJst": "2026-07-12T07:30:00+09:00", "value": 162.343 }
+          ]
+        }
+      ]
+    }
+  },
+  "radar": {
+    "schemaVersion": "livemakers_radar_v1",
+    "packetId": "radar_20260712_0730_ab12cd34",
+    "asOfJst": "2026-07-12T07:30:00+09:00",
+    "observations": [
+      {
+        "topicId": "stablecoin_supply_20260712",
+        "lane": "sde_phase1_breaking_radar",
+        "titleJa": "ステーブルコイン供給の週次増分が再加速",
+        "observedAtLabel": "05:12",
+        "observedAtJst": "2026-07-12T05:12:00+09:00",
+        "href": null,
+        "displayMode": "title_only",
+        "publishDecision": "not_authorized"
+      },
+      {
+        "topicId": "tokenized_mmf_report_20260712",
+        "lane": "x_news_trends",
+        "titleJa": "米大手資産運用、トークン化MMF拡大の報道が浮上",
+        "observedAtLabel": "06:55",
+        "observedAtJst": "2026-07-12T06:55:00+09:00",
+        "href": null,
+        "displayMode": "title_only",
+        "publishDecision": "not_authorized"
+      }
+    ],
+    "promotions": {},
+    "truncated": false
+  },
+  "sessions": {
+    "schemaVersion": "livemakers_sessions_v1",
+    "packetId": "sess_20260712_0730_ab12cd34",
+    "asOfJst": "2026-07-12T07:30:00+09:00",
+    "records": [
+      {
+        "sessionId": "2026-07-12-asia-open",
+        "date": "2026-07-12",
+        "sessionSlug": "asia-open",
+        "liveStatus": "live",
+        "articleStatus": "pending",
+        "currentUrl": "/sessions/2026-07-12-asia-open",
+        "canonicalArticleUrl": null,
+        "publishedAt": null,
+        "publishLogId": null,
+        "packetId": "sess_20260712_asia",
+        "asOfJst": "2026-07-12T07:30:00+09:00",
+        "focusInstruments": ["btc_usd", "usd_jpy"],
+        "titleJa": "Asia Open Terminal",
+        "bullets": [
+          "フィード経由で観測されたアジア時間の初動",
+          "BTCとドル円の値動きを軸に整理"
+        ]
+      }
+    ]
+  }
+}

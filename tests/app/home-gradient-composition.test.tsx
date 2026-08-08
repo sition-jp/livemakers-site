@@ -6,7 +6,10 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { HomeComposition } from "@/components/home/HomeComposition";
-import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import {
+  buildHomeCompositionProps,
+  resolveHomeRadarSource,
+} from "@/lib/home/build-home-props";
 import {
   GRADIENT_REGIONS,
   REGION_MODULES,
@@ -62,6 +65,20 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(container.firstElementChild).toHaveAttribute(
       "data-home-catalog-source",
       "repository_plus_feed",
+    );
+  });
+
+  it("exposes the honest-empty radar source on the root when nothing was injected (G43-d)", () => {
+    // The fixture-backed `props` above never injects radar/promotions.
+    // radarSource is resolved outside the builder (fix round 1, mirrors
+    // catalogSource) — resolveHomeRadarSource degrades to honest-empty for
+    // the same production-equivalent args, and HomeComposition's own default
+    // (no explicit radarSource prop passed by renderHome) renders the same.
+    expect(resolveHomeRadarSource({})).toBe("empty");
+    const { container } = renderHome();
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-home-radar-source",
+      "empty",
     );
   });
 

@@ -26,6 +26,9 @@ describe("session content lifecycle (G-a)", () => {
     ]);
     expect(record.focusFallbackApplied).toBe(false);
     expect(record.bullets.length).toBeGreaterThanOrEqual(2);
+    // fix round 2 / I-2: a repo read always materializes a route (this record
+    // lives in content/sessions/, so generateStaticParams produces its page).
+    expect(record.hasMaterializedRoute).toBe(true);
   });
 
   it("normalizes invalid focus declarations to registry defaults", () => {

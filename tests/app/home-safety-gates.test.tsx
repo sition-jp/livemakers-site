@@ -22,6 +22,7 @@ import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { buildNavModel } from "@/lib/home/nav-model";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
+import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
   collectScannableText,
   findForbiddenDesignTerms,
@@ -63,10 +64,15 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+// G43-d: production default radar is now honest-empty (no feed/injection).
+// These page-wide gates inject the former fixture population explicitly so
+// their assertions keep exercising a populated radar (gate meaning unchanged).
 const props = buildHomeCompositionProps({
   today: "2026-07-10",
   articleCutoffToday: "2026-07-10",
   contentDir: TEST_CONTENT_DIR,
+  radar: RADAR_OBSERVATIONS,
+  promotions: RADAR_PROMOTIONS,
 });
 const copy = buildTestHomeCopy();
 
@@ -121,6 +127,8 @@ function reviewedProps() {
     now: new Date("2026-07-12T08:00:00+09:00"),
     contentDir: TEST_CONTENT_DIR,
     sessionRecords: [getSessionRecord("2026-07-10-asia-open")],
+    radar: RADAR_OBSERVATIONS,
+    promotions: RADAR_PROMOTIONS,
   });
 }
 

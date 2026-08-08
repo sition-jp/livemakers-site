@@ -1,4 +1,8 @@
-import type { buildHomeCompositionProps } from "@/lib/home/build-home-props";
+import type {
+  buildHomeCompositionProps,
+  HomeRadarSource,
+  HomeSessionsSource,
+} from "@/lib/home/build-home-props";
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeCatalogSource } from "@/lib/home/load-home-composition";
 import { CompositeHero } from "./CompositeHero";
@@ -12,6 +16,10 @@ export type HomeCompositionProps = ReturnType<
   copy: HomeCopy;
   surfacePublished: boolean;
   catalogSource?: HomeCatalogSource;
+  /** G43-d (fix round 1): resolved outside the builder — see load-home-composition.ts. */
+  radarSource?: HomeRadarSource;
+  /** G43-e (S2): resolved outside the builder — same posture, see load-home-composition.ts. */
+  sessionsSource?: HomeSessionsSource;
 };
 
 /**
@@ -36,10 +44,14 @@ export function HomeComposition({
   copy,
   surfacePublished,
   catalogSource = "repository_only",
+  radarSource = "empty",
+  sessionsSource = "repo",
 }: HomeCompositionProps) {
   return (
     <div
       data-home-catalog-source={catalogSource}
+      data-home-radar-source={radarSource}
+      data-home-sessions-source={sessionsSource}
       className="mx-auto max-w-[1760px] px-4 pb-10 pt-6 md:px-8"
     >
       <CompositeHero live={live} lead={slots.lead} copy={copy.hero} />
