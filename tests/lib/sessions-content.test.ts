@@ -1,11 +1,39 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  formatSessionTimestamp,
   getAllSessionRecords,
   getSessionRecord,
   normalizeFocusInstruments,
   parseSessionMeta,
 } from "@/lib/sessions/session-content";
+
+describe("formatSessionTimestamp", () => {
+  // 生 ISO (2026-08-08T23:44:59+09:00) をそのまま読者に見せない。
+  // schema (JST_ISO) が +09:00 を強制するので、表示は常に JST。
+  it("renders a JST label without the ISO offset or seconds", () => {
+    expect(formatSessionTimestamp("2026-08-08T23:44:59+09:00")).toBe(
+      "2026-08-08 23:44 JST",
+    );
+  });
+
+  it("accepts the seconds-less form the schema also allows", () => {
+    expect(formatSessionTimestamp("2026-08-07T05:03+09:00")).toBe(
+      "2026-08-07 05:03 JST",
+    );
+  });
+
+  it("returns null for a missing timestamp", () => {
+    expect(formatSessionTimestamp(null)).toBeNull();
+  });
+
+  it("passes through anything that is not the expected JST shape", () => {
+    // 想定外の形を勝手に整形して誤表示するより、原文を出して気づけるようにする
+    expect(formatSessionTimestamp("2026-08-08T23:44:59Z")).toBe(
+      "2026-08-08T23:44:59Z",
+    );
+  });
+});
 
 describe("session content lifecycle (G-a)", () => {
   it("loads the live fixture session with lifecycle fields", () => {
