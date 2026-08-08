@@ -36,9 +36,9 @@ const EDITORIAL_RANK_PATTERN =
 const EDITORIAL_ENGAGEMENT_PATTERN =
   /いいね\s*[\d,]+|[\d,]+\s*likes|RT\s*[\d,]+|リポスト\s*[\d,]+|エンゲージメント/i;
 const EDITORIAL_FIRST_PERSON_PATTERN =
-  /私(?:は|が|の|に|も)|筆者(?:は|が|の)|\bI\s+(?:saw|checked|confirmed|believe|think)\b|\bwe\s+(?:saw|checked|confirmed|believe|think)\b/i;
+  /私|筆者|我々|われわれ|\b(?:I|we|my|our|me)\b/i;
 const EDITORIAL_CERTAINTY_PATTERN =
-  /確実(?:だ|です|である)|間違いなく|断定(?:した|する)|絶対(?:に|だ|です)|\b(?:definitely|certainly)\b/i;
+  /確実|間違いなく|断定(?:した|する)|絶対|必ず|保証(?:する|される)|\b(?:definitely|certainly|surely)\b|\bguarantee(?:d|s|ing)?\b|\bis certain to\b/i;
 const EDITORIAL_CONSPIRACY_HYPE_PATTERN =
   /陰謀|黒幕|隠蔽|仕組んだ|劇的|衝撃的|\bconspir(?:acy|atorial)\b|\bmastermind\b/i;
 

@@ -1106,8 +1106,11 @@ describe("mapTerminalFeed — sessions bundle (G43-e S2)", () => {
 
   it.each([
     ["headline", "Rank A で注目された公式発表"],
+    ["headline", "市場は必ず上がる"],
     ["note", "@非公式アカウントが確実だと断定した。"],
+    ["note", "A rally is guaranteed."],
     ["watch", "私が必ず確認する。"],
+    ["watch", "This will surely rise."],
   ])("applies the public-purity validator to editorial %s", (field, value) => {
     const feed = sampleHomeV04();
     if (field === "watch") {
@@ -1312,6 +1315,8 @@ describe("feed sessions editorial v0.4 (P2-LVM-IT-G1 T4)", () => {
     "A層で注目された。公式発表で次の材料が示された。",
     "いいね 1000件を集めた。公式発表で次の材料が示された。",
     "私は現場で確認した。これは確実だ。",
+    "価格は確実に上昇する。公式発表で次の材料が示された。",
+    "I witnessed the event. Officials later published a statement.",
     "黒幕が仕組んだ動きだ。絶対に相場が上がる。",
     "example.org/news を確認した。公式発表で次の材料が示された。",
   ])("rejects every prohibited editorial narrative category: %s", (lead) => {
