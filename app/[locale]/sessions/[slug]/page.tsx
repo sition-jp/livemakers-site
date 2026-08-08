@@ -7,9 +7,9 @@ import { Link } from "@/i18n/navigation";
 import { SessionPendingView } from "@/components/sessions/SessionPendingView";
 import {
   formatSessionTimestamp,
+  findSessionRecord,
   getAllSessionRecords,
   getDaySessionNav,
-  getSessionRecord,
 } from "@/lib/sessions/session-content";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import { resolveSessionPageRecord } from "@/lib/sessions/session-page-resolver";
@@ -30,12 +30,7 @@ export default async function SessionPage({
   setRequestLocale(locale);
   const t = await getTranslations("sessions");
 
-  let repoRecord = null;
-  try {
-    repoRecord = getSessionRecord(slug);
-  } catch {
-    // A pre-crystallize record may still resolve from the accepted feed.
-  }
+  const repoRecord = findSessionRecord(slug);
   const feed = await fetchLiveMarketData();
   const record = resolveSessionPageRecord({
     slug,
@@ -63,7 +58,9 @@ export default async function SessionPage({
         </p>
       </header>
 
-      {record.articleStatus === "published" && record.bodyJa ? (
+      {locale === "ja" &&
+      record.articleStatus === "published" &&
+      record.bodyJa ? (
         <div className="prose prose-neutral mt-6 max-w-none dark:prose-invert">
           <MDXRemote
             source={record.bodyJa}

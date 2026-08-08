@@ -1104,6 +1104,20 @@ describe("mapTerminalFeed — sessions bundle (G43-e S2)", () => {
     expect(mapTerminalFeed(feed)?.sessions).toBeNull();
   });
 
+  it.each([
+    ["headline", "Rank A で注目された公式発表"],
+    ["note", "@非公式アカウントが確実だと断定した。"],
+    ["watch", "私が必ず確認する。"],
+  ])("applies the public-purity validator to editorial %s", (field, value) => {
+    const feed = sampleHomeV04();
+    if (field === "watch") {
+      feed.sessions.records[0].editorial.watch[0] = value;
+    } else {
+      feed.sessions.records[0].editorial.items[0][field] = value;
+    }
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+
   it("degrades sessions to null when asOfJst is not a JST ISO string", () => {
     const feed = sampleHomeV03();
     feed.sessions.asOfJst = "2026-07-12 07:30";
@@ -1224,10 +1238,10 @@ describe("feed sessions editorial v0.4 (P2-LVM-IT-G1 T4)", () => {
     expect(mapTerminalFeed(feed)?.sessions).toBeNull();
   });
 
-  it("keeps mechanical v0.4 records valid when editorial is absent", () => {
+  it("rejects v0.4 when no record carries editorial", () => {
     const feed = sampleHomeV04();
     delete feed.sessions.records[0].editorial;
-    expect(mapTerminalFeed(feed)?.sessions?.records[0].editorial).toBeUndefined();
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
   });
 
   it("accepts one previous-day global-close at 00:45 and 04:45", () => {
@@ -1292,6 +1306,18 @@ describe("feed sessions editorial v0.4 (P2-LVM-IT-G1 T4)", () => {
     unsafe.sessions.records[0].editorial.lead =
       "crawler の checkpoint を確認した。一次情報を整理した。";
     expect(mapTerminalFeed(unsafe)?.sessions).toBeNull();
+  });
+
+  it.each([
+    "A層で注目された。公式発表で次の材料が示された。",
+    "いいね 1000件を集めた。公式発表で次の材料が示された。",
+    "私は現場で確認した。これは確実だ。",
+    "黒幕が仕組んだ動きだ。絶対に相場が上がる。",
+    "example.org/news を確認した。公式発表で次の材料が示された。",
+  ])("rejects every prohibited editorial narrative category: %s", (lead) => {
+    const feed = sampleHomeV04();
+    feed.sessions.records[0].editorial.lead = lead;
+    expect(mapTerminalFeed(feed)?.sessions).toBeNull();
   });
 
   it("rejects more than one previous-day global-close record", () => {

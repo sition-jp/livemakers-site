@@ -54,7 +54,7 @@ export function CompositeHero({
         const editorial =
           showSessionEditorial && editorialCopy ? live?.editorial : undefined;
         const sessionHref =
-          live && (live.hasMaterializedRoute !== false || editorial)
+          live && (live.hasMaterializedRoute !== false || live.editorial)
             ? live.currentUrl
             : "/sessions/archive";
         return (

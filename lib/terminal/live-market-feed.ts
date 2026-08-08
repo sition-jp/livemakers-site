@@ -702,6 +702,12 @@ function mapSessionsBundle(
 ): SessionsFeedData | null {
   const parsed = sessionsBundleSchema.safeParse(section);
   if (!parsed.success) return null;
+  if (
+    options.allowEditorial &&
+    !parsed.data.records.some((record) => record.editorial !== undefined)
+  ) {
+    return null;
+  }
   let previousGlobalCloseCount = 0;
   for (const record of parsed.data.records) {
     if (record.editorial && !options.allowEditorial) return null;

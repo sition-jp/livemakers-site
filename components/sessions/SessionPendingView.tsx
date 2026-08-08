@@ -88,7 +88,9 @@ export function SessionPendingView({
         </>
       ) : null}
 
-      <p className="text-sm text-text-tertiary">{copy.crystallizeNote}</p>
+      {record.articleStatus === "pending" ? (
+        <p className="text-sm text-text-tertiary">{copy.crystallizeNote}</p>
+      ) : null}
     </div>
   );
 }

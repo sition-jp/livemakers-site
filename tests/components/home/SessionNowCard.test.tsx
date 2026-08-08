@@ -204,6 +204,6 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
     expect(screen.queryByText(/インテリジェンス 2 本/)).toBeNull();
     expect(
       screen.getByRole("link", { name: /セッション全文を読む/ }),
-    ).toHaveAttribute("href", "/sessions/archive");
+    ).toHaveAttribute("href", record.currentUrl);
   });
 });

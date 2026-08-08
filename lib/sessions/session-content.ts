@@ -29,6 +29,31 @@ const EDITORIAL_ANCHOR_BY_SLUG = {
   "ny-open": "18:03",
   "global-close": "23:03",
 } as const;
+const EDITORIAL_URL_OR_HANDLE_PATTERN =
+  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?|(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/i;
+const EDITORIAL_RANK_PATTERN =
+  /\brank\s*[ABC]\b|ランク\s*[ABC]|[ABC]\s*層/i;
+const EDITORIAL_ENGAGEMENT_PATTERN =
+  /いいね\s*[\d,]+|[\d,]+\s*likes|RT\s*[\d,]+|リポスト\s*[\d,]+|エンゲージメント/i;
+const EDITORIAL_FIRST_PERSON_PATTERN =
+  /私(?:は|が|の|に|も)|筆者(?:は|が|の)|\bI\s+(?:saw|checked|confirmed|believe|think)\b|\bwe\s+(?:saw|checked|confirmed|believe|think)\b/i;
+const EDITORIAL_CERTAINTY_PATTERN =
+  /確実(?:だ|です|である)|間違いなく|断定(?:した|する)|絶対(?:に|だ|です)|\b(?:definitely|certainly)\b/i;
+const EDITORIAL_CONSPIRACY_HYPE_PATTERN =
+  /陰謀|黒幕|隠蔽|仕組んだ|劇的|衝撃的|\bconspir(?:acy|atorial)\b|\bmastermind\b/i;
+
+export function sessionEditorialTextViolations(value: string): string[] {
+  return [
+    ["url_or_handle", EDITORIAL_URL_OR_HANDLE_PATTERN],
+    ["rank", EDITORIAL_RANK_PATTERN],
+    ["engagement", EDITORIAL_ENGAGEMENT_PATTERN],
+    ["first_person", EDITORIAL_FIRST_PERSON_PATTERN],
+    ["unsupported_certainty", EDITORIAL_CERTAINTY_PATTERN],
+    ["conspiracy_hype", EDITORIAL_CONSPIRACY_HYPE_PATTERN],
+  ]
+    .filter(([, pattern]) => (pattern as RegExp).test(value))
+    .map(([name]) => name as string);
+}
 
 const SessionEditorialItemSchema = z
   .object({
@@ -58,6 +83,28 @@ export const SessionEditorialSchema = z
         message: "writtenAtJst must be later than crawlAnchorJst",
         path: ["writtenAtJst"],
       });
+    }
+    const textFields: Array<{ value: string; path: (string | number)[] }> = [
+      { value: editorial.lead, path: ["lead"] },
+      ...editorial.items.flatMap((item, index) => [
+        { value: item.headline, path: ["items", index, "headline"] },
+        ...(item.note
+          ? [{ value: item.note, path: ["items", index, "note"] }]
+          : []),
+      ]),
+      ...editorial.watch.map((value, index) => ({
+        value,
+        path: ["watch", index],
+      })),
+    ];
+    for (const field of textFields) {
+      if (sessionEditorialTextViolations(field.value).length > 0) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "editorial text violates public-purity contract",
+          path: field.path,
+        });
+      }
     }
   });
 
@@ -270,13 +317,20 @@ export function getAllSessionRecords(): SessionRecord[] {
 }
 
 export function getSessionRecord(sessionId: string): SessionRecord {
-  const record = getAllSessionRecords().find(
-    (candidate) => candidate.sessionId === sessionId,
-  );
+  const record = findSessionRecord(sessionId);
   if (!record) {
     throw new Error(`session not found: ${sessionId}`);
   }
   return record;
+}
+
+/** Missing is nullable; malformed repo content still throws fail-closed. */
+export function findSessionRecord(sessionId: string): SessionRecord | null {
+  return (
+    getAllSessionRecords().find(
+      (candidate) => candidate.sessionId === sessionId,
+    ) ?? null
+  );
 }
 
 export function getTodaySchedule(

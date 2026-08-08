@@ -44,7 +44,7 @@ export function SessionNowCard({
   const freshnessHm = record.asOfJst.slice(11, 16);
   const editorial = showEditorial ? record.editorial : undefined;
   const sessionHref =
-    record.hasMaterializedRoute !== false || editorial
+    record.hasMaterializedRoute !== false || record.editorial
       ? record.currentUrl
       : "/sessions/archive";
   return (

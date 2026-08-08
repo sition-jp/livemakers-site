@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   formatSessionTimestamp,
+  findSessionRecord,
   getAllSessionRecords,
   getSessionRecord,
   normalizeFocusInstruments,
@@ -36,6 +37,10 @@ describe("formatSessionTimestamp", () => {
 });
 
 describe("session content lifecycle (G-a)", () => {
+  it("returns null only for a genuinely missing session", () => {
+    expect(findSessionRecord("2099-01-01-asia-open")).toBeNull();
+  });
+
   it("loads the live fixture session with lifecycle fields", () => {
     const record = getSessionRecord("2026-07-10-asia-open");
     expect(record.sessionId).toBe("2026-07-10-asia-open");

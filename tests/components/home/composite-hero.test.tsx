@@ -104,6 +104,40 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
     expect(link.getAttribute("href")).toBe("/sessions/archive");
   });
 
+  it("keeps the same editorial URL on English while hiding Japanese editorial", () => {
+    expect(props.live).not.toBeNull();
+    const feedEditorialLive: SessionRecord = {
+      ...props.live!,
+      hasMaterializedRoute: false,
+      editorial: {
+        digestId: "dig_20260710_0712_ab12cd34",
+        crawlAnchorJst: "2026-07-10T05:03:00+09:00",
+        writtenAtJst: "2026-07-10T07:12:00+09:00",
+        lead: "日本語の editorial は英語面に表示しない。",
+        items: [{
+          headline: "公式発表で変更が示された",
+          sourceUrl: "https://primary.example.org/news/123",
+        }],
+        watch: ["次の公式発表を確認する。"],
+      },
+    };
+    const { container } = render(
+      <CompositeHero
+        live={feedEditorialLive}
+        lead={props.slots.lead}
+        copy={copy.hero}
+        showSessionEditorial={false}
+      />,
+    );
+    const line = container.querySelector(
+      '[data-column-module="hero-session-line"]',
+    )!;
+    expect(line.querySelector("a")?.getAttribute("href")).toBe(
+      feedEditorialLive.currentUrl,
+    );
+    expect(line.textContent).not.toContain(feedEditorialLive.editorial!.lead);
+  });
+
   it("falls back to the session archive link when no session is live", () => {
     const { container } = render(
       <CompositeHero live={null} lead={pendingLead} copy={copy.hero} />,

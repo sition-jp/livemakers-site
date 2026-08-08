@@ -73,4 +73,23 @@ describe("SessionPendingView", () => {
     expect(screen.queryByText(copy.highlightsHeading)).toBeNull();
     expect(screen.getByText("BTC $63,299")).toBeInTheDocument();
   });
+
+  it("does not claim an already-published English session will crystallize later", () => {
+    render(
+      <SessionPendingView
+        record={{
+          ...record,
+          liveStatus: "closed",
+          articleStatus: "published",
+          canonicalArticleUrl: record.currentUrl,
+          publishedAt: "2026-08-09T12:03:00+09:00",
+          bodyJa: "# 日本語正本",
+        }}
+        locale="en"
+        copy={copy}
+      />,
+    );
+    expect(screen.getByText("BTC $63,299")).toBeInTheDocument();
+    expect(screen.queryByText(copy.crystallizeNote)).toBeNull();
+  });
 });
