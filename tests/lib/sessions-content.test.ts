@@ -80,12 +80,13 @@ describe("session content lifecycle (G-a)", () => {
   });
 
   it("crystallizes past sessions at the same URL", () => {
-    const record = getSessionRecord("2026-07-09-global-close");
+    const record = getSessionRecord("2026-08-07-global-close");
     expect(record.liveStatus).toBe("closed");
     expect(record.articleStatus).toBe("published");
     expect(record.canonicalArticleUrl).toBe(record.currentUrl);
-    expect(record.publishedAt).toMatch(/^2026-07-09T/);
-    expect(record.bodyJa).toContain("フロンティア");
+    // publishedAt = crystallize 実行時刻 (セッション当日ではない)
+    expect(record.publishedAt).toMatch(/^2026-08-08T/);
+    expect(record.bodyJa).toContain("数値スナップショット");
   });
 
   it("rejects a published session whose canonical URL differs", () => {
@@ -114,9 +115,9 @@ describe("session content lifecycle (G-a)", () => {
       (record) => record.articleStatus === "published",
     );
     expect(published.map((record) => record.sessionId)).toEqual([
-      "2026-07-09-global-close",
-      "2026-07-09-ny-open",
-      "2026-07-09-europe-bridge",
+      "2026-08-07-global-close",
+      "2026-08-07-ny-open",
+      "2026-08-07-asia-open",
     ]);
   });
 });
