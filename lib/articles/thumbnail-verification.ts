@@ -22,8 +22,10 @@ import {
  * - exact origin: ARTICLE_THUMBNAIL_ORIGIN 配下の https URL のみ。redirect 不可
  * - checksum: 取得した bytes の sha256 が thumbnail_checksum と一致すること
  *
- * URL は content-addressed (immutable) 前提のため、検証結果は
- * `url#checksum` キーでプロセス内 memoize する (再検証の fetch を省く)。
+ * 検証 GET は `url?sha256=<checksum>` を Next Data Cache に永続化する。
+ * stable pathname が上書きされても checksum が変われば新しい cache key で
+ * 再検証し、同じ bytes は ISR の 5 分周期で再取得しない。プロセス内でも
+ * `url#checksum` キーで memoize する。
  */
 
 export type ThumbnailRejectReason =
@@ -58,7 +60,12 @@ async function verifyThumbnailBytes(
   const cached = verifiedCache.get(cacheKey);
   if (cached !== undefined) return cached ? null : "checksum_mismatch";
   try {
-    const response = await fetcher(url, { redirect: "error" });
+    const verificationUrl = new URL(url);
+    verificationUrl.searchParams.set("sha256", checksum);
+    const response = await fetcher(verificationUrl.toString(), {
+      cache: "force-cache",
+      redirect: "error",
+    });
     if (!response.ok) return "fetch_failed";
     const bytes = Buffer.from(await response.arrayBuffer());
     const digest = createHash("sha256").update(bytes).digest("hex");
