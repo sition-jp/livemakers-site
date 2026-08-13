@@ -1,10 +1,12 @@
 import type { ComponentProps, ReactNode } from "react";
 
+import { TweetEmbed } from "@/components/articles/TweetEmbed";
 import {
   classifyMarkerHeading,
   hasDailyIntelBlockHeadings,
   slugifyHeading,
 } from "@/lib/articles/toc";
+import { extractTopicTweetId } from "@/lib/articles/topic-tweet";
 
 /**
  * 記事本文 MDX の描画コンポーネント (G44 D10 の h2 anchor に加え、
@@ -23,6 +25,10 @@ export function createArticleMdxComponents(body: string): {
 } {
   const hasBlocks = hasDailyIntelBlockHeadings(body);
   const used = new Map<string, number>();
+  // 肝ツイート 1 本を「最初の実段落」の直後に一度だけ添える (2026-08-14
+  // 田平氏 GO — Phase 2)。single-pass 前提の closure 状態は上の `used` Map と
+  // 同じ既存パターン。body 文字列と checksum 契約には触れない
+  let pendingTweetId = extractTopicTweetId(body);
 
   const claimId = (text: string): string => {
     const base = slugifyHeading(text);
@@ -68,6 +74,16 @@ export function createArticleMdxComponents(body: string): {
           </Tag>
         );
       }
+    }
+    if (pendingTweetId !== null) {
+      const id = pendingTweetId;
+      pendingTweetId = null;
+      return (
+        <>
+          <p {...props}>{children}</p>
+          <TweetEmbed id={id} />
+        </>
+      );
     }
     return <p {...props}>{children}</p>;
   }
