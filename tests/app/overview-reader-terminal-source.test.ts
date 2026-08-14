@@ -12,15 +12,20 @@ describe("overview page B+ composition wiring", () => {
     const layoutSource = fs.readFileSync(layoutPath, "utf-8");
 
     expect(source).toContain("@/components/home/HomeComposition");
-    expect(source).toContain("@/components/home/GlobalProvenanceStrip");
+
     expect(source).toContain("@/lib/home/load-home-composition");
     expect(source).toContain("await loadHomeCompositionProps()");
     expect(source).toContain("export const revalidate = 300");
     expect(layoutSource).toContain("@/lib/home/load-home-composition");
     expect(layoutSource).toContain("await loadHomeCompositionProps()");
     expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(3600);
-    expect(source).toContain("<TickerBar");
-    expect(source).toContain("<GlobalProvenanceStrip");
+    // 2026-08-14: ticker + 来歴帯は SiteChrome (全ページ共通 chrome) へ移設
+    const siteChromeSource = fs.readFileSync(
+      "components/layout/SiteChrome.tsx", "utf-8");
+    expect(siteChromeSource).toContain("<TickerBar");
+    expect(siteChromeSource).toContain("<GlobalProvenanceStrip");
+    expect(source).not.toContain("<TickerBar");
+    expect(source).not.toContain("<GlobalProvenanceStrip");
     expect(source).toContain("<HomeComposition");
     expect(source).not.toContain(
       "@/lib/livemakers-terminal-preview/adapter-fixture-data",

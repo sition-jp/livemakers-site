@@ -68,7 +68,7 @@ import {
 } from "@/lib/home/gradient-ledger";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
-import { buildNavModel } from "@/lib/home/nav-model";
+import { buildFlatNav } from "@/lib/home/nav-model";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
 import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
@@ -173,9 +173,7 @@ function renderFullPage(
 ) {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header
-        chromeMeta={getSnapshotChromeMeta(homeProps.snapshot)}
-        futureAtlasNav={false}
+      <Header futureAtlasNav={false}
       />
       <main>
         <TickerBar items={homeProps.tickerItems} />
@@ -298,15 +296,12 @@ describe("G44 safety gates with validated Production feed overlay", () => {
 
   it("gate 2: every link validates through exactly one public route", async () => {
     const { container } = renderFullPage(props);
-    const nav = buildNavModel(false);
+    // 2026-08-14 フラットナビ: header = logo + flatNav / footer = flatNav
+    const flat = buildFlatNav(false);
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    expect(chromeAnchors).toHaveLength(
-      1 +
-        nav.topLevel.length +
-        (1 + nav.articlesGroup.length + nav.topLevel.length),
-    );
+    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);
