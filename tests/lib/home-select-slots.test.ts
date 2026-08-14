@@ -57,17 +57,13 @@ describe("home slot selection (B+)", () => {
     expect(selectHomeSlots(noIntel).lead.state).toBe("pending");
   });
 
-  it("pairs today's mkt12 article, weekend, and two archive entries", () => {
+  it("selects today's mkt12 article only (Phase 3: weekend/archive slots removed)", () => {
     const slots = selectHomeSlots(input());
     expect(slots.mkt12.article?.articleId).toBe(
       "mkt12-morning-2026-07-10",
     );
-    expect(slots.mkt12.weekend?.articleId).toBe("mkt12-weekend-2026-07-04");
-    expect(slots.mkt12.archive.map((article) => article.articleId)).toEqual([
-      "mkt12-morning-2026-07-09",
-      "mkt12-morning-2026-07-08",
-    ]);
     expect(slots.mkt12.state).toBe("published");
+    expect(slots.mkt12.previous).toBeNull();
   });
 
   it("marks mkt12 awaiting when today's article is missing", () => {

@@ -66,9 +66,19 @@ export function Header({
           </span>
         </Link>
 
-        {/* Desktop grouped nav (G44 D3): logo(=overview) / 記事▾ / [未来アトラス] /
-            Session Terminal / About. dropdown = button + aria-expanded. */}
+        {/* Desktop grouped nav (G44 D3 / 2026-08-14 Phase 3): logo(=overview) /
+            Intelligence Terminal / 記事▾ / [未来アトラス] / About.
+            topLevel[0] (= Intelligence Terminal) を dropdown の前に描く。 */}
         <nav className="hidden items-center gap-4 lg:flex" aria-label="primary">
+          {nav.topLevel[0] ? (
+            <Link
+              key={nav.topLevel[0].key}
+              href={nav.topLevel[0].href}
+              className={topLevelClass}
+            >
+              {t(nav.topLevel[0].key)}
+            </Link>
+          ) : null}
           <div className="relative">
             <button
               type="button"
@@ -101,7 +111,7 @@ export function Header({
               </div>
             ) : null}
           </div>
-          {nav.topLevel.map((item) => (
+          {nav.topLevel.slice(1).map((item) => (
             <Link key={item.key} href={item.href} className={topLevelClass}>
               {t(item.key)}
             </Link>
@@ -166,6 +176,18 @@ export function Header({
           id="mobile-menu"
           className="border-t border-border-primary px-4 py-3 lg:hidden"
         >
+          {/* 2026-08-14 Phase 3: desktop と同順 — Intelligence Terminal を先頭に */}
+          {nav.topLevel[0] ? (
+            <div className="mb-2 flex flex-col border-b border-border-primary pb-2">
+              <Link
+                href={nav.topLevel[0].href}
+                onClick={() => setMobileOpen(false)}
+                className="py-1.5 text-sm tracking-tabs text-text-secondary hover:text-text-primary"
+              >
+                {t(nav.topLevel[0].key)}
+              </Link>
+            </div>
+          ) : null}
           <p className="mb-1 text-[10px] font-bold tracking-label text-text-tertiary">
             {t("articlesGroup")}
           </p>
@@ -182,7 +204,7 @@ export function Header({
             ))}
           </div>
           <div className="mt-2 flex flex-col border-t border-border-primary pt-2">
-            {nav.topLevel.map((item) => (
+            {nav.topLevel.slice(1).map((item) => (
               <Link
                 key={item.key}
                 href={item.href}

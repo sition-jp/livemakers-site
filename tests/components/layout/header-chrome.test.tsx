@@ -106,7 +106,7 @@ describe("G41 page chrome", () => {
       [...container.querySelectorAll("header nav a")].map(
         (anchor) => anchor.textContent,
       ),
-    ).toEqual(["Session Terminal", "About"]);
+    ).toEqual(["Intelligence Terminal", "About"]);
   });
 
   it("renders the Future Atlas link in both chrome navs only when published", () => {
@@ -130,7 +130,7 @@ describe("G41 page chrome", () => {
     ]);
   });
 
-  it("places English FUTURE ATLAS immediately before SESSION TERMINAL in both navs (D3 order)", () => {
+  it("places English FUTURE ATLAS between INTELLIGENCE TERMINAL and ABOUT in both navs (Phase 3 order)", () => {
     const { container } = renderEnglishChrome(true);
 
     for (const nav of container.querySelectorAll("header nav, footer nav")) {
@@ -142,9 +142,13 @@ describe("G41 page chrome", () => {
 
       expect(atlas).toBeGreaterThanOrEqual(0);
       expect(links[atlas]).toEqual({ href: "/future-atlas", text: "FUTURE ATLAS" });
-      expect(links[atlas + 1]).toEqual({
+      expect(links[atlas - 1]).toEqual({
         href: "/sessions/archive",
-        text: "SESSION TERMINAL",
+        text: "INTELLIGENCE TERMINAL",
+      });
+      expect(links[atlas + 1]).toEqual({
+        href: "/about",
+        text: "ABOUT",
       });
     }
   });

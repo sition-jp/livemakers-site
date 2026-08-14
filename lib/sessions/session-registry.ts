@@ -47,7 +47,9 @@ export const READER_SESSIONS = [
     internalSlot: "night",
     nameEn: "Global Close / Frontier Terminal",
     nameJa: "夜 · 米引け後とフロンティア観測",
-    updateTimeLabel: "22:33–23:03",
+    // 2026-08-14 田平氏裁定: 22:33 の NY Open crawl は 7/9 から停止中で
+    // 観測アンカーは 23:03 のみ — 表記を実態に合わせる (再稼働時に戻す)
+    updateTimeLabel: "23:03",
     defaultFocusInstruments: ["btc_usd", "gold"],
   },
 ] as const satisfies readonly ReaderSessionDef[];

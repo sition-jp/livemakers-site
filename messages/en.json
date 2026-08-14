@@ -20,7 +20,7 @@
     "eventRiskRadar": "EVENT RISK",
     "weeklyBrief": "WEEKLY BRIEF",
     "futureMap": "MAP OF THE NEXT ERA",
-    "sessionTerminal": "SESSION TERMINAL"
+    "sessionTerminal": "INTELLIGENCE TERMINAL"
   },
   "assets": {
     "dashboard": {
@@ -450,6 +450,7 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
+      "freshnessPrefix": "Snapshot",
       "nextUpdateLine": "Next update: {name} {time} JST",
       "readFull": "Read the full session →",
       "editorialPrefix": "Intelligence",
@@ -457,6 +458,7 @@
     },
     "schedule": {
       "title": "Today's update schedule",
+      "focusPrefix": "Focus:",
       "previous": "Read previous →",
       "archive": "Session article index (sessions become articles over time) →",
       "compactBadge": "{count} more updates today",
@@ -464,6 +466,7 @@
     },
     "focus": {
       "title": "Session Focus",
+      "basePrefix": "From",
       "snapshotBadge": "SNAPSHOT",
       "description": "Focus indicators for {session} · last 24 hours · instruments change with each session"
     },
@@ -485,9 +488,7 @@
       "articleTitle": "This Morning's 12 Indicators",
       "awaiting": "Today's 12 Indicators article is being prepared.",
       "previous": "Read the previous 12 Indicators →",
-      "otherPeriods": "Same series · Other periods",
-      "archiveTitle": "12 Indicators archive",
-      "archiveSubtitle": "Previous articles in the same series",
+      "archiveLink": "12 Indicators archive →",
       "indicator": {
         "title": "12 Core Indicators",
         "dataDatePrefix": "Data date",

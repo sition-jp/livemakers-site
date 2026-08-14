@@ -64,9 +64,7 @@ export interface HomeCopy {
     articleTitle: string;
     awaiting: string;
     previous: string;
-    otherPeriods: string;
-    archiveTitle: string;
-    archiveSubtitle: string;
+    archiveLink: string;
     indicator: IndicatorTileCopy;
     movers: TopMoversCopy;
   };
@@ -182,9 +180,7 @@ export function buildHomeCopy(
       articleTitle: translate("mkt12.articleTitle"),
       awaiting: translate("mkt12.awaiting"),
       previous: translate("mkt12.previous"),
-      otherPeriods: translate("mkt12.otherPeriods"),
-      archiveTitle: translate("mkt12.archiveTitle"),
-      archiveSubtitle: translate("mkt12.archiveSubtitle"),
+      archiveLink: translate("mkt12.archiveLink"),
       indicator: {
         title: translate("mkt12.indicator.title"),
         dataDatePrefix: translate("mkt12.indicator.dataDatePrefix"),

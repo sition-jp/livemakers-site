@@ -6,8 +6,9 @@ import {
 } from "@/lib/home/gradient-ledger";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
-import { EventRiskCard } from "../EventRiskCard";
+import { ArticleCardSmall } from "../ArticleCardSmall";
 import { FlashPromotionCard } from "../FlashPromotionCard";
+import { RadarObservationsCard } from "../RadarObservationsCard";
 import { SessionFocusChart } from "../SessionFocusChart";
 import { SessionNowCard } from "../SessionNowCard";
 import { SessionScheduleCard } from "../SessionScheduleCard";
@@ -15,10 +16,11 @@ import { SessionScheduleCard } from "../SessionScheduleCard";
 const REGION = "leading" satisfies GradientRegion;
 
 /**
- * 左カラム = 先行 (G44 D5)。モジュール順は勾配台帳 REGION_MODULES.leading。
- * session-now は D8 の単一表現ルールで desktop 専用 (mobile は CompositeHero が担う)。
- * flash-promotion = FlashPromotionCard (昇格ペア or 空状態)・event-risk = EventRiskCard
- * (観測 title-only + 最新記事) を描画する。
+ * 左カラム = 先行 (G44 D5 / 2026-08-14 Phase 3 改訂)。モジュール順は勾配台帳
+ * REGION_MODULES.leading。session-now は D8 の単一表現ルールで desktop 専用
+ * (mobile は CompositeHero が担う)。event-risk = 最新 event-risk-radar 記事 1 本
+ * (schedule 直下)・flash-promotion = FlashPromotionCard (昇格ペア or 空状態)・
+ * radar-observations = 観測 title-only リスト (flash-promotion 直下) を描画する。
  */
 export type LeadingColumnProps = Pick<
   HomeCompositionProps,
@@ -106,14 +108,17 @@ export function LeadingColumn({
           />
         );
       case "event-risk":
+        return slots.eventRiskLatest ? (
+          <ArticleCardSmall
+            article={slots.eventRiskLatest}
+            familyLabel={copy.familyLabels[slots.eventRiskLatest.family]}
+          />
+        ) : null;
+      case "radar-observations":
         return (
-          <EventRiskCard
+          <RadarObservationsCard
             observations={slots.observing}
-            latest={slots.eventRiskLatest}
-            copy={{
-              observations: copy.radar.observations,
-              familyLabels: copy.familyLabels,
-            }}
+            copy={copy.radar.observations}
           />
         );
       default:
