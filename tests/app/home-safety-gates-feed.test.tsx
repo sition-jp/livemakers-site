@@ -448,7 +448,8 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     ]
       .filter((element) => !element.closest("[data-index-nav]"))
       .map((element) => element.getAttribute("data-article-id")!);
-    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(17);
+    // Phase 3 (2026-08-14): mkt12 weekend/archive を本体から撤去 → floor 14
+    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(14);
     expect(new Set(bodyArticleIds).size).toBe(bodyArticleIds.length);
     expect(new Set(bodyArticleIds)).toEqual(
       new Set(collectSelectedArticleIds(props.slots)),

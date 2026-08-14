@@ -24,12 +24,14 @@ describe("buildNavModel", () => {
     const nav = buildNavModel(true);
     expect(nav.articlesGroup).toHaveLength(7);
     expect(nav.articlesGroup.some((i) => i.key === "futureMap")).toBe(false);
+    // Phase 3 (2026-08-14): sessionTerminal (= Intelligence Terminal) が先頭
     expect(nav.topLevel.map((i) => i.key)).toEqual([
-      "futureAtlas",
       "sessionTerminal",
+      "futureAtlas",
       "about",
     ]);
-    expect(nav.topLevel[0].href).toBe("/future-atlas");
+    expect(nav.topLevel[0].href).toBe("/sessions/archive");
+    expect(nav.topLevel[1].href).toBe("/future-atlas");
   });
 
   it("keeps the weekly brief pointing at /brief (spec §8-4)", () => {

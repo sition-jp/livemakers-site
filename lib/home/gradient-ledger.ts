@@ -13,8 +13,19 @@ export type GradientRegion = (typeof GRADIENT_REGIONS)[number];
  */
 export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>> = {
   hero: ["hero-session-line", "hero-lead-headline"],
-  leading: ["session-now", "schedule", "flash-promotion", "focus", "event-risk"],
-  coincident: ["lead-article", "signal-timeline", "mkt12-tiles", "mkt12-reading", "lane-values"],
+  // 2026-08-14 田平氏 GO (Phase 3 レイアウト改修):
+  // - leading: event-risk (最新記事) を schedule 直下へ・観測リストは
+  //   radar-observations として独立させ flash-promotion 直下へ・focus は末尾へ
+  // - coincident: mkt12-reading (今朝の12指標) を lead-article 直下へ
+  leading: [
+    "session-now",
+    "schedule",
+    "event-risk",
+    "flash-promotion",
+    "radar-observations",
+    "focus",
+  ],
+  coincident: ["lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values"],
   lagging: [
     "deep-dive",
     "atlas-entry",

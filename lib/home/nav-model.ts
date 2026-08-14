@@ -34,11 +34,13 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
       : [{ key: "futureMap", href: seriesHref("future-map") }]),
   ];
 
+  // 2026-08-14 Phase 3 (田平氏 GO): メニュー順 = Intelligence Terminal →
+  // 記事▾ → (未来アトラス) → About。Header は topLevel[0] を 記事▾ の前に描く。
   const topLevel: NavItem[] = [
+    { key: "sessionTerminal", href: "/sessions/archive" },
     ...(surfacePublished
       ? [{ key: "futureAtlas", href: "/future-atlas" }]
       : []),
-    { key: "sessionTerminal", href: "/sessions/archive" },
     { key: "about", href: "/about" },
   ];
 

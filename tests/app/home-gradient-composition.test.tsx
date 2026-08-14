@@ -137,14 +137,20 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(seat.textContent).toBe("");
   });
 
-  it("preserves the mkt12 reading stack (hero, periods-divider, weekend, archive)", () => {
+  it("renders the mkt12 reading as latest-only + archive link (Phase 3, 2026-08-14)", () => {
     const { container } = renderHome();
     const reading = container.querySelector("[data-mkt12-reading]")!;
     expect(reading).not.toBeNull();
     expect(
-      [...reading.querySelectorAll(":scope > [data-mkt12-role]")].map(
-        (element) => element.getAttribute("data-mkt12-role"),
+      [...reading.querySelectorAll("[data-mkt12-role]")].map((element) =>
+        element.getAttribute("data-mkt12-role"),
       ),
-    ).toEqual(["hero", "periods-divider", "weekend", "archive"]);
+    ).toEqual(["hero", "archive-link"]);
+    const archiveLink = reading.querySelector(
+      '[data-mkt12-role="archive-link"] a',
+    )!;
+    expect(archiveLink.getAttribute("href")).toBe(
+      "/articles/series/mkt12-morning",
+    );
   });
 });

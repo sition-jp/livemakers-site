@@ -11,11 +11,14 @@ describe("gradient ledger", () => {
   });
   it("defines module order per region (doctrine §4 gradient ledger)", () => {
     expect(REGION_MODULES.hero).toEqual(["hero-session-line", "hero-lead-headline"]);
+    // 2026-08-14 Phase 3 (田平氏 GO): event-risk を schedule 直下・観測リストを
+    // radar-observations として独立・mkt12-reading を lead-article 直下へ。
     expect(REGION_MODULES.leading).toEqual([
-      "session-now", "schedule", "flash-promotion", "focus", "event-risk",
+      "session-now", "schedule", "event-risk", "flash-promotion",
+      "radar-observations", "focus",
     ]);
     expect(REGION_MODULES.coincident).toEqual([
-      "lead-article", "signal-timeline", "mkt12-tiles", "mkt12-reading", "lane-values",
+      "lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values",
     ]);
     expect(REGION_MODULES.lagging).toEqual([
       "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "latest-articles",

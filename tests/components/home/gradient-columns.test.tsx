@@ -100,19 +100,24 @@ describe("LeadingColumn (gradient leading, D5)", () => {
     ).toEqual([...REGION_MODULES.leading]);
   });
 
-  it("keeps event-risk observations title-only and links the latest event-risk article", () => {
+  it("splits event-risk (latest article) and radar-observations (title-only) into two modules (Phase 3)", () => {
     const { container } = renderLeading();
+    // event-risk = 最新記事 1 本のみ (schedule 直下)
     const eventRisk = container.querySelector(
       '[data-column-module="event-risk"]',
     )!;
-    // observations are title-only (no anchors inside data-radar)
-    expect(eventRisk.querySelectorAll("[data-radar] a")).toHaveLength(0);
-    // exactly one linked article — the latest event-risk-radar article
+    expect(eventRisk.querySelector("[data-radar]")).toBeNull();
     const links = eventRisk.querySelectorAll("a[data-article-id]");
     expect(links).toHaveLength(1);
     expect(links[0]!.getAttribute("data-article-id")).toBe(
       "event-risk-radar-w29",
     );
+    // radar-observations = 観測 title-only (リンクなし・flash-promotion 直下)
+    const observations = container.querySelector(
+      '[data-column-module="radar-observations"]',
+    )!;
+    expect(observations.querySelector("[data-radar]")).not.toBeNull();
+    expect(observations.querySelectorAll("a")).toHaveLength(0);
   });
 
   it("shows the flash-promotion empty state when no pair exists (RADAR_PROMOTIONS empty)", () => {

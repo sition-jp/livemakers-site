@@ -24,12 +24,12 @@ export interface HomeSlots {
     article: ArticleMeta | null;
     previous: ArticleMeta | null;
   };
+  // 2026-08-14 Phase 3: mkt12-reading は最新 1 本 + シリーズリンクのみ。
+  // weekend / archive スロットは撤去 (週末は lagging の mkt12WeekendLatest が担う)。
   mkt12: {
     state: "published" | "awaiting";
     article: ArticleMeta | null;
     previous: ArticleMeta | null;
-    weekend: ArticleMeta | null;
-    archive: ArticleMeta[];
   };
   radarPair: {
     observation: RadarObservation;
@@ -77,8 +77,6 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     }
     return article;
   };
-  const unused = (article: ArticleMeta): boolean =>
-    !used.has(article.articleId);
 
   const dailyIntel = input.articles.filter(
     (article) => article.family === "daily-intel",
@@ -110,17 +108,6 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     state: todayMorning ? "published" : "awaiting",
     article: take(todayMorning) ?? null,
     previous,
-    weekend:
-      take(
-        input.articles.find(
-          (article) =>
-            article.family === "mkt12-weekend" && unused(article),
-        ),
-      ) ?? null,
-    archive: previousMornings
-      .filter((article) => unused(article) && article !== previous)
-      .slice(0, 2)
-      .map((article) => take(article) as ArticleMeta),
   };
 
   const promotionCandidates = input.radar
@@ -205,8 +192,6 @@ export function collectSelectedArticleIds(slots: HomeSlots): string[] {
   return [
     ...(slots.lead.article ? [slots.lead.article.articleId] : []),
     ...(slots.mkt12.article ? [slots.mkt12.article.articleId] : []),
-    ...(slots.mkt12.weekend ? [slots.mkt12.weekend.articleId] : []),
-    ...slots.mkt12.archive.map((article) => article.articleId),
     ...(slots.radarPair ? [slots.radarPair.article.articleId] : []),
     ...slots.signalTimeline.map((article) => article.articleId),
     ...slots.deepDives.slice(0, 1).map((article) => article.articleId),

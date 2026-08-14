@@ -20,7 +20,7 @@
     "eventRiskRadar": "Event Risk Radar",
     "weeklyBrief": "Weekly Brief",
     "futureMap": "次の時代の地図",
-    "sessionTerminal": "Session Terminal"
+    "sessionTerminal": "Intelligence Terminal"
   },
   "assets": {
     "dashboard": {
@@ -488,9 +488,7 @@
       "articleTitle": "今朝の12指標",
       "awaiting": "本日の12指標記事は公開準備中です",
       "previous": "前回の12指標を読む →",
-      "otherPeriods": "同じシリーズ · 別期間",
-      "archiveTitle": "12指標アーカイブ",
-      "archiveSubtitle": "同シリーズの過去記事",
+      "archiveLink": "12指標アーカイブ →",
       "indicator": {
         "title": "12コア指標",
         "dataDatePrefix": "データ日付",

@@ -6,8 +6,6 @@ import {
   type GradientRegion,
 } from "@/lib/home/gradient-ledger";
 import type { HomeCompositionProps } from "../HomeComposition";
-import { ArticleCardSmall } from "../ArticleCardSmall";
-import { ArticleRow } from "../ArticleRow";
 import { IndicatorTileCard } from "../IndicatorTileCard";
 import { LaneValuesCard } from "../LaneValuesCard";
 import { LeadArticleCard } from "../LeadArticleCard";
@@ -17,11 +15,10 @@ import { TopMoversCard } from "../TopMoversCard";
 const REGION = "coincident" satisfies GradientRegion;
 
 /**
- * 中央カラム = 一致 (G44 D6)。モジュール順は勾配台帳 REGION_MODULES.coincident。
- * lead-article は D8 の単一表現ルールで desktop 専用 (mobile は CompositeHero が担う)。
- * mkt12-reading は旧構成の data-mkt12-reading 節 (hero → periods-divider →
- * weekend → archive) をそのまま継承する。signal-timeline / lane-values は
- * T9 が SignalTimeline / LaneValuesCard を実装するまで空プレースホルダ。
+ * 中央カラム = 一致 (G44 D6 / 2026-08-14 Phase 3 改訂)。モジュール順は勾配台帳
+ * REGION_MODULES.coincident。lead-article は D8 の単一表現ルールで desktop 専用
+ * (mobile は CompositeHero が担う)。mkt12-reading = 「今朝の12指標」最新 1 本 +
+ * シリーズページへのアーカイブリンク (lead-article 直下)。
  */
 export type CoincidentColumnProps = Pick<
   HomeCompositionProps,
@@ -72,10 +69,13 @@ export function CoincidentColumn({
           </div>
         );
       case "mkt12-reading":
+        // 2026-08-14 Phase 3 (田平氏 GO): 最新の「今朝の12指標」1 本だけを
+        // Daily Intel 直下に置く。週末カードとアーカイブ行は撤去し (週末は
+        // 遅行カラムの索引カードが担う)、シリーズページへの 1 行リンクに集約。
         return (
           <section
             data-mkt12-reading
-            className="flex h-full flex-col rounded-lg border border-border-primary bg-bg-secondary p-4"
+            className="flex flex-col rounded-lg border border-border-primary bg-bg-secondary p-4"
           >
             <h3 className="text-sm font-bold text-text-primary">
               {copy.mkt12.articleTitle}
@@ -110,44 +110,14 @@ export function CoincidentColumn({
                 </div>
               )}
             </div>
-            <div
-              data-mkt12-role="periods-divider"
-              className="my-4 flex items-center gap-3 text-[10px] font-bold tracking-label text-text-tertiary"
-            >
-              <span className="h-px flex-1 bg-border-primary" />
-              <span>{copy.mkt12.otherPeriods}</span>
-              <span className="h-px flex-1 bg-border-primary" />
+            <div data-mkt12-role="archive-link" data-index-nav className="mt-3">
+              <Link
+                href="/articles/series/mkt12-morning"
+                className="text-xs font-bold text-accent"
+              >
+                {copy.mkt12.archiveLink}
+              </Link>
             </div>
-            <div data-mkt12-role="weekend">
-              {slots.mkt12.weekend ? (
-                <ArticleCardSmall
-                  article={slots.mkt12.weekend}
-                  familyLabel={familyLabels[slots.mkt12.weekend.family]}
-                />
-              ) : null}
-            </div>
-            <section
-              data-mkt12-role="archive"
-              className="mt-4 flex-1 rounded border border-border-primary"
-            >
-              <header className="border-b border-border-primary px-3 py-2.5">
-                <h4 className="text-xs font-bold text-text-primary">
-                  {copy.mkt12.archiveTitle}
-                </h4>
-                <p className="mt-0.5 text-[10px] text-text-tertiary">
-                  {copy.mkt12.archiveSubtitle}
-                </p>
-              </header>
-              <div>
-                {slots.mkt12.archive.map((article) => (
-                  <ArticleRow
-                    key={article.articleId}
-                    article={article}
-                    familyLabel={familyLabels[article.family]}
-                  />
-                ))}
-              </div>
-            </section>
           </section>
         );
       case "signal-timeline":

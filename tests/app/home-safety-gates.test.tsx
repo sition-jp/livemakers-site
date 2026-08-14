@@ -348,9 +348,9 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     ]
       .filter((element) => !element.closest("[data-index-nav]"))
       .map((element) => element.getAttribute("data-article-id")!);
-    // Derived floor: lead 1 + mkt12 (article+weekend+archive×2) 4 + signal
-    // timeline floor 10 + deep-dive featured 1 + event-risk latest 1 = 17.
-    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(17);
+    // Derived floor (Phase 3, 2026-08-14): lead 1 + mkt12 article 1 + signal
+    // timeline floor 10 + deep-dive featured 1 + event-risk latest 1 = 14.
+    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(14);
     expect(new Set(bodyArticleIds).size).toBe(bodyArticleIds.length);
     // Body ids must be exactly the builder-selected body slots — nothing extra
     // rendered as body, nothing selected but dropped.

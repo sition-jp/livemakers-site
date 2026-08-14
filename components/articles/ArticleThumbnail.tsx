@@ -12,7 +12,9 @@ import type { ArticleMeta } from "@/lib/articles/article-model";
  * - "fixed": aspect-[16/9] の固定枠を常時確保する (ArticleCardSmall /
  *   detail hero)。present/placeholder で高さが変わらない = CLS ゼロ
  * - "lead": LeadArticleCard の現行 placeholder 帯 (h-24) を維持し、
- *   present のときだけ 16:9 画像枠になる (plan v1.2 P2-4 の面別仕様)
+ *   present のときは 21:9 の短い枠に中央 crop する (2026-08-14 Phase 3
+ *   田平氏 GO — Daily Intel / 12指標 hero のサムネ高さ圧縮。object-cover
+ *   は既定で中央基準なので上下が均等に切れる)
  *
  * `data-article-thumbnail="present|placeholder"` は QA / observer の観測属性。
  */
@@ -36,7 +38,7 @@ export function ArticleThumbnail({
     return (
       <div
         data-article-thumbnail="present"
-        className={`aspect-[16/9] overflow-hidden ${className}`}
+        className={`${variant === "lead" ? "aspect-[21/9]" : "aspect-[16/9]"} overflow-hidden ${className}`}
       >
         {/* Blob origin は next/image の許可リスト外運用のため素の img を使う
             (detail hero の既存判断と同じ)。width/height 指定で枠を予約 */}

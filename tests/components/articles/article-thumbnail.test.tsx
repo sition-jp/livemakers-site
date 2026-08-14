@@ -33,6 +33,17 @@ describe("ArticleThumbnail (INFLOW-G2 D4)", () => {
     expect((frame as HTMLElement).style.background).toContain("linear-gradient");
   });
 
+  it("center-crops the lead variant to a short 21:9 frame when present (Phase 3, 2026-08-14)", () => {
+    const { container } = render(
+      <ArticleThumbnail thumbnailUrl={URL} family="daily-intel" title="t" variant="lead" />,
+    );
+    const frame = container.querySelector('[data-article-thumbnail="present"]')!;
+    expect(frame.className).toContain("aspect-[21/9]");
+    expect(frame.className).not.toContain("aspect-[16/9]");
+    // object-cover は既定で中央基準 = 上下が均等に切れる
+    expect(frame.querySelector("img")!.className).toContain("object-cover");
+  });
+
   it("keeps the current h-24 band for the lead placeholder (寸法変更なし)", () => {
     const { container } = render(
       <ArticleThumbnail thumbnailUrl={undefined} family="signal" title="t" variant="lead" />,

@@ -93,6 +93,23 @@ describe("grouped header nav (G44 D3)", () => {
     expect(atlas.closest("#articles-menu")).toBeNull();
   });
 
+  it("puts Intelligence Terminal first in the desktop nav (Phase 3, 2026-08-14)", () => {
+    const { container } = renderHeader(false);
+    const nav = container.querySelector('nav[aria-label="primary"]')!;
+    // 先頭 = Intelligence Terminal (旧 Session Terminal ラベルから改名)
+    const first = nav.querySelector("a, button")!;
+    expect(first.tagName).toBe("A");
+    expect(first.getAttribute("href")).toBe("/sessions/archive");
+    expect(first.textContent).toBe("Intelligence Terminal");
+    // 記事▾ dropdown は 2 番目・About は末尾
+    const items = [...nav.querySelectorAll(":scope > a, :scope > div > button")];
+    expect(items.map((el) => el.textContent?.trim())).toEqual([
+      "Intelligence Terminal",
+      "記事▾",
+      "About",
+    ]);
+  });
+
   it("exposes a mobile disclosure with aria-expanded that reveals the grouped links", () => {
     renderHeader(false);
     const menuButton = screen.getByRole("button", { name: "メニュー" });
