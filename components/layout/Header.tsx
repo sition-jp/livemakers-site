@@ -36,9 +36,9 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           </span>
         </Link>
 
-        {/* フラット 1 列ナビ (lg 以上・左揃え) */}
+        {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
         <nav
-          className="hidden flex-wrap items-center gap-x-4 gap-y-1 lg:flex"
+          className="ml-auto hidden flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex"
           aria-label="primary"
         >
           {nav.map((item) => (
