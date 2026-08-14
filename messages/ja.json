@@ -430,7 +430,10 @@
       "latestTitle": "最新の記事",
       "viewAll": "一覧を見る",
       "atlasHeadingUnpublished": "次の時代の地図",
-      "atlasHeadingPublished": "未来アトラス"
+      "atlasHeadingPublished": "未来アトラス",
+      "dailyIntelSeriesLink": "Daily Intel 一覧 →",
+      "signalSeriesLink": "Signal 一覧 →",
+      "deepDiveSeriesLink": "Deep Dive 一覧 →"
     },
     "hero": {
       "sessionLabel": "いまのセッション",
@@ -579,8 +582,12 @@
     "highlightsHeading": "一次情報ハイライト",
     "watchHeading": "次の見どころ",
     "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
-    "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
-    "archiveNote": "1日4回、ライブは時間が経つと記事になります"
+    "archiveTitle": "Intelligence Terminal — セッション記事(朝昼夕夜の全記録)",
+    "archiveNote": "1日4回、ライブは時間が経つと記事になります",
+    "archivePastLink": "過去のセッション記事を全て見る →",
+    "archivePastTitle": "Intelligence Terminal — セッション記事アーカイブ(全記録)",
+    "archivePastNote": "朝昼夕夜のセッション記事の全記録です。",
+    "archiveRecentLink": "← 直近 1 週間へ戻る"
   },
   "turningPoints": {
     "page_title": "AI ターニングポイント検出ダッシュボード",

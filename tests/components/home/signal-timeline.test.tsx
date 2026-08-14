@@ -40,10 +40,11 @@ function article(overrides: Partial<ArticleMeta>): ArticleMeta {
 const copy = {
   title: buildTestHomeCopy().gradient.signalTitle,
   familyLabels: buildTestHomeCopy().familyLabels,
+  seriesLink: buildTestHomeCopy().gradient.signalSeriesLink,
 };
 
-describe("SignalTimeline lead thumbnail (Phase 3, 2026-08-14)", () => {
-  it("renders a small 16:9 thumbnail on the first row only", () => {
+describe("SignalTimeline thumb rows (Phase 3b, 2026-08-14)", () => {
+  it("renders a small thumbnail on every row", () => {
     const { container } = render(
       <SignalTimeline
         articles={[
@@ -53,29 +54,31 @@ describe("SignalTimeline lead thumbnail (Phase 3, 2026-08-14)", () => {
         copy={copy}
       />,
     );
-    const lead = container.querySelector("[data-signal-lead]")!;
-    expect(lead).not.toBeNull();
-    expect(lead.getAttribute("data-article-id")).toBe("s1");
-    const img = lead.querySelector("img")!;
-    expect(img.getAttribute("src")).toBe(THUMB);
-    expect(img.className).toContain("object-cover");
-    // 2 本目以降はサムネなしの ArticleRow
     const rows = container.querySelectorAll("a[data-article-id]");
     expect(rows).toHaveLength(2);
-    expect(rows[1]!.querySelector("img")).toBeNull();
+    const first = rows[0]!;
+    expect(first.getAttribute("data-article-id")).toBe("s1");
+    const img = first.querySelector("img")!;
+    expect(img.getAttribute("src")).toBe(THUMB);
+    expect(img.className).toContain("object-cover");
+    // サムネ未検証の行も枠を保つ (family 色の帯)
+    const second = rows[1]!;
+    expect(second.querySelector("img")).toBeNull();
+    expect(
+      second.querySelector('span[aria-hidden="true"]'),
+    ).not.toBeNull();
+    // Signal 行は本体扱い (index-nav にしない)
+    expect(first.hasAttribute("data-index-nav")).toBe(false);
   });
 
-  it("keeps the frame with a family gradient when the lead has no thumbnail", () => {
+  it("links to the signal series index at the bottom", () => {
     const { container } = render(
-      <SignalTimeline
-        articles={[article({ articleId: "s1" })]}
-        copy={copy}
-      />,
+      <SignalTimeline articles={[article({ articleId: "s1" })]} copy={copy} />,
     );
-    const lead = container.querySelector("[data-signal-lead]")!;
-    expect(lead.querySelector("img")).toBeNull();
-    const band = lead.querySelector('span[aria-hidden="true"]') as HTMLElement;
-    expect(band).not.toBeNull();
-    expect(band.style.background).toContain("linear-gradient");
+    const link = container.querySelector(
+      'a[href="/articles/series/signal"]',
+    )!;
+    expect(link).not.toBeNull();
+    expect(link.closest("[data-index-nav]")).not.toBeNull();
   });
 });

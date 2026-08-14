@@ -6,9 +6,12 @@ import { FAMILY_COLORS } from "./ArticleRow";
 export function ArticleCardSmall({
   article,
   familyLabel,
+  thumbVariant = "fixed",
 }: {
   article: ArticleMeta;
   familyLabel: string;
+  /** Phase 3b (2026-08-14): ERR カードは 16:9 の半分 (32:9 中央 crop) */
+  thumbVariant?: "fixed" | "shortWide";
 }) {
   return (
     <Link
@@ -20,7 +23,7 @@ export function ArticleCardSmall({
         thumbnailUrl={article.thumbnailUrl}
         family={article.family}
         title={article.titleJa}
-        variant="fixed"
+        variant={thumbVariant}
         className="mb-2"
       />
       <div className="mb-2 flex items-center justify-between gap-2">

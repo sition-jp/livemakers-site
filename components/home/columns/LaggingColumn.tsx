@@ -40,6 +40,7 @@ export function LaggingColumn({
             copy={{
               title: copy.gradient.deepDiveTitle,
               familyLabels: copy.familyLabels,
+              seriesLink: copy.gradient.deepDiveSeriesLink,
             }}
           />
         );

@@ -49,7 +49,20 @@ export function CoincidentColumn({
   const renderModule = (module: string): ReactNode => {
     switch (module) {
       case "lead-article":
-        return <LeadArticleCard slot={slots.lead} labels={copy.lead} />;
+        // Phase 3b (2026-08-14): Daily Intel 一覧への索引リンクをカード直下に
+        return (
+          <div>
+            <LeadArticleCard slot={slots.lead} labels={copy.lead} />
+            <div data-index-nav className="mt-3">
+              <Link
+                href="/articles/series/daily-intel"
+                className="text-xs font-bold text-accent"
+              >
+                {copy.gradient.dailyIntelSeriesLink}
+              </Link>
+            </div>
+          </div>
+        );
       case "mkt12-tiles":
         return (
           <div className="space-y-3">
@@ -127,6 +140,7 @@ export function CoincidentColumn({
             copy={{
               title: copy.gradient.signalTitle,
               familyLabels: copy.familyLabels,
+              seriesLink: copy.gradient.signalSeriesLink,
             }}
           />
         );

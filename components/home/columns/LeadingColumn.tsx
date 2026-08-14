@@ -4,6 +4,7 @@ import {
   REGION_MODULES,
   type GradientRegion,
 } from "@/lib/home/gradient-ledger";
+import eventRiskSchedule from "@/data/home/event-risk-schedule.json";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { ArticleCardSmall } from "../ArticleCardSmall";
@@ -108,12 +109,41 @@ export function LeadingColumn({
           />
         );
       case "event-risk":
-        return slots.eventRiskLatest ? (
-          <ArticleCardSmall
-            article={slots.eventRiskLatest}
-            familyLabel={copy.familyLabels[slots.eventRiskLatest.family]}
-          />
-        ) : null;
+        // Phase 3b (2026-08-14): サムネは 32:9 (16:9 の半分)・カード下に
+        // 「確定イベント」週次リスト (data/home/event-risk-schedule.json —
+        // 更新は ERR writer レーンの週次改訂に載せる)
+        return (
+          <div className="space-y-3">
+            {slots.eventRiskLatest ? (
+              <ArticleCardSmall
+                article={slots.eventRiskLatest}
+                familyLabel={copy.familyLabels[slots.eventRiskLatest.family]}
+                thumbVariant="shortWide"
+              />
+            ) : null}
+            <section
+              data-event-risk-schedule
+              className="rounded-lg border border-border-primary bg-bg-secondary p-4"
+            >
+              <h3 className="text-sm font-bold text-text-primary">
+                {eventRiskSchedule.heading}
+                <span className="ml-2 font-mono text-[10px] font-normal text-text-tertiary">
+                  {eventRiskSchedule.weekLabel}
+                </span>
+              </h3>
+              <ul className="mt-2 space-y-1.5">
+                {eventRiskSchedule.events.map((event) => (
+                  <li
+                    key={event}
+                    className="text-xs leading-relaxed text-text-secondary"
+                  >
+                    {event}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        );
       case "radar-observations":
         return (
           <RadarObservationsCard
