@@ -20,7 +20,7 @@ import {
 } from "@/lib/home/gradient-ledger";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
-import { buildNavModel } from "@/lib/home/nav-model";
+import { buildFlatNav } from "@/lib/home/nav-model";
 import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
 import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
@@ -95,7 +95,7 @@ function expectResolvesRealDocument(href: string) {
 function renderFullPage() {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header chromeMeta={getSnapshotChromeMeta()} futureAtlasNav={false} />
+      <Header futureAtlasNav={false} />
       <main>
         <TickerBar items={props.tickerItems} />
         <GlobalProvenanceStrip
@@ -138,9 +138,7 @@ function renderReviewedPage() {
     reviewed,
     ...render(
       <NextIntlClientProvider locale="ja" messages={ja}>
-        <Header
-          chromeMeta={getSnapshotChromeMeta(reviewed.snapshot)}
-          futureAtlasNav={false}
+        <Header futureAtlasNav={false}
         />
         <main>
           <TickerBar items={reviewed.tickerItems} />
@@ -182,13 +180,12 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     // Chrome: header = logo + top-level (articles dropdown is CLOSED by default,
     // so series links are absent); footer = overview + flat nav-model. The count
     // is derived from the same nav-model, so a link leaking into chrome fails here.
-    const nav = buildNavModel(false);
+    // 2026-08-14 フラットナビ: header = logo + flatNav / footer = flatNav
+    const flat = buildFlatNav(false);
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    expect(chromeAnchors).toHaveLength(
-      1 + nav.topLevel.length + (1 + nav.articlesGroup.length + nav.topLevel.length),
-    );
+    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);

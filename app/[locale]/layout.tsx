@@ -69,7 +69,12 @@ export default async function LocaleLayout({
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <NextIntlClientProvider messages={messages}>
-          <SiteChrome chromeMeta={chromeMeta} futureAtlasNav={surfacePublished}>
+          <SiteChrome
+            chromeMeta={chromeMeta}
+            futureAtlasNav={surfacePublished}
+            tickerItems={props.tickerItems}
+            pageProvenance={props.pageProvenance}
+          >
             {children}
           </SiteChrome>
         </NextIntlClientProvider>
