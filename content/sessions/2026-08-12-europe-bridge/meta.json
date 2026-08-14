@@ -1,0 +1,87 @@
+{
+  "sessionId": "2026-08-12-europe-bridge",
+  "date": "2026-08-12",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-12-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-12-europe-bridge",
+  "publishedAt": "2026-08-14T11:17:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260812_1203_025c34e1",
+  "asOfJst": "2026-08-12T12:03:07+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月12日 12:03 JST",
+  "bullets": [
+    "DXY 99.810 → 99.858（+0.05%）",
+    "変動幅上位: Gold +2.5% / WTI +2.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260812_1240_299f183c",
+    "crawlAnchorJst": "2026-08-12T12:03:00+09:00",
+    "writtenAtJst": "2026-08-12T12:40:00+09:00",
+    "lead": "モデルの競争軸が「賢さ」から「長く走り続けること」へ移った。48時間のうちに Meta と NVIDIA が、どちらも 30B のオープンウェイトを、常時稼働のエージェント用途に最適化したと言って出した。同じ日、米国は1850億ドルの防衛計画の窓口をスタートアップと投資家に開いた。計算資源も調達も、入口を広げる側に動いている。",
+    "items": [
+      {
+        "headline": "Meta が 30B のオープンウェイトを公開、手元で常時動くエージェント向けと位置づけた",
+        "sourceUrl": "https://x.com/AIatMeta/status/2086757844544811485",
+        "note": "1台の一般的な GPU に載る規模で、自然文の指示から複数手順の作業を最後まで通すことを狙った設計。米財務長官も歓迎する立場を表明した。"
+      },
+      {
+        "headline": "NVIDIA も 30B のオープンウェイトを出し、長時間動くエージェントを名指しした",
+        "sourceUrl": "https://x.com/JensenHuang/status/2087184542050496763",
+        "note": "Nemotron 3.5 Lightning は速度と効率を前面に置き、途切れず動き続ける用途を想定している。2社の設計思想がほぼ同時に同じ方向へ寄った。"
+      },
+      {
+        "headline": "1850億ドルの防衛計画が、企業からの提案を受け付ける窓口を1つに束ねた",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2087260569799737519",
+        "note": "従来の主契約者に加えて、商用テック企業・投資家・大学・研究機関が直接構想を提出できる。誰を呼び込みたいかが、そのまま設計に出ている。"
+      },
+      {
+        "headline": "Midnight に MetaMask から接続できるという実演が出た",
+        "sourceUrl": "https://x.com/IOHK_Charles/status/2087138606519636090",
+        "note": "既存のウォレットの作法のまま、プライバシー設計のネットワークへ入れるかどうかは、開発者が試す回数を大きく変える。"
+      },
+      {
+        "headline": "北朝鮮が弾道ミサイルとみられる飛翔体を発射したと防衛省が発表",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/11/north-korea-launched-suspected-ballistic-missile-japans-defense/"
+      },
+      {
+        "headline": "南シナ海の岩礁をめぐる中国の新たな主張を、米国務省が不安定化を招くと批判",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/11/state-department-condemns-new-chinese-claim-disputed-south-china-sea/"
+      },
+      {
+        "headline": "紅海での攻撃が、サウジに地上作戦を後押しさせる圧力として効きはじめた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/11/houthis-red-sea-attacks-pressure-saudis-back-ground-war-riyadh-spent/",
+        "note": "3年かけて避けてきた選択肢に戻る圧力がかかっている。海上輸送路の話が、陸の意思決定に折り返してきている。"
+      },
+      {
+        "headline": "ドイツの格付け低下の可能性に、債券投資家は落ち着いた反応を見せている",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/anleihen/anleihen-warum-anleger-deutschlands-moeglichen-ratingverlust-gelassen-sehen/100245242.html",
+        "note": "格付けそのものより、需給と金利水準のほうを見ているという受け止め。欧州の財政をめぐる神経の張り方が分かる材料になる。"
+      },
+      {
+        "headline": "ドイツの地域金融機関が、支援を受ける側に回った",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/volksbanken-volksbank-kleverland-wird-zum-stuetzungsfall/100246591.html",
+        "note": "個別行の事情として片づけるか、地域金融の体力の問題として見るかで、意味が変わってくる。"
+      },
+      {
+        "headline": "中国が Boeing と Airbus への答えと位置づける旅客機が、初の国際線に臨む",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/12/comac-c919-chinese-passenger-jet-china-plane-first-international-flight",
+        "note": "製造できるかという段階から、路線に乗せて運べるかという段階へ移る。輸出産業としての評価はここから始まる。"
+      },
+      {
+        "headline": "米10年の期待インフレ率は 2.27（8月11日時点）",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE"
+      }
+    ],
+    "watch": [
+      "オープンウェイトの 30B が2社から出そろった。次に見るのは、実際に長時間動かした人の報告がどれだけ出てくるか。",
+      "防衛計画の窓口は開いた。登録の数ではなく、そこから実際に契約と資金が流れた先を見る。",
+      "欧州は格下げ観測と地域金融の話が同じ週に並んだ。個別事情の集まりか、同じ根の話かを切り分けたい。"
+    ]
+  }
+}
