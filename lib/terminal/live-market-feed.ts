@@ -516,11 +516,13 @@ const reviewedHomeSchema = z
  * already imports forbiddenSourceOpsTerms/forbiddenSourceVisibleText FROM
  * this file.
  */
-// 2026-08-14 田平氏裁定: 観測は一次ソース (X のみ) へ外部リンク可。
+// 2026-08-14 田平氏裁定: 観測は一次ソースへ外部リンク可 (同日 GO で X 限定 →
+// 一般 https へ拡張・構造検査のみ。設計理由は radar-observations.ts 参照)。
 // lib/home/radar-observations.ts の RADAR_SOURCE_URL_ALLOWLIST の鏡 —
 // import すると循環参照になるためここに複製する (上の schema 複製と同じ理由)。
 const RADAR_SOURCE_URL_ALLOWLIST_MIRROR =
-  /^https:\/\/(www\.)?(x\.com|twitter\.com)\/[^\s]*$/;
+  /^https:\/\/[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}(?:\/\S*)?$/;
+const RADAR_SOURCE_URL_MAX_LENGTH_MIRROR = 600;
 
 const radarBundleObservationSchema = z
   .object({
@@ -535,7 +537,10 @@ const radarBundleObservationSchema = z
     observedAtJst: z.string().regex(JST_ISO_PATTERN),
     href: z.union([
       z.null(),
-      z.string().regex(RADAR_SOURCE_URL_ALLOWLIST_MIRROR),
+      z
+        .string()
+        .max(RADAR_SOURCE_URL_MAX_LENGTH_MIRROR)
+        .regex(RADAR_SOURCE_URL_ALLOWLIST_MIRROR),
     ]),
     displayMode: z.enum(["title_only", "title_with_source"]),
     publishDecision: z.literal("not_authorized"),
