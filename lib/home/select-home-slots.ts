@@ -161,7 +161,8 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
 
   // 索引意味論スロット (used に加えない・本体記事の再掲を許す): latestArticles /
   // atlasLatest / mkt12WeekendLatest / weeklyBriefLatest。
-  const latestArticles = catalog.slice(0, 10);
+  // 2026-08-14 田平氏指示: 最新の記事は 10 → 20 本。
+  const latestArticles = catalog.slice(0, 20);
   const eventRiskLatest = take(latestOf("event-risk-radar") ?? undefined) ?? null;
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");

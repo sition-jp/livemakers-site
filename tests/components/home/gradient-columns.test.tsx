@@ -248,11 +248,11 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     expect(atlas.querySelector('a[href="/future-atlas"]')).not.toBeNull();
   });
 
-  it("renders latest-articles as ten index-nav rows", () => {
+  it("renders latest-articles as twenty index-nav rows (2026-08-14 田平氏指示)", () => {
     const { container } = renderLagging();
     const latest = container.querySelector(
       '[data-column-module="latest-articles"]',
     )!;
-    expect(latest.querySelectorAll("a[data-article-id]")).toHaveLength(10);
+    expect(latest.querySelectorAll("a[data-article-id]")).toHaveLength(20);
   });
 });

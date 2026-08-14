@@ -222,9 +222,9 @@ describe("home slot selection (B+)", () => {
     );
   });
 
-  it("lists the ten latest articles across families", () => {
+  it("lists the twenty latest articles across families (2026-08-14 田平氏指示)", () => {
     const slots = selectHomeSlots(input());
-    expect(slots.latestArticles).toHaveLength(10);
+    expect(slots.latestArticles).toHaveLength(20);
     expect(isDescending(slots.latestArticles)).toBe(true);
     expect(
       new Set(slots.latestArticles.map((article) => article.family)).size,
