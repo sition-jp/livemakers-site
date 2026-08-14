@@ -34,6 +34,7 @@ const mk = (id: string): ArticleMeta => ({
 const articles = ["dd0", "dd1", "dd2", "dd3", "dd4"].map(mk);
 const homeCopy = buildTestHomeCopy();
 const copy = {
+  seriesLink: homeCopy.gradient.deepDiveSeriesLink,
   title: homeCopy.gradient.deepDiveTitle,
   familyLabels: homeCopy.familyLabels,
 };
