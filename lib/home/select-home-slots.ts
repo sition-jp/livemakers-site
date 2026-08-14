@@ -25,8 +25,12 @@ export interface HomeSlots {
     previous: ArticleMeta | null;
   };
   // 2026-08-14 Phase 3: mkt12-reading は最新 1 本 + シリーズリンクのみ。
-  // weekend / archive スロットは撤去 (週末は lagging の mkt12WeekendLatest が担う)。
+  // 2026-08-15 田平氏 GO: 土曜 (JST) は朝版 writer が発火しない (週末版 =
+  // lvm-mkt12-weekend-writer の所掌) ため、土曜だけ variant="weekend" として
+  // mkt12-weekend を本体に昇格する。lagging の mkt12WeekendLatest との
+  // 二重掲載は索引意味論として許容 (同日 GO)。日〜金は従来どおり朝版。
   mkt12: {
+    variant: "morning" | "weekend";
     state: "published" | "awaiting";
     article: ArticleMeta | null;
     previous: ArticleMeta | null;
@@ -94,19 +98,28 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
         }
       : { state: "pending", article: null, previous: null };
 
-  const mornings = input.articles.filter(
-    (article) => article.family === "mkt12-morning",
+  // articleToday は JST 暦日文字列なので、UTC 解釈でその暦日の曜日が得られる
+  // (+09:00 付きで parse すると instant の UTC 曜日にずれるため使わない)。
+  const mkt12Variant: HomeSlots["mkt12"]["variant"] =
+    new Date(`${articleToday}T00:00:00Z`).getUTCDay() === 6
+      ? "weekend"
+      : "morning";
+  const mkt12Family =
+    mkt12Variant === "weekend" ? "mkt12-weekend" : "mkt12-morning";
+  const mkt12Series = input.articles.filter(
+    (article) => article.family === mkt12Family,
   );
-  const todayMorning = mornings.find(
+  const todayMkt12 = mkt12Series.find(
     (article) => (article.dataDate ?? dateOf(article)) === articleToday,
   );
-  const previousMornings = mornings.filter(
-    (article) => article !== todayMorning,
+  const previousMkt12 = mkt12Series.filter(
+    (article) => article !== todayMkt12,
   );
-  const previous = todayMorning ? null : (previousMornings[0] ?? null);
+  const previous = todayMkt12 ? null : (previousMkt12[0] ?? null);
   const mkt12: HomeSlots["mkt12"] = {
-    state: todayMorning ? "published" : "awaiting",
-    article: take(todayMorning) ?? null,
+    variant: mkt12Variant,
+    state: todayMkt12 ? "published" : "awaiting",
+    article: take(todayMkt12) ?? null,
     previous,
   };
 

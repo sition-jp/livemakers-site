@@ -80,6 +80,63 @@ describe("home slot selection (B+)", () => {
     );
   });
 
+  // 2026-08-15 田平氏 GO: 土曜 (JST) は朝版 writer が発火しない (週末版の所掌)
+  // ため、この枠は土曜だけ mkt12-weekend を本体に昇格する。遅行カラムの
+  // mkt12WeekendLatest との二重掲載は索引意味論として許容 (同日 GO)。
+  describe("Saturday weekend variant", () => {
+    // 2026-07-11 は土曜 / fixture の週末版は前週土曜 2026-07-04 のみ
+    const saturdayInput = () => ({ ...input(), today: "2026-07-11" });
+    const weekendToday = () => ({
+      ...input().articles.find(
+        (article) => article.articleId === "mkt12-weekend-2026-07-04",
+      )!,
+      articleId: "mkt12-weekend-2026-07-11",
+      publishedAtJst: "2026-07-11T08:40:00+09:00",
+      dataDate: "2026-07-11",
+      href: "/articles/mkt12-weekend-2026-07-11",
+    });
+
+    it("keeps the morning variant on weekdays", () => {
+      expect(selectHomeSlots(input()).mkt12.variant).toBe("morning");
+    });
+
+    it("keeps the morning variant on Sunday (morning writer fires on Sundays)", () => {
+      const slots = selectHomeSlots({ ...input(), today: "2026-07-12" });
+      expect(slots.mkt12.variant).toBe("morning");
+    });
+
+    it("awaits the weekend edition on Saturday with the previous weekend as fallback", () => {
+      const slots = selectHomeSlots(saturdayInput());
+      expect(slots.mkt12.variant).toBe("weekend");
+      expect(slots.mkt12.state).toBe("awaiting");
+      expect(slots.mkt12.article).toBeNull();
+      expect(slots.mkt12.previous?.articleId).toBe("mkt12-weekend-2026-07-04");
+    });
+
+    it("publishes today's weekend edition in the mkt12 slot on Saturday", () => {
+      const base = saturdayInput();
+      const slots = selectHomeSlots({
+        ...base,
+        articles: [weekendToday(), ...base.articles],
+      });
+      expect(slots.mkt12.variant).toBe("weekend");
+      expect(slots.mkt12.state).toBe("published");
+      expect(slots.mkt12.article?.articleId).toBe("mkt12-weekend-2026-07-11");
+      expect(slots.mkt12.previous).toBeNull();
+    });
+
+    it("keeps the lagging weekend index card on Saturday (dual display allowed)", () => {
+      const base = saturdayInput();
+      const slots = selectHomeSlots({
+        ...base,
+        articles: [weekendToday(), ...base.articles],
+      });
+      expect(slots.mkt12WeekendLatest?.articleId).toBe(
+        "mkt12-weekend-2026-07-11",
+      );
+    });
+  });
+
   it("pairs one promoted observation with its Signal", () => {
     const slots = selectHomeSlots(input());
     expect(slots.radarPair?.observation.topicId).toBe(
