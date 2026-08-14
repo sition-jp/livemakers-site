@@ -69,7 +69,11 @@ import {
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { buildFlatNav } from "@/lib/home/nav-model";
-import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
+import {
+  RADAR_OBSERVATIONS,
+  RADAR_SOURCE_URL_ALLOWLIST,
+  type RadarObservation,
+} from "@/lib/home/radar-observations";
 import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
   collectScannableText,
@@ -150,6 +154,21 @@ function reviewedHomeSource(): ReviewedHomeData {
   return source;
 }
 
+// 2026-08-14 田平氏裁定: 観測は一次ソース (X) へ外部リンク可 — gate 検証用。
+const LINKED_RADAR_OBSERVATION: RadarObservation = {
+  topicId: "linked_source_20260710",
+  lane: "x_news_trends",
+  titleJa: "米SECが暗号資産の開示規則案を公表",
+  observedAtLabel: "08:02",
+  href: "https://x.com/example/status/1234509876",
+  displayMode: "title_with_source",
+  publishDecision: "not_authorized",
+};
+const RADAR_WITH_SOURCE: readonly RadarObservation[] = [
+  ...RADAR_OBSERVATIONS,
+  LINKED_RADAR_OBSERVATION,
+];
+
 function buildOverlayProps(
   articles: ArticleInflowPublicArticle[],
   extra: BuildHomeCompositionArgs = {},
@@ -162,7 +181,8 @@ function buildOverlayProps(
     // injection). These page-wide gates inject the former fixture
     // population explicitly so their assertions keep exercising a
     // populated radar (gate meaning unchanged).
-    radar: RADAR_OBSERVATIONS,
+    // 2026-08-14 裁定: リンク付き観測 1 件を混ぜて data-source-link 会計を検証。
+    radar: RADAR_WITH_SOURCE,
     promotions: RADAR_PROMOTIONS,
     ...extra,
   });
@@ -274,13 +294,14 @@ afterAll(() => {
 });
 
 describe("G44 safety gates with validated Production feed overlay", () => {
-  it("gate 1: radar payload and DOM remain title-only", () => {
+  it("gate 1: radar DOM carries primary-source links only, never article routing", () => {
     expect(catalog.feedPresent).toBe(true);
     expect(
       catalog.articles.find(
         (article) => article.articleId === "signal-20260710-feed-safety",
       )?.source,
     ).toBe("inflow");
+    // 従来 fixture (href=null) は title-only のまま (2026-08-14 裁定で改訂)。
     for (const observation of RADAR_OBSERVATIONS) {
       expect(observation.href).toBeNull();
       expect(observation.displayMode).toBe("title_only");
@@ -289,8 +310,18 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     const { container } = renderFullPage(props);
     const radarModules = container.querySelectorAll("[data-radar]");
     expect(radarModules.length).toBeGreaterThanOrEqual(1);
-    for (const module of radarModules) {
-      expect(module.querySelectorAll("a")).toHaveLength(0);
+    const radarAnchors = [...container.querySelectorAll("[data-radar] a")];
+    // リンクを持つのは注入した LINKED_RADAR_OBSERVATION の 1 件のみ。
+    expect(radarAnchors).toHaveLength(1);
+    for (const anchor of radarAnchors) {
+      expect(anchor.hasAttribute("data-source-link")).toBe(true);
+      expect(anchor.hasAttribute("data-article-id")).toBe(false);
+      expect(anchor.hasAttribute("data-index-nav")).toBe(false);
+      expect(
+        RADAR_SOURCE_URL_ALLOWLIST.test(anchor.getAttribute("href")!),
+      ).toBe(true);
+      expect(anchor.getAttribute("target")).toBe("_blank");
+      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
     }
   });
 
@@ -331,8 +362,27 @@ describe("G44 safety gates with validated Production feed overlay", () => {
       await expectResolvesPublicDocument(href);
     }
 
-    expect(gradientAnchors.length).toBeGreaterThanOrEqual(40);
-    for (const anchor of gradientAnchors) {
+    // Primary-source links (2026-08-14 裁定): data-source-link は data-radar
+    // 内限定・X allowlist の外部 1 hop。第 4 のバケットとして明示会計する。
+    const sourceAnchors = gradientAnchors.filter((anchor) =>
+      anchor.hasAttribute("data-source-link"),
+    );
+    expect(sourceAnchors).toHaveLength(1);
+    for (const anchor of sourceAnchors) {
+      const href = anchor.getAttribute("href")!;
+      expect(RADAR_SOURCE_URL_ALLOWLIST.test(href), `source:${href}`).toBe(
+        true,
+      );
+      expect(anchor.closest("[data-radar]"), `source:${href}`).not.toBeNull();
+      expect(anchor.getAttribute("target")).toBe("_blank");
+      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
+    }
+
+    const gradientBodyAnchors = gradientAnchors.filter(
+      (anchor) => !sourceAnchors.includes(anchor),
+    );
+    expect(gradientBodyAnchors.length).toBeGreaterThanOrEqual(40);
+    for (const anchor of gradientBodyAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       if (isAllowedPublishedArticleRoute(href)) {
         await expectResolvesPublicDocument(href);

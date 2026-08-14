@@ -514,7 +514,7 @@
       },
       "promoted": {
         "title": "速報レーダー — 記事になった観測",
-        "subtitle": "タイトルのみ · リンクなし",
+        "subtitle": "観測は一次ソースへ · 記事は下のカードから",
         "observedSuffix": "に観測 → 内容を確認のうえ、",
         "publishedSuffix": "に Signal として公開。"
       },

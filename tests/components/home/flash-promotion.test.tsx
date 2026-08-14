@@ -55,7 +55,7 @@ const pair: NonNullable<HomeSlots["radarPair"]> = { observation, article };
 describe("FlashPromotionCard", () => {
   it("renders a title-only observation and exactly one promoted article link when a pair exists", () => {
     const { container } = render(<FlashPromotionCard pair={pair} copy={copy} />);
-    // The observation module is title-only: no anchors inside data-radar (gate 1).
+    // href=null observation stays title-only: no anchors inside data-radar (gate 1).
     expect(container.querySelectorAll("[data-radar] a")).toHaveLength(0);
     // The promoted article is a single link with data-article-id, OUTSIDE data-radar.
     const links = container.querySelectorAll("a[data-article-id]");
@@ -63,6 +63,36 @@ describe("FlashPromotionCard", () => {
     expect(links[0]!.getAttribute("data-article-id")).toBe(
       "signal-stablecoin-supply-2026-07-10",
     );
+    expect(links[0]!.closest("[data-radar]")).toBeNull();
+  });
+
+  it("links the observation to its primary source when href is present (2026-08-14 裁定)", () => {
+    const linkedPair: NonNullable<HomeSlots["radarPair"]> = {
+      observation: {
+        ...observation,
+        href: "https://x.com/example/status/1234567890",
+        displayMode: "title_with_source",
+      },
+      article,
+    };
+    const { container } = render(
+      <FlashPromotionCard pair={linkedPair} copy={copy} />,
+    );
+    // Inside data-radar: exactly one source link — external, one-hop, no
+    // article routing (data-article-id must stay outside data-radar).
+    const sourceLinks = container.querySelectorAll("[data-radar] a");
+    expect(sourceLinks).toHaveLength(1);
+    const source = sourceLinks[0]!;
+    expect(source.hasAttribute("data-source-link")).toBe(true);
+    expect(source.getAttribute("href")).toBe(
+      "https://x.com/example/status/1234567890",
+    );
+    expect(source.getAttribute("target")).toBe("_blank");
+    expect(source.getAttribute("rel")).toBe("noopener noreferrer nofollow");
+    expect(source.hasAttribute("data-article-id")).toBe(false);
+    // The promoted article link is unchanged: one, outside data-radar.
+    const links = container.querySelectorAll("a[data-article-id]");
+    expect(links).toHaveLength(1);
     expect(links[0]!.closest("[data-radar]")).toBeNull();
   });
 

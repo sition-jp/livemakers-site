@@ -39,9 +39,26 @@ export function RadarPromotedCard({
             {observation.observedAtLabel}
           </time>
         </div>
-        <p className="mt-2 text-sm font-semibold leading-snug text-radar-ink">
-          {observation.titleJa}
-        </p>
+        {observation.href ? (
+          // 2026-08-14 田平氏裁定: 昇格ペアの観測側も一次ソース (X) へ外部
+          // リンク (記事リンクは data-radar 外の ArticleCardSmall が担う)。
+          <a
+            href={observation.href}
+            data-source-link
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            className="mt-2 block text-sm font-semibold leading-snug text-radar-ink hover:underline"
+          >
+            {observation.titleJa}
+            <span aria-hidden="true" className="ml-1 text-[10px] text-radar-sub">
+              ↗
+            </span>
+          </a>
+        ) : (
+          <p className="mt-2 text-sm font-semibold leading-snug text-radar-ink">
+            {observation.titleJa}
+          </p>
+        )}
       </div>
       <p className="mt-3 text-[11px] leading-relaxed text-radar-sub">
         {promotionNote}

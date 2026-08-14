@@ -516,6 +516,12 @@ const reviewedHomeSchema = z
  * already imports forbiddenSourceOpsTerms/forbiddenSourceVisibleText FROM
  * this file.
  */
+// 2026-08-14 田平氏裁定: 観測は一次ソース (X のみ) へ外部リンク可。
+// lib/home/radar-observations.ts の RADAR_SOURCE_URL_ALLOWLIST の鏡 —
+// import すると循環参照になるためここに複製する (上の schema 複製と同じ理由)。
+const RADAR_SOURCE_URL_ALLOWLIST_MIRROR =
+  /^https:\/\/(www\.)?(x\.com|twitter\.com)\/[^\s]*$/;
+
 const radarBundleObservationSchema = z
   .object({
     topicId: z.string().min(1),
@@ -527,11 +533,25 @@ const radarBundleObservationSchema = z
     titleJa: z.string().min(1),
     observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
     observedAtJst: z.string().regex(JST_ISO_PATTERN),
-    href: z.null(),
-    displayMode: z.literal("title_only"),
+    href: z.union([
+      z.null(),
+      z.string().regex(RADAR_SOURCE_URL_ALLOWLIST_MIRROR),
+    ]),
+    displayMode: z.enum(["title_only", "title_with_source"]),
     publishDecision: z.literal("not_authorized"),
   })
-  .strict();
+  .strict()
+  .superRefine((observation, ctx) => {
+    // displayMode は href の有無の鏡 (radar-observations.ts と同一契約)。
+    const linked = observation.href !== null;
+    if (linked !== (observation.displayMode === "title_with_source")) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "displayMode must mirror href presence",
+        path: ["displayMode"],
+      });
+    }
+  });
 
 const radarBundleSchema = z
   .object({
