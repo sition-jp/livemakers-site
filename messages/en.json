@@ -492,6 +492,9 @@
       "awaiting": "Today's 12 Indicators article is being prepared.",
       "previous": "Read the previous 12 Indicators →",
       "archiveLink": "12 Indicators archive →",
+      "articleTitleWeekend": "This Weekend's 12 Indicators",
+      "awaitingWeekend": "This weekend's edition is being prepared.",
+      "previousWeekend": "Read the previous weekend's 12 Indicators →",
       "indicator": {
         "title": "12 Core Indicators",
         "dataDatePrefix": "Data date",

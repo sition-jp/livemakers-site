@@ -492,6 +492,9 @@
       "awaiting": "本日の12指標記事は公開準備中です",
       "previous": "前回の12指標を読む →",
       "archiveLink": "12指標アーカイブ →",
+      "articleTitleWeekend": "週末の12指標",
+      "awaitingWeekend": "本日の週末版は公開準備中です",
+      "previousWeekend": "前回の週末の12指標を読む →",
       "indicator": {
         "title": "12コア指標",
         "dataDatePrefix": "データ日付",

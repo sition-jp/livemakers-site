@@ -82,17 +82,34 @@ export function CoincidentColumn({
             />
           </div>
         );
-      case "mkt12-reading":
+      case "mkt12-reading": {
         // 2026-08-14 Phase 3 (田平氏 GO): 最新の「今朝の12指標」1 本だけを
-        // Daily Intel 直下に置く。週末カードとアーカイブ行は撤去し (週末は
-        // 遅行カラムの索引カードが担う)、シリーズページへの 1 行リンクに集約。
+        // Daily Intel 直下に置き、シリーズページへの 1 行リンクに集約。
+        // 2026-08-15 田平氏 GO: 土曜は朝版 writer が発火しないため、
+        // variant="weekend" として週末版を同じ枠に出す (見出し・文言・
+        // アーカイブ先も週末系へ)。遅行カラムの索引カードとの二重掲載は許容。
+        const isWeekend = slots.mkt12.variant === "weekend";
+        const mkt12Text = isWeekend
+          ? {
+              title: copy.mkt12.articleTitleWeekend,
+              awaiting: copy.mkt12.awaitingWeekend,
+              previous: copy.mkt12.previousWeekend,
+              archiveHref: "/articles/series/mkt12-weekend",
+            }
+          : {
+              title: copy.mkt12.articleTitle,
+              awaiting: copy.mkt12.awaiting,
+              previous: copy.mkt12.previous,
+              archiveHref: "/articles/series/mkt12-morning",
+            };
         return (
           <section
             data-mkt12-reading
+            data-mkt12-variant={slots.mkt12.variant}
             className="flex flex-col rounded-lg border border-border-primary bg-bg-secondary p-4"
           >
             <h3 className="text-sm font-bold text-text-primary">
-              {copy.mkt12.articleTitle}
+              {mkt12Text.title}
             </h3>
             <div data-mkt12-role="hero" className="mt-3">
               {slots.mkt12.article ? (
@@ -110,14 +127,14 @@ export function CoincidentColumn({
                 />
               ) : (
                 <div className="rounded bg-bg-tertiary p-3 text-xs text-text-secondary">
-                  <p>{copy.mkt12.awaiting}</p>
+                  <p>{mkt12Text.awaiting}</p>
                   {slots.mkt12.previous ? (
                     <div data-index-nav className="mt-2">
                       <Link
                         href={slots.mkt12.previous.href}
                         className="font-bold text-accent"
                       >
-                        {copy.mkt12.previous}
+                        {mkt12Text.previous}
                       </Link>
                     </div>
                   ) : null}
@@ -126,7 +143,7 @@ export function CoincidentColumn({
             </div>
             <div data-mkt12-role="archive-link" data-index-nav className="mt-3">
               <Link
-                href="/articles/series/mkt12-morning"
+                href={mkt12Text.archiveHref}
                 className="text-xs font-bold text-accent"
               >
                 {copy.mkt12.archiveLink}
@@ -134,6 +151,7 @@ export function CoincidentColumn({
             </div>
           </section>
         );
+      }
       case "signal-timeline":
         return (
           <SignalTimeline

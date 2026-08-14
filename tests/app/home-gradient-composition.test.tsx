@@ -141,6 +141,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     const { container } = renderHome();
     const reading = container.querySelector("[data-mkt12-reading]")!;
     expect(reading).not.toBeNull();
+    expect(reading.getAttribute("data-mkt12-variant")).toBe("morning");
     expect(
       [...reading.querySelectorAll("[data-mkt12-role]")].map((element) =>
         element.getAttribute("data-mkt12-role"),
@@ -151,6 +152,42 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     )!;
     expect(archiveLink.getAttribute("href")).toBe(
       "/articles/series/mkt12-morning",
+    );
+  });
+
+  // 2026-08-15 田平氏 GO: 土曜は mkt12-reading 枠を週末版モードへ切替
+  // (2026-07-11 は土曜・fixture に当日週末版は無い = awaiting 分岐)
+  it("switches the mkt12 reading to the weekend variant on Saturday", () => {
+    // today (market clock) は fixture snapshot の 2026-07-10 のまま、
+    // 記事時計 articleCutoffToday だけを土曜 2026-07-11 に進める
+    const saturdayProps = buildHomeCompositionProps({
+      today: "2026-07-10",
+      articleCutoffToday: "2026-07-11",
+      contentDir: path.join(
+        process.cwd(),
+        "tests",
+        "fixtures",
+        "content",
+        "articles",
+      ),
+    });
+    const { container } = render(
+      <HomeComposition {...saturdayProps} surfacePublished={false} copy={copy} />,
+    );
+    const reading = container.querySelector("[data-mkt12-reading]")!;
+    expect(reading.getAttribute("data-mkt12-variant")).toBe("weekend");
+    expect(reading.querySelector("h3")?.textContent).toBe("週末の12指標");
+    const previousLink = reading.querySelector(
+      '[data-mkt12-role="hero"] a',
+    )!;
+    expect(previousLink.getAttribute("href")).toContain(
+      "mkt12-weekend-2026-07-04",
+    );
+    const archiveLink = reading.querySelector(
+      '[data-mkt12-role="archive-link"] a',
+    )!;
+    expect(archiveLink.getAttribute("href")).toBe(
+      "/articles/series/mkt12-weekend",
     );
   });
 });

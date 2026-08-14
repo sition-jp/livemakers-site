@@ -68,6 +68,10 @@ export interface HomeCopy {
     awaiting: string;
     previous: string;
     archiveLink: string;
+    // 土曜の weekend variant 用 (2026-08-15 田平氏 GO)
+    articleTitleWeekend: string;
+    awaitingWeekend: string;
+    previousWeekend: string;
     indicator: IndicatorTileCopy;
     movers: TopMoversCopy;
   };
@@ -187,6 +191,9 @@ export function buildHomeCopy(
       awaiting: translate("mkt12.awaiting"),
       previous: translate("mkt12.previous"),
       archiveLink: translate("mkt12.archiveLink"),
+      articleTitleWeekend: translate("mkt12.articleTitleWeekend"),
+      awaitingWeekend: translate("mkt12.awaitingWeekend"),
+      previousWeekend: translate("mkt12.previousWeekend"),
       indicator: {
         title: translate("mkt12.indicator.title"),
         dataDatePrefix: translate("mkt12.indicator.dataDatePrefix"),
