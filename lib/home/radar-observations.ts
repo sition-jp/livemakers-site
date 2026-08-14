@@ -8,12 +8,20 @@ import {
 
 /**
  * 2026-08-14 田平氏裁定: 観測タイトルは LVM 記事ではなく一次ソース (X ポスト)
- * へ外部リンクしてよい (速報伝達フォーカス)。許可ホストは X のみ — それ以外の
- * URL は供給側 (radar_state / radar_builder) が href=null に落とす契約なので、
- * ここに届いた時点で不適合なら bundle ごと reject する (fail-closed 継続)。
+ * へ外部リンクしてよい (速報伝達フォーカス)。同日 GO で X 限定 → 一般 https
+ * (公式ブログ・報道含む) へ拡張。キュレーション式ドメインリストにしないのは、
+ * 新ソースごとに鏡 3 箇所 + site デプロイが要る運用は破綻するため — 正当性の
+ * 担保は上流 (session digest = 編集検証済み成果物) が持つ。構造検査のみここで
+ * 行う: https 限定・dotted ドメイン必須 (localhost/IP 直打ち拒否)・認証情報
+ * (userinfo) 拒否・ポート指定拒否・空白なし。不適合 URL は供給側
+ * (radar_state / radar_builder) が href=null に落とす契約なので、ここに届いた
+ * 時点で不適合なら bundle ごと reject する (fail-closed 継続)。
  */
 export const RADAR_SOURCE_URL_ALLOWLIST =
-  /^https:\/\/(www\.)?(x\.com|twitter\.com)\/[^\s]*$/;
+  /^https:\/\/[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}(?:\/\S*)?$/;
+
+/** 一次ソース URL の上限長 (異常長 URL の構造的排除・鏡 3 箇所共通)。 */
+export const RADAR_SOURCE_URL_MAX_LENGTH = 600;
 
 export const RadarObservationSchema = z
   .strictObject({
@@ -25,7 +33,13 @@ export const RadarObservationSchema = z
     ]),
     titleJa: z.string().min(1),
     observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
-    href: z.union([z.null(), z.string().regex(RADAR_SOURCE_URL_ALLOWLIST)]),
+    href: z.union([
+      z.null(),
+      z
+        .string()
+        .max(RADAR_SOURCE_URL_MAX_LENGTH)
+        .regex(RADAR_SOURCE_URL_ALLOWLIST),
+    ]),
     displayMode: z.enum(["title_only", "title_with_source"]),
     publishDecision: z.literal("not_authorized"),
   })

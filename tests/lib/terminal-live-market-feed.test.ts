@@ -939,9 +939,38 @@ describe("mapTerminalFeed — radar bundle (G43-d)", () => {
     expect(mapTerminalFeed(feed)?.radar).toBeNull();
   });
 
-  it("degrades radar to null when an observation carries a non-null href", () => {
+  it("keeps radar when an observation carries an allowlisted source href (2026-08-14 GO で一般 https へ拡張)", () => {
     const feed = sampleHomeV03();
-    feed.radar.observations[0].href = "https://example.com";
+    feed.radar.observations[0].href =
+      "https://www.federalreserve.gov/newsevents/pressreleases/a.htm";
+    (feed.radar.observations[0] as { displayMode: string }).displayMode =
+      "title_with_source";
+    const radar = mapTerminalFeed(feed)?.radar;
+    expect(radar).not.toBeNull();
+    expect(radar?.observations[0]?.href).toBe(
+      "https://www.federalreserve.gov/newsevents/pressreleases/a.htm",
+    );
+  });
+
+  it("degrades radar to null when an observation href is structurally invalid (http / localhost / userinfo)", () => {
+    for (const bad of [
+      "http://example.com/a",
+      "https://localhost/admin",
+      "https://user@evil.example/x",
+      "https://evil.example:8443/x",
+    ]) {
+      const feed = sampleHomeV03();
+      feed.radar.observations[0].href = bad;
+      (feed.radar.observations[0] as { displayMode: string }).displayMode =
+        "title_with_source";
+      expect(mapTerminalFeed(feed)?.radar, bad).toBeNull();
+    }
+  });
+
+  it("degrades radar to null when displayMode does not mirror href presence", () => {
+    const feed = sampleHomeV03();
+    // href あり + title_only のまま → 鏡合わせ違反
+    feed.radar.observations[0].href = "https://x.com/example/status/1234509876";
     expect(mapTerminalFeed(feed)?.radar).toBeNull();
   });
 
