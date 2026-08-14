@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-08-13-europe-bridge",
+  "date": "2026-08-13",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-13-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-13-europe-bridge",
+  "publishedAt": "2026-08-14T09:30:50+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260813_1203_87372f27",
+  "asOfJst": "2026-08-13T12:03:08+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月13日 12:03 JST",
+  "bullets": [
+    "DXY 99.820 → 100.009（+0.19%）",
+    "変動幅上位: VIX -4.8% / ADA/USD -2.7%"
+  ]
+}
