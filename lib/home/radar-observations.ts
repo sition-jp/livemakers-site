@@ -6,19 +6,41 @@ import {
   forbiddenSourceVisibleText,
 } from "@/lib/terminal/live-market-feed";
 
-export const RadarObservationSchema = z.strictObject({
-  topicId: z.string().min(1),
-  lane: z.enum([
-    "x_news_trends",
-    "sde_phase1_breaking_radar",
-    "manual_operator_observation",
-  ]),
-  titleJa: z.string().min(1),
-  observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
-  href: z.null(),
-  displayMode: z.literal("title_only"),
-  publishDecision: z.literal("not_authorized"),
-});
+/**
+ * 2026-08-14 田平氏裁定: 観測タイトルは LVM 記事ではなく一次ソース (X ポスト)
+ * へ外部リンクしてよい (速報伝達フォーカス)。許可ホストは X のみ — それ以外の
+ * URL は供給側 (radar_state / radar_builder) が href=null に落とす契約なので、
+ * ここに届いた時点で不適合なら bundle ごと reject する (fail-closed 継続)。
+ */
+export const RADAR_SOURCE_URL_ALLOWLIST =
+  /^https:\/\/(www\.)?(x\.com|twitter\.com)\/[^\s]*$/;
+
+export const RadarObservationSchema = z
+  .strictObject({
+    topicId: z.string().min(1),
+    lane: z.enum([
+      "x_news_trends",
+      "sde_phase1_breaking_radar",
+      "manual_operator_observation",
+    ]),
+    titleJa: z.string().min(1),
+    observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
+    href: z.union([z.null(), z.string().regex(RADAR_SOURCE_URL_ALLOWLIST)]),
+    displayMode: z.enum(["title_only", "title_with_source"]),
+    publishDecision: z.literal("not_authorized"),
+  })
+  .superRefine((observation, ctx) => {
+    // displayMode は href の有無の鏡でなければならない — 片方だけ変わった
+    // payload (供給側の部分実装や手書き) を通さない。
+    const linked = observation.href !== null;
+    if (linked !== (observation.displayMode === "title_with_source")) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "displayMode must mirror href presence",
+        path: ["displayMode"],
+      });
+    }
+  });
 
 export type RadarObservation = z.infer<typeof RadarObservationSchema>;
 export type RadarLane = RadarObservation["lane"];

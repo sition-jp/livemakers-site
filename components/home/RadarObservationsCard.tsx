@@ -33,9 +33,26 @@ export function RadarObservationsCard({
                 {observation.observedAtLabel}
               </time>
             </div>
-            <p className="mt-1.5 text-[13px] font-semibold leading-snug text-radar-ink">
-              {observation.titleJa}
-            </p>
+            {observation.href ? (
+              // 2026-08-14 田平氏裁定: 観測タイトルは一次ソース (X) へ外部
+              // リンク。data-source-link はリンク会計 gate の専用バケット。
+              <a
+                href={observation.href}
+                data-source-link
+                target="_blank"
+                rel="noopener noreferrer nofollow"
+                className="mt-1.5 block text-[13px] font-semibold leading-snug text-radar-ink hover:underline"
+              >
+                {observation.titleJa}
+                <span aria-hidden="true" className="ml-1 text-[10px] text-radar-sub">
+                  ↗
+                </span>
+              </a>
+            ) : (
+              <p className="mt-1.5 text-[13px] font-semibold leading-snug text-radar-ink">
+                {observation.titleJa}
+              </p>
+            )}
           </div>
         ))}
       </div>
