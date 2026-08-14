@@ -49,9 +49,10 @@ export function CoincidentColumn({
   const renderModule = (module: string): ReactNode => {
     switch (module) {
       case "lead-article":
-        // Phase 3b (2026-08-14): Daily Intel 一覧への索引リンクをカード直下に
+        // Phase 3b (2026-08-14): Daily Intel 一覧への索引リンク。
+        // 同日追記: mkt12-reading と同じ箱 (section) に収める (田平氏指示)
         return (
-          <div>
+          <section className="flex flex-col rounded-lg border border-border-primary bg-bg-secondary p-4">
             <LeadArticleCard slot={slots.lead} labels={copy.lead} />
             <div data-index-nav className="mt-3">
               <Link
@@ -61,7 +62,7 @@ export function CoincidentColumn({
                 {copy.gradient.dailyIntelSeriesLink}
               </Link>
             </div>
-          </div>
+          </section>
         );
       case "mkt12-tiles":
         return (
