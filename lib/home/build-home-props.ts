@@ -32,6 +32,7 @@ import {
   type LaneId,
 } from "./instruments";
 import {
+  MarketSnapshotCellSchema,
   SnapshotSchema,
   loadMarketSnapshot,
   type MarketSnapshot,
@@ -58,6 +59,18 @@ export interface BuildHomeCompositionArgs {
   feedRadar?: RadarFeedData | null;
   /** The mapped (but not yet freshness-gated) feed `sessions` bundle. */
   feedSessions?: SessionsFeedData | null;
+  /**
+   * RWA TVL の live 値 (2026-08-14 田平氏裁定 — TVL 1 行のみ live)。
+   * feed windows.rwaLane の rwa.tvl tile 由来 (market_extras 毎時収集・
+   * PF 検証なし)。deltaPct が無い間 (履歴ウォームアップ中) は honest empty。
+   * 来歴は collected_live / auto_collected (reviewed とは区別)。
+   */
+  rwaLive?: {
+    value: string | null;
+    deltaPct?: number;
+    packetId: string;
+    asOfLabel: string;
+  } | null;
   /** Test injection — highest priority when either is provided. */
   radar?: readonly RadarObservation[];
   promotions?: Readonly<Record<string, string>>;
@@ -109,14 +122,51 @@ function reviewedSourceIsFresh(source: ReviewedHomeData, now: Date): boolean {
   return ageMs >= 0 && ageMs <= REVIEWED_HOME_MAX_AGE_MS;
 }
 
+/**
+ * RWA TVL の live cell (2026-08-14)。cell 契約 (value/changeLabel/direction は
+ * 全 null か全 present) を守るため、deltaPct が無い間は all-null (「—」表示)。
+ * fixture の 7/10 値を live ラベルの下に出すよりも honest empty を選ぶ。
+ */
+function buildRwaLiveCell(
+  live: NonNullable<BuildHomeCompositionArgs["rwaLive"]>,
+): MarketSnapshotCell {
+  const nameJa = LANE_ROWS.rwa[0].nameJa;
+  if (live.value === null || live.deltaPct === undefined) {
+    return MarketSnapshotCellSchema.parse({
+      instrumentId: "rwa_tvl",
+      nameJa,
+      value: null,
+      changeLabel: null,
+      direction: null,
+    });
+  }
+  const rounded = Math.round(live.deltaPct * 100) / 100;
+  const changeLabel =
+    rounded === 0
+      ? "0.00%"
+      : `${rounded > 0 ? "+" : ""}${rounded.toFixed(2)}%`;
+  return MarketSnapshotCellSchema.parse({
+    instrumentId: "rwa_tvl",
+    nameJa,
+    value: live.value,
+    changeLabel,
+    direction: rounded === 0 ? "flat" : rounded > 0 ? "up" : "down",
+  });
+}
+
 function buildReviewedSnapshot(
   source: ReviewedHomeData,
   fixture: MarketSnapshot,
+  rwaLive?: BuildHomeCompositionArgs["rwaLive"],
 ): MarketSnapshot {
   const asOfLabel = formatAsOfLabel(source.asOfJst);
   if (!asOfLabel) throw new Error("reviewed home asOfJst is not displayable");
   const fixtureByInstrument = cellMap(fixture.cells);
   const rwaCells = LANE_ROWS.rwa.map(({ instrumentId }) => {
+    // 2026-08-14: rwa_tvl は live 値があれば feed 由来 cell で置換
+    if (instrumentId === "rwa_tvl" && rwaLive) {
+      return buildRwaLiveCell(rwaLive);
+    }
     const cell = fixtureByInstrument.get(instrumentId);
     if (!cell) throw new Error(`fixture is missing RWA cell: ${instrumentId}`);
     return cell;
@@ -383,9 +433,12 @@ export function buildHomeCompositionProps(
     ? (args.source ?? null)
     : null;
   const snapshot = reviewedSource
-    ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot)
+    ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot, args.rwaLive)
     : fixtureSnapshot;
   const reviewedAdopted = reviewedSource !== null;
+  // RWA live 採用 = reviewed 経路が生きていて live tile が渡ってきた時のみ
+  // (feed 全体が退避した日はレーンごと fixture へ戻る — 部分 live にしない)
+  const rwaLiveAdopted = reviewedAdopted && Boolean(args.rwaLive);
 
   // sessionsSource itself is NOT part of this function's return value (same
   // frozen-return posture as radarSource, G44 D13) — resolveHomeSessionsSource
@@ -498,7 +551,16 @@ export function buildHomeCompositionProps(
   const laneProvenance: Record<LaneId, WindowProvenance> = {
     macro: reviewedPageProvenance ?? fixturePageProvenance,
     crypto: reviewedPageProvenance ?? fixturePageProvenance,
-    rwa: fixturePageProvenance,
+    // 2026-08-14 田平氏裁定: RWA TVL live は「自動収集」ラベル (collected_live /
+    // auto_collected)。reviewed_live (PF 検証済) と混同させない
+    rwa: rwaLiveAdopted
+      ? makeWindowProvenance({
+          packetId: args.rwaLive!.packetId,
+          sourceMode: "collected_live",
+          reviewStatus: "auto_collected",
+          asOfJst: args.rwaLive!.asOfLabel,
+        })
+      : fixturePageProvenance,
   };
   // fix round 1 / G34: a live record adopted from the feed (sessionsSource
   // === "feed_today") is not a fixture — it carries the reviewed home

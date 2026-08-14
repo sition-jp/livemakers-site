@@ -144,13 +144,33 @@ describe("session content lifecycle (G-a)", () => {
   });
 
   it("orders the archive newest-first and excludes non-published sessions", () => {
+    // 2026-08-14: crystallize auto-PR が毎日 content/sessions/ を増やすため、
+    // 実コンテンツとの完全一致は書かない (最初の auto-PR #68 を guards が
+    // 構造的にブロックした実証)。不変条件のみ検証する。
     const published = getAllSessionRecords().filter(
       (record) => record.articleStatus === "published",
     );
-    expect(published.map((record) => record.sessionId)).toEqual([
+    // (a) newest-first (asOfJst 降順)
+    for (let i = 1; i < published.length; i += 1) {
+      expect(
+        published[i - 1].asOfJst.localeCompare(published[i].asOfJst),
+      ).toBeGreaterThanOrEqual(0);
+    }
+    // (b) 非公開 (pending の 2026-07-10 fixture) は含まれない
+    expect(
+      published.some((record) => record.articleStatus !== "published"),
+    ).toBe(false);
+    expect(
+      published.some((record) => record.sessionId === "2026-07-10-asia-open"),
+    ).toBe(false);
+    // (c) 初回 crystallize (2026-08-07) の 3 本は必ず含まれる (subset)
+    const ids = new Set(published.map((record) => record.sessionId));
+    for (const expected of [
       "2026-08-07-global-close",
       "2026-08-07-ny-open",
       "2026-08-07-asia-open",
-    ]);
+    ]) {
+      expect(ids.has(expected), expected).toBe(true);
+    }
   });
 });

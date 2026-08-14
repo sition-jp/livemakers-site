@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
-import { useLocale, useTranslations } from "next-intl";
-// usePathname comes from next/navigation here (not next-intl/navigation)
-// because switchLocale needs the RAW pathname including the /ja prefix to
-// strip-and-prepend correctly. next-intl's usePathname strips the locale.
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/LogoMark";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
@@ -21,25 +17,9 @@ export function Header({
   futureAtlasNav: boolean;
 }) {
   const t = useTranslations("nav");
-  const locale = useLocale();
-  const pathname = usePathname();
   const nav = buildNavModel(futureAtlasNav);
   const [articlesOpen, setArticlesOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-
-  function switchLocale(target: "en" | "ja") {
-    if (target === locale) return;
-    // Set cookie BEFORE navigating so the new request reaches next-intl's
-    // middleware with the right preference. Use a hard navigation
-    // (window.location.assign) — router.push from next/navigation is a no-op
-    // on locale switches because the [locale] route segment resolves "/" to
-    // the current locale's URL, leaving us on /ja. A hard navigation forces
-    // the middleware to re-evaluate cookies and serve the new locale.
-    document.cookie = `NEXT_LOCALE=${target}; path=/; max-age=${60 * 60 * 24 * 365}`;
-    const stripped = pathname.replace(/^\/(ja|en)(\/|$)/, "/");
-    const nextPath = target === "en" ? stripped : `/ja${stripped === "/" ? "" : stripped}`;
-    window.location.assign(nextPath);
-  }
 
   const topLevelClass =
     "text-xs tracking-tabs text-text-secondary hover:text-text-primary";
@@ -132,31 +112,8 @@ export function Header({
           >
             v{process.env.NEXT_PUBLIC_APP_VERSION}
           </span>
-          <div className="flex shrink-0 items-center gap-1 whitespace-nowrap text-[10px] tracking-label">
-            <button
-              type="button"
-              onClick={() => switchLocale("en")}
-              className={
-                locale === "en"
-                  ? "text-text-primary"
-                  : "text-text-tertiary hover:text-text-secondary"
-              }
-            >
-              EN
-            </button>
-            <span className="text-text-tertiary">/</span>
-            <button
-              type="button"
-              onClick={() => switchLocale("ja")}
-              className={
-                locale === "ja"
-                  ? "text-text-primary"
-                  : "text-text-tertiary hover:text-text-secondary"
-              }
-            >
-              日本語
-            </button>
-          </div>
+          {/* 2026-08-14 Phase 3b 田平氏指示: 当面は日本語版のみのため
+              EN/日本語 切替は非表示 (EN ルート自体は温存・復活は切替 UI の戻しのみ) */}
           {/* Mobile disclosure (lg 未満・現行はモバイル導線ゼロのため新設・G44 D3) */}
           <button
             type="button"

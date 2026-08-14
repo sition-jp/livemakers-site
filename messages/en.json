@@ -430,7 +430,10 @@
       "latestTitle": "Latest articles",
       "viewAll": "View all",
       "atlasHeadingUnpublished": "Map of the Next Era",
-      "atlasHeadingPublished": "Future Atlas"
+      "atlasHeadingPublished": "Future Atlas",
+      "dailyIntelSeriesLink": "All Daily Intel →",
+      "signalSeriesLink": "All Signals →",
+      "deepDiveSeriesLink": "All Deep Dives →"
     },
     "hero": {
       "sessionLabel": "Current session",
@@ -577,8 +580,12 @@
     "highlightsHeading": "Primary-source highlights",
     "watchHeading": "What to watch next",
     "crystallizeNote": "This page becomes a permanent article when the next session begins.",
-    "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
-    "archiveNote": "Four live sessions each day become articles over time."
+    "archiveTitle": "Intelligence Terminal — Session Articles (Morning to Night)",
+    "archiveNote": "Four live sessions each day become articles over time.",
+    "archivePastLink": "View all past session articles →",
+    "archivePastTitle": "Intelligence Terminal — Session Article Archive (All)",
+    "archivePastNote": "The complete record of morning, midday, evening, and night session articles.",
+    "archiveRecentLink": "← Back to the last 7 days"
   },
   "turningPoints": {
     "page_title": "AI Turning Point Detector",

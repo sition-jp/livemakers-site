@@ -60,6 +60,10 @@ function mapInflowArticle(
     // ArticleMeta に載せることで home slots (LeadArticleCard / ArticleCardSmall)
     // まで追加配線なしで伝播する
     thumbnailUrl: article.thumbnail_url,
+    // 2026-08-14 (radar B 経路): packet が radar_topic_id を運んできたら
+    // ArticleMeta.radarTopicId へ透過 — 「速報 — 観測から記事へ」の昇格ペア
+    // (select-home-slots radarPair) はこのフィールドで観測と記事を結合する
+    radarTopicId: (article as { radar_topic_id?: string }).radar_topic_id,
   });
   return {
     ...parsed,

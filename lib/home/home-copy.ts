@@ -49,6 +49,9 @@ export interface HomeCopy {
     deepDiveTitle: string;
     latestTitle: string;
     viewAll: string;
+    dailyIntelSeriesLink: string;
+    signalSeriesLink: string;
+    deepDiveSeriesLink: string;
     atlasHeadingUnpublished: string;
     atlasHeadingPublished: string;
   };
@@ -131,6 +134,9 @@ export function buildHomeCopy(
       laneValuesTitle: translate("gradient.laneValuesTitle"),
       deepDiveTitle: translate("gradient.deepDiveTitle"),
       latestTitle: translate("gradient.latestTitle"),
+      dailyIntelSeriesLink: translate("gradient.dailyIntelSeriesLink"),
+      signalSeriesLink: translate("gradient.signalSeriesLink"),
+      deepDiveSeriesLink: translate("gradient.deepDiveSeriesLink"),
       viewAll: translate("gradient.viewAll"),
       atlasHeadingUnpublished: translate("gradient.atlasHeadingUnpublished"),
       atlasHeadingPublished: translate("gradient.atlasHeadingPublished"),
