@@ -1,7 +1,11 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
-// Pure intl middleware — no Accept-Language auto-redirect.
+// Pure intl proxy — no Accept-Language auto-redirect.
+//
+// Next.js 16 renamed the "middleware" file convention to "proxy"
+// (middleware.ts → proxy.ts); next-intl's createMiddleware works unchanged
+// under the new convention. Only the file name and this header changed.
 //
 // Earlier versions of this file redirected first-time visitors with a "ja*"
 // Accept-Language header to /ja. We removed it because:
