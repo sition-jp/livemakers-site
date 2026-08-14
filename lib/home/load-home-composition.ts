@@ -15,6 +15,35 @@ export type HomeCatalogSource =
   | "repository_only"
   | "repository_plus_feed";
 
+/**
+ * feed windows.rwaLane の rwa.tvl tile から live 値を抽出する (2026-08-14
+ * 田平氏裁定 — RWA TVL 1 行のみ live)。live と認めるのは lane badge が
+ * SNAPSHOT (= 配信 payload 由来・fixture fallback は badge を欠く/FIXTURE) で
+ * tile に asOfLabel が付いている時だけ。それ以外は null → RWA レーンは
+ * fixture ラベルへ退避 (honest degrade)。
+ */
+function extractRwaLive(
+  feed: Awaited<ReturnType<typeof fetchLiveMarketData>>,
+): { value: string | null; deltaPct?: number; packetId: string; asOfLabel: string } | null {
+  if (!feed) return null;
+  const lane = feed.lanes.find((candidate) => candidate.key === "rwa");
+  if (!lane || lane.badge !== "SNAPSHOT") return null;
+  const tile = lane.tiles.find((candidate) => candidate.id === "rwa.tvl");
+  if (!tile || !tile.asOfLabel) return null;
+  const result: {
+    value: string | null;
+    deltaPct?: number;
+    packetId: string;
+    asOfLabel: string;
+  } = {
+    value: tile.value,
+    packetId: `mext_${feed.generatedAt.slice(0, 13).replace(/[-T]/g, "")}`,
+    asOfLabel: tile.asOfLabel,
+  };
+  if (tile.deltaPct !== undefined) result.deltaPct = tile.deltaPct;
+  return result;
+}
+
 export const loadHomeCompositionProps = cache(async () => {
   const [feed, inflow] = await Promise.all([
     fetchLiveMarketData(),
@@ -57,6 +86,7 @@ export const loadHomeCompositionProps = cache(async () => {
       source: feed?.home ?? null,
       feedRadar: feed?.radar ?? null,
       feedSessions: feed?.sessions ?? null,
+      rwaLive: extractRwaLive(feed),
       articles: inflow.articles,
       sessionRecords,
       now,

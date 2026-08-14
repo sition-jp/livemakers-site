@@ -17,9 +17,7 @@ export type InstrumentId =
   | "xrp_usd"
   | "sol_usd"
   | "coin_stock"
-  | "rwa_tvl"
-  | "tokenized_treasuries"
-  | "tokenized_mmf";
+  | "rwa_tvl";
 
 export const INSTRUMENT_DISPLAY_NAMES_JA = {
   btc_usd: "BTC/USD",
@@ -41,8 +39,6 @@ export const INSTRUMENT_DISPLAY_NAMES_JA = {
   sol_usd: "SOL/USD",
   coin_stock: "COIN（米上場株）",
   rwa_tvl: "RWA TVL",
-  tokenized_treasuries: "トークン化国債",
-  tokenized_mmf: "トークン化MMF",
 } as const satisfies Record<InstrumentId, string>;
 
 export const CORE_12_INSTRUMENTS = [
@@ -79,9 +75,10 @@ export const LANE_ROWS = {
     { instrumentId: "coin_stock", nameJa: "COIN（米上場株）" },
   ],
   rwa: [
+    // 2026-08-14 田平氏裁定: トークン化国債/MMF はデータソース未選定のため
+    // 一旦撤去 (数値は 7/10 レイアウトモック由来のプレースホルダだった)。
+    // ソース選定後に復活させる。RWA TVL は market_extras (DefiLlama) live。
     { instrumentId: "rwa_tvl", nameJa: "RWA TVL" },
-    { instrumentId: "tokenized_treasuries", nameJa: "トークン化国債" },
-    { instrumentId: "tokenized_mmf", nameJa: "トークン化MMF" },
   ],
 } satisfies Record<LaneId, readonly LaneRowDef[]>;
 

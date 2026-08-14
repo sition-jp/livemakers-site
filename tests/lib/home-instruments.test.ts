@@ -42,10 +42,9 @@ describe("instrument registry + exclusion guard", () => {
       "sol_usd",
       "coin_stock",
     ]);
+    // 2026-08-14 田平氏裁定: トークン化国債/MMF はソース未選定のため撤去
     expect(LANE_ROWS.rwa.map((row) => row.instrumentId)).toEqual([
       "rwa_tvl",
-      "tokenized_treasuries",
-      "tokenized_mmf",
     ]);
   });
 
