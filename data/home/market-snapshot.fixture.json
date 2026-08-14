@@ -23,8 +23,6 @@
     { "instrumentId": "xrp_usd", "nameJa": "XRP/USD", "value": "$1.097", "changeLabel": "+0.56%", "direction": "up" },
     { "instrumentId": "sol_usd", "nameJa": "SOL/USD", "value": "$78.12", "changeLabel": "+1.08%", "direction": "up" },
     { "instrumentId": "coin_stock", "nameJa": "COIN（米上場株）", "value": "$158.44", "changeLabel": "-0.58%", "direction": "down" },
-    { "instrumentId": "rwa_tvl", "nameJa": "RWA TVL", "value": "$28.4B", "changeLabel": "+0.9%", "direction": "up" },
-    { "instrumentId": "tokenized_treasuries", "nameJa": "トークン化国債", "value": "$9.6B", "changeLabel": "+0.5%", "direction": "up" },
-    { "instrumentId": "tokenized_mmf", "nameJa": "トークン化MMF", "value": "$5.1B", "changeLabel": "+1.2%", "direction": "up" }
+    { "instrumentId": "rwa_tvl", "nameJa": "RWA TVL", "value": "$28.4B", "changeLabel": "+0.9%", "direction": "up" }
   ]
 }

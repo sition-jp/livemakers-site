@@ -64,7 +64,8 @@ describe("G43 reviewed home source resolution", () => {
 
     expect(props.today).toBe("2026-07-12");
     expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
-    expect(props.snapshot.cells).toHaveLength(21);
+    // 2026-08-14: RWA 2 行撤去で 18 live + 1 RWA = 19
+    expect(props.snapshot.cells).toHaveLength(19);
     expect(
       props.snapshot.cells.find((cell) => cell.instrumentId === "night_usd"),
     ).toMatchObject({ nameJa: "NIGHT/USD", direction: "down" });
@@ -217,5 +218,83 @@ describe("G43 reviewed home source resolution", () => {
     expect(props.laneProvenance.macro.asOfJst).toBe(
       "2026-07-12 07:30 JST",
     );
+  });
+});
+
+describe("RWA live lane (2026-08-14 田平氏裁定 — TVL 1 行のみ live)", () => {
+  const rwaLive = {
+    value: "$27.3B",
+    deltaPct: 1.0,
+    packetId: "mext_2026081410",
+    asOfLabel: "10:45 JST",
+  };
+
+  it("adopts the live TVL cell with collected_live provenance when delta exists", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      rwaLive,
+    });
+
+    const cell = props.snapshot.cells.find(
+      (candidate) => candidate.instrumentId === "rwa_tvl",
+    )!;
+    expect(cell.value).toBe("$27.3B");
+    expect(cell.changeLabel).toBe("+1.00%");
+    expect(cell.direction).toBe("up");
+    expect(props.laneProvenance.rwa.sourceMode).toBe("collected_live");
+    expect(props.laneProvenance.rwa.reviewStatus).toBe("auto_collected");
+    expect(props.laneProvenance.rwa.packetId).toBe("mext_2026081410");
+  });
+
+  it("renders honest empty (all-null) while the delta history is warming up", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      rwaLive: { ...rwaLive, deltaPct: undefined },
+    });
+
+    const cell = props.snapshot.cells.find(
+      (candidate) => candidate.instrumentId === "rwa_tvl",
+    )!;
+    expect(cell.value).toBeNull();
+    expect(cell.changeLabel).toBeNull();
+    expect(cell.direction).toBeNull();
+    // ラベルは自動収集のまま (live 経路が生きている事実は変わらない)
+    expect(props.laneProvenance.rwa.sourceMode).toBe("collected_live");
+  });
+
+  it("falls back to the fixture cell + fixture provenance without rwaLive", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+    });
+
+    const cell = props.snapshot.cells.find(
+      (candidate) => candidate.instrumentId === "rwa_tvl",
+    )!;
+    expect(cell.value).toBe("$28.4B");
+    expect(props.laneProvenance.rwa.sourceMode).toBe("fixture_only");
+  });
+
+  it("ignores rwaLive when the reviewed home source is not adopted (no partial live)", () => {
+    const props = buildHomeCompositionProps({
+      today: "2026-07-10",
+      articleCutoffToday: "2026-07-10",
+      contentDir: TEST_CONTENT_DIR,
+      rwaLive,
+    });
+
+    expect(props.laneProvenance.rwa.sourceMode).toBe("fixture_only");
+    const cell = props.snapshot.cells.find(
+      (candidate) => candidate.instrumentId === "rwa_tvl",
+    )!;
+    expect(cell.value).toBe("$28.4B");
   });
 });
