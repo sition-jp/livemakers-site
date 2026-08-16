@@ -1,0 +1,83 @@
+{
+  "sessionId": "2026-08-16-europe-bridge",
+  "date": "2026-08-16",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-16-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-16-europe-bridge",
+  "publishedAt": "2026-08-17T06:35:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260816_1203_fec56ebc",
+  "asOfJst": "2026-08-16T12:03:08+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月16日 12:03 JST",
+  "bullets": [
+    "DXY 99.960 → 99.670（-0.29%）",
+    "変動幅上位: VIX -2.6% / ADA/USD -2.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260816_1245_10e21419",
+    "crawlAnchorJst": "2026-08-16T12:03:00+09:00",
+    "writtenAtJst": "2026-08-16T12:45:00+09:00",
+    "lead": "週末の静かな土曜に届いた材料は、どれも「制度の側が、動いているものに合わせて言葉を作り直す」話だった。トークン化証券の最良執行、EU の製品パスポートが求める相互運用性、AI 出力に入る透かし——扱う対象は違うが、どれも既にある仕組みを新しい対象へどう当てるかで揉んでいる。土曜の米国市場は閉じており、数字は動いていない。動いたのは、数字を測るための物差しのほうだ。",
+    "items": [
+      {
+        "headline": "トークン化証券の最良執行に、FINRA が初めて意見を募った",
+        "sourceUrl": "https://x.com/Securitize/status/2088282920431575089",
+        "note": "Securitize と Douro Labs が共同でコメントレターを提出し、即時・アトミックな決済での判定、ガス代や事前資金の扱い、MEV を考慮要素とするかを論点に挙げた。規則そのものは変わっていない。"
+      },
+      {
+        "headline": "EU のデジタル製品パスポートが求めるのは、囲い込まない設計だという主張",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2088619220204499234",
+        "note": "Cardano 財団が、オープン標準・相互運用性・ベンダーロックインなしという要件を挙げ、許可不要の公開ネットワークは設計上それを満たすと述べた。EU 側が台帳を指定した事実はない。"
+      },
+      {
+        "headline": "Anthropic が透かしについての FAQ を出した",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2088343978873966687",
+        "note": "先に導入した出力への透かしに質問が集まり、仕組みと限界を説明する文書が追加で公開された。"
+      },
+      {
+        "headline": "同社は責任あるスケーリング方針にもとづくリスク報告も公開している",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2088324824863236248"
+      },
+      {
+        "headline": "Cardano の週次開発報告で ouroboros-consensus 4.0.0.0 が出た",
+        "sourceUrl": "https://x.com/IOGroup/status/2088275895005905381",
+        "note": "Leios のプロトタイプ開発も進行中と報告されている。"
+      },
+      {
+        "headline": "Qwen3.8 のオープンウェイトが公開された",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2088280182356611304",
+        "note": "27B のネイティブ多モーダルモデルで、実務のコーディングや文書作業で前の最上位を上回るとしている。"
+      },
+      {
+        "headline": "Waymo がカリフォルニア州公益事業委員会の認可を取得した",
+        "sourceUrl": "https://x.com/Waymo/status/2088332349734068491",
+        "note": "サンフランシスコ湾岸とロサンゼルスでの拡大に加え、サクラメントとサンディエゴへ広げる。展開は段階的とされている。"
+      },
+      {
+        "headline": "Falcon 9 が Globalstar 2-R と USSF-366 を相次いで打ち上げた",
+        "sourceUrl": "https://x.com/SpaceX/status/2088742762468327897"
+      },
+      {
+        "headline": "Cardano 上のステーブルコイン用アプリ Whirlpool Finance の初公開",
+        "sourceUrl": "https://x.com/FluidTokens/status/2088273185938518392",
+        "note": "供給・借入・利用率と金利を一つの画面で扱う構成が示された。提供元の予告段階で、稼働日は示されていない。"
+      },
+      {
+        "headline": "Catalyst 2026 Pilot の応募は残り 6 日と告知された",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2088237953357353059",
+        "note": "250万 ADA を 10〜15 チームへ、1 件あたり 5〜20 万。オラクル、ステーブルコイン、プログラマブルトークン、オンチェーン識別子が対象に挙がっている。"
+      }
+    ],
+    "watch": [
+      "FINRA の意見募集は 9 月 25 日締切。誰が何を出すかで、オンチェーン執行の前提が決まる",
+      "EU の製品パスポートは品目ごとに要件が広がる段階。検証層に何が入るかはまだ決まっていない",
+      "透かしは出力側の話で、受け取る側がどう確かめるかの手順はまだ整っていない"
+    ]
+  }
+}
