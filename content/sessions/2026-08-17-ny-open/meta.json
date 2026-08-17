@@ -1,0 +1,75 @@
+{
+  "sessionId": "2026-08-17-ny-open",
+  "date": "2026-08-17",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-17-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-17-ny-open",
+  "publishedAt": "2026-08-18T06:35:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260817_1803_434a82a9",
+  "asOfJst": "2026-08-17T18:03:08+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月17日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,798.99 → 7,785.76（-0.17%）",
+    "変動幅上位: VIX +5.1% / Gold +1.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260817_1840_a0b2741f",
+    "crawlAnchorJst": "2026-08-17T18:03:00+09:00",
+    "writtenAtJst": "2026-08-17T18:40:00+09:00",
+    "lead": "今日の欧州時間に効いていたのは、日本の長期金利だった。国債利回りが1996年以来の高さまで上げたと報じられ、同じ日に日銀が7月の展望レポートの要旨を出している。金利が動くと、その資金がどこへ逃げるかの選択肢まで一緒に問われる。自分の資産をどこに、どんな仕組みで置いているかを確かめる材料が、今日はいくつも並んだ。",
+    "items": [
+      {
+        "headline": "日本の国債利回りが1996年以来の水準まで上げたと報じられた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/devisen-rohstoffe/geldpolitik-japanische-anleiherenditen-steigen-auf-hoechsten-wert-seit-1996/100247707.html",
+        "note": "長期金利の上昇は、国内の運用先を組み替える圧力になる。数値は財務省の日次公表で確定するため、報道の数字をそのまま持ち歩かないほうがいい。"
+      },
+      {
+        "headline": "日銀が7月の「経済・物価情勢の展望」要旨を公表した",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2089276149075439658",
+        "note": "金利の水準そのものより、日銀が物価と成長をどう見ているかが次の一手を決める。原文が読める形で出ている。"
+      },
+      {
+        "headline": "Coldcard の鍵の問題は続いており、ファームウェアを更新しても過去に作った鍵は戻らない",
+        "sourceUrl": "https://x.com/coinbureau/status/2089187623223136687",
+        "note": "脆弱な状態で生成された種鍵は更新後も危険なままで、新しい鍵を作って資金を移すしか手がないと指摘されている。手元の端末をいつ設定したかが分かれ目になる。"
+      },
+      {
+        "headline": "Midnight 上で動く取引アプリが稼働を告知した",
+        "sourceUrl": "https://x.com/AscendPerps/status/2089087729078251731",
+        "note": "告知はメインネット稼働とされる一方、同サービスの公式サイトの表記は「private mainnet」で、扱う商品も出来事の確率を対象にした建玉と説明されている。段階の言葉が揃っていない。"
+      },
+      {
+        "headline": "Cardano の憲法委員会を座らせる投票が9月1日の期限に対して票が足りていない",
+        "sourceUrl": "https://x.com/niroshan682/status/2089250965048168950",
+        "note": "通らなければ委員会が定数を割り、多くの議案の投票が一時的に止まる。特にプール運営者側の票が伸びていない。"
+      },
+      {
+        "headline": "Yield Guild が3.0を公開し、ゲーム組織から「人の労力と技能を束ねる基盤」へ看板を掛け替えた",
+        "sourceUrl": "https://x.com/YieldGuild/status/2089245846244307278",
+        "note": "掲げているのは、集団が現実空間のデータを集めてロボットや身体を持つAIの学習に回す道筋だ。遊びの器が労働の器に変わろうとしている。"
+      },
+      {
+        "headline": "中国が北極海航路での商業コンテナ輸送を始めた",
+        "sourceUrl": "https://www.nzz.ch/international/china-startet-die-kommerzielle-containerschifffahrt-durch-die-arktis-ld.10019739",
+        "note": "距離が縮むと、物流の地図と地政学の地図が同時に書き換わる。消費財の値段に効いてくるのは、もう少し先だ。"
+      },
+      {
+        "headline": "ダイモンが英国に対し銀行課税の引き上げを警告した",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/banken-dimon-warnt-grossbritannien-vor-hoeheren-bankensteuern/100247659.html",
+        "note": "課税が上がれば、銀行は貸出と拠点の置き場所で応える。金融の拠点争いは、税率の話として表に出る。"
+      }
+    ],
+    "watch": [
+      "財務省が公表する国債金利の日次データ。今日の水準が確定すると、報じられた「1996年以来」が何年債の話なのかがはっきりする。",
+      "Cardano の憲法委員会を座らせる投票。9月1日までにプール運営者側の票が伸びるかどうかで、governance の可否ではなく可動域が決まる。",
+      "Coldcard の鍵に関する続報。被害が止まったという確認が出るまでは、古い端末で作った鍵は動かす前提で考えたほうがいい。"
+    ]
+  }
+}
