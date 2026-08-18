@@ -1,0 +1,67 @@
+{
+  "sessionId": "2026-08-18-ny-open",
+  "date": "2026-08-18",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-18-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-18-ny-open",
+  "publishedAt": "2026-08-19T06:35:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260818_1803_cce2929f",
+  "asOfJst": "2026-08-18T18:03:13+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月18日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,798.99 → 7,785.76（-0.17%）",
+    "変動幅上位: VIX +11.4% / 日経平均先物 -2.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260818_1841_c7e8824b",
+    "crawlAnchorJst": "2026-08-18T18:03:00+09:00",
+    "writtenAtJst": "2026-08-18T18:41:49+09:00",
+    "lead": "「封鎖」という言葉が、静かに「料金」へ置き換わろうとしている。イランはホルムズ海峡の通航に課金する構想を、通航船舶による環境被害を根拠として示した。物理的に通さないことと、通る条件に値段をつけることは、相手に残す選択肢の形がまるで違う。海峡をめぐる主張が真っ向から対立したまま、市場と各国の安全保障はその差を織り込む作業に入っている。",
+    "items": [
+      {
+        "headline": "イランがホルムズ海峡の通航課金を、環境被害を根拠に提示した",
+        "sourceUrl": "https://www.nzz.ch/international/iran-krieg-strasse-von-hormuz-bleibt-laut-irans-chefunterhaendler-vorlaeufig-geschlossen-ld.10009801",
+        "note": "外務省報道官は湾岸の長年の汚染がイランに巨額の被害を与えたとし、通航の受益者に負担義務があると述べた。海峡当局は、条件が受け入れられるまで封鎖を続けると表明している。"
+      },
+      {
+        "headline": "イラン停戦の終了がアジアの株価を押し下げたと報じられた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/nikkei-ende-von-iran-waffenruhe-drueckt-auf-kurse-in-asien/100247881.html"
+      },
+      {
+        "headline": "欧州株は小幅安。投資家は様子見の姿勢を崩していない",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-dax-notiert-im-minus-anleger-sind-im-abwarte-modus/100247889.html"
+      },
+      {
+        "headline": "韓国大統領が、合同演習縮小の求めを受けて軍の自立を訴えた",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/18/south-korea-president-trump-military-drills-control-opcon-kim-jong-un",
+        "note": "同盟の運用が外から動かされたとき、当事国が最初に取り戻そうとするのは指揮の主導権だった。"
+      },
+      {
+        "headline": "ロシアが、英国製ドローン使用の報道をめぐり英国に「結果」を警告した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/18/moscow-warns-uk-over-reports-ukraine-using-british-drones-to-attack-russia"
+      },
+      {
+        "headline": "金融庁がトランジション・ファイナンス環境整備検討会の第14回開催を公表した",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/singi/20260818.html",
+        "note": "移行金融の制度設計は、エネルギー価格が政治で動く局面ほど効いてくる。"
+      },
+      {
+        "headline": "Midnight が AKINDO と Buildathon を共催する",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2089637522146316609",
+        "note": "オンライン開催で、プロダクトを継続するチームに助成金が出る。有望なつくり手はインキュベーション「Build Club」へ招かれる。"
+      }
+    ],
+    "watch": [
+      "財務省が公表する国債金利の 8/18 基準値。日中に伝えられた水準が公表値で裏づくか。",
+      "ホルムズ通航課金が構想から具体条件へ進むか。適用範囲と金額の提示を待つ。",
+      "Buildathon の開催時期と助成条件がいつ示されるか。"
+    ]
+  }
+}
