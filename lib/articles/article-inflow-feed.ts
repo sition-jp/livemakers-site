@@ -50,7 +50,11 @@ async function fetchValidatedArticleInflowFeed(
   try {
     const response = await fetcher(url, {
       headers: { Accept: "application/json" },
-      next: { revalidate: 300 },
+      // ISR cost doctrine (2026-08-21 田平氏 GO): 300s data cache が
+      // 全記事ページの実効 ISR 間隔を 5 分へ引き戻し、ISR Writes 42万回/11日
+      // + Fluid CPU 38h の主因になっていた。鮮度は公開レーンの on-demand
+      // revalidate (push purge) が担うため 3600s で読者影響なし。
+      next: { revalidate: 3600 },
     });
     if (!response.ok) {
       console.warn("[article-inflow] feed response rejected; using repository-only content");

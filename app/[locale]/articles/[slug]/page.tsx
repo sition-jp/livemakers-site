@@ -29,7 +29,10 @@ import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 
 export const dynamicParams = true;
-export const revalidate = 300;
+// 2026-08-21 田平氏 GO (ISR コスト): 記事詳細 (~270 paths) が ISR Writes の
+// 大半を占めるため 3600s へ。新規公開 slug は公開レーンが revalidatePath で
+// 即時 purge するので反映は遅れない。既存記事の本文はほぼ不変。
+export const revalidate = 3600;
 
 const TOC_MIN_HEADINGS = 3;
 
