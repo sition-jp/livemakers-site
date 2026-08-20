@@ -188,7 +188,7 @@ describe("article inflow server boundary", () => {
       "https://example.test/production.json",
       expect.objectContaining({
         headers: { Accept: "application/json" },
-        next: { revalidate: 300 },
+        next: { revalidate: 3600 },
       }),
     );
   });
