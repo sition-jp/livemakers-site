@@ -571,6 +571,7 @@
       "viewAll": "View all",
       "sessionTerminalHeading": "Session Terminal",
       "sessionTerminalEntry": "View archive",
+      "latestArticlesHeading": "Latest articles",
       "atlasPublishedHeading": "Future Atlas",
       "atlasUnpublishedHeading": "Future Map"
     }

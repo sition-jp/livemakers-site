@@ -101,6 +101,7 @@ export default async function ArticleDetailPage({
     viewAll: t("detail.viewAll"),
     sessionTerminalHeading: t("detail.sessionTerminalHeading"),
     sessionTerminalEntry: t("detail.sessionTerminalEntry"),
+    latestArticlesHeading: t("detail.latestArticlesHeading"),
     atlasPublishedHeading: t("detail.atlasPublishedHeading"),
     atlasUnpublishedHeading: t("detail.atlasUnpublishedHeading"),
     familyLabels,
@@ -109,7 +110,7 @@ export default async function ArticleDetailPage({
   return (
     <div
       data-article-layout=""
-      className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-8"
+      className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-8"
     >
       <article className="mx-auto w-full max-w-[80ch] min-w-0">
         <header className="mb-8 border-b border-border-primary pb-6">

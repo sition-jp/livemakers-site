@@ -8,21 +8,29 @@ import { buildAtlasEntry } from "@/lib/home/atlas-entry";
  * シリーズ枠だけを「このシリーズの他の記事」として先頭へ移す (9 カテゴリ総数は不変)。
  * - ① Session Terminal は入口リンクのみ (session family 記事は catalog に無い前提・P3-8)。
  * - ⑦ 未来アトラスは D4 と同じ flag 単一導出 (buildAtlasEntry・G46 §11.3)。
- * - 件数 = Deep Dive のみ 5 本・他は各 1 本。全リンクは索引意味論 (data-index-nav)。
+ * - ④ 最新の記事 = 全 family 更新順 20 本 (2026-08-21 田平氏指示で Deep Dive 常設枠を
+ *   置換。ホーム右カラム⑤と同じ件数)。現在記事は除外・入口リンクなし。
+ * - Deep Dive は常設枠を持たないが、Deep Dive 記事の閲覧中は current series として
+ *   先頭へ 5 本の枠が立つ (置換前の挙動を維持)。
+ * - 件数 = 最新の記事 20 本・current Deep Dive 5 本・他は各 1 本。
+ *   全リンクは索引意味論 (data-index-nav)。
  */
 
 export const RAIL_SECTIONS = [
   "session-terminal",
   "daily-intel",
   "signal",
-  "deep-dive",
+  "latest-articles",
   "mkt12-morning",
   "event-risk-radar",
   "future-atlas",
   "mkt12-weekend",
   "weekly-brief",
 ] as const;
-export type RailSection = (typeof RAIL_SECTIONS)[number];
+// deep-dive は常設枠から外れたが current series の hoist 先としては残る
+export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive";
+
+const LATEST_ARTICLES_COUNT = 20;
 
 const SECTION_FAMILY: Partial<Record<RailSection, ArticleFamily>> = {
   "daily-intel": "daily-intel",
@@ -45,6 +53,7 @@ export interface SeriesRailCopy {
   viewAll: string;
   sessionTerminalHeading: string;
   sessionTerminalEntry: string;
+  latestArticlesHeading: string;
   atlasPublishedHeading: string;
   atlasUnpublishedHeading: string;
   familyLabels: Record<ArticleFamily, string>;
@@ -129,10 +138,14 @@ export function SeriesRail({
           const count = SECTION_COUNT[section] ?? 1;
 
           let heading: string;
-          let entryHref: string;
+          let entryHref: string | null;
           if (section === "session-terminal") {
             heading = copy.sessionTerminalHeading;
             entryHref = "/sessions/archive";
+          } else if (section === "latest-articles") {
+            // 一覧そのもの (20 本) なので入口リンクは持たない
+            heading = copy.latestArticlesHeading;
+            entryHref = null;
           } else if (section === "future-atlas") {
             heading = surfacePublished
               ? copy.atlasPublishedHeading
@@ -149,13 +162,18 @@ export function SeriesRail({
           const rows =
             section === "session-terminal"
               ? []
-              : section === "future-atlas"
-                ? (isCurrent
-                    ? ofFamily("future-map", count, true)
-                    : atlas.latest
-                      ? [atlas.latest]
-                      : [])
-                : ofFamily(family!, count, isCurrent);
+              : section === "latest-articles"
+                ? articles
+                    .filter((candidate) => candidate.articleId !== current.articleId)
+                    .toSorted(byNewest)
+                    .slice(0, LATEST_ARTICLES_COUNT)
+                : section === "future-atlas"
+                  ? (isCurrent
+                      ? ofFamily("future-map", count, true)
+                      : atlas.latest
+                        ? [atlas.latest]
+                        : [])
+                  : ofFamily(family!, count, isCurrent);
 
           return (
             <section
@@ -167,14 +185,16 @@ export function SeriesRail({
                 <h2 className="text-xs font-bold text-text-primary">
                   {isCurrent ? copy.currentSeriesTitle : heading}
                 </h2>
-                <Link
-                  href={entryHref}
-                  className="whitespace-nowrap text-[11px] font-bold text-accent hover:underline"
-                >
-                  {section === "session-terminal"
-                    ? copy.sessionTerminalEntry
-                    : copy.viewAll}
-                </Link>
+                {entryHref ? (
+                  <Link
+                    href={entryHref}
+                    className="whitespace-nowrap text-[11px] font-bold text-accent hover:underline"
+                  >
+                    {section === "session-terminal"
+                      ? copy.sessionTerminalEntry
+                      : copy.viewAll}
+                  </Link>
+                ) : null}
               </div>
               <RailArticleList articles={rows} copy={copy} />
             </section>
@@ -192,6 +212,7 @@ export function buildTestSeriesRailCopy(): SeriesRailCopy {
     viewAll: "一覧を見る",
     sessionTerminalHeading: "Session Terminal",
     sessionTerminalEntry: "アーカイブを見る",
+    latestArticlesHeading: "最新の記事",
     atlasPublishedHeading: "未来アトラス",
     atlasUnpublishedHeading: "次の時代の地図",
     familyLabels: {
