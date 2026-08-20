@@ -168,7 +168,7 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
       "signal",
       "session-terminal",
       "daily-intel",
-      "deep-dive",
+      "latest-articles",
       "mkt12-morning",
       "event-risk-radar",
       "future-atlas",
@@ -176,8 +176,11 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
       "weekly-brief",
     ]);
     expect(
-      container.querySelectorAll('[data-rail-section="deep-dive"] [data-article-id]'),
-    ).toHaveLength(5);
+      container.querySelectorAll('[data-rail-section="latest-articles"] [data-article-id]'),
+    ).toHaveLength(catalog.length - 1);
+    expect(
+      container.querySelector('[data-rail-section="latest-articles"] [data-article-id="sig-mid"]'),
+    ).toBeNull();
     expect(
       container.querySelector('[data-rail-section="signal"] [data-article-id="sig-mid"]'),
     ).toBeNull();
