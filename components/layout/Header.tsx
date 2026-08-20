@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/LogoMark";
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
 import { buildFlatNav } from "@/lib/home/nav-model";
 
@@ -35,6 +36,9 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
             </span>
           </span>
         </Link>
+
+        {/* 言語トグル (2026-08-21 田平氏 GO で復活) — ロゴ隣・全ブレークポイント表示 */}
+        <LanguageToggle />
 
         {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
         <nav

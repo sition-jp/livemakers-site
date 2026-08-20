@@ -7,21 +7,17 @@ import { routing } from "./i18n/routing";
 // (middleware.ts → proxy.ts); next-intl's createMiddleware works unchanged
 // under the new convention. Only the file name and this header changed.
 //
-// Earlier versions of this file redirected first-time visitors with a "ja*"
-// Accept-Language header to /ja. We removed it because:
-//   1) It made the explicit URL "https://livemakers.com/" unreachable for
-//      JA-locale browsers (every visit bounced to /ja, ignoring user intent).
-//   2) Combined with next-intl's own cookie-based redirect, it created two
-//      layers of automatic locale switching that fought each other and broke
-//      the EN/日本語 toggle.
+// Behavior (2026-08-21 田平氏 GO: トップ=日本語固定):
+//   • "/" redirects to /ja (defaultLocale) — the readership is Japanese.
+//   • Every route carries an explicit /ja or /en prefix (localePrefix
+//     "always"), so published /ja/articles/... canonical URLs are
+//     unchanged. Legacy unprefixed URLs redirect to their /ja variant.
+//   • No cookie / Accept-Language detection — the URL alone decides the
+//     locale; users switch via the explicit header toggle.
 //
-// Behavior now:
-//   • "/" always serves EN
-//   • "/ja" always serves JA
-//   • The cookie next-intl sets on each visit is honored on subsequent visits
-//     to non-prefixed routes (so once a visitor lands on /ja, /brief/foo will
-//     redirect them to /ja/brief/foo via next-intl's own logic).
-//   • Users switch languages via the explicit toggle in the header.
+// History: an earlier version auto-redirected by Accept-Language, which
+// fought next-intl's cookie redirect and made explicit URLs unreachable
+// (see i18n/routing.ts). Do not reintroduce detection layers.
 export default createMiddleware(routing);
 
 export const config = {

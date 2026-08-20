@@ -5,18 +5,17 @@ import { routing } from "./routing";
  * Locale-aware navigation primitives.
  *
  * Use these instead of `next/link` and `next/navigation` everywhere except
- * the explicit language toggle in Header / BriefLanguageSwitch (which
- * intentionally crosses locales and uses window.location.assign for the
- * cookie + hard-navigate trick).
+ * the explicit language toggles (Header LanguageToggle /
+ * BriefLanguageSwitch), which intentionally cross locales with plain
+ * explicit-URL anchors.
  *
- * With localePrefix: "as-needed", these prefix the path with /ja
- * automatically when the user is on the JA locale, so a single
- * `<Link href="/brief">` Just Works on both /ja/brief and /brief.
+ * With localePrefix: "always", these prefix the path with the current
+ * locale (/ja or /en) automatically, so a single `<Link href="/brief">`
+ * Just Works in both locales.
  *
  * Required because we set `localeDetection: false` on the routing config —
- * without that flag, the cookie would silently rewrite mismatched URLs
- * back to the user's locale; with it disabled, internal links must
- * carry the locale themselves.
+ * the URL alone decides the locale, so internal links must carry the
+ * locale themselves.
  */
 export const { Link, redirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);
