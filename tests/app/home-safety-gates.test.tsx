@@ -65,6 +65,7 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 
 const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
@@ -96,7 +97,10 @@ const props = buildHomeCompositionProps({
 });
 const copy = buildTestHomeCopy();
 
-const stripLocale = (href: string) => href.replace(/^\/ja(?=\/|$)/, "") || "/";
+// localePrefix "always" (2026-08-21) で /en 接頭辞も剥がす — locale は
+// ルート台帳の検証対象外 (言語トグルが /en リンクを chrome に持つ)。
+const stripLocale = (href: string) =>
+  href.replace(/^\/(ja|en)(?=\/|$)/, "") || "/";
 
 /** Article/session hrefs must resolve to real documents (fail-closed against dead links). */
 function expectResolvesRealDocument(href: string) {
@@ -219,7 +223,8 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
+    // + 2 = ヘッダ言語トグル (EN / 日本語・2026-08-21 田平氏 GO)
+    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length + 2);
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);

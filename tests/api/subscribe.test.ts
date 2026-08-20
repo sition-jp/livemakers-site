@@ -60,6 +60,16 @@ describe("/api/subscribe route handler", () => {
     expect(sendArgs.text).toContain("livemakers.com");
   });
 
+  it("links the EN welcome email to the /en locale URLs", async () => {
+    // localePrefix "always" 化 (2026-08-21) 後、無接頭 URL は /ja へ
+    // リダイレクトされるため、EN メール内リンクは /en を明示する。
+    contactsCreateMock.mockResolvedValue({ data: { id: "c_124" }, error: null });
+    await callRoute({ email: "user@example.com", locale: "en" });
+    const sendArgs = emailsSendMock.mock.calls[0][0];
+    expect(sendArgs.text).toContain("https://livemakers.com/en");
+    expect(sendArgs.text).toContain("https://livemakers.com/en/subscribe");
+  });
+
   it("sends a Japanese welcome email when locale=ja", async () => {
     contactsCreateMock.mockResolvedValue({ data: { id: "c_456" }, error: null });
     const res = await callRoute({ email: "tabira@example.jp", locale: "ja" });

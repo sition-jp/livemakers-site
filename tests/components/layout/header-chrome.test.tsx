@@ -47,6 +47,7 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 
 function renderChrome(futureAtlasNav = false) {
@@ -75,7 +76,7 @@ describe("G41 page chrome", () => {
       "header a[href], footer a[href]",
     )) {
       const href =
-        anchor.getAttribute("href")!.replace(/^\/ja(?=\/|$)/, "") || "/";
+        anchor.getAttribute("href")!.replace(/^\/(ja|en)(?=\/|$)/, "") || "/";
       expect(isAllowedChromeRoute(href), href).toBe(true);
     }
     expect(

@@ -26,6 +26,7 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 
 function renderHeader(futureAtlasNav: boolean) {
