@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-08-21-global-close",
+  "date": "2026-08-21",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-21-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-21-global-close",
+  "publishedAt": "2026-08-22T06:35:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260821_2303_1ce6e1dc",
+  "asOfJst": "2026-08-21T23:03:07+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月21日 23:03 JST",
+  "bullets": [
+    "Gold $4,516.30 → $4,640.40（+2.75%）",
+    "変動幅上位: ADA/USD +11.0% / NIGHT/USD +8.8%"
+  ]
+}
