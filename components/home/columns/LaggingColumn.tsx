@@ -16,7 +16,8 @@ const REGION = "lagging" satisfies GradientRegion;
  * 右カラム = 遅行 (索引) (G44 D7)。モジュール順は勾配台帳 REGION_MODULES.lagging。
  * ① Deep Dive (featured + title 4) ② 未来アトラス入口 (flag-aware) ③ 週末の12指標
  * ④ Weekly Brief (production 0 本 = latest null 常態) ⑤ 最新記事 10 本 ⑥ Turning Point
- * 予約席 (非表示)。②〜④ は IndexEntryCard 共用・⑤ と DeepDive の title 行は data-index-nav。
+ * 予約席 (非表示)。②〜④ は IndexEntryCard 共用 (最新 1 本は DeepDive featured と同じ
+ * サムネ付きカード・2026-08-23)・⑤ と DeepDive の title 行は data-index-nav。
  */
 export type LaggingColumnProps = Pick<
   HomeCompositionProps,
