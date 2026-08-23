@@ -325,6 +325,40 @@ def test_prepare_configures_gh_token_git_credential_helper(tmp_path: Path) -> No
     assert helpers == ["", "!gh auth git-credential"]
 
 
+def test_git_credential_helper_consumes_child_process_gh_token(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    _prepare_publisher_repo(config, env={"GH_TOKEN": "unit-secret"})
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    fake_gh = fake_bin / "gh"
+    fake_gh.write_text(
+        "#!/bin/sh\n"
+        "test \"$1\" = auth\n"
+        "test \"$2\" = git-credential\n"
+        "test \"$3\" = get\n"
+        "printf 'username=x-access-token\\npassword=%s\\n' \"$GH_TOKEN\"\n",
+        encoding="utf-8",
+    )
+    fake_gh.chmod(0o755)
+    env = dict(os.environ)
+    env["GH_TOKEN"] = "unit-secret"
+    env["PATH"] = f"{fake_bin}:{env['PATH']}"
+
+    result = subprocess.run(
+        ["git", "credential", "fill"],
+        cwd=config.publisher_repo,
+        env=env,
+        input="protocol=https\nhost=github.com\n\n",
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    assert "username=x-access-token" in result.stdout
+    assert "password=unit-secret" in result.stdout
+
+
 def test_missing_source_sidecar_preserves_main_sidecar(tmp_path: Path) -> None:
     remote = _init_remote(tmp_path)
     config = _publisher_config(tmp_path, remote)
@@ -566,7 +600,8 @@ def test_find_pr_rejects_wrong_base_head_or_owner(monkeypatch, overrides: dict) 
     with pytest.raises(PublishError, match="identity"):
         client.find_pr(branch)
 
-    assert f"sition-jp:{branch}" in calls[0]
+    head_index = calls[0].index("--head")
+    assert calls[0][head_index + 1] == branch
 
 
 def test_wait_for_green_times_out_without_merge(monkeypatch) -> None:

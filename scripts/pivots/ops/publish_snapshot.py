@@ -515,7 +515,6 @@ class GitHubClient:
             raise PublishError("GitHub CLI returned invalid JSON") from exc
 
     def find_pr(self, branch: str) -> PullRequest | None:
-        owner = self.config.repository.split("/", maxsplit=1)[0]
         payload = self._json_command(
             [
                 "gh",
@@ -524,7 +523,7 @@ class GitHubClient:
                 "--repo",
                 self.config.repository,
                 "--head",
-                f"{owner}:{branch}",
+                branch,
                 "--state",
                 "all",
                 "--limit",
