@@ -160,6 +160,7 @@ export function CoincidentColumn({
               title: copy.gradient.signalTitle,
               familyLabels: copy.familyLabels,
               seriesLink: copy.gradient.signalSeriesLink,
+              freshness: copy.gradient.signalFreshness,
             }}
           />
         );
