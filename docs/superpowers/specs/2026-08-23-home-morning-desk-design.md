@@ -1,6 +1,6 @@
 # ホーム中央カラム「Daily Intel」帯 + Signal 前面化 — 設計 (2026-08-23 田平氏 GO B-1)
 
-Status: `IMPLEMENTED — AWAITING_MERGE_GO` (branch `claude/home-morning-desk-b1`・Draft PR は §7)
+Status: `IMPLEMENTED — AWAITING_MERGE_GO` (branch `claude/home-morning-desk-b1`・Draft PR [#103](https://github.com/sition-jp/livemakers-site/pull/103))
 
 ## 1. 背景と診断
 
