@@ -14,6 +14,7 @@ import {
   GRADIENT_REGIONS,
   REGION_MODULES,
 } from "@/lib/home/gradient-ledger";
+import { orderLaggingModules } from "@/lib/home/lagging-order";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 
 vi.mock("@/i18n/navigation", () => ({
@@ -82,7 +83,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     );
   });
 
-  it("renders modules per region in ledger order", () => {
+  it("renders modules per region in ledger order (lagging article block newest-first, 2026-08-23 田平氏 GO A)", () => {
     const { container } = renderHome();
     for (const region of GRADIENT_REGIONS) {
       const section = container.querySelector(
@@ -92,7 +93,15 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       const modules = [
         ...section.querySelectorAll("[data-column-module]"),
       ].map((element) => element.getAttribute("data-column-module"));
-      expect(modules, region).toEqual([...REGION_MODULES[region]]);
+      const expected =
+        region === "lagging"
+          ? orderLaggingModules(props.slots)
+          : [...REGION_MODULES[region]];
+      expect(modules, region).toEqual(expected);
+      // every region still renders exactly the ledger's module set
+      expect([...modules].sort(), region).toEqual(
+        [...REGION_MODULES[region]].sort(),
+      );
     }
   });
 

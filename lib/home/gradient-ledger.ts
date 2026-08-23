@@ -26,6 +26,10 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
     "focus",
   ],
   coincident: ["lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values"],
+  // - lagging (2026-08-23 田平氏 GO A): 記事 4 枠 (deep-dive / atlas-entry /
+  //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
+  //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
+  //   tie-break 順」で、末尾 2 枠 (latest-articles / turning-point-reserved) は固定
   lagging: [
     "deep-dive",
     "atlas-entry",

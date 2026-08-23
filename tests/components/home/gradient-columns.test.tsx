@@ -9,6 +9,10 @@ import { CoincidentColumn } from "@/components/home/columns/CoincidentColumn";
 import { LaggingColumn } from "@/components/home/columns/LaggingColumn";
 import { LeadingColumn } from "@/components/home/columns/LeadingColumn";
 import { REGION_MODULES } from "@/lib/home/gradient-ledger";
+import {
+  orderLaggingModules,
+  laggingModuleLatest,
+} from "@/lib/home/lagging-order";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 
@@ -195,13 +199,60 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     );
   }
 
-  it("renders modules in the ledger order", () => {
+  it("renders the four article modules newest-first, then the fixed ledger tail (2026-08-23 田平氏 GO A)", () => {
     const { container } = renderLagging();
+    const rendered = [
+      ...container.querySelectorAll("[data-column-module]"),
+    ].map((el) => el.getAttribute("data-column-module"));
+    expect(rendered).toEqual(orderLaggingModules(props.slots));
+    // permutation of the ledger — nothing added, nothing dropped
+    expect([...rendered].sort()).toEqual([...REGION_MODULES.lagging].sort());
+    expect(rendered.slice(-2)).toEqual([
+      "latest-articles",
+      "turning-point-reserved",
+    ]);
+    // the article block really is in publishedAtJst descending order
+    const stamps = rendered
+      .slice(0, 4)
+      .map(
+        (module) =>
+          laggingModuleLatest(
+            props.slots,
+            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief",
+          )?.publishedAtJst ?? "",
+      )
+      .filter((stamp) => stamp !== "");
+    expect(stamps).toEqual([...stamps].sort().reverse());
     expect(
-      [...container.querySelectorAll("[data-column-module]")].map((el) =>
-        el.getAttribute("data-column-module"),
-      ),
-    ).toEqual([...REGION_MODULES.lagging]);
+      container
+        .querySelector('[data-ledger-group="lagging"]')!
+        .getAttribute("data-lagging-order"),
+    ).toBe("newest-first");
+  });
+
+  it("moves a module to the top when its latest article is the newest", () => {
+    const newest = {
+      ...props.slots.latestArticles[0]!,
+      articleId: "weekly-brief-newest",
+      family: "weekly-brief" as const,
+      publishedAtJst: "2026-07-10T23:00:00+09:00",
+      href: "/articles/weekly-brief-newest",
+    };
+    const { container } = render(
+      <LaggingColumn
+        slots={{ ...props.slots, weeklyBriefLatest: newest }}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    const rendered = [
+      ...container.querySelectorAll("[data-column-module]"),
+    ].map((el) => el.getAttribute("data-column-module"));
+    expect(rendered[0]).toBe("weekly-brief");
+    expect(rendered.slice(-2)).toEqual([
+      "latest-articles",
+      "turning-point-reserved",
+    ]);
   });
 
   it("treats only the deep-dive featured article as body content", () => {
