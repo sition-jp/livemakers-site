@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -325,6 +326,44 @@ def test_prepare_configures_gh_token_git_credential_helper(tmp_path: Path) -> No
     assert helpers == ["", "!gh auth git-credential"]
 
 
+def test_prepare_passes_gh_helper_to_initial_clone(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    fake_bin = tmp_path / "bin"
+    fake_bin.mkdir()
+    capture = tmp_path / "clone-env"
+    real_git = shutil.which("git")
+    assert real_git is not None
+    fake_git = fake_bin / "git"
+    fake_git.write_text(
+        "#!/bin/sh\n"
+        "if [ \"$1\" = clone ]; then\n"
+        "  printf '%s\\n' \"$GIT_CONFIG_COUNT\" \"$GIT_CONFIG_KEY_0\" "
+        "\"$GIT_CONFIG_VALUE_0\" \"$GIT_CONFIG_KEY_1\" "
+        "\"$GIT_CONFIG_VALUE_1\" \"${GIT_CONFIG_PARAMETERS-unset}\" "
+        "> \"$PIVOTS_CLONE_ENV\"\n"
+        "fi\n"
+        f"exec {real_git} \"$@\"\n",
+        encoding="utf-8",
+    )
+    fake_git.chmod(0o755)
+    env = dict(os.environ)
+    env["PATH"] = f"{fake_bin}:{env['PATH']}"
+    env["PIVOTS_CLONE_ENV"] = str(capture)
+    env["GIT_CONFIG_PARAMETERS"] = "'credential.helper=!malicious-helper'"
+
+    _prepare_publisher_repo(config, env=env)
+
+    assert capture.read_text(encoding="utf-8").splitlines() == [
+        "2",
+        "credential.https://github.com.helper",
+        "",
+        "credential.https://github.com.helper",
+        "!gh auth git-credential",
+        "unset",
+    ]
+
+
 def test_git_credential_helper_consumes_child_process_gh_token(tmp_path: Path) -> None:
     remote = _init_remote(tmp_path)
     config = _publisher_config(tmp_path, remote)
@@ -440,11 +479,22 @@ def test_stage_rebuilds_clean_local_branch_left_by_failed_push(tmp_path: Path) -
 
     _prepare_publisher_repo(config, env={})
     first = _stage_snapshot_commit(snapshot, config, env={})
+    first_tree = _git(
+        config.publisher_repo,
+        "rev-parse",
+        "HEAD^{tree}",
+    ).stdout.strip()
     _prepare_publisher_repo(config, env={})
     second = _stage_snapshot_commit(snapshot, config, env={})
+    second_tree = _git(
+        config.publisher_repo,
+        "rev-parse",
+        "HEAD^{tree}",
+    ).stdout.strip()
 
     assert first.branch == second.branch
-    assert first.commit_sha == second.commit_sha
+    assert first.committed_paths == second.committed_paths
+    assert first_tree == second_tree
 
 
 def _check_run(name: str, conclusion: str, status: str = "COMPLETED") -> dict:
@@ -1291,7 +1341,7 @@ def test_merged_pr_not_reflected_on_main_fails_closed(tmp_path: Path) -> None:
         merge_sha="a" * 40,
     )
 
-    with pytest.raises(PublishError, match="not reflected"):
+    with pytest.raises(PublishError, match="not reflected") as caught:
         publish_snapshot(
             assets,
             backtest,
@@ -1307,6 +1357,7 @@ def test_merged_pr_not_reflected_on_main_fails_closed(tmp_path: Path) -> None:
             http_get=lambda *_args: pytest.fail("smoke must not run"),
             sleep=lambda _seconds: None,
         )
+    assert caught.value.post_merge is True
 
 
 def test_remote_branch_without_pr_fails_closed(tmp_path: Path) -> None:

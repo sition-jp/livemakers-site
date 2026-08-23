@@ -14,6 +14,18 @@ PYTHON_BIN="$REPO_ROOT/scripts/pivots/.venv/bin/python"
 PREVIOUS_PLIST_BACKUP=""
 PREVIOUS_LOADED=0
 INSTALL_MUTATED=0
+VERIFY_TIMEOUT_SECONDS="${PIVOTS_INSTALL_VERIFY_TIMEOUT_SECONDS:-120}"
+
+case "$VERIFY_TIMEOUT_SECONDS" in
+  ''|*[!0-9]*)
+    echo "ERROR: PIVOTS_INSTALL_VERIFY_TIMEOUT_SECONDS must be a positive integer" >&2
+    exit 1
+    ;;
+esac
+if [ "$VERIFY_TIMEOUT_SECONDS" -le 0 ]; then
+  echo "ERROR: PIVOTS_INSTALL_VERIFY_TIMEOUT_SECONDS must be a positive integer" >&2
+  exit 1
+fi
 
 finish_install() {
   status=$?
@@ -150,32 +162,58 @@ echo "pre-kickstart log line count: $PRE_LINES"
 # 8. Bootstrap (load)
 launchctl bootstrap "$DOMAIN" "$PLIST_DST"
 
-# 9. Kickstart (immediate single fire)
-launchctl kickstart -k "$DOMAIN/$LABEL"
+# 9. Kickstart (immediate single fire) and capture the exact process identity.
+KICKSTART_OUTPUT="$(launchctl kickstart -kp "$DOMAIN/$LABEL")"
+KICKSTART_PID="$(printf '%s' "$KICKSTART_OUTPUT" | tr -d '[:space:]')"
+case "$KICKSTART_PID" in
+  ''|*[!0-9]*)
+    echo "ERROR: launchctl kickstart did not return a valid PID" >&2
+    exit 1
+    ;;
+esac
+echo "kickstarted PID: $KICKSTART_PID"
 
-# 10. Poll until log line count increases AND new entry has status=OK
+# 10. Poll until the entry emitted by that exact PID has status=OK. Other new
+# log lines are ignored rather than being mistaken for this install run.
 echo "polling $LOG_FILE for first-run entry..."
-DEADLINE=$(($(date +%s) + 120))
+DEADLINE=$(($(date +%s) + VERIFY_TIMEOUT_SECONDS))
 while [ $(date +%s) -lt $DEADLINE ]; do
   if [ -f "$LOG_FILE" ]; then
     NOW_LINES="$(wc -l < "$LOG_FILE" | tr -d ' ')"
     if [ "$NOW_LINES" -gt "$PRE_LINES" ]; then
-      LATEST_LINE="$(tail -1 "$LOG_FILE")"
-      STATUS="$(printf '%s' "$LATEST_LINE" | sed -nE 's/.*"status":[[:space:]]*"([^"]+)".*/\1/p')"
-      echo "--- ops.log.jsonl (first-run entry) ---"
-      printf '%s\n' "$LATEST_LINE"
-      if [ "$STATUS" = "OK" ]; then
-        echo "first-run OK"
-        exit 0
+      MATCHING_LINE="$("$PYTHON_BIN" -c '
+import json
+import sys
+
+path, start, expected_pid = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
+with open(path, encoding="utf-8") as handle:
+    lines = handle.read().splitlines()[start:]
+for line in lines:
+    try:
+        payload = json.loads(line)
+    except (TypeError, ValueError):
+        continue
+    if payload.get("pid") == expected_pid:
+        print(line)
+        break
+' "$LOG_FILE" "$PRE_LINES" "$KICKSTART_PID")"
+      if [ -n "$MATCHING_LINE" ]; then
+        STATUS="$(printf '%s' "$MATCHING_LINE" | sed -nE 's/.*"status":[[:space:]]*"([^"]+)".*/\1/p')"
+        echo "--- ops.log.jsonl (kickstarted first-run entry) ---"
+        printf '%s\n' "$MATCHING_LINE"
+        if [ "$STATUS" = "OK" ]; then
+          echo "first-run OK"
+          exit 0
+        fi
+        echo "ERROR: kickstarted first-run status=\"$STATUS\" (expected OK)" >&2
+        echo "  inspect launchd.stderr.log for details" >&2
+        exit 2
       fi
-      echo "ERROR: first-run status=\"$STATUS\" (expected OK)" >&2
-      echo "  inspect launchd.stderr.log for details" >&2
-      exit 2
     fi
   fi
   sleep 3
 done
 
-echo "WARN: log line count did not increase within 120 s (was $PRE_LINES)" >&2
+echo "WARN: did not observe an ops log entry for kickstarted PID $KICKSTART_PID within $VERIFY_TIMEOUT_SECONDS s" >&2
 echo "  inspect launchd.stderr.log and ops.log.jsonl manually" >&2
 exit 2

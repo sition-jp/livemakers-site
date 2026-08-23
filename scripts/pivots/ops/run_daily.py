@@ -148,6 +148,7 @@ def _alert(
         "previous_snapshot_preserved": previous_snapshot_preserved,
         "orphan_bak_present": orphan_bak_present,
         "details": details,
+        "pid": os.getpid(),
     }
     dispatch(payload, log_file=log_file, notify_ok=notify_ok)
 

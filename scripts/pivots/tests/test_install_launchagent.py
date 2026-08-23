@@ -20,6 +20,8 @@ def _installer_fixture(
     *,
     telegram_present: bool = True,
     kickstart_status: str = "FAILED",
+    kickstart_pid: int = 4242,
+    logged_pid: int | None = None,
     fail_rollback_bootout: bool = False,
 ) -> tuple[Path, dict[str, str], Path, Path]:
     repo = tmp_path / "repo"
@@ -35,7 +37,14 @@ def _installer_fixture(
 
     python = repo / "scripts" / "pivots" / ".venv" / "bin" / "python"
     python.parent.mkdir(parents=True)
-    _write_executable(python, "#!/bin/sh\nexit 0\n")
+    _write_executable(
+        python,
+        "#!/bin/sh\n"
+        "case \"$2\" in\n"
+        "  *'import json'*) exec /usr/bin/python3 \"$@\" ;;\n"
+        "esac\n"
+        "exit 0\n",
+    )
 
     home = tmp_path / "home"
     launch_agents = home / "Library" / "LaunchAgents"
@@ -85,7 +94,8 @@ case "$1" in
     echo loaded > "$PIVOTS_TEST_STATE"
     ;;
   kickstart)
-    printf '{"status":"%s"}\n' "$PIVOTS_TEST_STATUS" >> "$PIVOTS_TEST_LOG"
+    printf '{"status":"%s","pid":%s}\n' "$PIVOTS_TEST_STATUS" "$PIVOTS_TEST_LOGGED_PID" >> "$PIVOTS_TEST_LOG"
+    printf '%s\n' "$PIVOTS_TEST_KICKSTART_PID"
     ;;
 esac
 """,
@@ -100,6 +110,11 @@ esac
             "PIVOTS_TEST_STATE": str(state),
             "PIVOTS_TEST_LOG": str(log_file),
             "PIVOTS_TEST_STATUS": kickstart_status,
+            "PIVOTS_TEST_KICKSTART_PID": str(kickstart_pid),
+            "PIVOTS_TEST_LOGGED_PID": str(
+                kickstart_pid if logged_pid is None else logged_pid
+            ),
+            "PIVOTS_INSTALL_VERIFY_TIMEOUT_SECONDS": "1",
             "PIVOTS_TEST_FAIL_ROLLBACK_BOOTOUT": (
                 "1" if fail_rollback_bootout else "0"
             ),
@@ -151,6 +166,28 @@ def test_successful_kickstart_keeps_new_plist_and_loaded_agent(tmp_path: Path) -
     assert sum(line.startswith("bootout ") for line in recorded) == 1
     assert sum(line.startswith("bootstrap ") for line in recorded) == 1
     assert "first-run OK" in result.stdout
+
+
+def test_success_requires_log_entry_from_kickstarted_pid(tmp_path: Path) -> None:
+    installer, env, plist, _actions = _installer_fixture(
+        tmp_path,
+        kickstart_status="OK",
+        kickstart_pid=4242,
+        logged_pid=9999,
+    )
+
+    result = subprocess.run(
+        ["bash", str(installer)],
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+
+    assert result.returncode == 2
+    assert plist.read_text(encoding="utf-8") == "previous-plist\n"
+    assert "kickstarted PID 4242" in result.stderr
 
 
 def test_missing_telegram_credentials_fails_before_installed_state_change(

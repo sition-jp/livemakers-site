@@ -166,9 +166,10 @@ value in this runbook, git, logs, launchd environment, or command history.
 state. The Python publisher validates the assignment at runtime and redacts the
 value from bounded child-process output.
 
-The dedicated publisher clone resets any inherited Git credential helper and
-uses the local helper `!gh auth git-credential`. This makes Git fetch/push use
-the same child-process `GH_TOKEN` as `gh` without persisting its value.
+The publisher supplies an empty reset plus `!gh auth git-credential` through
+process-scoped Git config before the initial clone, then installs the same
+helper pair in the dedicated clone. This makes clone/fetch/push use the same
+child-process `GH_TOKEN` as `gh` without persisting its value.
 
 ### Telegram setup (one-time, before install)
 
@@ -228,7 +229,10 @@ verification fails, it boots out the new agent and restores the previous plist
 and loaded state. A rollback-incomplete error requires immediate operator
 inspection before the next 08:00 fire. In that case the installer preserves and
 prints the previous plist backup path instead of deleting the last recovery
-artifact.
+artifact. The installer captures the PID returned by
+`launchctl kickstart -p`; every runner JSONL entry records its PID, and only an
+`OK` entry from that exact process satisfies the first-run gate. Unrelated new
+log lines cannot produce a false install success.
 
 ### Publication state machine and recovery
 

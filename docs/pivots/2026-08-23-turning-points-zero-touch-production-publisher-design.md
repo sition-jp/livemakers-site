@@ -159,9 +159,10 @@ stdout, stderr, JSONL logs, Telegram, git, PR text, or memory.
 The token is not added to the LaunchAgent plist or inherited launchd
 environment.
 
-The dedicated clone overrides inherited Git credential helpers locally with
-`!gh auth git-credential`, so Git and `gh` use the same child-process token
-without writing its value to Git config.
+Before the initial clone, process-scoped Git config supplies an empty helper
+reset followed by `!gh auth git-credential`. The dedicated clone then records
+the same helper pair locally. Git and `gh` therefore use the same child-process
+token for clone/fetch/push without writing its value to Git config.
 
 ## 5. Failure Semantics
 
@@ -171,8 +172,8 @@ without writing its value to Git config.
 | local auto-commit failure | unchanged | generated files may exist locally | FAILED |
 | credential / clone / push failure | unchanged | committed locally | FAILED |
 | PR checks fail or timeout | unchanged | committed locally; PR retained | FAILED |
-| merge API rejects | unchanged | committed locally; PR retained | FAILED |
-| merge response, production deploy, or smoke fails after merge attempt | `main` or production may have changed; reconcile by merge SHA | merge may already be recorded | FAILED with `phase=post_merge` |
+| merge attempt returns an error or its result cannot be reconciled | `main` may have changed; inspect the pinned PR head and merge result | committed locally; PR retained | FAILED with `phase=post_merge` |
+| production deploy or smoke fails after merge | production may have changed; reconcile by merge SHA | merge recorded | FAILED with `phase=post_merge` |
 | production already at same/newer timestamp | unchanged/current | no duplicate PR | OK, already current |
 
 The final Telegram OK means production smoke completed, not merely that local
@@ -181,6 +182,8 @@ generation completed.
 ## 6. Observability
 
 - `ops.log.jsonl` remains the durable run record.
+- Every runner entry includes the emitting process PID so install verification
+  can correlate an immediate kickstart with its exact result.
 - Success details include source timestamp, PR URL when created, merge SHA, and
   production smoke result.
 - Failure details are bounded and secret-free.
@@ -212,8 +215,10 @@ state without deleting generated data or branches.
 
 The installer is transactional: it snapshots the previous plist and loaded
 state before replacement, and restores both when bootstrap, kickstart, or the
-first-run OK gate fails. Manual rollback remains the separate response after a
-successful cutover.
+first-run OK gate fails. The first-run gate captures the PID returned by
+`launchctl kickstart -p` and accepts only an `OK` JSONL entry carrying that
+PID; concurrent or stale log lines are ignored. Manual rollback remains the
+separate response after a successful cutover.
 
 ## 8. Non-Goals
 

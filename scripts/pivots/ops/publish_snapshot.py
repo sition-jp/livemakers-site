@@ -165,11 +165,27 @@ def _require_clean_publisher_repo(
         raise PublishError(f"publisher clone is dirty: {rendered}")
 
 
+def _git_auth_env(env: Mapping[str, str]) -> dict[str, str]:
+    authenticated = dict(env)
+    for key in tuple(authenticated):
+        if key in {"GIT_CONFIG_COUNT", "GIT_CONFIG_PARAMETERS"} or re.fullmatch(
+            r"GIT_CONFIG_(?:KEY|VALUE)_\d+", key
+        ):
+            authenticated.pop(key)
+    authenticated["GIT_CONFIG_COUNT"] = "2"
+    authenticated["GIT_CONFIG_KEY_0"] = "credential.https://github.com.helper"
+    authenticated["GIT_CONFIG_VALUE_0"] = ""
+    authenticated["GIT_CONFIG_KEY_1"] = "credential.https://github.com.helper"
+    authenticated["GIT_CONFIG_VALUE_1"] = "!gh auth git-credential"
+    return authenticated
+
+
 def _prepare_publisher_repo(
     config: PublishConfig,
     *,
     env: Mapping[str, str],
 ) -> None:
+    env = _git_auth_env(env)
     repo = Path(config.publisher_repo)
     if not repo.exists():
         repo.parent.mkdir(parents=True, exist_ok=True)
@@ -1107,6 +1123,7 @@ def _publish_frozen_snapshot(
         if github_env is not None
         else _load_github_env(config.token_file)
     )
+    env = _git_auth_env(env)
     _prepare_publisher_repo(config, env=env)
     repo = Path(config.publisher_repo)
     main_snapshot = _load_source_snapshot(
@@ -1186,7 +1203,8 @@ def _publish_frozen_snapshot(
         classification = _classify_existing_pr(existing_pr)
         if classification == "merged":
             raise PublishError(
-                "merged publication PR is not reflected on fetched origin/main"
+                "merged publication PR is not reflected on fetched origin/main",
+                post_merge=True,
             )
         expected_head = _verify_remote_branch_snapshot(
             snapshot,

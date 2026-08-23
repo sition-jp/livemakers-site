@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 from unittest.mock import patch
 
@@ -54,6 +55,7 @@ def test_dry_run_failure_alerts_and_skips_live(fake_env: dict) -> None:
     ]
     assert entries[-1]["status"] == "FAILED"
     assert entries[-1]["error_type"] == "DryRunFailed"
+    assert entries[-1]["pid"] == os.getpid()
 
 
 def test_live_write_failure_after_dry_run_success_alerts(fake_env: dict) -> None:
