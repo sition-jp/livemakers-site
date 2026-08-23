@@ -217,3 +217,28 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
     }
   });
 });
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5): mobile
+// hero も「読み解きのみ」を時刻の後ろに付ける。
+describe("composite hero digest-only session (observationStatus=absent)", () => {
+  it("appends the digest-only marker to the time span", () => {
+    const digestLive: SessionRecord = {
+      ...props.live!,
+      asOfJst: "2026-07-10T07:12:00+09:00",
+      observationStatus: "absent",
+      editorial: {
+        digestId: "dig_20260710_0712_ab12cd34",
+        crawlAnchorJst: "2026-07-10T05:03:00+09:00",
+        writtenAtJst: "2026-07-10T07:12:00+09:00",
+        lead: "市場は方向感を探っている。",
+        items: [{ headline: "公式発表で変更が示された", sourceUrl: "https://primary.example.org/news/123" }],
+        watch: ["次の公式発表を確認する。"],
+      },
+    };
+    const { container } = render(
+      <CompositeHero live={digestLive} lead={pendingLead} copy={copy.hero} />,
+    );
+    const line = container.querySelector('[data-column-module="hero-session-line"]')!;
+    expect(line.textContent).toContain("07:12 JST · 読み解きのみ");
+  });
+});

@@ -131,8 +131,21 @@ export const SessionMetaSchema = z
     titleJa: z.string().min(1),
     bullets: z.array(z.string().min(1)).min(1),
     editorial: SessionEditorialSchema.optional(),
+    // 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §2):
+    // "absent" = 市場観測 (home observer preflight) が RED で数値スナップ
+    // ショットが無く、読み解き digest だけで組んだセッション。省略 = green。
+    // absent は editorial 必須 (下の superRefine)。live ↔ home.focusSession の
+    // 照合 (build-home-props) からは外す。
+    observationStatus: z.enum(["green", "absent"]).optional(),
   })
   .superRefine((meta, context) => {
+    if (meta.observationStatus === "absent" && !meta.editorial) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "observationStatus absent requires editorial",
+        path: ["observationStatus"],
+      });
+    }
     if (meta.currentUrl !== `${SESSION_URL_PREFIX}${meta.sessionId}`) {
       context.addIssue({
         code: z.ZodIssueCode.custom,

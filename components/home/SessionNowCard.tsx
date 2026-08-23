@@ -11,6 +11,10 @@ export interface SessionNowCopy {
   sessionBadgeSuffix: string;
   /** 2026-08-23 (spec §A): closed variant のバッジ末尾 ("JST 終了")。 */
   closedBadgeSuffix?: string;
+  /** 2026-08-23 digest-only (observationStatus=absent): バッジ末尾 / 鮮度接頭 / 来歴の代替注記 */
+  digestOnlyLabel?: string;
+  digestFreshnessPrefix?: string;
+  noSnapshotNote?: string;
   freshnessPrefix: string;
   nextUpdateLine: string;
   readFull: string;
@@ -49,6 +53,10 @@ export function SessionNowCard({
   variant?: "live" | "closed";
 }) {
   const definition = getSessionBySlug(record.sessionSlug);
+  // 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5):
+  // 市場観測 RED の窓で読み解き digest だけから組まれたセッション。数値が
+  // 無いので市場来歴 (reviewed_live 等) を主張せず、注記 1 行に置き換える。
+  const digestOnly = record.observationStatus === "absent";
   const [headline, ...restBullets] = record.bullets;
   const freshnessHm = record.asOfJst.slice(11, 16);
   const editorial = showEditorial ? record.editorial : undefined;
@@ -65,6 +73,7 @@ export function SessionNowCard({
     <section
       aria-label={definition.nameEn}
       data-session-state={variant}
+      data-session-observation={digestOnly ? "absent" : "green"}
       data-session-editorial={editorial ? "present" : "absent"}
       className="rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary p-4"
     >
@@ -77,6 +86,7 @@ export function SessionNowCard({
           {variant === "closed"
             ? (copy.closedBadgeSuffix ?? copy.sessionBadgeSuffix)
             : copy.sessionBadgeSuffix}
+          {digestOnly && copy.digestOnlyLabel ? ` · ${copy.digestOnlyLabel}` : ""}
         </span>
       </div>
       <h3 className="mt-2 text-base font-bold leading-snug text-text-primary">
@@ -86,7 +96,8 @@ export function SessionNowCard({
         {definition.nameJa}
       </p>
       <p className="mt-1 font-mono text-[11px] text-text-tertiary">
-        {copy.freshnessPrefix} {record.date} · {freshnessHm} JST
+        {digestOnly ? (copy.digestFreshnessPrefix ?? copy.freshnessPrefix) : copy.freshnessPrefix}{" "}
+        {record.date} · {freshnessHm} JST
       </p>
       {editorial ? (
         <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">
@@ -119,10 +130,16 @@ export function SessionNowCard({
             : copy.readFull}
         </Link>
       </div>
-      <WindowProvenanceRow
-        provenance={provenance}
-        labels={copy.provenance}
-      />
+      {digestOnly ? (
+        <p className="mt-2 border-t border-dashed border-border-primary pt-1.5 text-[9.5px] text-text-tertiary">
+          {copy.noSnapshotNote}
+        </p>
+      ) : (
+        <WindowProvenanceRow
+          provenance={provenance}
+          labels={copy.provenance}
+        />
+      )}
     </section>
   );
 }

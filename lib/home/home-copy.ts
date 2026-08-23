@@ -44,6 +44,8 @@ export interface HomeCopy {
     /** 2026-08-23 (spec §A): live 無し・直前 closed あり のラベル/末尾 */
     closedSessionLabel: string;
     closedSuffix: string;
+    /** 2026-08-23 digest-only: 時刻の後ろに付ける「読み解きのみ」 */
+    digestOnlyLabel: string;
     sessionFallback: string;
     leadFamily: string;
     leadPending: string;
@@ -139,6 +141,7 @@ export function buildHomeCopy(
       sessionLabel: translate("hero.sessionLabel"),
       closedSessionLabel: translate("hero.closedSessionLabel"),
       closedSuffix: translate("hero.closedSuffix"),
+      digestOnlyLabel: translate("hero.digestOnlyLabel"),
       sessionFallback: translate("general.noLiveSession"),
       leadFamily: familyLabels["daily-intel"],
       leadPending: translate("hero.leadPending"),
@@ -169,6 +172,9 @@ export function buildHomeCopy(
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
       closedBadgeSuffix: translate("sessionNow.closedBadgeSuffix"),
+      digestOnlyLabel: translate("sessionNow.digestOnlyLabel"),
+      digestFreshnessPrefix: translate("sessionNow.digestFreshnessPrefix"),
+      noSnapshotNote: translate("sessionNow.noSnapshotNote"),
       freshnessPrefix: translate("sessionNow.freshnessPrefix"),
       nextUpdateLine: translate("sessionNow.nextUpdateLine", {
         name: context.nextSessionName,

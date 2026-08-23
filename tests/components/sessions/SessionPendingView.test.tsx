@@ -93,3 +93,30 @@ describe("SessionPendingView", () => {
     expect(screen.queryByText(copy.crystallizeNote)).toBeNull();
   });
 });
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5):
+// observationStatus=absent は「数値スナップショット」節を描かず注記 1 行。
+describe("SessionPendingView digest-only (observationStatus=absent)", () => {
+  const copy = {
+    snapshotHeading: "数値スナップショット",
+    highlightsHeading: "一次情報ハイライト",
+    watchHeading: "次の見どころ",
+    crystallizeNote: "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
+    noSnapshotNote: "この回は市場観測が取得できず、読み解きのみです。",
+  };
+  it("replaces the snapshot section with the no-snapshot note and keeps lead → sources → watch", () => {
+    render(
+      <SessionPendingView
+        record={{ ...record, observationStatus: "absent", bullets: ["一次情報で確認された主要な動き"] }}
+        locale="ja"
+        copy={copy}
+      />,
+    );
+    expect(screen.queryByText("数値スナップショット")).toBeNull();
+    expect(screen.getByText("この回は市場観測が取得できず、読み解きのみです。")).toBeInTheDocument();
+    expect(screen.getByText("一次情報ハイライト")).toBeInTheDocument();
+    expect(screen.getByText("次の見どころ")).toBeInTheDocument();
+    // bullets (= digest headlines) are not duplicated as a snapshot list
+    expect(screen.getAllByText("一次情報で確認された主要な動き")).toHaveLength(1);
+  });
+});
