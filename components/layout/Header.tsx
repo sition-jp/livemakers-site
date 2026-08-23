@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/LogoMark";
-import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
 import { buildFlatNav } from "@/lib/home/nav-model";
 
@@ -12,7 +11,8 @@ import { buildFlatNav } from "@/lib/home/nav-model";
  * ヘッダ 1 段目 (2026-08-14 田平氏指示で再構成):
  * logo + フラット 1 列ナビ (dropdown なし・左揃え)。旧右側クラスタ
  * (LIGHT/DARK・日付・SNAPSHOT チップ・version) は 3 段目
- * (GlobalProvenanceStrip) へ移設。ナビ順の正本 = buildFlatNav。
+ * (GlobalProvenanceStrip) へ移設。言語トグル (EN/日本語) も 2026-08-23
+ * 田平氏指示で同クラスタ (LIGHT/DARK の前) へ移設。ナビ順の正本 = buildFlatNav。
  */
 export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("nav");
@@ -36,9 +36,6 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
             </span>
           </span>
         </Link>
-
-        {/* 言語トグル (2026-08-21 田平氏 GO で復活) — ロゴ隣・全ブレークポイント表示 */}
-        <LanguageToggle />
 
         {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
         <nav

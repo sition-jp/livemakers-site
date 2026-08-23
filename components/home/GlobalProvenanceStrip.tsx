@@ -1,3 +1,4 @@
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
@@ -7,7 +8,10 @@ import type { ProvenanceLabels } from "./WindowProvenanceRow";
  * ヘッダ 3 段目 (2026-08-14 田平氏指示で再構成):
  * 左 = 来歴 (審査状態/ソース/as-of/パケットID) + 注記「数値は取得時点の…」を
  * 続けて表示。右 = 旧ヘッダ 1 段目のクラスタ (LIGHT/DARK・日付・SNAPSHOT
- * チップ・version)。chromeMeta を渡さない呼び出し (テスト等) は従来表示。
+ * チップ・version)。2026-08-23 田平氏指示で言語トグル (EN/日本語) も
+ * ヘッダ 1 段目からこのクラスタ先頭へ移設 — 操作系 (言語 → テーマ) を左、
+ * 表示系 (日付 → SNAPSHOT → version) を右にまとめる。chromeMeta を渡さない
+ * 呼び出し (テスト等) は従来表示。
  */
 export function GlobalProvenanceStrip({
   provenance,
@@ -46,6 +50,7 @@ export function GlobalProvenanceStrip({
         <span>{note}</span>
         {chromeMeta ? (
           <span className="ml-auto flex items-center gap-2 sm:gap-3">
+            <LanguageToggle />
             <ThemeToggle />
             <span className="hidden font-mono text-[10px] xl:inline">
               {chromeMeta.dateLabel}

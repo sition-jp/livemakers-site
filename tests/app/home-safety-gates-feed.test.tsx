@@ -202,6 +202,8 @@ function renderFullPage(
           provenance={homeProps.pageProvenance}
           labels={copy.provenance}
           note={copy.globalProvenanceNote}
+          chromeMeta={getSnapshotChromeMeta(homeProps.snapshot)}
+          snapshotLabel="SNAPSHOT"
         />
         <HomeComposition
           {...homeProps}
@@ -335,11 +337,23 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    // + 2 = ヘッダ言語トグル (EN / 日本語・2026-08-21 田平氏 GO)
-    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length + 2);
+    // 言語トグル (EN / 日本語) は 2026-08-23 田平氏指示でヘッダから来歴帯の
+    // 右クラスタへ移設 — header/footer には数えず、strip 側で 2 本を別検証
+    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);
+    }
+    const stripAnchors = [
+      ...container.querySelectorAll('[data-chrome="provenance-strip"] a[href]'),
+    ];
+    expect(stripAnchors.map((anchor) => anchor.textContent)).toEqual([
+      "EN",
+      "日本語",
+    ]);
+    for (const anchor of stripAnchors) {
+      const href = stripLocale(anchor.getAttribute("href")!);
+      expect(isAllowedChromeRoute(href), `strip:${href}`).toBe(true);
     }
 
     const ledgerAnchors = [
@@ -398,8 +412,12 @@ describe("G44 safety gates with validated Production feed overlay", () => {
         expect(isAllowedChromeRoute(href), `gradient:${href}`).toBe(true);
       }
     }
+    // 2026-08-23: 来歴帯の言語トグル (strip バケット) を 4 つ目として加算
     expect(container.querySelectorAll("a[href]").length).toBe(
-      chromeAnchors.length + heroAnchors.length + gradientAnchors.length,
+      chromeAnchors.length +
+        stripAnchors.length +
+        heroAnchors.length +
+        gradientAnchors.length,
     );
   });
 
