@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 import pytest
 
+import producer.run_producer as run_producer_module
 from producer.fetch_binance import BinanceFetcher
 from producer.run_producer import run_producer
 
@@ -147,6 +148,31 @@ def test_live_write_replaces_target_atomically(
     # Bak files cleaned on success.
     assert not (tmp_path / "pivot_assets.live.json.bak").exists()
     assert not (tmp_path / "pivot_backtest.live.json.bak").exists()
+
+
+def test_custom_targets_do_not_touch_canonical_sidecar(
+    tmp_path: Path, canned_fetcher: BinanceFetcher
+) -> None:
+    canonical = run_producer_module.DEFAULT_DERIVATIVES_HISTORY
+    before = canonical.read_bytes()
+    assets_target = tmp_path / "pivot_assets.live.json"
+    backtest_target = tmp_path / "pivot_backtest.live.json"
+
+    try:
+        rc = run_producer(
+            fetcher=canned_fetcher,
+            assets_path=assets_target,
+            backtest_path=backtest_target,
+            dry_run=False,
+            skip_zod_validate=True,
+        )
+
+        assert rc == 0
+        assert canonical.read_bytes() == before
+        assert (tmp_path / "pivot_derivatives_history.live.json").exists()
+    finally:
+        if canonical.read_bytes() != before:
+            canonical.write_bytes(before)
 
 
 def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path) -> None:

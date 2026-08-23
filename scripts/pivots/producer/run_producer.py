@@ -211,11 +211,16 @@ def run_producer(
     fetcher: BinanceFetcher,
     assets_path: Path,
     backtest_path: Path,
-    derivatives_history_path: Path = DEFAULT_DERIVATIVES_HISTORY,
+    derivatives_history_path: Path | None = None,
     dry_run: bool = False,
     skip_zod_validate: bool = False,
     repo_root: Path = REPO_ROOT,
 ) -> int:
+    if derivatives_history_path is None:
+        derivatives_history_path = assets_path.with_name(
+            DEFAULT_DERIVATIVES_HISTORY.name
+        )
+
     if _refuse_if_orphan_baks((assets_path, backtest_path)):
         return 1
 
