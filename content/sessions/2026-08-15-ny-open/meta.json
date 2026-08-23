@@ -1,0 +1,75 @@
+{
+  "sessionId": "2026-08-15-ny-open",
+  "date": "2026-08-15",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-15-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-15-ny-open",
+  "publishedAt": "2026-08-16T06:35:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260815_1803_bcd78c01",
+  "asOfJst": "2026-08-15T18:03:07+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月15日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,798.99 → 7,785.76（-0.17%）",
+    "変動幅上位: VIX -2.6% / ADA/USD -2.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260815_1845_98f6e48d",
+    "crawlAnchorJst": "2026-08-15T18:03:00+09:00",
+    "writtenAtJst": "2026-08-15T18:45:00+09:00",
+    "lead": "この時間帯にまとまって出てきたのは、AI をつくる側が自分たちの製品の「素性」を外へ開示する動きだった。出力に透かしを入れる理由を欧州の法律だと明言し、自社モデルのリスク評価を定期刊行し、エージェントの土台をオープンソースで手放す。売り文句が性能から、検証可能性と組み替えやすさへ寄っている。金融・地政学の側は、災害対応と中東の緊張という前からの線が続いた。",
+    "items": [
+      {
+        "headline": "Anthropic、出力への透かし実装の根拠を EU AI Act だと明示",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2088343978873966687",
+        "note": "追加文字もトークン増もなく、読み手には見分けがつかないと説明。個人や組織への追跡はできないとも明記している。"
+      },
+      {
+        "headline": "同社、2 本目のリスクレポートを公開",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2088324824863236248",
+        "note": "Responsible Scaling Policy に基づく定期刊行物として、自社システムのリスクと対処の準備状況をまとめている。"
+      },
+      {
+        "headline": "DeepSeek、エージェント基盤 Harness v0.1 を MIT で公開",
+        "sourceUrl": "https://x.com/deepseek_ai/status/2087887408440164663",
+        "note": "モデル・ツール・スキル・セッション・サンドボックス・UI をすべて差し替え可能な部品として実装する設計。"
+      },
+      {
+        "headline": "Alibaba、Qwen3.8 のオープンウェイトを公開",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2088280182356611304",
+        "note": "27B の多モーダル密モデルを含む構成で、前世代の上位モデルを上回るとしている。"
+      },
+      {
+        "headline": "Waymo、カリフォルニア州の認可で運行域を拡大",
+        "sourceUrl": "https://x.com/Waymo/status/2088332349734068491",
+        "note": "サンフランシスコ湾岸とロサンゼルスでの拡大に加え、サクラメントとサンディエゴへ広げる。段階的に進めるとしている。"
+      },
+      {
+        "headline": "「AI の増設は 2029 年ごろ地上で詰む」との見立てが出た",
+        "sourceUrl": "https://x.com/elonmusk/status/2088306926442430578",
+        "note": "制約として名指しされたのは半導体ではなく、電力の供給余力と土地側の許認可だった。"
+      },
+      {
+        "headline": "金融庁、8 月 13 日からの大雨被害に対する金融上の措置を公表",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/ginkou/20260814.html",
+        "note": "被災地の金融機関に向けた対応要請で、預金の払い戻しや返済猶予などの実務が対象になる。"
+      },
+      {
+        "headline": "レバノン南部への空爆で 7 人が死亡と国営メディア",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/15/israeli-strike-on-southern-lebanon-kills-seven-in-worst-toll-since-june-state-media-says",
+        "note": "6 月以降で最も多い犠牲者数だと報じられている。"
+      }
+    ],
+    "watch": [
+      "透かしの実装が、日本の AI 表示ルールの議論にそのまま持ち込まれるか。",
+      "オープンウェイトと基盤のオープン化が続くと、値段の競争軸がどこへ移るか。",
+      "電力と許認可が制約だという主張は、大型データセンターの接続待ち期間で検証できる。"
+    ]
+  }
+}

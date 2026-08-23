@@ -1,0 +1,82 @@
+{
+  "sessionId": "2026-08-15-global-close",
+  "date": "2026-08-15",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-15-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-15-global-close",
+  "publishedAt": "2026-08-16T06:35:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260815_2303_e4c31b67",
+  "asOfJst": "2026-08-15T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月15日 23:03 JST",
+  "bullets": [
+    "Gold $4,363.60 → $4,380.40（+0.38%）",
+    "変動幅上位: NIGHT/USD +3.7% / VIX -2.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260815_2355_89c7a930",
+    "crawlAnchorJst": "2026-08-15T23:03:00+09:00",
+    "writtenAtJst": "2026-08-15T23:55:00+09:00",
+    "lead": "この土曜の夜に動いていたのは、規制の器と、値段だ。ステーブルコインの発行体が国法信託銀行の予備認可を取り、来週には予測市場の運営者までがホワイトハウスの同じ席に着く。もう一方では、ロボタクシーの営業圏が一気に広がり、汎用モデルの利用単価が半分になった。制度が形を決め、価格が普及の速さを決める——今夜はその両方が同時に動いた。",
+    "items": [
+      {
+        "headline": "USD1 の発行体が国法信託銀行の予備認可を取得",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2088372860943274205",
+        "note": "米通貨監督庁が World Liberty Trust Company に条件付きの予備認可を与えた。最低資本や内部監査体制などの開業前要件を満たすまで営業認可は下りず、免許取得そのものとは段階が違う。"
+      },
+      {
+        "headline": "ホワイトハウスが暗号資産と予測市場の幹部を招く会合を設定",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2088378264884560150",
+        "note": "8/19 に業界幹部と規制当局が同席し、翌日には商品先物取引委員会の初回諮問委員会が開かれる。州法と連邦管轄のどちらが予測市場を規律するかという係争が、司法の場から政策の場へ移る。"
+      },
+      {
+        "headline": "Cardano と Midnight がメインネットで接続、USDM がネイティブに移動",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2088262848288035319",
+        "note": "8/13 に両ネットワークの接続が開通し、法定通貨担保のステーブルコインがラップを介さず行き来する初の転送が成立した。規制対応の決済資産とプライバシー設計が同じ経路に乗る。"
+      },
+      {
+        "headline": "Cardano 側でも USDM の到着が告知された",
+        "sourceUrl": "https://x.com/IOHK_Charles/status/2088006926907166915"
+      },
+      {
+        "headline": "ロボタクシーの営業許可がカリフォルニア 18 郡へ拡大",
+        "sourceUrl": "https://x.com/Waymo/status/2088332349734068491",
+        "note": "州の公益事業委員会が有償の無人旅客サービスの拡大を承認し、営業可能な面積は従来の 8 倍規模になった。ただし展開は段階的で、許可の広さがそのまま走行台数にはならない。"
+      },
+      {
+        "headline": "Gemini 3.7 Flash が公開、利用単価は前世代の半分",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2088344135686062163",
+        "note": "コーディングと自律的な作業を主眼に置いた更新で、入力・出力とも従来の半額に設定された。ただし 2027 年初に価格改定が予告されており、今の水準は据え置きではない。"
+      },
+      {
+        "headline": "Intersect の週次更新 #124 が公開",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2088322280669450483",
+        "note": "Dijkstra の進捗、CAP の稼働開始、MLabs による三件の提案完了が報告された。"
+      },
+      {
+        "headline": "ouroboros-consensus 4.0.0.0 が公開、Leios の試作も進行",
+        "sourceUrl": "https://x.com/IOGroup/status/2088275895005905381"
+      },
+      {
+        "headline": "バークシャーが Google 株を大幅に積み増したと開示",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2088399420106690904"
+      },
+      {
+        "headline": "ジェーン・ストリートが 7 月に大幅な損失を出したと報じられた",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2088377347036614851",
+        "note": "金額を含む詳細は報道段階で、当事者による確認は取れていない。"
+      }
+    ],
+    "watch": [
+      "8/19 の会合と翌日の諮問委員会で、予測市場の管轄について連邦側がどこまで踏み込むか。",
+      "予備認可の開業前要件がいつ満たされるか。認可と営業開始の間には距離がある。",
+      "接続したステーブルコインが実際にどれだけ使われるか。開通の告知と利用量は別の指標だ。"
+    ]
+  }
+}
