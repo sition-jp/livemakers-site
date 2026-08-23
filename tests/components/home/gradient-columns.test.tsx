@@ -160,7 +160,7 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
   });
 
   // 2026-08-23 田平氏 GO B-1: 「Daily Intel」帯 = compact Daily Intel + サムネなし 12指標行
-  it("renders the morning desk as one band: Daily Intel header, compact lead, thumb-less mkt12 row", () => {
+  it("renders the morning desk as one band: Daily Intel header, compact lead, thumb-row mkt12", () => {
     const { container } = renderCoincident();
     const desk = container.querySelector(
       '[data-column-module="morning-desk"] [data-morning-desk]',
@@ -176,9 +176,10 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
       "mkt12-morning-2026-07-10",
     ]);
     expect(desk.textContent).not.toContain(props.slots.lead.article!.excerptJa!);
-    // サムネは Daily Intel の 1 枚だけ (12指標行はサムネなし)
+    // サムネ = Daily Intel の 14:3 (ArticleThumbnail) 1 枚 + 12指標行の小サムネ
+    // (ArticleThumbRow・Signal 行と同型・2026-08-23 田平氏 GO 2)
     expect(desk.querySelectorAll("[data-article-thumbnail]")).toHaveLength(1);
-    expect(desk.querySelectorAll("img").length).toBeLessThanOrEqual(1);
+    expect(desk.querySelectorAll("[data-thumb-row]")).toHaveLength(1);
     // Daily Intel ブロックだけ <xl hidden (D8)
     const lead = desk.querySelector('[data-morning-desk-role="daily-intel"]')!;
     expect(lead.classList.contains("hidden")).toBe(true);
@@ -200,14 +201,17 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     ).toBeTruthy();
   });
 
-  it("keeps the mkt12 row thumb-less and labelled by its family chip", () => {
+  // 2026-08-23 田平氏 GO 2: 12指標行は Signal 行と同じ小サムネ付き行 (ArticleThumbRow)
+  it("renders the mkt12 row as a Signal-style thumb row labelled by its family chip", () => {
     const { container } = renderCoincident();
     const row = container.querySelector('[data-mkt12-reading] [data-mkt12-role="hero"] a[data-article-id]')!;
     expect(row.getAttribute("data-article-id")).toBe("mkt12-morning-2026-07-10");
-    expect(row.querySelector("img")).toBeNull();
-    expect(row.querySelector('[data-testid="article-row-chip"]')?.textContent).toBe(
-      copy.familyLabels["mkt12-morning"],
-    );
+    expect(row.hasAttribute("data-thumb-row")).toBe(true);
+    // fixture はサムネ未検証 → family 色の帯で枠を保つ (CLS ゼロ・Signal 行と同じ判断)
+    expect(row.querySelector('img, span[aria-hidden="true"]')).not.toBeNull();
+    expect(row.textContent).toContain(copy.familyLabels["mkt12-morning"]);
+    // 本体扱い (index-nav にしない)
+    expect(row.hasAttribute("data-index-nav")).toBe(false);
   });
 
   it("puts the signal timeline right after the morning desk", () => {
