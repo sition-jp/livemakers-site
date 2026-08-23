@@ -60,6 +60,74 @@ export function isArticleInflowPublicEnabled(): boolean {
 export const ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS = 2;
 export const ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS = 4_000;
 
+/**
+ * 2026-08-23 (田平氏 GO 案 B): in-process memo + single-flight.
+ *
+ * The production feed (1.67MB, 148 articles with bodies) exceeds the Next.js
+ * fetch-cache per-item limit — `incremental-cache` rejects items whose
+ * JSON.stringify (body stored as base64, ×4/3 ≈ 2.22MB) is over 2MB, logged
+ * on Vercel as "Failed to set Next.js data cache … items over 2MB can not be
+ * cached". So `next: { revalidate: 3600 }` below never applied to this feed:
+ * every render of every page that loads the catalog re-downloaded 1.67MB
+ * from Blob. Right after a deploy / the hourly revalidate, dozens of article
+ * pages re-render at once → dozens of concurrent 1.67MB downloads → some
+ * fail → `repository_only` (the "先祖返り" read on 8/10, 8/11, 8/23 ×2).
+ *
+ * This memo keeps the last validated feed per (url, environment) in module
+ * scope for ARTICLE_INFLOW_FEED_MEMO_TTL_MS and collapses concurrent calls
+ * into one in-flight load, so a warm Fluid instance downloads the feed once
+ * per window instead of once per render. Failures (null) are never memoized.
+ * The TTL is deliberately short (2 minutes, not the 5-minute ISR window):
+ * the site-first publish path pushes an on-demand revalidate right after a
+ * new article lands, and a long memo would hold the previous catalog on
+ * warm instances. The structural fix (split the feed into a body-less
+ * catalog + per-article bodies) is a separate gate.
+ */
+export const ARTICLE_INFLOW_FEED_MEMO_TTL_MS = 120_000;
+
+interface InflowFeedMemoEntry {
+  at: number;
+  feed: ArticleInflowFeed;
+}
+
+const inflowFeedMemo = new Map<string, InflowFeedMemoEntry>();
+const inflowFeedInFlight = new Map<string, Promise<ArticleInflowFeed | null>>();
+
+/** テスト用: memo と in-flight を破棄する。 */
+export function resetArticleInflowFeedMemo(): void {
+  inflowFeedMemo.clear();
+  inflowFeedInFlight.clear();
+}
+
+function memoKey(url: string, requiredEnvironment?: string): string {
+  return `${requiredEnvironment ?? "any"}|${url}`;
+}
+
+async function loadValidatedArticleInflowFeedMemoized(
+  url: string,
+  fetcher: typeof fetch,
+  requiredEnvironment?: ArticleInflowFeed["environment"],
+): Promise<ArticleInflowFeed | null> {
+  const key = memoKey(url, requiredEnvironment);
+  const now = Date.now();
+  const cached = inflowFeedMemo.get(key);
+  if (cached && now - cached.at <= ARTICLE_INFLOW_FEED_MEMO_TTL_MS) {
+    return cached.feed;
+  }
+  const inFlight = inflowFeedInFlight.get(key);
+  if (inFlight) return inFlight;
+  const load = fetchValidatedArticleInflowFeed(url, fetcher, requiredEnvironment)
+    .then((feed) => {
+      if (feed) inflowFeedMemo.set(key, { at: Date.now(), feed });
+      return feed;
+    })
+    .finally(() => {
+      inflowFeedInFlight.delete(key);
+    });
+  inflowFeedInFlight.set(key, load);
+  return load;
+}
+
 function describeFailure(error: unknown): string {
   return error instanceof Error ? `${error.name}: ${error.message}` : String(error);
 }
@@ -118,7 +186,7 @@ export async function fetchArticleInflowFeed(
 ): Promise<ArticleInflowFeed | null> {
   const url = process.env[ARTICLE_INFLOW_FEED_ENV_KEY];
   if (!url) return null;
-  return fetchValidatedArticleInflowFeed(url, fetcher);
+  return loadValidatedArticleInflowFeedMemoized(url, fetcher);
 }
 
 export async function fetchProductionArticleInflowFeed(
@@ -127,7 +195,7 @@ export async function fetchProductionArticleInflowFeed(
   if (!isArticleInflowPublicEnabled()) return null;
   const url = process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY];
   if (!url) return null;
-  return fetchValidatedArticleInflowFeed(url, fetcher, "production");
+  return loadValidatedArticleInflowFeedMemoized(url, fetcher, "production");
 }
 
 export async function loadArticleInflowPreviewCatalog(): Promise<ArticleInflowPreviewCatalog> {
