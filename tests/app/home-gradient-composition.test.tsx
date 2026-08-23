@@ -112,9 +112,9 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(hero.querySelectorAll("[data-article-id]")).toHaveLength(0);
   });
 
-  it("keeps session-now and lead-article desktop-only (single representation)", () => {
+  it("keeps session-now and the morning desk's Daily Intel block desktop-only (single representation)", () => {
     const { container } = renderHome();
-    for (const module of ["session-now", "lead-article"]) {
+    for (const module of ["session-now", "morning-desk"]) {
       const wrapper = container.querySelector(
         `[data-column-module="${module}"]`,
       )!;
@@ -146,7 +146,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(seat.textContent).toBe("");
   });
 
-  it("renders the mkt12 reading as latest-only + archive link (Phase 3, 2026-08-14)", () => {
+  it("renders the mkt12 reading as latest-only + archive link (Phase 3, 2026-08-14 / 2026-08-23 GO B-1: サムネなし行)", () => {
     const { container } = renderHome();
     const reading = container.querySelector("[data-mkt12-reading]")!;
     expect(reading).not.toBeNull();
@@ -185,7 +185,9 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     );
     const reading = container.querySelector("[data-mkt12-reading]")!;
     expect(reading.getAttribute("data-mkt12-variant")).toBe("weekend");
-    expect(reading.querySelector("h3")?.textContent).toBe("週末の12指標");
+    // 2026-08-23 GO B-1: 見出し h3 は廃止。週末系は awaiting 文言 + previous リンクで判定
+    expect(reading.textContent).toContain(copy.mkt12.awaitingWeekend);
+    expect(reading.textContent).toContain(copy.mkt12.previousWeekend);
     const previousLink = reading.querySelector(
       '[data-mkt12-role="hero"] a',
     )!;
