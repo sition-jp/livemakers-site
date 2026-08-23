@@ -5,6 +5,7 @@ Pipeline:
   2. if dry-run rc == 0: live write (compose + tmp + zod validate + bak-rollback promote)
   3. if live rc == 0: archive public assets/backtest and clean sidecar history to history_dir + prune to keep N
   3.5 if --auto-commit: git add + commit (Task 5)
+  3.6 if --auto-publish: guarded data-only PR + merge + production smoke
   4. always log; alert on FAILED status
 
 Operator runs this manually or via LaunchAgent / cron.
@@ -41,6 +42,12 @@ class ProducerInvocation:
     output: str
 
 
+@dataclass(frozen=True)
+class PublisherInvocation:
+    returncode: int
+    output: str
+
+
 def _now_iso() -> str:
     return datetime.now(tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -71,6 +78,20 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
     )
 
 
+def _invoke_publisher(args: Sequence[str]) -> PublisherInvocation:
+    proc = subprocess.run(
+        [sys.executable, "-m", "ops.publish_snapshot", *args],
+        cwd=str(Path(__file__).resolve().parents[1]),
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    return PublisherInvocation(
+        returncode=proc.returncode,
+        output=f"{proc.stdout}\n{proc.stderr}".strip(),
+    )
+
+
 def _truncated_output(output: str, limit: int = 3000) -> str:
     output = output.strip()
     if len(output) <= limit:
@@ -82,6 +103,12 @@ def _truncated_output(output: str, limit: int = 3000) -> str:
 
 def _producer_failure_details(label: str, result: ProducerInvocation) -> str:
     base = f"producer {label} returned {result.returncode}"
+    output = _truncated_output(result.output)
+    return f"{base}: {output}" if output else base
+
+
+def _publisher_failure_details(result: PublisherInvocation) -> str:
+    base = f"publisher returned {result.returncode}"
     output = _truncated_output(result.output)
     return f"{base}: {output}" if output else base
 
@@ -127,8 +154,23 @@ def _run_inside_lock(
     cmd_dry: str,
     cmd_live: str,
     auto_commit: bool,
+    auto_publish: bool,
     notify_ok: bool,
 ) -> int:
+    if auto_publish and not auto_commit:
+        _alert(
+            log_file,
+            status="FAILED",
+            error_type="AutoPublishSkipped",
+            command="ops.run_daily --auto-publish",
+            target_paths=targets,
+            previous_snapshot_preserved=True,
+            orphan_bak_present=False,
+            details="--auto-publish requires --auto-commit; producer was not run",
+            notify_ok=notify_ok,
+        )
+        return 0
+
     # Step 1: dry-run
     dry_args = [
         "--assets-path", str(assets_path),
@@ -327,6 +369,35 @@ def _run_inside_lock(
             )
             return 0
 
+    # Step 3.6: guarded production publication
+    publication_detail = ""
+    if auto_publish:
+        publish_args = [
+            "--assets-path",
+            str(assets_path),
+            "--backtest-path",
+            str(backtest_path),
+            "--derivatives-history-path",
+            str(derivatives_history_path),
+            "--source-repo",
+            str(REPO_ROOT),
+        ]
+        publish_result = _invoke_publisher(publish_args)
+        if publish_result.returncode != 0:
+            _alert(
+                log_file,
+                status="FAILED",
+                error_type="AutoPublishFailed",
+                command="python -m ops.publish_snapshot",
+                target_paths=targets,
+                previous_snapshot_preserved=True,
+                orphan_bak_present=False,
+                details=_publisher_failure_details(publish_result),
+                notify_ok=notify_ok,
+            )
+            return 0
+        publication_detail = _truncated_output(publish_result.output, limit=1000)
+
     # Step 4: success log
     warning_detail = ""
     if sidecar_warnings:
@@ -336,6 +407,9 @@ def _run_inside_lock(
     success_details = f"live write + archive + prune complete{warning_detail}"
     if auto_commit and commit_detail:
         success_details = f"{success_details} | {commit_detail}"
+    if auto_publish:
+        suffix = publication_detail or "completed"
+        success_details = f"{success_details} | production publish: {suffix}"
 
     _alert(
         log_file,
@@ -360,6 +434,7 @@ def run_daily(
     keep_history: int = DEFAULT_KEEP,
     *,
     auto_commit: bool = False,
+    auto_publish: bool = False,
     notify_ok: bool = False,
 ) -> int:
     targets = [str(assets_path), str(backtest_path), str(derivatives_history_path)]
@@ -379,6 +454,7 @@ def run_daily(
                 cmd_dry=cmd_dry,
                 cmd_live=cmd_live,
                 auto_commit=auto_commit,
+                auto_publish=auto_publish,
                 notify_ok=notify_ok,
             )
     except LockBusy as exc:
@@ -408,6 +484,7 @@ def main() -> int:
     p.add_argument("--log-file", type=Path, default=DEFAULT_LOG)
     p.add_argument("--keep-history", type=int, default=DEFAULT_KEEP)
     p.add_argument("--auto-commit", action="store_true", default=False)
+    p.add_argument("--auto-publish", action="store_true", default=False)
     p.add_argument("--notify-ok", action="store_true", default=False)
     args = p.parse_args()
     return run_daily(
@@ -418,6 +495,7 @@ def main() -> int:
         log_file=args.log_file,
         keep_history=args.keep_history,
         auto_commit=args.auto_commit,
+        auto_publish=args.auto_publish,
         notify_ok=args.notify_ok,
     )
 

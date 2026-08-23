@@ -53,11 +53,12 @@ def test_main_parses_auto_commit_and_notify_ok(monkeypatch):
 
     monkeypatch.setattr("ops.run_daily.run_daily", fake_run_daily)
     monkeypatch.setattr("sys.argv", [
-        "run_daily", "--auto-commit", "--notify-ok",
+        "run_daily", "--auto-commit", "--auto-publish", "--notify-ok",
     ])
     rc = rd.main()
     assert rc == 0
     assert captured["auto_commit"] is True
+    assert captured["auto_publish"] is True
     assert captured["notify_ok"] is True
 
 
@@ -74,6 +75,7 @@ def test_main_defaults_both_flags_off(monkeypatch):
     monkeypatch.setattr("sys.argv", ["run_daily"])
     rd.main()
     assert captured["auto_commit"] is False
+    assert captured["auto_publish"] is False
     assert captured["notify_ok"] is False
 
 
@@ -560,3 +562,178 @@ def test_auto_commit_message_contains_required_tokens(tmp_path, monkeypatch):
     assert "chore(pivots): daily snapshot" in msg
     assert "assets:" in msg
     assert "backtest:" in msg
+
+
+def test_auto_publish_requires_auto_commit_and_skips_producer(
+    tmp_path, monkeypatch
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    producer_calls: list[list[str]] = []
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda args: producer_calls.append(args),
+    )
+    paths = _make_paths(tmp_path)
+
+    rc = rd.run_daily(
+        **paths,
+        auto_commit=False,
+        auto_publish=True,
+        notify_ok=False,
+    )
+
+    assert rc == 0
+    assert producer_calls == []
+    assert captured["p"]["status"] == "FAILED"
+    assert captured["p"]["error_type"] == "AutoPublishSkipped"
+
+
+def test_auto_publish_runs_after_successful_local_commit(tmp_path, monkeypatch):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    events: list[str] = []
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    paths["derivatives_history_path"].write_text("{}")
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+    monkeypatch.setattr("ops.run_daily.acquire_lock", lambda _p: _NoopCM())
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_producer",
+        lambda _args: rd.ProducerInvocation(
+            returncode=0,
+            sidecar_warnings=[],
+            output="",
+        ),
+    )
+    monkeypatch.setattr("ops.run_daily.archive", lambda *a, **kw: None)
+    monkeypatch.setattr("ops.run_daily.prune", lambda *a, **kw: None)
+
+    def fake_git(cmd, *args, **kwargs):
+        joined = " ".join(cmd)
+        if "status --porcelain" in joined:
+            events.append("git-status")
+            return subprocess.CompletedProcess(
+                args=cmd,
+                returncode=0,
+                stdout=" M assets.json\n M backtest.json\n",
+                stderr="",
+            )
+        if "commit" in cmd:
+            events.append("git-commit")
+        if "rev-parse" in joined:
+            return subprocess.CompletedProcess(
+                args=cmd,
+                returncode=0,
+                stdout="abc1234\n",
+                stderr="",
+            )
+        return subprocess.CompletedProcess(
+            args=cmd,
+            returncode=0,
+            stdout="",
+            stderr="",
+        )
+
+    monkeypatch.setattr("ops.run_daily.subprocess.run", fake_git)
+    publisher_args: list[list[str]] = []
+
+    def fake_publisher(args):
+        events.append("publisher")
+        publisher_args.append(args)
+        return rd.PublisherInvocation(
+            returncode=0,
+            output=(
+                '{"state":"published","generated_at":"2026-08-22T23:00:13Z",'
+                '"merge_sha":"abc","pr_url":"https://github.test/pr/1"}'
+            ),
+        )
+
+    monkeypatch.setattr("ops.run_daily._invoke_publisher", fake_publisher)
+
+    rc = rd.run_daily(
+        **paths,
+        auto_commit=True,
+        auto_publish=True,
+        notify_ok=False,
+    )
+
+    assert rc == 0
+    assert events.index("git-commit") < events.index("publisher")
+    assert "--assets-path" in publisher_args[0]
+    assert str(paths["assets_path"]) in publisher_args[0]
+    assert captured["p"]["status"] == "OK"
+    assert "production publish" in captured["p"]["details"]
+    assert "2026-08-22T23:00:13Z" in captured["p"]["details"]
+
+
+def test_auto_publish_failure_emits_failed_without_ok(tmp_path, monkeypatch):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    mock = _MockProducerAndGit()
+    mock.respond("status --porcelain", returncode=0, stdout="")
+    _stub_pipeline_success(monkeypatch, mock)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_publisher",
+        lambda _args: rd.PublisherInvocation(
+            returncode=1,
+            output="[pivots-publisher] FAILED guards failed",
+        ),
+    )
+
+    rc = rd.run_daily(
+        **paths,
+        auto_commit=True,
+        auto_publish=True,
+        notify_ok=False,
+    )
+
+    assert rc == 0
+    assert captured["p"]["status"] == "FAILED"
+    assert captured["p"]["error_type"] == "AutoPublishFailed"
+    assert "guards failed" in captured["p"]["details"]
+
+
+def test_auto_publish_is_not_called_after_auto_commit_failure(
+    tmp_path, monkeypatch
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    mock = _MockProducerAndGit()
+    mock.respond(
+        "status --porcelain",
+        returncode=0,
+        stdout=" M data/pivot_assets.live.json\n",
+    )
+    mock.respond("git -C", returncode=128, stderr="fatal: index.lock exists\n")
+    _stub_pipeline_success(monkeypatch, mock)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+    publisher_calls: list[list[str]] = []
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_publisher",
+        lambda args: publisher_calls.append(args),
+    )
+
+    rc = rd.run_daily(
+        **paths,
+        auto_commit=True,
+        auto_publish=True,
+        notify_ok=False,
+    )
+
+    assert rc == 0
+    assert publisher_calls == []
+    assert captured["p"]["error_type"] == "AutoCommitFailed"
