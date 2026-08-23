@@ -53,16 +53,16 @@ coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
 
 ### 3-3. Signal ヘッダの鮮度表示 (`components/home/SignalTimeline.tsx` + `lib/home/select-home-slots.ts`)
 
-- `HomeSlots` に **追加フィールド** `signalTimelineSummary: { todayCount: number; latestPublishedLabel: string | null }` を足す (既存フィールドは不変)。`selectHomeSlots` 内で `articleToday` を使って算出する:
+- `HomeSlots` に **追加フィールド** `signalTimelineSummary: { todayCount: number; latestAt: string | null }` を足す (既存フィールドは不変)。`selectHomeSlots` 内で `articleToday` を使って算出する:
   - `todayCount` = `signalTimeline` のうち `publishedAtJst.slice(0, 10) === articleToday` の件数
-  - `latestPublishedLabel` = `signalTimeline[0]?.publishedLabel ?? null`
+  - `latestAt` = `signalTimeline[0].publishedAtJst` を `MM-DD HH:MM` に整形 (`slice(5, 16).replace("T", " ")` → `07-10 08:30`)。記事ゼロなら null。`publishedLabel` (`… 公開` 付き) は使わない
   - builder の入力契約 (D13) は変えない。`now` を持ち込まず `articleToday` だけで決定的に計算する (fixture テストが再現可能)
-- `SignalTimeline` の props に `summary` を追加し、ヘッダ行を次の形にする:
-  - 左: `h3` 「直近の Signal」 + 同じ行に `font-mono text-[10px] text-text-tertiary` で `· 今日 6 本 · 最新 08-22 19:53`
-  - `todayCount === 0` のときは「今日 N 本」セグメントを描かない (honest empty・「今日 0 本」と煽らない)。`latestPublishedLabel` が null (記事ゼロ) のときは「最新」セグメントも描かない
-  - 右: 「Signal 一覧 →」を**ヘッダ行の右端に移す** (末尾の独立行は廃止・`data-index-nav` 維持)
-  - copy: `gradient.signalTodayCount` (ja「今日 {count} 本」/ en "{count} today")・`gradient.signalLatestAt` (ja「最新 {time}」/ en "latest {time}")。`HomeCopy` は静的文字列の束で `t()` の values を通せないため、`{count}` / `{time}` を含む生文字列のまま載せ、`SignalTimeline` 側で `.replace()` する (ICU は使わない)
   - `todayCount` は `signalTimeline` (= 昇格ペア除外後) を母集団とする。左カラムの FlashPromotion に出ている Signal は数えない (その 1 本は別枠で見えているため)
+- copy の値差し込みは **`HomeCopyContext` 経由** (既存の `schedule.compactBadge` = `本日あと{count}回更新` と同じ機構)。`HomeCopyContext` に `signalTodayCount: number` / `signalLatestAt: string | null` を足し、`buildHomeCopy` が `translate("gradient.signalTodayCount", { count })` / `translate("gradient.signalLatestAt", { time })` で整形済み文字列を `copy.gradient.signalFreshness: { todayCount: string | null; latestAt: string | null }` に載せる。`todayCount === 0` → `null`・`latestAt === null` → `null` (honest empty・「今日 0 本」と煽らない)。`app/[locale]/page.tsx` は `props.slots.signalTimelineSummary` から context に渡す (copy は `loadHomeCompositionProps()` の後に組み立てているので slots を参照できる)。生文字列を `t()` に値なしで通すと next-intl が MISSING_VALUE を出すため、コンポーネント側 `.replace()` 方式は採らない
+- `SignalTimeline` の copy に `freshness` を追加し、ヘッダ行を次の形にする:
+  - 左: `h3` 「直近の Signal」 + 同じ行に `font-mono text-[10px] text-text-tertiary` で `· 今日 6 本 · 最新 08-22 19:53` (null のセグメントは描かない)
+  - 右: 「Signal 一覧 →」を**ヘッダ行の右端に移す** (末尾の独立行は廃止・`data-index-nav` 維持)
+  - copy key: `gradient.signalTodayCount` (ja「今日 {count} 本」/ en "{count} today")・`gradient.signalLatestAt` (ja「最新 {time}」/ en "latest {time}")
 - ISR: home は feed 配信時に revalidate されるため、Signal が増えるたびに件数・最新時刻が追随する (追加の再検証経路は要らない)
 
 ### 3-4. copy (`messages/ja.json` / `messages/en.json` / `lib/home/home-copy.ts`)
