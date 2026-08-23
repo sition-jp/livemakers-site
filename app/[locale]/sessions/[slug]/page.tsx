@@ -76,6 +76,7 @@ export default async function SessionPage({
             highlightsHeading: t("highlightsHeading"),
             watchHeading: t("watchHeading"),
             crystallizeNote: t("crystallizeNote"),
+            noSnapshotNote: t("noSnapshotNote"),
           }}
         />
       )}

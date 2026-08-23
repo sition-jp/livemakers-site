@@ -81,6 +81,9 @@ export function CompositeHero({
                 <span className="shrink-0 font-mono text-[10px] text-text-tertiary">
                   {shown.date} · {shown.asOfJst.slice(11, 16)} JST
                   {isClosed ? ` · ${copy.closedSuffix}` : ""}
+                  {shown.observationStatus === "absent"
+                    ? ` · ${copy.digestOnlyLabel}`
+                    : ""}
                 </span>
               ) : null}
             </span>

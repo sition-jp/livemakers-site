@@ -441,6 +441,7 @@
       "sessionLabel": "Current session",
       "closedSessionLabel": "Previous session",
       "closedSuffix": "closed",
+      "digestOnlyLabel": "digest only",
       "leadPending": "Today's article is in preparation"
     },
     "family": {
@@ -458,6 +459,9 @@
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
       "closedBadgeSuffix": "JST closed",
+      "digestOnlyLabel": "digest only",
+      "digestFreshnessPrefix": "Digest",
+      "noSnapshotNote": "No market snapshot (observation unavailable)",
       "freshnessPrefix": "Snapshot",
       "nextUpdateLine": "Next update: {name} {time} JST",
       "readFull": "Read the full session →",
@@ -581,6 +585,7 @@
     "highlightsHeading": "Primary-source highlights",
     "watchHeading": "What to watch next",
     "crystallizeNote": "This page becomes a permanent article when the next session begins.",
+    "noSnapshotNote": "Market observation was unavailable for this session; digest only.",
     "archiveTitle": "Intelligence Terminal — Session Articles (Morning to Night)",
     "archiveNote": "Four live sessions each day become articles over time.",
     "archivePastLink": "View all past session articles →",

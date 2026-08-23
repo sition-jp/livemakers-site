@@ -441,6 +441,7 @@
       "sessionLabel": "いまのセッション",
       "closedSessionLabel": "直前のセッション",
       "closedSuffix": "終了",
+      "digestOnlyLabel": "読み解きのみ",
       "leadPending": "本日の記事は準備中"
     },
     "family": {
@@ -458,6 +459,9 @@
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
       "closedBadgeSuffix": "JST 終了",
+      "digestOnlyLabel": "読み解きのみ",
+      "digestFreshnessPrefix": "読み解き",
+      "noSnapshotNote": "数値スナップショットなし（市場観測が未取得）",
       "freshnessPrefix": "スナップショット",
       "nextUpdateLine": "次の更新: {name} {time} JST",
       "readFull": "セッション全文を読む →",
@@ -583,6 +587,7 @@
     "highlightsHeading": "一次情報ハイライト",
     "watchHeading": "次の見どころ",
     "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
+    "noSnapshotNote": "この回は市場観測が取得できず、読み解きのみです。",
     "archiveTitle": "Intelligence Terminal — セッション記事(朝昼夕夜の全記録)",
     "archiveNote": "1日4回、ライブは時間が経つと記事になります",
     "archivePastLink": "過去のセッション記事を全て見る →",

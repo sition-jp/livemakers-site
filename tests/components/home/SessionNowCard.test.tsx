@@ -249,3 +249,58 @@ describe("SessionNowCard closed variant (2026-08-23 switching-gap fill)", () => 
     expect(screen.getByText("SESSION · 05:03 JST 更新")).toBeInTheDocument();
   });
 });
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5):
+// observationStatus=absent → 「読み解きのみ」バッジ・鮮度行は「読み解き」・
+// 市場来歴行の代わりに「数値スナップショットなし」注記。
+describe("SessionNowCard digest-only (observationStatus=absent)", () => {
+  const digestRecord: SessionRecord = {
+    ...record,
+    asOfJst: "2026-07-10T12:34:00+09:00",
+    titleJa: "Asia Open Terminal — 7月10日 05:03 JST（読み解きのみ）",
+    bullets: ["一次情報で確認された主要な動き"],
+    observationStatus: "absent",
+    editorial,
+  };
+  const digestCopy = {
+    ...copy,
+    closedBadgeSuffix: "JST 終了",
+    digestOnlyLabel: "読み解きのみ",
+    digestFreshnessPrefix: "読み解き",
+    noSnapshotNote: "数値スナップショットなし（市場観測が未取得）",
+  };
+
+  it("renders the digest-only badge, digest freshness line and the no-snapshot note instead of provenance", () => {
+    const { container } = render(
+      <SessionNowCard record={digestRecord} provenance={provenance} copy={digestCopy} />,
+    );
+    expect(container.firstElementChild).toHaveAttribute("data-session-observation", "absent");
+    expect(screen.getByText("SESSION · 05:03 JST 更新 · 読み解きのみ")).toBeInTheDocument();
+    expect(screen.getByText(/^読み解き /).textContent).toContain("2026-07-10 · 12:34 JST");
+    expect(screen.queryByText(/スナップショット 2026/)).toBeNull();
+    expect(screen.getByText("数値スナップショットなし（市場観測が未取得）")).toBeInTheDocument();
+    expect(container.textContent).not.toContain("審査状態");
+    expect(container.textContent).not.toContain("reviewed_live");
+    expect(screen.getByRole("heading", { level: 3 }).textContent).toContain("一次情報で確認された主要な動き");
+  });
+
+  it("combines the ended badge with the digest-only marker when closed", () => {
+    render(
+      <SessionNowCard
+        record={{ ...digestRecord, liveStatus: "closed" }}
+        provenance={provenance}
+        copy={digestCopy}
+        variant="closed"
+      />,
+    );
+    expect(screen.getByText("SESSION · 05:03 JST 終了 · 読み解きのみ")).toBeInTheDocument();
+  });
+
+  it("marks green records explicitly and keeps the provenance row", () => {
+    const { container } = render(
+      <SessionNowCard record={record} provenance={provenance} copy={digestCopy} />,
+    );
+    expect(container.firstElementChild).toHaveAttribute("data-session-observation", "green");
+    expect(container.textContent).toContain("審査状態");
+  });
+});

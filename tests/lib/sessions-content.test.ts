@@ -250,3 +250,51 @@ describe("getTodaySchedule previous (2026-08-23 closed-record rule)", () => {
     expect(asia.previous?.sessionId).toBe("2026-08-22-asia-open");
   });
 });
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §2):
+// observationStatus "absent" = 市場観測 RED で読み解き digest だけのセッション。
+// editorial 必須・省略は green。
+describe("SessionMetaSchema observationStatus (digest-only session)", () => {
+  const base = {
+    sessionId: "2026-08-23-europe-bridge",
+    sessionSlug: "europe-bridge",
+    date: "2026-08-23",
+    liveStatus: "live",
+    articleStatus: "pending",
+    currentUrl: "/sessions/2026-08-23-europe-bridge",
+    canonicalArticleUrl: null,
+    publishedAt: null,
+    publishLogId: null,
+    packetId: "sess_20260823_1203_0badc0de",
+    asOfJst: "2026-08-23T12:34:00+09:00",
+    focusInstruments: ["dxy", "us10y"],
+    titleJa: "Europe Bridge Terminal — 8月23日 12:03 JST（読み解きのみ）",
+    bullets: ["欧州序盤は指標待ちで動意薄"],
+  };
+  const editorial = {
+    digestId: "dig_20260823_1234_ab12cd34",
+    crawlAnchorJst: "2026-08-23T12:03:00+09:00",
+    writtenAtJst: "2026-08-23T12:34:00+09:00",
+    lead: "欧州序盤は指標待ちで動意薄。一次情報では次の判断材料が示された。",
+    items: [{ headline: "欧州序盤は指標待ちで動意薄", sourceUrl: "https://primary.example.org/news/1" }],
+    watch: ["米国時間の指標を確認する。"],
+  };
+
+  it("accepts absent with an editorial and defaults to green when omitted", () => {
+    const absent = parseSessionMeta({ ...base, observationStatus: "absent", editorial });
+    expect(absent.observationStatus).toBe("absent");
+    const plain = parseSessionMeta(base);
+    expect(plain.observationStatus).toBeUndefined();
+    expect(parseSessionMeta({ ...base, observationStatus: "green" }).observationStatus).toBe("green");
+  });
+
+  it("rejects absent without an editorial (digest-only needs the digest)", () => {
+    expect(() => parseSessionMeta({ ...base, observationStatus: "absent" })).toThrow(
+      /observationStatus absent requires editorial/,
+    );
+  });
+
+  it("rejects unknown observationStatus values", () => {
+    expect(() => parseSessionMeta({ ...base, observationStatus: "partial", editorial })).toThrow();
+  });
+});

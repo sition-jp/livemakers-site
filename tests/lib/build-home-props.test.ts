@@ -485,3 +485,82 @@ describe("build-home-props recentClosed (2026-08-23 switching-gap fill)", () => 
     expect(props.recentClosed?.sessionId).toBe("2026-07-12-asia-open");
   });
 });
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5):
+// digest-only (observationStatus=absent) の live は home.focusSession との
+// 照合対象外 — RED 窓の読み解きセッションが reviewed home の採用を壊さない。
+describe("build-home-props digest-only live session (observationStatus=absent)", () => {
+  function digestOnlyFeed() {
+    const { home, sessions } = sessionsFeedFixture();
+    const record = sessions.records[0];
+    const digestOnly = {
+      ...record,
+      sessionId: "2026-07-12-europe-bridge",
+      sessionSlug: "europe-bridge" as const,
+      currentUrl: "/sessions/2026-07-12-europe-bridge",
+      packetId: "sess_20260712_1203_0badc0de",
+      asOfJst: "2026-07-12T12:34:00+09:00",
+      focusInstruments: ["dxy", "us10y"],
+      titleJa: "Europe Bridge Terminal — 7月12日 12:03 JST（読み解きのみ）",
+      bullets: ["欧州序盤は指標待ちで動意薄"],
+      observationStatus: "absent" as const,
+      editorial: {
+        digestId: "dig_20260712_1234_ab12cd34",
+        crawlAnchorJst: "2026-07-12T12:03:00+09:00",
+        writtenAtJst: "2026-07-12T12:34:00+09:00",
+        lead: "欧州序盤は指標待ちで動意薄。一次情報では次の判断材料が示された。",
+        items: [{ headline: "欧州序盤は指標待ちで動意薄", sourceUrl: "https://primary.example.org/news/1" }],
+        watch: ["米国時間の指標を確認する。"],
+      },
+    };
+    return { home, sessions: { ...sessions, records: [digestOnly] } };
+  }
+
+  it("adopts the reviewed home even though the live record's slug differs from focusSession", () => {
+    const { home, sessions } = digestOnlyFeed();
+    expect(home.focusSession.sessionSlug).toBe("asia-open");
+    const now = new Date("2026-07-12T13:00:00+09:00");
+    expect(
+      resolveHomeSessionsSource({ source: home, feedSessions: sessions, now, sessionRecords: [] }),
+    ).toBe("feed_today");
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live?.sessionId).toBe("2026-07-12-europe-bridge");
+    expect(props.live?.observationStatus).toBe("absent");
+    // focus chart stays on the reviewed packet's session (asia-open)
+    expect(props.focusSessionSlug).toBe("asia-open");
+    // the card still gets a provenance object (render contract), but the
+    // page-level conservative label must not be computed from a session
+    // that has no market snapshot
+    expect(props.sessionProvenance).not.toBeNull();
+    const withoutSessions = buildHomeCompositionProps({
+      source: home,
+      feedSessions: null,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.pageProvenance).toEqual(withoutSessions.pageProvenance);
+    expect(props.pageProvenance.packetId).not.toBe(props.sessionProvenance!.packetId);
+  });
+
+  it("still rejects a GREEN live record whose slug mismatches focusSession (guard unchanged)", () => {
+    const { home, sessions } = digestOnlyFeed();
+    const green = { ...sessions.records[0] };
+    delete (green as { observationStatus?: string }).observationStatus;
+    const now = new Date("2026-07-12T13:00:00+09:00");
+    expect(
+      resolveHomeSessionsSource({
+        source: home,
+        feedSessions: { ...sessions, records: [green] },
+        now,
+        sessionRecords: [],
+      }),
+    ).toBe("repo");
+  });
+});

@@ -106,9 +106,15 @@ function reviewedSourceMatchesSidecar(
   source: ReviewedHomeData,
   sessions: readonly SessionRecord[],
 ): boolean {
+  // 2026-08-23 (spec 2026-08-23-digest-only-session-design §2): a digest-only
+  // live record (observationStatus=absent) has no market anchor of its own,
+  // so it is exempt from the focusSession cross-check — the reviewed packet
+  // legitimately still points at the last GREEN anchor.
   const sameDateLive = sessions.find(
     (record) =>
-      record.date === source.dataDate && record.liveStatus === "live",
+      record.date === source.dataDate &&
+      record.liveStatus === "live" &&
+      record.observationStatus !== "absent",
   );
   if (!sameDateLive) return true;
   return (
@@ -622,8 +628,15 @@ export function buildHomeCompositionProps(
         asOfJst: `${recentClosed.asOfJst.slice(11, 16)} JST`,
       } as WindowProvenance)
     : null;
+  // digest-only live (observationStatus=absent): the card renders no market
+  // provenance (there is no snapshot), so the page-level conservative label
+  // must not be derived from it either.
+  const sessionProvenanceVisible =
+    sessionProvenance && live?.observationStatus !== "absent"
+      ? sessionProvenance
+      : null;
   const visibleWindowProvenance = [
-    ...(sessionProvenance ? [sessionProvenance] : []),
+    ...(sessionProvenanceVisible ? [sessionProvenanceVisible] : []),
     ...(!sessionProvenance && recentClosedProvenance
       ? [recentClosedProvenance]
       : []),
