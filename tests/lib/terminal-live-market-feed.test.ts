@@ -5,6 +5,8 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   TERMINAL_FEED_ENV_KEY,
   TERMINAL_FEED_REVALIDATE_SECONDS,
+  TERMINAL_FEED_FETCH_ATTEMPTS,
+  TERMINAL_FEED_FETCH_TIMEOUT_MS,
   TERMINAL_FEED_SCHEMA_V01,
   TERMINAL_FEED_SCHEMA_V02,
   TERMINAL_FEED_SCHEMA_V03,
@@ -242,6 +244,78 @@ describe("fetchLiveMarketData", () => {
       }),
     );
     expect(await fetchLiveMarketData()).toBeNull();
+  });
+});
+
+describe("fetchLiveMarketData — transient failure retry (2026-08-23)", () => {
+  // 2026-08-23: a single failed Blob fetch right after a deploy rendered the
+  // fixture (as-of 2026-07-10) and ISR pinned it for up to 5 minutes — the
+  // third time a transient fetch looked like "the Terminal stopped" (8/10,
+  // 8/11, 8/23). One bounded retry before the fixture fallback.
+  const FEED_URL = "https://example.public.blob.vercel-storage.com/feed.json";
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+  });
+
+  it("retries once after a thrown fetch error and returns the delivered payload", async () => {
+    vi.stubEnv(TERMINAL_FEED_ENV_KEY, FEED_URL);
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("socket hang up"))
+      .mockResolvedValueOnce({ ok: true, json: async () => sampleFeed() });
+    vi.stubGlobal("fetch", fetchMock);
+    const data = await fetchLiveMarketData();
+    expect(data?.lanes).toHaveLength(3);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("retries once after a non-ok response", async () => {
+    vi.stubEnv(TERMINAL_FEED_ENV_KEY, FEED_URL);
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({}) })
+      .mockResolvedValueOnce({ ok: true, json: async () => sampleFeed() });
+    vi.stubGlobal("fetch", fetchMock);
+    const data = await fetchLiveMarketData();
+    expect(data?.lanes).toHaveLength(3);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("gives up after the second failure (fixture fallback, no third attempt)", async () => {
+    vi.stubEnv(TERMINAL_FEED_ENV_KEY, FEED_URL);
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("first"))
+      .mockRejectedValueOnce(new Error("second"));
+    vi.stubGlobal("fetch", fetchMock);
+    expect(await fetchLiveMarketData()).toBeNull();
+    expect(fetchMock).toHaveBeenCalledTimes(TERMINAL_FEED_FETCH_ATTEMPTS);
+    expect(TERMINAL_FEED_FETCH_ATTEMPTS).toBe(2);
+  });
+
+  it("does not retry when the first attempt succeeds", async () => {
+    vi.stubEnv(TERMINAL_FEED_ENV_KEY, FEED_URL);
+    const fetchMock = vi.fn(async () => ({ ok: true, json: async () => sampleFeed() }));
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchLiveMarketData();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("bounds every attempt with an abort signal and keeps the data-cache revalidate", async () => {
+    vi.stubEnv(TERMINAL_FEED_ENV_KEY, FEED_URL);
+    const fetchMock = vi.fn(async () => ({ ok: true, json: async () => sampleFeed() }));
+    vi.stubGlobal("fetch", fetchMock);
+    await fetchLiveMarketData();
+    const [, init] = fetchMock.mock.calls[0] as unknown as [
+      string,
+      RequestInit & { next?: { revalidate?: number } },
+    ];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+    expect(init.next?.revalidate).toBe(TERMINAL_FEED_REVALIDATE_SECONDS);
+    expect(TERMINAL_FEED_FETCH_TIMEOUT_MS).toBeGreaterThan(0);
+    expect(TERMINAL_FEED_FETCH_TIMEOUT_MS * TERMINAL_FEED_FETCH_ATTEMPTS).toBeLessThanOrEqual(9_000);
   });
 });
 

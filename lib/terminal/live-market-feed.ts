@@ -1091,21 +1091,37 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
 }
 
 /**
+ * 2026-08-23 (田平氏 GO): one bounded retry before the fixture fallback.
+ * A single transient Blob fetch failure right after a deploy rendered the
+ * fixture (as-of 2026-07-10) and `app/[locale]/page.tsx`'s ISR pinned it for
+ * up to 5 minutes — the third time a transient fetch read as "the Terminal
+ * stopped / regressed" (8/10, 8/11, 8/23). Only fetch-level failures (thrown
+ * error, non-ok status, unreadable body) retry; a payload the mapper rejects
+ * is returned as null immediately because it will not change on retry.
+ * Two attempts × the per-attempt timeout stay under the route's budget.
+ */
+export const TERMINAL_FEED_FETCH_ATTEMPTS = 2;
+export const TERMINAL_FEED_FETCH_TIMEOUT_MS = 4_000;
+
+/**
  * Server-side fetch of the delivered feed. Returns null (→ fixture fallback)
- * when the env URL is unset, the fetch fails, or the payload is invalid.
+ * when the env URL is unset, every attempt fails, or the payload is invalid.
  * Next's data cache (revalidate) keeps the last good payload between
  * deliveries, which is the design §3-4 behaviour for delivery outages.
  */
 export async function fetchLiveMarketData(): Promise<LiveMarketData | null> {
   const url = process.env[TERMINAL_FEED_ENV_KEY];
   if (!url) return null;
-  try {
-    const response = await fetch(url, {
-      next: { revalidate: TERMINAL_FEED_REVALIDATE_SECONDS },
-    });
-    if (!response.ok) return null;
-    return mapTerminalFeed(await response.json());
-  } catch {
-    return null;
+  for (let attempt = 1; attempt <= TERMINAL_FEED_FETCH_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: TERMINAL_FEED_REVALIDATE_SECONDS },
+        signal: AbortSignal.timeout(TERMINAL_FEED_FETCH_TIMEOUT_MS),
+      });
+      if (response.ok) return mapTerminalFeed(await response.json());
+    } catch {
+      // transient — fall through to the next attempt
+    }
   }
+  return null;
 }
