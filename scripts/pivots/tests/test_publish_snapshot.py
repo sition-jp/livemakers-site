@@ -252,17 +252,17 @@ def test_github_env_rejects_wrong_owner(tmp_path: Path, monkeypatch) -> None:
     token_file = tmp_path / "github.env"
     token_file.write_text("GH_TOKEN=unit-secret\n", encoding="utf-8")
     token_file.chmod(0o600)
-    real_lstat = os.lstat
+    real_fstat = os.fstat
 
     class _StatWithWrongOwner:
-        def __init__(self, path: Path):
-            stat_result = real_lstat(path)
+        def __init__(self, descriptor: int):
+            stat_result = real_fstat(descriptor)
             self.st_mode = stat_result.st_mode
             self.st_uid = stat_result.st_uid + 1
 
     monkeypatch.setattr(
-        "ops.publish_snapshot.os.lstat",
-        lambda path: _StatWithWrongOwner(Path(path)),
+        "ops.publish_snapshot.os.fstat",
+        lambda descriptor: _StatWithWrongOwner(descriptor),
     )
 
     with pytest.raises(PublishError, match="current user"):
@@ -307,6 +307,22 @@ def test_prepare_rejects_unrelated_dirty_publisher_clone(tmp_path: Path) -> None
 
     with pytest.raises(PublishError, match="publisher clone is dirty"):
         _prepare_publisher_repo(config, env={})
+
+
+def test_prepare_configures_gh_token_git_credential_helper(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+
+    _prepare_publisher_repo(config, env={"GH_TOKEN": "unit-secret"})
+
+    helpers = _git(
+        config.publisher_repo,
+        "config",
+        "--local",
+        "--get-all",
+        "credential.https://github.com.helper",
+    ).stdout.splitlines()
+    assert helpers == ["", "!gh auth git-credential"]
 
 
 def test_missing_source_sidecar_preserves_main_sidecar(tmp_path: Path) -> None:
@@ -378,6 +394,23 @@ def test_stage_rejects_unrelated_change_after_prepare(tmp_path: Path) -> None:
 
     with pytest.raises(PublishError, match="publisher clone is dirty"):
         _stage_snapshot_commit(snapshot, config, env={})
+
+
+def test_stage_rebuilds_clean_local_branch_left_by_failed_push(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(source)
+    snapshot = _load_source_snapshot(assets, backtest, None)
+
+    _prepare_publisher_repo(config, env={})
+    first = _stage_snapshot_commit(snapshot, config, env={})
+    _prepare_publisher_repo(config, env={})
+    second = _stage_snapshot_commit(snapshot, config, env={})
+
+    assert first.branch == second.branch
+    assert first.commit_sha == second.commit_sha
 
 
 def _check_run(name: str, conclusion: str, status: str = "COMPLETED") -> dict:
@@ -494,6 +527,46 @@ def test_merged_existing_pr_can_resume_production_verification() -> None:
     )
 
     assert _classify_existing_pr(pr) == "merged"
+
+
+@pytest.mark.parametrize(
+    "overrides",
+    [
+        {"baseRefName": "release"},
+        {"headRefName": "automation/pivots-daily-other"},
+        {"headRepositoryOwner": {"login": "untrusted-fork"}},
+    ],
+)
+def test_find_pr_rejects_wrong_base_head_or_owner(monkeypatch, overrides: dict) -> None:
+    config = PublishConfig(
+        publisher_repo=Path("/unused"),
+        token_file=Path("/unused"),
+    )
+    client = GitHubClient(config, env={})
+    branch = "automation/pivots-daily-20260822T230013Z"
+    payload = {
+        "number": 42,
+        "url": "https://github.com/sition-jp/livemakers-site/pull/42",
+        "state": "OPEN",
+        "isDraft": False,
+        "mergeCommit": None,
+        "baseRefName": "main",
+        "headRefName": branch,
+        "headRepositoryOwner": {"login": "sition-jp"},
+    }
+    payload.update(overrides)
+    calls: list[list[str]] = []
+
+    def fake_json_command(args):
+        calls.append(list(args))
+        return [payload]
+
+    monkeypatch.setattr(client, "_json_command", fake_json_command)
+
+    with pytest.raises(PublishError, match="identity"):
+        client.find_pr(branch)
+
+    assert f"sition-jp:{branch}" in calls[0]
 
 
 def test_wait_for_green_times_out_without_merge(monkeypatch) -> None:
@@ -665,9 +738,20 @@ def test_public_smoke_accepts_radar_backtest_and_page() -> None:
         ),
         f"{base}/api/backtests?asset=BTC&horizon=7D&score_type=overall&threshold=70": (
             200,
-            json.dumps({"metrics": {"event_count": 1}}).encode(),
+            json.dumps(
+                {
+                    "asset": "BTC",
+                    "horizon": "7D",
+                    "score_type": "overall",
+                    "threshold": 70,
+                    "metrics": {"sample_size": 1},
+                }
+            ).encode(),
         ),
-        f"{base}/ja/turning-points": (200, b"page"),
+        f"{base}/ja/turning-points": (
+            200,
+            "<!doctype html><title>AI ターニングポイント検出ダッシュボード</title>".encode(),
+        ),
     }
 
     verify_public_production(
@@ -675,6 +759,50 @@ def test_public_smoke_accepts_radar_backtest_and_page() -> None:
         expected,
         http_get=_fake_http_getter(responses),
     )
+
+
+@pytest.mark.parametrize(
+    "backtest,page,reason",
+    [
+        ({"metrics": {}}, "AI ターニングポイント検出ダッシュボード", "backtest"),
+        (
+            {
+                "asset": "BTC",
+                "horizon": "7D",
+                "score_type": "overall",
+                "threshold": 70,
+                "metrics": {"sample_size": 1},
+            },
+            "generic page",
+            "page marker",
+        ),
+    ],
+)
+def test_public_smoke_rejects_incomplete_backtest_or_wrong_page(
+    backtest: dict, page: str, reason: str
+) -> None:
+    base = "https://livemakers.test"
+    expected = "2026-08-22T23:00:13Z"
+    responses = {
+        f"{base}/api/pivot-radar": (
+            200,
+            json.dumps(
+                {"timestamp": expected, "assets": [{"symbol": "BTC"}]}
+            ).encode(),
+        ),
+        f"{base}/api/backtests?asset=BTC&horizon=7D&score_type=overall&threshold=70": (
+            200,
+            json.dumps(backtest).encode(),
+        ),
+        f"{base}/ja/turning-points": (200, page.encode()),
+    }
+
+    with pytest.raises(PublishError, match=reason):
+        verify_public_production(
+            base,
+            expected,
+            http_get=_fake_http_getter(responses),
+        )
 
 
 def test_public_smoke_retries_until_alias_serves_expected_timestamp() -> None:
@@ -728,12 +856,23 @@ def test_pr_files_must_be_allowlisted_and_include_public_pair() -> None:
             Path("data/pivot_backtest.live.json"),
         }
     )
-    _require_pr_files(valid)
+    _require_pr_files(valid, sidecar_present=False)
 
     with pytest.raises(PublishError, match="unrelated paths"):
-        _require_pr_files(valid | {Path("app/page.tsx")})
+        _require_pr_files(
+            valid | {Path("app/page.tsx")},
+            sidecar_present=False,
+        )
     with pytest.raises(PublishError, match="both public snapshot"):
-        _require_pr_files(frozenset({Path("data/pivot_assets.live.json")}))
+        _require_pr_files(
+            frozenset({Path("data/pivot_assets.live.json")}),
+            sidecar_present=False,
+        )
+    with pytest.raises(PublishError, match="sidecar"):
+        _require_pr_files(
+            valid | {Path("data/pivot_derivatives_history.live.json")},
+            sidecar_present=False,
+        )
 
 
 class _FakeGitHub:
@@ -751,6 +890,13 @@ class _FakeGitHub:
         self.create_calls = 0
         self.created: PullRequest | None = None
         self.production_sha: str | None = None
+        self.files = frozenset(
+            {
+                Path("data/pivot_assets.live.json"),
+                Path("data/pivot_backtest.live.json"),
+                Path("data/pivot_derivatives_history.live.json"),
+            }
+        )
 
     def find_pr(self, _branch: str) -> PullRequest | None:
         return self.existing_pr
@@ -762,6 +908,7 @@ class _FakeGitHub:
         _committed_paths: frozenset[Path],
     ) -> PullRequest:
         self.create_calls += 1
+        self.files = _committed_paths
         self.created = PullRequest(
             number=42,
             url="https://github.com/sition-jp/livemakers-site/pull/42",
@@ -772,13 +919,7 @@ class _FakeGitHub:
         return self.created
 
     def pr_files(self, _number: int) -> frozenset[Path]:
-        return frozenset(
-            {
-                Path("data/pivot_assets.live.json"),
-                Path("data/pivot_backtest.live.json"),
-                Path("data/pivot_derivatives_history.live.json"),
-            }
-        )
+        return self.files
 
     def wait_for_green(self, _number: int, **_kwargs) -> dict:
         revision = "FETCH_HEAD" if self.existing_pr is not None else "HEAD"
@@ -806,9 +947,20 @@ def _successful_smoke_responses(base: str, expected: str) -> dict[str, tuple[int
         ),
         f"{base}/api/backtests?asset=BTC&horizon=7D&score_type=overall&threshold=70": (
             200,
-            json.dumps({"metrics": {"event_count": 1}}).encode(),
+            json.dumps(
+                {
+                    "asset": "BTC",
+                    "horizon": "7D",
+                    "score_type": "overall",
+                    "threshold": 70,
+                    "metrics": {"sample_size": 1},
+                }
+            ).encode(),
         ),
-        f"{base}/ja/turning-points": (200, b"page"),
+        f"{base}/ja/turning-points": (
+            200,
+            "<!doctype html><title>AI ターニングポイント検出ダッシュボード</title>".encode(),
+        ),
     }
 
 
@@ -933,6 +1085,95 @@ def test_publish_snapshot_equal_main_does_not_create_pr(tmp_path: Path) -> None:
     assert github.production_sha == outcome.merge_sha
 
 
+def test_publish_snapshot_equal_timestamp_rejects_different_content(
+    tmp_path: Path,
+) -> None:
+    generated_at = "2026-08-21T23:00:13Z"
+    remote = _init_remote(tmp_path, generated_at=generated_at)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(
+        source,
+        assets_generated_at=generated_at,
+    )
+    assets.write_text(
+        json.dumps({"generated_at": generated_at, "corrected": True}),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(PublishError, match="same timestamp"):
+        publish_snapshot(
+            assets,
+            backtest,
+            None,
+            source_repo=tmp_path,
+            config=config,
+            github_client=_FakeGitHub(config.publisher_repo),
+            github_env={},
+            zod_validator=lambda *_args: None,
+            http_get=lambda *_args: pytest.fail("smoke must not run"),
+            sleep=lambda _seconds: None,
+        )
+
+
+def test_publish_snapshot_commits_the_exact_validated_bytes(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    base = "https://livemakers.test"
+    config = PublishConfig(
+        publisher_repo=tmp_path / "publisher",
+        token_file=tmp_path / "unused.env",
+        remote_url=str(remote),
+        production_base_url=base,
+        poll_interval_seconds=0,
+    )
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(source)
+    original_assets = assets.read_bytes()
+    github = _FakeGitHub(config.publisher_repo)
+    committed: dict[str, bytes] = {}
+
+    def mutate_original_after_validation(*_args) -> None:
+        assets.write_text(
+            json.dumps(
+                {
+                    "generated_at": "2026-08-22T23:00:13Z",
+                    "unvalidated": True,
+                }
+            ),
+            encoding="utf-8",
+        )
+
+    def capture_merge(_number: int, _generated_at: str, _head: str) -> str:
+        committed["assets"] = _git(
+            config.publisher_repo,
+            "show",
+            "HEAD:data/pivot_assets.live.json",
+        ).stdout.encode()
+        github.merge_called = True
+        return "b" * 40
+
+    github.squash_merge = capture_merge  # type: ignore[method-assign]
+
+    publish_snapshot(
+        assets,
+        backtest,
+        None,
+        source_repo=tmp_path,
+        config=config,
+        github_client=github,
+        github_env={},
+        zod_validator=mutate_original_after_validation,
+        http_get=_fake_http_getter(
+            _successful_smoke_responses(base, "2026-08-22T23:00:13Z")
+        ),
+        sleep=lambda _seconds: None,
+    )
+
+    assert committed["assets"] == original_assets
+
+
 def _push_existing_publication_branch(
     source: Path,
     config: PublishConfig,
@@ -1000,6 +1241,39 @@ def test_publish_snapshot_resumes_existing_open_pr(tmp_path: Path) -> None:
     ).stdout == ""
 
 
+def test_merged_pr_not_reflected_on_main_fails_closed(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(source)
+    sidecar = _write_valid_sidecar(source)
+    existing = PullRequest(
+        number=77,
+        url="https://github.com/sition-jp/livemakers-site/pull/77",
+        state="MERGED",
+        is_draft=False,
+        merge_sha="a" * 40,
+    )
+
+    with pytest.raises(PublishError, match="not reflected"):
+        publish_snapshot(
+            assets,
+            backtest,
+            sidecar,
+            source_repo=tmp_path,
+            config=config,
+            github_client=_FakeGitHub(
+                config.publisher_repo,
+                existing_pr=existing,
+            ),
+            github_env={},
+            zod_validator=lambda *_args: None,
+            http_get=lambda *_args: pytest.fail("smoke must not run"),
+            sleep=lambda _seconds: None,
+        )
+
+
 def test_remote_branch_without_pr_fails_closed(tmp_path: Path) -> None:
     remote = _init_remote(tmp_path)
     base = "https://livemakers.test"
@@ -1048,3 +1322,30 @@ def test_publish_snapshot_module_cli_loads_all_helpers() -> None:
     assert result.returncode == 0
     assert "--publisher-repo" in result.stdout
     assert "--production-base-url" in result.stdout
+
+
+def test_publisher_cli_marks_post_merge_failure(tmp_path: Path, monkeypatch, capsys) -> None:
+    from ops import publish_snapshot as publisher_module
+
+    def fail_after_merge(*_args, **_kwargs):
+        raise PublishError("production smoke failed", post_merge=True)
+
+    monkeypatch.setattr(publisher_module, "publish_snapshot", fail_after_merge)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "publish_snapshot",
+            "--assets-path",
+            str(tmp_path / "assets.json"),
+            "--backtest-path",
+            str(tmp_path / "backtest.json"),
+            "--derivatives-history-path",
+            str(tmp_path / "absent-sidecar.json"),
+        ],
+    )
+
+    assert publisher_module.main() == 1
+    captured = capsys.readouterr()
+    assert "phase=post_merge" in captured.err
+    assert "production smoke failed" in captured.err

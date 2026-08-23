@@ -9,6 +9,7 @@ import shutil
 import stat
 import subprocess
 import sys
+import tempfile
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -42,6 +43,10 @@ _TOKEN_PATTERN = re.compile(
 
 class PublishError(RuntimeError):
     """A fail-closed publication error safe to surface in ops logs."""
+
+    def __init__(self, message: str, *, post_merge: bool = False):
+        super().__init__(message)
+        self.post_merge = post_merge
 
 
 @dataclass(frozen=True)
@@ -193,6 +198,27 @@ def _prepare_publisher_repo(
     if remote != config.remote_url:
         raise PublishError("publisher clone origin does not match configured remote")
 
+    # Keep authentication scoped to the dedicated clone. The helper reads
+    # GH_TOKEN from this process environment; no credential value is persisted.
+    credential_key = "credential.https://github.com.helper"
+    _run_command(
+        ["git", "config", "--local", "--replace-all", credential_key, ""],
+        cwd=repo,
+        env=env,
+    )
+    _run_command(
+        [
+            "git",
+            "config",
+            "--local",
+            "--add",
+            credential_key,
+            "!gh auth git-credential",
+        ],
+        cwd=repo,
+        env=env,
+    )
+
     _require_clean_publisher_repo(repo, env=env)
     _run_command(
         ["git", "fetch", "--prune", "origin", "main"],
@@ -222,6 +248,31 @@ def _publication_branch(generated_at_utc: datetime) -> str:
     return f"automation/pivots-daily-{suffix}"
 
 
+def _assert_snapshot_matches_revision(
+    snapshot: SourceSnapshot,
+    repo: Path,
+    revision: str,
+    *,
+    env: Mapping[str, str],
+    mismatch_message: str,
+) -> None:
+    comparisons = [
+        (snapshot.assets_path, ASSETS_RELATIVE_PATH),
+        (snapshot.backtest_path, BACKTEST_RELATIVE_PATH),
+    ]
+    if snapshot.sidecar_path is not None:
+        comparisons.append((snapshot.sidecar_path, SIDECAR_RELATIVE_PATH))
+    for source_path, relative_path in comparisons:
+        source_oid = _source_blob_oid(repo, source_path, env=env)
+        revision_oid = _blob_oid(
+            repo,
+            f"{revision}:{relative_path}",
+            env=env,
+        )
+        if source_oid != revision_oid:
+            raise PublishError(f"{mismatch_message}: {relative_path}")
+
+
 def _stage_snapshot_commit(
     snapshot: SourceSnapshot,
     config: PublishConfig,
@@ -235,7 +286,19 @@ def _stage_snapshot_commit(
         repo / BACKTEST_RELATIVE_PATH,
         None,
     )
-    if snapshot.generated_at_utc <= main_snapshot.generated_at_utc:
+    if snapshot.generated_at_utc < main_snapshot.generated_at_utc:
+        return StagedSnapshot(
+            state="already_current",
+            generated_at=main_snapshot.generated_at,
+        )
+    if snapshot.generated_at_utc == main_snapshot.generated_at_utc:
+        _assert_snapshot_matches_revision(
+            snapshot,
+            repo,
+            "origin/main",
+            env=env,
+            mismatch_message="same timestamp differs from origin/main",
+        )
         return StagedSnapshot(
             state="already_current",
             generated_at=main_snapshot.generated_at,
@@ -249,7 +312,11 @@ def _stage_snapshot_commit(
         check=False,
     )
     if local_branch.returncode == 0:
-        raise PublishError("deterministic publication branch already exists locally")
+        _run_command(
+            ["git", "branch", "-D", branch],
+            cwd=repo,
+            env=env,
+        )
     if local_branch.returncode not in (0, 1):
         raise PublishError("could not inspect local publication branch")
 
@@ -418,6 +485,23 @@ def _parse_pull_request(payload: dict) -> PullRequest:
     )
 
 
+def _validate_pr_identity(
+    payload: dict,
+    *,
+    config: PublishConfig,
+    branch: str,
+) -> None:
+    expected_owner = config.repository.split("/", maxsplit=1)[0]
+    raw_owner = payload.get("headRepositoryOwner")
+    owner = raw_owner.get("login") if isinstance(raw_owner, dict) else raw_owner
+    if (
+        payload.get("baseRefName") != "main"
+        or payload.get("headRefName") != branch
+        or owner != expected_owner
+    ):
+        raise PublishError("publication PR identity does not match main and owned branch")
+
+
 class GitHubClient:
     def __init__(self, config: PublishConfig, *, env: Mapping[str, str]):
         self.config = config
@@ -431,6 +515,7 @@ class GitHubClient:
             raise PublishError("GitHub CLI returned invalid JSON") from exc
 
     def find_pr(self, branch: str) -> PullRequest | None:
+        owner = self.config.repository.split("/", maxsplit=1)[0]
         payload = self._json_command(
             [
                 "gh",
@@ -439,13 +524,16 @@ class GitHubClient:
                 "--repo",
                 self.config.repository,
                 "--head",
-                branch,
+                f"{owner}:{branch}",
                 "--state",
                 "all",
                 "--limit",
                 "10",
                 "--json",
-                "number,url,state,isDraft,mergeCommit",
+                (
+                    "number,url,state,isDraft,mergeCommit,baseRefName,"
+                    "headRefName,headRepositoryOwner"
+                ),
             ]
         )
         if not isinstance(payload, list):
@@ -456,6 +544,7 @@ class GitHubClient:
             return None
         if not isinstance(payload[0], dict):
             raise PublishError("GitHub PR lookup returned an invalid item")
+        _validate_pr_identity(payload[0], config=self.config, branch=branch)
         return _parse_pull_request(payload[0])
 
     def create_pr(
@@ -503,11 +592,15 @@ class GitHubClient:
                 "--repo",
                 self.config.repository,
                 "--json",
-                "number,url,state,isDraft,mergeCommit",
+                (
+                    "number,url,state,isDraft,mergeCommit,baseRefName,"
+                    "headRefName,headRepositoryOwner"
+                ),
             ]
         )
         if not isinstance(payload, dict):
             raise PublishError("GitHub PR view returned an invalid payload")
+        _validate_pr_identity(payload, config=self.config, branch=branch)
         return _parse_pull_request(payload)
 
     def _view_pr(self, number: int) -> dict:
@@ -698,12 +791,28 @@ def verify_public_production(
     if backtest_status != 200:
         raise PublishError(f"production backtest returned HTTP {backtest_status}")
     backtest = _decode_json_response(backtest_body, label="production backtest")
-    if not isinstance(backtest.get("metrics"), dict):
-        raise PublishError("production backtest returned no metrics")
+    metrics = backtest.get("metrics")
+    if (
+        backtest.get("asset") != "BTC"
+        or backtest.get("horizon") != "7D"
+        or backtest.get("score_type") != "overall"
+        or backtest.get("threshold") != 70
+        or not isinstance(metrics, dict)
+        or not metrics
+        or not isinstance(metrics.get("sample_size"), int)
+        or isinstance(metrics.get("sample_size"), bool)
+    ):
+        raise PublishError("production backtest response is incomplete")
 
     page_status, page_body = http_get(page_url, 20)
     if page_status != 200 or not page_body:
         raise PublishError(f"production Turning Point page returned HTTP {page_status}")
+    try:
+        page_text = page_body.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise PublishError("production Turning Point page marker is invalid") from exc
+    if "AI ターニングポイント検出ダッシュボード" not in page_text:
+        raise PublishError("production Turning Point page marker is absent")
 
 
 def wait_for_public_production(
@@ -731,10 +840,19 @@ def wait_for_public_production(
             sleep(poll_interval_seconds)
 
 
-def _require_pr_files(files: frozenset[Path]) -> None:
-    if not files.issubset(ALLOWED_RELATIVE_PATHS):
-        unexpected = files - ALLOWED_RELATIVE_PATHS
+def _require_pr_files(
+    files: frozenset[Path],
+    *,
+    sidecar_present: bool,
+) -> None:
+    allowed = {ASSETS_RELATIVE_PATH, BACKTEST_RELATIVE_PATH}
+    if sidecar_present:
+        allowed.add(SIDECAR_RELATIVE_PATH)
+    if not files.issubset(allowed):
+        unexpected = files - allowed
         rendered = ", ".join(str(path) for path in sorted(unexpected))
+        if SIDECAR_RELATIVE_PATH in unexpected:
+            raise PublishError("publication PR contains sidecar without source evidence")
         raise PublishError(f"publication PR contains unrelated paths: {rendered}")
     public_pair = {ASSETS_RELATIVE_PATH, BACKTEST_RELATIVE_PATH}
     if not public_pair.issubset(files):
@@ -918,6 +1036,27 @@ def _production_finish(
     )
 
 
+def _freeze_source_snapshot(
+    assets_path: Path,
+    backtest_path: Path,
+    sidecar_path: Path | None,
+    frozen_root: Path,
+) -> SourceSnapshot:
+    frozen_assets = frozen_root / ASSETS_RELATIVE_PATH.name
+    frozen_backtest = frozen_root / BACKTEST_RELATIVE_PATH.name
+    shutil.copyfile(assets_path, frozen_assets)
+    shutil.copyfile(backtest_path, frozen_backtest)
+    frozen_sidecar: Path | None = None
+    if sidecar_path is not None:
+        frozen_sidecar = frozen_root / SIDECAR_RELATIVE_PATH.name
+        shutil.copyfile(sidecar_path, frozen_sidecar)
+    return _load_source_snapshot(
+        frozen_assets,
+        frozen_backtest,
+        frozen_sidecar,
+    )
+
+
 def publish_snapshot(
     assets_path: Path,
     backtest_path: Path,
@@ -931,7 +1070,36 @@ def publish_snapshot(
     http_get: Callable[[str, int], tuple[int, bytes]] = _default_http_get,
     sleep: Callable[[float], None] = time.sleep,
 ) -> PublishOutcome:
-    snapshot = _load_source_snapshot(assets_path, backtest_path, sidecar_path)
+    with tempfile.TemporaryDirectory(prefix="pivots-publish-") as directory:
+        snapshot = _freeze_source_snapshot(
+            Path(assets_path),
+            Path(backtest_path),
+            Path(sidecar_path) if sidecar_path is not None else None,
+            Path(directory),
+        )
+        return _publish_frozen_snapshot(
+            snapshot,
+            source_repo=source_repo,
+            config=config,
+            github_client=github_client,
+            github_env=github_env,
+            zod_validator=zod_validator,
+            http_get=http_get,
+            sleep=sleep,
+        )
+
+
+def _publish_frozen_snapshot(
+    snapshot: SourceSnapshot,
+    *,
+    source_repo: Path,
+    config: PublishConfig,
+    github_client: GitHubClient | None,
+    github_env: Mapping[str, str] | None,
+    zod_validator: Callable[[SourceSnapshot, Path], None],
+    http_get: Callable[[str, int], tuple[int, bytes]],
+    sleep: Callable[[float], None],
+) -> PublishOutcome:
     source_repo = Path(source_repo)
     zod_validator(snapshot, source_repo)
 
@@ -949,7 +1117,35 @@ def publish_snapshot(
     )
     client = github_client or GitHubClient(config, env=env)
 
-    if snapshot.generated_at_utc <= main_snapshot.generated_at_utc:
+    if snapshot.generated_at_utc < main_snapshot.generated_at_utc:
+        main_sha = _run_command(
+            ["git", "rev-parse", "origin/main"],
+            cwd=repo,
+            env=env,
+        ).stdout.strip()
+        if not re.fullmatch(r"[0-9a-f]{40}", main_sha):
+            raise PublishError("origin/main SHA is invalid")
+        _production_finish(
+            client,
+            config,
+            main_sha,
+            main_snapshot.generated_at,
+            http_get=http_get,
+            sleep=sleep,
+        )
+        return PublishOutcome(
+            state="already_current",
+            generated_at=main_snapshot.generated_at,
+            merge_sha=main_sha,
+        )
+    if snapshot.generated_at_utc == main_snapshot.generated_at_utc:
+        _assert_snapshot_matches_revision(
+            snapshot,
+            repo,
+            "origin/main",
+            env=env,
+            mismatch_message="same timestamp differs from origin/main",
+        )
         main_sha = _run_command(
             ["git", "rev-parse", "origin/main"],
             cwd=repo,
@@ -990,20 +1186,8 @@ def publish_snapshot(
     else:
         classification = _classify_existing_pr(existing_pr)
         if classification == "merged":
-            assert existing_pr.merge_sha is not None
-            _production_finish(
-                client,
-                config,
-                existing_pr.merge_sha,
-                snapshot.generated_at,
-                http_get=http_get,
-                sleep=sleep,
-            )
-            return PublishOutcome(
-                state="published",
-                generated_at=snapshot.generated_at,
-                pr_url=existing_pr.url,
-                merge_sha=existing_pr.merge_sha,
+            raise PublishError(
+                "merged publication PR is not reflected on fetched origin/main"
             )
         expected_head = _verify_remote_branch_snapshot(
             snapshot,
@@ -1013,7 +1197,10 @@ def publish_snapshot(
         )
         pr = existing_pr
 
-    _require_pr_files(client.pr_files(pr.number))
+    _require_pr_files(
+        client.pr_files(pr.number),
+        sidecar_present=snapshot.sidecar_path is not None,
+    )
     green_payload = client.wait_for_green(
         pr.number,
         timeout_seconds=config.check_timeout_seconds,
@@ -1023,20 +1210,35 @@ def publish_snapshot(
     head_oid = green_payload.get("headRefOid")
     if head_oid != expected_head:
         raise PublishError("publication PR head SHA changed after validation")
-    _require_pr_files(client.pr_files(pr.number))
-    merge_sha = client.squash_merge(
-        pr.number,
-        snapshot.generated_at,
-        expected_head,
+    _require_pr_files(
+        client.pr_files(pr.number),
+        sidecar_present=snapshot.sidecar_path is not None,
     )
-    _production_finish(
-        client,
-        config,
-        merge_sha,
-        snapshot.generated_at,
-        http_get=http_get,
-        sleep=sleep,
-    )
+    try:
+        merge_sha = client.squash_merge(
+            pr.number,
+            snapshot.generated_at,
+            expected_head,
+        )
+    except PublishError as exc:
+        raise PublishError(
+            f"merge outcome requires reconciliation: {exc}",
+            post_merge=True,
+        ) from exc
+    try:
+        _production_finish(
+            client,
+            config,
+            merge_sha,
+            snapshot.generated_at,
+            http_get=http_get,
+            sleep=sleep,
+        )
+    except PublishError as exc:
+        raise PublishError(
+            f"post-merge production verification failed for {merge_sha}: {exc}",
+            post_merge=True,
+        ) from exc
 
     try:
         _cleanup_publication_branch(repo, branch, env=env)
@@ -1100,7 +1302,8 @@ def main() -> int:
             config=config,
         )
     except PublishError as exc:
-        print(f"[pivots-publisher] FAILED {exc}", file=sys.stderr)
+        phase = "post_merge" if exc.post_merge else "pre_merge"
+        print(f"[pivots-publisher] FAILED phase={phase} {exc}", file=sys.stderr)
         return 1
     print(
         json.dumps(
@@ -1173,24 +1376,32 @@ def _load_github_env(
     base_env: Mapping[str, str] | None = None,
 ) -> dict[str, str]:
     token_file = Path(token_file)
+    flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
     try:
-        metadata = os.lstat(token_file)
-    except OSError as exc:
+        descriptor = os.open(token_file, flags)
+    except FileNotFoundError as exc:
         raise PublishError("GitHub token file is missing") from exc
+    except OSError as exc:
+        raise PublishError("GitHub token file must be a regular non-symlink file") from exc
 
-    if not stat.S_ISREG(metadata.st_mode) or stat.S_ISLNK(metadata.st_mode):
-        raise PublishError("GitHub token file must be a regular non-symlink file")
-    if stat.S_IMODE(metadata.st_mode) != 0o600:
-        raise PublishError("GitHub token file must use mode 0600")
-    if metadata.st_uid != os.getuid():
-        raise PublishError("GitHub token file must be owned by the current user")
+    try:
+        with os.fdopen(descriptor, "r", encoding="utf-8") as handle:
+            metadata = os.fstat(handle.fileno())
+            if not stat.S_ISREG(metadata.st_mode):
+                raise PublishError(
+                    "GitHub token file must be a regular non-symlink file"
+                )
+            if stat.S_IMODE(metadata.st_mode) != 0o600:
+                raise PublishError("GitHub token file must use mode 0600")
+            if metadata.st_uid != os.getuid():
+                raise PublishError(
+                    "GitHub token file must be owned by the current user"
+                )
+            lines = handle.read().splitlines()
+    except UnicodeDecodeError as exc:
+        raise PublishError("GitHub token file must be valid UTF-8") from exc
 
     values: list[str] = []
-    try:
-        lines = token_file.read_text(encoding="utf-8").splitlines()
-    except OSError as exc:
-        raise PublishError("GitHub token file could not be read") from exc
-
     for line_number, raw_line in enumerate(lines, start=1):
         line = raw_line.strip()
         if not line or line.startswith("#"):

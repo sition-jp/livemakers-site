@@ -94,6 +94,9 @@ Before push:
    it.
 6. Require the staged/committed path set to be an allowlisted subset containing
    both public files.
+7. Freeze source bytes before Zod validation and publish those exact bytes.
+8. If source and `origin/main` timestamps are equal, require matching public
+   blobs (and matching sidecar when supplied) before treating the run as current.
 
 An unchanged or newer `origin/main` is an idempotent no-op followed by production
 smoke against the timestamp already on `main`.
@@ -118,6 +121,12 @@ This avoids checkout/pull side effects from `gh pr merge`. The response must say
 If the deterministic branch or PR already exists, the publisher resumes its
 state instead of creating a duplicate. A closed, unmerged PR is an explicit
 failure requiring operator inspection.
+
+Resume also requires base `main`, the exact deterministic head name, the
+repository owner, the expected PR file set, matching source blobs, and the
+previously validated head SHA. A PR reported merged while fetched `origin/main`
+still has an older snapshot is contradictory and fails closed; the normal
+post-merge resume path is the equal-content `origin/main` check.
 
 ### 3.5 Production verification
 
@@ -150,6 +159,10 @@ stdout, stderr, JSONL logs, Telegram, git, PR text, or memory.
 The token is not added to the LaunchAgent plist or inherited launchd
 environment.
 
+The dedicated clone overrides inherited Git credential helpers locally with
+`!gh auth git-credential`, so Git and `gh` use the same child-process token
+without writing its value to Git config.
+
 ## 5. Failure Semantics
 
 | Failure | Production | Runner artifact | Alert |
@@ -159,7 +172,7 @@ environment.
 | credential / clone / push failure | unchanged | committed locally | FAILED |
 | PR checks fail or timeout | unchanged | committed locally; PR retained | FAILED |
 | merge API rejects | unchanged | committed locally; PR retained | FAILED |
-| production deploy/smoke fails | previous successful deployment normally remains served | merge already recorded | FAILED |
+| merge response, production deploy, or smoke fails after merge attempt | `main` or production may have changed; reconcile by merge SHA | merge may already be recorded | FAILED with `phase=post_merge` |
 | production already at same/newer timestamp | unchanged/current | no duplicate PR | OK, already current |
 
 The final Telegram OK means production smoke completed, not merely that local
@@ -193,6 +206,11 @@ cutover:
 Rollback is to reinstall the LaunchAgent without `--auto-publish`. Producer,
 archive, local auto-commit, and Telegram behavior then return to the current
 state without deleting generated data or branches.
+
+The installer is transactional: it snapshots the previous plist and loaded
+state before replacement, and restores both when bootstrap, kickstart, or the
+first-run OK gate fails. Manual rollback remains the separate response after a
+successful cutover.
 
 ## 8. Non-Goals
 
