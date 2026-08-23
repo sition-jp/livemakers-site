@@ -1,4 +1,4 @@
-# ホーム中央カラム「今朝の朝刊」帯 + Signal 前面化 — 設計 (2026-08-23 田平氏 GO B-1)
+# ホーム中央カラム「Daily Intel」帯 + Signal 前面化 — 設計 (2026-08-23 田平氏 GO B-1)
 
 Status: `DESIGN — AWAITING_REVIEW` (田平氏レビュー後に実装計画へ)
 
@@ -32,23 +32,23 @@ coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
 
 ### 3-2. `morning-desk` の描画 (`components/home/columns/CoincidentColumn.tsx`)
 
-1 つの `<section data-morning-desk className="rounded-lg border ... p-4">` に以下を縦に収める:
+1 つの `<section data-morning-desk className="rounded-lg border ... p-4">` に以下を縦に収める (ヘッダ文言は 2026-08-23 田平氏裁定で「Daily Intel」):
 
 ```
-┌ 今朝の朝刊                     Daily Intel 一覧 → | 12指標アーカイブ → ┐  ← ヘッダ行 (h3 + 右寄せ索引リンク 2 本・data-index-nav)
+┌ Daily Intel                                        Daily Intel 一覧 → ┐  ← ヘッダ行 (h3 = familyLabels["daily-intel"] + 右寄せ索引リンク・data-index-nav)
 │ [14:3 サムネ]                                                        │
-│ DAILY INTEL                                           08-23 07:00    │  ← LeadArticleCard variant="compact" (hidden xl:block)
-│ 📋 Daily Intel 8/23｜交渉は金曜の夜に切れ…                            │     見出しのみ・抜粋なし
+│                                                       08-23 07:00    │  ← LeadArticleCard variant="compact" (hidden xl:block)
+│ 📋 Daily Intel 8/23｜交渉は金曜の夜に切れ…                            │     見出しのみ・抜粋なし・family ラベル行なし (ヘッダが担う)
 │ ───────────────────────────────────────────────────────────────── │
-│ 🔬 8月23日朝のマーケット｜12指標                                      │  ← ArticleRow (サムネなし・全幅)
+│ 🔬 8月23日朝のマーケット｜12指標                 12指標アーカイブ → │  ← ArticleRow (サムネなし) + 行右隣にアーカイブ索引リンク
 │   [朝の12指標] 08-23 08:10                                            │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-- **ヘッダ行**: `h3` = `copy.gradient.morningDeskTitle` (ja「今朝の朝刊」/ en "This morning's desk")。右側に `copy.gradient.dailyIntelSeriesLink` と `copy.mkt12.archiveLink` (週末版なら `/articles/series/mkt12-weekend`) を `text-xs font-bold text-accent` で並べる。両リンクの wrapper は `data-index-nav`。12指標側の wrapper には現行の `data-mkt12-role="archive-link"` を残す
-- **Daily Intel ブロック** (`div.hidden.xl:block`): `LeadArticleCard` に新プロップ `variant?: "full" | "compact"` (既定 `"full"` = 現行描画・他呼び出し面は不変)。`compact` = サムネ (`ArticleThumbnail variant="lead"` 14:3) + family ラベル行 + 見出し (`text-lg`・`h2` のまま) ・**`excerptJa` を描かない**・内側 padding を `p-4`。pending 状態 (`labels.pending` / `previous` リンク) は現行と同じ描画。`data-article-id` 維持
+- **ヘッダ行** (2026-08-23 田平氏裁定: 「今朝の朝刊」ではなく **「Daily Intel」**): `h3` = `copy.familyLabels["daily-intel"]` (ja「Daily Intel」/ en "Daily Intel"・新 copy key は不要)。右端に `copy.gradient.dailyIntelSeriesLink` を `text-xs font-bold text-accent` で置く (wrapper は `data-index-nav`)。ヘッダには 12指標のリンクを置かない (Daily Intel の名の下に別シリーズの導線を吊るさない)
+- **Daily Intel ブロック** (`div.hidden.xl:block`): `LeadArticleCard` に新プロップ `variant?: "full" | "compact"` (既定 `"full"` = 現行描画・他呼び出し面は不変)。`compact` = サムネ (`ArticleThumbnail variant="lead"` 14:3) + 日時 (`font-mono text-[10px]`・右寄せ) + 見出し (`text-lg`・`h2` のまま)。**`excerptJa` を描かない**・**family ラベル行も描かない** (ヘッダの「Daily Intel」が担う・重複回避)・内側 padding を `p-4`。pending 状態 (`labels.pending` / `previous` リンク) は現行と同じ描画。`data-article-id` 維持
   - `<xl` で hidden にするのは Daily Intel ブロックだけ (現行の `lead-article` 全体 hidden と同じ意味論 = D8。hero が見出しを担う)。ヘッダ行と 12指標行はモバイルでも出す (現行の `mkt12-reading` がモバイルでも出るのと同じ)
-- **12指標行** (`div[data-mkt12-reading][data-mkt12-variant]` + 内側 `div[data-mkt12-role="hero"]`): 公開済なら `ArticleRow` (サムネなし・title + family チップ + 日時・`data-article-id`)。`awaiting` なら現行と同じ小箱 (`awaiting` 文言 + `previous` リンク `data-index-nav`)。週末版 (土曜) は `slots.mkt12.variant === "weekend"` で文言・アーカイブ先を週末系へ切り替える (現行ロジックを移設するだけ)。現行の `h3`「今朝の12指標 / 週末の12指標」見出しは family チップ (「朝の12指標 / 週末の12指標」) が代替するため描かない
+- **12指標行** (`div[data-mkt12-reading][data-mkt12-variant]`): flex 行 = 左に `div[data-mkt12-role="hero"]` (伸縮)・右に `div[data-mkt12-role="archive-link"][data-index-nav]` (「12指標アーカイブ →」・`text-xs font-bold text-accent whitespace-nowrap`・週末版なら `/articles/series/mkt12-weekend`)。hero 側は公開済なら `ArticleRow` (サムネなし・title + family チップ + 日時・`data-article-id`)、`awaiting` なら現行と同じ小箱 (`awaiting` 文言 + `previous` リンク `data-index-nav`)。週末版 (土曜) は `slots.mkt12.variant === "weekend"` で文言・アーカイブ先を週末系へ切り替える (現行ロジックを移設するだけ)。現行の `h3`「今朝の12指標 / 週末の12指標」見出しは family チップ (「朝の12指標 / 週末の12指標」) が代替するため描かない
 - Daily Intel ブロックと 12指標行の間は `border-t border-border-primary` で区切る
 
 ### 3-3. Signal ヘッダの鮮度表示 (`components/home/SignalTimeline.tsx` + `lib/home/select-home-slots.ts`)
@@ -69,10 +69,10 @@ coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
 
 | key | ja | en |
 |---|---|---|
-| `home.gradient.morningDeskTitle` | 今朝の朝刊 | This morning's desk |
 | `home.gradient.signalTodayCount` | 今日 {count} 本 | {count} today |
 | `home.gradient.signalLatestAt` | 最新 {time} | latest {time} |
 
+帯のヘッダは既存の `home.family.daily-intel` (「Daily Intel」) を流用するため新 key なし。
 `mkt12.articleTitle` / `articleTitleWeekend` は描画では使わなくなるが、他面参照の有無を確認してから削除は別途 (本件では残す)。
 
 ## 4. 変えないもの
@@ -86,13 +86,13 @@ coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
 
 - `tests/lib/home-gradient-ledger.test.ts`: coincident の期待配列を `["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"]` に更新
 - `tests/components/home/gradient-columns.test.tsx`: 台帳順テストはそのまま通る (REGION_MODULES から導出)。追加:
-  - morning-desk 内の `a[data-article-id]` は最大 2 本 (Daily Intel + 12指標) で、`excerptJa` 文字列を含まない
+  - morning-desk 内の `a[data-article-id]` は最大 2 本 (Daily Intel + 12指標) で、`excerptJa` 文字列を含まない。帯内で「Daily Intel」の文字列は `h3` の 1 箇所だけ (compact カードに family ラベル行がない)
   - morning-desk 内に `img` は Daily Intel のサムネ 1 枚のみ (12指標行にサムネなし)
   - Signal ヘッダに `今日 N 本` と `最新 …` が出る / todayCount 0 の fixture では「今日」セグメントが出ない
   - 「Signal 一覧 →」がヘッダ行 (先頭の `a[data-article-id]` より DOM 上で前) にある
 - `tests/app/home-gradient-composition.test.tsx`:
   - 「session-now と lead-article は desktop-only」→ `lead-article` を `morning-desk` に置換 (既存の「子孫に hidden xl:block があればよい」判定で Daily Intel ブロックが通る)
-  - mkt12 reading テスト 2 本: `data-mkt12-reading` / `data-mkt12-variant` / `data-mkt12-role="hero"` / `archive-link` の hook は維持するので、roles の期待を新構造 (archive-link がヘッダ側) に合わせて更新。週末版は `h3` ではなく `data-mkt12-variant="weekend"` + チップ文言「週末の12指標」で検証
+  - mkt12 reading テスト 2 本: `data-mkt12-reading` / `data-mkt12-variant` / `data-mkt12-role="hero"` / `archive-link` の hook と roles 順 `["hero", "archive-link"]` は新構造でも維持される (archive-link は 12指標行の右隣)。週末版は `h3` ではなく `data-mkt12-variant="weekend"` + チップ文言「週末の12指標」で検証
 - `tests/lib/home-select-signal-timeline.test.ts`: 不変。`signalTimelineSummary` の単体テストは `tests/lib/home-select-home-slots*.test.ts` (既存があればそこへ・無ければ新設) に追加
 - 実測: dev server を 1280×900 で開き、§2 の受入基準を `getBoundingClientRect` で確認してスクリーンショットを残す
 
