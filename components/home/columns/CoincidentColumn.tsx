@@ -6,7 +6,7 @@ import {
   type GradientRegion,
 } from "@/lib/home/gradient-ledger";
 import type { HomeCompositionProps } from "../HomeComposition";
-import { ArticleRow } from "../ArticleRow";
+import { ArticleThumbRow } from "../ArticleThumbRow";
 import { IndicatorTileCard } from "../IndicatorTileCard";
 import { LaneValuesCard } from "../LaneValuesCard";
 import { LeadArticleCard } from "../LeadArticleCard";
@@ -19,7 +19,8 @@ const REGION = "coincident" satisfies GradientRegion;
  * 中央カラム = 一致 (G44 D6 / 2026-08-14 Phase 3 改訂 / 2026-08-23 GO B-1)。
  * モジュール順は勾配台帳 REGION_MODULES.coincident。morning-desk = 「Daily Intel」帯
  * (ヘッダ「Daily Intel」+ 一覧リンク / compact Daily Intel = D8 で desktop 専用・
- * mobile は CompositeHero が担う / サムネなし 12指標行 + 行右隣にアーカイブリンク)。
+ * mobile は CompositeHero が担う / 12指標行 = Signal 行と同じ小サムネ付き行
+ * (ArticleThumbRow・2026-08-23 田平氏 GO 2) + 行右隣にアーカイブリンク)。
  * 直下に signal-timeline (Signal 前面化)。
  */
 export type CoincidentColumnProps = Pick<
@@ -101,7 +102,7 @@ export function CoincidentColumn({
             >
               <div data-mkt12-role="hero" className="min-w-0 flex-1">
                 {slots.mkt12.article ? (
-                  <ArticleRow
+                  <ArticleThumbRow
                     article={slots.mkt12.article}
                     familyLabel={familyLabels[slots.mkt12.article.family]}
                   />

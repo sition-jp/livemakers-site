@@ -1,6 +1,6 @@
 # ホーム中央カラム「Daily Intel」帯 + Signal 前面化 — 設計 (2026-08-23 田平氏 GO B-1)
 
-Status: `IMPLEMENTED — AWAITING_MERGE_GO` (branch `claude/home-morning-desk-b1`・Draft PR [#103](https://github.com/sition-jp/livemakers-site/pull/103))
+Status: `LIVE` (PR [#103](https://github.com/sition-jp/livemakers-site/pull/103) `48ac388`・2026-08-23 12:54 本番反映) + **Amendment 1** (§8・12指標行をサムネ付きへ)
 
 ## 1. 背景と診断
 
@@ -113,3 +113,15 @@ coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
 2. 実装は worktree `.worktrees/claude-home-morning-desk` (branch `claude/home-morning-desk-b1`)・TDD
 3. site Draft PR → 田平氏 merge GO (8/14 Phase 3 GO の順序決定を改訂する変更のため通常ゲート)
 4. merge 後: 本番 home の実測 (Signal 位置) を WORKLOG に記録
+
+## 7. 本番 as-built (2026-08-23 12:5x・feed 込み)
+
+Signal 見出し = カラム上端 + **437px** (before 768・−331) @1280×900 / **425px** (before 765・−340) @1920×1080。帯 413 / 401px。viewport 内 Signal 行 0→1 / 0→3。ヘッダ「直近の Signal · 今日 1 本 · 最新 08-23 00:54」が実値で描画。dev 実測より ~30px 大きいのは実サムネ 14:3 (129px) > placeholder (96px)。
+
+## 8. Amendment 1 — 12指標行を Signal 行と同じ小サムネ付きに (2026-08-23 田平氏 GO 2)
+
+- §3-2 の「12指標行 = `ArticleRow` (サムネなし)」を **`ArticleThumbRow` (96px 幅サムネ + 見出し + family チップ + 日時 = Signal 行と同型)** に改める。理由 (田平氏): 帯の下半分と直下の Signal 行が同じ文法で並び走査しやすい。ゲージ絵が毎日同じなのは「この行は 12指標」の視認アイコンとして働く
+- コスト: 行高 ≈ 64 → ≈ 80px (+15px 前後)。Signal 見出しは 437 → 約 450px 見込み (merge 後に実測)
+- 不変: ヘッダ・compact Daily Intel・アーカイブリンクの位置・週末版/未公開分岐・gate 6 (`data-article-id` 本体 2 本)・サムネ未検証時は family 色の帯で枠を保つ (Signal 行と同じ判断)
+- テスト: `gradient-columns.test.tsx` の「帯内 img ≤ 1 / 12指標行サムネなし」を「`[data-thumb-row]` 1 つ / 12指標行に img or placeholder 帯」へ反転
+
