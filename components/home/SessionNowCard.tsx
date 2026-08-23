@@ -43,10 +43,15 @@ export function SessionNowCard({
   const [headline, ...restBullets] = record.bullets;
   const freshnessHm = record.asOfJst.slice(11, 16);
   const editorial = showEditorial ? record.editorial : undefined;
-  const sessionHref =
-    record.hasMaterializedRoute !== false || record.editorial
-      ? record.currentUrl
-      : "/sessions/archive";
+  // 2026-08-23 (田平氏 GO): the full-session CTA always targets the
+  // session's own URL. The D6 archive detour (below, kept as history) was
+  // written before P2-LVM-IT-G1 added the same-URL live view — today
+  // app/[locale]/sessions/[slug] resolves feed-origin records through
+  // resolveSessionPageRecord, so a feed record shown on the home card can
+  // never 404 at currentUrl while it is in the feed. Sending readers to
+  // /sessions/archive instead landed them on a stale list (8/13 when the
+  // crystallize auto-PR had been silently failing for 9 days).
+  const sessionHref = record.currentUrl;
   return (
     <section
       aria-label={definition.nameEn}
@@ -89,12 +94,9 @@ export function SessionNowCard({
       </ul>
       <div className="mt-2 flex items-center gap-3 text-[11.5px] text-text-tertiary">
         <span>{copy.nextUpdateLine}</span>
-        {/* D6 (crystallize 前の 404 回避, G43-e / fix round 2 I-2): route by
-            whether the record is actually materialized in the repo (has a
-            generateStaticParams route for currentUrl), not by articleStatus.
-            A repo-origin record (published or still pending) is always
-            materialized; a feed-lifted record without a matching repo entry
-            is not — see SessionRecord.hasMaterializedRoute. */}
+        {/* D6 (G43-e / fix round 2 I-2) used to route feed-lifted records
+            without a materialized repo route to /sessions/archive. Retired
+            2026-08-23 — see the sessionHref comment above. */}
         <Link
           href={sessionHref}
           className="ml-auto shrink-0 text-[12.5px] font-bold text-accent"

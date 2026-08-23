@@ -150,7 +150,7 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
     ).toBe(publishedRecord.currentUrl);
   });
 
-  it("routes the full-session CTA to /sessions/archive when the record is feed-origin and not yet materialized (①)", () => {
+  it("routes the full-session CTA to currentUrl even for a feed-origin record without editorial (① — 2026-08-23: same-URL live view resolves feed records, archive detour removed)", () => {
     const feedOnlyRecord: SessionRecord = {
       ...record,
       hasMaterializedRoute: false,
@@ -166,7 +166,7 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
       screen
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
-    ).toBe("/sessions/archive");
+    ).toBe(record.currentUrl);
   });
 
   it("routes an editorial feed session to the same currentUrl and shows exactly the first two lead sentences", () => {
