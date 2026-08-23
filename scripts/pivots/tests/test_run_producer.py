@@ -1,3 +1,4 @@
+import inspect
 import json
 import os
 from pathlib import Path
@@ -151,28 +152,37 @@ def test_live_write_replaces_target_atomically(
 
 
 def test_custom_targets_do_not_touch_canonical_sidecar(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher, monkeypatch
 ) -> None:
-    canonical = run_producer_module.DEFAULT_DERIVATIVES_HISTORY
-    before = canonical.read_bytes()
-    assets_target = tmp_path / "pivot_assets.live.json"
-    backtest_target = tmp_path / "pivot_backtest.live.json"
+    parameter = inspect.signature(run_producer).parameters[
+        "derivatives_history_path"
+    ]
+    assert parameter.default is None
 
-    try:
-        rc = run_producer(
-            fetcher=canned_fetcher,
-            assets_path=assets_target,
-            backtest_path=backtest_target,
-            dry_run=False,
-            skip_zod_validate=True,
-        )
+    canonical = tmp_path / "canonical" / "pivot_derivatives_history.live.json"
+    canonical.parent.mkdir()
+    canonical.write_bytes(b"canonical-sentinel")
+    monkeypatch.setattr(
+        run_producer_module,
+        "DEFAULT_DERIVATIVES_HISTORY",
+        canonical,
+    )
+    custom_dir = tmp_path / "custom"
+    custom_dir.mkdir()
+    assets_target = custom_dir / "pivot_assets.live.json"
+    backtest_target = custom_dir / "pivot_backtest.live.json"
 
-        assert rc == 0
-        assert canonical.read_bytes() == before
-        assert (tmp_path / "pivot_derivatives_history.live.json").exists()
-    finally:
-        if canonical.read_bytes() != before:
-            canonical.write_bytes(before)
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=assets_target,
+        backtest_path=backtest_target,
+        dry_run=False,
+        skip_zod_validate=True,
+    )
+
+    assert rc == 0
+    assert canonical.read_bytes() == b"canonical-sentinel"
+    assert (custom_dir / "pivot_derivatives_history.live.json").exists()
 
 
 def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path) -> None:
