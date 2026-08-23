@@ -17,6 +17,10 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   // - leading: event-risk (最新記事) を schedule 直下へ・観測リストは
   //   radar-observations として独立させ flash-promotion 直下へ・focus は末尾へ
   // - coincident: mkt12-reading (今朝の12指標) を lead-article 直下へ
+  // 2026-08-23 田平氏 GO B-1 (Signal 前面化): lead-article + mkt12-reading を
+  //   morning-desk (「Daily Intel」帯 = compact な Daily Intel + サムネなし 12指標行)
+  //   1 モジュールへ統合。Daily Intel ブロックだけ <xl hidden (D8・hero が担う)。
+  //   spec: docs/superpowers/specs/2026-08-23-home-morning-desk-design.md
   leading: [
     "session-now",
     "schedule",
@@ -25,7 +29,7 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
     "radar-observations",
     "focus",
   ],
-  coincident: ["lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values"],
+  coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
   // - lagging (2026-08-23 田平氏 GO A): 記事 4 枠 (deep-dive / atlas-entry /
   //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
   //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の

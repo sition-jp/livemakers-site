@@ -17,8 +17,10 @@ describe("gradient ledger", () => {
       "session-now", "schedule", "event-risk", "flash-promotion",
       "radar-observations", "focus",
     ]);
+    // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
+    // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。
     expect(REGION_MODULES.coincident).toEqual([
-      "lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values",
+      "morning-desk", "signal-timeline", "mkt12-tiles", "lane-values",
     ]);
     expect(REGION_MODULES.lagging).toEqual([
       "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "latest-articles",
