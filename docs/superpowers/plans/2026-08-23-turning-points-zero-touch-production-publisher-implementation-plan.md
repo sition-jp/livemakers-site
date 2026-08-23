@@ -219,6 +219,7 @@ Run: `scripts/pivots/.venv/bin/pytest -q scripts/pivots/tests/test_run_daily.py 
 - Modify: `scripts/pivots/RUNBOOK.md`
 - Modify: `scripts/pivots/ops/samples/com.sition.livemakers.pivots.daily.plist`
 - Modify: `scripts/pivots/ops/install_launchagent.sh`
+- Create: `scripts/pivots/tests/test_install_launchagent.py`
 
 **Interfaces:**
 - Documents credential metadata, publisher clone, failure recovery, and rollback.
@@ -241,6 +242,8 @@ that flag and reinstalling.
 Run: `plutil -lint scripts/pivots/ops/samples/com.sition.livemakers.pivots.daily.plist`
 
 Run: `bash -n scripts/pivots/ops/install_launchagent.sh`
+
+Run: `scripts/pivots/.venv/bin/pytest -q scripts/pivots/tests/test_install_launchagent.py`
 
 ### Task 6: Full verification and review handoff
 

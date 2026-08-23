@@ -109,7 +109,8 @@ Then re-run `ops.run_daily`.
 | `LiveWriteFailed` after `DryRunFailed` was OK | Promote-step OS error or zod failure on tmps | Inspect `data/pivots-history/` and roll back if needed |
 | `RetentionFailed` | `data/pivots-history/` missing or unwritable | Recreate dir; live write was already successful |
 | `AutoPublishSkipped` | `--auto-publish` was passed without `--auto-commit` | Use both flags for a scheduled publication run |
-| `AutoPublishFailed` | Source validation, GitHub PR/check/merge, deployment, or public smoke failed | Read the bounded publisher detail in `ops.log.jsonl`; production remains on its previous good snapshot |
+| `AutoPublishFailed` with `phase=pre_merge` | Source validation, branch/PR identity, checks, or pre-merge work failed | Read the bounded publisher detail; `main` and production were not changed by this run |
+| `AutoPublishFailed` with `phase=post_merge` | Merge outcome is uncertain, or deployment/public smoke failed after merge | Treat `main` or production as changed; inspect the PR merge SHA and reconcile production before any revert |
 | Orphan `.bak` warning at startup | Crash mid-promotion | See Recovery section above |
 | Page shows `UnavailableNotice` | JSON missing or parse-rejected | Restore from `data/pivots-history/` and re-run |
 | Page shows "very stale" badge | Producer hasn't run for >72h | Re-run `ops.run_daily` manually |
@@ -164,6 +165,10 @@ value in this runbook, git, logs, launchd environment, or command history.
 state. The Python publisher validates the assignment at runtime and redacts the
 value from bounded child-process output.
 
+The dedicated publisher clone resets any inherited Git credential helper and
+uses the local helper `!gh auth git-credential`. This makes Git fetch/push use
+the same child-process `GH_TOKEN` as `gh` without persisting its value.
+
 ### Telegram setup (one-time, before install)
 
 1. In Telegram, message `@BotFather` and create a dedicated bot:
@@ -179,6 +184,10 @@ value from bounded child-process output.
    ```
    The `export KEY="VALUE"` form is also accepted if your secrets.env uses it.
 5. Verify `ls -l ~/.sition/secrets.env` shows `-rw-------`. If not: `chmod 600 ~/.sition/secrets.env`.
+
+The installer now requires this file to be regular, non-symlink, current-user
+owned, mode `0600`, and accepted by the runtime Telegram loader before it
+changes LaunchAgent state.
 
 ### Why three flags on the LaunchAgent and not on manual runs
 
@@ -212,27 +221,41 @@ bash scripts/pivots/ops/install_launchagent.sh
 bash scripts/pivots/ops/uninstall_launchagent.sh
 ```
 
+Installation is transactional. The installer backs up the previous plist and
+loaded state before replacement. If bootstrap, kickstart, or first-run OK
+verification fails, it boots out the new agent and restores the previous plist
+and loaded state. A rollback-incomplete error requires immediate operator
+inspection before the next 08:00 fire.
+
 ### Publication state machine and recovery
 
 The automated publisher is fail closed:
 
 1. Validate both public JSON files, matching exact UTC `generated_at`, and the
    optional sidecar.
-2. Reset a dedicated publisher clone to `origin/main`, then commit only the
-   allowlisted snapshot paths on a deterministic automation branch.
-3. Create or safely resume the corresponding PR. A remote branch without a PR,
-   an unexpected blob, a changed head SHA, a draft/conflict, failed check, or
-   timeout stops publication.
+2. Reset a dedicated publisher clone to `origin/main`, freeze the validated
+   source bytes, then commit only the allowlisted snapshot paths on a
+   deterministic automation branch. An equal timestamp is accepted only when
+   the source blobs equal `origin/main`.
+3. Create or safely resume the corresponding PR. Base `main`, exact head name,
+   repository owner, PR file set, source blobs, and head SHA are all pinned. A
+   remote branch without a PR, merged PR not reflected on fetched `main`,
+   unexpected blob, draft/conflict, failed check, or timeout stops publication.
 4. Require successful `guards` and `Vercel` checks, squash-merge the pinned head,
    wait for Vercel production success, then smoke the radar API, backtest API,
    and `/ja/turning-points` against the expected timestamp.
 5. Delete the automation branch after success. Cleanup failure is reported but
    does not turn an already verified production publication into failure.
 
-On `AutoPublishFailed`, inspect the final JSONL entry and GitHub PR state. Do not
+On `phase=pre_merge`, inspect the final JSONL entry and GitHub PR state. Do not
 manually merge a failed-check PR. Correct the named cause and let the next daily
-run resume or supersede it. Production remains on the previous verified
-snapshot until the full state machine completes.
+run resume or supersede it.
+
+On `phase=post_merge`, do not claim the previous snapshot was preserved. Inspect
+the PR and merge SHA, verify `origin/main`, Vercel production, and the three
+public smoke targets. The next run can reconcile an already-current valid merge;
+a bad merged snapshot requires a separately reviewed revert. The publisher does
+not auto-revert.
 
 ### Roll back automated publication
 
@@ -241,6 +264,8 @@ installed plist source, reinstall the LaunchAgent, and verify the kickstart log.
 This leaves daily generation, scoped local commits, and Telegram heartbeat in
 place while disabling PR creation and merge. Do not delete credentials or
 publisher branches as part of the same rollback until their state is inspected.
+This manual rollback applies after a successful cutover. A failed installer
+kickstart automatically restores the prior agent as described above.
 
 ### Troubleshooting missed natural fire
 
