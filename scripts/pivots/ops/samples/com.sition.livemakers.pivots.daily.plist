@@ -14,6 +14,8 @@
 
   install_launchagent.sh substitutes REPLACE_REPO_PATH and
   REPLACE_HOME below before placing the file at ~/Library/LaunchAgents/.
+  It also requires ~/.sition_secrets/github_autopr.env to pass the
+  publisher credential metadata preflight before changing installed state.
 
   EnvironmentVariables / PATH is required because the producer's
   zod validator shells out to `npx vitest`, which lives in
@@ -40,6 +42,7 @@
         <string>-m</string>
         <string>ops.run_daily</string>
         <string>--auto-commit</string>
+        <string>--auto-publish</string>
         <string>--notify-ok</string>
     </array>
     <key>WorkingDirectory</key>

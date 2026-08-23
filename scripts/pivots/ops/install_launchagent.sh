@@ -8,13 +8,30 @@ PLIST_SRC="$REPO_ROOT/scripts/pivots/ops/samples/$PLIST_NAME"
 LABEL="com.sition.livemakers.pivots.daily"
 DOMAIN="gui/$(id -u)"
 LOG_FILE="$REPO_ROOT/scripts/pivots/ops.log.jsonl"
+GITHUB_TOKEN_FILE="$HOME/.sition_secrets/github_autopr.env"
 
-# 1. Create venv if missing
+# 1. Fail before changing installed state unless the publisher credential has
+# safe metadata. Never read or print the credential value here.
+if [ -L "$GITHUB_TOKEN_FILE" ] || [ ! -f "$GITHUB_TOKEN_FILE" ]; then
+  echo "ERROR: GitHub publisher credential must be a regular, non-symlink file: $GITHUB_TOKEN_FILE" >&2
+  exit 1
+fi
+if [ "$(stat -f '%u' "$GITHUB_TOKEN_FILE")" != "$(id -u)" ]; then
+  echo "ERROR: GitHub publisher credential must be owned by the current user" >&2
+  exit 1
+fi
+if [ "$(stat -f '%Lp' "$GITHUB_TOKEN_FILE")" != "600" ]; then
+  echo "ERROR: GitHub publisher credential permissions must be 0600" >&2
+  echo "  fix: chmod 600 $GITHUB_TOKEN_FILE" >&2
+  exit 1
+fi
+
+# 2. Create venv if missing
 if [ ! -x "$REPO_ROOT/scripts/pivots/.venv/bin/python" ]; then
   python3 -m venv "$REPO_ROOT/scripts/pivots/.venv"
 fi
 
-# 2. Substitute REPLACE_REPO_PATH / REPLACE_HOME and place plist.
+# 3. Substitute REPLACE_REPO_PATH / REPLACE_HOME and place plist.
 # launchd log paths must live outside TCC-protected folders (~/Documents
 # etc.) or the service fails to spawn with EX_CONFIG (78) — see sample
 # plist comment.
@@ -22,7 +39,7 @@ mkdir -p "$HOME/Library/LaunchAgents"
 mkdir -p "$HOME/Library/Logs/sition-livemakers"
 sed -e "s|REPLACE_REPO_PATH|$REPO_ROOT|g" -e "s|REPLACE_HOME|$HOME|g" "$PLIST_SRC" > "$PLIST_DST"
 
-# 3. Warn if secrets.env missing or wrong perm
+# 4. Warn if secrets.env missing or wrong perm
 if [ ! -f "$HOME/.sition/secrets.env" ]; then
   echo "WARN: ~/.sition/secrets.env not found — Telegram will silently skip until added"
 elif [ "$(stat -f '%Lp' "$HOME/.sition/secrets.env")" != "600" ]; then
@@ -30,7 +47,7 @@ elif [ "$(stat -f '%Lp' "$HOME/.sition/secrets.env")" != "600" ]; then
   echo "  fix: chmod 600 ~/.sition/secrets.env"
 fi
 
-# 4. Conditional bootout — only if currently loaded
+# 5. Conditional bootout — only if currently loaded
 if launchctl print "$DOMAIN/$LABEL" >/dev/null 2>&1; then
   echo "service currently loaded; booting out before reinstall"
   if ! launchctl bootout "$DOMAIN/$LABEL"; then
@@ -40,20 +57,20 @@ if launchctl print "$DOMAIN/$LABEL" >/dev/null 2>&1; then
   fi
 fi
 
-# 5. Capture pre-kickstart line count
+# 6. Capture pre-kickstart line count
 PRE_LINES=0
 if [ -f "$LOG_FILE" ]; then
   PRE_LINES="$(wc -l < "$LOG_FILE" | tr -d ' ')"
 fi
 echo "pre-kickstart log line count: $PRE_LINES"
 
-# 6. Bootstrap (load)
+# 7. Bootstrap (load)
 launchctl bootstrap "$DOMAIN" "$PLIST_DST"
 
-# 7. Kickstart (immediate single fire)
+# 8. Kickstart (immediate single fire)
 launchctl kickstart -k "$DOMAIN/$LABEL"
 
-# 8. Poll until log line count increases AND new entry has status=OK
+# 9. Poll until log line count increases AND new entry has status=OK
 echo "polling $LOG_FILE for first-run entry..."
 DEADLINE=$(($(date +%s) + 120))
 while [ $(date +%s) -lt $DEADLINE ]; do
