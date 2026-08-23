@@ -42,36 +42,75 @@ export function isArticleInflowPublicEnabled(): boolean {
   return value === "1" || value === "true";
 }
 
+/**
+ * 2026-08-23 (田平氏 GO): one bounded retry before the repository-only
+ * degrade — same posture as the terminal feed (#106). Right after the #107
+ * deploy (14:47–14:53 JST) only the article feed failed to load while the
+ * Blob payload and this loader were verified sound; /ja pinned the
+ * repository-only render in ISR for 5 minutes and a fresh /en prerender at
+ * 14:51 failed the same way — the fourth "先祖返り" read of a transient fetch
+ * (8/10, 8/11, 8/23 ×2, all right after deploys). Only fetch-level failures
+ * (thrown error, non-ok status, unreadable body) retry; a payload the
+ * contract rejects is returned as null immediately because it will not
+ * change on retry. The failure reason is included in the warning so Vercel
+ * runtime logs can tell the failure modes apart. Two attempts × the
+ * per-attempt timeout stay inside the route budget (the terminal feed fetch
+ * runs in parallel, not in series).
+ */
+export const ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS = 2;
+export const ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS = 4_000;
+
+function describeFailure(error: unknown): string {
+  return error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+}
+
 async function fetchValidatedArticleInflowFeed(
   url: string,
   fetcher: typeof fetch,
   requiredEnvironment?: ArticleInflowFeed["environment"],
 ): Promise<ArticleInflowFeed | null> {
-  try {
-    const response = await fetcher(url, {
-      headers: { Accept: "application/json" },
-      // ISR cost doctrine (2026-08-21 田平氏 GO): 300s data cache が
-      // 全記事ページの実効 ISR 間隔を 5 分へ引き戻し、ISR Writes 42万回/11日
-      // + Fluid CPU 38h の主因になっていた。鮮度は公開レーンの on-demand
-      // revalidate (push purge) が担うため 3600s で読者影響なし。
-      next: { revalidate: 3600 },
-    });
-    if (!response.ok) {
-      console.warn("[article-inflow] feed response rejected; using repository-only content");
-      return null;
+  let lastFailure = "unknown";
+  for (
+    let attempt = 1;
+    attempt <= ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS;
+    attempt += 1
+  ) {
+    try {
+      const response = await fetcher(url, {
+        headers: { Accept: "application/json" },
+        // ISR cost doctrine (2026-08-21 田平氏 GO): 300s data cache が
+        // 全記事ページの実効 ISR 間隔を 5 分へ引き戻し、ISR Writes 42万回/11日
+        // + Fluid CPU 38h の主因になっていた。鮮度は公開レーンの on-demand
+        // revalidate (push purge) が担うため 3600s で読者影響なし。
+        next: { revalidate: 3600 },
+        signal: AbortSignal.timeout(ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS),
+      });
+      if (!response.ok) {
+        lastFailure = `status ${response.status}`;
+      } else {
+        const raw = await response.json();
+        const feed = parseArticleInflowFeed(raw);
+        if (!feed || (requiredEnvironment && feed.environment !== requiredEnvironment)) {
+          console.warn("[article-inflow] feed contract rejected; using repository-only content");
+          return null;
+        }
+        // T1a (INFLOW-G2 D3): サムネは origin / atomic union / bytes checksum を
+        // 検証し、通らない記事はサムネのみ剥がす (記事と feed は生存)
+        return await stripUnverifiedThumbnails(feed, fetcher);
+      }
+    } catch (error) {
+      lastFailure = describeFailure(error);
     }
-    const feed = parseArticleInflowFeed(await response.json());
-    if (!feed || (requiredEnvironment && feed.environment !== requiredEnvironment)) {
-      console.warn("[article-inflow] feed contract rejected; using repository-only content");
-      return null;
+    if (attempt < ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS) {
+      console.warn(
+        `[article-inflow] feed fetch attempt ${attempt}/${ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS} failed (${lastFailure}); retrying`,
+      );
     }
-    // T1a (INFLOW-G2 D3): サムネは origin / atomic union / bytes checksum を
-    // 検証し、通らない記事はサムネのみ剥がす (記事と feed は生存)
-    return await stripUnverifiedThumbnails(feed, fetcher);
-  } catch {
-    console.warn("[article-inflow] feed request failed; using repository-only content");
-    return null;
   }
+  console.warn(
+    `[article-inflow] feed request failed after ${ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS} attempts (${lastFailure}); using repository-only content`,
+  );
+  return null;
 }
 
 export async function fetchArticleInflowFeed(
