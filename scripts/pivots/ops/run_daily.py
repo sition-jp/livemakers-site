@@ -79,13 +79,19 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
 
 
 def _invoke_publisher(args: Sequence[str]) -> PublisherInvocation:
-    proc = subprocess.run(
-        [sys.executable, "-m", "ops.publish_snapshot", *args],
-        cwd=str(Path(__file__).resolve().parents[1]),
-        check=False,
-        capture_output=True,
-        text=True,
-    )
+    try:
+        proc = subprocess.run(
+            [sys.executable, "-m", "ops.publish_snapshot", *args],
+            cwd=str(Path(__file__).resolve().parents[1]),
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return PublisherInvocation(
+            returncode=1,
+            output="publisher process could not start",
+        )
     return PublisherInvocation(
         returncode=proc.returncode,
         output=f"{proc.stdout}\n{proc.stderr}".strip(),
@@ -111,6 +117,10 @@ def _publisher_failure_details(result: PublisherInvocation) -> str:
     base = f"publisher returned {result.returncode}"
     output = _truncated_output(result.output)
     return f"{base}: {output}" if output else base
+
+
+def _publisher_may_have_changed_production(result: PublisherInvocation) -> bool:
+    return "phase=post_merge" in result.output
 
 
 def _orphan_bak_present(*paths: Path) -> bool:
@@ -384,13 +394,16 @@ def _run_inside_lock(
         ]
         publish_result = _invoke_publisher(publish_args)
         if publish_result.returncode != 0:
+            production_may_have_changed = _publisher_may_have_changed_production(
+                publish_result
+            )
             _alert(
                 log_file,
                 status="FAILED",
                 error_type="AutoPublishFailed",
                 command="python -m ops.publish_snapshot",
                 target_paths=targets,
-                previous_snapshot_preserved=True,
+                previous_snapshot_preserved=not production_may_have_changed,
                 orphan_bak_present=False,
                 details=_publisher_failure_details(publish_result),
                 notify_ok=notify_ok,

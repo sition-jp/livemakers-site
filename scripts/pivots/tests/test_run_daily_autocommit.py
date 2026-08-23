@@ -701,6 +701,57 @@ def test_auto_publish_failure_emits_failed_without_ok(tmp_path, monkeypatch):
     assert captured["p"]["status"] == "FAILED"
     assert captured["p"]["error_type"] == "AutoPublishFailed"
     assert "guards failed" in captured["p"]["details"]
+    assert captured["p"]["previous_snapshot_preserved"] is True
+
+
+def test_auto_publish_post_merge_failure_marks_production_not_preserved(
+    tmp_path, monkeypatch
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    mock = _MockProducerAndGit()
+    mock.respond("status --porcelain", returncode=0, stdout="")
+    _stub_pipeline_success(monkeypatch, mock)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_publisher",
+        lambda _args: rd.PublisherInvocation(
+            returncode=1,
+            output=(
+                "[pivots-publisher] FAILED phase=post_merge "
+                "production smoke failed"
+            ),
+        ),
+    )
+
+    rc = rd.run_daily(
+        **paths,
+        auto_commit=True,
+        auto_publish=True,
+        notify_ok=False,
+    )
+
+    assert rc == 0
+    assert captured["p"]["status"] == "FAILED"
+    assert captured["p"]["previous_snapshot_preserved"] is False
+
+
+def test_invoke_publisher_converts_process_start_error_to_result(monkeypatch):
+    from ops import run_daily as rd
+
+    monkeypatch.setattr(
+        "ops.run_daily.subprocess.run",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(OSError("spawn failed")),
+    )
+
+    result = rd._invoke_publisher([])
+
+    assert result.returncode != 0
+    assert "could not start" in result.output
 
 
 def test_auto_publish_is_not_called_after_auto_commit_failure(
