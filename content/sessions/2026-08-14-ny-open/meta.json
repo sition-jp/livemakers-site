@@ -1,0 +1,82 @@
+{
+  "sessionId": "2026-08-14-ny-open",
+  "date": "2026-08-14",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-14-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-14-ny-open",
+  "publishedAt": "2026-08-15T06:35:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260814_1803_c558ede1",
+  "asOfJst": "2026-08-14T18:03:09+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月14日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,748.50 → 7,798.99（+0.65%）",
+    "変動幅上位: NIGHT/USD -3.5% / ADA/USD -2.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260814_1841_cc3ead40",
+    "crawlAnchorJst": "2026-08-14T18:03:00+09:00",
+    "writtenAtJst": "2026-08-14T18:41:06+09:00",
+    "lead": "長い方の端から値段が動いた。米30年債では投資家が求める利回りが記録的な水準まで上がり、同じ時間帯に欧州とアジアの株式指数は利下げ期待を優先して上値を試している。国債が要求する上乗せと、株式が織り込む緩和期待は、いま逆を向いている。どちらが先に折れるかが、この週末をまたぐ論点になる。",
+    "items": [
+      {
+        "headline": "米30年債、投資家が要求した利回りが記録的水準に達した",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/anleihen/anleihen-investoren-verlangen-rekord-renditen-fuer-30-jaehrige-us-bonds/100247290.html",
+        "note": "満期の長い国債ほど、貸し手が求める上乗せが大きくなっている。財政の値段は短い側ではなく長い側から動いている。"
+      },
+      {
+        "headline": "アジア株は上昇、利下げ期待が中東情勢への懸念を上回った",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/nikkei-und-kospi-asiens-boersen-legen-zu-zinshoffnungen-ueberwiegen-nahost-sorgen/100247215.html",
+        "note": "日経とコスピがそろって上げた。同じ時間帯に債券市場が示した警戒とは逆を向いている。"
+      },
+      {
+        "headline": "ダックスは最高値の手前で推移、SAPが上昇を主導した",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-dax-notiert-im-plus-knapp-unter-rekord-sap-setzt-rally-fort/100247250.html"
+      },
+      {
+        "headline": "米政権が民間企業に対外サイバー攻撃を認める方針を示した",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/aug/13/donald-trump-private-companies-cyber-attack",
+        "note": "攻撃的なサイバー作戦の担い手が、国家機関の外にも開かれる。誰が承認し誰が責任を負うのかが次の論点になる。"
+      },
+      {
+        "headline": "ステーブルコインUSDMがMidnightに到着した",
+        "sourceUrl": "https://x.com/IOHK_Charles/status/2088006926907166915"
+      },
+      {
+        "headline": "USDMがMidnightで利用可能になり、Cardanoからの送金が通った",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2088036304588030289",
+        "note": "二つのネットワークの間で、資産が実際に動いたことが示された。"
+      },
+      {
+        "headline": "Midnightの取引手数料をUSDMで払える経路が開いた",
+        "sourceUrl": "https://x.com/SundaeSwap/status/2088024342085132299",
+        "note": "対応するアプリでは、手数料の支払いに専用の資源ではなくステーブルコインを使えるようになった。"
+      },
+      {
+        "headline": "テザーが初の全面的な財務監査を公表した",
+        "sourceUrl": "https://x.com/paoloardoino/status/2087950118746050804"
+      },
+      {
+        "headline": "ChatGPTがパソコン上の利用履歴を記憶する機能を追加した",
+        "sourceUrl": "https://x.com/OpenAI/status/2087996496088297746",
+        "note": "アプリやサイトをまたいだ行動が文脈として残る。何を渡すかを選ぶのは利用者側になる。"
+      },
+      {
+        "headline": "ファラージ氏が英クラクトン補選で勝利した",
+        "sourceUrl": "https://www.theguardian.com/politics/2026/aug/14/nigel-farage-wins-clacton-byelection-count-binface-boycotted-major-parties",
+        "note": "主要政党が参加を見送った選挙での結果となった。"
+      }
+    ],
+    "watch": [
+      "長期金利の上昇が株式のリスク選好を削り始める水準はどこか。上乗せと緩和期待は同時には続かない。",
+      "手数料をステーブルコインで払う経路が、実際の利用でどれだけ選ばれるか。",
+      "民間企業による対外サイバー作戦は、承認と責任の手続きがどこまで公開されるかが次の焦点。"
+    ]
+  }
+}
