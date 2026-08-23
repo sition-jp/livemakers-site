@@ -21,11 +21,14 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   morning-desk (「Daily Intel」帯 = compact な Daily Intel + サムネなし 12指標行)
   //   1 モジュールへ統合。Daily Intel ブロックだけ <xl hidden (D8・hero が担う)。
   //   spec: docs/superpowers/specs/2026-08-23-home-morning-desk-design.md
+  // 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) を撤去 — 公開以来一度も
+  //   ペアが成立しなかった空カード。観測リスト (radar-observations) は残す。
+  //   spec: docs/superpowers/specs/2026-08-23-terminal-switching-ux-design.md §D
+  //   (CP doctrine §4 は窓単位の台帳で「Live Radar」は観測カードとして存続 — 改訂不要)
   leading: [
     "session-now",
     "schedule",
     "event-risk",
-    "flash-promotion",
     "radar-observations",
     "focus",
   ],

@@ -8,7 +8,6 @@ import eventRiskSchedule from "@/data/home/event-risk-schedule.json";
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { ArticleCardSmall } from "../ArticleCardSmall";
-import { FlashPromotionCard } from "../FlashPromotionCard";
 import { RadarObservationsCard } from "../RadarObservationsCard";
 import { SessionFocusChart } from "../SessionFocusChart";
 import { SessionNowCard } from "../SessionNowCard";
@@ -20,8 +19,10 @@ const REGION = "leading" satisfies GradientRegion;
  * 左カラム = 先行 (G44 D5 / 2026-08-14 Phase 3 改訂)。モジュール順は勾配台帳
  * REGION_MODULES.leading。session-now は D8 の単一表現ルールで desktop 専用
  * (mobile は CompositeHero が担う)。event-risk = 最新 event-risk-radar 記事 1 本
- * (schedule 直下)・flash-promotion = FlashPromotionCard (昇格ペア or 空状態)・
- * radar-observations = 観測 title-only リスト (flash-promotion 直下) を描画する。
+ * (schedule 直下)・radar-observations = 観測リスト (event-risk 直下) を描画する。
+ * 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) は撤去 — 公開以来一度も
+ * ペアが成立しなかった空カード (spec 2026-08-23-terminal-switching-ux-design §D)。
+ * session-now は live → live card / recentClosed → closed card / なし → fallback。
  */
 export type LeadingColumnProps = Pick<
   HomeCompositionProps,
@@ -33,7 +34,8 @@ export type LeadingColumnProps = Pick<
   | "sessionProvenance"
   | "copy"
   | "showSessionEditorial"
->;
+> &
+  Partial<Pick<HomeCompositionProps, "recentClosed" | "recentClosedProvenance">>;
 
 const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
   "session-now": "hidden xl:block",
@@ -47,6 +49,8 @@ export function LeadingColumn({
   focusSeries,
   focusSessionSlug,
   sessionProvenance,
+  recentClosed = null,
+  recentClosedProvenance = null,
   copy,
   showSessionEditorial = true,
 }: LeadingColumnProps) {
@@ -63,6 +67,14 @@ export function LeadingColumn({
             provenance={sessionProvenance}
             copy={copy.sessionNow}
             showEditorial={showSessionEditorial}
+          />
+        ) : recentClosed && recentClosedProvenance ? (
+          <SessionNowCard
+            record={recentClosed}
+            provenance={recentClosedProvenance}
+            copy={copy.sessionNow}
+            showEditorial={showSessionEditorial}
+            variant="closed"
           />
         ) : (
           <section className="rounded-lg border border-border-primary bg-bg-secondary p-4 text-sm text-text-tertiary">
@@ -94,18 +106,6 @@ export function LeadingColumn({
             series={focusSeries}
             unavailableLabel={copy.unavailable}
             copy={copy.focus}
-          />
-        );
-      case "flash-promotion":
-        return (
-          <FlashPromotionCard
-            pair={slots.radarPair}
-            copy={{
-              sectionTitle: copy.radar.sectionTitle,
-              promoted: copy.radar.promoted,
-              emptyNote: copy.radar.observations.note,
-              familyLabels: copy.familyLabels,
-            }}
           />
         );
       case "event-risk":

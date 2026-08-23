@@ -146,6 +146,10 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
       "live",
       "mkt12Provenance",
       "pageProvenance",
+      // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §A):
+      // recentClosed / recentClosedProvenance を追加 (切替中の埋め草)。
+      "recentClosed",
+      "recentClosedProvenance",
       "schedule",
       "sessionProvenance",
       "slots",

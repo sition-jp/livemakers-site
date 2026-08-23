@@ -81,6 +81,13 @@ export interface BuildHomeCompositionArgs {
 
 const REVIEWED_HOME_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
+/** YYYY-MM-DD (JST 暦日文字列) の前日。UTC 解釈で日付演算し TZ 依存を避ける。 */
+function previousJstDate(date: string): string {
+  const at = new Date(`${date}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() - 1);
+  return at.toISOString().slice(0, 10);
+}
+
 function cellMap(cells: MarketSnapshotCell[]) {
   return new Map(cells.map((cell) => [cell.instrumentId, cell]));
 }
@@ -513,6 +520,21 @@ export function buildHomeCompositionProps(
   // fixture provenance; only the session card drops its live claim.
   const declaredLive =
     raw.sessions.find((record) => record.liveStatus === "live") ?? null;
+  // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §A):
+  // live が無い窓 (観測 RED) を空カードにせず「直前に終わったセッション」を
+  // 終了として見せる。対象 = closed かつ date が articleCutoffToday か前日
+  // (00:45–05:02 の global-close 持ち越しを受ける)。fixture のような過去日は
+  // 除外されるので P0-1b (fixture を live と偽らない) は不変。normalized.sessions
+  // は asOfJst 降順なので find = 最新。
+  const recentClosedDates = new Set([
+    articleCutoffToday,
+    previousJstDate(articleCutoffToday),
+  ]);
+  const recentClosed =
+    normalized.sessions.find(
+      (record) =>
+        record.liveStatus === "closed" && recentClosedDates.has(record.date),
+    ) ?? null;
   const slots = selectHomeSlots(raw);
   const focusRecords = loadFocusSeriesRecords();
   const focusSeries = reviewedSource
@@ -584,8 +606,27 @@ export function buildHomeCompositionProps(
         asOfJst: `${live.asOfJst.slice(11, 16)} JST`,
       } as WindowProvenance)
     : null;
+  // recentClosed は live と同じ規則で provenance を組む (feed_today なら reviewed
+  // pair・それ以外は fixture)。描画側は live 優先なので両方あっても衝突しない。
+  const recentClosedProvenance = recentClosed
+    ? makeWindowProvenance({
+        packetId: recentClosed.packetId,
+        sourceMode:
+          sessionsSource === "feed_today"
+            ? (reviewedPair?.sourceMode ?? "fixture_only")
+            : "fixture_only",
+        reviewStatus:
+          sessionsSource === "feed_today"
+            ? (reviewedPair?.reviewStatus ?? "reviewed_fixture")
+            : "reviewed_fixture",
+        asOfJst: `${recentClosed.asOfJst.slice(11, 16)} JST`,
+      } as WindowProvenance)
+    : null;
   const visibleWindowProvenance = [
     ...(sessionProvenance ? [sessionProvenance] : []),
+    ...(!sessionProvenance && recentClosedProvenance
+      ? [recentClosedProvenance]
+      : []),
     ...focusSeries.filter((series) => series !== null).map(seriesProvenance),
     mkt12Provenance,
     laneProvenance.macro,
@@ -623,6 +664,8 @@ export function buildHomeCompositionProps(
     today,
     asOfLabel,
     live,
+    recentClosed,
+    recentClosedProvenance,
     schedule: getTodaySchedule(today, live, normalized.sessions),
     slots,
     focusSeries,

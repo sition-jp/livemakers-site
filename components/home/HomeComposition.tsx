@@ -32,6 +32,8 @@ export type HomeCompositionProps = ReturnType<
  */
 export function HomeComposition({
   live,
+  recentClosed,
+  recentClosedProvenance,
   schedule,
   slots,
   focusSeries,
@@ -59,6 +61,7 @@ export function HomeComposition({
     >
       <CompositeHero
         live={live}
+        recentClosed={recentClosed}
         lead={slots.lead}
         copy={copy.hero}
         editorialCopy={copy.sessionNow}
@@ -70,6 +73,8 @@ export function HomeComposition({
       <div className="mt-8 space-y-8 xl:mt-0 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-8 xl:space-y-0">
         <LeadingColumn
           live={live}
+          recentClosed={recentClosed}
+          recentClosedProvenance={recentClosedProvenance}
           schedule={schedule}
           slots={slots}
           focusSeries={focusSeries}

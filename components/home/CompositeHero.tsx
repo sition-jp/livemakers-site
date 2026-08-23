@@ -28,12 +28,19 @@ const REGION = "hero" satisfies GradientRegion;
  */
 export function CompositeHero({
   live,
+  recentClosed = null,
   lead,
   copy,
   editorialCopy,
   showSessionEditorial = true,
 }: {
   live: SessionRecord | null;
+  /**
+   * 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §A):
+   * live が無い窓は「直前に終わったセッション」を終了として見せる (desktop の
+   * SessionNowCard closed variant と同じ扱い・mobile はこの hero が唯一の表現)。
+   */
+  recentClosed?: SessionRecord | null;
   lead: HomeSlots["lead"];
   copy: HomeCopy["hero"];
   editorialCopy?: SessionNowCopy;
@@ -42,37 +49,38 @@ export function CompositeHero({
   const renderModule = (module: string): ReactNode => {
     switch (module) {
       case "hero-session-line": {
-        const sessionName = live
-          ? getSessionBySlug(live.sessionSlug).nameJa
+        const shown = live ?? recentClosed;
+        const isClosed = !live && recentClosed !== null;
+        const sessionName = shown
+          ? getSessionBySlug(shown.sessionSlug).nameJa
           : copy.sessionFallback;
-        // D6 (crystallize 前の 404 回避, G43-e / fix round 2 I-2): route by
-        // whether the record is actually materialized in the repo (has a
-        // generateStaticParams route for currentUrl), not by articleStatus.
-        // A repo-origin record (published or still pending) is always
-        // materialized; a feed-lifted record without a matching repo entry
-        // is not — see SessionRecord.hasMaterializedRoute.
         const editorial =
-          showSessionEditorial && editorialCopy ? live?.editorial : undefined;
-        const sessionHref =
-          live && (live.hasMaterializedRoute !== false || live.editorial)
-            ? live.currentUrl
-            : "/sessions/archive";
+          showSessionEditorial && editorialCopy ? shown?.editorial : undefined;
+        // 2026-08-23 (田平氏 GO): the CTA always targets the session's own
+        // URL — same retirement of the D6 archive detour as SessionNowCard
+        // (app/[locale]/sessions/[slug] resolves feed-origin records through
+        // resolveSessionPageRecord, so a record shown here can never 404 at
+        // currentUrl while it is in the feed; the archive detour landed
+        // readers on a stale list). No session at all → archive.
+        const sessionHref = shown ? shown.currentUrl : "/sessions/archive";
         return (
           <Link
             href={sessionHref}
             data-index-nav
+            data-session-state={live ? "live" : isClosed ? "closed" : "none"}
             className="block rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary px-4 py-3"
           >
             <span className="flex items-baseline gap-2">
               <span className="shrink-0 text-[10px] font-bold tracking-label text-text-tertiary">
-                {copy.sessionLabel}
+                {isClosed ? copy.closedSessionLabel : copy.sessionLabel}
               </span>
               <span className="min-w-0 flex-1 truncate text-sm font-bold text-text-primary">
                 {sessionName}
               </span>
-              {live ? (
+              {shown ? (
                 <span className="shrink-0 font-mono text-[10px] text-text-tertiary">
-                  {live.date} · {live.asOfJst.slice(11, 16)} JST
+                  {shown.date} · {shown.asOfJst.slice(11, 16)} JST
+                  {isClosed ? ` · ${copy.closedSuffix}` : ""}
                 </span>
               ) : null}
             </span>

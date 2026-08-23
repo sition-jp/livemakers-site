@@ -341,10 +341,15 @@ export function getTodaySchedule(
   return READER_SESSIONS.map((definition) => ({
     def: definition,
     isCurrent: live?.sessionSlug === definition.slug && live.date === today,
+    // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §C):
+    // 「前回を読む →」= そのスロットで最新の closed レコード。crystallize 前の
+    // feed 由来 closed (articleStatus=pending) も対象 — 切替中の間に「いま
+    // 終わったセッション」へ飛べる。feed レコードは feed に居る限り同 URL を
+    // resolveSessionPageRecord が描くので 404 しない。live は対象外。
     previous: records.find(
       (record) =>
         record.sessionSlug === definition.slug &&
-        record.articleStatus === "published",
+        record.liveStatus === "closed",
     ),
   }));
 }
