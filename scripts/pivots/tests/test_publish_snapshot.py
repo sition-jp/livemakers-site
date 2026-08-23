@@ -2,14 +2,18 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
 from pathlib import Path
 
 import pytest
 
 from ops.publish_snapshot import (
+    PublishConfig,
     PublishError,
     _load_github_env,
     _load_source_snapshot,
+    _prepare_publisher_repo,
+    _stage_snapshot_commit,
 )
 
 
@@ -53,6 +57,56 @@ def _write_valid_sidecar(root: Path) -> Path:
         encoding="utf-8",
     )
     return sidecar
+
+
+def _git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", *args],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+
+def _init_remote(
+    tmp_path: Path,
+    *,
+    generated_at: str = "2026-08-21T23:00:13Z",
+) -> Path:
+    remote = tmp_path / "remote.git"
+    remote.mkdir()
+    _git(remote, "init", "--bare", "--initial-branch=main")
+
+    seed = tmp_path / "seed"
+    seed.mkdir()
+    _git(seed, "init", "--initial-branch=main")
+    _git(seed, "config", "user.email", "publisher-test@example.com")
+    _git(seed, "config", "user.name", "Publisher Test")
+    data = seed / "data"
+    data.mkdir()
+    assets, backtest = _write_public_pair(
+        data,
+        assets_generated_at=generated_at,
+    )
+    sidecar = _write_valid_sidecar(data)
+    sidecar_payload = json.loads(sidecar.read_text(encoding="utf-8"))
+    sidecar_payload["generated_at"] = generated_at
+    sidecar.write_text(json.dumps(sidecar_payload), encoding="utf-8")
+    assert assets.exists() and backtest.exists()
+    _git(seed, "add", "data")
+    _git(seed, "commit", "-m", "seed snapshots")
+    _git(seed, "remote", "add", "origin", str(remote))
+    _git(seed, "push", "-u", "origin", "main")
+    return remote
+
+
+def _publisher_config(tmp_path: Path, remote: Path) -> PublishConfig:
+    return PublishConfig(
+        publisher_repo=tmp_path / "publisher",
+        token_file=tmp_path / "unused.env",
+        remote_url=str(remote),
+    )
 
 
 def test_source_pair_requires_matching_generated_at(tmp_path: Path) -> None:
@@ -190,3 +244,114 @@ def test_github_env_rejects_wrong_owner(tmp_path: Path, monkeypatch) -> None:
 
     with pytest.raises(PublishError, match="current user"):
         _load_github_env(token_file)
+
+
+def test_publisher_repo_commit_contains_only_snapshot_allowlist(
+    tmp_path: Path,
+) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(source)
+    sidecar = _write_valid_sidecar(source)
+    snapshot = _load_source_snapshot(assets, backtest, sidecar)
+
+    _prepare_publisher_repo(config, env={})
+    staged = _stage_snapshot_commit(snapshot, config, env={})
+
+    assert staged.state == "staged"
+    assert staged.branch == "automation/pivots-daily-20260822T230013Z"
+    show = _git(
+        config.publisher_repo,
+        "show",
+        "--name-only",
+        "--pretty=format:",
+        "HEAD",
+    )
+    assert {line for line in show.stdout.splitlines() if line} == {
+        "data/pivot_assets.live.json",
+        "data/pivot_backtest.live.json",
+        "data/pivot_derivatives_history.live.json",
+    }
+
+
+def test_prepare_rejects_unrelated_dirty_publisher_clone(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    _prepare_publisher_repo(config, env={})
+    (config.publisher_repo / "UNRELATED.txt").write_text("dirty\n", encoding="utf-8")
+
+    with pytest.raises(PublishError, match="publisher clone is dirty"):
+        _prepare_publisher_repo(config, env={})
+
+
+def test_missing_source_sidecar_preserves_main_sidecar(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(source)
+    snapshot = _load_source_snapshot(assets, backtest, None)
+
+    _prepare_publisher_repo(config, env={})
+    sidecar_before = (
+        config.publisher_repo / "data" / "pivot_derivatives_history.live.json"
+    ).read_bytes()
+    _stage_snapshot_commit(snapshot, config, env={})
+
+    assert (
+        config.publisher_repo / "data" / "pivot_derivatives_history.live.json"
+    ).read_bytes() == sidecar_before
+    show = _git(
+        config.publisher_repo,
+        "show",
+        "--name-only",
+        "--pretty=format:",
+        "HEAD",
+    )
+    assert {line for line in show.stdout.splitlines() if line} == {
+        "data/pivot_assets.live.json",
+        "data/pivot_backtest.live.json",
+    }
+
+
+@pytest.mark.parametrize(
+    "source_generated_at",
+    ["2026-08-21T23:00:13Z", "2026-08-20T23:00:13Z"],
+)
+def test_equal_or_newer_main_is_idempotent_noop(
+    tmp_path: Path, source_generated_at: str
+) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(
+        source,
+        assets_generated_at=source_generated_at,
+    )
+    snapshot = _load_source_snapshot(assets, backtest, None)
+
+    _prepare_publisher_repo(config, env={})
+    staged = _stage_snapshot_commit(snapshot, config, env={})
+
+    assert staged.state == "already_current"
+    assert staged.generated_at == "2026-08-21T23:00:13Z"
+    assert staged.branch is None
+    assert _git(config.publisher_repo, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip() == "HEAD"
+
+
+def test_stage_rejects_unrelated_change_after_prepare(tmp_path: Path) -> None:
+    remote = _init_remote(tmp_path)
+    config = _publisher_config(tmp_path, remote)
+    source = tmp_path / "source"
+    source.mkdir()
+    assets, backtest = _write_public_pair(source)
+    snapshot = _load_source_snapshot(assets, backtest, None)
+    _prepare_publisher_repo(config, env={})
+    tracked = config.publisher_repo / "README.md"
+    tracked.write_text("unrelated\n", encoding="utf-8")
+
+    with pytest.raises(PublishError, match="publisher clone is dirty"):
+        _stage_snapshot_commit(snapshot, config, env={})
