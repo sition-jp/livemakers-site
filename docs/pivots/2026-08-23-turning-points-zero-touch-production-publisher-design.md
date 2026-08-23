@@ -184,6 +184,9 @@ generation completed.
 - Success details include source timestamp, PR URL when created, merge SHA, and
   production smoke result.
 - Failure details are bounded and secret-free.
+- An unmarked child-process failure is production-uncertain by default; only an
+  explicit `phase=pre_merge` permits the runner to claim the prior snapshot was
+  preserved.
 - The existing Telegram dispatcher remains best-effort; JSONL remains
   authoritative.
 

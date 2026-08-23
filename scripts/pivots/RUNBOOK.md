@@ -111,6 +111,7 @@ Then re-run `ops.run_daily`.
 | `AutoPublishSkipped` | `--auto-publish` was passed without `--auto-commit` | Use both flags for a scheduled publication run |
 | `AutoPublishFailed` with `phase=pre_merge` | Source validation, branch/PR identity, checks, or pre-merge work failed | Read the bounded publisher detail; `main` and production were not changed by this run |
 | `AutoPublishFailed` with `phase=post_merge` | Merge outcome is uncertain, or deployment/public smoke failed after merge | Treat `main` or production as changed; inspect the PR merge SHA and reconcile production before any revert |
+| `AutoPublishFailed` without a phase marker | Publisher was terminated or failed outside its normal exception boundary | Default to production-uncertain; only explicit `phase=pre_merge` permits a preserved-snapshot claim |
 | Orphan `.bak` warning at startup | Crash mid-promotion | See Recovery section above |
 | Page shows `UnavailableNotice` | JSON missing or parse-rejected | Restore from `data/pivots-history/` and re-run |
 | Page shows "very stale" badge | Producer hasn't run for >72h | Re-run `ops.run_daily` manually |
@@ -225,7 +226,9 @@ Installation is transactional. The installer backs up the previous plist and
 loaded state before replacement. If bootstrap, kickstart, or first-run OK
 verification fails, it boots out the new agent and restores the previous plist
 and loaded state. A rollback-incomplete error requires immediate operator
-inspection before the next 08:00 fire.
+inspection before the next 08:00 fire. In that case the installer preserves and
+prints the previous plist backup path instead of deleting the last recovery
+artifact.
 
 ### Publication state machine and recovery
 

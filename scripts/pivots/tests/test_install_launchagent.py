@@ -20,6 +20,7 @@ def _installer_fixture(
     *,
     telegram_present: bool = True,
     kickstart_status: str = "FAILED",
+    fail_rollback_bootout: bool = False,
 ) -> tuple[Path, dict[str, str], Path, Path]:
     repo = tmp_path / "repo"
     ops = repo / "scripts" / "pivots" / "ops"
@@ -74,6 +75,10 @@ case "$1" in
     grep -q '^loaded$' "$PIVOTS_TEST_STATE"
     ;;
   bootout)
+    bootout_count="$(grep -c '^bootout ' "$PIVOTS_TEST_ACTIONS")"
+    if [ "$PIVOTS_TEST_FAIL_ROLLBACK_BOOTOUT" = 1 ] && [ "$bootout_count" -ge 2 ]; then
+      exit 1
+    fi
     echo unloaded > "$PIVOTS_TEST_STATE"
     ;;
   bootstrap)
@@ -95,6 +100,9 @@ esac
             "PIVOTS_TEST_STATE": str(state),
             "PIVOTS_TEST_LOG": str(log_file),
             "PIVOTS_TEST_STATUS": kickstart_status,
+            "PIVOTS_TEST_FAIL_ROLLBACK_BOOTOUT": (
+                "1" if fail_rollback_bootout else "0"
+            ),
         }
     )
     return installer, env, plist, actions
@@ -166,3 +174,25 @@ def test_missing_telegram_credentials_fails_before_installed_state_change(
     assert "Telegram credential" in result.stderr
     assert plist.read_text(encoding="utf-8") == "previous-plist\n"
     assert not actions.exists()
+
+
+def test_incomplete_rollback_preserves_previous_plist_backup(tmp_path: Path) -> None:
+    installer, env, _plist, _actions = _installer_fixture(
+        tmp_path,
+        fail_rollback_bootout=True,
+    )
+
+    result = subprocess.run(
+        ["bash", str(installer)],
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+
+    assert result.returncode == 2
+    marker = "previous plist backup preserved at: "
+    assert marker in result.stderr
+    backup = Path(result.stderr.split(marker, maxsplit=1)[1].splitlines()[0])
+    assert backup.read_text(encoding="utf-8") == "previous-plist\n"

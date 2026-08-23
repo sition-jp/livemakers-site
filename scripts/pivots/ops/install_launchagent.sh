@@ -19,6 +19,7 @@ finish_install() {
   status=$?
   trap - EXIT
   set +e
+  preserve_backup=0
   if [ "$status" -ne 0 ] && [ "$INSTALL_MUTATED" -eq 1 ]; then
     rollback_ok=1
     if launchctl print "$DOMAIN/$LABEL" >/dev/null 2>&1; then
@@ -46,9 +47,13 @@ finish_install() {
       echo "ERROR: install failed; removed new LaunchAgent" >&2
     else
       echo "ERROR: install failed and rollback is incomplete; inspect launchctl immediately" >&2
+      if [ -n "$PREVIOUS_PLIST_BACKUP" ] && [ -f "$PREVIOUS_PLIST_BACKUP" ]; then
+        preserve_backup=1
+        echo "ERROR: previous plist backup preserved at: $PREVIOUS_PLIST_BACKUP" >&2
+      fi
     fi
   fi
-  if [ -n "$PREVIOUS_PLIST_BACKUP" ]; then
+  if [ -n "$PREVIOUS_PLIST_BACKUP" ] && [ "$preserve_backup" -eq 0 ]; then
     rm -f "$PREVIOUS_PLIST_BACKUP"
   fi
   exit "$status"

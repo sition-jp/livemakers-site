@@ -90,7 +90,7 @@ def _invoke_publisher(args: Sequence[str]) -> PublisherInvocation:
     except (OSError, subprocess.SubprocessError):
         return PublisherInvocation(
             returncode=1,
-            output="publisher process could not start",
+            output="phase=pre_merge publisher process could not start",
         )
     return PublisherInvocation(
         returncode=proc.returncode,
@@ -120,7 +120,7 @@ def _publisher_failure_details(result: PublisherInvocation) -> str:
 
 
 def _publisher_may_have_changed_production(result: PublisherInvocation) -> bool:
-    return "phase=post_merge" in result.output
+    return "phase=pre_merge" not in result.output
 
 
 def _orphan_bak_present(*paths: Path) -> bool:

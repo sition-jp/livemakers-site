@@ -686,7 +686,7 @@ def test_auto_publish_failure_emits_failed_without_ok(tmp_path, monkeypatch):
         "ops.run_daily._invoke_publisher",
         lambda _args: rd.PublisherInvocation(
             returncode=1,
-            output="[pivots-publisher] FAILED guards failed",
+            output="[pivots-publisher] FAILED phase=pre_merge guards failed",
         ),
     )
 
@@ -740,6 +740,37 @@ def test_auto_publish_post_merge_failure_marks_production_not_preserved(
     assert captured["p"]["previous_snapshot_preserved"] is False
 
 
+def test_unmarked_publisher_failure_defaults_to_production_uncertain(
+    tmp_path, monkeypatch
+):
+    from ops import run_daily as rd
+
+    captured = _captured_dispatch(monkeypatch)
+    mock = _MockProducerAndGit()
+    mock.respond("status --porcelain", returncode=0, stdout="")
+    _stub_pipeline_success(monkeypatch, mock)
+    paths = _make_paths(tmp_path)
+    paths["assets_path"].write_text("{}")
+    paths["backtest_path"].write_text("{}")
+    monkeypatch.setattr("ops.run_daily.REPO_ROOT", tmp_path)
+    monkeypatch.setattr(
+        "ops.run_daily._invoke_publisher",
+        lambda _args: rd.PublisherInvocation(
+            returncode=137,
+            output="publisher terminated without phase marker",
+        ),
+    )
+
+    rd.run_daily(
+        **paths,
+        auto_commit=True,
+        auto_publish=True,
+        notify_ok=False,
+    )
+
+    assert captured["p"]["previous_snapshot_preserved"] is False
+
+
 def test_invoke_publisher_converts_process_start_error_to_result(monkeypatch):
     from ops import run_daily as rd
 
@@ -751,6 +782,7 @@ def test_invoke_publisher_converts_process_start_error_to_result(monkeypatch):
     result = rd._invoke_publisher([])
 
     assert result.returncode != 0
+    assert "phase=pre_merge" in result.output
     assert "could not start" in result.output
 
 
