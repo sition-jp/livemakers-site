@@ -5,7 +5,9 @@ import {
   findSessionRecord,
   getAllSessionRecords,
   getSessionRecord,
+  getTodaySchedule,
   normalizeFocusInstruments,
+  type SessionRecord,
   parseSessionMeta,
 } from "@/lib/sessions/session-content";
 
@@ -172,5 +174,79 @@ describe("session content lifecycle (G-a)", () => {
     ]) {
       expect(ids.has(expected), expected).toBe(true);
     }
+  });
+});
+
+// 2026-08-23 田平氏 GO (spec §C): 「前回を読む →」はスロットごとの最新 closed
+// レコード。feed 由来の当日 closed (articleStatus=pending・crystallize 前) も
+// 対象にする — 切替中の間に「いま終わったセッション」へ飛べるようにする。
+describe("getTodaySchedule previous (2026-08-23 closed-record rule)", () => {
+  const base = (overrides: Partial<SessionRecord>): SessionRecord => ({
+    sessionId: "2026-08-22-asia-open",
+    date: "2026-08-22",
+    sessionSlug: "asia-open",
+    liveStatus: "closed",
+    articleStatus: "published",
+    currentUrl: "/sessions/2026-08-22-asia-open",
+    canonicalArticleUrl: "/sessions/2026-08-22-asia-open",
+    publishedAt: "2026-08-23T02:30:00+09:00",
+    publishLogId: null,
+    packetId: "sess_20260822_asia",
+    asOfJst: "2026-08-22T07:30:00+09:00",
+    focusInstruments: ["nikkei_futures", "usd_jpy"],
+    titleJa: "Asia Open Terminal",
+    bullets: ["前日"],
+    focusFallbackApplied: false,
+    bodyJa: "# body",
+    hasMaterializedRoute: true,
+    ...overrides,
+  });
+  const yesterdayPublished = base({});
+  const todayClosedFeed = base({
+    sessionId: "2026-08-23-asia-open",
+    date: "2026-08-23",
+    articleStatus: "pending",
+    currentUrl: "/sessions/2026-08-23-asia-open",
+    canonicalArticleUrl: null,
+    publishedAt: null,
+    asOfJst: "2026-08-23T07:30:00+09:00",
+    bullets: ["当日"],
+    bodyJa: null,
+    hasMaterializedRoute: false,
+  });
+  const todayLiveFeed = base({
+    sessionId: "2026-08-23-europe-bridge",
+    date: "2026-08-23",
+    sessionSlug: "europe-bridge",
+    liveStatus: "live",
+    articleStatus: "pending",
+    currentUrl: "/sessions/2026-08-23-europe-bridge",
+    canonicalArticleUrl: null,
+    publishedAt: null,
+    asOfJst: "2026-08-23T12:03:00+09:00",
+    bodyJa: null,
+    hasMaterializedRoute: false,
+  });
+  // getAllSessionRecords / mergeSessionRecords の不変条件 = asOfJst 降順
+  const records = [todayLiveFeed, todayClosedFeed, yesterdayPublished];
+
+  it("prefers today's closed feed record over the last crystallized article", () => {
+    const schedule = getTodaySchedule("2026-08-23", null, records);
+    const asia = schedule.find((item) => item.def.slug === "asia-open")!;
+    expect(asia.previous?.sessionId).toBe("2026-08-23-asia-open");
+    expect(asia.previous?.currentUrl).toBe("/sessions/2026-08-23-asia-open");
+  });
+
+  it("never points 'previous' at a live record", () => {
+    const schedule = getTodaySchedule("2026-08-23", todayLiveFeed, records);
+    const europe = schedule.find((item) => item.def.slug === "europe-bridge")!;
+    expect(europe.isCurrent).toBe(true);
+    expect(europe.previous).toBeUndefined();
+  });
+
+  it("falls back to the crystallized article when no newer closed record exists", () => {
+    const schedule = getTodaySchedule("2026-08-23", null, [yesterdayPublished]);
+    const asia = schedule.find((item) => item.def.slug === "asia-open")!;
+    expect(asia.previous?.sessionId).toBe("2026-08-22-asia-open");
   });
 });

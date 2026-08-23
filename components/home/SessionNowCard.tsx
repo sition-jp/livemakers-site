@@ -9,6 +9,8 @@ import {
 
 export interface SessionNowCopy {
   sessionBadgeSuffix: string;
+  /** 2026-08-23 (spec §A): closed variant のバッジ末尾 ("JST 終了")。 */
+  closedBadgeSuffix?: string;
   freshnessPrefix: string;
   nextUpdateLine: string;
   readFull: string;
@@ -33,11 +35,18 @@ export function SessionNowCard({
   provenance,
   copy,
   showEditorial = true,
+  variant = "live",
 }: {
   record: SessionRecord;
   provenance: WindowProvenance;
   copy: SessionNowCopy;
   showEditorial?: boolean;
+  /**
+   * 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §A):
+   * "closed" = 直前に終わったセッション (live が無い窓の埋め草)。本文は live と
+   * 同じ・バッジだけ「終了」。live を示す語は出さない。
+   */
+  variant?: "live" | "closed";
 }) {
   const definition = getSessionBySlug(record.sessionSlug);
   const [headline, ...restBullets] = record.bullets;
@@ -55,6 +64,7 @@ export function SessionNowCard({
   return (
     <section
       aria-label={definition.nameEn}
+      data-session-state={variant}
       data-session-editorial={editorial ? "present" : "absent"}
       className="rounded-lg border border-border-primary border-l-4 border-l-accent bg-bg-secondary p-4"
     >
@@ -63,7 +73,10 @@ export function SessionNowCard({
           {definition.nameEn}
         </span>
         <span className="ml-auto rounded bg-accent px-2 py-0.5 text-[10px] font-extrabold tracking-wider text-white">
-          SESSION · {definition.updateTimeLabel} {copy.sessionBadgeSuffix}
+          SESSION · {definition.updateTimeLabel}{" "}
+          {variant === "closed"
+            ? (copy.closedBadgeSuffix ?? copy.sessionBadgeSuffix)
+            : copy.sessionBadgeSuffix}
         </span>
       </div>
       <h3 className="mt-2 text-base font-bold leading-snug text-text-primary">

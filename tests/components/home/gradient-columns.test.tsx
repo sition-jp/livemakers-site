@@ -124,14 +124,40 @@ describe("LeadingColumn (gradient leading, D5)", () => {
     expect(observations.querySelectorAll("a")).toHaveLength(0);
   });
 
-  it("shows the flash-promotion empty state when no pair exists (RADAR_PROMOTIONS empty)", () => {
+  // 2026-08-23 田平氏 GO (spec §A): live が無く recentClosed がある → 終了カード。
+  it("fills the switching gap with the most recent closed session (ended badge + link)", () => {
+    const closed = {
+      ...props.live!,
+      liveStatus: "closed" as const,
+      asOfJst: "2026-07-10T07:30:00+09:00",
+    };
+    const { container, getByText, queryByText } = render(
+      <LeadingColumn
+        live={null}
+        recentClosed={closed}
+        recentClosedProvenance={props.sessionProvenance}
+        schedule={props.schedule}
+        slots={props.slots}
+        focusSeries={props.focusSeries}
+        focusSessionSlug={props.focusSessionSlug}
+        sessionProvenance={null}
+        copy={copy}
+      />,
+    );
+    expect(queryByText("現在のセッションは切替中です")).toBeNull();
+    const card = container.querySelector('[data-column-module="session-now"] [data-session-state="closed"]');
+    expect(card).not.toBeNull();
+    getByText("SESSION · 05:03 JST 終了");
+    getByText("次の更新: Europe Bridge Terminal 12:03 JST");
+    expect(
+      container.querySelector('[data-column-module="session-now"] a')?.getAttribute("href"),
+    ).toBe("/sessions/2026-07-10-asia-open");
+  });
+
+  it("does not render a flash-promotion module (2026-08-23 撤去)", () => {
     const { container } = renderLeading();
-    const flash = container.querySelector(
-      '[data-column-module="flash-promotion"]',
-    )!;
-    // empty state: no article link, no data-article-id
-    expect(flash.querySelectorAll("a")).toHaveLength(0);
-    expect(flash.querySelector("[data-article-id]")).toBeNull();
+    expect(container.querySelector('[data-column-module="flash-promotion"]')).toBeNull();
+    expect(container.textContent).not.toContain("観測から記事へ");
   });
 });
 

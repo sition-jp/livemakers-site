@@ -207,3 +207,45 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
     ).toHaveAttribute("href", record.currentUrl);
   });
 });
+
+// 2026-08-23 田平氏 GO (spec §A): closed variant = 「直前に終わったセッション」。
+// 本文は live と同じ・バッジだけ「終了」へ・live を示す語を出さない。
+describe("SessionNowCard closed variant (2026-08-23 switching-gap fill)", () => {
+  const closedRecord: SessionRecord = {
+    ...record,
+    liveStatus: "closed",
+    asOfJst: "2026-07-10T07:30:00+09:00",
+  };
+  const closedCopy = { ...copy, closedBadgeSuffix: "JST 終了" };
+
+  it("renders the ended badge, the snapshot line and the full-session CTA", () => {
+    const { container } = render(
+      <SessionNowCard
+        record={closedRecord}
+        provenance={provenance}
+        copy={closedCopy}
+        variant="closed"
+      />,
+    );
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-session-state",
+      "closed",
+    );
+    expect(screen.getByText("SESSION · 05:03 JST 終了")).toBeInTheDocument();
+    expect(screen.queryByText(/JST 更新/)).toBeNull();
+    expect(screen.getByText(/スナップショット/).textContent).toContain("07:30");
+    expect(screen.getByRole("heading", { level: 3 }).textContent).toContain(
+      "米CPI通過後、最初のアジア時間",
+    );
+    const cta = screen.getByText("セッション全文を読む →");
+    expect(cta.getAttribute("href")).toBe("/sessions/2026-07-10-asia-open");
+    expect(container.textContent).not.toMatch(/\bLIVE\b/);
+  });
+
+  it("defaults to the live badge when variant is omitted", () => {
+    render(
+      <SessionNowCard record={record} provenance={provenance} copy={closedCopy} />,
+    );
+    expect(screen.getByText("SESSION · 05:03 JST 更新")).toBeInTheDocument();
+  });
+});

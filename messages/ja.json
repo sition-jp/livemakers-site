@@ -439,6 +439,8 @@
     },
     "hero": {
       "sessionLabel": "いまのセッション",
+      "closedSessionLabel": "直前のセッション",
+      "closedSuffix": "終了",
       "leadPending": "本日の記事は準備中"
     },
     "family": {
@@ -455,6 +457,7 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
+      "closedBadgeSuffix": "JST 終了",
       "freshnessPrefix": "スナップショット",
       "nextUpdateLine": "次の更新: {name} {time} JST",
       "readFull": "セッション全文を読む →",
@@ -510,22 +513,14 @@
       }
     },
     "radar": {
-      "sectionTitle": "速報 — 観測から記事へ",
-      "jointLabel": "確認を経て記事化",
       "lanes": {
-        "xNews": "X浮上",
+        "xNews": "X・報道で浮上",
         "sde": "SDE検出",
         "checking": "確認中"
       },
-      "promoted": {
-        "title": "速報レーダー — 記事になった観測",
-        "subtitle": "観測は一次ソースへ · 記事は下のカードから",
-        "observedSuffix": "に観測 → 内容を確認のうえ、",
-        "publishedSuffix": "に Signal として公開。"
-      },
       "observations": {
-        "title": "ほかに観測中のタイトル",
-        "note": "内容の確認が取れたものだけが記事になります。"
+        "title": "速報レーダー — 観測中のタイトル",
+        "note": "観測は一次ソースへ。確認を経たものは Signal として記事になります。"
       },
       "recent": {
         "title": "最近の Signal",

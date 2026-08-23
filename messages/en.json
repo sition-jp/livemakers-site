@@ -439,6 +439,8 @@
     },
     "hero": {
       "sessionLabel": "Current session",
+      "closedSessionLabel": "Previous session",
+      "closedSuffix": "closed",
       "leadPending": "Today's article is in preparation"
     },
     "family": {
@@ -455,6 +457,7 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
+      "closedBadgeSuffix": "JST closed",
       "freshnessPrefix": "Snapshot",
       "nextUpdateLine": "Next update: {name} {time} JST",
       "readFull": "Read the full session →",
@@ -510,22 +513,14 @@
       }
     },
     "radar": {
-      "sectionTitle": "Breaking — From Observation to Article",
-      "jointLabel": "Published after verification",
       "lanes": {
-        "xNews": "Surfaced on X",
+        "xNews": "Surfaced on X / news",
         "sde": "Detected by SDE",
         "checking": "Checking"
       },
-      "promoted": {
-        "title": "Breaking Radar — Observation turned article",
-        "subtitle": "Observation links to its primary source · article below",
-        "observedSuffix": "observed → after review, published as Signal at ",
-        "publishedSuffix": "."
-      },
       "observations": {
-        "title": "Other titles under observation",
-        "note": "Only observations whose contents are confirmed become articles."
+        "title": "Breaking Radar — Titles under observation",
+        "note": "Observations link to primary sources; confirmed items are published as Signals."
       },
       "recent": {
         "title": "Recent Signals",

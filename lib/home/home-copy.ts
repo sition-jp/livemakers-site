@@ -4,7 +4,6 @@ import type { ArticleFamily } from "@/lib/articles/article-model";
 import type { IndicatorTileCopy } from "@/components/home/IndicatorTileCard";
 import type { LeadArticleLabels } from "@/components/home/LeadArticleCard";
 import type { RadarObservationsCopy } from "@/components/home/RadarObservationsCard";
-import type { RadarPromotedCopy } from "@/components/home/RadarPromotedCard";
 import type { SessionFocusCopy } from "@/components/home/SessionFocusChart";
 import type { SessionNowCopy } from "@/components/home/SessionNowCard";
 import type { SessionScheduleCopy } from "@/components/home/SessionScheduleCard";
@@ -42,6 +41,9 @@ export interface HomeCopy {
   };
   hero: {
     sessionLabel: string;
+    /** 2026-08-23 (spec §A): live 無し・直前 closed あり のラベル/末尾 */
+    closedSessionLabel: string;
+    closedSuffix: string;
     sessionFallback: string;
     leadFamily: string;
     leadPending: string;
@@ -83,10 +85,8 @@ export interface HomeCopy {
     indicator: IndicatorTileCopy;
     movers: TopMoversCopy;
   };
+  // 2026-08-23: sectionTitle / jointLabel / promoted (昇格ペア) は撤去 (spec §D)
   radar: {
-    sectionTitle: string;
-    jointLabel: string;
-    promoted: RadarPromotedCopy;
     observations: RadarObservationsCopy;
   };
   lanes: {
@@ -137,6 +137,8 @@ export function buildHomeCopy(
     },
     hero: {
       sessionLabel: translate("hero.sessionLabel"),
+      closedSessionLabel: translate("hero.closedSessionLabel"),
+      closedSuffix: translate("hero.closedSuffix"),
       sessionFallback: translate("general.noLiveSession"),
       leadFamily: familyLabels["daily-intel"],
       leadPending: translate("hero.leadPending"),
@@ -166,6 +168,7 @@ export function buildHomeCopy(
     },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
+      closedBadgeSuffix: translate("sessionNow.closedBadgeSuffix"),
       freshnessPrefix: translate("sessionNow.freshnessPrefix"),
       nextUpdateLine: translate("sessionNow.nextUpdateLine", {
         name: context.nextSessionName,
@@ -228,15 +231,6 @@ export function buildHomeCopy(
       },
     },
     radar: {
-      sectionTitle: translate("radar.sectionTitle"),
-      jointLabel: translate("radar.jointLabel"),
-      promoted: {
-        title: translate("radar.promoted.title"),
-        subtitle: translate("radar.promoted.subtitle"),
-        observedSuffix: translate("radar.promoted.observedSuffix"),
-        publishedSuffix: translate("radar.promoted.publishedSuffix"),
-        laneLabels,
-      },
       observations: {
         title: translate("radar.observations.title"),
         note: translate("radar.observations.note"),

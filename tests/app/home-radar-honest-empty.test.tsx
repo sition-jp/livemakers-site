@@ -52,17 +52,16 @@ function productionEquivalentProps() {
 }
 
 describe("home radar rail — production-equivalent honest empty (G43-d)", () => {
-  it("selects zero observations and a null radarPair", () => {
+  it("selects zero observations", () => {
     const props = productionEquivalentProps();
     // radarSource is resolved outside the builder (fix round 1, mirrors
     // catalogSource) — production-equivalent args (no source, no injection)
     // resolve to the honest-empty label via resolveHomeRadarSource.
     expect(resolveHomeRadarSource({})).toBe("empty");
     expect(props.slots.observing).toEqual([]);
-    expect(props.slots.radarPair).toBeNull();
   });
 
-  it("renders FlashPromotionCard and EventRiskCard in their documented empty states", () => {
+  it("renders the radar observations card (no flash-promotion) and EventRiskCard in their documented empty states", () => {
     const props = productionEquivalentProps();
     const radarSource = resolveHomeRadarSource({});
     const { container } = render(
@@ -79,9 +78,8 @@ describe("home radar rail — production-equivalent honest empty (G43-d)", () =>
       "empty",
     );
 
-    // FlashPromotionCard (radarPair === null): empty-state placeholder only —
-    // no data-radar promoted card, no article-id link.
-    expect(container.textContent).toContain(copy.radar.sectionTitle);
+    // 2026-08-23: flash-promotion は撤去済み — 速報面は観測カードのみ。
+    expect(container.textContent).not.toContain("観測から記事へ");
     expect(container.textContent).toContain(copy.radar.observations.note);
 
     // EventRiskCard's RadarObservationsCard renders unconditionally, but

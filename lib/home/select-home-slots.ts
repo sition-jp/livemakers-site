@@ -35,10 +35,9 @@ export interface HomeSlots {
     article: ArticleMeta | null;
     previous: ArticleMeta | null;
   };
-  radarPair: {
-    observation: RadarObservation;
-    article: ArticleMeta;
-  } | null;
+  // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §D):
+  // 昇格ペア (radarPair) は廃止。promotions は wire 契約として受理するが描画
+  // しない (観測 dig-* と記事 cin-* で結合キーが一致せず一度も成立しなかった)。
   observing: RadarObservation[];
   signalTimeline: ArticleMeta[];
   // 2026-08-23 田平氏 GO B-1 (追加提案 1): Signal ヘッダの鮮度表示用。
@@ -131,39 +130,15 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     previous,
   };
 
-  const promotionCandidates = input.radar
-    .filter((observation) => input.promotions[observation.topicId])
-    .toSorted((left, right) =>
-      right.observedAtLabel.localeCompare(left.observedAtLabel),
-    );
-  let radarPair: HomeSlots["radarPair"] = null;
-  for (const observation of promotionCandidates) {
-    const article = input.articles.find(
-      (candidate) =>
-        candidate.articleId === input.promotions[observation.topicId] &&
-        candidate.radarTopicId === observation.topicId,
-    );
-    if (article) {
-      radarPair = {
-        observation,
-        article: take(article) as ArticleMeta,
-      };
-      break;
-    }
-  }
-  const observing = input.radar.filter(
-    (observation) => observation !== radarPair?.observation,
-  );
+  const observing = [...input.radar];
   // now は builder input に無いので articleToday の JST end-of-day から決定的に導出する
   // (buildHomeCompositionProps の入力契約を変えないための D13 制約)。
   const now = new Date(`${articleToday}T23:59:59+09:00`);
-  // D5 対称契約: 昇格ペアが存在し記事リンクを描くときに限り、その Signal を時系列から除外する。
-  const excludeIds = radarPair ? [radarPair.article.articleId] : [];
   const signalTimeline = selectSignalTimeline({
     articles: input.articles,
     now,
     floor: 10,
-    excludeIds,
+    excludeIds: [],
   }).map((article) => take(article) as ArticleMeta);
   const signalTimelineSummary: HomeSlots["signalTimelineSummary"] = {
     todayCount: signalTimeline.filter((article) => dateOf(article) === articleToday)
@@ -199,7 +174,6 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   return {
     lead,
     mkt12,
-    radarPair,
     observing,
     signalTimeline,
     signalTimelineSummary,
@@ -222,7 +196,6 @@ export function collectSelectedArticleIds(slots: HomeSlots): string[] {
   return [
     ...(slots.lead.article ? [slots.lead.article.articleId] : []),
     ...(slots.mkt12.article ? [slots.mkt12.article.articleId] : []),
-    ...(slots.radarPair ? [slots.radarPair.article.articleId] : []),
     ...slots.signalTimeline.map((article) => article.articleId),
     ...slots.deepDives.slice(0, 1).map((article) => article.articleId),
     ...(slots.eventRiskLatest ? [slots.eventRiskLatest.articleId] : []),
