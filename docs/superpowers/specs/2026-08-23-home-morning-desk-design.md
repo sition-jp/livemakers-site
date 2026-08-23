@@ -1,6 +1,6 @@
 # ホーム中央カラム「Daily Intel」帯 + Signal 前面化 — 設計 (2026-08-23 田平氏 GO B-1)
 
-Status: `DESIGN — AWAITING_REVIEW` (田平氏レビュー後に実装計画へ)
+Status: `IMPLEMENTED — AWAITING_MERGE_GO` (branch `claude/home-morning-desk-b1`・Draft PR は §7)
 
 ## 1. 背景と診断
 
@@ -15,6 +15,17 @@ Status: `DESIGN — AWAITING_REVIEW` (田平氏レビュー後に実装計画へ
 - 受入 (実測): 1280×900 で `[data-column-module="signal-timeline"]` の `getBoundingClientRect().top` が中央カラム上端 + 420px 以内・最初の Signal 行が viewport 内
 - 朝刊 2 本の存在は消さない: Daily Intel はサムネ + 見出し (抜粋なし) で残し、12指標は見出し行で残す。週末版 (土曜) と `awaiting` (未公開) の分岐は現行どおり
 - gate 6 (articleId 重複検査) と D8 (Daily Intel の単一表現 = `<xl` は hero のみ) を維持する
+
+**実測 (2026-08-23・同一 chrome 条件で before = 本番 livemakers.com / after = dev worktree・カラム上端は両者とも viewport 292px@1280×900 / 248px@1920×1080)**:
+
+| 条件 | before: Daily Intel + 12指標 | after: 帯 | Signal 見出し (カラム上端から) | Signal 見出し (viewport 内) | viewport 内 Signal 行 |
+|---|---|---|---|---|---|
+| 1280×900 | 439 + 281 = 720px | 382px | **768 → 406px** (−362) | 1,060px (フォールド外) → 698px | 0 → 1 |
+| 1920×1080 | — | 358px | **765 → 382px** (−383) | 1,013px (フォールド外) → 629px | 0 → 4 |
+
+- 「カラム上端 + 420px 以内」は達成。「900px 表示域に Signal 行 5 本」は **未達** — 原因はカラム上端より上の chrome (ticker + 来歴帯 + masthead = 292px) で、本件のスコープ外 (chrome の圧縮は別 gate)。before では Signal 見出し自体がフォールド外だったので、改善幅は 362〜383px
+- dev は `repository_only` (feed env なし) のため 12指標は `awaiting` 箱 (previous リンク付き) で描画・Daily Intel サムネは placeholder 帯 (h-24)。本番では 12指標が 1 行 (≈ −30px)・サムネが 14:3 画像 (≈ +33px) になり帯の高さはほぼ同じ
+- `/en` も同構造で描画 (ヘッダ "Daily Intel" / "All Daily Intel →" / "Recent Signals · latest 07-25 13:44" / "All Signals →")。console error 0
 
 ## 3. 変更内容
 
