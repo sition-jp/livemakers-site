@@ -17,6 +17,9 @@ export interface HomeCopyContext {
   nextSessionName: string;
   nextSessionTime: string;
   remainingSessions: number;
+  /** 2026-08-23 GO B-1: Signal ヘッダ鮮度 (slots.signalTimelineSummary 由来) */
+  signalTodayCount: number;
+  signalLatestAt: string | null;
 }
 
 type Translator = (
@@ -54,6 +57,11 @@ export interface HomeCopy {
     deepDiveSeriesLink: string;
     atlasHeadingUnpublished: string;
     atlasHeadingPublished: string;
+    // 整形済み文字列 (null = そのセグメントを描かない・honest empty)
+    signalFreshness: {
+      todayCount: string | null;
+      latestAt: string | null;
+    };
   };
   sessionNow: SessionNowCopy;
   schedule: SessionScheduleCopy;
@@ -144,6 +152,17 @@ export function buildHomeCopy(
       viewAll: translate("gradient.viewAll"),
       atlasHeadingUnpublished: translate("gradient.atlasHeadingUnpublished"),
       atlasHeadingPublished: translate("gradient.atlasHeadingPublished"),
+      signalFreshness: {
+        todayCount:
+          context.signalTodayCount > 0
+            ? translate("gradient.signalTodayCount", {
+                count: context.signalTodayCount,
+              })
+            : null,
+        latestAt: context.signalLatestAt
+          ? translate("gradient.signalLatestAt", { time: context.signalLatestAt })
+          : null,
+      },
     },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
@@ -258,11 +277,17 @@ function testTranslator(
   );
 }
 
-export function buildTestHomeCopy(): HomeCopy {
+export function buildTestHomeCopy(
+  overrides: Partial<HomeCopyContext> = {},
+): HomeCopy {
   return buildHomeCopy(testTranslator, {
     sessionName: "Asia Open Terminal",
     nextSessionName: "Europe Bridge Terminal",
     nextSessionTime: "12:03",
     remainingSessions: 3,
+    // fixture 2026-07-10 の Signal 2 本 (cbdc 08:30 / stablecoin 06:10) に一致
+    signalTodayCount: 2,
+    signalLatestAt: "07-10 08:30",
+    ...overrides,
   });
 }

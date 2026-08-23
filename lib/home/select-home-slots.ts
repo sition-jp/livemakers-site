@@ -41,6 +41,14 @@ export interface HomeSlots {
   } | null;
   observing: RadarObservation[];
   signalTimeline: ArticleMeta[];
+  // 2026-08-23 田平氏 GO B-1 (追加提案 1): Signal ヘッダの鮮度表示用。
+  // todayCount = signalTimeline (昇格ペア除外後) のうち articleToday 公開の本数 /
+  // latestAt = 先頭記事の publishedAtJst を MM-DD HH:MM へ (記事ゼロは null)。
+  // now を持ち込まず articleToday だけで決定的に算出する (D13)。
+  signalTimelineSummary: {
+    todayCount: number;
+    latestAt: string | null;
+  };
   deepDives: ArticleMeta[];
   latestArticles: ArticleMeta[];
   eventRiskLatest: ArticleMeta | null;
@@ -157,6 +165,13 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     floor: 10,
     excludeIds,
   }).map((article) => take(article) as ArticleMeta);
+  const signalTimelineSummary: HomeSlots["signalTimelineSummary"] = {
+    todayCount: signalTimeline.filter((article) => dateOf(article) === articleToday)
+      .length,
+    latestAt: signalTimeline[0]
+      ? signalTimeline[0].publishedAtJst.slice(5, 16).replace("T", " ")
+      : null,
+  };
 
   // input.articles は today-gate 済み・publishedAtJst 降順 (getAllArticles / normalizeHomeInput)
   // だが、以降の選定は順序前提を明示するため自前で降順ソートしてから切り出す。
@@ -187,6 +202,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     radarPair,
     observing,
     signalTimeline,
+    signalTimelineSummary,
     deepDives,
     latestArticles,
     eventRiskLatest,

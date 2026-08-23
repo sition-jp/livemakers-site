@@ -433,7 +433,9 @@
       "atlasHeadingPublished": "Future Atlas",
       "dailyIntelSeriesLink": "All Daily Intel →",
       "signalSeriesLink": "All Signals →",
-      "deepDiveSeriesLink": "All Deep Dives →"
+      "deepDiveSeriesLink": "All Deep Dives →",
+      "signalTodayCount": "{count} today",
+      "signalLatestAt": "latest {time}"
     },
     "hero": {
       "sessionLabel": "Current session",

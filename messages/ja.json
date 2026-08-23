@@ -433,7 +433,9 @@
       "atlasHeadingPublished": "未来アトラス",
       "dailyIntelSeriesLink": "Daily Intel 一覧 →",
       "signalSeriesLink": "Signal 一覧 →",
-      "deepDiveSeriesLink": "Deep Dive 一覧 →"
+      "deepDiveSeriesLink": "Deep Dive 一覧 →",
+      "signalTodayCount": "今日 {count} 本",
+      "signalLatestAt": "最新 {time}"
     },
     "hero": {
       "sessionLabel": "いまのセッション",

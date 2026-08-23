@@ -270,6 +270,36 @@ describe("home slot selection (B+)", () => {
     ).not.toContain("signal-stablecoin-supply-2026-07-10");
   });
 
+  // fixture: 2026-07-10 の Signal は cbdc-pilot-expansion (08:30) と
+  // stablecoin-supply (06:10) の 2 本。input() は stablecoin を昇格ペアに
+  // しているため timeline から除外され、今日の件数は 1。
+  it("summarizes the signal timeline (today count + latest MM-DD HH:MM) for the header", () => {
+    const slots = selectHomeSlots(input());
+    expect(slots.signalTimelineSummary).toEqual({
+      todayCount: 1,
+      latestAt: "07-10 08:30",
+    });
+  });
+
+  it("summarizes honestly when no signal is from today or none exists", () => {
+    const noToday = selectHomeSlots({
+      ...input(),
+      promotions: {},
+      articles: input().articles.filter(
+        (article) =>
+          article.family !== "signal" || !article.publishedAtJst.startsWith("2026-07-10"),
+      ),
+    });
+    expect(noToday.signalTimelineSummary.todayCount).toBe(0);
+    expect(noToday.signalTimelineSummary.latestAt).toBe("07-09 22:10");
+    const noSignals = selectHomeSlots({
+      ...input(),
+      promotions: {},
+      articles: input().articles.filter((article) => article.family !== "signal"),
+    });
+    expect(noSignals.signalTimelineSummary).toEqual({ todayCount: 0, latestAt: null });
+  });
+
   it("shelves five deep dives newest-first with the featured lead", () => {
     const slots = selectHomeSlots(input());
     expect(slots.deepDives).toHaveLength(5);

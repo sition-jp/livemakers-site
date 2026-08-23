@@ -41,6 +41,7 @@ const copy = {
   title: buildTestHomeCopy().gradient.signalTitle,
   familyLabels: buildTestHomeCopy().familyLabels,
   seriesLink: buildTestHomeCopy().gradient.signalSeriesLink,
+  freshness: buildTestHomeCopy().gradient.signalFreshness,
 };
 
 describe("SignalTimeline thumb rows (Phase 3b, 2026-08-14)", () => {
@@ -71,14 +72,42 @@ describe("SignalTimeline thumb rows (Phase 3b, 2026-08-14)", () => {
     expect(first.hasAttribute("data-index-nav")).toBe(false);
   });
 
-  it("links to the signal series index at the bottom", () => {
+  it("links to the signal series index in the header, before the first row (2026-08-23 GO B-1)", () => {
     const { container } = render(
       <SignalTimeline articles={[article({ articleId: "s1" })]} copy={copy} />,
     );
-    const link = container.querySelector(
-      'a[href="/articles/series/signal"]',
-    )!;
+    const link = container.querySelector('a[href="/articles/series/signal"]')!;
     expect(link).not.toBeNull();
     expect(link.closest("[data-index-nav]")).not.toBeNull();
+    const firstRow = container.querySelector("a[data-article-id]")!;
+    expect(
+      link.compareDocumentPosition(firstRow) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("shows today's count and the latest stamp next to the title", () => {
+    const { container } = render(
+      <SignalTimeline articles={[article({ articleId: "s1" })]} copy={copy} />,
+    );
+    expect(
+      container.querySelector('[data-signal-freshness="today"]')?.textContent,
+    ).toContain("今日 2 本");
+    expect(
+      container.querySelector('[data-signal-freshness="latest"]')?.textContent,
+    ).toContain("最新 07-10 08:30");
+  });
+
+  it("omits freshness segments that are null (honest empty)", () => {
+    const { container } = render(
+      <SignalTimeline
+        articles={[article({ articleId: "s1" })]}
+        copy={{ ...copy, freshness: { todayCount: null, latestAt: "最新 07-09 22:10" } }}
+      />,
+    );
+    expect(container.querySelector('[data-signal-freshness="today"]')).toBeNull();
+    expect(
+      container.querySelector('[data-signal-freshness="latest"]')?.textContent,
+    ).toContain("最新 07-09 22:10");
+    expect(container.textContent).not.toContain("今日 0 本");
   });
 });

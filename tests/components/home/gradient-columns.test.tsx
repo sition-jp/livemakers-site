@@ -159,6 +159,65 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     ).toEqual([...REGION_MODULES.coincident]);
   });
 
+  // 2026-08-23 田平氏 GO B-1: 「Daily Intel」帯 = compact Daily Intel + サムネなし 12指標行
+  it("renders the morning desk as one band: Daily Intel header, compact lead, thumb-less mkt12 row", () => {
+    const { container } = renderCoincident();
+    const desk = container.querySelector(
+      '[data-column-module="morning-desk"] [data-morning-desk]',
+    )!;
+    expect(desk).not.toBeNull();
+    // ヘッダ = 「Daily Intel」(h3 は帯に 1 つだけ)
+    expect(desk.querySelectorAll("h3")).toHaveLength(1);
+    expect(desk.querySelector("h3")?.textContent).toBe(copy.familyLabels["daily-intel"]);
+    // 本体 2 本 (Daily Intel + 12指標)・抜粋なし
+    const bodies = desk.querySelectorAll("a[data-article-id]");
+    expect([...bodies].map((a) => a.getAttribute("data-article-id"))).toEqual([
+      "daily-intel-2026-07-10",
+      "mkt12-morning-2026-07-10",
+    ]);
+    expect(desk.textContent).not.toContain(props.slots.lead.article!.excerptJa!);
+    // サムネは Daily Intel の 1 枚だけ (12指標行はサムネなし)
+    expect(desk.querySelectorAll("[data-article-thumbnail]")).toHaveLength(1);
+    expect(desk.querySelectorAll("img").length).toBeLessThanOrEqual(1);
+    // Daily Intel ブロックだけ <xl hidden (D8)
+    const lead = desk.querySelector('[data-morning-desk-role="daily-intel"]')!;
+    expect(lead.classList.contains("hidden")).toBe(true);
+    expect(lead.classList.contains("xl:block")).toBe(true);
+    expect(lead.querySelector('[data-lead-variant="compact"]')).not.toBeNull();
+    // compact カードに family ラベル行は無い (帯ヘッダが担う)
+    expect(
+      [...lead.querySelectorAll("span")].some((span) => span.textContent === copy.lead.family),
+    ).toBe(false);
+    // 索引リンク: Daily Intel 一覧はヘッダ・12指標アーカイブは行の右隣
+    const intelLink = desk.querySelector('a[href="/articles/series/daily-intel"]')!;
+    expect(intelLink.closest("[data-index-nav]")).not.toBeNull();
+    const mkt12Link = desk.querySelector(
+      '[data-mkt12-role="archive-link"] a[href="/articles/series/mkt12-morning"]',
+    )!;
+    expect(mkt12Link.closest("[data-index-nav]")).not.toBeNull();
+    expect(
+      intelLink.compareDocumentPosition(lead) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("keeps the mkt12 row thumb-less and labelled by its family chip", () => {
+    const { container } = renderCoincident();
+    const row = container.querySelector('[data-mkt12-reading] [data-mkt12-role="hero"] a[data-article-id]')!;
+    expect(row.getAttribute("data-article-id")).toBe("mkt12-morning-2026-07-10");
+    expect(row.querySelector("img")).toBeNull();
+    expect(row.querySelector('[data-testid="article-row-chip"]')?.textContent).toBe(
+      copy.familyLabels["mkt12-morning"],
+    );
+  });
+
+  it("puts the signal timeline right after the morning desk", () => {
+    const { container } = renderCoincident();
+    const modules = [...container.querySelectorAll("[data-column-module]")].map((el) =>
+      el.getAttribute("data-column-module"),
+    );
+    expect(modules.slice(0, 2)).toEqual(["morning-desk", "signal-timeline"]);
+  });
+
   it("renders the signal timeline with at least the floor of ten rows", () => {
     const { container } = renderCoincident();
     const timeline = container.querySelector(
