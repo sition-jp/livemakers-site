@@ -40,6 +40,8 @@ export default async function OverviewPage({
       nextSessionTime: nextSession.updateTimeLabel,
       remainingSessions: props.schedule.filter((item) => !item.isCurrent)
         .length,
+      signalTodayCount: props.slots.signalTimelineSummary.todayCount,
+      signalLatestAt: props.slots.signalTimelineSummary.latestAt,
     },
   );
 
