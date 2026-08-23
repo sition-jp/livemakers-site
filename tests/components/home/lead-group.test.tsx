@@ -125,4 +125,44 @@ describe("lead group (ledger group 1)", () => {
     expect(screen.getByText("記事化待ち")).toBeInTheDocument();
     expect(screen.queryByRole("link")).toBeNull();
   });
+
+  it("renders the compact variant without excerpt or family label (2026-08-23 GO B-1)", () => {
+    const { container } = render(
+      <LeadArticleCard
+        variant="compact"
+        slot={{
+          state: "today",
+          previous: null,
+          article: {
+            articleId: "daily-intel-2026-07-10",
+            family: "daily-intel",
+            titleJa: "📋 朝刊 7/10｜テスト見出し",
+            excerptJa: "この抜粋は compact では描かれない",
+            href: "/articles/daily-intel-2026-07-10",
+            publishedAtJst: "2026-07-10T07:00:00+09:00",
+            publishedLabel: "07-10 07:00 公開",
+            lanes: [],
+          } as never,
+        }}
+        labels={{
+          pending: "記事化待ち",
+          pendingNote: "朝刊の公開準備中です",
+          previous: "前回の記事を読む →",
+          family: "Daily Intel",
+        }}
+      />,
+    );
+    const card = container.querySelector("a[data-article-id]")!;
+    expect(card.getAttribute("data-article-id")).toBe("daily-intel-2026-07-10");
+    expect(card.textContent).not.toContain("この抜粋は compact では描かれない");
+    // family ラベル行なし (帯ヘッダが担う)
+    expect(
+      [...card.querySelectorAll("span")].some((span) => span.textContent === "Daily Intel"),
+    ).toBe(false);
+    expect(card.textContent).toContain("07-10 07:00 公開");
+    const heading = card.querySelector("h2")!;
+    expect(heading.textContent).toBe("📋 朝刊 7/10｜テスト見出し");
+    expect(heading.className).toContain("text-lg");
+    expect(card.querySelector("[data-article-thumbnail]")).not.toBeNull();
+  });
 });
