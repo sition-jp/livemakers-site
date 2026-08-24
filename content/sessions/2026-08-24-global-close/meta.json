@@ -1,0 +1,74 @@
+{
+  "sessionId": "2026-08-24-global-close",
+  "date": "2026-08-24",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-24-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-24-global-close",
+  "publishedAt": "2026-08-25T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260824_2303_a44cb4d8",
+  "asOfJst": "2026-08-24T23:03:07+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月24日 23:03 JST",
+  "bullets": [
+    "Gold $4,624.10 → $4,717.30（+2.02%）",
+    "変動幅上位: NIGHT/USD -6.0% / VIX +5.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260824_2352_b7fca42a",
+    "crawlAnchorJst": "2026-08-24T23:03:00+09:00",
+    "writtenAtJst": "2026-08-24T23:52:00+09:00",
+    "lead": "同じ一日のうちに、米国は自国の長期国債を手元資金で買い支える案を検討し、隣国からの自動車と鉄鋼には一律50%の関税を課すと表明した。内側の債券市場は支え、外側の通商関係は締める。金が3カ月ぶりの高値をつけたのは、その二つを同時に見た市場の答えでもある。",
+    "items": [
+      {
+        "headline": "米国がカナダ製の自動車・トラック・部品・鉄鋼への関税を50%に引き上げると表明した",
+        "sourceUrl": "https://www.straitstimes.com/world/trump-threatens-tariffs-on-all-cars-and-trucks-to-50-amid-canada-trade-spat",
+        "note": "対象は完成車だけでなく部品と鉄鋼を含む。発効日と法的根拠はまだ示されていない。"
+      },
+      {
+        "headline": "米財務省が長期国債の買い戻し原資に一般勘定を使う可能性が報じられた",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2091865665929957666",
+        "note": "手元に積み上げた現金を国債市場の下支えに回す案。使うと決まった段階ではない。"
+      },
+      {
+        "headline": "金が3カ月ぶりの高値をつけた",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2091812870199665138",
+        "note": "長期債の買い戻し拡大とドル安への懸念が重なった局面での上昇。"
+      },
+      {
+        "headline": "Midnight のトークン NIGHT がソニーグループの暗号資産取引所に上場した",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2091763351168721392",
+        "note": "Midnight にとって初めて取り扱いに対応した取引所で、日本円での売買ができるようになる。"
+      },
+      {
+        "headline": "Lace が Keystone に対応し、QRコードだけで署名できるようになった",
+        "sourceUrl": "https://x.com/lace_io/status/2091879515190382691",
+        "note": "鍵を保管する機器をネットにつながないまま署名を完結させる方式。"
+      },
+      {
+        "headline": "Hugging Face が売却を打診していると報じられた",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2091775051431346566",
+        "note": "想定は130億ドル超。取引は成立しておらず、買い手も示されていない。"
+      },
+      {
+        "headline": "Midnight が日本で Buildathon を開き、開発チームへの助成を続ける",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2091816029844369723",
+        "note": "26日にオンラインのワークショップが予定されている。"
+      },
+      {
+        "headline": "ビットコインが週間で23%超上昇し、2023年3月以来の大きさになった",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2091684270737702982"
+      }
+    ],
+    "watch": [
+      "9月9日から始まる買い戻しで、原資が示されるかどうか",
+      "カナダ向け関税の発効日と法的根拠が文書で出るか",
+      "NIGHT の国内取扱が他の登録取引所へ広がるか"
+    ]
+  }
+}

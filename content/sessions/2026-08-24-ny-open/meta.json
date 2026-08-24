@@ -1,0 +1,73 @@
+{
+  "sessionId": "2026-08-24-ny-open",
+  "date": "2026-08-24",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-24-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-24-ny-open",
+  "publishedAt": "2026-08-25T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260824_1803_8ccef756",
+  "asOfJst": "2026-08-24T18:03:06+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月24日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,641.16 → 7,674.37（+0.43%）",
+    "変動幅上位: VIX +5.0% / NIGHT/USD -4.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260824_1840_b4b875e0",
+    "crawlAnchorJst": "2026-08-24T18:03:00+09:00",
+    "writtenAtJst": "2026-08-24T18:40:00+09:00",
+    "lead": "制度の側が動いた一日だった。日本では、銀行が出資でリスクを取るときに積む資本の重さを決める告示の改正が確定し、適用日は2027年3月31日に置かれた。同じ日に、ソニー系の暗号資産取引サービスが国内で初めてNIGHTの取扱いを始め、ADAも同時に載せている。北京では人型ロボットが400メートルで人類の世界記録を上回り、いずれも「これから効く条件」が先に確定した形になった。",
+    "items": [
+      {
+        "headline": "金融庁、銀行の出資に100%リスクウェイトを適用する改正を確定",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2091800822112047218",
+        "note": "銀行等のリスクマネー供給を円滑にする狙いで、自己資本比率規制の告示を改正した。適用は2027年3月31日で、意見公募に寄せられたのは2者・3件だった。"
+      },
+      {
+        "headline": "ソニー系S.BLOXがNIGHTを国内初取扱い、ADAも同日開始",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2091763351168721392",
+        "note": "Midnightは日本で初めて対応取引所を持つことになった。登録済みの交換業者に載るとは、円で買える経路が一つ増えるということでもある。"
+      },
+      {
+        "headline": "NIGHTからDUSTが生まれる条件は、Laceに置いてあること",
+        "sourceUrl": "https://x.com/lace_io/status/2091816358493249857",
+        "note": "取引所に預けたままだと手数料資源は湧かない。国内で買えるようになった日に、置き場所の意味が変わる。"
+      },
+      {
+        "headline": "人型ロボットが400メートルで人類の世界記録を上回った",
+        "sourceUrl": "https://www.nzz.ch/international/fussball-sprint-tischtennis-bei-der-weltmeisterschaft-fuer-humanoide-roboter-demonstriert-china-technologische-staerke-ld.10020664",
+        "note": "北京の世界大会で、サッカーや卓球と並んで短距離が競われた。平らな床と決まったコースという条件つきの速さである点は押さえておきたい。"
+      },
+      {
+        "headline": "カナダドルが下落、米加協議の決裂が貿易戦争に転じる",
+        "sourceUrl": "https://www.theguardian.com/business/live/2026/aug/24/canadian-dollar-dips-us-canada-talks-collapse-trade-war-oil-prices-fall-us-sanctions-on-iran-live-updates",
+        "note": "原油は対イラン制裁の発表を前に下げている。"
+      },
+      {
+        "headline": "金融庁が8月31日に金融審議会総会・金融分科会の合同会合を開く",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/singi/20260831.html"
+      },
+      {
+        "headline": "Sheinが上場で17.7億ユーロの調達を目指す",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/aktien/modehandel-shein-will-an-der-boerse-177-milliarden-euro-einsammeln/100249154.html"
+      },
+      {
+        "headline": "MidnightのBuildathonが近く開催、26日にオンラインの回がある",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2091816029844369723",
+        "note": "Midnight上で開発するチームへ助成金で継続的に支援する枠組みとして案内されている。"
+      }
+    ],
+    "watch": [
+      "対イラン制裁の発表は米東部時間の月曜午後の予定。原油は発表前から下げている。",
+      "カナダの報復関税は9月8日に発効する予定で、対象には鉄鋼・乳製品・家電が挙がっている。",
+      "銀行の出資リスクウェイト改正は適用まで7か月ある。動くとすれば実際の出資方針が先だ。"
+    ]
+  }
+}
