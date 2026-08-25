@@ -1,0 +1,119 @@
+{
+  "sessionId": "2026-08-25-global-close",
+  "date": "2026-08-25",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-25-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-25-global-close",
+  "publishedAt": "2026-08-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260825_2303_060a1cfb",
+  "asOfJst": "2026-08-25T23:03:06+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月25日 23:03 JST",
+  "bullets": [
+    "Gold $4,640.80 → $4,662.70（+0.47%）",
+    "変動幅上位: ADA/USD -3.4% / WTI -3.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260825_2353_22892c65",
+    "crawlAnchorJst": "2026-08-25T23:03:00+09:00",
+    "writtenAtJst": "2026-08-25T23:53:16+09:00",
+    "lead": "米財務省が対イラン作戦「Operation Economic Outcast」を開始し、制裁リスクの指定は暗号資産・技術・金・航空・海運の五分野に広がったと報じられている。同じ窓で、ビットコインは5月15日以来の8万ドル台を回復し、金は3か月ぶりに4,700ドルを取り戻し、ドルのオプション需要は2月以来の弱気に振れた。制裁はドル決済網を政策手段として使う打ち手であり、その外側に置かれた資産が同時に買われているのは偶然の並びではなく、同じ構図の表と裏だ。一方でエヌビディアは決算を控えて2022年以来最長の連敗となり、リスク資産の内側でも資金の行き先は選別され始めている。",
+    "items": [
+      {
+        "headline": "ビットコインが5月15日以来の8万ドル台を回復",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2092074324261802432",
+        "note": "直近7日間で約29%の上昇と報じられている。"
+      },
+      {
+        "headline": "8万1,000ドル到達の局面で約2億2,500万ドルのショートが清算",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2092075686831780006",
+        "note": "10分間で発生した清算規模とされる。"
+      },
+      {
+        "headline": "Strategy の保有ビットコインが1週間で含み損から含み益に転じる",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2092130060232769764",
+        "note": "84万447 BTC の保有について、95億ドル超の含み損から47億ドル超の含み益へ転じたと報じられている。"
+      },
+      {
+        "headline": "金が3か月ぶりに4,700ドルを回復",
+        "sourceUrl": "https://x.com/Kalshi/status/2092004018524479780"
+      },
+      {
+        "headline": "ドルに対する弱気ポジションが2月以来の水準まで拡大",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2092062155952586761",
+        "note": "ブルームバーグ・ドル指数の1か月リスクリバーサルが -0.25 まで低下し、3月から7月のプラス圏から反転したと報じられている。同指数はこの2か月で 2.8% 下落したとされる。"
+      },
+      {
+        "headline": "エヌビディアが2022年以来最長の7営業日連続安",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2091984192187855131",
+        "note": "決算発表を水曜に控えるなかでの連敗と報じられている。"
+      },
+      {
+        "headline": "米財務省が対イラン作戦「Operation Economic Outcast」を開始",
+        "sourceUrl": "https://x.com/USTreasury/status/2091965051620008410",
+        "note": "財務長官は「テヘランが孤立するまで、この体制を支える経済的な生命線をすべて断つ」ことを目的に挙げている。"
+      },
+      {
+        "headline": "対イラン制裁リスクが暗号資産・技術・金・航空・海運の五分野に拡大",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2092054356858192057",
+        "note": "暗号資産が名指しの対象分野に含まれたと報じられている。"
+      },
+      {
+        "headline": "イラン・リアルが1ドル=200万リアルを突破",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2091928477364555958",
+        "note": "米財務長官は、原油収入・税収・社会保険料の同時減少がイラン経済の全体に及んでいるとするイラン中銀総裁の発言を引いている。"
+      },
+      {
+        "headline": "Coinbase のトークン化株式が Base 上で稼働",
+        "sourceUrl": "https://x.com/CoinDesk/status/2091967781151363159",
+        "note": "Apple・Nvidia・Meta・Alphabet から開始し、アブダビの新たな規制枠組みの下で発行されると報じられている。24時間取引と規制信託による1対1の裏付けを持つとされる。"
+      },
+      {
+        "headline": "Grayscale の Zcash ETF が取引を開始",
+        "sourceUrl": "https://x.com/Grayscale/status/2092227194802282574",
+        "note": "世界初の Zcash ETF として ZEC へのエクスポージャーを提供するとしている。シールデッド供給は440万 ZEC、流通供給の約26%にあたる。"
+      },
+      {
+        "headline": "Midnight と Celestia が秘匿アトミックスワップの発見レイヤーで連携",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2091958032104145402",
+        "note": "Zswap がプライバシーを保った交換を担い、Celestia が注文の発見を担う構成。当事者と残高を伏せたまま取引相手を見つける課題への設計解を示している。"
+      },
+      {
+        "headline": "Cardano Foundation がブラジル最大手ペトロブラスの本社でイベントを開催",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2092243836458402213",
+        "note": "学術・産業・政府をラテンアメリカで結ぶ「Cardano on the Road」の最初の訪問先と位置づけている。"
+      },
+      {
+        "headline": "Intersect の月次 DRep コミュニティコールが8月26日15:00 UTC に開催",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2092175248418312337",
+        "note": "進行中のガバナンスアクションと、新たな委員会アクションの可否がもたらす影響を扱うとしている。"
+      },
+      {
+        "headline": "Wanchain の Cardano-BNB 事案はブリッジ契約の欠陥が原因で、影響は NIGHT に及んだ",
+        "sourceUrl": "https://x.com/FluidTokens/status/2091979859627294853",
+        "note": "wanBTC は影響を受けず BTC への戻しも機能しているが、ステーキング報酬の設計を見直すとしている。"
+      },
+      {
+        "headline": "H-1B に一律10万3,265ドルの新手数料案",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2092233935136649315",
+        "note": "米国内にいる申請者にも適用し、年間発行枠を8万5,000件とする案と報じられている。病院・大学など非営利機関は枠の対象外とされる。"
+      },
+      {
+        "headline": "カナダが対米報復関税を発表する見通し",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2092017453953884454",
+        "note": "翌日に正式発表されると報じられている。"
+      }
+    ],
+    "watch": [
+      "8月26日15:00 UTC の DRep コミュニティコール。委員会アクションの可否が実際のガバナンス運用にどう跳ね返るか。",
+      "水曜のエヌビディア決算。連敗が需要の話なのか、資金がドル外の資産へ移っているだけなのかを切り分ける材料になる。",
+      "制裁の「暗号資産」指定が実務にどう降りるか。取引所やブリッジ側の対応が出れば、条文より先に影響範囲が見える。"
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "sessionId": "2026-08-25-europe-bridge",
+  "date": "2026-08-25",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-25-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-25-europe-bridge",
+  "publishedAt": "2026-08-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260825_1203_2459a8c1",
+  "asOfJst": "2026-08-25T12:03:07+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月25日 12:03 JST",
+  "bullets": [
+    "DXY 98.800 → 99.038（+0.24%）",
+    "変動幅上位: VIX +4.8% / BTC/USD +4.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260825_1232_2fe7c3cb",
+    "crawlAnchorJst": "2026-08-25T12:03:00+09:00",
+    "writtenAtJst": "2026-08-25T12:32:00+09:00",
+    "lead": "この時間帯に並んだのは、規制の文言ではなく執行の記録だった。台湾の検察は高性能AIサーバの対中輸出で9人を起訴し、米国はイラン向け制裁の対象をさらに広げ、対カナダ関税の品目リストは蜂蜜からホッケースティックまで伸びた。同じ時間帯にビットコインは8万ドルを回復し、正午すぎの実勢は80,600ドル前後、24時間で約4.5%高い。制度が動いた話と価格が動いた話は別に見えるが、どちらも「どこまで届くか」を測っている。",
+    "items": [
+      {
+        "headline": "台湾検察、高性能AIサーバの対中輸出で9人を起訴——Nvidia と Super Micro の台湾法人社員を含む",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/24/taiwan-charges-9-illegal-ai-server-exports-china-including-nvidia/",
+        "note": "問われたのは輸出管理違反そのものではなく、背任と文書偽造だった。対象は B300 サーバ130台で、インドネシア経由・直送・日本から香港を経由する三つの経路が示されている。"
+      },
+      {
+        "headline": "米国、イラン向け制裁の対象をさらに拡大",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/24/us-expands-sanctions-iran-economic-pressure-campaign-accelerates/",
+        "note": "前日に始まった経済圧力の枠組みが、指定の追加という形で続いている。"
+      },
+      {
+        "headline": "対カナダ関税、蜂蜜からホッケースティックまで品目が広がる",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/24/honey-hockey-sticks-trumps-trade-war-canada-hikes-tariffs-long-list/",
+        "note": "関税の対象が、産業財よりも生活に近い品目の側へ伸びている。"
+      },
+      {
+        "headline": "米国と同盟国の数百の研究機関が中国の軍事研究室を支援していたと報じられた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/24/hundreds-american-allied-institutes-helped-chinese-military-labs/",
+        "note": "研究協力の記録は、輸出管理と同じ「どこで線を引くか」という問いに接続する。"
+      },
+      {
+        "headline": "10年ブレークイーブン・インフレ率は2.32%（8月24日時点）",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE"
+      }
+    ],
+    "watch": [
+      "台湾に留め置かれた56台のAIサーバがどう扱われるか。",
+      "イラン向け制裁の追加指定が、決済経路のどこまで及ぶか。",
+      "ビットコインが8万ドル台を維持できるか、それとも節目で押し戻されるか。"
+    ]
+  }
+}
