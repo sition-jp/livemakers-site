@@ -1,0 +1,105 @@
+{
+  "sessionId": "2026-08-26-asia-open",
+  "date": "2026-08-26",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-26-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-08-26-asia-open",
+  "publishedAt": "2026-08-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260826_0730_a029c83a",
+  "asOfJst": "2026-08-26T07:30:12+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 8月26日 07:30 JST",
+  "bullets": [
+    "日経平均先物 65,380 → 66,020（+0.98%）",
+    "変動幅上位: WTI -4.6% / ADA/USD -4.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260826_0548_4ff358da",
+    "crawlAnchorJst": "2026-08-26T05:03:00+09:00",
+    "writtenAtJst": "2026-08-26T05:48:23+09:00",
+    "lead": "圧力をかけている側と、かけられている側が、同じ日に別々のことを言った。イランの大統領が戦争を終わらせるべきだと述べ、米財務長官はそれを圧力の成果として引用する一方、ホワイトハウスは機雷の敷設だけはゼロ容認だと通告している。市場はその両方をまだ同じ確率で見ているらしく、動いたのは原油ではなく資金の入口のほうだった。",
+    "items": [
+      {
+        "headline": "イラン大統領が「戦争はどこかの時点で終わらせなければならない」と述べた",
+        "sourceUrl": "https://x.com/AshCrypto/status/2092297533376889024",
+        "note": "米財務省が対イラン経済作戦を開始した翌日の発言にあたる。"
+      },
+      {
+        "headline": "米財務長官が「圧力は効いている」と述べ、イラン大統領の発言を引用した",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2092286355338379405"
+      },
+      {
+        "headline": "米大統領が、新たに機雷を敷設する船舶は即座に破壊されると通告した",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2092262179663687702",
+        "note": "機雷敷設にはゼロ容認政策が全面的に適用されるとしている。"
+      },
+      {
+        "headline": "ビットコイン ETF が前営業日に3億3,756万ドルの流入を記録した",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2092326263738212356"
+      },
+      {
+        "headline": "Circle が cirBTC を発表し、BTC 担保を USDC 流動性へ接続する設計を示した",
+        "sourceUrl": "https://x.com/circle/status/2092326146151174416",
+        "note": "ビットコインが値動きの対象から担保資産へ移る導線にあたる。"
+      },
+      {
+        "headline": "仮想通貨市場の時価総額が1週間で5,000億ドル増えたと報じられた",
+        "sourceUrl": "https://x.com/Kalshi/status/2092265749016727862"
+      },
+      {
+        "headline": "タイの証券取引委員会が暗号資産 ETF の規制を正式に提案した",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2092271931563139540"
+      },
+      {
+        "headline": "NVIDIA が決算を控え、市場予想は売上高およそ920億ドルとされる",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2092315129849184261"
+      },
+      {
+        "headline": "Figure がロボット向けデータセット Index を公開した",
+        "sourceUrl": "https://x.com/Figure_robot/status/2092303621392376314"
+      },
+      {
+        "headline": "Figure が12か月でデータと計算に10億ドル超を投じると表明した",
+        "sourceUrl": "https://x.com/Figure_robot/status/2092305525916794951",
+        "note": "ロボットをサービスとして発注するための下地になるとしている。"
+      },
+      {
+        "headline": "Agility がヒューマノイドは可能性から実用へ移りつつあるとした",
+        "sourceUrl": "https://x.com/agilityrobotics/status/2092337323828727890"
+      },
+      {
+        "headline": "OpenAI が月100ドルの ChatGPT Business Premium Seats を発表した",
+        "sourceUrl": "https://x.com/OpenAI/status/2092335305366069305"
+      },
+      {
+        "headline": "SpaceX が高頻度の打ち上げ拠点 Starbase, Louisiana を発表した",
+        "sourceUrl": "https://x.com/SpaceX/status/2092284173730144732",
+        "note": "年間数千回の Starship 打ち上げを支える設計だとしている。"
+      },
+      {
+        "headline": "Cardano Foundation がブラジルの Petrobras 本社への訪問を報告した",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2092243836458402213"
+      },
+      {
+        "headline": "FluidTokens が Fluid V3 の TVL 232万ドル・貸し手161を公開した",
+        "sourceUrl": "https://x.com/FluidTokens/status/2092336710696964559"
+      },
+      {
+        "headline": "Midnight が、主流の採用には透明性だけでは足りないとする論考を公開した",
+        "sourceUrl": "https://midnight.network/blog/why-mainstream-blockchain-adoption-requires-more-than-transparency"
+      }
+    ],
+    "watch": [
+      "イラン側の発言が具体的な条件を伴う提案に変わるか。言葉で止まれば圧力の継続を確認しただけになる。",
+      "海峡で機雷敷設の事案が起きるか。起きればゼロ容認の通告が実際に執行され、経済作戦は後景に退く。",
+      "NVIDIA の決算後に資本が動くか。予想を超えても株価が反応しないなら、期待はすでに満杯だという読みになる。"
+    ]
+  }
+}
