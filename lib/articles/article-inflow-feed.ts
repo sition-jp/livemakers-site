@@ -15,12 +15,21 @@ import {
   type ArticleInflowPreviewArticle,
   type ArticleInflowPreviewCatalog,
 } from "@/lib/articles/article-inflow-contract";
+import {
+  parseArticleInflowBody,
+  parseArticleInflowCatalog,
+  type ArticleInflowSource,
+} from "@/lib/articles/article-inflow-validation.mjs";
 import { stripUnverifiedThumbnails } from "@/lib/articles/thumbnail-verification";
 
 export const ARTICLE_INFLOW_FEED_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_FEED_URL";
 export const ARTICLE_INFLOW_PREVIEW_FLAG_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_PREVIEW_ENABLED";
 export const ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY =
   "LIVEMAKERS_ARTICLE_INFLOW_PRODUCTION_FEED_URL";
+// FEEDSPLIT T7: 設定されている時だけ catalog v1 (本文なし・data cache 内) を
+// 正とし、v0 feed は fallback に回る。未設定なら従来どおり v0 のみ
+export const ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY =
+  "LIVEMAKERS_ARTICLE_INFLOW_PRODUCTION_CATALOG_URL";
 export const ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_PUBLIC_ENABLED";
 
 export interface ArticleInflowPreviewDetail {
@@ -87,11 +96,11 @@ export const ARTICLE_INFLOW_FEED_MEMO_TTL_MS = 120_000;
 
 interface InflowFeedMemoEntry {
   at: number;
-  feed: ArticleInflowFeed;
+  feed: ArticleInflowSource;
 }
 
 const inflowFeedMemo = new Map<string, InflowFeedMemoEntry>();
-const inflowFeedInFlight = new Map<string, Promise<ArticleInflowFeed | null>>();
+const inflowFeedInFlight = new Map<string, Promise<ArticleInflowSource | null>>();
 
 /** テスト用: memo と in-flight を破棄する。 */
 export function resetArticleInflowFeedMemo(): void {
@@ -106,8 +115,9 @@ function memoKey(url: string, requiredEnvironment?: string): string {
 async function loadValidatedArticleInflowFeedMemoized(
   url: string,
   fetcher: typeof fetch,
-  requiredEnvironment?: ArticleInflowFeed["environment"],
-): Promise<ArticleInflowFeed | null> {
+  requiredEnvironment?: ArticleInflowSource["environment"],
+  parse: (raw: unknown) => ArticleInflowSource | null = parseArticleInflowFeed,
+): Promise<ArticleInflowSource | null> {
   const key = memoKey(url, requiredEnvironment);
   const now = Date.now();
   const cached = inflowFeedMemo.get(key);
@@ -116,7 +126,7 @@ async function loadValidatedArticleInflowFeedMemoized(
   }
   const inFlight = inflowFeedInFlight.get(key);
   if (inFlight) return inFlight;
-  const load = fetchValidatedArticleInflowFeed(url, fetcher, requiredEnvironment)
+  const load = fetchValidatedArticleInflowFeed(url, fetcher, requiredEnvironment, parse)
     .then((feed) => {
       if (feed) inflowFeedMemo.set(key, { at: Date.now(), feed });
       return feed;
@@ -135,8 +145,9 @@ function describeFailure(error: unknown): string {
 async function fetchValidatedArticleInflowFeed(
   url: string,
   fetcher: typeof fetch,
-  requiredEnvironment?: ArticleInflowFeed["environment"],
-): Promise<ArticleInflowFeed | null> {
+  requiredEnvironment?: ArticleInflowSource["environment"],
+  parse: (raw: unknown) => ArticleInflowSource | null = parseArticleInflowFeed,
+): Promise<ArticleInflowSource | null> {
   let lastFailure = "unknown";
   for (
     let attempt = 1;
@@ -157,7 +168,7 @@ async function fetchValidatedArticleInflowFeed(
         lastFailure = `status ${response.status}`;
       } else {
         const raw = await response.json();
-        const feed = parseArticleInflowFeed(raw);
+        const feed = parse(raw);
         if (!feed || (requiredEnvironment && feed.environment !== requiredEnvironment)) {
           console.warn("[article-inflow] feed contract rejected; using repository-only content");
           return null;
@@ -183,7 +194,7 @@ async function fetchValidatedArticleInflowFeed(
 
 export async function fetchArticleInflowFeed(
   fetcher: typeof fetch = fetch,
-): Promise<ArticleInflowFeed | null> {
+): Promise<ArticleInflowSource | null> {
   const url = process.env[ARTICLE_INFLOW_FEED_ENV_KEY];
   if (!url) return null;
   return loadValidatedArticleInflowFeedMemoized(url, fetcher);
@@ -191,11 +202,60 @@ export async function fetchArticleInflowFeed(
 
 export async function fetchProductionArticleInflowFeed(
   fetcher: typeof fetch = fetch,
-): Promise<ArticleInflowFeed | null> {
+): Promise<ArticleInflowSource | null> {
   if (!isArticleInflowPublicEnabled()) return null;
+  // FEEDSPLIT T7: catalog v1 が設定されていればそれを正とし、取得/契約
+  // 失敗時のみ v0 feed へ fallback する (移行完了 = S3 で fallback 撤去)
+  const catalogUrl = process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY];
+  if (catalogUrl) {
+    const catalog = await loadValidatedArticleInflowFeedMemoized(
+      catalogUrl, fetcher, "production", parseArticleInflowCatalog);
+    if (catalog) return catalog;
+    console.warn(
+      "[article-inflow] catalog v1 unavailable; falling back to v0 feed");
+  }
   const url = process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY];
   if (!url) return null;
   return loadValidatedArticleInflowFeedMemoized(url, fetcher, "production");
+}
+
+export const ARTICLE_INFLOW_BODY_FETCH_TIMEOUT_MS = 4_000;
+
+/**
+ * FEEDSPLIT T7: body blob は content-addressed (URL に checksum) で不変 —
+ * force-cache で恒久キャッシュしてよい。1 記事 ~5-20KB なので data cache の
+ * 2MB 上限とは無縁。失敗はその 1 記事の詳細だけ notFound に落ち、catalog と
+ * 一覧は生存する (v0 の「1 記事の欠陥が feed 全体を落とす」より故障半径が狭い)。
+ */
+async function fetchArticleInflowBody(
+  bodyUrl: string,
+  expected: { slug: string; bodyChecksum: string },
+  fetcher: typeof fetch = fetch,
+): Promise<string | null> {
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const response = await fetcher(bodyUrl, {
+        headers: { Accept: "application/json" },
+        cache: "force-cache",
+        signal: AbortSignal.timeout(ARTICLE_INFLOW_BODY_FETCH_TIMEOUT_MS),
+      });
+      if (response.ok) {
+        const body = parseArticleInflowBody(await response.json(), expected);
+        if (body === null) {
+          // contract 拒否は retry しても変わらない
+          console.warn(
+            `[article-inflow] body blob rejected for slug=${expected.slug}`);
+          return null;
+        }
+        return body;
+      }
+    } catch {
+      // fetch レベルの失敗のみ retry 対象
+    }
+  }
+  console.warn(
+    `[article-inflow] body fetch failed for slug=${expected.slug}`);
+  return null;
 }
 
 export async function loadArticleInflowPreviewCatalog(): Promise<ArticleInflowPreviewCatalog> {
@@ -217,8 +277,15 @@ async function loadArticleInflowDetail(
   const article = catalog.articles.find((candidate) => candidate.articleId === slug);
   if (!article) return null;
   const body = article.source === "inflow"
-    ? article.inflowBody!
+    ? article.inflowBody
+      ?? (article.bodyUrl && article.declaredBodyChecksum
+        ? await fetchArticleInflowBody(article.bodyUrl, {
+            slug: article.articleId,
+            bodyChecksum: article.declaredBodyChecksum,
+          })
+        : null)
     : getArticleBody(slug, locale);
+  if (body == null) return null;
   const renderedBodyChecksum = calculateArticleBodyChecksum(body);
   return {
     article,
