@@ -3,9 +3,17 @@ import { createHash } from "node:crypto";
 import {
   ARTICLE_THUMBNAIL_DOCTRINE,
   ARTICLE_THUMBNAIL_ORIGIN,
-  type ArticleInflowFeed,
-  type ArticleInflowItem,
 } from "@/lib/articles/article-inflow-validation.mjs";
+
+// FEEDSPLIT T6: v0 feed item / catalog v1 item (body なし) の両方を受けるため
+// サムネ検証が実際に読む field だけの構造型で generic 化する
+type ThumbnailCarrier = {
+  slug: string;
+  source_x_url?: unknown;
+  thumbnail_url?: string;
+  thumbnail_checksum?: string;
+  thumbnail_doctrine?: typeof ARTICLE_THUMBNAIL_DOCTRINE;
+};
 
 /**
  * サムネ検証 (P2-LVM-INFLOW-G2 D3・T1a)。
@@ -40,7 +48,7 @@ function hasAllowedOrigin(url: string): boolean {
   return url.startsWith(`${ARTICLE_THUMBNAIL_ORIGIN}/`);
 }
 
-function unionComplete(article: ArticleInflowItem): boolean {
+function unionComplete(article: ThumbnailCarrier): boolean {
   const isMirror = "source_x_url" in article;
   if (article.thumbnail_url === undefined || article.thumbnail_checksum === undefined) {
     return false;
@@ -78,14 +86,14 @@ async function verifyThumbnailBytes(
   }
 }
 
-function stripThumbnail(article: ArticleInflowItem): ArticleInflowItem {
+function stripThumbnail<TItem extends ThumbnailCarrier>(article: TItem): TItem {
   const {
     thumbnail_url: _url,
     thumbnail_checksum: _checksum,
     thumbnail_doctrine: _doctrine,
     ...rest
   } = article;
-  return rest as ArticleInflowItem;
+  return rest as TItem;
 }
 
 /** テスト用: memoize を破棄する */
@@ -93,10 +101,10 @@ export function clearThumbnailVerificationCache(): void {
   verifiedCache.clear();
 }
 
-export async function stripUnverifiedThumbnails(
-  feed: ArticleInflowFeed,
-  fetcher: typeof fetch = fetch,
-): Promise<ArticleInflowFeed> {
+export async function stripUnverifiedThumbnails<
+  TItem extends ThumbnailCarrier,
+  TFeed extends { articles: TItem[] },
+>(feed: TFeed, fetcher: typeof fetch = fetch): Promise<TFeed> {
   const articles = await Promise.all(
     feed.articles.map(async (article) => {
       if (
