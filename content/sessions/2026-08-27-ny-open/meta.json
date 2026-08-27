@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-08-27-ny-open",
+  "date": "2026-08-27",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-27-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-27-ny-open",
+  "publishedAt": "2026-08-28T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260827_1803_51398c24",
+  "asOfJst": "2026-08-27T18:03:08+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月27日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,677.28 → 7,675.70（-0.02%）",
+    "変動幅上位: ETH/USD +3.0% / VIX -2.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260827_1845_e46b5b0b",
+    "crawlAnchorJst": "2026-08-27T18:03:00+09:00",
+    "writtenAtJst": "2026-08-27T18:45:00+09:00",
+    "lead": "欧州の取引時間に、ビットコインは8万ドルを回復した。今朝の時点では7万8千ドル台で、資金の流入だけが先に積み上がっている状態だったので、順序としては買いが先に入り、値段が後から追いついている。同じ時間帯の欧州では、商業用不動産を抱えた銀行の減益と、住宅市場に戻ってくる海外の大口資金が同じ日に並んだ。慎重になっている資金と戻ってきている資金が、別々の場所で同時に動いている。",
+    "items": [
+      {
+        "headline": "金融庁が、海外で組成された日本株レバレッジETFの販売を「公益上適当でない」とした",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/shouken/20260827/20260827.html",
+        "note": "「金融商品取引業等に関するQ&A」に問7を追加した。理由として、国内市場に上場する株式の相場変動を増幅させ、日本の金融市場における価格形成に著しい影響を及ぼし得る、と説明している。"
+      },
+      {
+        "headline": "Helabaの利益が急減、商業用不動産が要因",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/helaba-probleme-bei-gewerbeimmobilien-gewinn-bricht-ein/100249358.html",
+        "note": "ドイツの州立銀行で、商業用不動産をめぐる問題が収益を押し下げた。"
+      },
+      {
+        "headline": "海外の大口投資家が、ドイツの住宅市場に戻ってきている",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/immobilien/immobilien-investoren-suchen-wieder-nach-wohnimmobilien-01/100249240.html",
+        "note": "商業用不動産の傷みが表に出ている一方で、住宅にはふたたび資金が向かっている。"
+      },
+      {
+        "headline": "ドイツ銀行が、Postbank統合のつまずきを経て新しいIT再構築に入る",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/banken-deutsche-bank-startet-nach-postbank-debakel-neuen-it-umbau/100250101.html"
+      },
+      {
+        "headline": "欧州株はNVIDIAを消化し、次はジャクソンホールを見ている",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-nach-nvidia-ist-vor-jackson-hole-dax-knuepft-an-trendwende-an/100250066.html",
+        "note": "決算の通過後、市場の関心は中央銀行の発言に移りつつある。"
+      },
+      {
+        "headline": "プロ投資家が選ぶ銘柄の顔ぶれが入れ替わっている",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/anlagestrategie/geldanlage-das-sind-die-neuen-aktien-favoriten-der-profi-investoren/100247679.html"
+      },
+      {
+        "headline": "Leiosが最初のテストネットで、Cardanoの処理量の6倍に達したと公表された",
+        "sourceUrl": "https://www.iog.io/news/leios-hit-6x-cardano-s-throughput-on-its-first-testnet",
+        "note": "41日間動かしたEarthフェーズの結果として、12万7千を超えるブロックが積まれたと報告している。続くWaterフェーズはすでに新しいチェーンで始まっている。"
+      },
+      {
+        "headline": "テヘランは、予告された米国の追加制裁を「経済テロ」と呼んだ",
+        "sourceUrl": "https://www.nzz.ch/international/iran-krieg-teheran-bezeichnet-angedrohte-us-sanktionen-als-wirtschaftsterrorismus-ld.10021246"
+      },
+      {
+        "headline": "イランの戦争が6か月を超え、影響の輪郭が整理され始めた",
+        "sourceUrl": "https://www.straitstimes.com/world/middle-east/six-consequences-of-six-months-of-war-in-iran"
+      },
+      {
+        "headline": "ロシアがルーマニア沖の海洋ドローンなどで、欧州への威嚇を強めている",
+        "sourceUrl": "https://www.nzz.ch/international/russland-verstaerkt-die-drohkulisse-gegenueber-eu-und-nato-ld.10020904"
+      },
+      {
+        "headline": "カナダが、報復関税の対象から米国産水産物を外した",
+        "sourceUrl": "https://www.straitstimes.com/world/canada-excludes-us-seafood-from-retaliatory-tariffs"
+      },
+      {
+        "headline": "氷河の崩落による洪水で、ネパールとチベットで千人近くが行方不明になっている",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/26/nearly-1000-missing-nepal-tibet-floods-caused-glacial-collapse/"
+      }
+    ],
+    "watch": [
+      "ビットコインが8万ドルの上に留まるかどうか。買いが先行した値動きは、留まって初めて水準の変化になる。",
+      "商業用不動産の減益が、ドイツの一行だけで終わるのか、他の欧州の銀行にも並ぶのか。",
+      "金融庁のQ&Aは施行日や経過措置を示していない。実際にいつ何が止まるのかは、これから出る運用で決まる。"
+    ]
+  }
+}
