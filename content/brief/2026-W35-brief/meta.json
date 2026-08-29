@@ -159,7 +159,8 @@
     "private_markets": "Closing prices for HLNE / BX / KKR / APO / ARES / STEP on 2026-08-21 and 2026-08-28, Yahoo Finance derived",
     "midnight": "Midnight State of the Network, August 2026, published 2026-08-26 (cross-chain connectivity to more than 130 networks; NIGHT listed on S.BLOX)",
     "calendars": "US Employment Situation for August 2026 scheduled 2026-09-04 08:30 ET (BLS); FOMC 2026-09-15/16 (Federal Reserve); ECB Governing Council 2026-09-09/10 (ECB). The Bank of Japan September meeting date was not verified and is deliberately not stated; the ~90% pricing for a 25bp move to 1.25% is secondary reporting",
-    "cardano_legacy_ticker": "ticker_snapshot retains the legacy Cardano fields required by the site schema and is not part of this series' editorial scope. ADA price and market cap from CoinGecko and Cardano TVL from DefiLlama at retrieval on 2026-08-29; epoch 652 and active stake 58.33% computed live from Koios (active stake 21,419,162,225 ADA against circulation 36,719,671,593 ADA). naka_rank and sipo_rank are carried forward from the prior issue and were not re-measured."
+    "cardano_legacy_ticker": "ticker_snapshot retains the legacy Cardano fields required by the site schema and is not part of this series' editorial scope. ADA price and market cap from CoinGecko and Cardano TVL from DefiLlama at retrieval on 2026-08-29; epoch 652 and active stake 58.33% computed live from Koios (active stake 21,419,162,225 ADA against circulation 36,719,671,593 ADA). naka_rank and sipo_rank are carried forward from the prior issue and were not re-measured.",
+    "boj_pricing": "Market pricing of a September Bank of Japan move to 1.25% is secondary reporting (high-80s percent), not measured directly from futures by us; the meeting date was not verified and is deliberately not stated."
   },
   "reference_timestamp": "2026-08-29T00:00:00Z",
   "prior_week_reference_timestamp": "2026-08-22T00:00:00Z",
