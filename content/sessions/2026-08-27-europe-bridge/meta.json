@@ -1,0 +1,79 @@
+{
+  "sessionId": "2026-08-27-europe-bridge",
+  "date": "2026-08-27",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-27-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-27-europe-bridge",
+  "publishedAt": "2026-08-28T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260827_1203_2060865b",
+  "asOfJst": "2026-08-27T12:03:08+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月27日 12:03 JST",
+  "bullets": [
+    "DXY 98.920 → 99.134（+0.22%）",
+    "変動幅上位: ADA/USD -1.6% / VIX -1.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260827_1235_5a2f441a",
+    "crawlAnchorJst": "2026-08-27T12:03:00+09:00",
+    "writtenAtJst": "2026-08-27T12:35:00+09:00",
+    "lead": "この窓で目立ったのは、金利と統治という別々の話が、どちらも「期限」の形で出てきたことだ。日銀は副総裁の講演を公表し、政策金利1%でも実質金利はまだマイナスだという整理を示した。米国では成長が年率1.5%にとどまる一方、7月の貯蓄率は6か月ぶりに上がった。Cardano では憲法委員会の議席が9月に切れるため、投票の締切が先に来る。",
+    "items": [
+      {
+        "headline": "日銀・氷見野副総裁の講演「日本経済と金融政策」が公表された",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2092787979597283421",
+        "note": "さいたまでの地元経済界との会合での講演。6月に政策金利を1%へ引き上げた後も、短中期ゾーンの実質金利はマイナスで、金融環境は緩和的だという整理を示している。"
+      },
+      {
+        "headline": "米国の第2四半期GDPは年率1.5%、二次推計でも改定なし",
+        "sourceUrl": "https://x.com/stlouisfed/status/2092723534783041794",
+        "note": "先月の速報値から変わらなかった。"
+      },
+      {
+        "headline": "米国の貯蓄率が7月に3.0%へ、6か月ぶりの上昇",
+        "sourceUrl": "https://x.com/stlouisfed/status/2092743414731227502",
+        "note": "6月の2.6%からの反転。物価の伸びが続くなかで、家計が支出よりも手元を厚くする側へ少し戻した。"
+      },
+      {
+        "headline": "Cardano の憲法委員会、7議席のうち4議席が9月6日に満了する",
+        "sourceUrl": "https://x.com/Cardano/status/2092699378838339982",
+        "note": "後任を承認するガバナンスアクションが9月1日のエポック境界までに批准されなければ、委員会は最低人数の5を割る。人数が足りない委員会は投票はできても批准ができず、国庫からの支出もパラメータ変更も止まる。"
+      },
+      {
+        "headline": "Bitcoin の Lightning を Cardano へ移植する Cardano Lightning のセッションが公開された",
+        "sourceUrl": "https://x.com/Cardano/status/2092741380690837792",
+        "note": "PolyCrypt の Ilja von Hoessle 氏が、ステートチャネルの構成、流動性マネージャのコントラクト、リレー設計、そして Pre-production への展開を説明している。"
+      },
+      {
+        "headline": "Midnight が、手数料をアプリ側が肩代わりする仕組みの解説を日本語で公開した",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2092795638492934468",
+        "note": "利用者にネットワーク手数料を意識させないアプリを作るための設計。"
+      },
+      {
+        "headline": "Circle の CCTP V2 が Aptos で稼働を開始した",
+        "sourceUrl": "https://x.com/circle/status/2092643234199519317",
+        "note": "焼却と発行によるチェーン間移動に、着信側の高速転送やフック、リレー対応が加わる。"
+      },
+      {
+        "headline": "韓国は個人中心の市場と見られてきたが、機関側の動きが見えてきたと Circle が指摘した",
+        "sourceUrl": "https://x.com/circle/status/2092688534385951021",
+        "note": "銀行、スーパーアプリ、取引所、決済会社が、取引の場・ステーブルコイン・トークン化証券・決済レールの選択を進めているという整理。"
+      },
+      {
+        "headline": "金融庁が広報誌アクセスFSA 第276号（8月号）を発行した",
+        "sourceUrl": "https://www.fsa.go.jp/access/index.html"
+      }
+    ],
+    "watch": [
+      "Cardano の憲法委員会の後任承認が9月1日のエポック境界までに通るかどうか。通らなければ批准を要する案件が一斉に止まる。",
+      "米国の物価と成長の組み合わせ。年率1.5%の成長と、上向いた貯蓄率が9月以降の金利観にどう効くか。",
+      "政策金利1%のもとで実質金利がマイナスのままかどうか。日銀の次の判断はここに乗る。"
+    ]
+  }
+}
