@@ -150,7 +150,7 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
     ).toBe(publishedRecord.currentUrl);
   });
 
-  it("routes the full-session CTA to /sessions/archive when the record is feed-origin and not yet materialized (①)", () => {
+  it("routes the full-session CTA to currentUrl even for a feed-origin record without editorial (① — 2026-08-23: same-URL live view resolves feed records, archive detour removed)", () => {
     const feedOnlyRecord: SessionRecord = {
       ...record,
       hasMaterializedRoute: false,
@@ -166,7 +166,7 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
       screen
         .getByRole("link", { name: /セッション全文を読む/ })
         .getAttribute("href"),
-    ).toBe("/sessions/archive");
+    ).toBe(record.currentUrl);
   });
 
   it("routes an editorial feed session to the same currentUrl and shows exactly the first two lead sentences", () => {
@@ -205,5 +205,102 @@ describe("SessionNowCard D6 link routing (crystallize 前の 404 回避, G43-e /
     expect(
       screen.getByRole("link", { name: /セッション全文を読む/ }),
     ).toHaveAttribute("href", record.currentUrl);
+  });
+});
+
+// 2026-08-23 田平氏 GO (spec §A): closed variant = 「直前に終わったセッション」。
+// 本文は live と同じ・バッジだけ「終了」へ・live を示す語を出さない。
+describe("SessionNowCard closed variant (2026-08-23 switching-gap fill)", () => {
+  const closedRecord: SessionRecord = {
+    ...record,
+    liveStatus: "closed",
+    asOfJst: "2026-07-10T07:30:00+09:00",
+  };
+  const closedCopy = { ...copy, closedBadgeSuffix: "JST 終了" };
+
+  it("renders the ended badge, the snapshot line and the full-session CTA", () => {
+    const { container } = render(
+      <SessionNowCard
+        record={closedRecord}
+        provenance={provenance}
+        copy={closedCopy}
+        variant="closed"
+      />,
+    );
+    expect(container.firstElementChild).toHaveAttribute(
+      "data-session-state",
+      "closed",
+    );
+    expect(screen.getByText("SESSION · 05:03 JST 終了")).toBeInTheDocument();
+    expect(screen.queryByText(/JST 更新/)).toBeNull();
+    expect(screen.getByText(/スナップショット/).textContent).toContain("07:30");
+    expect(screen.getByRole("heading", { level: 3 }).textContent).toContain(
+      "米CPI通過後、最初のアジア時間",
+    );
+    const cta = screen.getByText("セッション全文を読む →");
+    expect(cta.getAttribute("href")).toBe("/sessions/2026-07-10-asia-open");
+    expect(container.textContent).not.toMatch(/\bLIVE\b/);
+  });
+
+  it("defaults to the live badge when variant is omitted", () => {
+    render(
+      <SessionNowCard record={record} provenance={provenance} copy={closedCopy} />,
+    );
+    expect(screen.getByText("SESSION · 05:03 JST 更新")).toBeInTheDocument();
+  });
+});
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5):
+// observationStatus=absent → 「読み解きのみ」バッジ・鮮度行は「読み解き」・
+// 市場来歴行の代わりに「数値スナップショットなし」注記。
+describe("SessionNowCard digest-only (observationStatus=absent)", () => {
+  const digestRecord: SessionRecord = {
+    ...record,
+    asOfJst: "2026-07-10T12:34:00+09:00",
+    titleJa: "Asia Open Terminal — 7月10日 05:03 JST（読み解きのみ）",
+    bullets: ["一次情報で確認された主要な動き"],
+    observationStatus: "absent",
+    editorial,
+  };
+  const digestCopy = {
+    ...copy,
+    closedBadgeSuffix: "JST 終了",
+    digestOnlyLabel: "読み解きのみ",
+    digestFreshnessPrefix: "読み解き",
+    noSnapshotNote: "数値スナップショットなし（市場観測が未取得）",
+  };
+
+  it("renders the digest-only badge, digest freshness line and the no-snapshot note instead of provenance", () => {
+    const { container } = render(
+      <SessionNowCard record={digestRecord} provenance={provenance} copy={digestCopy} />,
+    );
+    expect(container.firstElementChild).toHaveAttribute("data-session-observation", "absent");
+    expect(screen.getByText("SESSION · 05:03 JST 更新 · 読み解きのみ")).toBeInTheDocument();
+    expect(screen.getByText(/^読み解き /).textContent).toContain("2026-07-10 · 12:34 JST");
+    expect(screen.queryByText(/スナップショット 2026/)).toBeNull();
+    expect(screen.getByText("数値スナップショットなし（市場観測が未取得）")).toBeInTheDocument();
+    expect(container.textContent).not.toContain("審査状態");
+    expect(container.textContent).not.toContain("reviewed_live");
+    expect(screen.getByRole("heading", { level: 3 }).textContent).toContain("一次情報で確認された主要な動き");
+  });
+
+  it("combines the ended badge with the digest-only marker when closed", () => {
+    render(
+      <SessionNowCard
+        record={{ ...digestRecord, liveStatus: "closed" }}
+        provenance={provenance}
+        copy={digestCopy}
+        variant="closed"
+      />,
+    );
+    expect(screen.getByText("SESSION · 05:03 JST 終了 · 読み解きのみ")).toBeInTheDocument();
+  });
+
+  it("marks green records explicitly and keeps the provenance row", () => {
+    const { container } = render(
+      <SessionNowCard record={record} provenance={provenance} copy={digestCopy} />,
+    );
+    expect(container.firstElementChild).toHaveAttribute("data-session-observation", "green");
+    expect(container.textContent).toContain("審査状態");
   });
 });

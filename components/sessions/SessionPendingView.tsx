@@ -5,6 +5,8 @@ export interface SessionPendingCopy {
   highlightsHeading: string;
   watchHeading: string;
   crystallizeNote: string;
+  /** 2026-08-23 digest-only (observationStatus=absent): 数値節の代わりの注記 */
+  noSnapshotNote?: string;
 }
 
 /** Pending same-URL view. Editorial is deliberately JA-only for this gate. */
@@ -18,6 +20,10 @@ export function SessionPendingView({
   copy: SessionPendingCopy;
 }) {
   const editorial = locale === "ja" ? record.editorial : undefined;
+  // 2026-08-23 (spec 2026-08-23-digest-only-session-design §5): 市場観測 RED
+  // の読み解きのみセッションは数値スナップショット節を持たない (bullets は
+  // digest 見出しの写しなので重複させない) — 注記 1 行に置き換える。
+  const digestOnly = record.observationStatus === "absent";
   return (
     <div className="mt-6 space-y-7">
       {editorial ? (
@@ -26,23 +32,32 @@ export function SessionPendingView({
         </p>
       ) : null}
 
-      <section>
-        {editorial ? (
-          <h2 className="text-sm font-bold text-text-primary">
-            {copy.snapshotHeading}
-          </h2>
-        ) : null}
-        <ul className="mt-3 space-y-3 text-[15px] text-text-primary">
-          {record.bullets.map((bullet) => (
-            <li
-              key={bullet}
-              className="border-b border-dashed border-border-primary pb-3"
-            >
-              {bullet}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {digestOnly ? (
+        <p
+          data-session-observation="absent"
+          className="text-sm text-text-tertiary"
+        >
+          {copy.noSnapshotNote}
+        </p>
+      ) : (
+        <section>
+          {editorial ? (
+            <h2 className="text-sm font-bold text-text-primary">
+              {copy.snapshotHeading}
+            </h2>
+          ) : null}
+          <ul className="mt-3 space-y-3 text-[15px] text-text-primary">
+            {record.bullets.map((bullet) => (
+              <li
+                key={bullet}
+                className="border-b border-dashed border-border-primary pb-3"
+              >
+                {bullet}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {editorial ? (
         <>

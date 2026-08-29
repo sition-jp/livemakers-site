@@ -24,19 +24,30 @@ export interface HomeSlots {
     article: ArticleMeta | null;
     previous: ArticleMeta | null;
   };
+  // 2026-08-14 Phase 3: mkt12-reading は最新 1 本 + シリーズリンクのみ。
+  // 2026-08-15 田平氏 GO: 土曜 (JST) は朝版 writer が発火しない (週末版 =
+  // lvm-mkt12-weekend-writer の所掌) ため、土曜だけ variant="weekend" として
+  // mkt12-weekend を本体に昇格する。lagging の mkt12WeekendLatest との
+  // 二重掲載は索引意味論として許容 (同日 GO)。日〜金は従来どおり朝版。
   mkt12: {
+    variant: "morning" | "weekend";
     state: "published" | "awaiting";
     article: ArticleMeta | null;
     previous: ArticleMeta | null;
-    weekend: ArticleMeta | null;
-    archive: ArticleMeta[];
   };
-  radarPair: {
-    observation: RadarObservation;
-    article: ArticleMeta;
-  } | null;
+  // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §D):
+  // 昇格ペア (radarPair) は廃止。promotions は wire 契約として受理するが描画
+  // しない (観測 dig-* と記事 cin-* で結合キーが一致せず一度も成立しなかった)。
   observing: RadarObservation[];
   signalTimeline: ArticleMeta[];
+  // 2026-08-23 田平氏 GO B-1 (追加提案 1): Signal ヘッダの鮮度表示用。
+  // todayCount = signalTimeline (昇格ペア除外後) のうち articleToday 公開の本数 /
+  // latestAt = 先頭記事の publishedAtJst を MM-DD HH:MM へ (記事ゼロは null)。
+  // now を持ち込まず articleToday だけで決定的に算出する (D13)。
+  signalTimelineSummary: {
+    todayCount: number;
+    latestAt: string | null;
+  };
   deepDives: ArticleMeta[];
   latestArticles: ArticleMeta[];
   eventRiskLatest: ArticleMeta | null;
@@ -77,8 +88,6 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     }
     return article;
   };
-  const unused = (article: ArticleMeta): boolean =>
-    !used.has(article.articleId);
 
   const dailyIntel = input.articles.filter(
     (article) => article.family === "daily-intel",
@@ -96,67 +105,48 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
         }
       : { state: "pending", article: null, previous: null };
 
-  const mornings = input.articles.filter(
-    (article) => article.family === "mkt12-morning",
+  // articleToday は JST 暦日文字列なので、UTC 解釈でその暦日の曜日が得られる
+  // (+09:00 付きで parse すると instant の UTC 曜日にずれるため使わない)。
+  const mkt12Variant: HomeSlots["mkt12"]["variant"] =
+    new Date(`${articleToday}T00:00:00Z`).getUTCDay() === 6
+      ? "weekend"
+      : "morning";
+  const mkt12Family =
+    mkt12Variant === "weekend" ? "mkt12-weekend" : "mkt12-morning";
+  const mkt12Series = input.articles.filter(
+    (article) => article.family === mkt12Family,
   );
-  const todayMorning = mornings.find(
+  const todayMkt12 = mkt12Series.find(
     (article) => (article.dataDate ?? dateOf(article)) === articleToday,
   );
-  const previousMornings = mornings.filter(
-    (article) => article !== todayMorning,
+  const previousMkt12 = mkt12Series.filter(
+    (article) => article !== todayMkt12,
   );
-  const previous = todayMorning ? null : (previousMornings[0] ?? null);
+  const previous = todayMkt12 ? null : (previousMkt12[0] ?? null);
   const mkt12: HomeSlots["mkt12"] = {
-    state: todayMorning ? "published" : "awaiting",
-    article: take(todayMorning) ?? null,
+    variant: mkt12Variant,
+    state: todayMkt12 ? "published" : "awaiting",
+    article: take(todayMkt12) ?? null,
     previous,
-    weekend:
-      take(
-        input.articles.find(
-          (article) =>
-            article.family === "mkt12-weekend" && unused(article),
-        ),
-      ) ?? null,
-    archive: previousMornings
-      .filter((article) => unused(article) && article !== previous)
-      .slice(0, 2)
-      .map((article) => take(article) as ArticleMeta),
   };
 
-  const promotionCandidates = input.radar
-    .filter((observation) => input.promotions[observation.topicId])
-    .toSorted((left, right) =>
-      right.observedAtLabel.localeCompare(left.observedAtLabel),
-    );
-  let radarPair: HomeSlots["radarPair"] = null;
-  for (const observation of promotionCandidates) {
-    const article = input.articles.find(
-      (candidate) =>
-        candidate.articleId === input.promotions[observation.topicId] &&
-        candidate.radarTopicId === observation.topicId,
-    );
-    if (article) {
-      radarPair = {
-        observation,
-        article: take(article) as ArticleMeta,
-      };
-      break;
-    }
-  }
-  const observing = input.radar.filter(
-    (observation) => observation !== radarPair?.observation,
-  );
+  const observing = [...input.radar];
   // now は builder input に無いので articleToday の JST end-of-day から決定的に導出する
   // (buildHomeCompositionProps の入力契約を変えないための D13 制約)。
   const now = new Date(`${articleToday}T23:59:59+09:00`);
-  // D5 対称契約: 昇格ペアが存在し記事リンクを描くときに限り、その Signal を時系列から除外する。
-  const excludeIds = radarPair ? [radarPair.article.articleId] : [];
   const signalTimeline = selectSignalTimeline({
     articles: input.articles,
     now,
     floor: 10,
-    excludeIds,
+    excludeIds: [],
   }).map((article) => take(article) as ArticleMeta);
+  const signalTimelineSummary: HomeSlots["signalTimelineSummary"] = {
+    todayCount: signalTimeline.filter((article) => dateOf(article) === articleToday)
+      .length,
+    latestAt: signalTimeline[0]
+      ? signalTimeline[0].publishedAtJst.slice(5, 16).replace("T", " ")
+      : null,
+  };
 
   // input.articles は today-gate 済み・publishedAtJst 降順 (getAllArticles / normalizeHomeInput)
   // だが、以降の選定は順序前提を明示するため自前で降順ソートしてから切り出す。
@@ -174,7 +164,8 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
 
   // 索引意味論スロット (used に加えない・本体記事の再掲を許す): latestArticles /
   // atlasLatest / mkt12WeekendLatest / weeklyBriefLatest。
-  const latestArticles = catalog.slice(0, 10);
+  // 2026-08-14 田平氏指示: 最新の記事は 10 → 20 本。
+  const latestArticles = catalog.slice(0, 20);
   const eventRiskLatest = take(latestOf("event-risk-radar") ?? undefined) ?? null;
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");
@@ -183,9 +174,9 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   return {
     lead,
     mkt12,
-    radarPair,
     observing,
     signalTimeline,
+    signalTimelineSummary,
     deepDives,
     latestArticles,
     eventRiskLatest,
@@ -205,9 +196,6 @@ export function collectSelectedArticleIds(slots: HomeSlots): string[] {
   return [
     ...(slots.lead.article ? [slots.lead.article.articleId] : []),
     ...(slots.mkt12.article ? [slots.mkt12.article.articleId] : []),
-    ...(slots.mkt12.weekend ? [slots.mkt12.weekend.articleId] : []),
-    ...slots.mkt12.archive.map((article) => article.articleId),
-    ...(slots.radarPair ? [slots.radarPair.article.articleId] : []),
     ...slots.signalTimeline.map((article) => article.articleId),
     ...slots.deepDives.slice(0, 1).map((article) => article.articleId),
     ...(slots.eventRiskLatest ? [slots.eventRiskLatest.articleId] : []),

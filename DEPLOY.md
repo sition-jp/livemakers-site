@@ -243,7 +243,7 @@ git commit -m "docs: mark Week 4 complete, v0.1 shipped"
 - You're running on macOS system Python. Use homebrew/pyenv Python + `DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib` (see prerequisite 2 above).
 
 ### Japanese redirect loops
-- If `middleware.ts` keeps redirecting between `/` and `/ja`, the cookie isn't being set. Check browser devtools → Application → Cookies — `NEXT_LOCALE` should appear after the first redirect. Clear cookies and retry.
+- If `proxy.ts` (the intl proxy, called `middleware.ts` before Next.js 16) keeps redirecting between `/` and `/ja`, the cookie isn't being set. Check browser devtools → Application → Cookies — `NEXT_LOCALE` should appear after the first redirect. Clear cookies and retry.
 
 ---
 

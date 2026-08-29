@@ -20,8 +20,12 @@ import {
 } from "@/lib/home/gradient-ledger";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
-import { buildNavModel } from "@/lib/home/nav-model";
-import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
+import { buildFlatNav } from "@/lib/home/nav-model";
+import {
+  RADAR_OBSERVATIONS,
+  RADAR_SOURCE_URL_ALLOWLIST,
+  type RadarObservation,
+} from "@/lib/home/radar-observations";
 import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
   collectScannableText,
@@ -61,9 +65,26 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 
 const TEST_CONTENT_DIR = path.join(process.cwd(), "tests", "fixtures", "content", "articles");
+// 2026-08-14 田平氏裁定: 観測は一次ソース (X) へ外部リンク可。リンク付き
+// 観測を 1 件混ぜて、gate 1 / gate 2 の data-source-link バケット会計が
+// 正しく数えることをページ全体で検証する。
+const LINKED_RADAR_OBSERVATION: RadarObservation = {
+  topicId: "linked_source_20260710",
+  lane: "x_news_trends",
+  titleJa: "米SECが暗号資産の開示規則案を公表",
+  observedAtLabel: "08:02",
+  href: "https://x.com/example/status/1234509876",
+  displayMode: "title_with_source",
+  publishDecision: "not_authorized",
+};
+const RADAR_WITH_SOURCE: readonly RadarObservation[] = [
+  ...RADAR_OBSERVATIONS,
+  LINKED_RADAR_OBSERVATION,
+];
 // G43-d: production default radar is now honest-empty (no feed/injection).
 // These page-wide gates inject the former fixture population explicitly so
 // their assertions keep exercising a populated radar (gate meaning unchanged).
@@ -71,12 +92,15 @@ const props = buildHomeCompositionProps({
   today: "2026-07-10",
   articleCutoffToday: "2026-07-10",
   contentDir: TEST_CONTENT_DIR,
-  radar: RADAR_OBSERVATIONS,
+  radar: RADAR_WITH_SOURCE,
   promotions: RADAR_PROMOTIONS,
 });
 const copy = buildTestHomeCopy();
 
-const stripLocale = (href: string) => href.replace(/^\/ja(?=\/|$)/, "") || "/";
+// localePrefix "always" (2026-08-21) で /en 接頭辞も剥がす — locale は
+// ルート台帳の検証対象外 (言語トグルが /en リンクを chrome に持つ)。
+const stripLocale = (href: string) =>
+  href.replace(/^\/(ja|en)(?=\/|$)/, "") || "/";
 
 /** Article/session hrefs must resolve to real documents (fail-closed against dead links). */
 function expectResolvesRealDocument(href: string) {
@@ -95,13 +119,15 @@ function expectResolvesRealDocument(href: string) {
 function renderFullPage() {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header chromeMeta={getSnapshotChromeMeta()} futureAtlasNav={false} />
+      <Header futureAtlasNav={false} />
       <main>
         <TickerBar items={props.tickerItems} />
         <GlobalProvenanceStrip
           provenance={props.pageProvenance}
           labels={copy.provenance}
           note={copy.globalProvenanceNote}
+          chromeMeta={getSnapshotChromeMeta(props.snapshot)}
+          snapshotLabel="SNAPSHOT"
         />
         <HomeComposition {...props} surfacePublished={false} copy={copy} />
       </main>
@@ -138,9 +164,7 @@ function renderReviewedPage() {
     reviewed,
     ...render(
       <NextIntlClientProvider locale="ja" messages={ja}>
-        <Header
-          chromeMeta={getSnapshotChromeMeta(reviewed.snapshot)}
-          futureAtlasNav={false}
+        <Header futureAtlasNav={false}
         />
         <main>
           <TickerBar items={reviewed.tickerItems} />
@@ -148,6 +172,8 @@ function renderReviewedPage() {
             provenance={reviewed.pageProvenance}
             labels={copy.provenance}
             note={copy.globalProvenanceNote}
+            chromeMeta={getSnapshotChromeMeta(reviewed.snapshot)}
+            snapshotLabel="SNAPSHOT"
           />
           <HomeComposition
             {...reviewed}
@@ -162,7 +188,9 @@ function renderReviewedPage() {
 }
 
 describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => {
-  it("gate 1: radar payload and DOM remain title-only", () => {
+  it("gate 1: radar DOM carries primary-source links only, never article routing", () => {
+    // 従来 fixture (href=null) は title-only のまま — 供給側が href を
+    // 明示した観測だけがリンクを持てる (2026-08-14 裁定で改訂)。
     for (const observation of RADAR_OBSERVATIONS) {
       expect(observation.href).toBeNull();
       expect(observation.displayMode).toBe("title_only");
@@ -171,8 +199,20 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     const { container } = renderFullPage();
     const radarModules = container.querySelectorAll("[data-radar]");
     expect(radarModules.length).toBeGreaterThanOrEqual(1);
-    for (const module of radarModules) {
-      expect(module.querySelectorAll("a")).toHaveLength(0);
+    const radarAnchors = [
+      ...container.querySelectorAll("[data-radar] a"),
+    ];
+    // リンクを持つのは注入した LINKED_RADAR_OBSERVATION の 1 件のみ。
+    expect(radarAnchors).toHaveLength(1);
+    for (const anchor of radarAnchors) {
+      expect(anchor.hasAttribute("data-source-link")).toBe(true);
+      expect(anchor.hasAttribute("data-article-id")).toBe(false);
+      expect(anchor.hasAttribute("data-index-nav")).toBe(false);
+      expect(
+        RADAR_SOURCE_URL_ALLOWLIST.test(anchor.getAttribute("href")!),
+      ).toBe(true);
+      expect(anchor.getAttribute("target")).toBe("_blank");
+      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
     }
   });
 
@@ -182,16 +222,28 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     // Chrome: header = logo + top-level (articles dropdown is CLOSED by default,
     // so series links are absent); footer = overview + flat nav-model. The count
     // is derived from the same nav-model, so a link leaking into chrome fails here.
-    const nav = buildNavModel(false);
+    // 2026-08-14 フラットナビ: header = logo + flatNav / footer = flatNav
+    const flat = buildFlatNav(false);
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    expect(chromeAnchors).toHaveLength(
-      1 + nav.topLevel.length + (1 + nav.articlesGroup.length + nav.topLevel.length),
-    );
+    // 言語トグル (EN / 日本語) は 2026-08-23 田平氏指示でヘッダから来歴帯の
+    // 右クラスタへ移設 — header/footer には数えず、strip 側で 2 本を別検証
+    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);
+    }
+    const stripAnchors = [
+      ...container.querySelectorAll('[data-chrome="provenance-strip"] a[href]'),
+    ];
+    expect(stripAnchors.map((anchor) => anchor.textContent)).toEqual([
+      "EN",
+      "日本語",
+    ]);
+    for (const anchor of stripAnchors) {
+      const href = stripLocale(anchor.getAttribute("href")!);
+      expect(isAllowedChromeRoute(href), `strip:${href}`).toBe(true);
     }
 
     // Ledger anchors partition exclusively into hero vs gradient columns (P3-4).
@@ -221,11 +273,31 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
       expectResolvesRealDocument(href);
     }
 
+    // Primary-source links (2026-08-14 裁定): data-source-link は data-radar
+    // 内限定・X allowlist の外部 1 hop。第 4 のバケットとして明示会計する。
+    const sourceAnchors = gradientAnchors.filter((anchor) =>
+      anchor.hasAttribute("data-source-link"),
+    );
+    expect(sourceAnchors).toHaveLength(1);
+    for (const anchor of sourceAnchors) {
+      const href = anchor.getAttribute("href")!;
+      expect(
+        RADAR_SOURCE_URL_ALLOWLIST.test(href),
+        `source:${href}`,
+      ).toBe(true);
+      expect(anchor.closest("[data-radar]"), `source:${href}`).not.toBeNull();
+      expect(anchor.getAttribute("target")).toBe("_blank");
+      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
+    }
+
     // Gradient columns: body links must be article-ledger routes resolving to
     // real documents. Index-nav entry links may instead target a chrome surface
     // (weekly-brief entry = /brief) — still allowlisted, still one path per anchor.
-    expect(gradientAnchors.length).toBeGreaterThanOrEqual(40);
-    for (const anchor of gradientAnchors) {
+    const gradientBodyAnchors = gradientAnchors.filter(
+      (anchor) => !sourceAnchors.includes(anchor),
+    );
+    expect(gradientBodyAnchors.length).toBeGreaterThanOrEqual(40);
+    for (const anchor of gradientBodyAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       if (isAllowedPublishedArticleRoute(href)) {
         expectResolvesRealDocument(href);
@@ -239,8 +311,12 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     }
 
     // Exact sum: no anchor outside the three buckets, none counted twice.
+    // 2026-08-23: 来歴帯の言語トグル (strip バケット) を 4 つ目として加算
     expect(container.querySelectorAll("a[href]").length).toBe(
-      chromeAnchors.length + heroAnchors.length + gradientAnchors.length,
+      chromeAnchors.length +
+        stripAnchors.length +
+        heroAnchors.length +
+        gradientAnchors.length,
     );
   });
 
@@ -348,9 +424,9 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     ]
       .filter((element) => !element.closest("[data-index-nav]"))
       .map((element) => element.getAttribute("data-article-id")!);
-    // Derived floor: lead 1 + mkt12 (article+weekend+archive×2) 4 + signal
-    // timeline floor 10 + deep-dive featured 1 + event-risk latest 1 = 17.
-    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(17);
+    // Derived floor (Phase 3, 2026-08-14): lead 1 + mkt12 article 1 + signal
+    // timeline floor 10 + deep-dive featured 1 + event-risk latest 1 = 14.
+    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(14);
     expect(new Set(bodyArticleIds).size).toBe(bodyArticleIds.length);
     // Body ids must be exactly the builder-selected body slots — nothing extra
     // rendered as body, nothing selected but dropped.

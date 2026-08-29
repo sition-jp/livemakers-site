@@ -7,6 +7,7 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { Footer } from "@/components/layout/Footer";
+import { GlobalProvenanceStrip } from "@/components/home/GlobalProvenanceStrip";
 import { Header } from "@/components/layout/Header";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import {
@@ -46,14 +47,13 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 
 function renderChrome(futureAtlasNav = false) {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header
-        chromeMeta={getSnapshotChromeMeta()}
-        futureAtlasNav={futureAtlasNav}
+      <Header futureAtlasNav={futureAtlasNav}
       />
       <Footer futureAtlasNav={futureAtlasNav} />
     </NextIntlClientProvider>,
@@ -63,7 +63,7 @@ function renderChrome(futureAtlasNav = false) {
 function renderEnglishChrome(futureAtlasNav = false) {
   return render(
     <NextIntlClientProvider locale="en" messages={en}>
-      <Header chromeMeta={getSnapshotChromeMeta()} futureAtlasNav={futureAtlasNav} />
+      <Header futureAtlasNav={futureAtlasNav} />
       <Footer futureAtlasNav={futureAtlasNav} />
     </NextIntlClientProvider>,
   );
@@ -76,37 +76,54 @@ describe("G41 page chrome", () => {
       "header a[href], footer a[href]",
     )) {
       const href =
-        anchor.getAttribute("href")!.replace(/^\/ja(?=\/|$)/, "") || "/";
+        anchor.getAttribute("href")!.replace(/^\/(ja|en)(?=\/|$)/, "") || "/";
       expect(isAllowedChromeRoute(href), href).toBe(true);
     }
     expect(
       findLiveTokenViolations(collectScannableText(container)),
     ).toEqual([]);
-    expect(screen.getByText(/SNAPSHOT/)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "LIVEMAKERS" })).toBeInTheDocument();
   });
 
-  it("reads the snapshot chip time from the fixture contract", () => {
+  it("reads the snapshot chip time in the provenance strip (2026-08-14 移設)", () => {
     const meta = getSnapshotChromeMeta();
-    renderChrome();
+    render(
+      <NextIntlClientProvider locale="ja" messages={ja}>
+        <GlobalProvenanceStrip
+          provenance={{
+            packetId: meta ? "lmk_20260710_0758_fx01" : "x",
+            sourceMode: "fixture_only",
+            reviewStatus: "reviewed_fixture",
+            asOfJst: meta.asOfLabel,
+          }}
+          labels={{ review: "審査状態", source: "ソース", asOf: "as-of",
+                    packet: "パケットID" }}
+          note="数値は取得時点のスナップショットです"
+          chromeMeta={meta}
+          snapshotLabel="SNAPSHOT"
+        />
+      </NextIntlClientProvider>,
+    );
     expect(
       screen.getByText(new RegExp(`SNAPSHOT ${meta.asOfLabel}`)),
     ).toBeInTheDocument();
+    // 注記は来歴の直後に inline (右端固定は旧仕様)
+    expect(
+      screen.getByText("数値は取得時点のスナップショットです"),
+    ).toBeInTheDocument();
   });
 
-  it("keeps the Japanese navigation labels internally consistent", () => {
+  it("keeps the Japanese navigation labels internally consistent (flat)", () => {
     const { container } = renderChrome();
-    // D3 grouped nav: 記事 dropdown trigger (button) + top-level links; the
-    // series entries live inside the (closed) dropdown, not the top row.
-    expect(
-      container.querySelector('button[aria-controls="articles-menu"]')
-        ?.textContent,
-    ).toContain("記事");
-    expect(
-      [...container.querySelectorAll("header nav a")].map(
-        (anchor) => anchor.textContent,
-      ),
-    ).toEqual(["Session Terminal", "About"]);
+    // 2026-08-14: dropdown 廃止 — フラット 1 列 (先頭 = トップ / Intelligence Terminal)
+    expect(container.querySelector('button[aria-controls="articles-menu"]'))
+      .toBeNull();
+    const labels = [...container.querySelectorAll('header nav a')].map(
+      (anchor) => anchor.textContent,
+    );
+    expect(labels[0]).toBe("トップ");
+    expect(labels[1]).toBe("Intelligence Terminal");
+    expect(labels[labels.length - 1]).toBe("About");
   });
 
   it("renders the Future Atlas link in both chrome navs only when published", () => {
@@ -115,9 +132,7 @@ describe("G41 page chrome", () => {
 
     rerender(
       <NextIntlClientProvider locale="ja" messages={ja}>
-        <Header
-          chromeMeta={getSnapshotChromeMeta()}
-          futureAtlasNav
+        <Header futureAtlasNav
         />
         <Footer futureAtlasNav />
       </NextIntlClientProvider>,
@@ -130,7 +145,7 @@ describe("G41 page chrome", () => {
     ]);
   });
 
-  it("places English FUTURE ATLAS immediately before SESSION TERMINAL in both navs (D3 order)", () => {
+  it("places English FUTURE ATLAS between INTELLIGENCE TERMINAL and ABOUT in both navs (Phase 3 order)", () => {
     const { container } = renderEnglishChrome(true);
 
     for (const nav of container.querySelectorAll("header nav, footer nav")) {
@@ -142,10 +157,12 @@ describe("G41 page chrome", () => {
 
       expect(atlas).toBeGreaterThanOrEqual(0);
       expect(links[atlas]).toEqual({ href: "/future-atlas", text: "FUTURE ATLAS" });
+      // 2026-08-14 フラットナビ: atlas は About の直前 (旧 futureMap の位置)
       expect(links[atlas + 1]).toEqual({
-        href: "/sessions/archive",
-        text: "SESSION TERMINAL",
+        href: "/about",
+        text: "ABOUT",
       });
+      expect(links.some((link) => link.href === "/sessions/archive")).toBe(true);
     }
   });
 
@@ -173,10 +190,14 @@ describe("G41 page chrome", () => {
     expect(layout).toContain("getSnapshotChromeMeta(props.snapshot)");
     expect(layout).toContain("await loadFutureAtlas()");
     // T4-2 (P0-7): nav は実効 surfacePublished (config OR feed) を参照する
-    expect(layout).toContain("<SiteChrome chromeMeta={chromeMeta} futureAtlasNav={surfacePublished}>");
+    // 2026-08-14: ticker/来歴の全ページ化で props が増えた (複数行 JSX)
+    expect(layout).toContain("chromeMeta={chromeMeta}");
+    expect(layout).toContain("futureAtlasNav={surfacePublished}");
+    expect(layout).toContain("tickerItems={props.tickerItems}");
+    expect(layout).toContain("pageProvenance={props.pageProvenance}");
     expect(layout).toContain("loadEffectiveSurfacePublished(futureAtlas)");
     expect(siteChrome).toContain(
-      "<Header chromeMeta={chromeMeta} futureAtlasNav={futureAtlasNav} />",
+      "<Header futureAtlasNav={futureAtlasNav} />",
     );
     expect(siteChrome).toContain("<Footer futureAtlasNav={futureAtlasNav} />");
   });

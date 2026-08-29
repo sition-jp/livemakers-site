@@ -1,8 +1,17 @@
 /* @vitest-environment jsdom */
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { GlobalProvenanceStrip } from "@/components/home/GlobalProvenanceStrip";
+
+// 2026-08-23: 右クラスタに言語トグル (LanguageToggle → @/i18n/navigation) が
+// 入ったので、next-intl の createNavigation を実解決させない
+vi.mock("@/i18n/navigation", () => ({
+  Link: ({ href, children }: { href: string; children: React.ReactNode }) => (
+    <a href={href}>{children}</a>
+  ),
+  usePathname: () => "/",
+}));
 
 describe("GlobalProvenanceStrip", () => {
   it("renders four fields and keeps chrome and packet attributes on one root", () => {

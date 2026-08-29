@@ -57,17 +57,13 @@ describe("home slot selection (B+)", () => {
     expect(selectHomeSlots(noIntel).lead.state).toBe("pending");
   });
 
-  it("pairs today's mkt12 article, weekend, and two archive entries", () => {
+  it("selects today's mkt12 article only (Phase 3: weekend/archive slots removed)", () => {
     const slots = selectHomeSlots(input());
     expect(slots.mkt12.article?.articleId).toBe(
       "mkt12-morning-2026-07-10",
     );
-    expect(slots.mkt12.weekend?.articleId).toBe("mkt12-weekend-2026-07-04");
-    expect(slots.mkt12.archive.map((article) => article.articleId)).toEqual([
-      "mkt12-morning-2026-07-09",
-      "mkt12-morning-2026-07-08",
-    ]);
     expect(slots.mkt12.state).toBe("published");
+    expect(slots.mkt12.previous).toBeNull();
   });
 
   it("marks mkt12 awaiting when today's article is missing", () => {
@@ -84,62 +80,61 @@ describe("home slot selection (B+)", () => {
     );
   });
 
-  it("pairs one promoted observation with its Signal", () => {
-    const slots = selectHomeSlots(input());
-    expect(slots.radarPair?.observation.topicId).toBe(
-      "stablecoin_supply_20260710",
-    );
-    expect(slots.radarPair?.article.articleId).toBe(
-      "signal-stablecoin-supply-2026-07-10",
-    );
-    expect(slots.observing).toHaveLength(3);
-  });
-
-  it("keeps an observation visible when its promoted article is missing", () => {
-    const slots = selectHomeSlots({
-      ...input(),
-      articles: input().articles.filter(
-        (article) =>
-          article.articleId !== "signal-stablecoin-supply-2026-07-10",
-      ),
+  // 2026-08-15 田平氏 GO: 土曜 (JST) は朝版 writer が発火しない (週末版の所掌)
+  // ため、この枠は土曜だけ mkt12-weekend を本体に昇格する。遅行カラムの
+  // mkt12WeekendLatest との二重掲載は索引意味論として許容 (同日 GO)。
+  describe("Saturday weekend variant", () => {
+    // 2026-07-11 は土曜 / fixture の週末版は前週土曜 2026-07-04 のみ
+    const saturdayInput = () => ({ ...input(), today: "2026-07-11" });
+    const weekendToday = () => ({
+      ...input().articles.find(
+        (article) => article.articleId === "mkt12-weekend-2026-07-04",
+      )!,
+      articleId: "mkt12-weekend-2026-07-11",
+      publishedAtJst: "2026-07-11T08:40:00+09:00",
+      dataDate: "2026-07-11",
+      href: "/articles/mkt12-weekend-2026-07-11",
     });
-    expect(slots.radarPair).toBeNull();
-    expect(slots.observing).toHaveLength(4);
-    expect(
-      slots.observing.some(
-        (observation) =>
-          observation.topicId === "stablecoin_supply_20260710",
-      ),
-    ).toBe(true);
-  });
 
-  it("keeps radar pair null and observations intact when promotions are empty", () => {
-    const slots = selectHomeSlots({
-      ...input(),
-      promotions: {},
+    it("keeps the morning variant on weekdays", () => {
+      expect(selectHomeSlots(input()).mkt12.variant).toBe("morning");
     });
-    expect(slots.radarPair).toBeNull();
-    expect(slots.observing.length).toBeGreaterThan(0);
-    expect(slots.observing).toHaveLength(RADAR_OBSERVATIONS.length);
-  });
 
-  it("uses the latest resolvable promotion", () => {
-    const slots = selectHomeSlots({
-      ...input(),
-      promotions: {
-        ...TEST_PROMOTIONS,
-        eu_stablecoin_guidance_20260710: "no-such-article",
-      },
+    it("keeps the morning variant on Sunday (morning writer fires on Sundays)", () => {
+      const slots = selectHomeSlots({ ...input(), today: "2026-07-12" });
+      expect(slots.mkt12.variant).toBe("morning");
     });
-    expect(slots.radarPair?.observation.topicId).toBe(
-      "stablecoin_supply_20260710",
-    );
-    expect(
-      slots.observing.some(
-        (observation) =>
-          observation.topicId === "eu_stablecoin_guidance_20260710",
-      ),
-    ).toBe(true);
+
+    it("awaits the weekend edition on Saturday with the previous weekend as fallback", () => {
+      const slots = selectHomeSlots(saturdayInput());
+      expect(slots.mkt12.variant).toBe("weekend");
+      expect(slots.mkt12.state).toBe("awaiting");
+      expect(slots.mkt12.article).toBeNull();
+      expect(slots.mkt12.previous?.articleId).toBe("mkt12-weekend-2026-07-04");
+    });
+
+    it("publishes today's weekend edition in the mkt12 slot on Saturday", () => {
+      const base = saturdayInput();
+      const slots = selectHomeSlots({
+        ...base,
+        articles: [weekendToday(), ...base.articles],
+      });
+      expect(slots.mkt12.variant).toBe("weekend");
+      expect(slots.mkt12.state).toBe("published");
+      expect(slots.mkt12.article?.articleId).toBe("mkt12-weekend-2026-07-11");
+      expect(slots.mkt12.previous).toBeNull();
+    });
+
+    it("keeps the lagging weekend index card on Saturday (dual display allowed)", () => {
+      const base = saturdayInput();
+      const slots = selectHomeSlots({
+        ...base,
+        articles: [weekendToday(), ...base.articles],
+      });
+      expect(slots.mkt12WeekendLatest?.articleId).toBe(
+        "mkt12-weekend-2026-07-11",
+      );
+    });
   });
 
   it("excludes future-dated articles from every slot", () => {
@@ -205,7 +200,9 @@ describe("home slot selection (B+)", () => {
     ).toBe(true);
   });
 
-  it("supplies the signal timeline excluding the promoted pair", () => {
+  // 2026-08-23 田平氏 GO (spec §D): 昇格ペア (radarPair) 廃止 — promotions は
+  // wire 契約として受理するが描画せず、Signal 時系列から何も除外しない。
+  it("supplies the signal timeline without any promoted-pair exclusion", () => {
     const slots = selectHomeSlots(input());
     expect(slots.signalTimeline.length).toBeGreaterThanOrEqual(10);
     expect(
@@ -214,7 +211,44 @@ describe("home slot selection (B+)", () => {
     expect(isDescending(slots.signalTimeline)).toBe(true);
     expect(
       slots.signalTimeline.map((article) => article.articleId),
-    ).not.toContain("signal-stablecoin-supply-2026-07-10");
+    ).toContain("signal-stablecoin-supply-2026-07-10");
+    expect("radarPair" in slots).toBe(false);
+  });
+
+  it("keeps every observation visible regardless of promotions", () => {
+    expect(selectHomeSlots(input()).observing).toHaveLength(RADAR_OBSERVATIONS.length);
+    expect(
+      selectHomeSlots({ ...input(), promotions: {} }).observing,
+    ).toHaveLength(RADAR_OBSERVATIONS.length);
+  });
+
+  // fixture: 2026-07-10 の Signal は cbdc-pilot-expansion (08:30) と
+  // stablecoin-supply (06:10) の 2 本。昇格ペア除外が無いので今日の件数は 2。
+  it("summarizes the signal timeline (today count + latest MM-DD HH:MM) for the header", () => {
+    const slots = selectHomeSlots(input());
+    expect(slots.signalTimelineSummary).toEqual({
+      todayCount: 2,
+      latestAt: "07-10 08:30",
+    });
+  });
+
+  it("summarizes honestly when no signal is from today or none exists", () => {
+    const noToday = selectHomeSlots({
+      ...input(),
+      promotions: {},
+      articles: input().articles.filter(
+        (article) =>
+          article.family !== "signal" || !article.publishedAtJst.startsWith("2026-07-10"),
+      ),
+    });
+    expect(noToday.signalTimelineSummary.todayCount).toBe(0);
+    expect(noToday.signalTimelineSummary.latestAt).toBe("07-09 22:10");
+    const noSignals = selectHomeSlots({
+      ...input(),
+      promotions: {},
+      articles: input().articles.filter((article) => article.family !== "signal"),
+    });
+    expect(noSignals.signalTimelineSummary).toEqual({ todayCount: 0, latestAt: null });
   });
 
   it("shelves five deep dives newest-first with the featured lead", () => {
@@ -226,9 +260,9 @@ describe("home slot selection (B+)", () => {
     );
   });
 
-  it("lists the ten latest articles across families", () => {
+  it("lists the twenty latest articles across families (2026-08-14 田平氏指示)", () => {
     const slots = selectHomeSlots(input());
-    expect(slots.latestArticles).toHaveLength(10);
+    expect(slots.latestArticles).toHaveLength(20);
     expect(isDescending(slots.latestArticles)).toBe(true);
     expect(
       new Set(slots.latestArticles.map((article) => article.family)).size,
@@ -243,35 +277,6 @@ describe("home slot selection (B+)", () => {
     );
     expect(slots.atlasLatest?.articleId).toBe("future-map-financial-reset-3");
     expect(slots.weeklyBriefLatest?.articleId).toBe("weekly-brief-001");
-  });
-
-  it("prefers the newest observation when two promotions resolve", () => {
-    const articles = input().articles.map((article) =>
-      article.articleId === "signal-jgb-yield-move-2026-07-09"
-        ? {
-            ...article,
-            radarTopicId: "eu_stablecoin_guidance_20260710",
-          }
-        : article,
-    );
-    const slots = selectHomeSlots({
-      ...input(),
-      articles,
-      promotions: {
-        ...TEST_PROMOTIONS,
-        eu_stablecoin_guidance_20260710:
-          "signal-jgb-yield-move-2026-07-09",
-      },
-    });
-    expect(slots.radarPair?.observation.topicId).toBe(
-      "eu_stablecoin_guidance_20260710",
-    );
-    expect(
-      slots.observing.some(
-        (observation) =>
-          observation.topicId === "stablecoin_supply_20260710",
-      ),
-    ).toBe(true);
   });
 
   it("dedupes article ids across the whole page", () => {

@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-08-14-europe-bridge",
+  "date": "2026-08-14",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-14-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-14-europe-bridge",
+  "publishedAt": "2026-08-15T06:35:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260814_1203_5906a577",
+  "asOfJst": "2026-08-14T12:03:09+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月14日 12:03 JST",
+  "bullets": [
+    "DXY 100.010 → 99.908（-0.10%）",
+    "変動幅上位: WTI -2.3% / NIGHT/USD -1.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260814_1245_68409b4e",
+    "crawlAnchorJst": "2026-08-14T12:03:00+09:00",
+    "writtenAtJst": "2026-08-14T12:45:00+09:00",
+    "lead": "米国の規制側は、決める日をまた後ろに動かした。暗号資産の募集制度を諮る予定だった会合は当日になって取り消され、トークン化の特例も中身を伏せたまま先送りされた。一方で通商側は速い。ドローンに最大100%、少額輸入の免税枠の廃止と、価格に直接効く措置が同じ日に並んだ。",
+    "items": [
+      {
+        "headline": "SEC、暗号資産の募集制度を諮る予定だった公開会合を当日取り消し",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2088014188174315995",
+        "note": "投資契約に該当する暗号資産向けの専用の募集枠を提案するかを審議する予定だった。日程上の事情と説明され、新しい日付は示されていない。"
+      },
+      {
+        "headline": "Midnight の手数料を DUST の代わりに USDM で払える経路が開いた",
+        "sourceUrl": "https://x.com/SundaeSwap/status/2088024342085132299",
+        "note": "対応 dApp では Capacity Exchange 経由で USDM 建て支払いが可能になり、当面は 1 トランザクションあたり 0.02 ドルが提供側の負担で据え置かれる。"
+      },
+      {
+        "headline": "USDM が Cardano から Midnight へネイティブ資産として転送完了",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2088036304588030289"
+      },
+      {
+        "headline": "ChatGPT のデスクトップ版が、アプリとウェブをまたいだ利用者の行動を記憶する機能を追加",
+        "sourceUrl": "https://x.com/OpenAI/status/2087996496088297746",
+        "note": "既定はオフで、利用者が自分で有効にする設計。法人では管理者が先に許可する必要がある。"
+      },
+      {
+        "headline": "輸入ドローンに最大100%の関税",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-announces-tariffs-of-up-to-100-on-imported-drones"
+      },
+      {
+        "headline": "800ドル以下の輸入を免税としてきた枠を廃止したと大統領が説明",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2087974334073606635"
+      },
+      {
+        "headline": "ブラジルが米国の関税に対する相互措置の手続きを開始",
+        "sourceUrl": "https://www.straitstimes.com/world/brazil-opens-reciprocity-process-against-us-over-tariffs"
+      },
+      {
+        "headline": "イランがホルムズ海峡の全面的な管轄を主張し、米国の判断を誤算と表現",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/13/iran-asserts-full-claim-strait-hormuz-calls-us-war-miscalculated/"
+      },
+      {
+        "headline": "Robinhood の株式トークン190超が Uniswap 上で取引可能に",
+        "sourceUrl": "https://x.com/Uniswap/status/2087961159328542776",
+        "note": "自己保管のまま24時間取引できる形で提供される。株式のトークン化が取引所の外側へ広がる動き。"
+      },
+      {
+        "headline": "テザーが KPMG 米国法人による初の全面財務監査で無限定適正意見を取得したと発表",
+        "sourceUrl": "https://x.com/paoloardoino/status/2087950118746050804"
+      },
+      {
+        "headline": "JPモルガンが BlackRock のビットコイン ETF を6億1,000万ドル分保有と開示",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2087976128044528009"
+      },
+      {
+        "headline": "DeepSeek が API 料金に時間帯別を導入、オフピークは半額",
+        "sourceUrl": "https://x.com/deepseek_ai/status/2087864589895798968",
+        "note": "新料金は8月16日16時（協定世界時）から適用される。"
+      }
+    ],
+    "watch": [
+      "取り消された SEC の会合に新しい日付が示されるか。示されない期間が続くほど、提案の中身より日程そのものが材料になる。",
+      "Midnight の手数料をスポンサーしている価格が外れたとき、実費がいくらで落ち着くか。",
+      "株式トークンと少額輸入の免税廃止は、どちらも「これまで無料に近かった経路に値札が付く」動き。次にどの経路が同じ扱いになるか。"
+    ]
+  }
+}

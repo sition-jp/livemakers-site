@@ -6,19 +6,55 @@ import {
   forbiddenSourceVisibleText,
 } from "@/lib/terminal/live-market-feed";
 
-export const RadarObservationSchema = z.strictObject({
-  topicId: z.string().min(1),
-  lane: z.enum([
-    "x_news_trends",
-    "sde_phase1_breaking_radar",
-    "manual_operator_observation",
-  ]),
-  titleJa: z.string().min(1),
-  observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
-  href: z.null(),
-  displayMode: z.literal("title_only"),
-  publishDecision: z.literal("not_authorized"),
-});
+/**
+ * 2026-08-14 田平氏裁定: 観測タイトルは LVM 記事ではなく一次ソース (X ポスト)
+ * へ外部リンクしてよい (速報伝達フォーカス)。同日 GO で X 限定 → 一般 https
+ * (公式ブログ・報道含む) へ拡張。キュレーション式ドメインリストにしないのは、
+ * 新ソースごとに鏡 3 箇所 + site デプロイが要る運用は破綻するため — 正当性の
+ * 担保は上流 (session digest = 編集検証済み成果物) が持つ。構造検査のみここで
+ * 行う: https 限定・dotted ドメイン必須 (localhost/IP 直打ち拒否)・認証情報
+ * (userinfo) 拒否・ポート指定拒否・空白なし。不適合 URL は供給側
+ * (radar_state / radar_builder) が href=null に落とす契約なので、ここに届いた
+ * 時点で不適合なら bundle ごと reject する (fail-closed 継続)。
+ */
+export const RADAR_SOURCE_URL_ALLOWLIST =
+  /^https:\/\/[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}(?:\/\S*)?$/;
+
+/** 一次ソース URL の上限長 (異常長 URL の構造的排除・鏡 3 箇所共通)。 */
+export const RADAR_SOURCE_URL_MAX_LENGTH = 600;
+
+export const RadarObservationSchema = z
+  .strictObject({
+    topicId: z.string().min(1),
+    lane: z.enum([
+      "x_news_trends",
+      "sde_phase1_breaking_radar",
+      "manual_operator_observation",
+    ]),
+    titleJa: z.string().min(1),
+    observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
+    href: z.union([
+      z.null(),
+      z
+        .string()
+        .max(RADAR_SOURCE_URL_MAX_LENGTH)
+        .regex(RADAR_SOURCE_URL_ALLOWLIST),
+    ]),
+    displayMode: z.enum(["title_only", "title_with_source"]),
+    publishDecision: z.literal("not_authorized"),
+  })
+  .superRefine((observation, ctx) => {
+    // displayMode は href の有無の鏡でなければならない — 片方だけ変わった
+    // payload (供給側の部分実装や手書き) を通さない。
+    const linked = observation.href !== null;
+    if (linked !== (observation.displayMode === "title_with_source")) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "displayMode must mirror href presence",
+        path: ["displayMode"],
+      });
+    }
+  });
 
 export type RadarObservation = z.infer<typeof RadarObservationSchema>;
 export type RadarLane = RadarObservation["lane"];

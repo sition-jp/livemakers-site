@@ -5,6 +5,10 @@ vi.mock("server-only", () => ({}));
 
 import {
   ARTICLE_INFLOW_FEED_ENV_KEY,
+  ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS,
+  ARTICLE_INFLOW_FEED_MEMO_TTL_MS,
+  resetArticleInflowFeedMemo,
+  ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS,
   ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY,
   ARTICLE_INFLOW_PREVIEW_FLAG_ENV_KEY,
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
@@ -55,6 +59,8 @@ afterEach(() => {
   else process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = originalPublicFlag;
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
+  resetArticleInflowFeedMemo();
+  vi.useRealTimers();
 });
 
 describe("article inflow server boundary", () => {
@@ -188,7 +194,7 @@ describe("article inflow server boundary", () => {
       "https://example.test/production.json",
       expect.objectContaining({
         headers: { Accept: "application/json" },
-        next: { revalidate: 300 },
+        next: { revalidate: 3600 },
       }),
     );
   });
@@ -256,5 +262,185 @@ describe("article inflow server boundary", () => {
         titleJa: repositoryArticle.titleJa,
         href: `/articles/${repositoryArticle.articleId}`,
       })]);
+  });
+});
+
+// 2026-08-23 (田平氏 GO): #107 deploy 直後 14:47–14:53 に記事 feed の取り込みだけが
+// 失敗し (/ja ISR 固定 + /en の新規 prerender も失敗)、カタログが repository_only
+// = 「先祖返り」に見えた (8/10・8/11・同日 13:3x に続く 4 回目・いずれも deploy
+// 直後)。Blob の feed と site のローダは検証済みで無罪 — 残るのは feed 本体の
+// fetch の一時失敗。terminal feed (#106) と同型の bounded retry + 失敗理由の
+// 可視化 (Vercel runtime logs で種別が分かるように)。
+describe("article inflow feed — transient failure retry (2026-08-23)", () => {
+  const production = () => ({ ...payload(), environment: "production" });
+
+  function enableProduction() {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "true";
+    process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY] = "https://example.test/production.json";
+  }
+
+  it("retries once after a thrown fetch error and returns the validated feed", async () => {
+    enableProduction();
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const fetcher = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("socket hang up"))
+      .mockResolvedValueOnce({ ok: true, json: async () => production() });
+    const feed = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(feed?.environment).toBe("production");
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    // the transient attempt is observable (reason included), but not as a
+    // repository-only degrade
+    expect(warning).toHaveBeenCalledWith(expect.stringContaining("socket hang up"));
+    expect(warning).not.toHaveBeenCalledWith(expect.stringContaining("repository-only"));
+  });
+
+  it("retries once after a non-ok response", async () => {
+    enableProduction();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({}) })
+      .mockResolvedValueOnce({ ok: true, json: async () => production() });
+    const feed = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(feed?.environment).toBe("production");
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+
+  it("retries once when the body cannot be read as JSON", async () => {
+    enableProduction();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const fetcher = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, json: async () => { throw new Error("terminated"); } })
+      .mockResolvedValueOnce({ ok: true, json: async () => production() });
+    const feed = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(feed?.environment).toBe("production");
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+
+  it("gives up after the last attempt with the reason in the repository-only warning", async () => {
+    enableProduction();
+    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const fetcher = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("first"))
+      .mockResolvedValueOnce({ ok: false, status: 502, json: async () => ({}) });
+    expect(await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch)).toBeNull();
+    expect(fetcher).toHaveBeenCalledTimes(ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS);
+    expect(ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS).toBe(2);
+    const last = warning.mock.calls.at(-1)?.[0] as string;
+    expect(last).toContain("repository-only");
+    expect(last).toContain("502");
+  });
+
+  it("does not retry a payload the contract rejects (it will not change on retry)", async () => {
+    enableProduction();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => payload() })); // staging env
+    expect(await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch)).toBeNull();
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not retry when the first attempt succeeds", async () => {
+    enableProduction();
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => production() }));
+    await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
+  it("bounds every attempt with an abort signal, keeps the data-cache revalidate, and stays inside the route budget", async () => {
+    enableProduction();
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => production() }));
+    await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    const [, init] = fetcher.mock.calls[0] as unknown as [
+      string,
+      RequestInit & { next?: { revalidate?: number } },
+    ];
+    expect(init.signal).toBeInstanceOf(AbortSignal);
+    expect(init.next?.revalidate).toBe(3600);
+    expect(init.headers).toEqual({ Accept: "application/json" });
+    expect(ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS).toBeGreaterThan(0);
+    // #106 と同じ予算観: 2 attempts × timeout ≤ 9s (terminal feed と並列に走る)
+    expect(ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS * ARTICLE_INFLOW_FEED_FETCH_ATTEMPTS).toBeLessThanOrEqual(9_000);
+  });
+});
+
+// 2026-08-23 (田平氏 GO 案 B): 記事 feed (1.67MB) は Next data cache の 1 件 2MB
+// 上限 (base64 ×4/3) を超え一度もキャッシュされない (Vercel logs "Failed to set
+// Next.js data cache … items over 2MB")。deploy / revalidate 直後に記事ページ
+// 数十本が同時再描画 → 全部が Blob から 1.67MB を取り直し → 一部が落ちて
+// repository_only (先祖返り)。プロセス内メモ (TTL 2 分) + single-flight で
+// ウォームインスタンス内の同時ダウンロードを 1 回に潰す。失敗 (null) は
+// メモしない。
+describe("article inflow feed — in-process memo + single-flight (2026-08-23 案 B)", () => {
+  const production = () => ({ ...payload(), environment: "production" });
+  function enableProduction(url = "https://example.test/production.json") {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "true";
+    process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY] = url;
+  }
+
+  it("serves the second call within the TTL from memory without fetching", async () => {
+    enableProduction();
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => production() }));
+    const first = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    const second = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(first?.environment).toBe("production");
+    expect(second).toBe(first);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
+  it("collapses concurrent calls into a single in-flight fetch", async () => {
+    enableProduction();
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => { release = resolve; });
+    const fetcher = vi.fn(async () => { await gate; return { ok: true, json: async () => production() }; });
+    const calls = [1, 2, 3].map(() =>
+      fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch),
+    );
+    release();
+    const feeds = await Promise.all(calls);
+    expect(feeds.every((feed) => feed?.environment === "production")).toBe(true);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
+  it("refetches once the TTL has elapsed", async () => {
+    vi.useFakeTimers();
+    enableProduction();
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => production() }));
+    await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    vi.advanceTimersByTime(ARTICLE_INFLOW_FEED_MEMO_TTL_MS + 1);
+    await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(fetcher).toHaveBeenCalledTimes(2);
+    expect(ARTICLE_INFLOW_FEED_MEMO_TTL_MS).toBe(120_000);
+  });
+
+  it("does not memoize a failed load (next call retries the network)", async () => {
+    enableProduction();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const fetcher = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("first"))
+      .mockRejectedValueOnce(new Error("second"))
+      .mockResolvedValue({ ok: true, json: async () => production() });
+    expect(await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch)).toBeNull();
+    const feed = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(feed?.environment).toBe("production");
+    expect(fetcher).toHaveBeenCalledTimes(3);
+  });
+
+  it("keys the memo by URL and environment (preview and production never share)", async () => {
+    enableProduction();
+    process.env[ARTICLE_INFLOW_PREVIEW_FLAG_ENV_KEY] = "true";
+    process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/staging.json";
+    const fetcher = vi.fn(async (url: string) => ({
+      ok: true,
+      json: async () => (String(url).includes("production") ? production() : payload()),
+    }));
+    const prod = await fetchProductionArticleInflowFeed(fetcher as unknown as typeof fetch);
+    const preview = await fetchArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(prod?.environment).toBe("production");
+    expect(preview?.environment).toBe("staging");
+    expect(fetcher).toHaveBeenCalledTimes(2);
   });
 });

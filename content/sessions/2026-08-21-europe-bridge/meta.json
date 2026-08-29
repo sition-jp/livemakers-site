@@ -1,0 +1,77 @@
+{
+  "sessionId": "2026-08-21-europe-bridge",
+  "date": "2026-08-21",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-21-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-21-europe-bridge",
+  "publishedAt": "2026-08-22T06:35:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260821_1203_2fc8aca8",
+  "asOfJst": "2026-08-21T12:03:07+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月21日 12:03 JST",
+  "bullets": [
+    "DXY 98.830 → 98.688（-0.14%）",
+    "変動幅上位: ADA/USD +11.0% / BTC/USD +7.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260821_1233_3228201b",
+    "crawlAnchorJst": "2026-08-21T12:03:00+09:00",
+    "writtenAtJst": "2026-08-21T12:33:00+09:00",
+    "lead": "米国の対イラン圧力は、イラン本体ではなく第三国へ向き始めた。テヘランとの取引を残す国そのものが名指しの対象に置かれ、海峡の通航は停滞したままだ。ほぼ同じ時間帯に、日本の物価は伸びを広げ、米国の超長期債は2001年以来の実質利回りをつけた。地政学の一手が、そのまま金利の話として跳ね返る局面に入っている。",
+    "items": [
+      {
+        "headline": "米財務長官が対イラン経済圧力の拡大を示唆、海峡の通航は停滞したまま",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/20/bessent-teases-ramp-economic-warfare-iran-strait-traffic-stagnates/",
+        "note": "圧力の対象はイラン本体だけではない。テヘランとの取引を残す第三国そのものが名指しの対象に置かれた。"
+      },
+      {
+        "headline": "日本の物価上昇が広がり、9月の利上げ観測が強まった",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/asien-inflation-in-japan-zieht-an-zinserhoehung-im-september-immer-wahrscheinlicher/100248715.html",
+        "note": "総務省が同日公表した7月の全国指数は、生鮮食品を除く総合で前年同月比1.8%。前月の1.6%から2か月続けて伸びが広がった。"
+      },
+      {
+        "headline": "米30年物価連動債の利回りが2001年以来の水準、買い戻し拡大も話題に",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/anleihen/us-bondmarkt-hoechste-rendite-seit-2001-fuer-30jaehrige-tipsanleihe/100248519.html",
+        "note": "実質利回りの水準が動くとき、動いているのは景気見通しより買い手の側だ。"
+      },
+      {
+        "headline": "米10年ブレークイーブンは2.34%（8月20日時点）",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE",
+        "note": "期待インフレ側は落ち着いた位置にある。上の実質利回りと合わせて読むと、名目の上昇が何で説明されるかが分かれる。"
+      },
+      {
+        "headline": "中国とスイスが新たな貿易協定で合意、関税の大半を撤廃へ",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/china-switzerland-agree-to-new-trade-deal-scrapping-most-levies",
+        "note": "対立の話が続く一方で、二国間で回路をつなぎ直す動きも同時に進んでいる。"
+      },
+      {
+        "headline": "ドイツ財務相が中国を「ルールに従っていない」と名指し",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/china-not-playing-by-the-rules-german-finance-minister-says"
+      },
+      {
+        "headline": "ロシアが日本の領有権主張する島の近くで異例のミサイル試験",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/russia-holds-rare-missile-test-near-islands-claimed-by-japan"
+      },
+      {
+        "headline": "国防総省が30大学に中国・ロシア・イランとの関係断絶を指示",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/20/pentagon-cracks-colleges-security-protocols/",
+        "note": "研究と資金の経路が、安全保障の線引きに沿って引き直されつつある。"
+      },
+      {
+        "headline": "習近平氏、中南米は「外部の干渉なく」相手を選べると発言",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/20/xi-says-latin-america-pick-partners-without-outside-interference/"
+      }
+    ],
+    "watch": [
+      "月曜に予定される米財務長官の記者会見で、第三国への適用範囲がどこまで具体化するか。",
+      "日本の利上げ観測が、超長期の金利と円の水準にどこまで織り込まれるか。",
+      "海峡の通航が戻るのか、停滞が常態として定着するのか。"
+    ]
+  }
+}

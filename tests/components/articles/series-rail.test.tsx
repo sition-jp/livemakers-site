@@ -65,7 +65,7 @@ describe("SeriesRail (G44 D9)", () => {
       "signal",
       "session-terminal",
       "daily-intel",
-      "deep-dive",
+      "latest-articles",
       "mkt12-morning",
       "event-risk-radar",
       "future-atlas",
@@ -96,16 +96,47 @@ describe("SeriesRail (G44 D9)", () => {
     expect(sectionsOf(container)).toHaveLength(9);
   });
 
-  it("shows five deep dives and one article for every other series", () => {
+  it("shows every latest article except the current one and one article for other series", () => {
     const { container } = render(
       <SeriesRail articles={catalog} current={current} surfacePublished={false} copy={copy} />,
     );
-    expect(
-      container.querySelectorAll('[data-rail-section="deep-dive"] [data-article-id]'),
-    ).toHaveLength(5);
+    const latest = container.querySelector('[data-rail-section="latest-articles"]')!;
+    // catalog 全件 - 現在記事 1 本 (20 本上限内)
+    expect(latest.querySelectorAll("[data-article-id]")).toHaveLength(catalog.length - 1);
+    expect(latest.querySelector('[data-article-id="sig-1"]')).toBeNull();
+    expect(latest.textContent).toContain(copy.latestArticlesHeading);
     expect(
       container.querySelectorAll('[data-rail-section="daily-intel"] [data-article-id]'),
     ).toHaveLength(1);
+  });
+
+  it("caps the latest articles section at 20 rows", () => {
+    const bigCatalog = [
+      ...catalog,
+      ...Array.from({ length: 25 }, (_, index) =>
+        article(`sig-extra-${index + 1}`, "signal", "2026-07-03T08:00:00+09:00"),
+      ),
+    ];
+    const { container } = render(
+      <SeriesRail articles={bigCatalog} current={current} surfacePublished={false} copy={copy} />,
+    );
+    expect(
+      container.querySelectorAll('[data-rail-section="latest-articles"] [data-article-id]'),
+    ).toHaveLength(20);
+  });
+
+  it("hoists deep dive as the current series with five rows while keeping the nine standing sections", () => {
+    const ddCurrent = catalog.find((entry) => entry.articleId === "dd-1")!;
+    const { container } = render(
+      <SeriesRail articles={catalog} current={ddCurrent} surfacePublished={false} copy={copy} />,
+    );
+    const sections = sectionsOf(container);
+    expect(sections[0]).toBe("deep-dive");
+    expect(sections).toHaveLength(10);
+    const ddSection = container.querySelector('[data-rail-section="deep-dive"]')!;
+    expect(ddSection.textContent).toContain(copy.currentSeriesTitle);
+    expect(ddSection.querySelectorAll("[data-article-id]")).toHaveLength(5);
+    expect(ddSection.querySelector('[data-article-id="dd-1"]')).toBeNull();
   });
 
   it("renders session terminal as an entry link without articles", () => {

@@ -1,0 +1,86 @@
+{
+  "sessionId": "2026-08-20-global-close",
+  "date": "2026-08-20",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-20-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-20-global-close",
+  "publishedAt": "2026-08-21T06:35:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260820_2303_00f4957b",
+  "asOfJst": "2026-08-20T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月20日 23:03 JST",
+  "bullets": [
+    "Gold $4,489.40 → $4,540.90（+1.15%）",
+    "変動幅上位: ETH/USD +17.8% / ADA/USD +12.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260820_2349_c3dd9393",
+    "crawlAnchorJst": "2026-08-20T23:03:00+09:00",
+    "writtenAtJst": "2026-08-20T23:49:05+09:00",
+    "lead": "米国の暗号資産規制は、議会に投げられたのと同じ部屋で、議会を待たない側も動いていた。ホワイトハウスの会合で大統領が CLARITY 法の可決を求めた一方、同席した二つの規制当局はすでに自前の枠組みを進めている。上院の採決は 9 月 15 日で、8 月中には投票がない。市場はその隙間でビットコインを 72,000 ドルまで押し上げた。",
+    "items": [
+      {
+        "headline": "ホワイトハウスの暗号資産会合に、暗号資産企業と既存取引所が同席した",
+        "sourceUrl": "https://x.com/coinbureau/status/2090197505728491852",
+        "note": "Coinbase・Kraken・Ripple・Chainlink と NYSE・Nasdaq・Robinhood が同じ席に着いた。規制側は SEC と CFTC の委員長が出席している。"
+      },
+      {
+        "headline": "トランプ大統領が CLARITY 法の可決を議会に求めた",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2090167303052619879"
+      },
+      {
+        "headline": "出席した Coinbase の CEO は「政権は CLARITY 法の成立に本気だ」と受け止めを書いた",
+        "sourceUrl": "https://x.com/brian_armstrong/status/2090253129837170899"
+      },
+      {
+        "headline": "CFTC 委員長は、法案の成否にかかわらず市場構造の枠組みは来ると述べた",
+        "sourceUrl": "https://x.com/coinbureau/status/2090414910614507521",
+        "note": "同趣旨の表明は 8 月 4 日が初出で、今回は会議での再表明にあたる。立法が止まっても行政側の作業は進む、という位置づけは変わっていない。"
+      },
+      {
+        "headline": "ビットコインが一時 72,000 ドルを超えた。月曜比で 15% 上げている",
+        "sourceUrl": "https://x.com/CoinDesk/status/2090397035920814410",
+        "note": "報道は財務省の買い戻し発表とホワイトハウス会合を並べて背景に置いている。"
+      },
+      {
+        "headline": "ホスキンソン氏が SALT で「エージェント金融の幕開け」と題した基調講演を行った",
+        "sourceUrl": "https://x.com/IOGroup/status/2090421090145255810"
+      },
+      {
+        "headline": "「エージェントは利用者を深く知る必要があるが、全てを明け渡すことではない」が講演の核だった",
+        "sourceUrl": "https://x.com/IOGroup/status/2090434929519718623",
+        "note": "文脈を守る仕組みとして private state を挙げている。速さではなく、AI に何を渡すかが論点に置かれた。"
+      },
+      {
+        "headline": "Midnight も同じ日のプライバシー討論に参加した",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2090416916548538666",
+        "note": "「利便性のためにどこまで譲るのか、その判断を代理 AI が行うとき何が起きるのか」を問いとして置いている。"
+      },
+      {
+        "headline": "Midnight 公式が開発者向けの配信を告知した",
+        "sourceUrl": "https://discord.com/channels/1165826384975908924/1165832442536525884/1539673375776055398"
+      },
+      {
+        "headline": "FluidTokens の Bifrost が Catalyst のマイルストーン M4 承認を得た",
+        "sourceUrl": "https://x.com/FluidTokens/status/2090142829171356091",
+        "note": "残るマイルストーンは 2 つで、次の M5 はステークプール運用者向けの内容だとしている。"
+      },
+      {
+        "headline": "Rocket Lab が Electron を 93 回目に打ち上げた",
+        "sourceUrl": "https://x.com/RocketLab/status/2090428410355146965",
+        "note": "今年 14 回目の打ち上げで、日本の QPS 研究所向けとしては 9 回目にあたる。"
+      }
+    ],
+    "watch": [
+      "上院の CLARITY 法採決は 9 月 15 日。それまでの空白を行政側の規則づくりが埋めるかどうか。",
+      "SEC が 8 月 18 日に出した暗号資産の募集規則案は、60 日間の意見公募に入っている。",
+      "AI に渡す文脈をどこまで守るか。エージェント金融の設計論として扱われ始めた。"
+    ]
+  }
+}

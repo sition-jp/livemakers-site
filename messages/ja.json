@@ -20,7 +20,7 @@
     "eventRiskRadar": "Event Risk Radar",
     "weeklyBrief": "Weekly Brief",
     "futureMap": "次の時代の地図",
-    "sessionTerminal": "Session Terminal"
+    "sessionTerminal": "Intelligence Terminal"
   },
   "assets": {
     "dashboard": {
@@ -430,10 +430,18 @@
       "latestTitle": "最新の記事",
       "viewAll": "一覧を見る",
       "atlasHeadingUnpublished": "次の時代の地図",
-      "atlasHeadingPublished": "未来アトラス"
+      "atlasHeadingPublished": "未来アトラス",
+      "dailyIntelSeriesLink": "Daily Intel 一覧 →",
+      "signalSeriesLink": "Signal 一覧 →",
+      "deepDiveSeriesLink": "Deep Dive 一覧 →",
+      "signalTodayCount": "今日 {count} 本",
+      "signalLatestAt": "最新 {time}"
     },
     "hero": {
       "sessionLabel": "いまのセッション",
+      "closedSessionLabel": "直前のセッション",
+      "closedSuffix": "終了",
+      "digestOnlyLabel": "読み解きのみ",
       "leadPending": "本日の記事は準備中"
     },
     "family": {
@@ -450,6 +458,10 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
+      "closedBadgeSuffix": "JST 終了",
+      "digestOnlyLabel": "読み解きのみ",
+      "digestFreshnessPrefix": "読み解き",
+      "noSnapshotNote": "数値スナップショットなし（市場観測が未取得）",
       "freshnessPrefix": "スナップショット",
       "nextUpdateLine": "次の更新: {name} {time} JST",
       "readFull": "セッション全文を読む →",
@@ -485,12 +497,13 @@
       "groupSubtitle": "いまの数字と、その読み解き",
       "sectionTitle": "12コア指標 — いまの数字と、今日の読み解き",
       "jointLabel": "同じ12銘柄",
-      "articleTitle": "今日の読み解き（07-10 朝版）",
+      "articleTitle": "今朝の12指標",
       "awaiting": "本日の12指標記事は公開準備中です",
       "previous": "前回の12指標を読む →",
-      "otherPeriods": "同じシリーズ · 別期間",
-      "archiveTitle": "12指標アーカイブ",
-      "archiveSubtitle": "同シリーズの過去記事",
+      "archiveLink": "12指標アーカイブ →",
+      "articleTitleWeekend": "週末の12指標",
+      "awaitingWeekend": "本日の週末版は公開準備中です",
+      "previousWeekend": "前回の週末の12指標を読む →",
       "indicator": {
         "title": "12コア指標",
         "dataDatePrefix": "データ日付",
@@ -504,22 +517,14 @@
       }
     },
     "radar": {
-      "sectionTitle": "速報 — 観測から記事へ",
-      "jointLabel": "確認を経て記事化",
       "lanes": {
-        "xNews": "X浮上",
+        "xNews": "X・報道で浮上",
         "sde": "SDE検出",
         "checking": "確認中"
       },
-      "promoted": {
-        "title": "速報レーダー — 記事になった観測",
-        "subtitle": "タイトルのみ · リンクなし",
-        "observedSuffix": "に観測 → 内容を確認のうえ、",
-        "publishedSuffix": "に Signal として公開。"
-      },
       "observations": {
-        "title": "ほかに観測中のタイトル",
-        "note": "内容の確認が取れたものだけが記事になります。"
+        "title": "速報レーダー — 観測中のタイトル",
+        "note": "観測は一次ソースへ。確認を経たものは Signal として記事になります。"
       },
       "recent": {
         "title": "最近の Signal",
@@ -567,6 +572,7 @@
       "viewAll": "一覧を見る",
       "sessionTerminalHeading": "Session Terminal",
       "sessionTerminalEntry": "アーカイブを見る",
+      "latestArticlesHeading": "最新の記事",
       "atlasPublishedHeading": "未来アトラス",
       "atlasUnpublishedHeading": "次の時代の地図"
     }
@@ -581,8 +587,13 @@
     "highlightsHeading": "一次情報ハイライト",
     "watchHeading": "次の見どころ",
     "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
-    "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",
-    "archiveNote": "1日4回、ライブは時間が経つと記事になります"
+    "noSnapshotNote": "この回は市場観測が取得できず、読み解きのみです。",
+    "archiveTitle": "Intelligence Terminal — セッション記事(朝昼夕夜の全記録)",
+    "archiveNote": "1日4回、ライブは時間が経つと記事になります",
+    "archivePastLink": "過去のセッション記事を全て見る →",
+    "archivePastTitle": "Intelligence Terminal — セッション記事アーカイブ(全記録)",
+    "archivePastNote": "朝昼夕夜のセッション記事の全記録です。",
+    "archiveRecentLink": "← 直近 1 週間へ戻る"
   },
   "turningPoints": {
     "page_title": "AI ターニングポイント検出ダッシュボード",

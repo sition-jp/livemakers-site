@@ -34,13 +34,35 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
       : [{ key: "futureMap", href: seriesHref("future-map") }]),
   ];
 
+  // 2026-08-14 Phase 3 (田平氏 GO): メニュー順 = Intelligence Terminal →
+  // 記事▾ → (未来アトラス) → About。Header は topLevel[0] を 記事▾ の前に描く。
   const topLevel: NavItem[] = [
+    { key: "sessionTerminal", href: "/sessions/archive" },
     ...(surfacePublished
       ? [{ key: "futureAtlas", href: "/future-atlas" }]
       : []),
-    { key: "sessionTerminal", href: "/sessions/archive" },
     { key: "about", href: "/about" },
   ];
 
   return { articlesGroup, topLevel };
+}
+
+/**
+ * フラット 1 列ナビ (2026-08-14 田平氏指示 — dropdown 廃止・左揃え)。
+ * ヘッダ 1 段目・モバイルパネル・フッタが同一順で共有する:
+ * トップ → Intelligence Terminal → Daily Intel → Signal → Deep Dive →
+ * 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
+ * 次の時代の地図 (published 時は 未来アトラス) → About
+ */
+export function buildFlatNav(surfacePublished: boolean): NavItem[] {
+  const { articlesGroup } = buildNavModel(surfacePublished);
+  return [
+    { key: "overview", href: "/" },
+    { key: "sessionTerminal", href: "/sessions/archive" },
+    ...articlesGroup,
+    ...(surfacePublished
+      ? [{ key: "futureAtlas", href: "/future-atlas" }]
+      : []),
+    { key: "about", href: "/about" },
+  ];
 }

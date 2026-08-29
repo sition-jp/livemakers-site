@@ -3,9 +3,17 @@ import { createHash } from "node:crypto";
 import {
   ARTICLE_THUMBNAIL_DOCTRINE,
   ARTICLE_THUMBNAIL_ORIGIN,
-  type ArticleInflowFeed,
-  type ArticleInflowItem,
 } from "@/lib/articles/article-inflow-validation.mjs";
+
+// FEEDSPLIT T6: v0 feed item / catalog v1 item (body なし) の両方を受けるため
+// サムネ検証が実際に読む field だけの構造型で generic 化する
+type ThumbnailCarrier = {
+  slug: string;
+  source_x_url?: unknown;
+  thumbnail_url?: string;
+  thumbnail_checksum?: string;
+  thumbnail_doctrine?: typeof ARTICLE_THUMBNAIL_DOCTRINE;
+};
 
 /**
  * サムネ検証 (P2-LVM-INFLOW-G2 D3・T1a)。
@@ -22,8 +30,10 @@ import {
  * - exact origin: ARTICLE_THUMBNAIL_ORIGIN 配下の https URL のみ。redirect 不可
  * - checksum: 取得した bytes の sha256 が thumbnail_checksum と一致すること
  *
- * URL は content-addressed (immutable) 前提のため、検証結果は
- * `url#checksum` キーでプロセス内 memoize する (再検証の fetch を省く)。
+ * 検証 GET は `url?sha256=<checksum>` を Next Data Cache に永続化する。
+ * stable pathname が上書きされても checksum が変われば新しい cache key で
+ * 再検証し、同じ bytes は ISR の 5 分周期で再取得しない。プロセス内でも
+ * `url#checksum` キーで memoize する。
  */
 
 export type ThumbnailRejectReason =
@@ -38,7 +48,7 @@ function hasAllowedOrigin(url: string): boolean {
   return url.startsWith(`${ARTICLE_THUMBNAIL_ORIGIN}/`);
 }
 
-function unionComplete(article: ArticleInflowItem): boolean {
+function unionComplete(article: ThumbnailCarrier): boolean {
   const isMirror = "source_x_url" in article;
   if (article.thumbnail_url === undefined || article.thumbnail_checksum === undefined) {
     return false;
@@ -58,7 +68,12 @@ async function verifyThumbnailBytes(
   const cached = verifiedCache.get(cacheKey);
   if (cached !== undefined) return cached ? null : "checksum_mismatch";
   try {
-    const response = await fetcher(url, { redirect: "error" });
+    const verificationUrl = new URL(url);
+    verificationUrl.searchParams.set("sha256", checksum);
+    const response = await fetcher(verificationUrl.toString(), {
+      cache: "force-cache",
+      redirect: "error",
+    });
     if (!response.ok) return "fetch_failed";
     const bytes = Buffer.from(await response.arrayBuffer());
     const digest = createHash("sha256").update(bytes).digest("hex");
@@ -71,14 +86,14 @@ async function verifyThumbnailBytes(
   }
 }
 
-function stripThumbnail(article: ArticleInflowItem): ArticleInflowItem {
+function stripThumbnail<TItem extends ThumbnailCarrier>(article: TItem): TItem {
   const {
     thumbnail_url: _url,
     thumbnail_checksum: _checksum,
     thumbnail_doctrine: _doctrine,
     ...rest
   } = article;
-  return rest as ArticleInflowItem;
+  return rest as TItem;
 }
 
 /** テスト用: memoize を破棄する */
@@ -86,10 +101,10 @@ export function clearThumbnailVerificationCache(): void {
   verifiedCache.clear();
 }
 
-export async function stripUnverifiedThumbnails(
-  feed: ArticleInflowFeed,
-  fetcher: typeof fetch = fetch,
-): Promise<ArticleInflowFeed> {
+export async function stripUnverifiedThumbnails<
+  TItem extends ThumbnailCarrier,
+  TFeed extends { articles: TItem[] },
+>(feed: TFeed, fetcher: typeof fetch = fetch): Promise<TFeed> {
   const articles = await Promise.all(
     feed.articles.map(async (article) => {
       if (

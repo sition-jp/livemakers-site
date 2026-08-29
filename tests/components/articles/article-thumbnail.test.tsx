@@ -33,6 +33,36 @@ describe("ArticleThumbnail (INFLOW-G2 D4)", () => {
     expect((frame as HTMLElement).style.background).toContain("linear-gradient");
   });
 
+  it("center-crops the lead variant to a short 14:3 frame when present (Phase 3b, 2026-08-14)", () => {
+    const { container } = render(
+      <ArticleThumbnail thumbnailUrl={URL} family="daily-intel" title="t" variant="lead" />,
+    );
+    const frame = container.querySelector('[data-article-thumbnail="present"]')!;
+    // Phase 3 で 21:9 → 同日 Phase 3b「もう半分」で 14:3 (=42:9)
+    expect(frame.className).toContain("aspect-[14/3]");
+    expect(frame.className).not.toContain("aspect-[16/9]");
+    // object-cover は既定で中央基準 = 上下が均等に切れる
+    expect(frame.querySelector("img")!.className).toContain("object-cover");
+  });
+
+  it("keeps a fixed 32:9 frame for the shortWide variant (ERR card, Phase 3b)", () => {
+    const present = render(
+      <ArticleThumbnail thumbnailUrl={URL} family="event-risk-radar" title="t" variant="shortWide" />,
+    );
+    expect(
+      present.container.querySelector('[data-article-thumbnail="present"]')!
+        .className,
+    ).toContain("aspect-[32/9]");
+    const placeholder = render(
+      <ArticleThumbnail thumbnailUrl={undefined} family="event-risk-radar" title="t" variant="shortWide" />,
+    );
+    expect(
+      placeholder.container.querySelector(
+        '[data-article-thumbnail="placeholder"]',
+      )!.className,
+    ).toContain("aspect-[32/9]");
+  });
+
   it("keeps the current h-24 band for the lead placeholder (寸法変更なし)", () => {
     const { container } = render(
       <ArticleThumbnail thumbnailUrl={undefined} family="signal" title="t" variant="lead" />,

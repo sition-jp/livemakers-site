@@ -1,0 +1,97 @@
+{
+  "sessionId": "2026-08-27-asia-open",
+  "date": "2026-08-27",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-27-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-08-27-asia-open",
+  "publishedAt": "2026-08-28T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260827_0730_23669ddb",
+  "asOfJst": "2026-08-27T07:30:15+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 8月27日 07:30 JST",
+  "bullets": [
+    "日経平均先物 66,060 → 66,970（+1.38%）",
+    "変動幅上位: ETH/USD +2.5% / VIX -1.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260827_0605_781ecbf9",
+    "crawlAnchorJst": "2026-08-27T05:03:00+09:00",
+    "writtenAtJst": "2026-08-27T06:05:00+09:00",
+    "lead": "今日は「誰が担うのか」が三つの層で同時に動いた。Cardano はコアプロトコルの作業を BlockPQR へ引き継ぎ、同じ24時間に憲法委員会の4議席が9月6日に満了することが告知された。AI 側では Anthropic が実利用データを外部研究者に初めて開き、OpenAI は自社インシデントを第三者に評価させた。作る側の内側にあった判断材料が、外へ出ていく方向で揃った一日だ。",
+    "items": [
+      {
+        "headline": "Cardano のコアプロトコル作業が BlockPQR で続く",
+        "sourceUrl": "https://x.com/IOGroup/status/2092626819044225496",
+        "note": "設立者は IO で Cardano の技術デリバリーを率い、van Rossem アップグレードのコアインフラを運用した人物だとしている。"
+      },
+      {
+        "headline": "憲法委員会は7議席のうち4議席が9月6日に満了する",
+        "sourceUrl": "https://x.com/Cardano/status/2092699378838339982",
+        "note": "Epoch 653 の終わりにあたる。DRep と SPO に対応が呼びかけられた。"
+      },
+      {
+        "headline": "Leios が Musashi Dojo テストネットの「Earth」フェーズを終えた",
+        "sourceUrl": "https://x.com/Cardano/status/2092608027874517053",
+        "note": "メインネット準備までの5段階のうち最初の1つを通過した。"
+      },
+      {
+        "headline": "Midnight が DUST スポンサーシップを公開した",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2092589523368620491",
+        "note": "利用者が DApp を試すためだけにトークンを持たずに済むよう、取引の支払いと承認を分離する。"
+      },
+      {
+        "headline": "Anthropic が実利用データを外部研究者に初めて開いた",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2092661573223657834",
+        "note": "プライバシー保護を施したデータで、これまで内部でしか成立しなかった研究を外部が行えるようにした。"
+      },
+      {
+        "headline": "AI との会話の半数超が「取り消しの効かない仕事」だった",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2092661575744360498",
+        "note": "SALT Lab の調査。他人に影響を与えるか、あとで戻せない作業が過半を占めた。"
+      },
+      {
+        "headline": "OpenAI が Hugging Face をめぐるインシデントの技術レポートを公開した",
+        "sourceUrl": "https://x.com/OpenAI/status/2092691861773160673",
+        "note": "エージェントの活動を再構成し、既存の安全策が効かなかった理由を説明している。"
+      },
+      {
+        "headline": "125B のモデルが 75GB の RAM でローカル動作したと報告された",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2092645926368403797"
+      },
+      {
+        "headline": "Gemini 3.5 Transcribe が公開された",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2092659221477077101",
+        "note": "電話番号・郵便番号・注文 ID の理解が向上したとしている。"
+      },
+      {
+        "headline": "ドル建て決済レールが韓国と UAE の両方向へ広がった",
+        "sourceUrl": "https://x.com/circle/status/2092688534385951021",
+        "note": "韓国では銀行や決済会社の判断が進み、UAE では免許を持つ銀行が USDC へのアクセスを拡大した。"
+      },
+      {
+        "headline": "CCTP V2 が Aptos で稼働した",
+        "sourceUrl": "https://x.com/circle/status/2092643234199519317"
+      },
+      {
+        "headline": "米国の現物ビットコイン ETF が5営業日で20.8億ドルを取り込んだ",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2092629807246766187"
+      },
+      {
+        "headline": "日銀が7月の企業向けサービス価格指数を公表した",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2092399216681537964"
+      }
+    ],
+    "watch": [
+      "BlockPQR から作業範囲とリリース計画が具体名で出るか。継承が形式か実質かはここで分かれる。",
+      "憲法委員会の議案に DRep と SPO の投票がどこまで積み上がるか。期限は9月6日。",
+      "Anthropic のデータ開放に手を挙げるのが大学か政策側か独立監査かで、この仕組みの用途が決まる。"
+    ]
+  }
+}

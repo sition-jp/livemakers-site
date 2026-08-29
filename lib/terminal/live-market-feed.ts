@@ -510,6 +510,14 @@ const reviewedHomeSchema = z
  * already imports forbiddenSourceOpsTerms/forbiddenSourceVisibleText FROM
  * this file.
  */
+// 2026-08-14 田平氏裁定: 観測は一次ソースへ外部リンク可 (同日 GO で X 限定 →
+// 一般 https へ拡張・構造検査のみ。設計理由は radar-observations.ts 参照)。
+// lib/home/radar-observations.ts の RADAR_SOURCE_URL_ALLOWLIST の鏡 —
+// import すると循環参照になるためここに複製する (上の schema 複製と同じ理由)。
+const RADAR_SOURCE_URL_ALLOWLIST_MIRROR =
+  /^https:\/\/[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}(?:\/\S*)?$/;
+const RADAR_SOURCE_URL_MAX_LENGTH_MIRROR = 600;
+
 const radarBundleObservationSchema = z
   .object({
     topicId: z.string().min(1),
@@ -521,11 +529,28 @@ const radarBundleObservationSchema = z
     titleJa: z.string().min(1),
     observedAtLabel: z.string().regex(/^\d{2}:\d{2}$/),
     observedAtJst: z.string().regex(JST_ISO_PATTERN),
-    href: z.null(),
-    displayMode: z.literal("title_only"),
+    href: z.union([
+      z.null(),
+      z
+        .string()
+        .max(RADAR_SOURCE_URL_MAX_LENGTH_MIRROR)
+        .regex(RADAR_SOURCE_URL_ALLOWLIST_MIRROR),
+    ]),
+    displayMode: z.enum(["title_only", "title_with_source"]),
     publishDecision: z.literal("not_authorized"),
   })
-  .strict();
+  .strict()
+  .superRefine((observation, ctx) => {
+    // displayMode は href の有無の鏡 (radar-observations.ts と同一契約)。
+    const linked = observation.href !== null;
+    if (linked !== (observation.displayMode === "title_with_source")) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "displayMode must mirror href presence",
+        path: ["displayMode"],
+      });
+    }
+  });
 
 const radarBundleSchema = z
   .object({
@@ -1060,21 +1085,37 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
 }
 
 /**
+ * 2026-08-23 (田平氏 GO): one bounded retry before the fixture fallback.
+ * A single transient Blob fetch failure right after a deploy rendered the
+ * fixture (as-of 2026-07-10) and `app/[locale]/page.tsx`'s ISR pinned it for
+ * up to 5 minutes — the third time a transient fetch read as "the Terminal
+ * stopped / regressed" (8/10, 8/11, 8/23). Only fetch-level failures (thrown
+ * error, non-ok status, unreadable body) retry; a payload the mapper rejects
+ * is returned as null immediately because it will not change on retry.
+ * Two attempts × the per-attempt timeout stay under the route's budget.
+ */
+export const TERMINAL_FEED_FETCH_ATTEMPTS = 2;
+export const TERMINAL_FEED_FETCH_TIMEOUT_MS = 4_000;
+
+/**
  * Server-side fetch of the delivered feed. Returns null (→ fixture fallback)
- * when the env URL is unset, the fetch fails, or the payload is invalid.
+ * when the env URL is unset, every attempt fails, or the payload is invalid.
  * Next's data cache (revalidate) keeps the last good payload between
  * deliveries, which is the design §3-4 behaviour for delivery outages.
  */
 export async function fetchLiveMarketData(): Promise<LiveMarketData | null> {
   const url = process.env[TERMINAL_FEED_ENV_KEY];
   if (!url) return null;
-  try {
-    const response = await fetch(url, {
-      next: { revalidate: TERMINAL_FEED_REVALIDATE_SECONDS },
-    });
-    if (!response.ok) return null;
-    return mapTerminalFeed(await response.json());
-  } catch {
-    return null;
+  for (let attempt = 1; attempt <= TERMINAL_FEED_FETCH_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        next: { revalidate: TERMINAL_FEED_REVALIDATE_SECONDS },
+        signal: AbortSignal.timeout(TERMINAL_FEED_FETCH_TIMEOUT_MS),
+      });
+      if (response.ok) return mapTerminalFeed(await response.json());
+    } catch {
+      // transient — fall through to the next attempt
+    }
   }
+  return null;
 }

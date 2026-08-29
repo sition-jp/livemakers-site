@@ -6,6 +6,7 @@ vi.mock("server-only", () => ({}));
 import {
   ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY,
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
+  resetArticleInflowFeedMemo,
 } from "@/lib/articles/article-inflow-feed";
 import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { TERMINAL_FEED_ENV_KEY } from "@/lib/terminal/live-market-feed";
@@ -62,6 +63,9 @@ afterEach(() => {
   restoreEnv(TERMINAL_FEED_ENV_KEY, originalTerminalUrl);
   vi.unstubAllGlobals();
   vi.useRealTimers();
+  // 2026-08-23 案 B: feed はプロセス内メモ (TTL 2 分) されるので、同じ URL を
+  // 使うテスト間で持ち越さない
+  resetArticleInflowFeedMemo();
 });
 
 describe("loadHomeCompositionProps article catalog states", () => {

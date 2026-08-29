@@ -32,6 +32,7 @@ import {
   type LaneId,
 } from "./instruments";
 import {
+  MarketSnapshotCellSchema,
   SnapshotSchema,
   loadMarketSnapshot,
   type MarketSnapshot,
@@ -58,6 +59,18 @@ export interface BuildHomeCompositionArgs {
   feedRadar?: RadarFeedData | null;
   /** The mapped (but not yet freshness-gated) feed `sessions` bundle. */
   feedSessions?: SessionsFeedData | null;
+  /**
+   * RWA TVL の live 値 (2026-08-14 田平氏裁定 — TVL 1 行のみ live)。
+   * feed windows.rwaLane の rwa.tvl tile 由来 (market_extras 毎時収集・
+   * PF 検証なし)。deltaPct が無い間 (履歴ウォームアップ中) は honest empty。
+   * 来歴は collected_live / auto_collected (reviewed とは区別)。
+   */
+  rwaLive?: {
+    value: string | null;
+    deltaPct?: number;
+    packetId: string;
+    asOfLabel: string;
+  } | null;
   /** Test injection — highest priority when either is provided. */
   radar?: readonly RadarObservation[];
   promotions?: Readonly<Record<string, string>>;
@@ -67,6 +80,13 @@ export interface BuildHomeCompositionArgs {
 }
 
 const REVIEWED_HOME_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+
+/** YYYY-MM-DD (JST 暦日文字列) の前日。UTC 解釈で日付演算し TZ 依存を避ける。 */
+function previousJstDate(date: string): string {
+  const at = new Date(`${date}T00:00:00Z`);
+  at.setUTCDate(at.getUTCDate() - 1);
+  return at.toISOString().slice(0, 10);
+}
 
 function cellMap(cells: MarketSnapshotCell[]) {
   return new Map(cells.map((cell) => [cell.instrumentId, cell]));
@@ -86,9 +106,15 @@ function reviewedSourceMatchesSidecar(
   source: ReviewedHomeData,
   sessions: readonly SessionRecord[],
 ): boolean {
+  // 2026-08-23 (spec 2026-08-23-digest-only-session-design §2): a digest-only
+  // live record (observationStatus=absent) has no market anchor of its own,
+  // so it is exempt from the focusSession cross-check — the reviewed packet
+  // legitimately still points at the last GREEN anchor.
   const sameDateLive = sessions.find(
     (record) =>
-      record.date === source.dataDate && record.liveStatus === "live",
+      record.date === source.dataDate &&
+      record.liveStatus === "live" &&
+      record.observationStatus !== "absent",
   );
   if (!sameDateLive) return true;
   return (
@@ -109,14 +135,51 @@ function reviewedSourceIsFresh(source: ReviewedHomeData, now: Date): boolean {
   return ageMs >= 0 && ageMs <= REVIEWED_HOME_MAX_AGE_MS;
 }
 
+/**
+ * RWA TVL の live cell (2026-08-14)。cell 契約 (value/changeLabel/direction は
+ * 全 null か全 present) を守るため、deltaPct が無い間は all-null (「—」表示)。
+ * fixture の 7/10 値を live ラベルの下に出すよりも honest empty を選ぶ。
+ */
+function buildRwaLiveCell(
+  live: NonNullable<BuildHomeCompositionArgs["rwaLive"]>,
+): MarketSnapshotCell {
+  const nameJa = LANE_ROWS.rwa[0].nameJa;
+  if (live.value === null || live.deltaPct === undefined) {
+    return MarketSnapshotCellSchema.parse({
+      instrumentId: "rwa_tvl",
+      nameJa,
+      value: null,
+      changeLabel: null,
+      direction: null,
+    });
+  }
+  const rounded = Math.round(live.deltaPct * 100) / 100;
+  const changeLabel =
+    rounded === 0
+      ? "0.00%"
+      : `${rounded > 0 ? "+" : ""}${rounded.toFixed(2)}%`;
+  return MarketSnapshotCellSchema.parse({
+    instrumentId: "rwa_tvl",
+    nameJa,
+    value: live.value,
+    changeLabel,
+    direction: rounded === 0 ? "flat" : rounded > 0 ? "up" : "down",
+  });
+}
+
 function buildReviewedSnapshot(
   source: ReviewedHomeData,
   fixture: MarketSnapshot,
+  rwaLive?: BuildHomeCompositionArgs["rwaLive"],
 ): MarketSnapshot {
   const asOfLabel = formatAsOfLabel(source.asOfJst);
   if (!asOfLabel) throw new Error("reviewed home asOfJst is not displayable");
   const fixtureByInstrument = cellMap(fixture.cells);
   const rwaCells = LANE_ROWS.rwa.map(({ instrumentId }) => {
+    // 2026-08-14: rwa_tvl は live 値があれば feed 由来 cell で置換
+    if (instrumentId === "rwa_tvl" && rwaLive) {
+      return buildRwaLiveCell(rwaLive);
+    }
     const cell = fixtureByInstrument.get(instrumentId);
     if (!cell) throw new Error(`fixture is missing RWA cell: ${instrumentId}`);
     return cell;
@@ -383,9 +446,12 @@ export function buildHomeCompositionProps(
     ? (args.source ?? null)
     : null;
   const snapshot = reviewedSource
-    ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot)
+    ? buildReviewedSnapshot(reviewedSource, fixtureSnapshot, args.rwaLive)
     : fixtureSnapshot;
   const reviewedAdopted = reviewedSource !== null;
+  // RWA live 採用 = reviewed 経路が生きていて live tile が渡ってきた時のみ
+  // (feed 全体が退避した日はレーンごと fixture へ戻る — 部分 live にしない)
+  const rwaLiveAdopted = reviewedAdopted && Boolean(args.rwaLive);
 
   // sessionsSource itself is NOT part of this function's return value (same
   // frozen-return posture as radarSource, G44 D13) — resolveHomeSessionsSource
@@ -460,6 +526,21 @@ export function buildHomeCompositionProps(
   // fixture provenance; only the session card drops its live claim.
   const declaredLive =
     raw.sessions.find((record) => record.liveStatus === "live") ?? null;
+  // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §A):
+  // live が無い窓 (観測 RED) を空カードにせず「直前に終わったセッション」を
+  // 終了として見せる。対象 = closed かつ date が articleCutoffToday か前日
+  // (00:45–05:02 の global-close 持ち越しを受ける)。fixture のような過去日は
+  // 除外されるので P0-1b (fixture を live と偽らない) は不変。normalized.sessions
+  // は asOfJst 降順なので find = 最新。
+  const recentClosedDates = new Set([
+    articleCutoffToday,
+    previousJstDate(articleCutoffToday),
+  ]);
+  const recentClosed =
+    normalized.sessions.find(
+      (record) =>
+        record.liveStatus === "closed" && recentClosedDates.has(record.date),
+    ) ?? null;
   const slots = selectHomeSlots(raw);
   const focusRecords = loadFocusSeriesRecords();
   const focusSeries = reviewedSource
@@ -498,7 +579,16 @@ export function buildHomeCompositionProps(
   const laneProvenance: Record<LaneId, WindowProvenance> = {
     macro: reviewedPageProvenance ?? fixturePageProvenance,
     crypto: reviewedPageProvenance ?? fixturePageProvenance,
-    rwa: fixturePageProvenance,
+    // 2026-08-14 田平氏裁定: RWA TVL live は「自動収集」ラベル (collected_live /
+    // auto_collected)。reviewed_live (PF 検証済) と混同させない
+    rwa: rwaLiveAdopted
+      ? makeWindowProvenance({
+          packetId: args.rwaLive!.packetId,
+          sourceMode: "collected_live",
+          reviewStatus: "auto_collected",
+          asOfJst: args.rwaLive!.asOfLabel,
+        })
+      : fixturePageProvenance,
   };
   // fix round 1 / G34: a live record adopted from the feed (sessionsSource
   // === "feed_today") is not a fixture — it carries the reviewed home
@@ -522,8 +612,34 @@ export function buildHomeCompositionProps(
         asOfJst: `${live.asOfJst.slice(11, 16)} JST`,
       } as WindowProvenance)
     : null;
+  // recentClosed は live と同じ規則で provenance を組む (feed_today なら reviewed
+  // pair・それ以外は fixture)。描画側は live 優先なので両方あっても衝突しない。
+  const recentClosedProvenance = recentClosed
+    ? makeWindowProvenance({
+        packetId: recentClosed.packetId,
+        sourceMode:
+          sessionsSource === "feed_today"
+            ? (reviewedPair?.sourceMode ?? "fixture_only")
+            : "fixture_only",
+        reviewStatus:
+          sessionsSource === "feed_today"
+            ? (reviewedPair?.reviewStatus ?? "reviewed_fixture")
+            : "reviewed_fixture",
+        asOfJst: `${recentClosed.asOfJst.slice(11, 16)} JST`,
+      } as WindowProvenance)
+    : null;
+  // digest-only live (observationStatus=absent): the card renders no market
+  // provenance (there is no snapshot), so the page-level conservative label
+  // must not be derived from it either.
+  const sessionProvenanceVisible =
+    sessionProvenance && live?.observationStatus !== "absent"
+      ? sessionProvenance
+      : null;
   const visibleWindowProvenance = [
-    ...(sessionProvenance ? [sessionProvenance] : []),
+    ...(sessionProvenanceVisible ? [sessionProvenanceVisible] : []),
+    ...(!sessionProvenance && recentClosedProvenance
+      ? [recentClosedProvenance]
+      : []),
     ...focusSeries.filter((series) => series !== null).map(seriesProvenance),
     mkt12Provenance,
     laneProvenance.macro,
@@ -561,6 +677,8 @@ export function buildHomeCompositionProps(
     today,
     asOfLabel,
     live,
+    recentClosed,
+    recentClosedProvenance,
     schedule: getTodaySchedule(today, live, normalized.sessions),
     slots,
     focusSeries,

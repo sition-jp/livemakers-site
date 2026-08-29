@@ -1,14 +1,30 @@
+import { LanguageToggle } from "@/components/layout/LanguageToggle";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
 import type { ProvenanceLabels } from "./WindowProvenanceRow";
 
+/**
+ * ヘッダ 3 段目 (2026-08-14 田平氏指示で再構成):
+ * 左 = 来歴 (審査状態/ソース/as-of/パケットID) + 注記「数値は取得時点の…」を
+ * 続けて表示。右 = 旧ヘッダ 1 段目のクラスタ (LIGHT/DARK・日付・SNAPSHOT
+ * チップ・version)。2026-08-23 田平氏指示で言語トグル (EN/日本語) も
+ * ヘッダ 1 段目からこのクラスタ先頭へ移設 — 操作系 (言語 → テーマ) を左、
+ * 表示系 (日付 → SNAPSHOT → version) を右にまとめる。chromeMeta を渡さない
+ * 呼び出し (テスト等) は従来表示。
+ */
 export function GlobalProvenanceStrip({
   provenance,
   labels,
   note,
+  chromeMeta,
+  snapshotLabel,
 }: {
   provenance: WindowProvenance;
   labels: ProvenanceLabels;
   note: string;
+  chromeMeta?: SnapshotChromeMeta;
+  snapshotLabel?: string;
 }) {
   return (
     <div
@@ -31,7 +47,25 @@ export function GlobalProvenanceStrip({
         <span>
           {labels.packet}: <b className="font-mono">{provenance.packetId}</b>
         </span>
-        <span className="ml-auto">{note}</span>
+        <span>{note}</span>
+        {chromeMeta ? (
+          <span className="ml-auto flex items-center gap-2 sm:gap-3">
+            <LanguageToggle />
+            <ThemeToggle />
+            <span className="hidden font-mono text-[10px] xl:inline">
+              {chromeMeta.dateLabel}
+            </span>
+            <span className="max-w-[73px] overflow-hidden whitespace-nowrap rounded bg-bg-tertiary px-2 py-1 font-mono text-[9px] font-bold tracking-label text-text-secondary sm:max-w-none">
+              {snapshotLabel} {chromeMeta.asOfLabel}
+            </span>
+            <span
+              className="hidden text-[10px] tracking-label xl:inline"
+              title={`build ${process.env.NEXT_PUBLIC_BUILD_SHA} · ${process.env.NEXT_PUBLIC_BUILD_DATE}`}
+            >
+              v{process.env.NEXT_PUBLIC_APP_VERSION}
+            </span>
+          </span>
+        ) : null}
       </div>
     </div>
   );

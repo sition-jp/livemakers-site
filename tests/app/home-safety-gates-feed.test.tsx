@@ -36,6 +36,7 @@ vi.mock("@/i18n/navigation", () => ({
       {children}
     </a>
   ),
+  usePathname: () => "/",
 }));
 
 import { GlobalProvenanceStrip } from "@/components/home/GlobalProvenanceStrip";
@@ -68,8 +69,12 @@ import {
 } from "@/lib/home/gradient-ledger";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
-import { buildNavModel } from "@/lib/home/nav-model";
-import { RADAR_OBSERVATIONS } from "@/lib/home/radar-observations";
+import { buildFlatNav } from "@/lib/home/nav-model";
+import {
+  RADAR_OBSERVATIONS,
+  RADAR_SOURCE_URL_ALLOWLIST,
+  type RadarObservation,
+} from "@/lib/home/radar-observations";
 import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
 import {
   collectScannableText,
@@ -150,6 +155,21 @@ function reviewedHomeSource(): ReviewedHomeData {
   return source;
 }
 
+// 2026-08-14 田平氏裁定: 観測は一次ソース (X) へ外部リンク可 — gate 検証用。
+const LINKED_RADAR_OBSERVATION: RadarObservation = {
+  topicId: "linked_source_20260710",
+  lane: "x_news_trends",
+  titleJa: "米SECが暗号資産の開示規則案を公表",
+  observedAtLabel: "08:02",
+  href: "https://x.com/example/status/1234509876",
+  displayMode: "title_with_source",
+  publishDecision: "not_authorized",
+};
+const RADAR_WITH_SOURCE: readonly RadarObservation[] = [
+  ...RADAR_OBSERVATIONS,
+  LINKED_RADAR_OBSERVATION,
+];
+
 function buildOverlayProps(
   articles: ArticleInflowPublicArticle[],
   extra: BuildHomeCompositionArgs = {},
@@ -162,7 +182,8 @@ function buildOverlayProps(
     // injection). These page-wide gates inject the former fixture
     // population explicitly so their assertions keep exercising a
     // populated radar (gate meaning unchanged).
-    radar: RADAR_OBSERVATIONS,
+    // 2026-08-14 裁定: リンク付き観測 1 件を混ぜて data-source-link 会計を検証。
+    radar: RADAR_WITH_SOURCE,
     promotions: RADAR_PROMOTIONS,
     ...extra,
   });
@@ -173,9 +194,7 @@ function renderFullPage(
 ) {
   return render(
     <NextIntlClientProvider locale="ja" messages={ja}>
-      <Header
-        chromeMeta={getSnapshotChromeMeta(homeProps.snapshot)}
-        futureAtlasNav={false}
+      <Header futureAtlasNav={false}
       />
       <main>
         <TickerBar items={homeProps.tickerItems} />
@@ -183,6 +202,8 @@ function renderFullPage(
           provenance={homeProps.pageProvenance}
           labels={copy.provenance}
           note={copy.globalProvenanceNote}
+          chromeMeta={getSnapshotChromeMeta(homeProps.snapshot)}
+          snapshotLabel="SNAPSHOT"
         />
         <HomeComposition
           {...homeProps}
@@ -196,8 +217,10 @@ function renderFullPage(
   );
 }
 
+// localePrefix "always" (2026-08-21) で /en 接頭辞も剥がす — locale は
+// ルート台帳の検証対象外 (言語トグルが /en リンクを chrome に持つ)。
 const stripLocale = (href: string) =>
-  href.replace(/^\/ja(?=\/|$)/, "") || "/";
+  href.replace(/^\/(ja|en)(?=\/|$)/, "") || "/";
 
 /** Resolve through the same repo + feed contract used by the public article route. */
 async function expectResolvesPublicDocument(
@@ -276,13 +299,14 @@ afterAll(() => {
 });
 
 describe("G44 safety gates with validated Production feed overlay", () => {
-  it("gate 1: radar payload and DOM remain title-only", () => {
+  it("gate 1: radar DOM carries primary-source links only, never article routing", () => {
     expect(catalog.feedPresent).toBe(true);
     expect(
       catalog.articles.find(
         (article) => article.articleId === "signal-20260710-feed-safety",
       )?.source,
     ).toBe("inflow");
+    // 従来 fixture (href=null) は title-only のまま (2026-08-14 裁定で改訂)。
     for (const observation of RADAR_OBSERVATIONS) {
       expect(observation.href).toBeNull();
       expect(observation.displayMode).toBe("title_only");
@@ -291,25 +315,45 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     const { container } = renderFullPage(props);
     const radarModules = container.querySelectorAll("[data-radar]");
     expect(radarModules.length).toBeGreaterThanOrEqual(1);
-    for (const module of radarModules) {
-      expect(module.querySelectorAll("a")).toHaveLength(0);
+    const radarAnchors = [...container.querySelectorAll("[data-radar] a")];
+    // リンクを持つのは注入した LINKED_RADAR_OBSERVATION の 1 件のみ。
+    expect(radarAnchors).toHaveLength(1);
+    for (const anchor of radarAnchors) {
+      expect(anchor.hasAttribute("data-source-link")).toBe(true);
+      expect(anchor.hasAttribute("data-article-id")).toBe(false);
+      expect(anchor.hasAttribute("data-index-nav")).toBe(false);
+      expect(
+        RADAR_SOURCE_URL_ALLOWLIST.test(anchor.getAttribute("href")!),
+      ).toBe(true);
+      expect(anchor.getAttribute("target")).toBe("_blank");
+      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
     }
   });
 
   it("gate 2: every link validates through exactly one public route", async () => {
     const { container } = renderFullPage(props);
-    const nav = buildNavModel(false);
+    // 2026-08-14 フラットナビ: header = logo + flatNav / footer = flatNav
+    const flat = buildFlatNav(false);
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    expect(chromeAnchors).toHaveLength(
-      1 +
-        nav.topLevel.length +
-        (1 + nav.articlesGroup.length + nav.topLevel.length),
-    );
+    // 言語トグル (EN / 日本語) は 2026-08-23 田平氏指示でヘッダから来歴帯の
+    // 右クラスタへ移設 — header/footer には数えず、strip 側で 2 本を別検証
+    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);
+    }
+    const stripAnchors = [
+      ...container.querySelectorAll('[data-chrome="provenance-strip"] a[href]'),
+    ];
+    expect(stripAnchors.map((anchor) => anchor.textContent)).toEqual([
+      "EN",
+      "日本語",
+    ]);
+    for (const anchor of stripAnchors) {
+      const href = stripLocale(anchor.getAttribute("href")!);
+      expect(isAllowedChromeRoute(href), `strip:${href}`).toBe(true);
     }
 
     const ledgerAnchors = [
@@ -336,8 +380,27 @@ describe("G44 safety gates with validated Production feed overlay", () => {
       await expectResolvesPublicDocument(href);
     }
 
-    expect(gradientAnchors.length).toBeGreaterThanOrEqual(40);
-    for (const anchor of gradientAnchors) {
+    // Primary-source links (2026-08-14 裁定): data-source-link は data-radar
+    // 内限定・X allowlist の外部 1 hop。第 4 のバケットとして明示会計する。
+    const sourceAnchors = gradientAnchors.filter((anchor) =>
+      anchor.hasAttribute("data-source-link"),
+    );
+    expect(sourceAnchors).toHaveLength(1);
+    for (const anchor of sourceAnchors) {
+      const href = anchor.getAttribute("href")!;
+      expect(RADAR_SOURCE_URL_ALLOWLIST.test(href), `source:${href}`).toBe(
+        true,
+      );
+      expect(anchor.closest("[data-radar]"), `source:${href}`).not.toBeNull();
+      expect(anchor.getAttribute("target")).toBe("_blank");
+      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
+    }
+
+    const gradientBodyAnchors = gradientAnchors.filter(
+      (anchor) => !sourceAnchors.includes(anchor),
+    );
+    expect(gradientBodyAnchors.length).toBeGreaterThanOrEqual(40);
+    for (const anchor of gradientBodyAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       if (isAllowedPublishedArticleRoute(href)) {
         await expectResolvesPublicDocument(href);
@@ -349,8 +412,12 @@ describe("G44 safety gates with validated Production feed overlay", () => {
         expect(isAllowedChromeRoute(href), `gradient:${href}`).toBe(true);
       }
     }
+    // 2026-08-23: 来歴帯の言語トグル (strip バケット) を 4 つ目として加算
     expect(container.querySelectorAll("a[href]").length).toBe(
-      chromeAnchors.length + heroAnchors.length + gradientAnchors.length,
+      chromeAnchors.length +
+        stripAnchors.length +
+        heroAnchors.length +
+        gradientAnchors.length,
     );
   });
 
@@ -448,7 +515,8 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     ]
       .filter((element) => !element.closest("[data-index-nav]"))
       .map((element) => element.getAttribute("data-article-id")!);
-    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(17);
+    // Phase 3 (2026-08-14): mkt12 weekend/archive を本体から撤去 → floor 14
+    expect(bodyArticleIds.length).toBeGreaterThanOrEqual(14);
     expect(new Set(bodyArticleIds).size).toBe(bodyArticleIds.length);
     expect(new Set(bodyArticleIds)).toEqual(
       new Set(collectSelectedArticleIds(props.slots)),

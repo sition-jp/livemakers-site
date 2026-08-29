@@ -14,6 +14,7 @@ import {
   GRADIENT_REGIONS,
   REGION_MODULES,
 } from "@/lib/home/gradient-ledger";
+import { orderLaggingModules } from "@/lib/home/lagging-order";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 
 vi.mock("@/i18n/navigation", () => ({
@@ -82,7 +83,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     );
   });
 
-  it("renders modules per region in ledger order", () => {
+  it("renders modules per region in ledger order (lagging article block newest-first, 2026-08-23 田平氏 GO A)", () => {
     const { container } = renderHome();
     for (const region of GRADIENT_REGIONS) {
       const section = container.querySelector(
@@ -92,7 +93,15 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       const modules = [
         ...section.querySelectorAll("[data-column-module]"),
       ].map((element) => element.getAttribute("data-column-module"));
-      expect(modules, region).toEqual([...REGION_MODULES[region]]);
+      const expected =
+        region === "lagging"
+          ? orderLaggingModules(props.slots)
+          : [...REGION_MODULES[region]];
+      expect(modules, region).toEqual(expected);
+      // every region still renders exactly the ledger's module set
+      expect([...modules].sort(), region).toEqual(
+        [...REGION_MODULES[region]].sort(),
+      );
     }
   });
 
@@ -103,9 +112,9 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(hero.querySelectorAll("[data-article-id]")).toHaveLength(0);
   });
 
-  it("keeps session-now and lead-article desktop-only (single representation)", () => {
+  it("keeps session-now and the morning desk's Daily Intel block desktop-only (single representation)", () => {
     const { container } = renderHome();
-    for (const module of ["session-now", "lead-article"]) {
+    for (const module of ["session-now", "morning-desk"]) {
       const wrapper = container.querySelector(
         `[data-column-module="${module}"]`,
       )!;
@@ -137,14 +146,59 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     expect(seat.textContent).toBe("");
   });
 
-  it("preserves the mkt12 reading stack (hero, periods-divider, weekend, archive)", () => {
+  it("renders the mkt12 reading as latest-only + archive link (Phase 3, 2026-08-14 / 2026-08-23 GO B-1: サムネなし行)", () => {
     const { container } = renderHome();
     const reading = container.querySelector("[data-mkt12-reading]")!;
     expect(reading).not.toBeNull();
+    expect(reading.getAttribute("data-mkt12-variant")).toBe("morning");
     expect(
-      [...reading.querySelectorAll(":scope > [data-mkt12-role]")].map(
-        (element) => element.getAttribute("data-mkt12-role"),
+      [...reading.querySelectorAll("[data-mkt12-role]")].map((element) =>
+        element.getAttribute("data-mkt12-role"),
       ),
-    ).toEqual(["hero", "periods-divider", "weekend", "archive"]);
+    ).toEqual(["hero", "archive-link"]);
+    const archiveLink = reading.querySelector(
+      '[data-mkt12-role="archive-link"] a',
+    )!;
+    expect(archiveLink.getAttribute("href")).toBe(
+      "/articles/series/mkt12-morning",
+    );
+  });
+
+  // 2026-08-15 田平氏 GO: 土曜は mkt12-reading 枠を週末版モードへ切替
+  // (2026-07-11 は土曜・fixture に当日週末版は無い = awaiting 分岐)
+  it("switches the mkt12 reading to the weekend variant on Saturday", () => {
+    // today (market clock) は fixture snapshot の 2026-07-10 のまま、
+    // 記事時計 articleCutoffToday だけを土曜 2026-07-11 に進める
+    const saturdayProps = buildHomeCompositionProps({
+      today: "2026-07-10",
+      articleCutoffToday: "2026-07-11",
+      contentDir: path.join(
+        process.cwd(),
+        "tests",
+        "fixtures",
+        "content",
+        "articles",
+      ),
+    });
+    const { container } = render(
+      <HomeComposition {...saturdayProps} surfacePublished={false} copy={copy} />,
+    );
+    const reading = container.querySelector("[data-mkt12-reading]")!;
+    expect(reading.getAttribute("data-mkt12-variant")).toBe("weekend");
+    // 2026-08-23 GO B-1: 見出し h3 は廃止。週末系は awaiting 文言 + previous リンクで判定
+    expect(reading.textContent).toContain(copy.mkt12.awaitingWeekend);
+    expect(reading.textContent).toContain(copy.mkt12.previousWeekend);
+    const previousLink = reading.querySelector(
+      '[data-mkt12-role="hero"] a',
+    )!;
+    expect(previousLink.getAttribute("href")).toContain(
+      "mkt12-weekend-2026-07-04",
+    );
+    const archiveLink = reading.querySelector(
+      '[data-mkt12-role="archive-link"] a',
+    )!;
+    expect(archiveLink.getAttribute("href")).toBe(
+      "/articles/series/mkt12-weekend",
+    );
   });
 });

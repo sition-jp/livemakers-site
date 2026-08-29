@@ -1,0 +1,23 @@
+{
+  "sessionId": "2026-08-22-asia-open",
+  "date": "2026-08-22",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-22-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-08-22-asia-open",
+  "publishedAt": "2026-08-23T06:35:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260822_0503_65cd34b2",
+  "asOfJst": "2026-08-22T05:03:08+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 8月22日 05:03 JST",
+  "bullets": [
+    "日経平均先物 65,595 → 65,955（+0.55%）",
+    "変動幅上位: ADA/USD +10.8% / NIGHT/USD +10.0%"
+  ]
+}

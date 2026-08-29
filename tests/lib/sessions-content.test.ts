@@ -6,7 +6,9 @@ import {
   findSessionRecord,
   getAllSessionRecords,
   getSessionRecord,
+  getTodaySchedule,
   normalizeFocusInstruments,
+  type SessionRecord,
   parseSessionMeta,
   sessionEditorialTextViolations,
 } from "@/lib/sessions/session-content";
@@ -146,14 +148,156 @@ describe("session content lifecycle (G-a)", () => {
   });
 
   it("orders the archive newest-first and excludes non-published sessions", () => {
+    // 2026-08-14: crystallize auto-PR が毎日 content/sessions/ を増やすため、
+    // 実コンテンツとの完全一致は書かない (最初の auto-PR #68 を guards が
+    // 構造的にブロックした実証)。不変条件のみ検証する。
     const published = getAllSessionRecords().filter(
       (record) => record.articleStatus === "published",
     );
-    expect(published.map((record) => record.sessionId)).toEqual([
+    // (a) newest-first (asOfJst 降順)
+    for (let i = 1; i < published.length; i += 1) {
+      expect(
+        published[i - 1].asOfJst.localeCompare(published[i].asOfJst),
+      ).toBeGreaterThanOrEqual(0);
+    }
+    // (b) 非公開 (pending の 2026-07-10 fixture) は含まれない
+    expect(
+      published.some((record) => record.articleStatus !== "published"),
+    ).toBe(false);
+    expect(
+      published.some((record) => record.sessionId === "2026-07-10-asia-open"),
+    ).toBe(false);
+    // (c) 初回 crystallize (2026-08-07) の 3 本は必ず含まれる (subset)
+    const ids = new Set(published.map((record) => record.sessionId));
+    for (const expected of [
       "2026-08-07-global-close",
       "2026-08-07-ny-open",
       "2026-08-07-asia-open",
-    ]);
+    ]) {
+      expect(ids.has(expected), expected).toBe(true);
+    }
+  });
+});
+
+// 2026-08-23 田平氏 GO (spec §C): 「前回を読む →」はスロットごとの最新 closed
+// レコード。feed 由来の当日 closed (articleStatus=pending・crystallize 前) も
+// 対象にする — 切替中の間に「いま終わったセッション」へ飛べるようにする。
+describe("getTodaySchedule previous (2026-08-23 closed-record rule)", () => {
+  const base = (overrides: Partial<SessionRecord>): SessionRecord => ({
+    sessionId: "2026-08-22-asia-open",
+    date: "2026-08-22",
+    sessionSlug: "asia-open",
+    liveStatus: "closed",
+    articleStatus: "published",
+    currentUrl: "/sessions/2026-08-22-asia-open",
+    canonicalArticleUrl: "/sessions/2026-08-22-asia-open",
+    publishedAt: "2026-08-23T02:30:00+09:00",
+    publishLogId: null,
+    packetId: "sess_20260822_asia",
+    asOfJst: "2026-08-22T07:30:00+09:00",
+    focusInstruments: ["nikkei_futures", "usd_jpy"],
+    titleJa: "Asia Open Terminal",
+    bullets: ["前日"],
+    focusFallbackApplied: false,
+    bodyJa: "# body",
+    hasMaterializedRoute: true,
+    ...overrides,
+  });
+  const yesterdayPublished = base({});
+  const todayClosedFeed = base({
+    sessionId: "2026-08-23-asia-open",
+    date: "2026-08-23",
+    articleStatus: "pending",
+    currentUrl: "/sessions/2026-08-23-asia-open",
+    canonicalArticleUrl: null,
+    publishedAt: null,
+    asOfJst: "2026-08-23T07:30:00+09:00",
+    bullets: ["当日"],
+    bodyJa: null,
+    hasMaterializedRoute: false,
+  });
+  const todayLiveFeed = base({
+    sessionId: "2026-08-23-europe-bridge",
+    date: "2026-08-23",
+    sessionSlug: "europe-bridge",
+    liveStatus: "live",
+    articleStatus: "pending",
+    currentUrl: "/sessions/2026-08-23-europe-bridge",
+    canonicalArticleUrl: null,
+    publishedAt: null,
+    asOfJst: "2026-08-23T12:03:00+09:00",
+    bodyJa: null,
+    hasMaterializedRoute: false,
+  });
+  // getAllSessionRecords / mergeSessionRecords の不変条件 = asOfJst 降順
+  const records = [todayLiveFeed, todayClosedFeed, yesterdayPublished];
+
+  it("prefers today's closed feed record over the last crystallized article", () => {
+    const schedule = getTodaySchedule("2026-08-23", null, records);
+    const asia = schedule.find((item) => item.def.slug === "asia-open")!;
+    expect(asia.previous?.sessionId).toBe("2026-08-23-asia-open");
+    expect(asia.previous?.currentUrl).toBe("/sessions/2026-08-23-asia-open");
+  });
+
+  it("never points 'previous' at a live record", () => {
+    const schedule = getTodaySchedule("2026-08-23", todayLiveFeed, records);
+    const europe = schedule.find((item) => item.def.slug === "europe-bridge")!;
+    expect(europe.isCurrent).toBe(true);
+    expect(europe.previous).toBeUndefined();
+  });
+
+  it("falls back to the crystallized article when no newer closed record exists", () => {
+    const schedule = getTodaySchedule("2026-08-23", null, [yesterdayPublished]);
+    const asia = schedule.find((item) => item.def.slug === "asia-open")!;
+    expect(asia.previous?.sessionId).toBe("2026-08-22-asia-open");
+  });
+});
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §2):
+// observationStatus "absent" = 市場観測 RED で読み解き digest だけのセッション。
+// editorial 必須・省略は green。
+describe("SessionMetaSchema observationStatus (digest-only session)", () => {
+  const base = {
+    sessionId: "2026-08-23-europe-bridge",
+    sessionSlug: "europe-bridge",
+    date: "2026-08-23",
+    liveStatus: "live",
+    articleStatus: "pending",
+    currentUrl: "/sessions/2026-08-23-europe-bridge",
+    canonicalArticleUrl: null,
+    publishedAt: null,
+    publishLogId: null,
+    packetId: "sess_20260823_1203_0badc0de",
+    asOfJst: "2026-08-23T12:34:00+09:00",
+    focusInstruments: ["dxy", "us10y"],
+    titleJa: "Europe Bridge Terminal — 8月23日 12:03 JST（読み解きのみ）",
+    bullets: ["欧州序盤は指標待ちで動意薄"],
+  };
+  const editorial = {
+    digestId: "dig_20260823_1234_ab12cd34",
+    crawlAnchorJst: "2026-08-23T12:03:00+09:00",
+    writtenAtJst: "2026-08-23T12:34:00+09:00",
+    lead: "欧州序盤は指標待ちで動意薄。一次情報では次の判断材料が示された。",
+    items: [{ headline: "欧州序盤は指標待ちで動意薄", sourceUrl: "https://primary.example.org/news/1" }],
+    watch: ["米国時間の指標を確認する。"],
+  };
+
+  it("accepts absent with an editorial and defaults to green when omitted", () => {
+    const absent = parseSessionMeta({ ...base, observationStatus: "absent", editorial });
+    expect(absent.observationStatus).toBe("absent");
+    const plain = parseSessionMeta(base);
+    expect(plain.observationStatus).toBeUndefined();
+    expect(parseSessionMeta({ ...base, observationStatus: "green" }).observationStatus).toBe("green");
+  });
+
+  it("rejects absent without an editorial (digest-only needs the digest)", () => {
+    expect(() => parseSessionMeta({ ...base, observationStatus: "absent" })).toThrow(
+      /observationStatus absent requires editorial/,
+    );
+  });
+
+  it("rejects unknown observationStatus values", () => {
+    expect(() => parseSessionMeta({ ...base, observationStatus: "partial", editorial })).toThrow();
   });
 });
 

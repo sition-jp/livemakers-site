@@ -1,0 +1,80 @@
+{
+  "sessionId": "2026-08-23-europe-bridge",
+  "date": "2026-08-23",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-23-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-23-europe-bridge",
+  "publishedAt": "2026-08-24T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260823_1203_012c6b52",
+  "asOfJst": "2026-08-23T12:35:00+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月23日 12:03 JST（読み解きのみ）",
+  "bullets": [
+    "カナダが報復関税を9月8日に発効させると発表した",
+    "米通商代表部が、カナダが断った提案の中身を説明した",
+    "米加は関税の応酬に入り、双方が決裂の原因を説明し始めた"
+  ],
+  "editorial": {
+    "digestId": "dig_20260823_1235_7496f246",
+    "crawlAnchorJst": "2026-08-23T12:03:00+09:00",
+    "writtenAtJst": "2026-08-23T12:35:00+09:00",
+    "lead": "交渉が決裂した翌日に出てきたのは、感情ではなく日付だった。カナダは9月8日という発効日を置き、米通商代表部は断られた提案の中身を明かした。どちらも相手国というより自国の産業と議会に向けた説明であり、再交渉の窓がまだ閉じていないことを示している。同じ土曜には6月分の株式取引開示も公表され、市場と政治の距離が別の角度から見える一日になった。",
+    "items": [
+      {
+        "headline": "カナダが報復関税を9月8日に発効させると発表した",
+        "sourceUrl": "https://www.straitstimes.com/world/canada-to-impose-retaliatory-tariffs-across-a-raft-of-us-sectors-pm-carney-says",
+        "note": "鉄鋼・乳製品・家電・農機・パルプ紙・電子機器が対象に挙がった。即時ではなく2週間強の間隔を置いた点が、再交渉の余地として残っている。"
+      },
+      {
+        "headline": "米通商代表部が、カナダが断った提案の中身を説明した",
+        "sourceUrl": "https://www.straitstimes.com/world/trumps-top-trade-representative-details-offer-that-canada-refused",
+        "note": "決裂の理由づけを公開の場に移す動きで、交渉の中身そのものが次の交渉材料になっている。"
+      },
+      {
+        "headline": "米加は関税の応酬に入り、双方が決裂の原因を説明し始めた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/22/us-canada-fall-deeper-trade-war-new-tariffs-talks-collapse-blame/",
+        "note": "争点は個別の品目にとどまらず、北米3か国の通商協定の扱いにまで広がっている。"
+      },
+      {
+        "headline": "6月分の株式取引開示で、売買件数が1,000件を超えた",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-stock-disclosure-shows-more-than-1000-trades-in-june",
+        "note": "開示は金額をレンジでしか示さない。何が見え、何が見えないままなのかが同時に分かる資料になっている。"
+      },
+      {
+        "headline": "マクロン氏が迎撃ミサイルの引き渡しに焦点を移した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/23/ukraine-war-briefing-macron-focuses-on-delivery-of-missile-interceptors-as-russian-attacks-intensify",
+        "note": "攻撃の激化に対し、供給の速度そのものが論点になっている。"
+      },
+      {
+        "headline": "米高官が、シリア空爆について事前通告はなかったと述べた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/22/us-envoy-says-israel-not-give-warning-us-ahead-recent-syria-airstrike/",
+        "note": "同盟の内側での通報手順が、あらためて問われる形になった。"
+      },
+      {
+        "headline": "米議員が、韓国との合同演習を再開するよう求めた",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/republican-lawmaker-urges-trump-to-restore-south-korea-military-drills"
+      },
+      {
+        "headline": "高市首相が、公邸で長時間を過ごす理由を説明した",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/22/japans-leader-takaichi-explains-spends-long-hours-seclusion-official/"
+      },
+      {
+        "headline": "メキシコの州知事が、反発を受けて再び休職を申請した",
+        "sourceUrl": "https://www.straitstimes.com/world/mexican-governor-indicted-by-us-on-cartel-charges-requests-leave-again-amid-backlash",
+        "note": "米側の起訴を受けた対応で、地元の反発は続いている。"
+      }
+    ],
+    "watch": [
+      "9月8日までに対象品目が確定するか。猶予期間はそのまま再交渉の窓でもある。",
+      "断られた提案の中身が公開されたあと、次の案をどちらが先に出すか。",
+      "開示がレンジ表示にとどまる制度設計そのものに、議論が向かうか。"
+    ]
+  },
+  "observationStatus": "absent"
+}

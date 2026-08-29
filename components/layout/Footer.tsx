@@ -1,13 +1,12 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { buildNavModel } from "@/lib/home/nav-model";
+import { buildFlatNav } from "@/lib/home/nav-model";
 
 export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
-  const navModel = buildNavModel(futureAtlasNav);
-  // Footer mirrors the same nav-model as the header (G44 D3), rendered flat.
-  const items = [...navModel.articlesGroup, ...navModel.topLevel];
+  // 2026-08-14 田平氏指示: フッタもヘッダと同一のフラット順 (buildFlatNav)
+  const items = buildFlatNav(futureAtlasNav);
   // Build metadata injected at build time via next.config.ts.
   const version = process.env.NEXT_PUBLIC_APP_VERSION ?? "0.0.0";
   const sha = process.env.NEXT_PUBLIC_BUILD_SHA ?? "dev";
@@ -23,7 +22,6 @@ export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           className="mb-6 flex flex-wrap justify-center gap-x-5 gap-y-2 tracking-label"
           aria-label="footer"
         >
-          <Link href="/">{nav("overview")}</Link>
           {items.map((item) => (
             <Link key={item.key} href={item.href}>
               {nav(item.key)}

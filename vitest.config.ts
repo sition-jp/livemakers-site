@@ -11,6 +11,13 @@ export default defineConfig({
     environment: "node",
     include: ["tests/**/*.test.{ts,tsx,mjs}"],
     setupFiles: ["./tests/setup.ts"],
+    server: {
+      deps: {
+        // react-tweet は CSS Modules を含むため Node 直 import では
+        // ".css" で落ちる。Vite に処理させる (inline)
+        inline: ["react-tweet"],
+      },
+    },
   },
   resolve: {
     alias: {

@@ -29,7 +29,10 @@ import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 
 export const dynamicParams = true;
-export const revalidate = 300;
+// 2026-08-21 田平氏 GO (ISR コスト): 記事詳細 (~270 paths) が ISR Writes の
+// 大半を占めるため 3600s へ。新規公開 slug は公開レーンが revalidatePath で
+// 即時 purge するので反映は遅れない。既存記事の本文はほぼ不変。
+export const revalidate = 3600;
 
 const TOC_MIN_HEADINGS = 3;
 
@@ -101,6 +104,7 @@ export default async function ArticleDetailPage({
     viewAll: t("detail.viewAll"),
     sessionTerminalHeading: t("detail.sessionTerminalHeading"),
     sessionTerminalEntry: t("detail.sessionTerminalEntry"),
+    latestArticlesHeading: t("detail.latestArticlesHeading"),
     atlasPublishedHeading: t("detail.atlasPublishedHeading"),
     atlasUnpublishedHeading: t("detail.atlasUnpublishedHeading"),
     familyLabels,
@@ -109,7 +113,7 @@ export default async function ArticleDetailPage({
   return (
     <div
       data-article-layout=""
-      className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start lg:gap-8"
+      className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-8"
     >
       <article className="mx-auto w-full max-w-[80ch] min-w-0">
         <header className="mb-8 border-b border-border-primary pb-6">

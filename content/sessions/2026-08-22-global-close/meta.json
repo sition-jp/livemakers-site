@@ -1,0 +1,80 @@
+{
+  "sessionId": "2026-08-22-global-close",
+  "date": "2026-08-22",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-22-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-22-global-close",
+  "publishedAt": "2026-08-23T06:35:00+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260822_2303_80738a61",
+  "asOfJst": "2026-08-22T23:03:07+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月22日 23:03 JST",
+  "bullets": [
+    "Gold $4,516.30 → $4,624.10（+2.39%）",
+    "変動幅上位: VIX -5.5% / ADA/USD +4.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260822_2347_3c87510e",
+    "crawlAnchorJst": "2026-08-22T23:03:00+09:00",
+    "writtenAtJst": "2026-08-22T23:47:00+09:00",
+    "lead": "北米の貿易交渉が止まり、50%の関税が発効した。同じ48時間に、推論の単価は期限付きで2割下がり、打ち上げは今年100回目を数えている。止まる話と回り続ける話が並んで出てくる夜だ。見分ける手がかりは、その決定に期限が切られているかどうかにある。",
+    "items": [
+      {
+        "headline": "米国がカナダ産品の一部に50%の関税を発効させ、カナダは交渉を停止した",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2091012631746224276",
+        "note": "カーニー首相は「進展はあったが目標には届かない」として交渉を止め、同額規模での対抗措置を表明した。対象にはホッケー用品・建材・酒類など、産業投入財より生活の目に触れる品目が並ぶ。"
+      },
+      {
+        "headline": "OpenAI が GPT-5.6 Sol の API とクレジット価格を3か月だけ2割以上下げた",
+        "sourceUrl": "https://x.com/OpenAI/status/2090885187634905500",
+        "note": "恒久的な値下げではなく期限を切った点が特徴で、効率改善分を一時的に価格へ回す形になっている。3か月後に戻るかどうかが、この値下げの性格を決める。"
+      },
+      {
+        "headline": "ファルコン9がカリフォルニアから27基を軌道へ運び、今年100回目の打ち上げになった",
+        "sourceUrl": "https://x.com/SpaceX/status/2091086303068918197",
+        "note": "打ち上げの回数そのものがニュースにならなくなりつつある一方で、年間100という数字は衛星通信が「特別な手段」から「前提」へ寄っていく速度を示している。"
+      },
+      {
+        "headline": "14回目の飛行に向けたスターシップが、ラプター6基で60秒のフル時間静的燃焼を完了した",
+        "sourceUrl": "https://x.com/SpaceX/status/2090876778646491549",
+        "note": "静的燃焼は飛行前試験の一段階であり、飛行日程が確定したわけではない。"
+      },
+      {
+        "headline": "FluidTokens が Fluid V4 で、$FLDT 保有者の bot に清算役を開く方針を示した",
+        "sourceUrl": "https://x.com/FluidTokens/status/2090820440771948643",
+        "note": "借り手のポジションが担保割れした際に保有者側の bot が清算を実行し、手数料を受け取れる設計になる。清算の担い手を専門の運用者だけに任せない方向の設計変更として読める。"
+      },
+      {
+        "headline": "Cardano 財団が、9月1日に期限を迎える2件のガバナンス提案で SPO の投票を呼びかけた",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2090793650833772841",
+        "note": "憲法委員会の更新と、minPoolCost の75 ADA への引き下げを含む提案の2件。SPO は独立した投票主体として別の閾値を持つため、他の主体の賛成だけでは通らない。"
+      },
+      {
+        "headline": "Intersect の週次アップデート #125 が公開された",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2090934520287551794",
+        "note": "Dijkstra の進捗、SPO 投票を要する2件のガバナンス提案、理事会選挙の準備などが含まれる。"
+      },
+      {
+        "headline": "MusashiNet の Earth フェーズが完了し、ピーク処理量は現行メインネットのおよそ6倍に達した",
+        "sourceUrl": "https://x.com/IOGroup/status/2090801092812493175",
+        "note": "合成負荷での測定であり、実利用のトラフィックとは条件が違う。台帳側の調整と Hydra の性能改善が並行して進んでいる。"
+      },
+      {
+        "headline": "Coinbase の CEO が、米上院での市場構造法案の採決日を9月15日として名指しした",
+        "sourceUrl": "https://x.com/brian_armstrong/status/2090875227303805430",
+        "note": "G20 の大半が既に暗号資産取引の規制枠組みを持つ中で、米国が例外だという主張とセットで示された。あくまで本人の発言であり、議事日程の確定を意味しない。"
+      }
+    ],
+    "watch": [
+      "関税の発効後に例外リストや実務上の猶予が出るか。品目の入れ替えは交渉再開の合図になりやすい。",
+      "3か月の期限付き値下げが期限後に戻るか、そのまま据え置かれるか。",
+      "9月1日に期限を迎える Cardano の2提案で、SPO 側の投票がどこまで積み上がるか。"
+    ]
+  }
+}

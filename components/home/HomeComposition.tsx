@@ -32,6 +32,8 @@ export type HomeCompositionProps = ReturnType<
  */
 export function HomeComposition({
   live,
+  recentClosed,
+  recentClosedProvenance,
   schedule,
   slots,
   focusSeries,
@@ -59,14 +61,20 @@ export function HomeComposition({
     >
       <CompositeHero
         live={live}
+        recentClosed={recentClosed}
         lead={slots.lead}
         copy={copy.hero}
         editorialCopy={copy.sessionNow}
         showSessionEditorial={showSessionEditorial}
       />
-      <div className="mt-8 space-y-8 xl:mt-8 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-8 xl:space-y-0">
+      {/* xl では CompositeHero が hidden のため、mt-8 だと masthead 直下に
+          56px (wrapper pt-6 + mt-8) の空白が生じる — xl:mt-0 で 24px に詰める
+          (2026-08-14 田平氏指示)。mobile〜lg は hero が実在するので mt-8 維持。 */}
+      <div className="mt-8 space-y-8 xl:mt-0 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-8 xl:space-y-0">
         <LeadingColumn
           live={live}
+          recentClosed={recentClosed}
+          recentClosedProvenance={recentClosedProvenance}
           schedule={schedule}
           slots={slots}
           focusSeries={focusSeries}

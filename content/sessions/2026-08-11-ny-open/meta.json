@@ -1,0 +1,91 @@
+{
+  "sessionId": "2026-08-11-ny-open",
+  "date": "2026-08-11",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-11-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-11-ny-open",
+  "publishedAt": "2026-08-14T11:16:50+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260811_1803_69911072",
+  "asOfJst": "2026-08-11T18:03:07+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月11日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,757.64 → 7,753.11（-0.06%）",
+    "変動幅上位: ADA/USD -3.8% / NIGHT/USD -2.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260811_1845_a5ee7bff",
+    "crawlAnchorJst": "2026-08-11T18:03:00+09:00",
+    "writtenAtJst": "2026-08-11T18:45:00+09:00",
+    "lead": "市場構造法が9月へ滑った同じ週に、SECは自前の提案を8月14日の公開会合に載せた。議会の時計が止まっている間、規制の時計は止まっていない。そしてAIの側では、家庭のマシンで動くエージェントと、認可された防御者にだけ渡される攻撃対処モデルが、同じ日に発表された。能力が誰の手元に届くかという線引きが、制度より先に引かれている。",
+    "items": [
+      {
+        "headline": "SECが8月14日10時（米東部）に公開会合、暗号資産の提供ルール提案を審議",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2086976516340990326",
+        "note": "議題は、暗号資産に関わる一定の投資契約に向けた個別の提供制度を提案する文書を出すかどうか。会合の日時と議題はSECの公式予定表に掲載されている。"
+      },
+      {
+        "headline": "市場構造法の最初の手続き投票は9月15日へ後退",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2087008457522102782",
+        "note": "上院は夏季休会前に動議への討論終結を申し立てた状態で休みに入った。法案そのものの可決ではなく、審議入りの位置取りにとどまる。"
+      },
+      {
+        "headline": "ステーブルコインが地銀の預金流出を招いたとする見方に、上院側から反論",
+        "sourceUrl": "https://x.com/SenLummis/status/2086903602598256890",
+        "note": "家計の預金は所得層をまたいで増え、国内預金は7四半期連続で伸びたとする数字を挙げ、地銀の減少の主因は統合だと指摘している。"
+      },
+      {
+        "headline": "Metaが30Bの公開重みモデル「Muse Glimmer」を発表、手元の機械で常時動くエージェント向け",
+        "sourceUrl": "https://x.com/AIatMeta/status/2086757844544811485",
+        "note": "ライセンスはApache 2.0で、単一のコンシューマ向けGPUかMacで動く設計。再起動をまたぐ状態保持と数時間規模のセッション記憶を掲げる。"
+      },
+      {
+        "headline": "OpenAIが防御側向けのセキュリティモデル「GPT-5.6-Cyber」を投入",
+        "sourceUrl": "https://x.com/OpenAI/status/2086864365379010729",
+        "note": "認可された脆弱性調査や検証を対象に、能力を先に防御側へ渡すという順序を明示している。誰に渡すかの条件が提供側に置かれている。"
+      },
+      {
+        "headline": "MetaMaskからMidnightに接続するデモが公開、アカウント抽象化の出荷が近いと言及",
+        "sourceUrl": "https://x.com/SebastienGllmt/status/2087042997070537110"
+      },
+      {
+        "headline": "引退したステークプールへの委任が残っているとの注意喚起",
+        "sourceUrl": "https://x.com/Cardano/status/2086782140088201597",
+        "note": "委任先が引退している場合、その委任はもう働かない。自分の委任先の状態を確かめるだけで済む種類の確認事項である。"
+      },
+      {
+        "headline": "Cardanoの資金供給枠が再開、募集は残り10日",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2086726187632500969",
+        "note": "1プロジェクトあたり5万〜20万ADAの規模で示されている。"
+      },
+      {
+        "headline": "Cardano FoundationのGiorgio Zinetti氏が退任へ",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2086730336503742637"
+      },
+      {
+        "headline": "Rocket Labが可搬型の射場構想「GHOST」を発表",
+        "sourceUrl": "https://x.com/RocketLab/status/2086911725186724293",
+        "note": "射場そのものを世界のどこにでも展開できる形にする、という位置づけで示されている。"
+      },
+      {
+        "headline": "Rocket Labがドイツ拠点を設立、欧州の打上げと衛星製造の空白を埋める狙い",
+        "sourceUrl": "https://x.com/RocketLab/status/2086987189758689421"
+      },
+      {
+        "headline": "Neutronが Kepler の通信網拡張で専用打上げに選定、同社として初のロケット一機貸切",
+        "sourceUrl": "https://x.com/RocketLab/status/2086910652870979864"
+      }
+    ],
+    "watch": [
+      "8月14日のSEC公開会合で、提供制度の提案文書が実際に出るかどうか。出れば規則の側が立法に先行する形が確定する。",
+      "9月15日の手続き投票に向けて、法執行と政府倫理をめぐる調整が動くか。60票の壁は埋まっていない。",
+      "手元で動くエージェントが家庭の機器に触れはじめたとき、何を任せて何を任せないかの線引きが実際に問われる。"
+    ]
+  }
+}

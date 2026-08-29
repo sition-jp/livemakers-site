@@ -9,6 +9,10 @@ import { CoincidentColumn } from "@/components/home/columns/CoincidentColumn";
 import { LaggingColumn } from "@/components/home/columns/LaggingColumn";
 import { LeadingColumn } from "@/components/home/columns/LeadingColumn";
 import { REGION_MODULES } from "@/lib/home/gradient-ledger";
+import {
+  orderLaggingModules,
+  laggingModuleLatest,
+} from "@/lib/home/lagging-order";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 
@@ -100,29 +104,60 @@ describe("LeadingColumn (gradient leading, D5)", () => {
     ).toEqual([...REGION_MODULES.leading]);
   });
 
-  it("keeps event-risk observations title-only and links the latest event-risk article", () => {
+  it("splits event-risk (latest article) and radar-observations (title-only) into two modules (Phase 3)", () => {
     const { container } = renderLeading();
+    // event-risk = 最新記事 1 本のみ (schedule 直下)
     const eventRisk = container.querySelector(
       '[data-column-module="event-risk"]',
     )!;
-    // observations are title-only (no anchors inside data-radar)
-    expect(eventRisk.querySelectorAll("[data-radar] a")).toHaveLength(0);
-    // exactly one linked article — the latest event-risk-radar article
+    expect(eventRisk.querySelector("[data-radar]")).toBeNull();
     const links = eventRisk.querySelectorAll("a[data-article-id]");
     expect(links).toHaveLength(1);
     expect(links[0]!.getAttribute("data-article-id")).toBe(
       "event-risk-radar-w29",
     );
+    // radar-observations = 観測 title-only (リンクなし・flash-promotion 直下)
+    const observations = container.querySelector(
+      '[data-column-module="radar-observations"]',
+    )!;
+    expect(observations.querySelector("[data-radar]")).not.toBeNull();
+    expect(observations.querySelectorAll("a")).toHaveLength(0);
   });
 
-  it("shows the flash-promotion empty state when no pair exists (RADAR_PROMOTIONS empty)", () => {
+  // 2026-08-23 田平氏 GO (spec §A): live が無く recentClosed がある → 終了カード。
+  it("fills the switching gap with the most recent closed session (ended badge + link)", () => {
+    const closed = {
+      ...props.live!,
+      liveStatus: "closed" as const,
+      asOfJst: "2026-07-10T07:30:00+09:00",
+    };
+    const { container, getByText, queryByText } = render(
+      <LeadingColumn
+        live={null}
+        recentClosed={closed}
+        recentClosedProvenance={props.sessionProvenance}
+        schedule={props.schedule}
+        slots={props.slots}
+        focusSeries={props.focusSeries}
+        focusSessionSlug={props.focusSessionSlug}
+        sessionProvenance={null}
+        copy={copy}
+      />,
+    );
+    expect(queryByText("現在のセッションは切替中です")).toBeNull();
+    const card = container.querySelector('[data-column-module="session-now"] [data-session-state="closed"]');
+    expect(card).not.toBeNull();
+    getByText("SESSION · 05:03 JST 終了");
+    getByText("次の更新: Europe Bridge Terminal 12:03 JST");
+    expect(
+      container.querySelector('[data-column-module="session-now"] a')?.getAttribute("href"),
+    ).toBe("/sessions/2026-07-10-asia-open");
+  });
+
+  it("does not render a flash-promotion module (2026-08-23 撤去)", () => {
     const { container } = renderLeading();
-    const flash = container.querySelector(
-      '[data-column-module="flash-promotion"]',
-    )!;
-    // empty state: no article link, no data-article-id
-    expect(flash.querySelectorAll("a")).toHaveLength(0);
-    expect(flash.querySelector("[data-article-id]")).toBeNull();
+    expect(container.querySelector('[data-column-module="flash-promotion"]')).toBeNull();
+    expect(container.textContent).not.toContain("観測から記事へ");
   });
 });
 
@@ -148,6 +183,69 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
         el.getAttribute("data-column-module"),
       ),
     ).toEqual([...REGION_MODULES.coincident]);
+  });
+
+  // 2026-08-23 田平氏 GO B-1: 「Daily Intel」帯 = compact Daily Intel + サムネなし 12指標行
+  it("renders the morning desk as one band: Daily Intel header, compact lead, thumb-row mkt12", () => {
+    const { container } = renderCoincident();
+    const desk = container.querySelector(
+      '[data-column-module="morning-desk"] [data-morning-desk]',
+    )!;
+    expect(desk).not.toBeNull();
+    // ヘッダ = 「Daily Intel」(h3 は帯に 1 つだけ)
+    expect(desk.querySelectorAll("h3")).toHaveLength(1);
+    expect(desk.querySelector("h3")?.textContent).toBe(copy.familyLabels["daily-intel"]);
+    // 本体 2 本 (Daily Intel + 12指標)・抜粋なし
+    const bodies = desk.querySelectorAll("a[data-article-id]");
+    expect([...bodies].map((a) => a.getAttribute("data-article-id"))).toEqual([
+      "daily-intel-2026-07-10",
+      "mkt12-morning-2026-07-10",
+    ]);
+    expect(desk.textContent).not.toContain(props.slots.lead.article!.excerptJa!);
+    // サムネ = Daily Intel の 14:3 (ArticleThumbnail) 1 枚 + 12指標行の小サムネ
+    // (ArticleThumbRow・Signal 行と同型・2026-08-23 田平氏 GO 2)
+    expect(desk.querySelectorAll("[data-article-thumbnail]")).toHaveLength(1);
+    expect(desk.querySelectorAll("[data-thumb-row]")).toHaveLength(1);
+    // Daily Intel ブロックだけ <xl hidden (D8)
+    const lead = desk.querySelector('[data-morning-desk-role="daily-intel"]')!;
+    expect(lead.classList.contains("hidden")).toBe(true);
+    expect(lead.classList.contains("xl:block")).toBe(true);
+    expect(lead.querySelector('[data-lead-variant="compact"]')).not.toBeNull();
+    // compact カードに family ラベル行は無い (帯ヘッダが担う)
+    expect(
+      [...lead.querySelectorAll("span")].some((span) => span.textContent === copy.lead.family),
+    ).toBe(false);
+    // 索引リンク: Daily Intel 一覧はヘッダ・12指標アーカイブは行の右隣
+    const intelLink = desk.querySelector('a[href="/articles/series/daily-intel"]')!;
+    expect(intelLink.closest("[data-index-nav]")).not.toBeNull();
+    const mkt12Link = desk.querySelector(
+      '[data-mkt12-role="archive-link"] a[href="/articles/series/mkt12-morning"]',
+    )!;
+    expect(mkt12Link.closest("[data-index-nav]")).not.toBeNull();
+    expect(
+      intelLink.compareDocumentPosition(lead) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  // 2026-08-23 田平氏 GO 2: 12指標行は Signal 行と同じ小サムネ付き行 (ArticleThumbRow)
+  it("renders the mkt12 row as a Signal-style thumb row labelled by its family chip", () => {
+    const { container } = renderCoincident();
+    const row = container.querySelector('[data-mkt12-reading] [data-mkt12-role="hero"] a[data-article-id]')!;
+    expect(row.getAttribute("data-article-id")).toBe("mkt12-morning-2026-07-10");
+    expect(row.hasAttribute("data-thumb-row")).toBe(true);
+    // fixture はサムネ未検証 → family 色の帯で枠を保つ (CLS ゼロ・Signal 行と同じ判断)
+    expect(row.querySelector('img, span[aria-hidden="true"]')).not.toBeNull();
+    expect(row.textContent).toContain(copy.familyLabels["mkt12-morning"]);
+    // 本体扱い (index-nav にしない)
+    expect(row.hasAttribute("data-index-nav")).toBe(false);
+  });
+
+  it("puts the signal timeline right after the morning desk", () => {
+    const { container } = renderCoincident();
+    const modules = [...container.querySelectorAll("[data-column-module]")].map((el) =>
+      el.getAttribute("data-column-module"),
+    );
+    expect(modules.slice(0, 2)).toEqual(["morning-desk", "signal-timeline"]);
   });
 
   it("renders the signal timeline with at least the floor of ten rows", () => {
@@ -190,13 +288,60 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     );
   }
 
-  it("renders modules in the ledger order", () => {
+  it("renders the four article modules newest-first, then the fixed ledger tail (2026-08-23 田平氏 GO A)", () => {
     const { container } = renderLagging();
+    const rendered = [
+      ...container.querySelectorAll("[data-column-module]"),
+    ].map((el) => el.getAttribute("data-column-module"));
+    expect(rendered).toEqual(orderLaggingModules(props.slots));
+    // permutation of the ledger — nothing added, nothing dropped
+    expect([...rendered].sort()).toEqual([...REGION_MODULES.lagging].sort());
+    expect(rendered.slice(-2)).toEqual([
+      "latest-articles",
+      "turning-point-reserved",
+    ]);
+    // the article block really is in publishedAtJst descending order
+    const stamps = rendered
+      .slice(0, 4)
+      .map(
+        (module) =>
+          laggingModuleLatest(
+            props.slots,
+            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief",
+          )?.publishedAtJst ?? "",
+      )
+      .filter((stamp) => stamp !== "");
+    expect(stamps).toEqual([...stamps].sort().reverse());
     expect(
-      [...container.querySelectorAll("[data-column-module]")].map((el) =>
-        el.getAttribute("data-column-module"),
-      ),
-    ).toEqual([...REGION_MODULES.lagging]);
+      container
+        .querySelector('[data-ledger-group="lagging"]')!
+        .getAttribute("data-lagging-order"),
+    ).toBe("newest-first");
+  });
+
+  it("moves a module to the top when its latest article is the newest", () => {
+    const newest = {
+      ...props.slots.latestArticles[0]!,
+      articleId: "weekly-brief-newest",
+      family: "weekly-brief" as const,
+      publishedAtJst: "2026-07-10T23:00:00+09:00",
+      href: "/articles/weekly-brief-newest",
+    };
+    const { container } = render(
+      <LaggingColumn
+        slots={{ ...props.slots, weeklyBriefLatest: newest }}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    const rendered = [
+      ...container.querySelectorAll("[data-column-module]"),
+    ].map((el) => el.getAttribute("data-column-module"));
+    expect(rendered[0]).toBe("weekly-brief");
+    expect(rendered.slice(-2)).toEqual([
+      "latest-articles",
+      "turning-point-reserved",
+    ]);
   });
 
   it("treats only the deep-dive featured article as body content", () => {
@@ -243,11 +388,11 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     expect(atlas.querySelector('a[href="/future-atlas"]')).not.toBeNull();
   });
 
-  it("renders latest-articles as ten index-nav rows", () => {
+  it("renders latest-articles as twenty index-nav rows (2026-08-14 田平氏指示)", () => {
     const { container } = renderLagging();
     const latest = container.querySelector(
       '[data-column-module="latest-articles"]',
     )!;
-    expect(latest.querySelectorAll("a[data-article-id]")).toHaveLength(10);
+    expect(latest.querySelectorAll("a[data-article-id]")).toHaveLength(20);
   });
 });

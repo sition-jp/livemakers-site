@@ -1,0 +1,98 @@
+{
+  "sessionId": "2026-08-23-global-close",
+  "date": "2026-08-23",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-23-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-23-global-close",
+  "publishedAt": "2026-08-24T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260823_2303_ff2853b9",
+  "asOfJst": "2026-08-24T00:05:00+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月23日 23:03 JST（読み解きのみ）",
+  "bullets": [
+    "カナダが対米交渉を停止し、50%関税に同額で報復する方針を表明",
+    "NVIDIA が AI チップ搭載サーバーを 15%超値上げへ、メモリ価格の上昇が理由と報道",
+    "Cardano の改善提案 5 本が確定、採用可能な段階に入った"
+  ],
+  "editorial": {
+    "digestId": "dig_20260823_0005_b599690a",
+    "crawlAnchorJst": "2026-08-23T23:03:00+09:00",
+    "writtenAtJst": "2026-08-24T00:05:00+09:00",
+    "lead": "米国の関税が同盟国に向いた週末だった。カナダは対米交渉を打ち切り、50%の関税をドル・フォー・ドルで返すと表明している。同じ数時間のうちに、NVIDIA が AI サーバーの価格を 15%超引き上げる方針を伝えたと報じられ、値上げの理由がチップではなくメモリだと説明された。関税と部材、性格の違う二つの値段が同じ方向に動いている。",
+    "items": [
+      {
+        "headline": "カナダが対米交渉を停止し、50%関税に同額で報復する方針を表明",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/aug/23/donald-trump-lashes-out-after-us-canada-talks-devolve-into-trade-war",
+        "note": "交渉打ち切りと報復表明が同じ日のうちに続いた。カナダ側は「攻撃された」という強い語で状況を説明している。"
+      },
+      {
+        "headline": "NVIDIA が AI チップ搭載サーバーを 15%超値上げへ、メモリ価格の上昇が理由と報道",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2091243942595445165",
+        "note": "対象は来年前半に出荷される機種で、フラッグシップ世代も含むとされる。制約の所在がチップからメモリへ移りつつある。"
+      },
+      {
+        "headline": "Cardano の改善提案 5 本が確定、採用可能な段階に入った",
+        "sourceUrl": "https://x.com/Cardano/status/2091495212203810820",
+        "note": "組み込み関数の追加、トランザクション出力の自己利用、メンプールの手数料優先度、評価戦略、委任投票力の集中に関する検討が並ぶ。"
+      },
+      {
+        "headline": "HD ウォレット向けの耐量子ゼロ知識署名が新規提案として登場",
+        "sourceUrl": "https://x.com/Cardano/status/2091495205019009201",
+        "note": "既存の署名にシードフレーズのゼロ知識証明を重ねる中間段階の設計として説明されている。"
+      },
+      {
+        "headline": "Catalyst 2026 Pilot の審査パネル応募は 8 月 25 日締切",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2091457921661984989",
+        "note": "技術とビジネスの 2 トラックがあり、審査期間は 8 月 28 日から 9 月 7 日。参加は有償とされている。"
+      },
+      {
+        "headline": "Cardano と Injective を繋ぐ IBC 統合の技術解説が公開",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2091495675515355306",
+        "note": "ライトクライアント基盤、ICS-20 によるトークン移転、開発者向けツールが論点として挙がっている。"
+      },
+      {
+        "headline": "Coinbase の CEO が、AI エージェントによる米国でのデリバティブ取引が可能になったと投稿",
+        "sourceUrl": "https://x.com/brian_armstrong/status/2091272092473807159",
+        "note": "代理で買う段階から、代理で建玉を持つ段階へ。委任の設計を考える人にとっては境界が一つ動いた。"
+      },
+      {
+        "headline": "Grayscale の Zcash Trust が 8 月 25 日に NYSE で取引開始予定と報道",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2091299425683386829",
+        "note": "秘匿性を売りにした資産が、規制された器の中に入っていく動きとして読める。"
+      },
+      {
+        "headline": "イランが米国の新たな経済制裁を前に強い報復を警告",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/23/iran-warns-seismic-retaliation-ahead-major-new-us-economic-sanctions/"
+      },
+      {
+        "headline": "ゼレンスキー氏、戦時下の選挙実施はウクライナを壊しかねないと発言",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/23/ukraine-election-wartime-risk-russia-zelenskyy"
+      },
+      {
+        "headline": "中国の人型ロボットが 100m を 9.39 秒で走ったと報じられた",
+        "sourceUrl": "https://x.com/Polymarket/status/2091371623597171053",
+        "note": "世界人型ロボット大会での記録として伝えられている。速さそのものより、屋外の競技条件で動いたことが情報になる。"
+      },
+      {
+        "headline": "トランプ大統領が債券市場への「軍事的介入」に言及したと伝えられた",
+        "sourceUrl": "https://x.com/Kalshi/status/2091194982694625748"
+      },
+      {
+        "headline": "ドイツ市場では、高金利下でも主要指数が持ちこたえている理由が論点になった",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/anlagestrategie/kolumnen/dax-warum-der-leitindex-den-hohen-zinsen-trotzt/100248288.html"
+      }
+    ],
+    "watch": [
+      "カナダの報復関税がいつ発効し、どの品目に及ぶか。北米のサプライチェーンに最初に出る影響を見る。",
+      "メモリ価格の上昇が NVIDIA 以外のサーバー価格にも波及するか。半導体の貿易統計が手がかりになる。",
+      "8 月 25 日 — Catalyst 審査パネルの応募締切と、Zcash Trust の取引開始が同じ日に来る。"
+    ]
+  },
+  "observationStatus": "absent"
+}

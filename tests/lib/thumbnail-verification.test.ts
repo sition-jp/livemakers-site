@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
   ARTICLE_THUMBNAIL_ORIGIN,
@@ -58,6 +58,17 @@ describe("stripUnverifiedThumbnails (INFLOW-G2 D3)", () => {
     );
     expect(result.articles[0].thumbnail_url).toBe(GOOD_URL);
     expect(result.articles[0].thumbnail_doctrine).toBe("no_overlay");
+  });
+
+  it("keys the persistent verification cache by the declared thumbnail checksum", async () => {
+    const fetcher = vi.fn(fetcherReturning(BYTES));
+
+    await stripUnverifiedThumbnails(feedOf([mirror("slug-a")]), fetcher as typeof fetch);
+
+    expect(fetcher).toHaveBeenCalledWith(`${GOOD_URL}?sha256=${SHA}`, {
+      cache: "force-cache",
+      redirect: "error",
+    });
   });
 
   it.each([

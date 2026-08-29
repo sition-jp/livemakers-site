@@ -20,7 +20,7 @@
     "eventRiskRadar": "EVENT RISK",
     "weeklyBrief": "WEEKLY BRIEF",
     "futureMap": "MAP OF THE NEXT ERA",
-    "sessionTerminal": "SESSION TERMINAL"
+    "sessionTerminal": "INTELLIGENCE TERMINAL"
   },
   "assets": {
     "dashboard": {
@@ -430,10 +430,18 @@
       "latestTitle": "Latest articles",
       "viewAll": "View all",
       "atlasHeadingUnpublished": "Map of the Next Era",
-      "atlasHeadingPublished": "Future Atlas"
+      "atlasHeadingPublished": "Future Atlas",
+      "dailyIntelSeriesLink": "All Daily Intel →",
+      "signalSeriesLink": "All Signals →",
+      "deepDiveSeriesLink": "All Deep Dives →",
+      "signalTodayCount": "{count} today",
+      "signalLatestAt": "latest {time}"
     },
     "hero": {
       "sessionLabel": "Current session",
+      "closedSessionLabel": "Previous session",
+      "closedSuffix": "closed",
+      "digestOnlyLabel": "digest only",
       "leadPending": "Today's article is in preparation"
     },
     "family": {
@@ -450,6 +458,11 @@
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
+      "closedBadgeSuffix": "JST closed",
+      "digestOnlyLabel": "digest only",
+      "digestFreshnessPrefix": "Digest",
+      "noSnapshotNote": "No market snapshot (observation unavailable)",
+      "freshnessPrefix": "Snapshot",
       "nextUpdateLine": "Next update: {name} {time} JST",
       "readFull": "Read the full session →",
       "editorialPrefix": "Intelligence",
@@ -457,6 +470,7 @@
     },
     "schedule": {
       "title": "Today's update schedule",
+      "focusPrefix": "Focus:",
       "previous": "Read previous →",
       "archive": "Session article index (sessions become articles over time) →",
       "compactBadge": "{count} more updates today",
@@ -464,6 +478,7 @@
     },
     "focus": {
       "title": "Session Focus",
+      "basePrefix": "From",
       "snapshotBadge": "SNAPSHOT",
       "description": "Focus indicators for {session} · last 24 hours · instruments change with each session"
     },
@@ -482,12 +497,13 @@
       "groupSubtitle": "Current data and its interpretation",
       "sectionTitle": "12 Core Indicators — Current Data and Today's Reading",
       "jointLabel": "The same 12 instruments",
-      "articleTitle": "Today's reading (07-10 morning edition)",
+      "articleTitle": "This Morning's 12 Indicators",
       "awaiting": "Today's 12 Indicators article is being prepared.",
       "previous": "Read the previous 12 Indicators →",
-      "otherPeriods": "Same series · Other periods",
-      "archiveTitle": "12 Indicators archive",
-      "archiveSubtitle": "Previous articles in the same series",
+      "archiveLink": "12 Indicators archive →",
+      "articleTitleWeekend": "This Weekend's 12 Indicators",
+      "awaitingWeekend": "This weekend's edition is being prepared.",
+      "previousWeekend": "Read the previous weekend's 12 Indicators →",
       "indicator": {
         "title": "12 Core Indicators",
         "dataDatePrefix": "Data date",
@@ -501,22 +517,14 @@
       }
     },
     "radar": {
-      "sectionTitle": "Breaking — From Observation to Article",
-      "jointLabel": "Published after verification",
       "lanes": {
-        "xNews": "Surfaced on X",
+        "xNews": "Surfaced on X / news",
         "sde": "Detected by SDE",
         "checking": "Checking"
       },
-      "promoted": {
-        "title": "Breaking Radar — Observation turned article",
-        "subtitle": "Title only · no link",
-        "observedSuffix": "observed → after review, published as Signal at ",
-        "publishedSuffix": "."
-      },
       "observations": {
-        "title": "Other titles under observation",
-        "note": "Only observations whose contents are confirmed become articles."
+        "title": "Breaking Radar — Titles under observation",
+        "note": "Observations link to primary sources; confirmed items are published as Signals."
       },
       "recent": {
         "title": "Recent Signals",
@@ -564,6 +572,7 @@
       "viewAll": "View all",
       "sessionTerminalHeading": "Session Terminal",
       "sessionTerminalEntry": "View archive",
+      "latestArticlesHeading": "Latest articles",
       "atlasPublishedHeading": "Future Atlas",
       "atlasUnpublishedHeading": "Future Map"
     }
@@ -576,8 +585,13 @@
     "highlightsHeading": "Primary-source highlights",
     "watchHeading": "What to watch next",
     "crystallizeNote": "This page becomes a permanent article when the next session begins.",
-    "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",
-    "archiveNote": "Four live sessions each day become articles over time."
+    "noSnapshotNote": "Market observation was unavailable for this session; digest only.",
+    "archiveTitle": "Intelligence Terminal — Session Articles (Morning to Night)",
+    "archiveNote": "Four live sessions each day become articles over time.",
+    "archivePastLink": "View all past session articles →",
+    "archivePastTitle": "Intelligence Terminal — Session Article Archive (All)",
+    "archivePastNote": "The complete record of morning, midday, evening, and night session articles.",
+    "archiveRecentLink": "← Back to the last 7 days"
   },
   "turningPoints": {
     "page_title": "AI Turning Point Detector",

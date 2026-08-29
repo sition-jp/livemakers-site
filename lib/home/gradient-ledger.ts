@@ -13,8 +13,30 @@ export type GradientRegion = (typeof GRADIENT_REGIONS)[number];
  */
 export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>> = {
   hero: ["hero-session-line", "hero-lead-headline"],
-  leading: ["session-now", "schedule", "flash-promotion", "focus", "event-risk"],
-  coincident: ["lead-article", "signal-timeline", "mkt12-tiles", "mkt12-reading", "lane-values"],
+  // 2026-08-14 田平氏 GO (Phase 3 レイアウト改修):
+  // - leading: event-risk (最新記事) を schedule 直下へ・観測リストは
+  //   radar-observations として独立させ flash-promotion 直下へ・focus は末尾へ
+  // - coincident: mkt12-reading (今朝の12指標) を lead-article 直下へ
+  // 2026-08-23 田平氏 GO B-1 (Signal 前面化): lead-article + mkt12-reading を
+  //   morning-desk (「Daily Intel」帯 = compact な Daily Intel + サムネなし 12指標行)
+  //   1 モジュールへ統合。Daily Intel ブロックだけ <xl hidden (D8・hero が担う)。
+  //   spec: docs/superpowers/specs/2026-08-23-home-morning-desk-design.md
+  // 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) を撤去 — 公開以来一度も
+  //   ペアが成立しなかった空カード。観測リスト (radar-observations) は残す。
+  //   spec: docs/superpowers/specs/2026-08-23-terminal-switching-ux-design.md §D
+  //   (CP doctrine §4 は窓単位の台帳で「Live Radar」は観測カードとして存続 — 改訂不要)
+  leading: [
+    "session-now",
+    "schedule",
+    "event-risk",
+    "radar-observations",
+    "focus",
+  ],
+  coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
+  // - lagging (2026-08-23 田平氏 GO A): 記事 4 枠 (deep-dive / atlas-entry /
+  //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
+  //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
+  //   tie-break 順」で、末尾 2 枠 (latest-articles / turning-point-reserved) は固定
   lagging: [
     "deep-dive",
     "atlas-entry",

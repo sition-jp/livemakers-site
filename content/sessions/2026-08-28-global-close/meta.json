@@ -1,0 +1,70 @@
+{
+  "sessionId": "2026-08-28-global-close",
+  "date": "2026-08-28",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-28-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-28-global-close",
+  "publishedAt": "2026-08-29T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260828_2303_4be89875",
+  "asOfJst": "2026-08-28T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月28日 23:03 JST",
+  "bullets": [
+    "Gold $4,609.70 → $4,661.50（+1.12%）",
+    "変動幅上位: ADA/USD -2.5% / WTI -1.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260828_2350_0e1a27ba",
+    "crawlAnchorJst": "2026-08-28T23:03:00+09:00",
+    "writtenAtJst": "2026-08-28T23:50:00+09:00",
+    "lead": "夜のうちに動いたのは、値段そのものではなく値段の決まり方だった。米国では大統領が食肉加工の寡占に法的手当てを指示し、財務長官はイラン産原油の迂回を「封鎖」という作戦の言葉で語った。同じ数時間に、ステーブルコインはサッカーのシャツ前面へ、生成動画は作り直せる道具へと、それぞれ生活の側に一歩降りてきている。",
+    "items": [
+      {
+        "headline": "トランプ、食肉大手を「悪質な独占」と呼び生産者の自前処理を認める文書を指示",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2093315209037254899",
+        "note": "ホワイトハウスが大統領発言として投稿した。文書の作成指示であり、規則としての効力はこれからになる。"
+      },
+      {
+        "headline": "米財務長官が「封鎖」と作戦名を明示、イラン産原油の迂回量を自ら公表",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2093168168671813825",
+        "note": "14日間で1億3000万バレルを誘導したという主張で、独立した検証はまだ取れていない。制裁という語からの言い換えが起きている。"
+      },
+      {
+        "headline": "USDC がチェルシーのシャツ前面へ、2026/27 シーズンから男子・女子・アカデミーで",
+        "sourceUrl": "https://x.com/circle/status/2093292761415889289",
+        "note": "発行体が自ら発表した。競争軸が準備金の設計から、どれだけ見られるかへ動いている。"
+      },
+      {
+        "headline": "Gemini Omni 1.1 Flash が展開、生成動画の主眼は画質から制御と反復へ",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2093338200580256172",
+        "note": "開発元が制御性と反復速度、制作用途での仕上がりを挙げている。"
+      },
+      {
+        "headline": "SpaceX、クリスマス島沖で機体を数日調査し耐熱シールドの実物を採取",
+        "sourceUrl": "https://x.com/SpaceX/status/2092988521376059899",
+        "note": "再突入時の挙動を実機から把握し、今後の機体へ改良を反映する予定だという。"
+      },
+      {
+        "headline": "Cardano のデータ可用性、9月3日に技術ワークショップ",
+        "sourceUrl": "https://x.com/IOGroup/status/2093322709174243504",
+        "note": "L2 が増えた分だけ、データをどこに置くかを先に決める必要が出ている。"
+      },
+      {
+        "headline": "Midnight が DUST の4局面と手数料肩代わりの設計を公開",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2093020914480808382",
+        "note": "初めて触る人が何も持たずに始められるかという、入口の設計の話になっている。"
+      }
+    ],
+    "watch": [
+      "食肉の件は、文書が実際の規則や提訴として姿を現すかどうかで意味が変わる。",
+      "原油の迂回量は当事者の主張のため、第三者の集計が追いつくかを見る。",
+      "9月3日のデータ可用性の議論で、Hydra と Midgard の要件差がどこまで具体化するか。"
+    ]
+  }
+}

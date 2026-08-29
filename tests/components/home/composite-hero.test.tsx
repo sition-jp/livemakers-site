@@ -84,11 +84,12 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
     expect(link.getAttribute("href")).toBe(publishedLive.currentUrl);
   });
 
-  // D6 (fix round 2 / I-2, ①): a feed-lifted live record whose sessionId has
-  // no matching repo entry (never crystallized to content/sessions/) must
-  // route to the archive chrome route — currentUrl would 404, since
-  // generateStaticParams only ever sources routes from getAllSessionRecords().
-  it("routes to /sessions/archive when the live session is feed-origin and not yet materialized (D6 fix round 2 / I-2, ①)", () => {
+  // 2026-08-23 (田平氏 GO): the D6 archive detour is retired here too, same as
+  // SessionNowCard — app/[locale]/sessions/[slug] resolves feed-origin records
+  // at their own URL (resolveSessionPageRecord), so a feed-lifted record never
+  // 404s while it is in the feed, and the archive detour landed readers on a
+  // stale list.
+  it("routes to currentUrl even when the live session is feed-origin and not yet materialized (D6 detour retired 2026-08-23)", () => {
     expect(props.live).not.toBeNull();
     const feedOnlyLive: SessionRecord = {
       ...props.live!,
@@ -101,7 +102,38 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
       '[data-column-module="hero-session-line"]',
     )!;
     const link = line.querySelector("a")!;
-    expect(link.getAttribute("href")).toBe("/sessions/archive");
+    expect(link.getAttribute("href")).toBe(feedOnlyLive.currentUrl);
+  });
+
+  // 2026-08-23 田平氏 GO (spec §A): live が無い窓は直前に終わったセッションを
+  // 「直前のセッション … 終了」として見せる (mobile の唯一の表現)。
+  it("shows the most recent closed session with the ended marker when no session is live", () => {
+    const closed: SessionRecord = {
+      ...props.live!,
+      liveStatus: "closed",
+      asOfJst: "2026-07-10T07:30:00+09:00",
+      hasMaterializedRoute: false,
+    };
+    const { container } = render(
+      <CompositeHero
+        live={null}
+        recentClosed={closed}
+        lead={pendingLead}
+        copy={copy.hero}
+      />,
+    );
+    const line = container.querySelector(
+      '[data-column-module="hero-session-line"]',
+    )!;
+    const link = line.querySelector("a")!;
+    expect(link.getAttribute("href")).toBe(closed.currentUrl);
+    expect(link.getAttribute("data-session-state")).toBe("closed");
+    expect(line.textContent).toContain("直前のセッション");
+    expect(line.textContent).toContain(
+      getSessionBySlug(closed.sessionSlug).nameJa,
+    );
+    expect(line.textContent).toContain("07:30 JST · 終了");
+    expect(line.textContent).not.toContain("切替中");
   });
 
   it("keeps the same editorial URL on English while hiding Japanese editorial", () => {
@@ -183,5 +215,30 @@ describe("composite hero (mobile single representation, G44 D8)", () => {
       );
       expect(container.querySelectorAll("[data-article-id]")).toHaveLength(0);
     }
+  });
+});
+
+// 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §5): mobile
+// hero も「読み解きのみ」を時刻の後ろに付ける。
+describe("composite hero digest-only session (observationStatus=absent)", () => {
+  it("appends the digest-only marker to the time span", () => {
+    const digestLive: SessionRecord = {
+      ...props.live!,
+      asOfJst: "2026-07-10T07:12:00+09:00",
+      observationStatus: "absent",
+      editorial: {
+        digestId: "dig_20260710_0712_ab12cd34",
+        crawlAnchorJst: "2026-07-10T05:03:00+09:00",
+        writtenAtJst: "2026-07-10T07:12:00+09:00",
+        lead: "市場は方向感を探っている。",
+        items: [{ headline: "公式発表で変更が示された", sourceUrl: "https://primary.example.org/news/123" }],
+        watch: ["次の公式発表を確認する。"],
+      },
+    };
+    const { container } = render(
+      <CompositeHero live={digestLive} lead={pendingLead} copy={copy.hero} />,
+    );
+    const line = container.querySelector('[data-column-module="hero-session-line"]')!;
+    expect(line.textContent).toContain("07:12 JST · 読み解きのみ");
   });
 });

@@ -24,7 +24,7 @@ export type ArticleInflowProvenance =
     }
   | { approval_model: "go_record"; go_record_id: string };
 
-export interface ArticleInflowItem {
+export interface ArticleInflowItemCommon {
   slug: string;
   title: string;
   family: ArticleInflowFamily;
@@ -38,7 +38,6 @@ export interface ArticleInflowItem {
   excerpt?: string;
   lanes?: Array<"macro" | "crypto" | "rwa">;
   published_at: string;
-  body: string;
   body_checksum: string;
   validator: {
     verdict: "green";
@@ -46,6 +45,11 @@ export interface ArticleInflowItem {
     [key: string]: unknown;
   };
   [key: string]: unknown;
+}
+
+export interface ArticleInflowItem extends ArticleInflowItemCommon {
+  body: string;
+  body_url?: undefined;
 }
 
 export interface ArticleInflowFeed {
@@ -60,3 +64,36 @@ export interface ArticleInflowFeed {
 export function calculateArticleBodyChecksum(body: string): string;
 export function isSafeArticleInflowBody(body: string): boolean;
 export function parseArticleInflowFeed(payload: unknown): ArticleInflowFeed | null;
+
+// ---- catalog v1 (P2-LVM-FEEDSPLIT-G1) ----------------------------------
+export const ARTICLE_INFLOW_CATALOG_SCHEMA_VERSION: "livemakers_article_inflow_catalog_v1";
+export const ARTICLE_INFLOW_BODY_SCHEMA_VERSION: "livemakers_article_inflow_body_v1";
+export const ARTICLE_BLOB_ORIGIN: "https://p80f4ywborfbatou.public.blob.vercel-storage.com";
+
+/** v0 item から body を落とし body_url (origin pin 済) を足した射影 */
+export interface ArticleInflowCatalogItem extends ArticleInflowItemCommon {
+  body?: undefined;
+  body_url: string;
+}
+
+export interface ArticleInflowCatalog {
+  schema_version: typeof ARTICLE_INFLOW_CATALOG_SCHEMA_VERSION;
+  environment: "staging" | "production";
+  generated_at: string;
+  feed_checksum: string;
+  source_feed_checksum: string;
+  articles: ArticleInflowCatalogItem[];
+  [key: string]: unknown;
+}
+
+/** v0 feed / v1 catalog のどちらでも記事 overlay として扱える供給源 */
+export type ArticleInflowSource = ArticleInflowFeed | ArticleInflowCatalog;
+export type ArticleInflowSourceItem = ArticleInflowItem | ArticleInflowCatalogItem;
+
+export function parseArticleInflowCatalog(
+  payload: unknown,
+): ArticleInflowCatalog | null;
+export function parseArticleInflowBody(
+  payload: unknown,
+  expected: { slug: string; bodyChecksum: string },
+): string | null;

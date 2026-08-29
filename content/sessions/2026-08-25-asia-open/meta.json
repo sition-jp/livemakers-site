@@ -1,0 +1,99 @@
+{
+  "sessionId": "2026-08-25-asia-open",
+  "date": "2026-08-25",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-25-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-08-25-asia-open",
+  "publishedAt": "2026-08-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260825_0730_4fe719af",
+  "asOfJst": "2026-08-25T07:30:16+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 8月25日 07:30 JST",
+  "bullets": [
+    "日経平均先物 65,930 → 65,435（-0.75%）",
+    "変動幅上位: NIGHT/USD -7.1% / VIX +4.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260825_0610_4cdd81ac",
+    "crawlAnchorJst": "2026-08-25T05:03:00+09:00",
+    "writtenAtJst": "2026-08-25T06:10:00+09:00",
+    "lead": "制裁の対象が、部門で定義された。米財務省が対イラン経済作戦を開始し、指定された5部門にデジタル資産が入った。金や海運と並んだということは、暗号資産が規制の議題ではなく執行の面として扱われたということだ。同じ日、Midnight は隠すことと見つかることを別の層に分ける設計を示し、制度が境界を引き直す横で技術は境界の引き方そのものを変えている。",
+    "items": [
+      {
+        "headline": "米財務省が対イラン経済作戦 Operation Economic Outcast を開始した",
+        "sourceUrl": "https://x.com/USTreasury/status/2091951903403913606",
+        "note": "トランプ大統領の指示によるもので、財務省は前例のない政府全体の経済作戦だと位置づけている。"
+      },
+      {
+        "headline": "部門別制裁指定は5つ。デジタル資産・技術・金・航空・海運が対象になった",
+        "sourceUrl": "https://x.com/USTreasury/status/2091972711262150878",
+        "note": "暗号資産が、金や海運と並ぶ制裁執行の面として名指しされた。規制するかどうかの議論とは別の枠組みが当たっている。"
+      },
+      {
+        "headline": "資金洗浄を助ける主体は米ドル決済網から除外されると財務長官が述べた",
+        "sourceUrl": "https://x.com/USTreasury/status/2091971828717682806",
+        "note": "「時計はいま動き出した」と付け加えている。執行の射程がどこまで届くかは指定文書とガイダンスで決まる。"
+      },
+      {
+        "headline": "財務長官が第二次大戦のノルマンディー上陸になぞらえ、第三国の拠点も断つと表明した",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2091951925793013900"
+      },
+      {
+        "headline": "Midnight が Celestia と連携し、注文の発見だけを共有層に置く設計を示した",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2091958032104145402",
+        "note": "取引の秘匿は Zswap が担い、注文を見つける部分は共有名前空間に出す。隠すことと見つかることを別の層に分けた。"
+      },
+      {
+        "headline": "IO はこれをモジュール設計の実例とし、市場をゼロから作らず流動性を共有できる形だと説明した",
+        "sourceUrl": "https://x.com/IOGroup/status/2091956476461846862"
+      },
+      {
+        "headline": "Midnight Buildathon が発表された。3か月・3つの波で助成総額は12,500ドル",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2091825802874642896",
+        "note": "第1波は8月27日開始。一回限りの競争ではなく、波ごとに作り直す設計になっている。"
+      },
+      {
+        "headline": "Ouroboros Peras の週次更新が出た。メインネットに向けた受け入れとワーキンググループが動き出した",
+        "sourceUrl": "https://x.com/Cardano/status/2091953721420710065"
+      },
+      {
+        "headline": "ビットコイン ETF の資産が一週間で25.4%増え、961億ドルになったと報じられた",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2091948826978291820"
+      },
+      {
+        "headline": "業界団体が中間選挙に向けて32名を推薦した。業界の拠出はすでに約2億ドルに達している",
+        "sourceUrl": "https://x.com/coinbureau/status/2091929779620745463",
+        "note": "立法そのものは9月まで動かない。金が先に動き、条文が後から動く順序になっている。"
+      },
+      {
+        "headline": "Securitize が2つ目のチェーンで運用資産10億ドルに到達したと発表した",
+        "sourceUrl": "https://x.com/Securitize/status/2091912030357717169"
+      },
+      {
+        "headline": "Solana 上で AI エージェントのトークン化が始まった。エージェントを所有可能な事業として立ち上げる設計だ",
+        "sourceUrl": "https://x.com/solana/status/2091918581755793520"
+      },
+      {
+        "headline": "Bitcoin IRA と iTrustCapital で情報漏えいが起き、利用者が標的になったと報じられた",
+        "sourceUrl": "https://x.com/coinbureau/status/2091914680822321491",
+        "note": "被害は120万ドルとされる。預ける先を選ぶことと、預けたものを出せることは別の作業だ。"
+      },
+      {
+        "headline": "NASA のローマン宇宙望遠鏡がファルコンヘビーのフェアリングに格納された。打ち上げは8月30日",
+        "sourceUrl": "https://x.com/SpaceX/status/2091963575296262434"
+      }
+    ],
+    "watch": [
+      "デジタル資産部門の指定文書とガイダンス。取引所・ブリッジ・自己保管のどこに線が引かれるかで実務の範囲が決まる。",
+      "Celestia の共有名前空間を実際に参照するウォレットやアプリが現れるか。実装が増えて初めて共有された発見は機能する。",
+      "指定された第三国の当局対応。UAE・香港・シンガポール・スイスが自国の主体をどう扱うかが協調の広さを示す。"
+    ]
+  }
+}

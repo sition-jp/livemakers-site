@@ -23,7 +23,8 @@ describe("session registry v2 (G40 verbatim)", () => {
       "05:03",
       "12:03",
       "18:03",
-      "22:33–23:03",
+      // 2026-08-14 裁定: 22:33 NY Open crawl 停止中のため表記は 23:03 のみ
+      "23:03",
     ]);
     expect(READER_SESSIONS.map((session) => session.internalSlot)).toEqual([
       "morning",

@@ -4,7 +4,6 @@ import type { ArticleFamily } from "@/lib/articles/article-model";
 import type { IndicatorTileCopy } from "@/components/home/IndicatorTileCard";
 import type { LeadArticleLabels } from "@/components/home/LeadArticleCard";
 import type { RadarObservationsCopy } from "@/components/home/RadarObservationsCard";
-import type { RadarPromotedCopy } from "@/components/home/RadarPromotedCard";
 import type { SessionFocusCopy } from "@/components/home/SessionFocusChart";
 import type { SessionNowCopy } from "@/components/home/SessionNowCard";
 import type { SessionScheduleCopy } from "@/components/home/SessionScheduleCard";
@@ -17,6 +16,9 @@ export interface HomeCopyContext {
   nextSessionName: string;
   nextSessionTime: string;
   remainingSessions: number;
+  /** 2026-08-23 GO B-1: Signal ヘッダ鮮度 (slots.signalTimelineSummary 由来) */
+  signalTodayCount: number;
+  signalLatestAt: string | null;
 }
 
 type Translator = (
@@ -39,6 +41,11 @@ export interface HomeCopy {
   };
   hero: {
     sessionLabel: string;
+    /** 2026-08-23 (spec §A): live 無し・直前 closed あり のラベル/末尾 */
+    closedSessionLabel: string;
+    closedSuffix: string;
+    /** 2026-08-23 digest-only: 時刻の後ろに付ける「読み解きのみ」 */
+    digestOnlyLabel: string;
     sessionFallback: string;
     leadFamily: string;
     leadPending: string;
@@ -49,8 +56,16 @@ export interface HomeCopy {
     deepDiveTitle: string;
     latestTitle: string;
     viewAll: string;
+    dailyIntelSeriesLink: string;
+    signalSeriesLink: string;
+    deepDiveSeriesLink: string;
     atlasHeadingUnpublished: string;
     atlasHeadingPublished: string;
+    // 整形済み文字列 (null = そのセグメントを描かない・honest empty)
+    signalFreshness: {
+      todayCount: string | null;
+      latestAt: string | null;
+    };
   };
   sessionNow: SessionNowCopy;
   schedule: SessionScheduleCopy;
@@ -64,16 +79,16 @@ export interface HomeCopy {
     articleTitle: string;
     awaiting: string;
     previous: string;
-    otherPeriods: string;
-    archiveTitle: string;
-    archiveSubtitle: string;
+    archiveLink: string;
+    // 土曜の weekend variant 用 (2026-08-15 田平氏 GO)
+    articleTitleWeekend: string;
+    awaitingWeekend: string;
+    previousWeekend: string;
     indicator: IndicatorTileCopy;
     movers: TopMoversCopy;
   };
+  // 2026-08-23: sectionTitle / jointLabel / promoted (昇格ペア) は撤去 (spec §D)
   radar: {
-    sectionTitle: string;
-    jointLabel: string;
-    promoted: RadarPromotedCopy;
     observations: RadarObservationsCopy;
   };
   lanes: {
@@ -124,6 +139,9 @@ export function buildHomeCopy(
     },
     hero: {
       sessionLabel: translate("hero.sessionLabel"),
+      closedSessionLabel: translate("hero.closedSessionLabel"),
+      closedSuffix: translate("hero.closedSuffix"),
+      digestOnlyLabel: translate("hero.digestOnlyLabel"),
       sessionFallback: translate("general.noLiveSession"),
       leadFamily: familyLabels["daily-intel"],
       leadPending: translate("hero.leadPending"),
@@ -133,12 +151,30 @@ export function buildHomeCopy(
       laneValuesTitle: translate("gradient.laneValuesTitle"),
       deepDiveTitle: translate("gradient.deepDiveTitle"),
       latestTitle: translate("gradient.latestTitle"),
+      dailyIntelSeriesLink: translate("gradient.dailyIntelSeriesLink"),
+      signalSeriesLink: translate("gradient.signalSeriesLink"),
+      deepDiveSeriesLink: translate("gradient.deepDiveSeriesLink"),
       viewAll: translate("gradient.viewAll"),
       atlasHeadingUnpublished: translate("gradient.atlasHeadingUnpublished"),
       atlasHeadingPublished: translate("gradient.atlasHeadingPublished"),
+      signalFreshness: {
+        todayCount:
+          context.signalTodayCount > 0
+            ? translate("gradient.signalTodayCount", {
+                count: context.signalTodayCount,
+              })
+            : null,
+        latestAt: context.signalLatestAt
+          ? translate("gradient.signalLatestAt", { time: context.signalLatestAt })
+          : null,
+      },
     },
     sessionNow: {
       sessionBadgeSuffix: translate("sessionNow.sessionBadgeSuffix"),
+      closedBadgeSuffix: translate("sessionNow.closedBadgeSuffix"),
+      digestOnlyLabel: translate("sessionNow.digestOnlyLabel"),
+      digestFreshnessPrefix: translate("sessionNow.digestFreshnessPrefix"),
+      noSnapshotNote: translate("sessionNow.noSnapshotNote"),
       freshnessPrefix: translate("sessionNow.freshnessPrefix"),
       nextUpdateLine: translate("sessionNow.nextUpdateLine", {
         name: context.nextSessionName,
@@ -182,9 +218,10 @@ export function buildHomeCopy(
       articleTitle: translate("mkt12.articleTitle"),
       awaiting: translate("mkt12.awaiting"),
       previous: translate("mkt12.previous"),
-      otherPeriods: translate("mkt12.otherPeriods"),
-      archiveTitle: translate("mkt12.archiveTitle"),
-      archiveSubtitle: translate("mkt12.archiveSubtitle"),
+      archiveLink: translate("mkt12.archiveLink"),
+      articleTitleWeekend: translate("mkt12.articleTitleWeekend"),
+      awaitingWeekend: translate("mkt12.awaitingWeekend"),
+      previousWeekend: translate("mkt12.previousWeekend"),
       indicator: {
         title: translate("mkt12.indicator.title"),
         dataDatePrefix: translate("mkt12.indicator.dataDatePrefix"),
@@ -200,15 +237,6 @@ export function buildHomeCopy(
       },
     },
     radar: {
-      sectionTitle: translate("radar.sectionTitle"),
-      jointLabel: translate("radar.jointLabel"),
-      promoted: {
-        title: translate("radar.promoted.title"),
-        subtitle: translate("radar.promoted.subtitle"),
-        observedSuffix: translate("radar.promoted.observedSuffix"),
-        publishedSuffix: translate("radar.promoted.publishedSuffix"),
-        laneLabels,
-      },
       observations: {
         title: translate("radar.observations.title"),
         note: translate("radar.observations.note"),
@@ -249,11 +277,17 @@ function testTranslator(
   );
 }
 
-export function buildTestHomeCopy(): HomeCopy {
+export function buildTestHomeCopy(
+  overrides: Partial<HomeCopyContext> = {},
+): HomeCopy {
   return buildHomeCopy(testTranslator, {
     sessionName: "Asia Open Terminal",
     nextSessionName: "Europe Bridge Terminal",
     nextSessionTime: "12:03",
     remainingSessions: 3,
+    // fixture 2026-07-10 の Signal 2 本 (cbdc 08:30 / stablecoin 06:10) に一致
+    signalTodayCount: 2,
+    signalLatestAt: "07-10 08:30",
+    ...overrides,
   });
 }

@@ -4,6 +4,12 @@ export type ProvenanceState =
       reviewStatus: "reviewed_fixture";
     }
   | {
+      // 2026-08-14 田平氏裁定 (RWA live 配線): 毎時の自動収集値 (PF 検証なし)。
+      // reviewed_live は「アンカー実施 + PF01-10 検証済」の意味なので流用しない
+      sourceMode: "collected_live";
+      reviewStatus: "auto_collected";
+    }
+  | {
       sourceMode: "reviewed_live";
       reviewStatus: "reviewed_snapshot";
     };
@@ -19,6 +25,8 @@ function isValidProvenancePair(
   return (
     (provenance.sourceMode === "fixture_only" &&
       provenance.reviewStatus === "reviewed_fixture") ||
+    (provenance.sourceMode === "collected_live" &&
+      provenance.reviewStatus === "auto_collected") ||
     (provenance.sourceMode === "reviewed_live" &&
       provenance.reviewStatus === "reviewed_snapshot")
   );
@@ -48,7 +56,10 @@ export function inheritProvenance(
 }
 
 function provenanceRank(provenance: WindowProvenance): number {
-  return provenance.sourceMode === "fixture_only" ? 0 : 1;
+  // 保守的な順 (低いほど保守的): fixture < 自動収集 < レビュー済み live
+  if (provenance.sourceMode === "fixture_only") return 0;
+  if (provenance.sourceMode === "collected_live") return 1;
+  return 2;
 }
 
 export function selectMostConservativeProvenance(

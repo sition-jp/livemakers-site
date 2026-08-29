@@ -2,7 +2,11 @@ import {
   ArticleMetaSchema,
   type ArticleMeta,
 } from "@/lib/articles/article-model";
-import type { ArticleInflowFeed } from "@/lib/articles/article-inflow-validation.mjs";
+import type {
+  ArticleInflowFeed,
+  ArticleInflowSource,
+  ArticleInflowSourceItem,
+} from "@/lib/articles/article-inflow-validation.mjs";
 
 export {
   ARTICLE_INFLOW_SCHEMA_VERSION,
@@ -12,11 +16,14 @@ export {
   isSafeArticleInflowBody,
   parseArticleInflowFeed,
 } from "@/lib/articles/article-inflow-validation.mjs";
-export type { ArticleInflowFeed };
+export type { ArticleInflowFeed, ArticleInflowSource };
 export type ArticleInflowPreviewArticle = ArticleMeta & {
   source: "repository" | "inflow";
   declaredBodyChecksum?: string;
   inflowBody?: string;
+  // FEEDSPLIT T6: catalog v1 経由の記事は本文を運ばず、詳細描画時に
+  // この URL から取得する (v0 feed 経由は従来どおり inflowBody を運ぶ)
+  bodyUrl?: string;
   // thumbnailUrl は ArticleMeta へ移動 (INFLOW-G2 T1a — mirror 記事も運ぶため)
   thumbnailChecksum?: string;
 };
@@ -39,7 +46,7 @@ function toJstParts(value: string) {
 }
 
 function mapInflowArticle(
-  article: ArticleInflowFeed["articles"][number],
+  article: ArticleInflowSourceItem,
   hrefBase: string,
 ): ArticleInflowPreviewArticle {
   const jst = toJstParts(article.published_at);
@@ -60,6 +67,10 @@ function mapInflowArticle(
     // ArticleMeta に載せることで home slots (LeadArticleCard / ArticleCardSmall)
     // まで追加配線なしで伝播する
     thumbnailUrl: article.thumbnail_url,
+    // 2026-08-14 (radar B 経路): packet が radar_topic_id を運んできたら
+    // ArticleMeta.radarTopicId へ透過 — 「速報 — 観測から記事へ」の昇格ペア
+    // (select-home-slots radarPair) はこのフィールドで観測と記事を結合する
+    radarTopicId: (article as { radar_topic_id?: string }).radar_topic_id,
   });
   return {
     ...parsed,
@@ -67,13 +78,14 @@ function mapInflowArticle(
     source: "inflow",
     declaredBodyChecksum: article.body_checksum,
     inflowBody: article.body,
+    bodyUrl: (article as { body_url?: string }).body_url,
     thumbnailChecksum: article.thumbnail_checksum,
   };
 }
 
 function buildArticleInflowCatalog(
   repositoryArticles: ArticleMeta[],
-  feed: ArticleInflowFeed | null,
+  feed: ArticleInflowSource | null,
   hrefBase: string,
 ): ArticleInflowPreviewCatalog {
   const repositorySlugs = new Set(repositoryArticles.map((article) => article.articleId));
@@ -95,7 +107,7 @@ function buildArticleInflowCatalog(
 
 export function buildArticleInflowPreviewCatalog(
   repositoryArticles: ArticleMeta[],
-  feed: ArticleInflowFeed | null,
+  feed: ArticleInflowSource | null,
 ): ArticleInflowPreviewCatalog {
   return buildArticleInflowCatalog(
     repositoryArticles,
@@ -106,7 +118,7 @@ export function buildArticleInflowPreviewCatalog(
 
 export function buildArticleInflowPublicCatalog(
   repositoryArticles: ArticleMeta[],
-  feed: ArticleInflowFeed | null,
+  feed: ArticleInflowSource | null,
 ): ArticleInflowPublicCatalog {
   return {
     ...buildArticleInflowCatalog(repositoryArticles, feed, "/articles"),

@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-08-08-ny-open",
+  "date": "2026-08-08",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-08-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-08-ny-open",
+  "publishedAt": "2026-08-14T11:16:33+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260808_1803_c9f84700",
+  "asOfJst": "2026-08-08T18:03:06+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月8日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,709.96 → 7,757.64（+0.62%）",
+    "変動幅上位: Gold +2.3% / VIX -1.7%"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-08-13-ny-open",
+  "date": "2026-08-13",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-13-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-13-ny-open",
+  "publishedAt": "2026-08-14T09:30:50+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260813_1803_4954c404",
+  "asOfJst": "2026-08-13T18:03:07+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月13日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,728.20 → 7,748.50（+0.26%）",
+    "変動幅上位: NIGHT/USD +3.3% / WTI -1.8%"
+  ]
+}
