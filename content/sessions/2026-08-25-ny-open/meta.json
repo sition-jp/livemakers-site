@@ -1,0 +1,68 @@
+{
+  "sessionId": "2026-08-25-ny-open",
+  "date": "2026-08-25",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-25-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-25-ny-open",
+  "publishedAt": "2026-08-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260825_1803_2545522b",
+  "asOfJst": "2026-08-25T18:03:07+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月25日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,674.37 → 7,652.86（-0.28%）",
+    "変動幅上位: BTC/USD +3.7% / NIGHT/USD +2.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260825_1839_8c3af521",
+    "crawlAnchorJst": "2026-08-25T18:03:00+09:00",
+    "writtenAtJst": "2026-08-25T18:39:21+09:00",
+    "lead": "同じ週に、制裁は二つの方向へ同時に動いた。米国はシリアの指定を47年ぶりに外し、名簿に残るのは3か国になった。その一方で、イラン関連の商品取引網には新しい指定が積まれている。外す判断と積む判断が並走していて、使われている道具は同じだ。",
+    "items": [
+      {
+        "headline": "米国がシリアをテロ支援国家の指定から外した",
+        "sourceUrl": "https://www.nzz.ch/international/krise-in-syrien-usa-streicht-syrien-von-liste-der-terrorunterstuetzer-ld.1536230",
+        "note": "47年続いた指定が終わり、名簿に残るのはイラン・キューバ・北朝鮮の3か国になった。"
+      },
+      {
+        "headline": "シンガポール籍の石油トレーダーがイラン関連で制裁対象になった",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states-sanctions-singapore-based-oil-trader-wellbred-over-iran-links",
+        "note": "指定されたのはイラン国外に置かれた商品取引の器で、外す判断と積む判断が同じ週に並んでいる。"
+      },
+      {
+        "headline": "270億パラメータの公開モデルが、コーディングの上位10位に入った",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2092090827690610914",
+        "note": "開発元によれば、このサイズ帯で上位10位に入ったのはこの1本だけだという。規模と順位の対応が崩れている。"
+      },
+      {
+        "headline": "Midnight が取引相手を探す場所を外部の共有名前空間に置く設計を日本語で説明した",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2092149689298891173",
+        "note": "身元と残高を隠したまま相手を見つける、という難題の切り分け方を示している。"
+      },
+      {
+        "headline": "Cardano の月次 DRep コミュニティコールが8月26日に開かれる",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2092175248418312337"
+      },
+      {
+        "headline": "DZ Bank が過去最高益を出し、見通しを引き上げた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/volksbanken-dz-bank-erzielt-rekordgewinn-und-hebt-prognose-an/100249342.html",
+        "note": "同じ日に Dekabank も利益予想を上げている。ドイツの銀行側の数字が揃って強い。"
+      },
+      {
+        "headline": "ウクライナが米国製ミサイルの供与を求めるなか、バーナムがニューヨーク訪問を計画している",
+        "sourceUrl": "https://www.theguardian.com/politics/2026/aug/25/andy-burnham-us-new-york-ukraine-patriot-missiles"
+      }
+    ],
+    "watch": [
+      "シリアの指定解除が、既存の取引制限や決済経路の運用にどこまで反映されるか。",
+      "イラン網への指定が、船と物流の側から金融の側へどこまで広がるか。",
+      "手元のGPU1枚で動く規模のモデルが、次のランキングでも上位に残るか。"
+    ]
+  }
+}
