@@ -1,0 +1,85 @@
+{
+  "sessionId": "2026-08-24-europe-bridge",
+  "date": "2026-08-24",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-24-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-24-europe-bridge",
+  "publishedAt": "2026-08-25T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260824_1203_a5732955",
+  "asOfJst": "2026-08-24T12:03:09+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月24日 12:03 JST",
+  "bullets": [
+    "DXY 98.800 → 98.826（+0.03%）",
+    "変動幅上位: VIX -5.5% / WTI -1.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260824_1233_f86a347f",
+    "crawlAnchorJst": "2026-08-24T12:03:00+09:00",
+    "writtenAtJst": "2026-08-24T12:33:05+09:00",
+    "lead": "関税は、掲げる数字と通す数字が別々に動いている。米国の実効関税率はピークの11%から7%割れまで下がっていた一方で、対カナダ交渉は条文の細部で決裂し、追加の関税は積み上がった。同じ週にビットコインは2023年3月以来の週足を記録し、財務長官は「明日、史上最大の金融攻勢」を予告している。動いているのは価格ではなく、価格を決める枠組みのほうだ。",
+    "items": [
+      {
+        "headline": "米国の実効関税率は11%から7%割れまで下がっていた",
+        "sourceUrl": "https://x.com/stlouisfed/status/2091651720971505712",
+        "note": "セントルイス連銀の集計では、税率の引き下げに加えて低関税の品目と相手国へ貿易フローが寄った再配置も効いている。物価への転嫁もここ数か月で頭打ちになった。"
+      },
+      {
+        "headline": "米加の通商交渉は条文の細部で決裂した",
+        "sourceUrl": "https://www.straitstimes.com/world/us-canada-trade-talks-fell-apart-over-fine-print-envoy-says",
+        "note": "大枠ではなく細部で折り合わなかったと交渉当事者が説明している。"
+      },
+      {
+        "headline": "財務長官が「明日、史上最大の金融攻勢を始める」と予告した",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2091664440785502582",
+        "note": "対イランの経済圧力を指す。予告の段階であり、発表そのものはまだ行われていない。"
+      },
+      {
+        "headline": "ホルムズ海峡の船舶航行が大幅に制限されている",
+        "sourceUrl": "https://www.nzz.ch/international/iran-krieg-schiffsverkehr-durch-hormuz-stark-eingeschraenkt-irans-praesident-raeumt-wirtschaftliche-schwierigkeiten-ein-ld.10009801",
+        "note": "イラン大統領は自国の経済的な困難を認めた。"
+      },
+      {
+        "headline": "ビットコインが$78,000台を回復した",
+        "sourceUrl": "https://x.com/AshCrypto/status/2091637287691989188",
+        "note": "先週一週間の上げ幅は2023年3月以来の大きさだった。昨年10月の最高値からは、なお大きく下にいる。"
+      },
+      {
+        "headline": "Phantom が Sui のサポートを9月24日で終える",
+        "sourceUrl": "https://x.com/phantom/status/2091692255094685806",
+        "note": "残高表示・送金・スワップが止まるため、期限までに対応ウォレットへ移すか、手数料免除でスワップすることになる。何もしなければ資産はSui上に残り、同じ資格情報で後から取り出せる。"
+      },
+      {
+        "headline": "日本銀行が、金融機関の生成AI利用をまとめた別冊の英語版を案内した",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2091707112636445036",
+        "note": "国内の金融機関で、汎用的な事務処理から顧客情報を扱う業務へ利用が広がっている点を扱う。"
+      },
+      {
+        "headline": "太平洋での深海採掘を探る計画に、米領側が反発している",
+        "sourceUrl": "https://www.theguardian.com/environment/2026/aug/24/trump-plans-critical-minerals-deep-sea-mining-pacific-islands",
+        "note": "重要鉱物の確保を目的とした計画に対し、当事者である米領が異議を唱えた。"
+      },
+      {
+        "headline": "Rocket Lab が Neutron のフェアリング開閉試験に入った",
+        "sourceUrl": "https://x.com/RocketLab/status/2091622338878136642",
+        "note": "打ち上げ前試験の一環として、二枚の構造を開閉させている。"
+      },
+      {
+        "headline": "Midnight の日本ミートアップが9月11日から13日に三都市で開かれる",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2091709303849968005",
+        "note": "福岡・名古屋・東京の順に回る。名古屋と東京には運営メンバーも登壇する予定。"
+      }
+    ],
+    "watch": [
+      "対イラン制裁の実際の発表。予告と発表のあいだで、対象と例外がどこまで具体化するか。",
+      "実効関税率の次回更新。掲げる関税が上がる局面で、通す平均が下げ止まるかどうか。",
+      "9月24日。Phantom で Sui を持ったままの人が、期限までに動くかどうか。"
+    ]
+  }
+}
