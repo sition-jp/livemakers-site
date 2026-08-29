@@ -39,10 +39,27 @@ const EDITORIAL_URL_PATTERN =
   /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?/gi;
 const EDITORIAL_HANDLE_PATTERN = /(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/g;
 
+// ドット入りブランド名は上の bare-domain 分岐と機械的に区別できないため、
+// 実在サービスの表記だけを明示 allowlist で許す (2026-08-24 「S.BLOX」で
+// crystallize PR #115 の guards が 5 日停止)。大文字小文字は表記どおり厳密
+// 一致のみ・URL 文脈 (https:// / www. / path 付き) は素通しせず床を保つ。
+const EDITORIAL_DOTTED_BRAND_ALLOWLIST: readonly RegExp[] = [
+  /S\.BLOX/g, // ソニー系暗号資産取引所
+];
+
+function maskAllowedDottedBrands(value: string): string {
+  return EDITORIAL_DOTTED_BRAND_ALLOWLIST.reduce(
+    // ドメインを構成できない非 ASCII 1 文字に置換し、周囲の判定を変えない
+    (masked, brand) => masked.replace(brand, "□"),
+    value,
+  );
+}
+
 export function editorialUrlOrHandleMatches(value: string): string[] {
+  const masked = maskAllowedDottedBrands(value);
   return [
-    ...value.matchAll(EDITORIAL_URL_PATTERN),
-    ...value.matchAll(EDITORIAL_HANDLE_PATTERN),
+    ...masked.matchAll(EDITORIAL_URL_PATTERN),
+    ...masked.matchAll(EDITORIAL_HANDLE_PATTERN),
   ].map((match) => match[0]);
 }
 

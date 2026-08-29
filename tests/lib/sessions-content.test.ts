@@ -363,3 +363,31 @@ describe("editorialUrlOrHandleMatches", () => {
     );
   });
 });
+
+describe("dotted brand allowlist (2026-08-24 S.BLOX guards incident)", () => {
+  it("does not flag the allowlisted S.BLOX brand token", () => {
+    expect(
+      sessionEditorialTextViolations(
+        "ソニー系S.BLOXがNIGHTを国内初取扱い、ADAも同日開始",
+      ),
+    ).toEqual([]);
+  });
+
+  it("still flags a real domain sitting next to an allowlisted brand", () => {
+    expect(
+      sessionEditorialTextViolations("S.BLOX の告知は example.com に出た。"),
+    ).toContain("url_or_handle");
+  });
+
+  it("keeps flagging the lowercase domain-like form s.blox", () => {
+    expect(sessionEditorialTextViolations("s.blox が上場を発表した。")).toContain(
+      "url_or_handle",
+    );
+  });
+
+  it("keeps flagging full URLs even when they contain the brand", () => {
+    expect(
+      sessionEditorialTextViolations("詳細は https://S.BLOX.example/news 参照。"),
+    ).toContain("url_or_handle");
+  });
+});
