@@ -29,30 +29,67 @@ const EDITORIAL_ANCHOR_BY_SLUG = {
   "ny-open": "18:03",
   "global-close": "23:03",
 } as const;
-const EDITORIAL_URL_OR_HANDLE_PATTERN =
-  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?|(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/i;
+/**
+ * URL / ハンドル検出の正本 (P2-5)。live-market-feed.ts の source title 検査と
+ * sessions bundle 検査も同型の regex を持っていたが、二重定義は片方だけ直る
+ * 事故につながるのでこの実装を import させる。matchAll は内部でクローンを
+ * 作るため、g 付きの module-level RegExp を使い回しても lastIndex は汚れない。
+ */
+const EDITORIAL_URL_PATTERN =
+  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?/gi;
+const EDITORIAL_HANDLE_PATTERN = /(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/g;
+
+// ドット入りブランド名は上の bare-domain 分岐と機械的に区別できないため、
+// 実在サービスの表記だけを明示 allowlist で許す (2026-08-24 「S.BLOX」で
+// crystallize PR #115 の guards が 5 日停止)。大文字小文字は表記どおり厳密
+// 一致のみ・URL 文脈 (https:// / www. / path 付き) は素通しせず床を保つ。
+const EDITORIAL_DOTTED_BRAND_ALLOWLIST: readonly RegExp[] = [
+  /S\.BLOX/g, // ソニー系暗号資産取引所
+];
+
+function maskAllowedDottedBrands(value: string): string {
+  return EDITORIAL_DOTTED_BRAND_ALLOWLIST.reduce(
+    // ドメインを構成できない非 ASCII 1 文字に置換し、周囲の判定を変えない
+    (masked, brand) => masked.replace(brand, "□"),
+    value,
+  );
+}
+
+export function editorialUrlOrHandleMatches(value: string): string[] {
+  const masked = maskAllowedDottedBrands(value);
+  return [
+    ...masked.matchAll(EDITORIAL_URL_PATTERN),
+    ...masked.matchAll(EDITORIAL_HANDLE_PATTERN),
+  ].map((match) => match[0]);
+}
+
 const EDITORIAL_RANK_PATTERN =
   /\brank\s*[ABC]\b|ランク\s*[ABC]|[ABC]\s*層/i;
 const EDITORIAL_ENGAGEMENT_PATTERN =
   /いいね\s*[\d,]+|[\d,]+\s*likes|RT\s*[\d,]+|リポスト\s*[\d,]+|エンゲージメント/i;
+// 「私」「必ず」「確実」「絶対」を素で照合すると、打ち消しの副詞・private の
+// 複合語・金融の技術用語まで巻き込む (P2-2)。純度違反 1 件で sessions bundle
+// 全体が null に落ちるので誤爆の可用性コストが大きい。除外集合は一人称・断定
+// になり得ない語だけに限る — 「私自身」「私共」「私見」は一人称なので入れない。
+// producer 側 (sition-discovery-engine
+// `livemakers_export/session_digest_reader.py`) と同一に保つ。
 const EDITORIAL_FIRST_PERSON_PATTERN =
-  /私|筆者|我々|われわれ|\b(?:I|we|my|our|me)\b/i;
+  /私(?![募的立有財営鉄企法権大学道])|筆者|我々|われわれ|\b(?:I|we|my|our|me)\b/i;
 const EDITORIAL_CERTAINTY_PATTERN =
-  /確実|間違いなく|断定(?:した|する)|絶対|必ず|保証(?:する|される)|\b(?:definitely|certainly|surely)\b|\bguarantee(?:d|s|ing)?\b|\bis certain to\b/i;
+  /(?<!不)確実|間違いなく|断定(?:した|する)|絶対(?![値量収数])|必ず(?!しも)|保証(?:する|される)|\b(?:definitely|certainly|surely)\b|\bguarantee(?:d|s|ing)?\b|\bis certain to\b/i;
 const EDITORIAL_CONSPIRACY_HYPE_PATTERN =
   /陰謀|黒幕|隠蔽|仕組んだ|劇的|衝撃的|\bconspir(?:acy|atorial)\b|\bmastermind\b/i;
 
 export function sessionEditorialTextViolations(value: string): string[] {
-  return [
-    ["url_or_handle", EDITORIAL_URL_OR_HANDLE_PATTERN],
-    ["rank", EDITORIAL_RANK_PATTERN],
-    ["engagement", EDITORIAL_ENGAGEMENT_PATTERN],
-    ["first_person", EDITORIAL_FIRST_PERSON_PATTERN],
-    ["unsupported_certainty", EDITORIAL_CERTAINTY_PATTERN],
-    ["conspiracy_hype", EDITORIAL_CONSPIRACY_HYPE_PATTERN],
-  ]
-    .filter(([, pattern]) => (pattern as RegExp).test(value))
-    .map(([name]) => name as string);
+  const checks: Array<[string, (text: string) => boolean]> = [
+    ["url_or_handle", (text) => editorialUrlOrHandleMatches(text).length > 0],
+    ["rank", (text) => EDITORIAL_RANK_PATTERN.test(text)],
+    ["engagement", (text) => EDITORIAL_ENGAGEMENT_PATTERN.test(text)],
+    ["first_person", (text) => EDITORIAL_FIRST_PERSON_PATTERN.test(text)],
+    ["unsupported_certainty", (text) => EDITORIAL_CERTAINTY_PATTERN.test(text)],
+    ["conspiracy_hype", (text) => EDITORIAL_CONSPIRACY_HYPE_PATTERN.test(text)],
+  ];
+  return checks.filter(([, hits]) => hits(value)).map(([name]) => name);
 }
 
 const SessionEditorialItemSchema = z

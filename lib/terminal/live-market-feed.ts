@@ -18,6 +18,7 @@ import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import type { FocusSeries } from "@/lib/sessions/focus-series";
 import {
   SessionMetaSchema,
+  editorialUrlOrHandleMatches,
   type SessionRecordMeta,
 } from "@/lib/sessions/session-content";
 import type { ReaderSessionSlug } from "@/lib/sessions/session-registry";
@@ -216,9 +217,9 @@ export const forbiddenSourceOpsTerms = [
   "jsonl",
 ];
 
-const sourceUrlPattern =
-  /(?:https?:\/\/|www\.)\S+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?/gi;
-const sourceHandlePattern = /(?<![A-Za-z0-9_@.])@[A-Za-z0-9_]{2,30}\b/g;
+// URL / ハンドルの検出は session-content.ts の editorialUrlOrHandleMatches が
+// 正本 (P2-5)。同型 regex をここにも置いていたため、片方だけ較正される事故の
+// 芽になっていた。sourceDomainPattern は用途が違う (完全一致判定) ので残す。
 const sourceDomainPattern =
   /^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i;
 
@@ -232,20 +233,13 @@ function sourceVisibleTextViolations(value: string): string[] {
   );
 }
 
-function sourceUrlOrHandleViolations(value: string): string[] {
-  return [
-    ...value.matchAll(sourceUrlPattern),
-    ...value.matchAll(sourceHandlePattern),
-  ].map((match) => match[0]);
-}
-
 const sourceTitleTextSchema = z
   .string()
   .min(1)
   .max(160)
   .superRefine((value, ctx) => {
     const visibleViolations = sourceVisibleTextViolations(value);
-    const patternViolations = sourceUrlOrHandleViolations(value);
+    const patternViolations = editorialUrlOrHandleMatches(value);
     if (visibleViolations.length > 0 || patternViolations.length > 0) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -767,7 +761,7 @@ function mapSessionsBundle(
         if (matchesTerm(lower, term.toLowerCase())) return null;
       }
       if (findLiveTokenViolations(text).length > 0) return null;
-      if (sourceUrlOrHandleViolations(text).length > 0) return null;
+      if (editorialUrlOrHandleMatches(text).length > 0) return null;
     }
   }
   return { records: parsed.data.records };
