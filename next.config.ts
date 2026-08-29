@@ -31,7 +31,30 @@ function gitShortSha(): string {
   }
 }
 
+const ARTICLE_LANE_REDIRECTS = [
+  // W35 (Weekly Brief #4) は content/brief ではなく site-first 記事レーンが
+  // 正本。/brief 側で一度公開し X 告知まで出したあとに気づいたため、外部に
+  // 流通した旧 URL を記事へ 308 で送る。旧 URL を残すと同じ号が 2 URL で
+  // 並び、号数も /brief 系列の連番 (#2) と食い違う。
+  {
+    from: "/brief/2026-W35-brief",
+    to: "/articles/weekly-brief-20260829-4741307c",
+  },
+] as const;
+
 const nextConfig = {
+  async redirects() {
+    return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
+      // locale 付き (X 告知が指しているのはこちら)
+      {
+        source: `/:locale(ja|en)${from}`,
+        destination: `/:locale${to}`,
+        permanent: true,
+      },
+      // locale なし — proxy の /ja 付与を待たず 1 ホップで送る
+      { source: from, destination: `/ja${to}`, permanent: true },
+    ]);
+  },
   env: {
     NEXT_PUBLIC_APP_VERSION: pkg.version,
     NEXT_PUBLIC_BUILD_SHA: gitShortSha(),
