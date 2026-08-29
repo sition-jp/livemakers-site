@@ -1,0 +1,78 @@
+{
+  "sessionId": "2026-08-26-ny-open",
+  "date": "2026-08-26",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-26-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-08-26-ny-open",
+  "publishedAt": "2026-08-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260826_1803_ffe0706a",
+  "asOfJst": "2026-08-26T18:03:06+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 8月26日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,652.86 → 7,677.28（+0.32%）",
+    "変動幅上位: ADA/USD -4.8% / WTI -3.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260826_1844_a8ccad15",
+    "crawlAnchorJst": "2026-08-26T18:03:00+09:00",
+    "writtenAtJst": "2026-08-26T18:44:00+09:00",
+    "lead": "ユーロの話が、同じ朝に三つの層で動いた。ECB の理事は9月の利上げを公に求め、その理由に中東の戦争の長期化を挙げた。中央銀行の側ではデジタルユーロを民間の決済ウォレットに載せる案が支持され、民間の側では欧州最大級の銀行アプリがユーロ建てのトークンを配り始めた。金利、公的な通貨、民間の通貨が、別々の速さで同じ方向を向いている。",
+    "items": [
+      {
+        "headline": "ECB の理事が9月の利上げを公に求めた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/ezb-schnabel-prescht-vor-und-fordert-zinserhoehung-im-september/100249668.html",
+        "note": "現在の政策金利のままでは物価が中期的に目標へ戻らない、というのが理由だ。中東の紛争が長引くことと、ユーロ圏の経済が底堅いことを上ぶれ要因に挙げている。"
+      },
+      {
+        "headline": "欧州最大級の銀行アプリが、ユーロ建てのトークンを配り始めた",
+        "sourceUrl": "https://x.com/Revolut/status/2092512154603663441",
+        "note": "発行と準備金を担うのはアプリの運営会社ではなく、決済基盤の別会社だ。対象国は3か国から順に広げるとしている。"
+      },
+      {
+        "headline": "ドイツ連邦銀行の理事がデジタルユーロを民間ウォレットに載せることを支持したと報じられた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/digitalwaehrung-bundesbank-vorstand-fuer-integration-des-digitalen-euro-in-wero/100249782.html",
+        "note": "公的な通貨を民間の入口から使わせる、という考え方だ。同じ日に民間側がユーロ建てのトークンを出したのと、向きは同じで担い手が違う。"
+      },
+      {
+        "headline": "米財務長官がバーレーンの財務相と、対イラン経済作戦の協調を話した",
+        "sourceUrl": "https://x.com/USTreasury/status/2092450535542526380",
+        "note": "イランがホルムズ海峡を国際商取引への梃子に使うことを許さない、という言い方をしている。圧力の相手が周辺の産油国へ広がっている。"
+      },
+      {
+        "headline": "ホルムズ海峡を握ることの戦略的な価値が、むしろ落ちてきているという見方が出た",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/26/iran-faces-strait-of-hormuz-paradox-as-strategic-value-of-chokehold-erodes",
+        "note": "封鎖できる場所を持っていることと、それが交渉力になることは別だ、という逆説が論点になっている。"
+      },
+      {
+        "headline": "銀行の営業時間を超えて動く送金の実例が、事業者側から示された",
+        "sourceUrl": "https://x.com/circle/status/2092477891279753277",
+        "note": "国をまたぐ決済で「窓口が閉まっている時間」をなくす、という用途から入っている。"
+      },
+      {
+        "headline": "ビル・ゲイツが AI への懸念と政策の考えを、中国の指導部と話したいと述べた",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/bill-gates-alarmed-by-ai-has-policy-ideas-he-wants-to-discuss-with-chinas-xi-jinping"
+      },
+      {
+        "headline": "重みが公開されているモデルが、画面を組む課題で公開モデル1位に入った",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2092489636287570169",
+        "note": "開発元によれば全体でも7位だという。手元で動かせる側と、そうでない側の差が縮んでいる。"
+      },
+      {
+        "headline": "米国とカナダの通商対立が、カナダ側の世論の硬化として報じられた",
+        "sourceUrl": "https://www.nzz.ch/international/handelskonflikt-usa-kanada-widerstand-und-stolz-der-kanadier-ld.10020959"
+      }
+    ],
+    "watch": [
+      "9月の ECB 理事会で利上げが実際に決まるか。ほかの理事が同じ言い方を始めるか。",
+      "ユーロ建てのトークンが対象国を広げたとき、流通する量が動くか。",
+      "海峡を止める力が弱まるほど、圧力の主戦場が海から金融へ移るか。"
+    ]
+  }
+}
