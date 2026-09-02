@@ -1,0 +1,97 @@
+{
+  "sessionId": "2026-09-02-europe-bridge",
+  "date": "2026-09-02",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-02-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-02-europe-bridge",
+  "publishedAt": "2026-09-03T02:30:07+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260902_1203_97b7d384",
+  "asOfJst": "2026-09-02T12:03:09+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月2日 12:03 JST",
+  "bullets": [
+    "DXY 99.430 → 99.753（+0.32%）",
+    "変動幅上位: VIX +9.5% / WTI +5.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260902_1720_5cbadbb3",
+    "crawlAnchorJst": "2026-09-02T12:03:00+09:00",
+    "writtenAtJst": "2026-09-02T17:20:00+09:00",
+    "lead": "多国間の合意文書が出ない日に、個別の企業と当局はそれぞれ前に進んだ。G20 は共同声明に至らず、争点は関税ではなく貿易不均衡だと名指しされた。同じ時間帯に、無人タクシーは試験段階と営業段階が同じ日に別々の都市で動き、最前線のモデルは能力の数字より先に安全の作業時間を公表した。合意が細るほど、実装の速度だけが単独で残る。",
+    "items": [
+      {
+        "headline": "G20 が共同声明を出せず、米財務長官は中国が阻んだと述べた",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/china-prevented-g-20-communique-over-imbalance-trade-spat-says-us-bessent",
+        "note": "争点として挙げられたのは関税の応酬ではなく貿易の不均衡だった。合意文書は参加国の最小公倍数として書かれるため、出ないこと自体がどこで線が引けなかったかを示す。"
+      },
+      {
+        "headline": "米財務長官が G20 の議長総括を自身の言葉で公開した",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2094961925666804031"
+      },
+      {
+        "headline": "Waymo が 3 都市で一般乗客の受け入れを始め、Zoox は 2 都市で走行試験に入った",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/amazons-zoox-alphabets-waymo-expand-robotaxi-services-to-more-us-cities",
+        "note": "同じ日に、片方は乗客を乗せ、片方はまだ地図を作っている。無人タクシーの「使える」と「試している」が、都市単位で並走する段階に入った。"
+      },
+      {
+        "headline": "OpenAI が Astra の公開準備にあたり、夏のあいだ安全の作業に時間を割いてきたと述べた",
+        "sourceUrl": "https://x.com/OpenAI/status/2094885578173260259",
+        "note": "先に出たのが能力の数値ではなく作業の順番だった点が、これまでの発表と違う。"
+      },
+      {
+        "headline": "同じ趣旨を、OpenAI の最高経営責任者も自身の投稿で重ねて説明した",
+        "sourceUrl": "https://x.com/sama/status/2094934592062959832"
+      },
+      {
+        "headline": "Qwen の最上位モデルが更新され、2.4 兆パラメータと 100 万トークンの文脈長が示された",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2094968708288680276",
+        "note": "手元の一枚のカードに載る規模ではない。同じ名前でも、個人が自分の機械で動かせる層とは別の話になっている。"
+      },
+      {
+        "headline": "World Labs が Atlas を公開し、画像と映像のフレームを生成するマルチモーダルモデルだと説明した",
+        "sourceUrl": "https://x.com/theworldlabs/status/2094839756329041984"
+      },
+      {
+        "headline": "Meta が実時間で音声を扱う認識モデル Muse Voice Transcribe を公開した",
+        "sourceUrl": "https://x.com/AIatMeta/status/2094839236016976028"
+      },
+      {
+        "headline": "Cardano の憲法委員会更新アクションが批准された",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2094907036517429717",
+        "note": "投票の期限側で決着した案件で、次に見るのは新しい委員の任期の始まりになる。"
+      },
+      {
+        "headline": "米国とイランが再び空爆を交わし、衝突再燃への懸念が広がった",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/01/us-iran-airstrikes-launch"
+      },
+      {
+        "headline": "原油価格の急変がアジア市場に及び、日経・韓国 KOSPI・TOPIX が押し下げられた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/nikkei-kospi-topix-oelpreisschock-nach-us-angriffen-drueckt-asiatische-maerkte/100251353.html",
+        "note": "軍事の動きが、同じ営業日のうちに東京とソウルの株価として現れた。"
+      },
+      {
+        "headline": "上海協力機構の首脳会議がビシュケクで開かれ、中国の存在感の大きさが示された",
+        "sourceUrl": "https://www.nzz.ch/international/sco-gipfel-in-bischkek-zeigt-die-regionale-dominanz-von-chinas-praesidenten-xi-jinping-ld.10021854"
+      },
+      {
+        "headline": "ゼレンスキー大統領が、ロシア上空は安全ではないと航空各社に警告した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/02/ukraine-war-briefing-russian-sky-full-of-our-drones-and-not-safe-zelenskyy-warns-airlines"
+      },
+      {
+        "headline": "米国の 10 年期待インフレ率は 9 月 1 日時点で 2.35 だった",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE"
+      }
+    ],
+    "watch": [
+      "G20 で合意文書が出なかったあと、圧力が二国間や第三国の金融回路へ移るかどうか。",
+      "無人タクシーの台数が都市ごとに数十台から数百台へ動くか。生活の前提が変わる境目はそこにある。",
+      "原油と株価の連動がこのまま続くか、数日で戻るか。東京の午後が最初に反応する時間帯になる。"
+    ]
+  }
+}
