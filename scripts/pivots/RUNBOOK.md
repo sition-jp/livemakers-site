@@ -155,6 +155,15 @@ confirm all of the following:
 
 ## v0.1-live: LaunchAgent + Telegram + guarded auto-publish
 
+### Operational ownership
+
+**Primary operational AI: Claude.** Claude is the default for routine
+monitoring, incident triage, and runbook-led operations. Codex may handle
+implementation, review, investigation, or second-opinion work when explicitly
+assigned by 田平氏. This preference does not change the deterministic scheduled
+automation or its approval boundaries: activation/cutover, rollback, and policy
+changes still require explicit human approval.
+
 ### GitHub publisher credential (one-time, before cutover)
 
 The publisher reads `~/.sition_secrets/github_autopr.env` only in its child
