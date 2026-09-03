@@ -1,3 +1,4 @@
+import inspect
 import json
 import os
 from pathlib import Path
@@ -5,6 +6,7 @@ from unittest.mock import patch
 
 import pytest
 
+import producer.run_producer as run_producer_module
 from producer.fetch_binance import BinanceFetcher
 from producer.run_producer import run_producer
 
@@ -147,6 +149,40 @@ def test_live_write_replaces_target_atomically(
     # Bak files cleaned on success.
     assert not (tmp_path / "pivot_assets.live.json.bak").exists()
     assert not (tmp_path / "pivot_backtest.live.json.bak").exists()
+
+
+def test_custom_targets_do_not_touch_canonical_sidecar(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, monkeypatch
+) -> None:
+    parameter = inspect.signature(run_producer).parameters[
+        "derivatives_history_path"
+    ]
+    assert parameter.default is None
+
+    canonical = tmp_path / "canonical" / "pivot_derivatives_history.live.json"
+    canonical.parent.mkdir()
+    canonical.write_bytes(b"canonical-sentinel")
+    monkeypatch.setattr(
+        run_producer_module,
+        "DEFAULT_DERIVATIVES_HISTORY",
+        canonical,
+    )
+    custom_dir = tmp_path / "custom"
+    custom_dir.mkdir()
+    assets_target = custom_dir / "pivot_assets.live.json"
+    backtest_target = custom_dir / "pivot_backtest.live.json"
+
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=assets_target,
+        backtest_path=backtest_target,
+        dry_run=False,
+        skip_zod_validate=True,
+    )
+
+    assert rc == 0
+    assert canonical.read_bytes() == b"canonical-sentinel"
+    assert (custom_dir / "pivot_derivatives_history.live.json").exists()
 
 
 def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path) -> None:
