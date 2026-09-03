@@ -1,0 +1,115 @@
+{
+  "sessionId": "2026-09-03-europe-bridge",
+  "date": "2026-09-03",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-03-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-03-europe-bridge",
+  "publishedAt": "2026-09-04T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260903_1203_83096ac4",
+  "asOfJst": "2026-09-03T12:03:11+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月3日 12:03 JST",
+  "bullets": [
+    "DXY 99.670 → 99.463（-0.21%）",
+    "変動幅上位: NIGHT/USD +7.1% / VIX -7.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260903_1312_771acc46",
+    "crawlAnchorJst": "2026-09-03T12:03:00+09:00",
+    "writtenAtJst": "2026-09-03T13:12:00+09:00",
+    "lead": "規制と資金の日程が、価格より先に動いた窓だ。G20 は米国主導の AI 原則を全会一致で支持して厳格化を回避したと報じられ、SEC 議長は CLARITY 法案の採決を 9 月 15 日に置くとされる。同じ窓で CFTC は無期限先物の分類をめぐる CME の訴訟に却下を申し立て、Kalshi はその設計を原油に持ち込む申請を出した。米財務省は国債の買い戻しに入り、日銀は市場調節の会合を告知しており、制度の側が先に日付を切っている。",
+    "items": [
+      {
+        "headline": "Meta が Muse Spark 1.3 を公開、長時間のエージェント作業と効率を前面に",
+        "sourceUrl": "https://x.com/AIatMeta/status/2095234385129963666",
+        "note": "Meta 公式は、複数のワークフローをまたぐ長い作業の継続と、社内比較で 1.2 比ツール呼び出し約 20%・トークン約 25% の削減を挙げている。Muse Code と Meta Model API で提供が始まった。"
+      },
+      {
+        "headline": "G20 が米国主導の AI 規制原則を全会一致で支持、厳格化は回避されたと報じられる",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2095338646337355937",
+        "note": "規制を締める方向ではなく、実装を進める側に寄った合意として伝えられている。"
+      },
+      {
+        "headline": "経済産業相が G20「カロライナ原則」の合意を歓迎、AI 実装の後押しとして受け止め",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2095342426512666794",
+        "note": "日本側も導入促進の文脈でこの合意を評価していると報じられている。"
+      },
+      {
+        "headline": "G20 財務トラックは 19 か国が共同声明で一致、中国のみ留保と伝えられる",
+        "sourceUrl": "https://x.com/coinbureau/status/2095251668547883093",
+        "note": "8 月 31 日〜9 月 1 日にノースカロライナ州アッシュビルで開かれた会合で、貿易不均衡への対応に加え、デジタル資産の制度化とステーブルコインが議題に入ったとされる。"
+      },
+      {
+        "headline": "SEC 議長、CLARITY 法案の採決日を 9 月 15 日と説明したと伝えられる",
+        "sourceUrl": "https://x.com/coinbureau/status/2095341006732263431",
+        "note": "併せて「Regulation Crypto Assets」と呼ばれる新提案を進めているとされる。これまで「年内」と語られてきた話が、初めて具体的な日付に落ちた。"
+      },
+      {
+        "headline": "米財務省が国債の買い戻しへ、規模は最大 125 億ドルとされる",
+        "sourceUrl": "https://x.com/coinbureau/status/2095333457102872816",
+        "note": "国債利回りがおよそ 20 年ぶりの高さにある局面での実施と報じられている。年間の利払いが 1 兆ドルを超えるという文脈も同時に示されている。"
+      },
+      {
+        "headline": "日本銀行が「市場調節に関する会合」の開催を告知",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2095331051103232125",
+        "note": "日本時間 9 月 3 日午前、公式アカウントからの告知。金利が動いている局面で、運営の枠組みを確認する場になる。"
+      },
+      {
+        "headline": "米 10 年ブレークイーブン・インフレ率は 2.34%(9 月 2 日時点)",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE",
+        "note": "セントルイス連銀の系列値。財政と金利のレジームを見るときの基準線として置いておく。"
+      },
+      {
+        "headline": "CFTC が CME の訴訟に却下を申し立て、無期限先物の分類が争点",
+        "sourceUrl": "https://x.com/blckchaindaily/status/2095316544511185060",
+        "note": "原告適格を欠くという理由が示されたと報じられている。分類そのものの判断は先送りになりうる。"
+      },
+      {
+        "headline": "Kalshi が無期限の WTI 原油先物を CFTC に申請したと伝えられる",
+        "sourceUrl": "https://x.com/blckchaindaily/status/2095316087428518350",
+        "note": "暗号資産で定着した無期限型の設計を商品先物へ持ち込む申請。前項の訴訟と同じ論点を、逆側から動かしにいく形になる。"
+      },
+      {
+        "headline": "中国の Moonshot が香港 IPO を非公開申請、500 億ドル評価での資金調達交渉も",
+        "sourceUrl": "https://x.com/Techmeme/status/2095348788928070027",
+        "note": "The Information の報道として伝えられている。AI に集まった資金が、アジアの公開市場側にも出口を作りにいく動きになる。"
+      },
+      {
+        "headline": "Uber と Wayve、ロンドンで初の robotaxi サービスを開始",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/uber-wayve-launch-londons-first-robotaxi-service",
+        "note": "自動運転が実験区間ではなく、都市の営業路線として立ち上がった例として報じられている。"
+      },
+      {
+        "headline": "米政権が OpenAI 側を支持、New York Times の著作権訴訟で",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/2/trump-administration-backs-openai-new-york-times-copyright-case/",
+        "note": "学習データをめぐる訴訟で政権が OpenAI の立場を支持したと報じられている。G20 の原則と同じく、規制よりも実装を優先する向きと重なる。"
+      },
+      {
+        "headline": "Circle が「実世界のステーブルコイン取引の 70% は USDC」と表明",
+        "sourceUrl": "https://x.com/circle/status/2095274828123214159",
+        "note": "発行体自身による数値であり、第三者検証ではない点は割り引いて読む。ステーブルコインをドル金融システムの一部として位置づける主張になっている。"
+      },
+      {
+        "headline": "Securitize、トークン化しても所有権の公式記録は移転ごとに接続され続けるべきと主張",
+        "sourceUrl": "https://x.com/Securitize/status/2095199195129078255",
+        "note": "同社 COO のインタビューを公式が紹介したもの。証券のトークン化で変わるのは保有と移転の方法であって、所有の意味ではないという整理になっている。"
+      },
+      {
+        "headline": "Daedalus 11.3.0 が公開、ウォレット内での DRep 検索と委任に対応と案内",
+        "sourceUrl": "https://x.com/ISPF_Cardano/status/2095347213388095542",
+        "note": "サポート窓口の移管と、再起動・クラッシュ復旧の改善も併せて案内されている。"
+      }
+    ],
+    "watch": [
+      "9 月 15 日という採決日程が実際に維持されるか、そして新提案がどこまで条文の形になるか",
+      "財務省の買い戻しが単発で終わるか継続するか、長期金利がそれにどう反応するか",
+      "無期限先物の分類論争が、CME 訴訟の却下申立てと原油版の申請でどちらに傾くか"
+    ]
+  }
+}
