@@ -56,10 +56,17 @@ Scheduled (LaunchAgent — recommended; see v0.1-live section below for full set
 bash scripts/pivots/ops/install_launchagent.sh
 ```
 
-The LaunchAgent runs `ops.run_daily --auto-commit --notify-ok` daily at 08:00 local time. After a successful run, the snapshot is committed automatically; push to remote when convenient:
-```
-git push origin main
-```
+The repository LaunchAgent source of truth runs
+`ops.run_daily --auto-commit --auto-publish --notify-ok` daily at 08:00 local
+time. After a successful scoped local commit, the publisher uses a separate
+standalone clone to create a data-only PR, waits for `guards` and Vercel preview
+to pass, squash-merges the exact reviewed head, waits for the merge deployment,
+and verifies the public API and page. No manual push is part of the scheduled
+path.
+
+Merging the publisher code does not change the currently installed LaunchAgent.
+Activation requires a separately approved run of `install_launchagent.sh` after
+the credential preflight and production-cutover checklist pass.
 
 For LaunchAgent install/uninstall, Telegram setup, and troubleshooting, see the **v0.1-live** section below.
 
@@ -101,6 +108,10 @@ Then re-run `ops.run_daily`.
 | `DryRunFailed` in log | Binance fetch failure or zod validation regression | Re-run after a few minutes; check `producer.run_producer` output |
 | `LiveWriteFailed` after `DryRunFailed` was OK | Promote-step OS error or zod failure on tmps | Inspect `data/pivots-history/` and roll back if needed |
 | `RetentionFailed` | `data/pivots-history/` missing or unwritable | Recreate dir; live write was already successful |
+| `AutoPublishSkipped` | `--auto-publish` was passed without `--auto-commit` | Use both flags for a scheduled publication run |
+| `AutoPublishFailed` with `phase=pre_merge` | Source validation, branch/PR identity, checks, or pre-merge work failed | Read the bounded publisher detail; `main` and production were not changed by this run |
+| `AutoPublishFailed` with `phase=post_merge` | Merge outcome is uncertain, or deployment/public smoke failed after merge | Treat `main` or production as changed; inspect the PR merge SHA and reconcile production before any revert |
+| `AutoPublishFailed` without a phase marker | Publisher was terminated or failed outside its normal exception boundary | Default to production-uncertain; only explicit `phase=pre_merge` permits a preserved-snapshot claim |
 | Orphan `.bak` warning at startup | Crash mid-promotion | See Recovery section above |
 | Page shows `UnavailableNotice` | JSON missing or parse-rejected | Restore from `data/pivots-history/` and re-run |
 | Page shows "very stale" badge | Producer hasn't run for >72h | Re-run `ops.run_daily` manually |
@@ -109,6 +120,8 @@ Then re-run `ops.run_daily`.
 
 In scope as of v0.1-live (delivered):
 - Auto-commit on success (`--auto-commit` flag)
+- Guarded data-only production publication (`--auto-publish` flag; activation
+  remains a separate production cutover)
 - Telegram alerts (OK + FAILED behind `--notify-ok`)
 - LaunchAgent install/uninstall scripts
 - `fcntl` lock for serialized fires
@@ -116,7 +129,6 @@ In scope as of v0.1-live (delivered):
 Still out of scope (v0.2+):
 - Public navigation link in `Header.tsx`
 - Mobile viewport polish
-- `git push` automation
 - Scoring-model upgrades
 - ADA / NIGHT support
 - External sidecar caching real OI / funding history
@@ -130,9 +142,9 @@ confirm all of the following:
 
 - 14 consecutive calendar days of OK-producing observation are complete.
 - Telegram OK receipt is operator-confirmed for the same period.
-- Push policy is locked: either keep daily snapshot commits local through the
-  freeze or push a documented observation branch/PR, but do not silently mix
-  observation snapshots with unrelated product work.
+- Publication policy is locked: only the allowlisted snapshot pair and optional
+  derivatives sidecar may enter an automated data-only PR. The publisher must
+  never push the daily runner checkout or mix unrelated product work.
 - LaunchAgent source of truth is locked. The repo sample plist and the installed
   `~/Library/Application Support/sition-livemakers/run_daily_wrapper.sh` path
   currently represent two install paths; choose one owner before public linking.
@@ -141,7 +153,32 @@ confirm all of the following:
 - `~/Library/Logs/sition-livemakers/launchd.stderr.log` (the installed launchd
   stderr log) contains only known cosmetic Vite CJS deprecation warnings.
 
-## v0.1-live: LaunchAgent + Telegram + auto-commit
+## v0.1-live: LaunchAgent + Telegram + guarded auto-publish
+
+### Operational ownership
+
+**Primary operational AI: Claude.** Claude is the default for routine
+monitoring, incident triage, and runbook-led operations. Codex may handle
+implementation, review, investigation, or second-opinion work when explicitly
+assigned by 田平氏. This preference does not change the deterministic scheduled
+automation or its approval boundaries: activation/cutover, rollback, and policy
+changes still require explicit human approval.
+
+### GitHub publisher credential (one-time, before cutover)
+
+The publisher reads `~/.sition_secrets/github_autopr.env` only in its child
+process. The file must be a regular, non-symlink file owned by the current user
+with mode `0600`, and its only assignment must be `GH_TOKEN`. Never place the
+value in this runbook, git, logs, launchd environment, or command history.
+
+`install_launchagent.sh` checks only file metadata before changing installed
+state. The Python publisher validates the assignment at runtime and redacts the
+value from bounded child-process output.
+
+The publisher supplies an empty reset plus `!gh auth git-credential` through
+process-scoped Git config before the initial clone, then installs the same
+helper pair in the dedicated clone. This makes clone/fetch/push use the same
+child-process `GH_TOKEN` as `gh` without persisting its value.
 
 ### Telegram setup (one-time, before install)
 
@@ -159,17 +196,26 @@ confirm all of the following:
    The `export KEY="VALUE"` form is also accepted if your secrets.env uses it.
 5. Verify `ls -l ~/.sition/secrets.env` shows `-rw-------`. If not: `chmod 600 ~/.sition/secrets.env`.
 
-### Why two flags on the LaunchAgent and not on manual runs
+The installer now requires this file to be regular, non-symlink, current-user
+owned, mode `0600`, and accepted by the runtime Telegram loader before it
+changes LaunchAgent state.
 
-`--auto-commit` and `--notify-ok` are intentionally OFF by default for manual runs:
+### Why three flags on the LaunchAgent and not on manual runs
+
+`--auto-commit`, `--auto-publish`, and `--notify-ok` are intentionally OFF by
+default for manual runs:
 
 - Manual runs are typically diagnostic — operator does not want commits or OK heartbeat noise on chat
-- LaunchAgent runs are headless — both flags are essential
+- LaunchAgent runs are headless — all three flags are required for the complete
+  zero-touch path
+- `--auto-publish` fails closed before producer execution unless
+  `--auto-commit` is also present
 
-If you want a manual trigger that mirrors LaunchAgent behavior, pass both flags explicitly:
+If an approved diagnostic needs to mirror the complete LaunchAgent behavior,
+pass all three flags explicitly:
 
 ```bash
-python -m ops.run_daily --auto-commit --notify-ok
+python -m ops.run_daily --auto-commit --auto-publish --notify-ok
 ```
 
 ### Install-day extra commit
@@ -185,6 +231,57 @@ bash scripts/pivots/ops/install_launchagent.sh
 # Uninstall
 bash scripts/pivots/ops/uninstall_launchagent.sh
 ```
+
+Installation is transactional. The installer backs up the previous plist and
+loaded state before replacement. If bootstrap, kickstart, or first-run OK
+verification fails, it boots out the new agent and restores the previous plist
+and loaded state. A rollback-incomplete error requires immediate operator
+inspection before the next 08:00 fire. In that case the installer preserves and
+prints the previous plist backup path instead of deleting the last recovery
+artifact. The installer captures the PID returned by
+`launchctl kickstart -p`; every runner JSONL entry records its PID, and only an
+`OK` entry from that exact process satisfies the first-run gate. Unrelated new
+log lines cannot produce a false install success.
+
+### Publication state machine and recovery
+
+The automated publisher is fail closed:
+
+1. Validate both public JSON files, matching exact UTC `generated_at`, and the
+   optional sidecar.
+2. Reset a dedicated publisher clone to `origin/main`, freeze the validated
+   source bytes, then commit only the allowlisted snapshot paths on a
+   deterministic automation branch. An equal timestamp is accepted only when
+   the source blobs equal `origin/main`.
+3. Create or safely resume the corresponding PR. Base `main`, exact head name,
+   repository owner, PR file set, source blobs, and head SHA are all pinned. A
+   remote branch without a PR, merged PR not reflected on fetched `main`,
+   unexpected blob, draft/conflict, failed check, or timeout stops publication.
+4. Require successful `guards` and `Vercel` checks, squash-merge the pinned head,
+   wait for Vercel production success, then smoke the radar API, backtest API,
+   and `/ja/turning-points` against the expected timestamp.
+5. Delete the automation branch after success. Cleanup failure is reported but
+   does not turn an already verified production publication into failure.
+
+On `phase=pre_merge`, inspect the final JSONL entry and GitHub PR state. Do not
+manually merge a failed-check PR. Correct the named cause and let the next daily
+run resume or supersede it.
+
+On `phase=post_merge`, do not claim the previous snapshot was preserved. Inspect
+the PR and merge SHA, verify `origin/main`, Vercel production, and the three
+public smoke targets. The next run can reconcile an already-current valid merge;
+a bad merged snapshot requires a separately reviewed revert. The publisher does
+not auto-revert.
+
+### Roll back automated publication
+
+Rollback is an explicit production operation: remove `--auto-publish` from the
+installed plist source, reinstall the LaunchAgent, and verify the kickstart log.
+This leaves daily generation, scoped local commits, and Telegram heartbeat in
+place while disabling PR creation and merge. Do not delete credentials or
+publisher branches as part of the same rollback until their state is inspected.
+This manual rollback applies after a successful cutover. A failed installer
+kickstart automatically restores the prior agent as described above.
 
 ### Troubleshooting missed natural fire
 
@@ -213,6 +310,9 @@ Common causes:
   `install_launchagent.sh` (logs go to `~/Library/Logs/sition-livemakers/`)
 - Laptop closed at 08:00 → launchd will fire on next wake, but the run may then be > 24 h late
 - secrets.env got moved, symlinked, or chmod'd → Telegram silent-skips even though run succeeded; check `git log` for the auto-commit
+- `github_autopr.env` missing, symlinked, wrong owner, or not `0600` → installer
+  stops before changing LaunchAgent state; fix metadata without printing the
+  credential
 - Plist `WorkingDirectory` points at a different repo path → reinstall to refresh
 - `LockBusy` Telegram FAILED received → another `run_daily` process is hung; `ps aux | grep run_daily` and kill stale ones if needed
 - Manual run earlier today held the lock during the scheduled fire window → check `ops.log.jsonl` for a recent `LockBusy` entry

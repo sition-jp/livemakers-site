@@ -13,7 +13,7 @@ from __future__ import annotations
 import json
 import subprocess
 from pathlib import Path
-from typing import Literal, TypedDict
+from typing import Literal, NotRequired, TypedDict
 
 
 class AlertPayload(TypedDict):
@@ -25,6 +25,7 @@ class AlertPayload(TypedDict):
     previous_snapshot_preserved: bool
     orphan_bak_present: bool
     details: str
+    pid: NotRequired[int]
 
 
 def format_payload(p: AlertPayload) -> str:
