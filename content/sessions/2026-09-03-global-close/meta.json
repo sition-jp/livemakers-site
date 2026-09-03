@@ -1,0 +1,85 @@
+{
+  "sessionId": "2026-09-03-global-close",
+  "date": "2026-09-03",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-03-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-03-global-close",
+  "publishedAt": "2026-09-04T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260903_2303_b7a613c5",
+  "asOfJst": "2026-09-03T23:03:10+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月3日 23:03 JST",
+  "bullets": [
+    "Gold $4,366.30 → $4,509.10（+3.27%）",
+    "変動幅上位: NIGHT/USD +12.8% / ADA/USD +7.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260903_2355_7c95fc11",
+    "crawlAnchorJst": "2026-09-03T23:03:00+09:00",
+    "writtenAtJst": "2026-09-03T23:55:00+09:00",
+    "lead": "今夜いちばん大きく動いたのは、モデルを配る場所の持ち主だ。NVIDIA による Hugging Face の買収が金額つきで確定し、GPU を作る側がオープンモデルの棚を持つ構図が閉じた。同じ夜、原油と金は戦争リスクを織り込み直し、金利の見通しは一つの講演から正反対の見出しを生んだ。Cardano 側の話題は派手さより実務で、受け取り口と問い合わせ先がどこへ移ったかに集中している。",
+    "items": [
+      {
+        "headline": "NVIDIA の Hugging Face 買収が129億3,030万ドルで確定",
+        "sourceUrl": "https://x.com/JensenHuang/status/2095482647355244762",
+        "note": "8月末に報じられた段階から、金額と当事者の言葉がそろった。オープンモデルを配る場所を、計算資源を作る側が持つ。"
+      },
+      {
+        "headline": "ウォラー、8月の物価が進展を示せば9月は据え置きを支持",
+        "sourceUrl": "https://x.com/federalreserve/status/2095489903060467774",
+        "note": "同じ講演が「9月利上げ」と「9月据え置き」の両方の見出しで流れた。本人が置いたのは条件であって、結論ではない。"
+      },
+      {
+        "headline": "NIGHT の第3回配布が請求済みになり、受け取り可能に",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2095513605550571545",
+        "note": "対象は ADA 市場の流動性提供者で、受け取りは rewards アプリから。最終回の配布はまだ残っている。"
+      },
+      {
+        "headline": "Daedalus のサポート窓口が Ariadne に移り、SE7EN Labs が運営",
+        "sourceUrl": "https://x.com/IOGroup/status/2095406438537437461",
+        "note": "困ったときに開く場所が変わる。先にブックマークしておけば、必要になった瞬間に探さずに済む。"
+      },
+      {
+        "headline": "RealFi が10月1日に Cardano メインネットへ",
+        "sourceUrl": "https://x.com/realfi_co/status/2095170398669189177",
+        "note": "準備段階に、はじめて日付がついた。"
+      },
+      {
+        "headline": "Figure が Nscale と組み、最大10万枚の GPU 確保へ",
+        "sourceUrl": "https://x.com/Figure_robot/status/2095499507991744723",
+        "note": "初期の計算資源に35億ドル、計画は60億ドル超。家庭に入る前に、訓練する側の設備が先に決まっていく。"
+      },
+      {
+        "headline": "ブレント原油が1バレル97ドルを超える",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2095460359934996946",
+        "note": "イランをめぐる戦闘が続くなかでの上昇で、物価の見通しにも波及している。"
+      },
+      {
+        "headline": "金先物が1オンス4,500ドルを超える",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2095495863820816790",
+        "note": "原油高と物価見通しの上昇が、同じ方向に効いている。"
+      },
+      {
+        "headline": "G20 が暗号資産とステーブルコインの規制枠組み整備で合意と伝わる",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2095176458947735915",
+        "note": "合意文書そのものは、まだ確認できていない。"
+      },
+      {
+        "headline": "Gemini 3.8 Flash が公開、サイバー防御向けの版も同時に",
+        "sourceUrl": "https://x.com/demishassabis/status/2095191106665284046",
+        "note": "1か月に満たない間隔での更新となった。"
+      }
+    ],
+    "watch": [
+      "9月15日、米上院が暗号資産の市場構造法案をめぐる手続き投票にかかる。",
+      "NIGHT の最終回配布が、いつ・どの条件で来るか。",
+      "原油と金が同じ方向に上げた状態が、何日続くか。"
+    ]
+  }
+}

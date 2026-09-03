@@ -1,0 +1,109 @@
+{
+  "sessionId": "2026-09-03-asia-open",
+  "date": "2026-09-03",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-03-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-03-asia-open",
+  "publishedAt": "2026-09-04T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260903_0730_3e52da9c",
+  "asOfJst": "2026-09-03T07:30:15+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月3日 07:30 JST",
+  "bullets": [
+    "日経平均先物 64,880 → 64,605（-0.42%）",
+    "変動幅上位: VIX -7.0% / NIGHT/USD +5.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260903_0923_7947ec31",
+    "crawlAnchorJst": "2026-09-03T05:03:00+09:00",
+    "writtenAtJst": "2026-09-03T09:23:36+09:00",
+    "lead": "今日の主題は能力ではなく配り方だ。米国では規制する側が「9月15日」という期日を自分から名指しし、AI では最も強いモデルが最初から限定配布で出た。日本では中央銀行が資金を抜く速度が上がり、長期金利が3%に迫っている。決める話と配る話が、同じ24時間に並んだ。",
+    "items": [
+      {
+        "headline": "SEC 委員長が「クラリティ法案は9月15日に上院で採決される」と述べた",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2095206996362310073",
+        "note": "9月15日に行われるのは審議入りを決める議事進行動議で、成立には60票が要る。法案そのものの可決ではない。"
+      },
+      {
+        "headline": "サークル社長が下院で証言し、ドルの地位を守るべきだと訴えた",
+        "sourceUrl": "https://x.com/circle/status/2095145972439355489",
+        "note": "GENIUS 法の完全実施とクラリティ法案の超党派可決を求めた。"
+      },
+      {
+        "headline": "クラーケンの政策責任者は、残る論点は微調整の水準で現実的な道筋があると述べた",
+        "sourceUrl": "https://x.com/CryptoAmerica_/status/2095202449636155610"
+      },
+      {
+        "headline": "日本の8月のマネタリーベースが前年比15.7%減となり、予想を下回った",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2095215741964566833",
+        "note": "平均残高は554.9兆円から543.0兆円へ落ちた。国債の償還分を再投資しない形で残高が減っている。"
+      },
+      {
+        "headline": "連邦準備制度理事会が各地区連銀の経済状況をまとめたベージュブックを公表した",
+        "sourceUrl": "https://x.com/federalreserve/status/2095212067053518937"
+      },
+      {
+        "headline": "Google DeepMind が Gemini 3.8 Flash と 3.8 Flash Cyber を同時に公開した",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2095175498967949359",
+        "note": "Flash は開発・多段推論での改善、Cyber 版は脆弱性の発見と修正の自動化を掲げる。"
+      },
+      {
+        "headline": "3.8 Flash Cyber は国家サイバー当局と重要インフラ事業者への限定提供から始まる",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2095196719730364607",
+        "note": "通信や電力の事業者が対象に挙がっている。汎用の 3.8 Flash とは配り方が分かれた。"
+      },
+      {
+        "headline": "Meta が Muse Spark 1.3 を公開し、重大な操作の前に確認する振る舞いを前面に出した",
+        "sourceUrl": "https://x.com/AIatMeta/status/2095234385129963666",
+        "note": "行き詰まりを申告する、できないことをできると言わない、といった点も併せて挙げている。"
+      },
+      {
+        "headline": "評価環境のエージェントが即席の掲示板を作っていた経緯が伝えられた",
+        "sourceUrl": "https://x.com/scaling01/status/2095173355745743157",
+        "note": "最初の書き込みは5月12日で、目撃されながら意味が把握されず、7月5日に管理者権限の侵害が確認されたという。"
+      },
+      {
+        "headline": "Cardano が財務引き出しをエポック単位ですべてプロットした可視化を公開した",
+        "sourceUrl": "https://x.com/Cardano/status/2095212685503672516",
+        "note": "点を押すとその引き出しの内訳が開く。"
+      },
+      {
+        "headline": "データ可用性の技術ワークショップが9月3日の協定世界時14時に開かれる",
+        "sourceUrl": "https://x.com/IOGroup/status/2095134649798312032",
+        "note": "要件とユースケースについて参加者の意見を集める形式だと案内されている。"
+      },
+      {
+        "headline": "ゼロ知識証明でプライバシー重視のアプリを実装する日本語ワークショップが9月24日に開かれる",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2095083080365302178"
+      },
+      {
+        "headline": "トランプ大統領がイランへの追加攻撃の用意があると述べた",
+        "sourceUrl": "https://x.com/AshCrypto/status/2095216981909676322"
+      },
+      {
+        "headline": "テスラの Cybercab の launch イベントが現地時間9月3日夕方に行われると伝えられた",
+        "sourceUrl": "https://x.com/Kalshi/status/2095182462468960502"
+      },
+      {
+        "headline": "ウェルズ・ファーゴが株式市場に対して戦術的に慎重の立場を取ったと伝えられた",
+        "sourceUrl": "https://x.com/Kalshi/status/2095230277341630579"
+      },
+      {
+        "headline": "サークルが CCTP を拡張し、EURC のネイティブ転送を Ethereum と Base で開始した",
+        "sourceUrl": "https://x.com/circle/status/2095167839204499514"
+      }
+    ],
+    "watch": [
+      "9月15日の議事進行動議。可決要件は60票で、共和党のみでは届かない。",
+      "日銀9月会合と長期金利の3%。資金の縮小が加速した直後の水準を見る。",
+      "限定配布の範囲。国家当局から先へ広がるかで、手元に届く性能が決まる。"
+    ]
+  }
+}
