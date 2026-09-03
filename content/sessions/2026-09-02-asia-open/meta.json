@@ -1,0 +1,125 @@
+{
+  "sessionId": "2026-09-02-asia-open",
+  "date": "2026-09-02",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-02-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-02-asia-open",
+  "publishedAt": "2026-09-03T02:30:07+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260902_0503_667b677a",
+  "asOfJst": "2026-09-02T06:12:31+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月2日 05:03 JST（読み解きのみ）",
+  "bullets": [
+    "米政府、ホルムズ海峡付近のイラン関連目標を攻撃中と公表",
+    "ビットコイン7.7万ドル割れ・イーサリアム2,400ドル割れ、1時間で約1.15億ドルが清算",
+    "米国現物ビットコインETF、8月の流入35億ドルで2025年7月以来最大と報道"
+  ],
+  "editorial": {
+    "digestId": "dig_20260902_0612_c0467062",
+    "crawlAnchorJst": "2026-09-02T05:03:00+09:00",
+    "writtenAtJst": "2026-09-02T06:12:31+09:00",
+    "lead": "米政府がホルムズ海峡付近のイラン関連目標への攻撃を公表し、リスク資産が一斉に売られた。ビットコインは7.7万ドル、イーサリアムは2,400ドルを割り、1時間で1億ドル超のロングが清算されたと報じられている。だが同じ日に、8月の米国現物ビットコインETFへの流入が35億ドルで2025年7月以来最大だったとも伝えられ、9月初日も純流入で始まった。短期の値動きと月次の資金の向きが逆を向いている局面で、どちらが本流かはまだ決まっていない。",
+    "items": [
+      {
+        "headline": "米政府、ホルムズ海峡付近のイラン関連目標を攻撃中と公表",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2094841648760991892",
+        "note": "機雷敷設の試みへの報復として「大規模かつ強力な」攻撃を実施していると説明している。海峡の機雷はすでに除去または処理済みとしている。"
+      },
+      {
+        "headline": "ビットコイン7.7万ドル割れ・イーサリアム2,400ドル割れ、1時間で約1.15億ドルが清算",
+        "sourceUrl": "https://x.com/coinbureau/status/2094860240869363918",
+        "note": "米国とイランの応酬を受けた売りと報じられている。地政学ショックがまずレバレッジの薄い側から抜けるという、いつもの順番になっている。"
+      },
+      {
+        "headline": "米国現物ビットコインETF、8月の流入35億ドルで2025年7月以来最大と報道",
+        "sourceUrl": "https://x.com/blckchaindaily/status/2094875984746918091",
+        "note": "ブルームバーグの集計として伝えられている。価格が売られた日に、月次のフローは逆向きだった。"
+      },
+      {
+        "headline": "米国現物ビットコインETF、9月の取引開始日に1.42億ドルの純流入",
+        "sourceUrl": "https://x.com/blckchaindaily/status/2094874438051213634"
+      },
+      {
+        "headline": "暗号資産ETF全体の8月流入は55億ドル、ただし年初来では10.7億ドルの流出超",
+        "sourceUrl": "https://x.com/obchakevich_/status/2094884661512331515",
+        "note": "ビットコイン分は33.3億ドルで、6月単月の流出45.1億ドルをまだ取り戻せていないとされる。イーサリアムとアルトコインは累計流入が年内高水準にある。"
+      },
+      {
+        "headline": "米30年債利回り、2026年に5%超で56営業日と20年で最長の局面",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2094870408139047270",
+        "note": "イラン情勢を受けた原油90ドル超がインフレ懸念を押し戻しているとされる。政府の四半期調達7,390億ドルと、9月だけで2,150億ドルの新規社債が同じ資金を奪い合う構図も指摘されている。"
+      },
+      {
+        "headline": "Cardano、憲法委員会の更新提案がDRepとSPOの承認閾値を通過",
+        "sourceUrl": "https://x.com/angrycryptoshow/status/2094804828547334350",
+        "note": "Ouroboros Leiosへの道筋が開いたと報じられている。ガバナンスの手続きが技術ロードマップの前提条件になっている、という関係がはっきり見える一件。"
+      },
+      {
+        "headline": "ホスキンソン氏「Leiosを出し、ハードフォークを有効にしなければならない」",
+        "sourceUrl": "https://x.com/angrycryptoshow/status/2094827598815572239"
+      },
+      {
+        "headline": "SPO投票2件が締切間近、minPoolCost引き下げと憲法委員会更新",
+        "sourceUrl": "https://x.com/SmaugPool/status/2094822259433087263",
+        "note": "ALWAYS ABSTAINへの委任でない限り、投票しないことは反対と同じ扱いになる点が改めて注意喚起されている。"
+      },
+      {
+        "headline": "Daedalus 11.3.0が公開、DRepディレクトリと委任ツールを追加",
+        "sourceUrl": "https://x.com/se7en_labs/status/2094786448272597034",
+        "note": "サポートポータルAriadneの導入、エクスプローラーリンクの修復、Byron期ウォレット対応の改善も含む。委任先を探す動線がウォレット内に入った意味は小さくない。"
+      },
+      {
+        "headline": "Midnightが9月2日のGoogle Web3 AI Summitに登壇予定",
+        "sourceUrl": "https://x.com/Lovelace6260911/status/2094847423038607418",
+        "note": "Google CloudとGoogle DeepMindが主催し、分散型インフラがテーマ。ZKオフローディング、Midnight City、Midnight Passportの紹介が予定されているとされる。"
+      },
+      {
+        "headline": "OpenAI、次期モデルAstraを「Critical」サイバー能力の水準に指定と報道",
+        "sourceUrl": "https://x.com/zubiqo/status/2094883811209425320",
+        "note": "高度なサイバー機能は少数のテスターに限定されると伝えられている。防御側の正当な用途まで絞られる、という副作用が論点になっている。"
+      },
+      {
+        "headline": "OpenAI「Astraは近く提供するが、最も高度なサイバー能力へのアクセスはより限定的になる」",
+        "sourceUrl": "https://x.com/scaling01/status/2094880968704205060"
+      },
+      {
+        "headline": "米SEC、証券移転代理人規則をブロックチェーンとトークン化証券に対応させる改正を提案",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2094839273086497105",
+        "note": "ブロックチェーンを公式の所有記録として使うことを認め、扱うトークン化証券の数と利用プラットフォームの報告を求める内容と報じられている。"
+      },
+      {
+        "headline": "Robinhood Chainがチェーン手数料でSolana・Base・Ethereumを上回ったと報道",
+        "sourceUrl": "https://x.com/syhung909090/status/2094884610442424605",
+        "note": "DEX出来高14.9億ドル、1日あたり552万件の取引が押し上げたとされる。手数料という一点だけを見れば、既存チェーンの序列は固定ではない。"
+      },
+      {
+        "headline": "FRBバー理事が経済見通しと金融包摂について講演",
+        "sourceUrl": "https://x.com/federalreserve/status/2094774234425774298",
+        "note": "インフレの鈍化が進まなければ利上げが必要になりうると警告したと伝えられている。原油高と長期金利の上昇が重なる局面での発言になる。"
+      },
+      {
+        "headline": "Kalshiが全米オープンの独占予測市場パートナーに",
+        "sourceUrl": "https://x.com/Kalshi/status/2094798443952640008",
+        "note": "USTAとともにデータ共有・教育・市場監視による不正防止の枠組みも構築するとしている。予測市場が主流スポーツの公式パートナー欄に入った。"
+      },
+      {
+        "headline": "SpaceX株、6月16日のピークから37.0%下落と伝えられる",
+        "sourceUrl": "https://x.com/AmericanMuck/status/2094879530993205735",
+        "note": "消失した時価総額は1.08兆ドルとされる。AI・宇宙関連の資本サイクルがどこまで巻き戻るかを測る目盛りになる。"
+      }
+    ],
+    "watch": [
+      "原油と米30年債利回りが同時に上がり続けるか。地政学プレミアムがインフレ再燃に変わる分岐点になる。",
+      "SPO投票の締切後に確定する憲法委員会更新の結果と、Leiosのメインネット日程がどう動くか。",
+      "ETFの日次フローが売り一巡後も純流入を保てるか。8月の流入が価格の下支えに変わるかを測る。"
+    ]
+  },
+  "observationStatus": "absent"
+}
