@@ -1,0 +1,104 @@
+{
+  "sessionId": "2026-09-01-asia-open",
+  "date": "2026-09-01",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-01-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-01-asia-open",
+  "publishedAt": "2026-09-02T02:30:38+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260901_0503_8f076e08",
+  "asOfJst": "2026-09-01T06:03:17+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月1日 05:03 JST（読み解きのみ）",
+  "bullets": [
+    "ロビンフッドが AI エージェントによる暗号資産取引の展開を完了したと発表した",
+    "Grok の Bot が購入の代行だけでなく、最良の条件を探して交渉まで行うとされた",
+    "サークルが、エージェントが USDC で情報を購入し成果物を提出するまでのチュートリアルを公開した"
+  ],
+  "editorial": {
+    "digestId": "dig_20260901_0603_a0e971a5",
+    "crawlAnchorJst": "2026-09-01T05:03:00+09:00",
+    "writtenAtJst": "2026-09-01T06:03:17+09:00",
+    "lead": "注文を出す側が、人から口座へ移った日だ。ロビンフッドが AI エージェントによる暗号資産取引の全面展開を告げ、同じ24時間に代理購買と代理支払いの発表が並んだ一方、金融庁は転々と流通する信託型ステーブルコインについて税務書類を不要にするよう求めている。地政学では米国とイランが再び撃ち合い、Cardano では憲法委員会を更新する議案で DRep が可決基準を初めて超えた。",
+    "items": [
+      {
+        "headline": "ロビンフッドが AI エージェントによる暗号資産取引の展開を完了したと発表した",
+        "sourceUrl": "https://x.com/RobinhoodApp/status/2094491408514077009",
+        "note": "エージェントは MCP サーバー経由で接続し、専用口座に入金した資金の範囲でのみ動く。"
+      },
+      {
+        "headline": "Grok の Bot が購入の代行だけでなく、最良の条件を探して交渉まで行うとされた",
+        "sourceUrl": "https://x.com/elonmusk/status/2094491665335558361"
+      },
+      {
+        "headline": "サークルが、エージェントが USDC で情報を購入し成果物を提出するまでのチュートリアルを公開した",
+        "sourceUrl": "https://x.com/circle/status/2094480126490956194"
+      },
+      {
+        "headline": "金融庁が令和9年度の税制改正要望を公表した",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/sonota/20260831.html",
+        "note": "信託型ステーブルコインについて、受益者別調書と信託の計算書の提出を不要とする措置を求めている。"
+      },
+      {
+        "headline": "米国とイランが再び撃ち合い、トランプ大統領が追加の行動を警告した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/aug/31/trump-threatens-further-action-us-iran-exchange-fire"
+      },
+      {
+        "headline": "ベッセント財務長官が、より強く持続的な成長を G20 議長国としての中心的な優先事項に据えると表明した",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2094469678168977758"
+      },
+      {
+        "headline": "日本銀行が、氷見野副総裁の講演「日本経済と金融政策」を公表した",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2094394893250543841"
+      },
+      {
+        "headline": "Cardano Foundation が、憲法委員会を更新する議案の投票期限まであと一日だと呼びかけた",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2094465112618967045",
+        "note": "期限切れになれば委員会は定数の5名を下回り、財務・パラメータ・ハードフォークの各アクションが止まる。"
+      },
+      {
+        "headline": "Blockforce のトレーサビリティ基盤で Cardano が公開証明レイヤーとして稼働を開始した",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2094396049838252539",
+        "note": "50万件を超えるサプライチェーン記録がすでにアンカーされ、商用データは非公開のまま保たれる。"
+      },
+      {
+        "headline": "Midnight が Aliit を主題にした解説記事を公開した",
+        "sourceUrl": "https://midnight.network/blog/inside-aliit-everything-you-want-to-know"
+      },
+      {
+        "headline": "Runway が初のインターフェース・ワールドモデル Solaris の研究を公開した",
+        "sourceUrl": "https://x.com/runwayml/status/2094463070466646019",
+        "note": "コードを書かずに対話的な画面をフレーム単位で生成する。文字の安定表示は課題として残る。"
+      },
+      {
+        "headline": "Agility Robotics の共同創業者が、人型ロボットには誇大宣伝が多すぎると述べた",
+        "sourceUrl": "https://x.com/agilityrobotics/status/2094466317411872857"
+      },
+      {
+        "headline": "エヌビディアがメディアテックとの協業拡大を発表した",
+        "sourceUrl": "https://x.com/nvidia/status/2094440470814609812",
+        "note": "独自設計のシリコンを量産規模のシステムへ運ぶ経路をつくるとしている。"
+      },
+      {
+        "headline": "トランプ大統領がデータセンターへの反対論を批判したと報じられた",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/china-could-not-be-happier-trump-blasts-us-backlash-against-data-centres"
+      },
+      {
+        "headline": "セキュリタイズが、世界株式100兆ドルの2%がオンチェーンに移れば約2兆ドルになると提示した",
+        "sourceUrl": "https://x.com/Securitize/status/2094438970029392258"
+      }
+    ],
+    "watch": [
+      "米国2年金利は8月27日の4.20%から8月28日に4.34%へ上げた。9月15-16日の会合前に、短い年限だけが動くのかを見る。",
+      "Cardano の憲法委員会更新は、日本時間9月2日6時44分51秒が期限。SPO 側の残りが埋まるかどうかが分岐になる。",
+      "エージェントに執行を預ける口座で、専用口座と入金上限という囲いが他社にも広がるかどうか。"
+    ]
+  },
+  "observationStatus": "absent"
+}
