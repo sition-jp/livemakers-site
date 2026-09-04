@@ -1,0 +1,90 @@
+{
+  "sessionId": "2026-09-04-asia-open",
+  "date": "2026-09-04",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-04-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-04-asia-open",
+  "publishedAt": "2026-09-05T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260904_0503_f7fbf90c",
+  "asOfJst": "2026-09-04T05:03:08+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月4日 05:03 JST",
+  "bullets": [
+    "日経平均先物 64,755 → 64,600（-0.24%）",
+    "変動幅上位: NIGHT/USD +21.8% / ADA/USD +12.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260904_0705_fae507ad",
+    "crawlAnchorJst": "2026-09-04T05:03:00+09:00",
+    "writtenAtJst": "2026-09-04T07:05:00+09:00",
+    "lead": "強いモデルの発表と、危険等級の自認が同じ文書に並んだ。OpenAI は GPT-6 Astra を公開し、自社の備えの枠組みでサイバー能力が Critical に達した最初のモデルだと明記したうえで、初日の提供先を企業向けの限定枠に絞った。同じ日に ChatGPT・Claude・Grok が同時に止まり、代替を並べたつもりの手元が、実は同じ土台の上に乗っていた可能性が見えた。カルダノでは憲法委員会の入れ替えが投票だけで通り、割れたのは反対ではなく参加率だった。",
+    "items": [
+      {
+        "headline": "OpenAI が GPT-6 Astra を公開し、コンピュータでできることを速く代行できると説明した",
+        "sourceUrl": "https://x.com/OpenAI/status/2095595741528125780",
+        "note": "初日の提供先は企業向けの限定枠で、一般プランは数日のうちとされた。"
+      },
+      {
+        "headline": "OpenAI は GPT-6 Astra が数学・抽象推論・端末操作の主要ベンチマークで最高水準だとした",
+        "sourceUrl": "https://x.com/OpenAI/status/2095595752815030713"
+      },
+      {
+        "headline": "システムカードについて、思考の連鎖を追える度合いが従来より大きく下がったとする記述が紹介された",
+        "sourceUrl": "https://x.com/scaling01/status/2095596730351792194",
+        "note": "強さの指標が上がった日に、なぜそう答えたかを外から追う手がかりは減った。"
+      },
+      {
+        "headline": "ChatGPT・Claude・Grok が同時に停止した",
+        "sourceUrl": "https://x.com/axios/status/2095536661731983800",
+        "note": "三社が同じ時間帯に落ちるのは異例で、共通の土台側が寄与した可能性が指摘されている。"
+      },
+      {
+        "headline": "カルダノ財団が、憲法委員会の入れ替えを決める議案が可決され新しい委員会が着席したと発表した",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2095562278821347581",
+        "note": "DRep 側 67%、SPO 側 51% の二つの閾値をどちらも越えた。"
+      },
+      {
+        "headline": "Midnight ネットワーク上で無期限先物が稼働した",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2095562900597293387",
+        "note": "プライバシー基盤の上に、値付けと清算という一番ごまかしの効かない機能が乗った。"
+      },
+      {
+        "headline": "コンゴ民主共和国のゴマで18人がウォレット作成と検証用ネットワークでの送金まで実施した",
+        "sourceUrl": "https://x.com/Cardano/status/2095507637685063923"
+      },
+      {
+        "headline": "上院のルミス議員が、クラリティ法案はワイオミング州の規則を連邦法で覆うことになると述べたと速報された",
+        "sourceUrl": "https://x.com/AshCrypto/status/2095569146259902633",
+        "note": "9月15日の議事進行動議を前に、争点が連邦と州の関係へずれ始めた。"
+      },
+      {
+        "headline": "セキュリタイズが、現実資産のトークンを保有するアドレスが300万を超えたと発表した",
+        "sourceUrl": "https://x.com/Securitize/status/2095572964297363544"
+      },
+      {
+        "headline": "米財務省が125億ドル規模の自国債買い戻しを実施したと速報された",
+        "sourceUrl": "https://x.com/AshCrypto/status/2095587134790885708"
+      },
+      {
+        "headline": "Runway が GWM Worlds 2 を公開し、対話的に生成する汎用世界モデルの研究を共有した",
+        "sourceUrl": "https://x.com/runwayml/status/2095540014645920040"
+      },
+      {
+        "headline": "Google DeepMind が WeatherNext 3 を発表し、世界の天気予報の手法として大きな前進だとした",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2095528012791902536"
+      }
+    ],
+    "watch": [
+      "危険等級を自分で付けた会社が、一般プランへの配布をどこまで急ぐか。等級の説明が後から緩む方向へ書き換わらないかを合わせて見る。",
+      "同時停止の原因説明。共通の土台側だと裏付けられれば、備えは「別のモデル」ではなく「別の提供元」に変わる。",
+      "新しい憲法委員会の最初の議題。可決の余裕より、未投票の厚みが次の議案で動くかどうかを見る。"
+    ]
+  }
+}
