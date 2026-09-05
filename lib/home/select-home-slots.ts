@@ -10,10 +10,15 @@ export interface HomeSlotInput {
   promotions: Readonly<Record<string, string>>;
   today: string;
   articleCutoffToday?: string;
+  // 2026-09-05: セッションの live 降格時計。省略時は articleCutoffToday と同じ。
+  // builder は reviewed packet 採用時に snapshot.dataDate を渡す (00:45–05:02 の
+  // global-close 持ち越しを live のまま保つため)。記事の時計とは切り離す。
+  sessionClockToday?: string;
 }
 
 type NormalizedHomeSlotInput = HomeSlotInput & {
   articleCutoffToday: string;
+  sessionClockToday: string;
 };
 
 export type LeadState = "today" | "latest" | "pending";
@@ -63,15 +68,19 @@ export function normalizeHomeInput(
   input: HomeSlotInput,
 ): NormalizedHomeSlotInput {
   const articleToday = input.articleCutoffToday ?? input.today;
+  const sessionToday = input.sessionClockToday ?? articleToday;
   return {
     ...input,
     articleCutoffToday: articleToday,
+    sessionClockToday: sessionToday,
     articles: input.articles.filter((article) => dateOf(article) <= articleToday),
-    // P0-1b (G44 Amendment A): the live demote clock is the reader-facing
-    // articleCutoffToday, not the market snapshot date — a fixture session
-    // must never present as live once the real date has moved past it.
+    // P0-1b (G44 Amendment A): the live demote clock is the session clock
+    // (real JST today under fixture degrade, the adopted packet's dataDate
+    // otherwise) — a fixture session must never present as live once the
+    // real date has moved past it. (2026-09-05: 記事の時計 articleCutoffToday
+    // とは分離。builder 側の sessionClockToday を参照する。)
     sessions: input.sessions.map((session) =>
-      session.liveStatus === "live" && session.date !== articleToday
+      session.liveStatus === "live" && session.date !== sessionToday
         ? { ...session, liveStatus: "closed" as const }
         : session,
     ),

@@ -174,18 +174,24 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
     );
   });
 
-  it("reviewed adopted: cutoff equals snapshot.dataDate", () => {
+  it("reviewed adopted with a previous-day packet: article cutoff still follows real JST now", () => {
+    // 2026-09-05: 当日の packet が届かず前日 packet が 24h 採用され続けても、
+    // 当日公開の記事はホームに出る (market today と記事 today は別の時計)。
     const props = buildHomeCompositionProps({
       source: reviewedHomeSource(),
       now: new Date("2026-07-13T07:30:00+09:00"),
       sessionRecords: [],
       articles: [
         article("signal-20260713-after-snapshot", "2026-07-13T01:00:00+09:00"),
+        article("signal-20260714-future", "2026-07-14T00:00:00+09:00"),
       ],
     });
 
     expect(props.snapshot.dataDate).toBe("2026-07-12");
-    expect(props.slots.latestArticles).toEqual([]);
+    expect(props.today).toBe("2026-07-12");
+    expect(props.slots.latestArticles.map((item) => item.articleId)).toEqual([
+      "signal-20260713-after-snapshot",
+    ]);
   });
 
   it("omitting articles falls back to the repository read", () => {
@@ -197,6 +203,43 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
     });
 
     expect(props.slots.latestArticles.length).toBeGreaterThan(0);
+  });
+});
+
+describe("session clock (sessionClockToday) stays separate from the article clock", () => {
+  const liveGlobalClose = {
+    ...getSessionRecord("2026-07-10-asia-open"),
+    sessionId: "2026-07-12-global-close",
+    sessionSlug: "global-close" as const,
+    date: "2026-07-12",
+    liveStatus: "live" as const,
+  };
+
+  it("keeps a previous-day live session live when the session clock is the packet date", () => {
+    const normalized = normalizeHomeInput({
+      articles: [],
+      sessions: [liveGlobalClose],
+      radar: [],
+      promotions: {},
+      today: "2026-07-12",
+      articleCutoffToday: "2026-07-13",
+      sessionClockToday: "2026-07-12",
+    });
+
+    expect(normalized.sessions[0]?.liveStatus).toBe("live");
+  });
+
+  it("demotes a previous-day live session when no session clock is supplied", () => {
+    const normalized = normalizeHomeInput({
+      articles: [],
+      sessions: [liveGlobalClose],
+      radar: [],
+      promotions: {},
+      today: "2026-07-12",
+      articleCutoffToday: "2026-07-13",
+    });
+
+    expect(normalized.sessions[0]?.liveStatus).toBe("closed");
   });
 });
 

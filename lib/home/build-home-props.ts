@@ -499,7 +499,18 @@ export function buildHomeCompositionProps(
     promotions = {};
   }
   const today = args.today ?? snapshot.dataDate;
-  const articleCutoffToday =
+  // 2026-09-05: 記事の時計 (articleCutoffToday) は常に実 JST 今日。以前は
+  // reviewed packet 採用時に snapshot.dataDate へ縛っていたが、当日の packet が
+  // 届かない日 (土曜 09-05 に前日 23:03 close packet が 24h 採用され続けた) は
+  // 当日公開の記事 (Daily Intel / 週末の12指標 / Weekly Brief / 次の時代の地図)
+  // が丸一日ホームから消えた。market の today (= snapshot.dataDate) と記事の
+  // today は別の時計 (D13) — 市場面は packet の asOf を正直に出し、記事面は
+  // 公開日で出す。fixture degrade 経路と同じ規則に一本化する。
+  const articleCutoffToday = args.articleCutoffToday ?? resolveTodayJst(now);
+  // セッションの live 降格 / recentClosed の時計は従来どおり packet の
+  // dataDate (採用時)。00:45–05:02 の global-close 持ち越し (producer v0.4 の
+  // 唯一の例外) を live のまま保つため、記事の時計から切り離して据え置く。
+  const sessionClockToday =
     args.articleCutoffToday ??
     (reviewedAdopted ? snapshot.dataDate : resolveTodayJst(now));
   if (!snapshot.asOfJst.startsWith(today)) {
@@ -516,6 +527,7 @@ export function buildHomeCompositionProps(
     promotions,
     today,
     articleCutoffToday,
+    sessionClockToday,
   };
   const normalized = normalizeHomeInput(raw);
   const live =
@@ -528,13 +540,13 @@ export function buildHomeCompositionProps(
     raw.sessions.find((record) => record.liveStatus === "live") ?? null;
   // 2026-08-23 田平氏 GO (spec 2026-08-23-terminal-switching-ux-design §A):
   // live が無い窓 (観測 RED) を空カードにせず「直前に終わったセッション」を
-  // 終了として見せる。対象 = closed かつ date が articleCutoffToday か前日
+  // 終了として見せる。対象 = closed かつ date が sessionClockToday か前日
   // (00:45–05:02 の global-close 持ち越しを受ける)。fixture のような過去日は
   // 除外されるので P0-1b (fixture を live と偽らない) は不変。normalized.sessions
   // は asOfJst 降順なので find = 最新。
   const recentClosedDates = new Set([
-    articleCutoffToday,
-    previousJstDate(articleCutoffToday),
+    sessionClockToday,
+    previousJstDate(sessionClockToday),
   ]);
   const recentClosed =
     normalized.sessions.find(
