@@ -1,7 +1,7 @@
 import { compile } from "@mdx-js/mdx";
-import remarkGfm from "remark-gfm";
 import { describe, expect, it } from "vitest";
 
+import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 import {
   getAllArticles,
   getArticleBody,
@@ -17,9 +17,10 @@ describe("content MDX compile gate (all files, no sampling)", () => {
       for (let article = queue.shift(); article; article = queue.shift()) {
         for (const locale of ["ja", "en"] as const) {
           try {
-            await compile(getArticleBody(article.articleId, locale), {
-              remarkPlugins: [remarkGfm],
-            });
+            await compile(
+              getArticleBody(article.articleId, locale),
+              ARTICLE_MDX_OPTIONS,
+            );
           } catch (error) {
             failures.push(
               `${article.articleId} [${locale}]: ${(error as Error).message}`,

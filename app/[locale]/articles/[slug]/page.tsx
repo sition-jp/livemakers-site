@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 
 import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractBlock";
@@ -23,6 +22,7 @@ import {
 } from "@/lib/articles/article-inflow-feed";
 import { buildArticleMetadata } from "@/lib/articles/article-metadata";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
+import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
 import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
@@ -208,7 +208,7 @@ export default async function ArticleDetailPage({
             options={{
               blockJS: true,
               blockDangerousJS: true,
-              mdxOptions: { format: "md", remarkPlugins: [remarkGfm] },
+              mdxOptions: ARTICLE_MDX_OPTIONS,
             }}
           />
         </div>
