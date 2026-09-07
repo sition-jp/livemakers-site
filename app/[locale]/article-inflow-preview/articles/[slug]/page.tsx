@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import remarkGfm from "remark-gfm";
 
 import { loadArticleInflowPreviewDetail } from "@/lib/articles/article-inflow-feed";
+import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 
 export default async function ArticleInflowPreviewDetailPage({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params;
@@ -30,7 +30,7 @@ export default async function ArticleInflowPreviewDetailPage({ params }: { param
           options={{
             blockJS: true,
             blockDangerousJS: true,
-            mdxOptions: { format: "md", remarkPlugins: [remarkGfm] },
+            mdxOptions: ARTICLE_MDX_OPTIONS,
           }}
         />
       </div>
