@@ -238,6 +238,8 @@
     "whyBody2": "ただし私たちはマルチブロックチェーン時代を前提にしています。Cardano と Midnight を観察の軸としながら、Bitcoin、Ethereum、Solana、その他主要 L1/L2 の動きとの相対比較を継続します。",
     "processTitle": "リサーチの方法論",
     "processBody": "LiveMakers のすべてのブリーフは SITION Discovery Engine (SDE) — 独自の AI 駆動インテリジェンス・パイプライン — がリアルタイムで収集・評価した一次情報を基盤にしています。Koios、CoinGecko、DefiLlama、GitHub、X (旧 Twitter) など複数のソースを継続的に取り込み、SIPO (Stake In Pool Operator) としての現場経験で文脈化することで、リサーチ精度と実践判断への落とし込みの両方を維持しています。",
+    "deskTitle": "編集体制",
+    "deskBody": "記事は LiveMakers 編集デスクが担当します。一次情報の収集と初稿の作成には AI を使い、数値の検証と公開の判断は人が行います。署名を個人名にしていないのは、記事が個人の見解ではなく、この方針に沿った編集部の仕事だからです。連載「次の時代の地図」など、人が構想から書いた記事には個別の署名を付けています。",
     "sipoTitle": "SITION Group としての立ち位置",
     "sipoStats": "カルダノ DRep #13 (₳101M 委任、上位 13 位)。Cardano ステークプール ×3 — 合計 ₳114M 委任 (SIPO / SIPO2 / SIPO3)。2026 年 4 月より Midnight Ambassador。(以上、2026 年 4 月 12 日時点)",
     "sipoBody": "私たちは観察者であると同時に、Cardano エコシステムの参加者・運営者でもあります。発信していることは、私たち自身が日々運用している意思決定の延長線上にあります。",
@@ -574,7 +576,8 @@
       "sessionTerminalEntry": "アーカイブを見る",
       "latestArticlesHeading": "最新の記事",
       "atlasPublishedHeading": "未来アトラス",
-      "atlasUnpublishedHeading": "次の時代の地図"
+      "atlasUnpublishedHeading": "次の時代の地図",
+      "editorialDesk": "LiveMakers 編集デスク"
     }
   },
   "sessions": {

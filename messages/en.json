@@ -238,6 +238,8 @@
     "whyBody2": "That said, we operate in a multi-blockchain era. Cardano and Midnight serve as our observation axis, but we continuously benchmark against Bitcoin, Ethereum, Solana, and other major L1/L2 movements.",
     "processTitle": "How we work",
     "processBody": "Every LiveMakers brief is grounded in primary data continuously aggregated and evaluated by the SITION Discovery Engine (SDE) — our proprietary AI-driven intelligence pipeline. Koios, CoinGecko, DefiLlama, GitHub, X, and other sources feed the engine in real time, and the output is contextualized through our SIPO (Stake In Pool Operator) operational experience. This is how we sustain both research precision and actionable decisions for investors.",
+    "deskTitle": "Editorial Desk",
+    "deskBody": "Articles are produced by the LiveMakers Editorial Desk. AI assists with gathering primary sources and preparing a first draft; a person verifies the figures and decides whether to publish. The byline names the desk rather than an individual because each article is the work of the desk under this policy, not a personal opinion. Pieces written by a person from the outset, such as the Future Map series, carry an individual byline instead.",
     "sipoTitle": "Our position in SITION Group",
     "sipoStats": "Cardano DRep #13 — ₳101M delegated, ranked 13th. Three Cardano stake pools (SIPO / SIPO2 / SIPO3) — ₳114M delegated in total. Midnight Ambassador since April 2026. (As of April 12, 2026.)",
     "sipoBody": "We are observers and participants at the same time — what we share is a continuation of decisions we make every day in our own operations.",
@@ -574,7 +576,8 @@
       "sessionTerminalEntry": "View archive",
       "latestArticlesHeading": "Latest articles",
       "atlasPublishedHeading": "Future Atlas",
-      "atlasUnpublishedHeading": "Future Map"
+      "atlasUnpublishedHeading": "Future Map",
+      "editorialDesk": "LiveMakers Editorial Desk"
     }
   },
   "sessions": {
