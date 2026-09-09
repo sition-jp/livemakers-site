@@ -300,6 +300,8 @@ describe("Future Atlas article chrome", () => {
 
     expect(result.querySelector("[data-atlas-authorship]")?.textContent).toBe("執筆: 田平茂樹 · 調査・検証補助にAIを使用");
     expect(result.querySelector("[data-atlas-contract]")).toBeNull();
+    // 人が構想から書く vision 記事は個人名署名。編集デスク署名とは排他 (2026-09-09)
+    expect(result.querySelector("[data-article-desk]")).toBeNull();
   });
 
   it("preserves representative ordinary article markup without Future Atlas chrome", async () => {
@@ -311,9 +313,14 @@ describe("Future Atlas article chrome", () => {
     expect(result.querySelector("[data-atlas-contract]")).toBeNull();
     expect(result.querySelector("header")?.textContent).toContain("テスト記事");
     expect(result.querySelector("[data-mdx-body]")?.textContent).toBe("本文");
-    // INFLOW-G2 T1a: header 直後に 16:9 サムネ枠 (placeholder) が常設された
+    // INFLOW-G2 T1a: header 直後に 16:9 サムネ枠 (placeholder) が常設された。
+    // 2026-09-09: atlas 以外の記事は header 直後に編集デスク署名 (P) が入る
     const children = Array.from(result.querySelector("article")!.children);
-    expect(children.map((node) => node.tagName)).toEqual(["HEADER", "DIV", "DIV"]);
-    expect(children[1].getAttribute("data-article-thumbnail")).toBe("placeholder");
+    expect(children.map((node) => node.tagName)).toEqual(["HEADER", "P", "DIV", "DIV"]);
+    const desk = children[1];
+    expect(desk.getAttribute("data-article-desk")).toBe("");
+    expect(desk.querySelector("a")?.getAttribute("href")).toContain("/about#editorial-desk");
+    expect(desk.textContent).not.toContain("田平");
+    expect(children[2].getAttribute("data-article-thumbnail")).toBe("placeholder");
   });
 });

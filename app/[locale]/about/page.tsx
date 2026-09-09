@@ -55,6 +55,14 @@ export default async function AboutPage({
         <p className="leading-relaxed text-text-secondary">{t("processBody")}</p>
       </section>
 
+      {/* Section 4b — editorial desk (記事署名 #editorial-desk の飛び先) */}
+      <section className="mb-16 scroll-mt-24" id="editorial-desk">
+        <h2 className="mb-6 text-2xl font-light tracking-title">
+          {t("deskTitle")}
+        </h2>
+        <p className="leading-relaxed text-text-secondary">{t("deskBody")}</p>
+      </section>
+
       <SectionDivider />
 
       {/* Section 5 — SITION Group identity */}

@@ -6,6 +6,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractBlock";
 import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
+import { EditorialDeskLine } from "@/components/articles/EditorialDeskLine";
 import { createArticleMdxComponents } from "@/components/articles/ArticleBodyComponents";
 import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
@@ -140,7 +141,13 @@ export default async function ArticleDetailPage({
             </p>
           ) : null}
         </header>
-        {manifestEntry && <AuthorshipLine authorshipMode={manifestEntry.authorshipMode} />}
+        {/* 署名 (2026-09-09)。future-atlas 連載は人が書く vision 記事なので個人名つきの
+            AuthorshipLine、それ以外は編集デスク署名。どちらも header 直後に 1 本だけ出る */}
+        {manifestEntry ? (
+          <AuthorshipLine authorshipMode={manifestEntry.authorshipMode} />
+        ) : (
+          <EditorialDeskLine label={t("detail.editorialDesk")} />
+        )}
         {contracts.map((contract) => {
           const state = futureAtlas.states.get(contract.forecastId);
           if (!state) {
