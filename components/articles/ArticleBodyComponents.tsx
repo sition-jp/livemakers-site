@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from "react";
+import { Children, isValidElement, type ComponentProps, type ReactNode } from "react";
 
 import { TweetEmbed } from "@/components/articles/TweetEmbed";
 import {
@@ -22,6 +22,7 @@ import { extractTopicTweetId } from "@/lib/articles/topic-tweet";
 export function createArticleMdxComponents(body: string): {
   h2: (props: ComponentProps<"h2">) => ReactNode;
   p: (props: ComponentProps<"p">) => ReactNode;
+  blockquote: (props: ComponentProps<"blockquote">) => ReactNode;
 } {
   const hasBlocks = hasDailyIntelBlockHeadings(body);
   const used = new Map<string, number>();
@@ -88,5 +89,51 @@ export function createArticleMdxComponents(body: string): {
     return <p {...props}>{children}</p>;
   }
 
-  return { h2: H2, p: P };
+  /**
+   * 出典注記ブロック (2026-09-11 田平氏 GO)。two_independent 記事の開示は
+   * 本文の文ではなく、記事末の `> **出典について** …` 引用ブロックに置かれる。
+   * その引用ブロックだけを小さな注記欄 (aside) として描き、本文と読み分け
+   * られるようにする。body 文字列と checksum 契約には触れない (表示層のみ)。
+   * 判定: 先頭の非空白子孫が <strong>出典について</strong> であること。
+   */
+  const SOURCE_NOTE_LABEL = "出典について";
+
+  const firstMeaningfulChild = (children: ReactNode): ReactNode => {
+    for (const child of Children.toArray(children)) {
+      if (typeof child === "string" && child.trim() === "") continue;
+      return child;
+    }
+    return null;
+  };
+
+  const isSourceNoteLabel = (node: ReactNode): boolean =>
+    isValidElement(node) &&
+    node.type === "strong" &&
+    (plainTextOf((node.props as { children?: ReactNode }).children) ?? "").trim() ===
+      SOURCE_NOTE_LABEL;
+
+  const startsWithSourceNoteLabel = (children: ReactNode): boolean => {
+    const first = firstMeaningfulChild(children);
+    if (first === null || !isValidElement(first)) return false;
+    if (isSourceNoteLabel(first)) return true;
+    // blockquote > p (= 本 map の P) > [strong, text] の 1 段だけ降りる
+    const inner = firstMeaningfulChild((first.props as { children?: ReactNode }).children);
+    return isSourceNoteLabel(inner);
+  };
+
+  function Blockquote({ children, ...props }: ComponentProps<"blockquote">) {
+    if (startsWithSourceNoteLabel(children)) {
+      return (
+        <aside
+          data-source-note=""
+          className="not-prose my-8 rounded-md border border-neutral-200 bg-neutral-50 px-4 py-3 text-[0.8125rem] leading-relaxed text-neutral-600 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-400 [&_p]:m-0 [&_strong]:mr-1 [&_strong]:font-semibold [&_strong]:text-neutral-700 dark:[&_strong]:text-neutral-300"
+        >
+          {children}
+        </aside>
+      );
+    }
+    return <blockquote {...props}>{children}</blockquote>;
+  }
+
+  return { h2: H2, p: P, blockquote: Blockquote };
 }

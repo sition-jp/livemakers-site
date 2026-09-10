@@ -79,6 +79,40 @@ describe("createArticleMdxComponents", () => {
     expect(second.container.querySelector("h2")!.id).toBe("■-観測");
     expect(third.container.querySelector("h2")!.id).toBe("観測-2");
   });
+
+  it("renders a 出典について blockquote as a source-note aside (2026-09-11)", () => {
+    const { p: P, blockquote: BQ } = createArticleMdxComponents(SIGNAL_BODY);
+    const { container } = render(
+      <BQ>
+        <P>
+          <strong>出典について</strong> 本稿の事実関係は複数の独立した報道が一致して伝える内容にもとづく。
+        </P>
+      </BQ>,
+    );
+    const aside = container.querySelector("aside[data-source-note]");
+    expect(aside).not.toBeNull();
+    expect(aside!.textContent).toContain("出典について");
+    expect(container.querySelector("blockquote")).toBeNull();
+  });
+
+  it("leaves ordinary blockquotes untouched", () => {
+    const { p: P, blockquote: BQ } = createArticleMdxComponents(SIGNAL_BODY);
+    const { container } = render(
+      <BQ>
+        <P>「発言の引用」と述べた。</P>
+      </BQ>,
+    );
+    expect(container.querySelector("blockquote")).not.toBeNull();
+    expect(container.querySelector("aside[data-source-note]")).toBeNull();
+    const bold = render(
+      <BQ>
+        <P>
+          <strong>強調だがラベルではない</strong> 続き。
+        </P>
+      </BQ>,
+    );
+    expect(bold.container.querySelector("aside[data-source-note]")).toBeNull();
+  });
 });
 
 // ---- 肝ツイート埋め込み (2026-08-14 田平氏 GO — 3 サイト展開の Phase 2) ------
