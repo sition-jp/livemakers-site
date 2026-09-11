@@ -26,7 +26,7 @@ function welcomeText(locale: "en" | "ja"): string {
     return [
       "LiveMakers Weekly Brief への購読登録ありがとうございます。",
       "",
-      "Cardano と Midnight の週次インテリジェンスを毎週金曜 12:00 JST に",
+      "金融再起動を読む週次インテリジェンスを毎週金曜 12:00 JST に",
       "https://livemakers.com/ja で公開しています。",
       "",
       "現在は登録のみで、メール配信機能の準備が整い次第、ご登録のアドレスへ",
@@ -41,7 +41,7 @@ function welcomeText(locale: "en" | "ja"): string {
   return [
     "Thank you for subscribing to the LiveMakers Weekly Brief.",
     "",
-    "We publish Cardano & Midnight research every Friday 12:00 JST",
+    "We publish weekly intelligence on the financial reboot every Friday 12:00 JST",
     "at https://livemakers.com/en.",
     "",
     "Email delivery is being set up. Once it is ready, we will send each issue",

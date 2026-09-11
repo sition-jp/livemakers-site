@@ -1,6 +1,6 @@
 # LiveMakers Intelligence Terminal
 
-livemakers.com — Cardano & Midnight institutional research and real-time terminal.
+livemakers.com — intelligence terminal for the financial reboot (crypto & blockchain, AI & robotics, quantum, synthetic biology) with a real-time market terminal.
 
 Parent: SITION Group (sition.jp)
 Backend pipeline: `../sition-intelligence-terminal/`

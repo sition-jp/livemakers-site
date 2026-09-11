@@ -36,15 +36,29 @@ export default async function AboutPage({
         </p>
       </section>
 
-      {/* Section 3 — why Cardano + Midnight */}
+      {/* Section 3 — what we observe (金融再起動の 5 テーマ) */}
       <section className="mb-16">
         <h2 className="mb-6 text-2xl font-light tracking-title">
-          {t("whyTitle")}
+          {t("themesTitle")}
         </h2>
-        <p className="mb-5 leading-relaxed text-text-secondary">
-          {t("whyBody1")}
+        <p className="mb-6 leading-relaxed text-text-secondary">
+          {t("themesLead")}
         </p>
-        <p className="leading-relaxed text-text-secondary">{t("whyBody2")}</p>
+        <ul className="space-y-4">
+          {(
+            [
+              "themeCrypto",
+              "themeAI",
+              "themeQuantum",
+              "themeBio",
+              "themeMacro",
+            ] as const
+          ).map((key) => (
+            <li key={key} className="leading-relaxed text-text-secondary">
+              {t(key)}
+            </li>
+          ))}
+        </ul>
       </section>
 
       {/* Section 4 — methodology (SDE) */}
