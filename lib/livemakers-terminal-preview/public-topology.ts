@@ -36,6 +36,10 @@ export const PAGE_CHROME_ROUTES = [
   "/future-atlas",
   "/future-atlas/ledger",
   "/future-atlas/methodology",
+  // G3 (2026-09-11 田平氏 GO): Publisher Center 前提条件のフッタ専用リンク
+  "/editorial-policy",
+  "/contact",
+  "/privacy",
 ] as const;
 
 const forbiddenHrefText = [

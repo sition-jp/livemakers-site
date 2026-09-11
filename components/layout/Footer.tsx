@@ -28,6 +28,18 @@ export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
             </Link>
           ))}
         </nav>
+        {/* G3 (2026-09-11 田平氏 GO): 編集方針・連絡先・プライバシーは
+            記事▾ 導線とは別の Publisher Center 前提条件ページなので、
+            共有ナビ (buildFlatNav — header と共用) には混ぜず、フッタ
+            専用の 2 段目として独立させる。 */}
+        <nav
+          className="mb-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-[11px] tracking-label text-text-tertiary"
+          aria-label="footer-legal"
+        >
+          <Link href="/editorial-policy">{t("editorialPolicy")}</Link>
+          <Link href="/contact">{t("contact")}</Link>
+          <Link href="/privacy">{t("privacy")}</Link>
+        </nav>
         <div className="italic tracking-label">{t("disclaimer")}</div>
         <div className="mt-6 text-text-tertiary/70">{t("copyright")}</div>
         <div className="mt-2 font-mono text-[10px] tracking-label text-text-tertiary/50">

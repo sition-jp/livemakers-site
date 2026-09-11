@@ -166,7 +166,10 @@
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
     "dataSources": "Data: Koios · DefiLlama · CoinGecko · GitHub",
     "disclaimer": "Not investment advice. Information provided for learning and research.",
-    "copyright": "© 2026 SITION Group"
+    "copyright": "© 2026 SITION Group",
+    "editorialPolicy": "Editorial Policy",
+    "contact": "Contact",
+    "privacy": "Privacy Policy"
   },
   "overview": {
     "tagline": "The financial reboot: reading the next finance, rebuilt by crypto, AI, quantum, and synthetic biology.",
@@ -743,5 +746,41 @@
       "human_written": "Written by: Shigeki Tabira · AI used for research and verification support",
       "ai_draft_human_edited": "AI-assisted text · Edited, verified, and approved by Shigeki Tabira"
     }
+  },
+  "editorialPolicy": {
+    "title": "Editorial Policy",
+    "intro": "LiveMakers is an intelligence media outlet on the theme of the financial reboot, operated by SITION Group (represented by Shigeki Tabira). This page explains how we write, verify, correct, and how you may cite our work.",
+    "operatorTitle": "Operator",
+    "operatorBody": "SITION Group (represented by Shigeki Tabira) holds final editorial and publishing responsibility. Articles are bylined to the \"LiveMakers Editorial Desk\" rather than an individual, because each piece is the desk's work under this policy, not a personal opinion. Pieces written by a person from the outset, such as the Future Map series, carry an individual byline instead.",
+    "aiVerificationTitle": "AI-assisted writing and human verification",
+    "aiVerificationBody": "AI (including the SITION Discovery Engine) assists with gathering primary sources and preparing first drafts. A person always verifies the figures and decides whether to publish. We never skip verification because a draft was AI-assisted.",
+    "sourcingTitle": "Sourcing policy",
+    "sourcingBody": "Numeric data is verified against primary sources — Koios, CoinGecko, DefiLlama, GitHub, official blogs — before publication. We do not republish figures from news reports as-is. Information we cannot verify against a primary source is held back until it can be confirmed.",
+    "correctionsTitle": "Corrections policy",
+    "correctionsBody": "If an error is found after publication, we correct the article body and note the correction along with the update timestamp in the article. We do not unpublish an article because of a correction — transparency comes first.",
+    "citationTitle": "Citation policy",
+    "citationBody": "As long as you credit the source (outlet name + URL), you are free to quote our text, restate our figures, use our thumbnail images, and read our content aloud in video — no prior request needed. Please avoid citations that distort an article's meaning or that could be mistaken for our own official statement."
+  },
+  "contact": {
+    "title": "Contact",
+    "intro": "For questions about an article or to report an error, please reach us through the channel below.",
+    "xLabel": "X (formerly Twitter) DM",
+    "xBody": "Please DM @LiveMakersCom.",
+    "siteLabel": "Operator",
+    "siteBody": "LiveMakers is operated by SITION Group. The SITION Group official site is linked below."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "intro": "This page summarizes what information LiveMakers (operated by SITION Group) handles on this site.",
+    "accessLogsTitle": "Access logs",
+    "accessLogsBody": "This site runs on Vercel, our hosting platform, which generates standard access logs (IP address, request time, user agent, etc.) as part of its infrastructure. These are standard hosting logs; we do not run our own analytics or ad-tracking on top of them.",
+    "analyticsTitle": "Analytics and advertising",
+    "analyticsBody": "We do not use analytics tools such as Google Analytics, nor any advertising or tracking mechanisms.",
+    "localStorageTitle": "Browser local storage",
+    "localStorageBody": "Your dark/light display preference is stored only in your browser's local storage on your own device. This value is never sent to our servers and is not used to identify you.",
+    "cookieTitle": "Cookies",
+    "cookieBody": "This site does not set tracking cookies.",
+    "contactTitle": "Contact",
+    "contactBody": "For questions about this policy, please reach us via the contact page."
   }
 }
