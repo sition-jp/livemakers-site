@@ -1,0 +1,102 @@
+{
+  "sessionId": "2026-09-08-europe-bridge",
+  "date": "2026-09-08",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-08-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-08-europe-bridge",
+  "publishedAt": "2026-09-09T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260908_1203_33d32916",
+  "asOfJst": "2026-09-08T12:03:11+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月8日 12:03 JST",
+  "bullets": [
+    "DXY 99.000 → 99.160（+0.16%）",
+    "変動幅上位: NIGHT/USD -5.6% / VIX +5.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260908_1240_88f704ff",
+    "crawlAnchorJst": "2026-09-08T12:03:00+09:00",
+    "writtenAtJst": "2026-09-08T12:40:00+09:00",
+    "lead": "今日の昼にそろったのは、作る側の話と、預ける側の話だった。ヒューマノイドは手組みから流れ作業へ移り、ビットコインのサイドチェーンからは一度出ていった資産の大半が戻ってきた。前者は価格と納期が読める製品に変わる入口で、後者は「止められる人がいる設計」の代償を見せている。どちらも性能ではなく、供給と信頼の話になっている。",
+    "items": [
+      {
+        "headline": "ヒューマノイドの自動生産ラインが稼働し、機体が自力でラインから出た",
+        "sourceUrl": "https://x.com/XPENG_Global/status/2097159359520231758",
+        "note": "XPENG は先進的な汎用ヒューマノイド向けとしては初の自動化生産ラインだと説明している。ライン稼働は量産開始ではなく、量産目標は2026年末に置かれている。"
+      },
+      {
+        "headline": "ビットコインのサイドチェーンから出た資産の大半が返り、約15%が相手側に残った",
+        "sourceUrl": "https://x.com/coinbureau/status/2097057316075905431",
+        "note": "3,400ビットコインが元の宛先へ戻り、598.5ビットコインが残った。合意は公表されておらず、残高の扱いは決着していない。"
+      },
+      {
+        "headline": "ホルムズ海峡が年内に通常航行へ戻る見込みが、過去最低の25%まで下がった",
+        "sourceUrl": "https://x.com/Polymarket/status/2097071692396830856",
+        "note": "海運の動きは5月以来の低さになっている。予測市場の値であり、当局の見通しではない。"
+      },
+      {
+        "headline": "イラン・リアルが1ドル224万を超え、公開市場で最安値を更新した",
+        "sourceUrl": "https://x.com/coinbureau/status/2097077448756093405",
+        "note": "8月下旬に200万を割り込んでから12%下げている。1年前は約110万だった。"
+      },
+      {
+        "headline": "カナダの対米報復関税が発効の段階に入った",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/07/canada-tariffs-us-trump"
+      },
+      {
+        "headline": "キーウで検事総長が辞任し、政治的な混乱が続いている",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/08/ukraine-war-briefing-new-political-turmoil-in-kyiv-as-prosecutor-general-resigns"
+      },
+      {
+        "headline": "金融庁が台風24号と前線による大雨の被災地向けに金融上の措置を公表した",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/ginkou/20260907.html"
+      },
+      {
+        "headline": "Cardano の現在地が、スケーリングと流動性と橋の3点で整理された",
+        "sourceUrl": "https://x.com/Cardano/status/2097000715520536651",
+        "note": "Hydra と Leios のスケーリング、USDCx の流動性、Bitcoin・Injective・Midnight への橋の作業が並べられている。"
+      },
+      {
+        "headline": "Cardano の次期アップグレードは二段構成で、第1段階を2026年末に置く整理が共有された",
+        "sourceUrl": "https://x.com/AichiStakePool/status/2097036829791060296",
+        "note": "第1段階に Linear Leios と Nested Transactions、第2段階に Peras を2027年第2四半期。いずれも目標であって確定日ではない。"
+      },
+      {
+        "headline": "Arm が Physical AI のエコシステムづくりに入り、Autoware Foundation の創設メンバーになった",
+        "sourceUrl": "https://x.com/ShinpeiKato/status/2097159542706450886"
+      },
+      {
+        "headline": "ドイツ銀行が約3600億円のAIインフラ融資でリスク移転を使う",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2097093845229977780"
+      },
+      {
+        "headline": "学位のない若年層の労働市場が強い一方、新卒の環境は厳しいという分析が出た",
+        "sourceUrl": "https://x.com/Polymarket/status/2097055907486093483"
+      },
+      {
+        "headline": "米国の超長期国債が記録的に悪い10年を過ごしている",
+        "sourceUrl": "https://x.com/CryptosR_Us/status/2097115204026794472",
+        "note": "残存15年超の米国債は過去10年で年率およそマイナス2%のリターンだったと整理されている。"
+      },
+      {
+        "headline": "Tesla の FSD Supervised がスロベニアで承認された",
+        "sourceUrl": "https://x.com/elonmusk/status/2097066172780831194"
+      },
+      {
+        "headline": "データを守りながら使うアプリを作るための技術ワークショップが9月24日に開かれる",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2097108150902256110"
+      }
+    ],
+    "watch": [
+      "XPENG が年末までの量産に届くか。ラインが動いたことと量産が始まったことは別だ。",
+      "サイドチェーンの凍結が解ける条件と、返らなかった約15%の行方。",
+      "ホルムズの通常航行が戻る見込みが、25%からどちらへ動くか。"
+    ]
+  }
+}
