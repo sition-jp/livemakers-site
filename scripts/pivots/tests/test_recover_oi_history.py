@@ -214,3 +214,136 @@ def test_infeasible_complete_oi_source_is_rejected(repo, average):
     assert candidate == baseline
     assert any(r["commit"] == bad_sha and "infeasible OI" in r["reason"]
                for r in audit["rejected_commits"])
+
+
+@pytest.mark.parametrize("funding_count, expected_overall", [
+    (0, 0.5), (1, 0.6666666667), (2, 0.8333333333), (3, 1.0),
+])
+def test_recovered_completeness_uses_unrounded_counts(repo, funding_count, expected_overall):
+    _commit(repo, _snapshot("2026-08-12T23:00:00Z", 6))
+    baseline = _snapshot()
+    for block in baseline["assets"].values():
+        row = block["history"][0]
+        funding = row["funding"]
+        funding["sample_count"] = funding_count
+        funding["sum"] = round(funding_count * 0.0001, 10)
+        if funding_count == 0:
+            funding.update({key: 0.0 for key in funding if key != "sample_count"})
+        row["completeness"]["funding"] = round(funding_count / 3, 10)
+        row["completeness"]["overall"] = round(funding_count / 6, 10)
+    head = _commit(repo, baseline)
+
+    candidate, audit = build_recovery_candidate(repo, head)
+
+    assert len(audit["restored"]) == 2
+    for asset in ("BTC", "ETH"):
+        row = candidate["assets"][asset]["history"][0]
+        assert row["completeness"]["overall"] == expected_overall
+        assert row["funding"] == baseline["assets"][asset]["history"][0]["funding"]
+
+
+@pytest.mark.parametrize("kind, reason", [
+    ("root", "not a single-parent snapshot commit"),
+    ("empty_subject", "not a daily snapshot commit"),
+])
+def test_blank_commit_fields_are_rejected_without_aborting_history(repo, kind, reason):
+    donor = _commit(repo, _snapshot("2026-08-12T23:00:00Z", 6))
+    source_tree = donor
+    parents = []
+    if kind == "empty_subject":
+        source_tree = _commit(repo, _snapshot("2026-08-13T23:00:00Z"))
+        parents = ["-p", donor]
+    bad_sha = _git(repo, "-c", "commit.gpgsign=false", "commit-tree", f"{source_tree}^{{tree}}",
+                   *parents, "-m", "root snapshot" if kind == "root" else "")
+    baseline = _snapshot()
+    baseline_sha = _commit(repo, baseline)
+    generated = baseline["generated_at"]
+    head = _git(repo, "-c", "commit.gpgsign=false", "commit-tree", f"{baseline_sha}^{{tree}}",
+                "-p", bad_sha, "-m", f"chore(pivots): daily snapshot {generated}",
+                env={**os.environ, "GIT_AUTHOR_DATE": generated, "GIT_COMMITTER_DATE": generated})
+
+    candidate, audit = build_recovery_candidate(repo, head)
+
+    assert candidate == (baseline if kind == "root" else _snapshot(count=6))
+    assert audit["accepted_commits"] == ([head] if kind == "root" else [head, donor])
+    assert audit["rejected_commits"] == [{"commit": bad_sha, "reason": reason}]
+
+
+@pytest.mark.parametrize("kind", [
+    "repository", "objects", "config_count", "config_parameters", "home_config", "trace",
+])
+def test_recovery_ignores_inherited_git_environment(repo, tmp_path, monkeypatch, kind):
+    _commit(repo, _snapshot("2026-08-12T23:00:00Z", 6))
+    head = _commit(repo, _snapshot())
+    other = tmp_path / "other"
+    other.mkdir()
+    _git(other, "init", "-q")
+    trace = tmp_path / "git-trace.log"
+    overrides = {
+        "repository": {"GIT_DIR": str(other / ".git"), "GIT_WORK_TREE": str(other),
+                       "GIT_COMMON_DIR": str(other / ".git")},
+        "objects": {"GIT_OBJECT_DIRECTORY": str(other / ".git/objects")},
+        "config_count": {"GIT_CONFIG_COUNT": "invalid"},
+        "config_parameters": {"GIT_CONFIG_PARAMETERS": "invalid"},
+        "home_config": {"HOME": str(other)},
+        "trace": {"GIT_TRACE": str(trace)},
+    }
+    if kind == "home_config":
+        (other / ".gitconfig").write_text("[invalid config\n", encoding="utf-8")
+        monkeypatch.delenv("GIT_CONFIG_GLOBAL", raising=False)
+    for key, value in overrides[kind].items():
+        monkeypatch.setenv(key, value)
+
+    candidate, audit = build_recovery_candidate(repo, head)
+
+    assert audit["source_ref"] == head
+    assert len(audit["restored"]) == 2
+    assert candidate["assets"]["BTC"]["history"][0]["open_interest"]["sample_count"] == 6
+    assert not trace.exists()
+
+
+def test_recovery_disables_repository_signature_verification(repo, tmp_path):
+    _commit(repo, _snapshot("2026-08-12T23:00:00Z", 6))
+    head = _commit(repo, _snapshot())
+    raw = subprocess.check_output(["git", "-C", str(repo), "cat-file", "commit", head])
+    metadata, message = raw.split(b"\n\n", 1)
+    signed = (metadata + b"\ngpgsig -----BEGIN PGP SIGNATURE-----\n invalid\n"
+              b" -----END PGP SIGNATURE-----\n\n" + message)
+    signed_head = subprocess.check_output(
+        ["git", "-C", str(repo), "hash-object", "-t", "commit", "-w", "--stdin"], input=signed,
+    ).decode().strip()
+    marker = tmp_path / "gpg-invoked"
+    verifier = tmp_path / "fake-gpg"
+    verifier.write_text(f'#!/bin/sh\nprintf invoked > "{marker}"\nexit 1\n', encoding="utf-8")
+    verifier.chmod(0o700)
+    _git(repo, "config", "log.showSignature", "true")
+    _git(repo, "config", "gpg.program", str(verifier))
+
+    candidate, audit = build_recovery_candidate(repo, signed_head)
+
+    assert len(audit["restored"]) == 2
+    assert candidate["assets"]["BTC"]["history"][0]["open_interest"]["sample_count"] == 6
+    assert not marker.exists()
+
+
+def test_cli_zero_accepted_sources_fails_without_output(repo, tmp_path, capsys):
+    head = _commit(repo, _snapshot(), message="test: unqualified baseline")
+    output = tmp_path / "recovery"
+
+    assert main(["--repo", str(repo), "--source-ref", head, "--output-dir", str(output)]) == 1
+
+    assert not output.exists()
+    assert "no eligible daily snapshot commits" in capsys.readouterr().out
+
+
+def test_cli_zero_restored_days_with_eligible_source_succeeds(repo, tmp_path):
+    baseline = _snapshot()
+    head = _commit(repo, baseline)
+    output = tmp_path / "recovery"
+
+    assert main(["--repo", str(repo), "--source-ref", head, "--output-dir", str(output)]) == 0
+
+    audit = json.loads((output / "recovery-audit.json").read_text())
+    assert audit["accepted_commits"] == [head]
+    assert audit["restored"] == []
+    assert json.loads((output / "pivot_derivatives_history.candidate.json").read_text()) == baseline

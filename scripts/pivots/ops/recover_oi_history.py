@@ -5,13 +5,14 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import re
 import subprocess
 from copy import deepcopy
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-from producer.derivatives_sidecar import PROVIDER, SCHEMA_VERSION
+from producer.derivatives_sidecar import PROVIDER, SCHEMA_VERSION, _daily_point
 
 SIDECAR = "data/pivot_derivatives_history.live.json"
 PUBLIC_PAIR = ("data/pivot_assets.live.json", "data/pivot_backtest.live.json")
@@ -145,8 +146,12 @@ def validate_snapshot(snapshot: dict) -> None:
 
 
 def _git(repo: Path, *args: str) -> bytes:
+    # Pinned reads must not inherit repository redirects, config injections or traces.
+    env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    env.update({"GIT_CONFIG_NOSYSTEM": "1", "GIT_CONFIG_GLOBAL": os.devnull})
     result = subprocess.run(
-        ["git", "--no-replace-objects", "-C", str(repo), *args], capture_output=True, timeout=60,
+        ["git", "--no-pager", "--no-replace-objects", "-c", "log.showSignature=false",
+         "-C", str(repo), *args], capture_output=True, timeout=60, env=env,
     )
     if result.returncode:
         raise RecoveryError("git history read failed")
@@ -184,9 +189,11 @@ def build_recovery_candidate(repo: Path, source_ref: str) -> tuple[dict, dict]:
     observations = {}
     for sha in commits:
         try:
-            parents, date, subject = _git(
-                repo, "show", "-s", "--format=%P%n%cI%n%s", sha,
-            ).decode().strip().split("\n", 2)
+            fields = _git(
+                repo, "show", "-s", "--format=%P%x00%cI%x00%s", sha,
+            ).decode().removesuffix("\n").split("\0")
+            _require(len(fields) == 3, "invalid commit metadata")
+            parents, date, subject = fields
             _require(len(parents.split()) == 1, "not a single-parent snapshot commit")
             prefix = "chore(pivots): daily snapshot "
             _require(subject.startswith(prefix), "not a daily snapshot commit")
@@ -218,6 +225,7 @@ def build_recovery_candidate(repo: Path, source_ref: str) -> tuple[dict, dict]:
                 key = (asset, row["bucket_start"])
                 observations.setdefault(key, []).append((sha, row["open_interest"]))
 
+    _require(bool(audit["accepted_commits"]), "no eligible daily snapshot commits")
     for asset in ASSETS:
         for row in candidate["assets"][asset]["history"]:
             if row["open_interest"]["sample_count"] != 0:
@@ -229,8 +237,9 @@ def build_recovery_candidate(repo: Path, source_ref: str) -> tuple[dict, dict]:
             _require(all(value == oi for _, value in sources),
                      f"conflicting complete OI observations: {asset} {row['bucket_start']}")
             row["open_interest"] = deepcopy(oi)
-            row["completeness"]["open_interest"] = 1.0
-            row["completeness"]["overall"] = round((1 + row["completeness"]["funding"]) / 2, 10)
+            row["completeness"] = _daily_point(
+                row["bucket_start"], row["open_interest"], row["funding"],
+            )["completeness"]
             audit["restored"].append({
                 "asset": asset, "bucket_start": row["bucket_start"],
                 "source_commits": [sha for sha, _ in sources],

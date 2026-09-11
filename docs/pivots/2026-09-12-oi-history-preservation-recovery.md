@@ -64,6 +64,28 @@ exchange attestation or proof of six unique raw timestamps. The original raw
 responses are not retained. Known OI fixtures span April 4-May 4, outside the
 May 20-August 11 recovery interval.
 
+### PR #153 review hardening (#3, #4, #5)
+
+- Recovered completeness uses the producer's daily-point calculation from raw
+  sample counts. Funding payloads stay unchanged, including partial days; funding
+  count 1 produces overall completeness `0.6666666667` after complete OI recovery.
+- NUL-separated commit metadata preserves empty parent/subject fields. Root
+  commits and empty subjects are rejected with an audit reason, without aborting
+  the scan of other eligible sources.
+- Git reads discard inherited `GIT_*` variables, ignore system/global config,
+  disable pagers and override repository `log.showSignature`. This prevents
+  environment redirects, trace files and signature-verifier invocation during
+  offline reads. No installed environment or Git config is changed.
+- Zero eligible snapshot commits is an error before any output directory is
+  created. Zero restored days with eligible sources is still a valid no-op
+  candidate; source eligibility and recovered coverage are different measures.
+
+Runtime malformed-row handling, excessive sample counts, and the loader's
+invalid-file reset behavior (review #1/#2/#9) remain a separate pre-maintenance
+hardening gate. Do not coerce damaged retained counts to zero and overwrite the
+history. Review preservation and explicit degradation before installing recovery
+data in the runner. This PR does not change those runtime paths.
+
 The earliest donor `97c875fa3ab5cd8996c56f3c01bc19c9fff906c8` introduced
 the sidecar. Its three generation timestamps agree at `2026-06-18T23:00:16Z`
 and its commit is 11 seconds later. May 20 has only this one source snapshot.
