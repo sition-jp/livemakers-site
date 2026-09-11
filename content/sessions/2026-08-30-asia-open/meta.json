@@ -1,0 +1,102 @@
+{
+  "sessionId": "2026-08-30-asia-open",
+  "date": "2026-08-30",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-30-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-08-30-asia-open",
+  "publishedAt": "2026-08-31T02:30:06+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260830_0730_15dea9f5",
+  "asOfJst": "2026-08-30T07:30:18+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 8月30日 07:30 JST",
+  "bullets": [
+    "日経平均先物 66,235 → 65,775（-0.69%）",
+    "変動幅上位: VIX -4.6% / Gold -2.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260830_0645_c0f818a6",
+    "crawlAnchorJst": "2026-08-30T05:03:00+09:00",
+    "writtenAtJst": "2026-08-30T06:45:00+09:00",
+    "lead": "予告をやめると言った翌日に動いたのは、価格ではなく資金の向きだった。現物ビットコイン ETF は8月28日に2億181万ドルの純流出となり、9営業日続いた流入が途切れている。同じ時間帯にドルが戻り、金は下げた。ドルの代替として買われていた資産から先に資金が抜ける、という順番がそのまま出た週末だ。",
+    "items": [
+      {
+        "headline": "BIS 総支配人が、ステーブルコインは大規模な決済手段として信頼できないと述べ、トークン化された銀行預金を推した",
+        "sourceUrl": "https://x.com/coinbureau/status/2093758076612690069",
+        "note": "相互運用性の弱さ、AML 対策の不統一、銀行の資金調達への影響を理由に挙げた。米国の借入コストを下げうる面は認めつつ、ドル建てトークンが他国の通貨主権を脅かすとも警告している。"
+      },
+      {
+        "headline": "米国の現物ビットコイン ETF が8月28日に2億181万ドルの純流出を記録し、9営業日の流入が途切れた",
+        "sourceUrl": "https://x.com/coinbureau/status/2093734169457090705",
+        "note": "前日の同じファンド群は2億4,200万ドルを受け入れていた。8月の月間累計は31億ドル超で、2026年で最も強い月であることは変わっていない。"
+      },
+      {
+        "headline": "ドル指数が100日移動平均の水準まで戻し、金が下落した",
+        "sourceUrl": "https://x.com/coinbureau/status/2093785758813606146"
+      },
+      {
+        "headline": "7月の米新築一戸建て住宅販売が年率60万7,000戸と6か月ぶりの低水準になった",
+        "sourceUrl": "https://x.com/stlouisfed/status/2093793081837465802",
+        "note": "6月の改定値67万8,000戸から10.5%減。金利観測の変化は金融資産だけでなく実物の需要にも同じ方向で効いている。"
+      },
+      {
+        "headline": "NASA のナンシー・グレース・ローマン宇宙望遠鏡を載せた Falcon Heavy が、フロリダの39A射点で垂直に立った",
+        "sourceUrl": "https://x.com/SpaceX/status/2093791531505184932",
+        "note": "総額43億ドル。ダークエネルギー、系外惑星、天体物理の観測を担う。"
+      },
+      {
+        "headline": "イーロン・マスクが、SpaceX と Tesla がそれぞれ年間100GW の太陽光生産能力を建設中だと述べた",
+        "sourceUrl": "https://x.com/elonmusk/status/2093794565274669068",
+        "note": "当面は天然ガスによる補完が必要で、タービンのブレードとベーンの鋳造を内製化して稼働開始を最大18か月前倒しできるとしている。"
+      },
+      {
+        "headline": "Coinbase が Base 上で出したトークン化株式で、Aerodrome が数日で AMM 出来高の約25%を取った",
+        "sourceUrl": "https://x.com/laurashin/status/2093730897879290090",
+        "note": "取引額は約8,000万ドル、ウォレット数は5,000。合成ラッパーではなく信託保有の1対1裏付けという設計になっている。"
+      },
+      {
+        "headline": "ステークプールを6年運用している運用者が、最低プール手数料の分配実態を自ノードの集計で公開した",
+        "sourceUrl": "https://x.com/GrahamsNoPlus1/status/2093793642737807362",
+        "note": "エポック641-650のブロックあたり平均総報酬は298.11 ADA。固定170 ADA は1ブロックのプールで報酬の57.0%、20ブロックで2.9%にあたる。"
+      },
+      {
+        "headline": "最低プール手数料の引き下げに、小規模プールの多くが反対しているという観測が出た",
+        "sourceUrl": "https://x.com/ada_stat/status/2093685546908291308",
+        "note": "引き下げは本来小規模プールに有利なはずで、インフラ費用を賄えなくなる懸念が先に立っているのではないか、という読みが添えられている。"
+      },
+      {
+        "headline": "Cardano の憲法委員会更新の投票期限が日本時間9月2日朝であることが SPO 向けに呼びかけられた",
+        "sourceUrl": "https://x.com/AichiStakePool/status/2093738177366487288",
+        "note": "通らなければ7議席が3議席となり、成立に必要な最低人数5を下回る。"
+      },
+      {
+        "headline": "Cardano Foundation が、24か月熟成の証明という例で、認証をオンチェーンに固定する企業向けの使い方を示した",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2093685097849651558"
+      },
+      {
+        "headline": "EcoFlow が、9月4日から8日にベルリンで開かれる IFA に向けてプラグイン太陽光と家庭用蓄電池を出すと告知した",
+        "sourceUrl": "https://x.com/EcoFlowTech/status/2093715307269357988"
+      },
+      {
+        "headline": "MiniMax が、オープンウェイトで公開した動画生成モデルを外部チームが伸ばし、実時間より速い生成に届いたと述べた",
+        "sourceUrl": "https://x.com/MiniMax_AI/status/2093778769903534294"
+      },
+      {
+        "headline": "開発ツールへのモデル提供をめぐり、OpenAI が Cursor への供給を打ち切り、Anthropic は継続を表明したとする整理が出た",
+        "sourceUrl": "https://x.com/altryne/status/2093793285735317697",
+        "note": "第三者によるまとめであり、個々の発言は各社の公式説明で確かめる必要がある。"
+      }
+    ],
+    "watch": [
+      "8月28日の ETF 流出が単日で終わるか、9月会合の織り込みとともに続くか。",
+      "Cardano の憲法委員会更新が期限までに閾値へ届くか。届かなければ、その後の議案は承認の器がない状態で走る。",
+      "ローマン宇宙望遠鏡が予定どおり上がり、初期の運用に入るか。"
+    ]
+  }
+}

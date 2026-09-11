@@ -1,0 +1,127 @@
+{
+  "sessionId": "2026-08-30-global-close",
+  "date": "2026-08-30",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-30-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-30-global-close",
+  "publishedAt": "2026-08-31T02:30:06+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260830_2303_95873083",
+  "asOfJst": "2026-08-31T00:03:27+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月30日 23:03 JST（読み解きのみ）",
+  "bullets": [
+    "Warsh 議長、ジャクソンホール講演で物価最優先を鮮明に",
+    "金スポットが 1 オンス 4,500 ドルを割り込む",
+    "30 年債利回りが 2008 年以来の水準へ押し戻される"
+  ],
+  "editorial": {
+    "digestId": "dig_20260830_0003_f2a880e5",
+    "crawlAnchorJst": "2026-08-30T23:03:00+09:00",
+    "writtenAtJst": "2026-08-31T00:03:27+09:00",
+    "lead": "Warsh 議長のジャクソンホール講演が、この週末の市場を一色に染めた。物価安定を最優先だと明言したことで金は 4,500 ドルを割り、30 年債利回りは 2008 年以来の水準へ戻り、暗号資産 ETF は前日の流入を一日で吐き出したと報じられている。だが構造側の動きは止まっていない — 米国とベネズエラの巨大な石油合意、Solana の発行削減可決、ロシア最大手銀行の暗号資産担保受け入れ、そして Cardano の憲章委員会更新の投票期限が、同じ窓に並んでいる。金融政策が短期のノイズを作り、その裏側で通貨・エネルギー・ガバナンスの土台が組み替えられている。",
+    "items": [
+      {
+        "headline": "Warsh 議長、ジャクソンホール講演で物価最優先を鮮明に",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2093344574253002911",
+        "note": "インフレは依然として高すぎるとし、2% の PCE 目標は「揺るがない」と述べたと伝えられている。夏場の指標改善は基調の変化ではない、という整理だ。"
+      },
+      {
+        "headline": "金スポットが 1 オンス 4,500 ドルを割り込む",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2093391393569861879",
+        "note": "物価安定が中央銀行の最優先課題だとする発言を受けた下げとして報じられている。"
+      },
+      {
+        "headline": "30 年債利回りが 2008 年以来の水準へ押し戻される",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2093405979383832995",
+        "note": "長期金利が落ち着き始めた矢先の反転で、利下げ期待の後退が背景にあるとされる。"
+      },
+      {
+        "headline": "米ビットコイン現物 ETF から 1 日で約 2 億ドルの流出",
+        "sourceUrl": "https://x.com/coinbureau/status/2093734169457090705",
+        "note": "前日に 2.42 億ドルの流入があった直後の反転で、価格は 77,580 ドルまで下げたと報じられている。"
+      },
+      {
+        "headline": "イーサリアム ETF は 10 営業日連続の純流入、ビットコインは連続記録が途切れる",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2093587203918086209",
+        "note": "金曜の 2.01 億ドルの純流出でビットコイン側の連続流入が止まったとされる。資金の向きが銘柄間で割れ始めている。"
+      },
+      {
+        "headline": "米雇用者数の年次改訂で、さらに 7.9 万人の下方修正",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2093756591057056047",
+        "note": "2026 年 3 月までの 12 か月分。4 年連続の下方修正となり、2010 年に途切れた記録と並ぶと指摘されている。"
+      },
+      {
+        "headline": "ベネズエラ暫定政権が米国との石油合意を確認、650 億バレル・17 鉱区",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2093701180186644492",
+        "note": "民間事業者の参加で生産を大幅に引き上げる内容とされ、米国側が「過半の支配権」を得るという説明になっている。"
+      },
+      {
+        "headline": "WTI 原油が 2026 年の主要資産で最高パフォーマンスに",
+        "sourceUrl": "https://x.com/coinbureau/status/2093628472824651800",
+        "note": "年初来 +45.6% で、ナスダックや金、ビットコインを上回っているという集計。今年の主役はエネルギーだった、という見取り図になる。"
+      },
+      {
+        "headline": "イラン革命防衛隊、ホルムズ海峡は許可なしには「閉鎖」と表明",
+        "sourceUrl": "https://x.com/coinbureau/status/2093481254461055256",
+        "note": "海峡を完全に管理下に置いていると主張し、通航は自由だとする米側の説明を否定したと伝えられている。"
+      },
+      {
+        "headline": "Solana コミュニティ、新規発行量を削る提案を可決",
+        "sourceUrl": "https://x.com/CoinDesk/status/2093398460691079316",
+        "note": "年間ディスインフレ率を倍の 30% へ引き上げ、6 年で 1,890 万 SOL の発行を削減する内容。投票の最終盤で可決ラインを超えたと報じられている。"
+      },
+      {
+        "headline": "Cardano の憲章委員会更新アクション、9 月 1 日 21:44:51 UTC に期限",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2093833334581268571",
+        "note": "SPO と DRep の双方に最終投票が呼びかけられている。期限切れとなれば、現行委員 4 名の任期も同時に終了する。"
+      },
+      {
+        "headline": "ロシア最大手 Sberbank、ビットコインなどを融資担保として受け入れへ",
+        "sourceUrl": "https://x.com/CoinDesk/status/2093995574974419178",
+        "note": "新しい暗号資産規制が全面施行された後に開始する計画と報じられている。ETH と USDT も対象に含まれる。"
+      },
+      {
+        "headline": "Ripple、XRP Ledger の耐量子化に向けた 4 段階計画",
+        "sourceUrl": "https://x.com/CoinDesk/status/2093651794563854383",
+        "note": "いまの暗号方式が量子計算機に破られる将来を想定し、その前にネットワークを守り切るための移行手順だとされる。"
+      },
+      {
+        "headline": "Falcon Heavy が NASA の Nancy Grace Roman 宇宙望遠鏡を分離",
+        "sourceUrl": "https://x.com/SpaceX/status/2094032495024951364",
+        "note": "ダークエネルギーや系外惑星の観測を担う望遠鏡で、フロリダの 39A 射点から打ち上げられた。"
+      },
+      {
+        "headline": "OpenAI が Cursor との提携を終了、SpaceX による買収を受けて",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2093531642010677649",
+        "note": "利用規約の範囲内で技術が使われるか確信が持てない、という説明が出ている。モデルへの直接アクセスは 11 月 12 日で終わるとされる。"
+      },
+      {
+        "headline": "Solana のカード関連コントラクト旧版の欠陥で約 110 万ドルが流出",
+        "sourceUrl": "https://x.com/coinbureau/status/2093855390396240061",
+        "note": "うち 50 万ドル超が 1,685 人の利用者分で、運営は全額返金を表明している。自己管理型ウォレットは影響を受けていないという。"
+      },
+      {
+        "headline": "米 CLARITY 法案、採決まで 16 日",
+        "sourceUrl": "https://x.com/coinbureau/status/2094063842313568571",
+        "note": "下院は 2025 年 7 月に可決し、上院銀行委員会も 2026 年 5 月に通過したが、本会議の採決は先送りが続いていると整理されている。"
+      },
+      {
+        "headline": "中央銀行の保有で金が米国債を上回ったとの分析",
+        "sourceUrl": "https://x.com/coinbureau/status/2093990860576653605",
+        "note": "1996 年以来の逆転だとされる。準備資産の構成が静かに組み替わっているという見方だ。"
+      }
+    ],
+    "watch": [
+      "9 月 FOMC に向けた利上げ観測の織り込み — ドル指数と 30 年債利回りの向きが最初の手掛かりになる。",
+      "Cardano の憲章委員会更新は日本時間 9 月 2 日早朝が期限。委員会の構成が変わるかどうかがここで決まる。",
+      "ロシアの新しい暗号資産規制は 9 月 1 日に施行予定。担保受け入れが実際に動き出すかが試金石になる。"
+    ]
+  },
+  "observationStatus": "absent"
+}
