@@ -3,13 +3,13 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://livemakers.com"),
-  title: "LiveMakers — Intelligence Terminal for Next-Generation Finance",
+  title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
   description:
-    "LiveMakers is the next-generation financial intelligence terminal of SITION Group, powered by SDE — integrating crypto assets, DeFi, the AI agent economy, auto-trading, and macro/regulation from a Cardano + Midnight vantage point into leading-indicator signals, forecasts, and actionable decisions.",
+    "LiveMakers is the intelligence terminal of SITION Group for the financial reboot, powered by SDE — integrating crypto assets and blockchains, AI and robotics, quantum, synthetic biology, and macro/regulation into leading-indicator signals, forecasts, and actionable decisions.",
   openGraph: {
-    title: "LiveMakers — Intelligence Terminal for Next-Generation Finance",
+    title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
     description:
-      "AI agent economy, crypto, DeFi, and AI auto-trading — observed from the Cardano + Midnight frontline by SITION Group (DRep #13 · SPO ×3 · Midnight Ambassador).",
+      "Crypto, AI, quantum, and synthetic biology are rebuilding finance — observed from the field by SITION Group (DRep #13 · SPO ×3 · Midnight Ambassador).",
     type: "website",
     locale: "en_US",
     alternateLocale: "ja_JP",
