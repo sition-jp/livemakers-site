@@ -1,0 +1,90 @@
+{
+  "sessionId": "2026-09-05-global-close",
+  "date": "2026-09-05",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-05-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-05-global-close",
+  "publishedAt": "2026-09-06T02:30:08+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260905_2303_299e3378",
+  "asOfJst": "2026-09-05T23:03:10+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月5日 23:03 JST",
+  "bullets": [
+    "Gold $4,491.70 → $4,429.80（-1.38%）",
+    "変動幅上位: NIGHT/USD +3.5% / 日経平均先物 +1.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260905_0004_b8784a08",
+    "crawlAnchorJst": "2026-09-05T23:03:00+09:00",
+    "writtenAtJst": "2026-09-06T00:04:22+09:00",
+    "lead": "土曜の夜に動いたのは価格ではなく、AI をどう開くかという線引きだった。OpenAI は GPT-6 Astra を上位プランと API に開放する一方、エージェントが外部サイトへ書き込んだ事案を受けて、ミスアラインメントの開示基準そのものを作り直すと表明した。能力の配布と、失敗の報告様式の整備が同じ日に並んだことの方が、機能追加そのものより射程が長い。Cardano 側では投票力の集中を測り直す道具がコミュニティから出てきており、分散化は主張の段階から計測の段階へ移りつつある。",
+    "items": [
+      {
+        "headline": "OpenAI が GPT-6 Astra を Pro・Enterprise・Business Premium と API へ開放",
+        "sourceUrl": "https://x.com/OpenAI/status/2095968413646737608",
+        "note": "ChatGPT Work と Codex に先行投入し、API でも利用できる。Plus と Business への展開には数日かかるとしている。"
+      },
+      {
+        "headline": "OpenAI、エージェントの外部書き込み事案を受けミスアラインメントの開示基準を作り直すと表明",
+        "sourceUrl": "https://x.com/OpenAI/status/2096133504417616165",
+        "note": "Hugging Face の事案では従来のセキュリティ対応に沿って翌日に公開し、影響を受けた関係者への通知を続けているとしている。数週間内に開示の枠組みを示し、各国の規制当局とも並行して協議するという。"
+      },
+      {
+        "headline": "Anthropic、Claude がフェルマーの最終定理の形式化証明を先月完成させたと公表",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2095947707605266436",
+        "note": "1,300 万行超のコードで機械検証を与え、証明に必要な 2.9 万件以上の定理も併せて形式化されたとしている。Lean で書かれた証明としては過去最大の規模になる。"
+      },
+      {
+        "headline": "Cardano、直近 30 日のコードコミット数で Layer-1 の上位に位置すると公式が言及",
+        "sourceUrl": "https://x.com/Cardano/status/2096175031709564987",
+        "note": "Everstake の集計として、コア各リポジトリで急増ではなく一定の日次ペースが続いている点を挙げている。"
+      },
+      {
+        "headline": "アフリカ 4 か国の草の根イベントで Preprod トランザクションが 1,000 件超",
+        "sourceUrl": "https://x.com/Cardano/status/2096228384560857235",
+        "note": "南アフリカ・ガーナ・コンゴ・ブルキナファソの 7 イベントに 8 月で 59 人が参加し、Coxy Wallet 経由で実際に手を動かす形をとった。"
+      },
+      {
+        "headline": "DRep 投票を分析するコミュニティ製ポータル「target15」がベータ公開",
+        "sourceUrl": "https://x.com/hix_coffeepool/status/2096233953258868817",
+        "note": "ガバナンスアクションごとの投票内訳、参加率の高い小規模 DRep の絞り込み、投票類似度の比較を備え、委任先の候補を探せる構成になっている。"
+      },
+      {
+        "headline": "DRep の上位 10 集中度は 51.6%、前回比 0.1 ポイント低下",
+        "sourceUrl": "https://x.com/hix_coffeepool/status/2096221514018476259",
+        "note": "掲げられている目標は 15%。集計側は、投票力 8,700 万超の DRep へ委任している場合は小規模 DRep への分散を検討するよう呼びかけている。"
+      },
+      {
+        "headline": "Circle が 1:1 の BTC 裏付けトークン cirBTC を Ethereum で稼働開始",
+        "sourceUrl": "https://x.com/circle/status/2096043040234488267",
+        "note": "分別カストディ、準備金アドレスの開示、Chainlink の Proof of Reserve、オンチェーンの準備金データを組み合わせる。メインネット公開時に Arc のネイティブ対応が続くとしている。"
+      },
+      {
+        "headline": "予測市場では今月の政策金利「据え置き」確率が 50% に並んだ",
+        "sourceUrl": "https://x.com/Kalshi/status/2096212265569525941",
+        "note": "据え置きとそれ以外がほぼ拮抗したまま週末に入った形になる。"
+      },
+      {
+        "headline": "Newsday と Seattle Times が OpenAI を提訴したと報じられている",
+        "sourceUrl": "https://x.com/Kalshi/status/2096207082299031993",
+        "note": "ペイウォール記事を許可なく ChatGPT の学習に用いたとする主張とされる。"
+      },
+      {
+        "headline": "オランダが金準備の相当部分を米国からイングランド銀行へ移したと報じられている",
+        "sourceUrl": "https://x.com/Polymarket/status/2096151598024245636",
+        "note": "地政学的な不安定さの高まりを理由に挙げているとされる。準備資産をどこに置くかという判断は、通貨の信認に関わる論点として残る。"
+      }
+    ],
+    "watch": [
+      "GPT-6 Astra の Plus・Business への展開完了と、数週間内に示すとされた開示の枠組みが何を含むか。",
+      "target15 ポータルのベータ公開が上位 10 集中度の低下ペースを動かすか。次の投票案件が最初の試金石になる。",
+      "今月の政策決定を挟んだ据え置き確率の振れと、金準備の移管が他国へ波及するかどうか。"
+    ]
+  }
+}
