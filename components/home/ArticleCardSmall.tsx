@@ -41,7 +41,7 @@ export function ArticleCardSmall({
         >
           {familyLabel}
         </span>
-        <time className="font-mono text-[9px] text-text-tertiary">
+        <time dateTime={article.publishedAtJst} className="font-mono text-[9px] text-text-tertiary">
           {article.publishedLabel}
         </time>
       </div>

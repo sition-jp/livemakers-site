@@ -61,7 +61,7 @@ export function ArticleThumbRow({
           >
             {familyLabel}
           </span>
-          <time className="whitespace-nowrap font-mono text-[10px] text-text-tertiary">
+          <time dateTime={article.publishedAtJst} className="whitespace-nowrap font-mono text-[10px] text-text-tertiary">
             {article.publishedLabel}
           </time>
         </span>

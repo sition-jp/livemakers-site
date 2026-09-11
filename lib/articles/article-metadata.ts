@@ -119,6 +119,29 @@ export function buildArticleMetadata({
     description,
     openGraph,
     twitter,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      // G3 (2026-09-11): <head> hreflang。既存の HTTP header 機構 (next-intl
+      // middleware の Link header) はそのまま・これは <link rel="alternate">
+      // タグの追加。inflow feed に英語本文が無い現状は ja/en とも同じ本文を
+      // 指すが、URL 自体は両方実在するルートなので false negative にはならない。
+      languages: {
+        ja: `/ja/articles/${article.articleId}`,
+        en: `/en/articles/${article.articleId}`,
+        "x-default": `/ja/articles/${article.articleId}`,
+      },
+    },
+    // G3: Discover / News 向けに画像・スニペットのプレビュー上限を外す。
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
   };
 }

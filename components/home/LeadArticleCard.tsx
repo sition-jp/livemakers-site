@@ -77,7 +77,7 @@ export function LeadArticleCard({
               {labels.family}
             </span>
           )}
-          <time className="font-mono text-[10px] text-text-tertiary">
+          <time dateTime={article.publishedAtJst} className="font-mono text-[10px] text-text-tertiary">
             {article.publishedLabel}
           </time>
         </div>

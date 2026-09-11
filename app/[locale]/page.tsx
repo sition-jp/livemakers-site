@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { HomeComposition } from "@/components/home/HomeComposition";
+import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { buildHomeCopy } from "@/lib/home/home-copy";
@@ -58,6 +59,7 @@ export default async function OverviewPage({
 
   return (
     <>
+      <OrganizationJsonLd />
       {/* ticker + 来歴帯は 2026-08-14 に SiteChrome (全ページ共通 chrome) へ
           移設 — 本ページでの重複描画はしない */}
       {/* masthead は勾配台帳の対象外 (chrome 項 0) — data-ledger-group の

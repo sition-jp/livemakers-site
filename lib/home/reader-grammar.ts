@@ -59,8 +59,27 @@ export function findRawInstrumentIdViolations(text: string): string[] {
   ];
 }
 
+/**
+ * G3 (2026-09-11): `<script>` (JSON-LD structured data 等) / `<style>` は
+ * DOM 上は子テキストノードを持つが読者には見えない。素の `textContent` は
+ * これらを拾ってしまい、JSON-LD の URL (`"https://..."`) が forbidden ops
+ * term ("https://") の false positive を起こす (記事詳細ページに
+ * `NewsArticle` JSON-LD を足した際に発見)。読者が実際にスキャンできる
+ * テキストだけを対象にするため、走査前に script/style を取り除く。
+ */
+function textWithoutNonVisibleTags(root: ParentNode): string {
+  if (typeof (root as unknown as Node).cloneNode !== "function") {
+    return root.textContent ?? "";
+  }
+  const clone = (root as unknown as Node).cloneNode(true) as ParentNode;
+  for (const el of clone.querySelectorAll("script, style")) {
+    el.remove();
+  }
+  return clone.textContent ?? "";
+}
+
 export function collectScannableText(root: ParentNode): string {
-  const parts = [root.textContent ?? ""];
+  const parts = [textWithoutNonVisibleTags(root)];
   for (const element of root.querySelectorAll("[alt],[aria-label],[title]")) {
     for (const attribute of ["alt", "aria-label", "title"] as const) {
       const value = element.getAttribute(attribute);
