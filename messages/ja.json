@@ -456,7 +456,8 @@
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
       "session": "セッション記事",
-      "future-atlas": "未来アトラス"
+      "future-atlas": "未来アトラス",
+      "flash": "速報"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
@@ -556,7 +557,8 @@
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
       "session": "セッション記事",
-      "future-atlas": "未来アトラス"
+      "future-atlas": "未来アトラス",
+      "flash": "速報"
     },
     "todayTitle": "本日の記事一覧",
     "todayEmpty": "本日の記事はこれから公開されます",

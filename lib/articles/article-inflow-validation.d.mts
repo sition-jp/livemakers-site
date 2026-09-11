@@ -14,7 +14,8 @@ export type ArticleInflowFamily =
   | "event-risk-radar"
   | "weekly-brief"
   | "session"
-  | "future-atlas";
+  | "future-atlas"
+  | "flash";
 
 export type ArticleInflowProvenance =
   | {

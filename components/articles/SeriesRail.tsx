@@ -226,6 +226,7 @@ export function buildTestSeriesRailCopy(): SeriesRailCopy {
       "weekly-brief": "Weekly Brief",
       "future-atlas": "未来アトラス",
       session: "セッション記事",
+      flash: "速報",
     },
   };
 }

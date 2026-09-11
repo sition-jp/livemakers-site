@@ -174,7 +174,12 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   // 索引意味論スロット (used に加えない・本体記事の再掲を許す): latestArticles /
   // atlasLatest / mkt12WeekendLatest / weeklyBriefLatest。
   // 2026-08-14 田平氏指示: 最新の記事は 10 → 20 本。
-  const latestArticles = catalog.slice(0, 20);
+  // 2026-09-11 Task 13: flash (速報) はホームのヒーロー/最新レールに乗せない
+  // (専用シリーズページのみ・SIPO 先行例と同型)。lead は dailyIntel 由来のため
+  // flash は元々混入し得ない (上記 todayIntel/dailyIntel 参照)。
+  const latestArticles = catalog
+    .filter((article) => article.family !== "flash")
+    .slice(0, 20);
   const eventRiskLatest = take(latestOf("event-risk-radar") ?? undefined) ?? null;
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");

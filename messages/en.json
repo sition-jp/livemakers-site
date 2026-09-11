@@ -456,7 +456,8 @@
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
       "session": "Session Article",
-      "future-atlas": "Future Atlas"
+      "future-atlas": "Future Atlas",
+      "flash": "Flash"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
@@ -556,7 +557,8 @@
       "event-risk-radar": "Event Risk Radar",
       "weekly-brief": "Weekly Brief",
       "session": "Session Article",
-      "future-atlas": "Future Atlas"
+      "future-atlas": "Future Atlas",
+      "flash": "Flash"
     },
     "todayTitle": "Today's articles",
     "todayEmpty": "Today's articles will be published shortly.",

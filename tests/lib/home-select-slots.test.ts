@@ -269,6 +269,28 @@ describe("home slot selection (B+)", () => {
     ).toBeGreaterThan(1);
   });
 
+  it("keeps flash (速報) out of the hero and the latest-articles rail (Task 13)", () => {
+    // today (articleCutoffToday) 内の最新時刻にして、family 除外がなければ
+    // latestArticles[0] に来ることを担保した上で除外を検証する。
+    const flash = {
+      ...input().articles[0],
+      articleId: "flash-2026-07-10-0001",
+      family: "flash" as const,
+      publishedAtJst: "2026-07-10T23:50:00+09:00",
+      href: "/articles/flash-2026-07-10-0001",
+    };
+    const slots = selectHomeSlots({
+      ...input(),
+      articles: [flash, ...input().articles],
+    });
+    expect(slots.lead.article?.articleId).not.toBe(flash.articleId);
+    expect(
+      slots.latestArticles.some(
+        (article) => article.articleId === flash.articleId,
+      ),
+    ).toBe(false);
+  });
+
   it("resolves the per-family latest slots for the index modules", () => {
     const slots = selectHomeSlots(input());
     expect(slots.eventRiskLatest?.articleId).toBe("event-risk-radar-w29");
