@@ -25,7 +25,7 @@ describe("article model + lane taxonomy", () => {
     expect(getAllArticles({ contentDir: missing })).toEqual([]);
   });
 
-  it("declares the eight G40 families plus session and future-atlas", () => {
+  it("declares the eight G40 families plus session, future-atlas and flash", () => {
     expect(ARTICLE_FAMILIES).toEqual([
       "daily-intel",
       "signal",
@@ -37,6 +37,7 @@ describe("article model + lane taxonomy", () => {
       "weekly-brief",
       "session",
       "future-atlas",   // T4-2: site-first go_record 面 (P0-7)
+      "flash",          // Task 13: 速報 (breaking full-auto lane G1)
     ]);
     expect(SERIES_SLUGS).toEqual([
       "daily-intel",
@@ -47,6 +48,7 @@ describe("article model + lane taxonomy", () => {
       "mkt12-weekend",
       "event-risk-radar",
       "weekly-brief",
+      "flash",
     ]);
   });
 
@@ -112,5 +114,16 @@ describe("article model + lane taxonomy", () => {
         publishedLabel: "07-10 05:20 公開",
       }),
     ).toThrow(/require dataDate/);
+  });
+
+  it("accepts family flash (速報) as a valid ArticleMetaSchema family", () => {
+    const parsed = ArticleMetaSchema.parse({
+      articleId: "flash-2026-09-11-0001",
+      family: "flash",
+      titleJa: "速報テスト",
+      publishedAtJst: "2026-09-11T09:00:00+09:00",
+      publishedLabel: "09-11 09:00 速報",
+    });
+    expect(parsed.family).toBe("flash");
   });
 });
