@@ -1,0 +1,85 @@
+{
+  "sessionId": "2026-09-09-ny-open",
+  "date": "2026-09-09",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-09-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-09-ny-open",
+  "publishedAt": "2026-09-10T02:30:14+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260909_1803_bb1f3f46",
+  "asOfJst": "2026-09-09T18:03:09+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月9日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,718.60 → 7,673.52（-0.58%）",
+    "変動幅上位: NIGHT/USD +2.7% / ADA/USD +2.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260909_1845_1c12a14d",
+    "crawlAnchorJst": "2026-09-09T18:03:00+09:00",
+    "writtenAtJst": "2026-09-09T18:45:00+09:00",
+    "lead": "原油が節目を超え、株と債券が同じ向きに反応した一日だった。欧州では指数が押され、暗号資産は下げ止まりの水準で足踏みしている。もう一方では、AIの性能がどこから来たのかを政府の文書が名指しし、取引所に対する管轄は「どこにあるか」から「誰に売っているか」へ寄った。値動きよりも、規則の書き換えのほうが目立つ。",
+    "items": [
+      {
+        "headline": "ブレント原油が7月以来の100ドル台に乗せ、ビットコインは7万9000ドル台を保った",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/09/live-updates-xrp-funds-stand-out-among-u-s-etfs-as-bitcoin-ether-solana-funds-see-outflows",
+        "note": "同じ更新のなかで、米国のETFはビットコイン・イーサ・ソラナから資金が抜け、XRPの商品だけが流入側に残ったと伝えている。"
+      },
+      {
+        "headline": "DAXが下押しされる。独メディアも原油の100ドル超えを同日に伝えた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-dax-geraet-unter-druck-oelpreis-steigt-ueber-100-dollar-marke/100253133.html",
+        "note": "原油高という同じ事実に、欧州株の側から独立して裏がついた形になる。"
+      },
+      {
+        "headline": "米当局が、Kimiを含む中国製モデルの学習に米国モデルの出力が使われたと指摘",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/09/moonshot-s-kimi-rattled-markets-u-s-agencies-now-say-it-was-trained-on-american-models",
+        "note": "NSA・FBI・CISAの合同文書は、プロキシと複数アカウントで利用制限を回避したと記す。7月に性能で話題になったモデルの、出どころ側が争点になった。"
+      },
+      {
+        "headline": "インドの金融情報機関が、国内に拠点を持たない15の取引所へ遮断を要請",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/09/india-s-financial-intelligence-unit-flags-15-crypto-platforms-for-aml-lapses",
+        "note": "根拠は所在地ではなく、国内の利用者に売っていること。管轄の当て方が変わりつつある。"
+      },
+      {
+        "headline": "ビットコインが7万9000ドル方向へ戻す一方、Zcashの商品に5億ドルが入った",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/09/bitcoin-recovers-toward-usd79-000-as-zcash-records-a-usd500-million-etf-haul",
+        "note": "資金は市場全体ではなく、特定の銘柄へ選んで向かっている。"
+      },
+      {
+        "headline": "Anthropicの研究者が、AIへの警告を残して退職したと報じられた",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/09/anthropic-researcher-quits-with-a-warning-on-ai-that-echoes-the-terminator-script"
+      },
+      {
+        "headline": "Ethereumの研究フォーラムで、上限を60Mから200Mへ上げた場合の手数料市場が試算された",
+        "sourceUrl": "https://ethresear.ch/t/from-60m-to-200m-simulating-glamsterdam-s-fee-market/25957",
+        "note": "処理量を増やしたときに手数料がどう動くかを、実装より前に数字で確かめる作業になる。"
+      },
+      {
+        "headline": "HSBCがドイツの一部門を解散し、300の職が失われると報じられた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/bank-hsbc-loest-sparte-in-deutschland-auf-300-jobs-fallen-weg/100253172.html"
+      },
+      {
+        "headline": "金融庁が、ネット取引の不正アクセスと不正取引への注意喚起ページを更新した",
+        "sourceUrl": "https://www.fsa.go.jp/ordinary/chuui/chuui_phishing.html"
+      },
+      {
+        "headline": "キーウで食料が不足している。供給網そのものが狙われていると伝えられた",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/09/miserable-and-impossible-food-scarce-in-kyiv-ukraine-as-russia-targets-supply-chains"
+      },
+      {
+        "headline": "5年ぶりの「PEN」が、OM SYSTEMの名で登場。EVF搭載で初の防塵・防滴に",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2609/09/2000001293/"
+      }
+    ],
+    "watch": [
+      "原油高が欧州の指数と金利の見通しにどこまで波及するか。",
+      "インドの遮断要請が実際に執行され、対象の事業者がどう応じるか。",
+      "米当局の指摘に対し、名指しされた各社が反論を出すかどうか。"
+    ]
+  }
+}
