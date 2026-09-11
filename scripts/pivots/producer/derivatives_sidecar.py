@@ -213,6 +213,17 @@ def _merge_asset_history(
 ) -> list[DerivativesDailyPoint]:
     by_day = {row["bucket_start"]: row for row in existing_rows}
     for row in generated_rows:
+        previous = by_day.get(row["bucket_start"])
+        if previous is not None:
+            # Endpoint windows differ. Never replace retained observations with
+            # an empty or truncated aggregate from the edge of a later fetch.
+            oi = row["open_interest"]
+            funding = row["funding"]
+            if previous["open_interest"]["sample_count"] > oi["sample_count"]:
+                oi = previous["open_interest"]
+            if previous["funding"]["sample_count"] > funding["sample_count"]:
+                funding = previous["funding"]
+            row = _daily_point(row["bucket_start"], oi, funding)
         by_day[row["bucket_start"]] = row
     rows = [by_day[key] for key in sorted(by_day)]
     if retention_days > 0:

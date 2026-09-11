@@ -1,4 +1,7 @@
+from copy import deepcopy
 from pathlib import Path
+
+import pytest
 
 from producer.derivatives_sidecar import (
     SCHEMA_VERSION,
@@ -181,3 +184,83 @@ def test_load_sidecar_missing_invalid_and_valid(tmp_path: Path) -> None:
     loaded = load_derivatives_history_sidecar(valid)
     assert loaded is not None
     assert loaded["assets"]["BTC"]["history"] == []
+
+
+def _day_fetcher(
+    oi_count: int, funding_count: int, offset: float = 0,
+    funding_rate: float = 0.0001,
+) -> _Fetcher:
+    return _Fetcher(
+        oi={
+            asset: [
+                OpenInterestPoint(ms(0, h * 4), 100 + h + offset, 1000 + h + offset)
+                for h in range(oi_count)
+            ]
+            for asset in ("BTC", "ETH")
+        },
+        funding={
+            asset: [FundingPoint(ms(0, h * 8), funding_rate) for h in range(funding_count)]
+            for asset in ("BTC", "ETH")
+        },
+    )
+
+
+@pytest.mark.parametrize("remaining_oi", [0, 1, 5])
+def test_later_funding_fetch_cannot_erase_or_reduce_saved_oi(remaining_oi) -> None:
+    existing = compose_derivatives_history_sidecar(
+        _day_fetcher(6, 1), "2025-12-20T23:00:00Z"
+    )
+    before = deepcopy(existing)
+    result = compose_derivatives_history_sidecar(
+        _day_fetcher(remaining_oi, 3, offset=900),
+        "2026-01-20T23:00:00Z",
+        existing=existing,
+    )
+    for asset in ("BTC", "ETH"):
+        row = result["assets"][asset]["history"][0]
+        assert row["open_interest"]["sample_count"] == 6
+        assert row["open_interest"]["avg"] == 102.5
+        assert row["funding"]["sample_count"] == 3
+        assert row["completeness"] == {
+            "open_interest": 1.0, "funding": 1.0, "overall": 1.0
+        }
+    assert existing == before
+    assert compose_derivatives_history_sidecar(
+        _day_fetcher(remaining_oi, 3, offset=900),
+        "2026-01-20T23:00:00Z",
+        existing=result,
+    ) == result
+
+
+@pytest.mark.parametrize("remaining_funding", [0, 1, 2])
+def test_later_oi_fetch_preserves_more_complete_saved_funding(remaining_funding) -> None:
+    existing = compose_derivatives_history_sidecar(
+        _day_fetcher(1, 3), "2025-12-20T23:00:00Z"
+    )
+    result = compose_derivatives_history_sidecar(
+        _day_fetcher(6, remaining_funding),
+        "2025-12-21T23:00:00Z",
+        existing=existing,
+    )
+    row = result["assets"]["BTC"]["history"][0]
+    assert row["open_interest"]["sample_count"] == 6
+    assert row["funding"]["sample_count"] == 3
+    assert row["funding"]["sum"] == 0.0003
+    assert row["completeness"]["overall"] == 1.0
+
+
+@pytest.mark.parametrize("existing_count", [1, 6])
+def test_at_least_as_complete_observations_refresh_values(existing_count) -> None:
+    existing = compose_derivatives_history_sidecar(
+        _day_fetcher(existing_count, 3), "2025-12-20T23:00:00Z"
+    )
+    result = compose_derivatives_history_sidecar(
+        _day_fetcher(6, 3, offset=10, funding_rate=0.0002),
+        "2025-12-21T23:00:00Z",
+        existing=existing,
+    )
+    row = result["assets"]["BTC"]["history"][0]
+    assert row["open_interest"]["sample_count"] == 6
+    assert row["open_interest"]["avg"] == 112.5
+    assert row["funding"]["sum"] == 0.0006
+    assert row["completeness"]["overall"] == 1.0
