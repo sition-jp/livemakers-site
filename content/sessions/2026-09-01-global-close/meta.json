@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-09-01-global-close",
+  "date": "2026-09-01",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-01-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-01-global-close",
+  "publishedAt": "2026-09-02T02:30:38+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260901_2303_4f3da735",
+  "asOfJst": "2026-09-02T01:35:00+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月1日 23:03 JST（読み解きのみ）",
+  "bullets": [
+    "ホルムズ海峡を出た大型タンカー2隻が撃たれ、ブレントは92ドルを超えた",
+    "米財務長官、ホルムズは「2年で迂回される」と発言",
+    "同じ財務長官が、日本には利上げが必要だと伝えたと報じられた"
+  ],
+  "editorial": {
+    "digestId": "dig_20260901_0135_be8b33fc",
+    "crawlAnchorJst": "2026-09-01T23:03:00+09:00",
+    "writtenAtJst": "2026-09-02T01:35:00+09:00",
+    "lead": "ホルムズを出た超大型タンカー2隻が撃たれ、ブレントは92ドルを超えた。その数時間後、米財務長官はこの海峡が2年で迂回されると語った。同じ長官は日本に対しては利上げを促しており、長期金利はすでに記録的な水準にある。危機に護衛で応えるのではなく、経路と金利を組み替えて応える構えが二方向から見えた夜だった。",
+    "items": [
+      {
+        "headline": "ホルムズ海峡を出た大型タンカー2隻が撃たれ、ブレントは92ドルを超えた",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2094719050609832268",
+        "note": "同じ時間帯にナスダック100先物は1%超下げた。原油の供給そのものではなく、通り道の安全に値段が付いている。"
+      },
+      {
+        "headline": "米財務長官、ホルムズは「2年で迂回される」と発言",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2094784647465251128",
+        "note": "護衛や停戦ではなくパイプラインによる経路の置き換えを答えとして示した点が新しい。実現時期については専門家から異論も出ている。"
+      },
+      {
+        "headline": "同じ財務長官が、日本には利上げが必要だと伝えたと報じられた",
+        "sourceUrl": "https://x.com/zerohedge/status/2094555265303511530",
+        "note": "G20の場で日銀総裁・財務相と会談したとされる。通貨を支える手段が為替介入から金利へ移りつつある。"
+      },
+      {
+        "headline": "日本の10年国債利回りが1996年以来はじめて3%台に乗ったと伝えられた",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2094764893735944537",
+        "note": "財務省が公表済みの確定値は8月31日時点で10年2.943%・30年4.092%。9月1日分の確定値は翌朝の公表を待つ段階にある。"
+      },
+      {
+        "headline": "米連邦準備制度のバー理事、インフレが落ち着かなければ利上げもありうると警告",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2094781124790935999"
+      },
+      {
+        "headline": "ロンドン証券取引所とクラーケン運営会社が英国株のトークン化を計画",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2094691640388502002",
+        "note": "取引所側が自分の営業時間の外側に取引を出す側へ回りはじめている。"
+      },
+      {
+        "headline": "Cardano の憲法委員会更新案が、委任代表とプール運営者の両方で可決基準を超えた",
+        "sourceUrl": "https://x.com/Cardano/status/2094548855563952200",
+        "note": "9月2日朝のエポック境界が節目になる。数値は公式の集計を取得して確認した。"
+      },
+      {
+        "headline": "Daedalus 11.3.0 が公開され、委任代表ディレクトリと委任ツールが加わった",
+        "sourceUrl": "https://x.com/se7en_labs/status/2094786448272597034"
+      },
+      {
+        "headline": "金融庁が無登録で暗号資産交換業を行う事業者に警告書を発出し、公表した",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2094713164361523441"
+      },
+      {
+        "headline": "AI開発者向けの Midskills が日本語に対応した",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2094737473880670617"
+      },
+      {
+        "headline": "9月1日の防災の日に合わせ、家庭のポータブル電源の点検が呼びかけられた",
+        "sourceUrl": "https://x.com/BLUETTI_JAPAN/status/2094743213160665456",
+        "note": "原油と電力の値段が地政学で動く日ほど、手元の電源が生活側の備えとして効いてくる。"
+      }
+    ],
+    "watch": [
+      "9月2日朝に公表される財務省の9月1日分の国債金利。10年が3%台で確定するかどうか。",
+      "9月2日6時44分のエポック境界。Cardano の憲法委員会4議席の入替がここで決まる。",
+      "ブレントとディーゼルの価格差、そして海上保険料。迂回が語られても船は今日も通っている。"
+    ]
+  },
+  "observationStatus": "absent"
+}
