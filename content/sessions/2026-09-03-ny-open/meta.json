@@ -1,0 +1,67 @@
+{
+  "sessionId": "2026-09-03-ny-open",
+  "date": "2026-09-03",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-03-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-03-ny-open",
+  "publishedAt": "2026-09-04T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260903_1803_aff99d34",
+  "asOfJst": "2026-09-03T18:03:12+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月3日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,631.47 → 7,666.60（+0.46%）",
+    "変動幅上位: NIGHT/USD +10.8% / ADA/USD +6.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260903_1852_7fb66db5",
+    "crawlAnchorJst": "2026-09-03T18:03:00+09:00",
+    "writtenAtJst": "2026-09-03T18:52:00+09:00",
+    "lead": "夕方の窓で並んだのは、決着ではなく手続きだった。米国では出生地主義をめぐる大統領令が裁判所で止まり、G20の米中対立は文言ひとつに収れんし、アジアの株は米雇用統計を待って戻した。動いた値よりも、誰がどこで判断を保留したかのほうが読める一日だ。制度の側も同じで、日本では審議会の資料が先に出て、中身の議論はこれからになる。",
+    "items": [
+      {
+        "headline": "連邦地裁が、トランプ大統領の新しい出生地主義に関する大統領令を差し止めた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/3/judge-deborah-boardman-blocks-trumps-new-birthright-citizenship/",
+        "note": "判断は連邦地裁のもので、上級審での扱いはこれから決まる。"
+      },
+      {
+        "headline": "G20での米中の対立は、突きつめると一つの表現をめぐる争いだった",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/china-us-spat-at-g-20-largely-came-down-to-dispute-over-one-word",
+        "note": "共同文書がまとまらなかった理由が、争点そのものではなく言い回しに置かれている。"
+      },
+      {
+        "headline": "日本・韓国を含むアジアの主要株価指数が戻し、米雇用統計を待つ形になった",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/nikkei-kospi-topix-asiens-boersen-auf-erholungskurs-warten-auf-us-arbeitsmarktdaten-1/100251660.html"
+      },
+      {
+        "headline": "ゼレンスキー大統領が「ロシアの空は閉じられる」と述べ、ロシアの航空交通を止める意向を示した",
+        "sourceUrl": "https://www.nzz.ch/international/ukraine-selenski-will-russlands-flugverkehr-unterbinden-ld.10022044",
+        "note": "影響範囲はまだ見通せない。"
+      },
+      {
+        "headline": "Daedalus のウォレットサポートが、SE7EN Labs の運営する新しい窓口 Ariadne へ移った",
+        "sourceUrl": "https://x.com/IOGroup/status/2095406438537437461",
+        "note": "使う側にとっては、問い合わせ先が変わるという実務の変更になる。"
+      },
+      {
+        "headline": "金融庁が、金融審議会ディスクロージャーワーキング・グループ（第6回）の議事次第と配布資料を掲載した",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2095424533100720180"
+      },
+      {
+        "headline": "セントルイス連銀が、中央銀行が平均ではなく分布全体を見る理由を扱う技術研究を公開した",
+        "sourceUrl": "https://x.com/stlouisfed/status/2095357891213422626"
+      }
+    ],
+    "watch": [
+      "GPIF の経営委員会で、基本ポートフォリオの検証がふたたび報告事項に載った。何が話されたかは、次に出る議事概要で分かる。",
+      "米雇用統計。アジアが戻したのは待ちの姿勢であって、方向が決まったからではない。",
+      "ディスクロージャーワーキング・グループの配布資料。開示制度の次の論点が、ここに先に出る。"
+    ]
+  }
+}
