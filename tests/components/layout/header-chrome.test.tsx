@@ -148,7 +148,12 @@ describe("G41 page chrome", () => {
   it("places English FUTURE ATLAS between INTELLIGENCE TERMINAL and ABOUT in both navs (Phase 3 order)", () => {
     const { container } = renderEnglishChrome(true);
 
-    for (const nav of container.querySelectorAll("header nav, footer nav")) {
+    // G3 (2026-09-11): footer に編集方針・連絡先・プライバシーの専用 2 段目
+    // nav (`aria-label="footer-legal"`) が増えた。これは flatNav (記事▾ 等)
+    // と無関係の別ナビなので、flatNav の並び順を検証するこのループの対象外にする。
+    for (const nav of container.querySelectorAll(
+      'header nav, footer nav:not([aria-label="footer-legal"])',
+    )) {
       const links = Array.from(nav.querySelectorAll("a"), (anchor) => ({
         href: anchor.getAttribute("href"),
         text: anchor.textContent,

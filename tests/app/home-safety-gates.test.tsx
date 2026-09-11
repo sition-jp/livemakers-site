@@ -229,7 +229,12 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     ];
     // 言語トグル (EN / 日本語) は 2026-08-23 田平氏指示でヘッダから来歴帯の
     // 右クラスタへ移設 — header/footer には数えず、strip 側で 2 本を別検証
-    expect(chromeAnchors).toHaveLength(1 + flat.length + flat.length);
+    // G3 (2026-09-11): フッタに編集方針・連絡先・プライバシーの 3 本を追加
+    // (buildFlatNav = header/footer 共用ナビの外・フッタ専用 2 段目)
+    const FOOTER_LEGAL_LINK_COUNT = 3;
+    expect(chromeAnchors).toHaveLength(
+      1 + flat.length + flat.length + FOOTER_LEGAL_LINK_COUNT,
+    );
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);

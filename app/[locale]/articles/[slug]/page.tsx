@@ -7,6 +7,7 @@ import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractBlock";
 import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
 import { EditorialDeskLine } from "@/components/articles/EditorialDeskLine";
+import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { createArticleMdxComponents } from "@/components/articles/ArticleBodyComponents";
 import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
@@ -22,6 +23,7 @@ import {
   loadPublicArticleInflowDetail,
 } from "@/lib/articles/article-inflow-feed";
 import { buildArticleMetadata } from "@/lib/articles/article-metadata";
+import { formatPublishedLabelWithYear } from "@/lib/articles/published-date";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
 import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
@@ -116,6 +118,14 @@ export default async function ArticleDetailPage({
       data-article-layout=""
       className="mx-auto w-full max-w-[1200px] px-4 py-10 sm:px-6 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-8"
     >
+      <ArticleJsonLd
+        articleId={article.articleId}
+        titleJa={article.titleJa}
+        publishedAtJst={article.publishedAtJst}
+        family={article.family}
+        thumbnailUrl={article.thumbnailUrl}
+        lang={language}
+      />
       <article className="mx-auto w-full max-w-[80ch] min-w-0">
         <header className="mb-8 border-b border-border-primary pb-6">
           <p
@@ -127,8 +137,11 @@ export default async function ArticleDetailPage({
           <h1 className="text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
             {title}
           </h1>
-          <time className="mt-4 block font-mono text-xs text-text-tertiary">
-            {article.publishedLabel}
+          <time
+            dateTime={article.publishedAtJst}
+            className="mt-4 block font-mono text-xs text-text-tertiary"
+          >
+            {formatPublishedLabelWithYear(article.publishedAtJst)}
           </time>
           {article.excerptJa ? (
             // site-first 記事の packet meta 由来の要約 (TQ3)。mirror 記事は

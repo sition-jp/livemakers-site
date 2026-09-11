@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
   description:
     "LiveMakers is the intelligence terminal of SITION Group for the financial reboot, powered by SDE — integrating crypto assets and blockchains, AI and robotics, quantum, synthetic biology, and macro/regulation into leading-indicator signals, forecasts, and actionable decisions.",
+  // G3 (2026-09-11): <head> hreflang の既定値。個別ページ (記事詳細など)
+  // が独自の `alternates` を宣言すればこれを丸ごと上書きする — Next.js の
+  // metadata マージはフィールド単位の置き換えであり深いマージではない。
+  // ここはその置き換えが起きないページ (トップ・About 等) 向けの既定。
+  alternates: {
+    canonical: "/ja",
+    languages: { ja: "/ja", en: "/en", "x-default": "/ja" },
+  },
   openGraph: {
     title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
     description:

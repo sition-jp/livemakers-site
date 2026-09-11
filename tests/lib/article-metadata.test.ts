@@ -162,4 +162,33 @@ describe("lib/articles/article-metadata", () => {
       expect(meta.alternates?.canonical).toBe(`/ja/articles/${BASE.articleId}`);
     });
   });
+
+  // G3 (2026-09-11 田平氏 GO)
+  describe("hreflang (alternates.languages)", () => {
+    it("declares ja/en/x-default pointing at the same articleId", () => {
+      const meta = buildArticleMetadata({ article: BASE, lang: "ja" });
+      expect(meta.alternates?.languages).toEqual({
+        ja: `/ja/articles/${BASE.articleId}`,
+        en: `/en/articles/${BASE.articleId}`,
+        "x-default": `/ja/articles/${BASE.articleId}`,
+      });
+    });
+  });
+
+  describe("robots (Discover / News preview limits)", () => {
+    it("lifts image/snippet/video preview caps for googleBot", () => {
+      const meta = buildArticleMetadata({ article: BASE, lang: "ja" });
+      expect(meta.robots).toMatchObject({
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+          "max-video-preview": -1,
+        },
+      });
+    });
+  });
 });

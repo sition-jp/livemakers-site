@@ -166,7 +166,10 @@
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
     "dataSources": "データ: Koios · DefiLlama · CoinGecko · GitHub",
     "disclaimer": "本レポートは投資助言ではありません。学習・リサーチ目的の情報提供です。",
-    "copyright": "© 2026 SITION Group"
+    "copyright": "© 2026 SITION Group",
+    "editorialPolicy": "編集方針",
+    "contact": "お問い合わせ",
+    "privacy": "プライバシーポリシー"
   },
   "overview": {
     "tagline": "金融再起動 — 暗号資産・AI・量子・合成生物が作り直す、次の金融を読む。",
@@ -745,5 +748,41 @@
       "human_written": "執筆: 田平茂樹 · 調査・検証補助にAIを使用",
       "ai_draft_human_edited": "AI下書き · 田平茂樹が編集・検証・承認"
     }
+  },
+  "editorialPolicy": {
+    "title": "編集方針",
+    "intro": "LiveMakers は SITION Group (代表: 田平茂樹) が運営する、金融再起動をテーマにしたインテリジェンス・メディアです。このページでは、記事の作り方・検証の仕方・訂正の仕方・引用していただく際の条件をまとめています。",
+    "operatorTitle": "運営者",
+    "operatorBody": "SITION Group (代表: 田平茂樹) が編集・公開の最終責任を負います。記事の署名は個人名ではなく「LiveMakers 編集デスク」としていますが、これは記事が個人の見解ではなく、この編集方針に沿った編集部の仕事であることを示すためです。連載「次の時代の地図」など、人が構想から書いた記事には個別の署名を付けています。",
+    "aiVerificationTitle": "AI 支援執筆と人による検証",
+    "aiVerificationBody": "一次情報の収集と初稿の作成には AI (SITION Discovery Engine ほか) を使っています。数値の検証と公開の可否判断は、必ず人が行います。AI が下書きを作ったことを理由に検証を省略することはありません。",
+    "sourcingTitle": "情報源の方針",
+    "sourcingBody": "数値データは Koios・CoinGecko・DefiLlama・GitHub・公式ブログなど一次ソースで検証したうえで掲載します。報道記事に載っている数値をそのまま転載することはしません。一次ソースが確認できない情報は、確認できるまで掲載を見送ります。",
+    "correctionsTitle": "訂正方針",
+    "correctionsBody": "公開後に誤りが判明した場合は、記事本文を訂正したうえで、訂正した旨と更新日時を記事内に明記します。訂正を理由に記事を非公開にすることはせず、透明性を優先します。",
+    "citationTitle": "引用ポリシー",
+    "citationBody": "出典 (媒体名 + URL) を明記していただければ、本文の引用・数値の再掲・サムネイル画像の使用・動画内での読み上げは自由に行っていただいて構いません。事前の許諾申請は不要です。記事の趣旨を歪める形での引用や、当社の見解であるかのような誤解を招く形での使用はご遠慮ください。"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "intro": "記事内容や訂正のご連絡は、以下の窓口までお願いします。",
+    "xLabel": "X (旧 Twitter) の DM",
+    "xBody": "@LiveMakersCom の DM までご連絡ください。",
+    "siteLabel": "運営元",
+    "siteBody": "LiveMakers は SITION Group が運営しています。SITION Group の公式サイトはこちらです。"
+  },
+  "privacy": {
+    "title": "プライバシーポリシー",
+    "intro": "LiveMakers (運営: SITION Group) が本サイトで扱う情報の範囲をまとめています。",
+    "accessLogsTitle": "アクセスログ",
+    "accessLogsBody": "本サイトはホスティング基盤である Vercel 上で稼働しており、Vercel が標準で記録するアクセスログ (IP アドレス・リクエスト日時・User-Agent など) が生成されます。これは Vercel のインフラ運用に伴う標準的なログであり、当サイト側で独自の解析・広告トラッキングは行っていません。",
+    "analyticsTitle": "アクセス解析・広告",
+    "analyticsBody": "Google Analytics などのアクセス解析ツール、広告配信・トラッキングの仕組みは導入していません。",
+    "localStorageTitle": "ブラウザのローカルストレージ",
+    "localStorageBody": "ダーク / ライト表示の切り替え設定を、ご利用の端末のブラウザ内 (localStorage) にのみ保存します。この情報はサーバーへ送信されず、個人を特定する目的にも利用しません。",
+    "cookieTitle": "Cookie",
+    "cookieBody": "本サイトは追跡目的の Cookie を発行していません。",
+    "contactTitle": "お問い合わせ",
+    "contactBody": "本ポリシーに関するお問い合わせは、お問い合わせページの窓口までお願いします。"
   }
 }
