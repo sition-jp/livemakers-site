@@ -1,0 +1,80 @@
+{
+  "sessionId": "2026-09-12-global-close",
+  "date": "2026-09-12",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-12-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-12-global-close",
+  "publishedAt": "2026-09-13T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260912_2303_b673b9d0",
+  "asOfJst": "2026-09-12T23:03:09+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月12日 23:03 JST",
+  "bullets": [
+    "Gold $4,364.50 → $4,366.20（+0.04%）",
+    "変動幅上位: VIX -11.2% / NIGHT/USD -4.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260912_2355_84f21957",
+    "crawlAnchorJst": "2026-09-12T23:03:00+09:00",
+    "writtenAtJst": "2026-09-12T23:55:00+09:00",
+    "lead": "資本と規制が同じ週に動いた。半導体大手が最大の顧客である AI 企業の上場を支える側へ回り、米上院は暗号資産の市場構造法を手続き投票の直前まで押し込んだ。中東では原油のホルムズ迂回路が一本止まり、カナダはトークン化された預金を従来の預金と同じものだと言い切った。新しい金融の配管は、実験ではなく既存制度の内側に接続されつつある。",
+    "items": [
+      {
+        "headline": "NVIDIA が Anthropic の大型上場に最大 100 億ドルの出資を検討",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2098603968272138692",
+        "note": "半導体を売る側が、その半導体を買う側の上場を支える構図になる。評価額と調達規模は交渉中で、確定値ではない。"
+      },
+      {
+        "headline": "サウジ東西パイプライン停止、イラクは波及の収拾へ動く",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/12/iraq-containing-fallout-local-militias-accused-attacking-saudi/",
+        "note": "紅海ヤンブーへ原油を運ぶホルムズ迂回路が止まった。攻撃の帰属は調査中であり、断定された段階にはない。"
+      },
+      {
+        "headline": "CLARITY 法案の新草案が上院の節目の投票を前に提出",
+        "sourceUrl": "https://x.com/BitcoinNews/status/2098774142505894227",
+        "note": "ルミス上院議員は、民主党側から要請された 100 以上の変更が草案に入っていると述べている。"
+      },
+      {
+        "headline": "Coinbase CEO「CLARITY 法案は上院 60 票に近い」",
+        "sourceUrl": "https://x.com/CoinDesk/status/2098426797343866979",
+        "note": "可決はまだ確定していない。手続き投票の 60 票という閾値が、当面の分岐点になる。"
+      },
+      {
+        "headline": "カナダの銀行監督当局、トークン化預金は従来の預金と法的に同一と確認",
+        "sourceUrl": "https://x.com/CoinDesk/status/2098341873211310569",
+        "note": "何で作られたかではなく、何であるかで見るという技術中立の立場を明示した。銀行は既存免許のまま扱える。"
+      },
+      {
+        "headline": "Ripple、人間の承認を挟む企業財務向け AI「GSmart」を投入",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2098506942901637457",
+        "note": "AI が提案し、実行の前に人が承認する。委任の範囲を設計で区切るという発想が製品の形になった。"
+      },
+      {
+        "headline": "Revolut が偽の政府要請に応じ、本人確認書類と取引履歴が流出",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/12/bitcoin-activity-passports-exposed-after-revolut-falls-for-fake-government-request",
+        "note": "本人確認のために預けた書類そのものが漏れた。どこに何を預けているかを見直す材料になる。"
+      },
+      {
+        "headline": "ゴールドマン・サックス、来週の利上げを予想",
+        "sourceUrl": "https://x.com/Kalshi/status/2098637729504362580",
+        "note": "これは同社の見通しであり、決定ではない。実際の判断は来週の会合で示される。"
+      },
+      {
+        "headline": "Anthropic の安全性研究者が退職、AI 各社の安全投資不足を指摘",
+        "sourceUrl": "https://x.com/Polymarket/status/2098546458844696730",
+        "note": "能力の伸びに対して安全側の投資が追いついていない、という内部からの指摘である。"
+      }
+    ],
+    "watch": [
+      "9月15日の上院手続き投票。60票に届くかで暗号資産の市場構造法の行方が決まる。",
+      "来週の米連邦公開市場委員会。金利の方向と、それを織り込んだ市場の反応。",
+      "サウジ東西パイプラインの復旧時期。原油の輸送経路がどこまで細るか。"
+    ]
+  }
+}
