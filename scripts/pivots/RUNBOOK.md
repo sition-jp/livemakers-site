@@ -333,6 +333,20 @@ This is an internal historical OI/funding cache for future backtest calibration.
 It is not a public API contract and does not change current scores, confidence,
 or AI Auto Trader gating.
 
+### History preservation and offline recovery
+
+Each closed day retains OI and funding independently. A later endpoint response
+with fewer samples, including no samples, must not replace a more complete
+stored aggregate. Equal sample counts accept the fresh aggregate. Completeness
+is recomputed from the selected aggregates; aggregates are never added together.
+
+The offline `ops.recover_oi_history` command can build an auditable recovery
+candidate from a pinned Git commit. It never writes to the runner, installs code,
+or publishes data. See
+[the recovery procedure](../../docs/pivots/2026-09-12-oi-history-preservation-recovery.md)
+for eligibility rules, verification, and the separate maintenance and activation
+gates. File row count is not the number of observed OI days.
+
 The public snapshots remain:
 
 ```text
