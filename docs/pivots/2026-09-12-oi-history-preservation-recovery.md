@@ -87,8 +87,11 @@ generated sidecars before returning them. Only a genuinely missing file returns
 `None` for bootstrap. Invalid JSON/encoding, read errors, unsupported schema or
 asset sets, malformed rows, invalid counts and inconsistent completeness raise
 `SidecarValidationError`. The producer keeps the old sidecar byte-for-byte while
-the independently composed public pair can succeed. Its existing degraded
-marker includes a safe, single-line reason; dry-run follows the same gate.
+the independently composed public pair can succeed **locally**. Its existing
+degraded marker includes a safe, single-line reason; dry-run follows the same
+gate and live results determine daily health. Local generation is not production
+publication: with auto-publish enabled, an invalid retained sidecar causes
+`AutoPublishFailed`. The sidecar is not omitted to bypass the publisher's gate.
 
 Counts must be integers in 0..6 (OI) or 0..3 (funding), excluding booleans.
 Fetched closed-day samples are deduplicated by timestamp only when the complete
@@ -97,12 +100,39 @@ observations are rejected, not truncated. Saved aggregates cannot be deduplicate
 because raw timestamps are no longer present: invalid saved counts require
 operator inspection and cannot be coerced to zero or silently replaced.
 
+The approved policy remains whole-sidecar rejection, not day/family quarantine.
+One old ETH funding anomaly can stop new OI persistence for both assets, across
+the funding endpoint's entire window (up to 1000 samples). Waiting for that
+sample to age out is unsafe for the OI endpoint's rolling 30-day lookback.
+Live `SidecarValidationError` or `SidecarOrphanBak` therefore becomes
+`FAILED / SidecarHistoryBlocked`, using existing macOS and configured Telegram
+failure notifications even without `--notify-ok`. An earlier retention, commit
+or publication failure retains its error type and includes the history-block
+reason. Notification delivery remains best-effort; inspect the JSONL record.
+Investigate the same day and before the next scheduled run where possible;
+30 days is a loss boundary, not a repair grace period. Exit 0 alone is not health.
+
 This intentionally stops sidecar updates until damaged history is repaired or
 migrated; it does not automatically heal existing corruption. Schema/asset or
 funding-interval changes also require review rather than rebuilding the old
 history from the short fetch window. These code changes do not install anything
 in the runner, recover live data, or open publication/AT gates. Recovery-only
 provenance and feasibility validation remains independently enforced.
+
+### Hold before regenerating recovery candidates (review follow-up #4)
+
+The runtime loader now performs numeric checks, not only shape checks, but it
+is not interchangeable with recovery validation. Runtime tolerates decimal
+rounding plus eight ULPs at an OI boundary; the unchanged recovery validator can
+still reject these valid averages. Recovery also intentionally enforces stricter
+growth, funding arithmetic, feasibility and source/provenance rules.
+
+Do not regenerate or apply recovery candidates until this numeric compatibility
+follow-up is resolved and reviewed. Keep the stricter recovery-only checks;
+do not relax them merely to match runtime acceptance. Then pin a fresh baseline,
+validate baseline and candidate through both validators, and inspect donor
+rejection reasons in the audit. The original pinned rehearsal below is a
+historical record, not authorization or proof for a new runtime baseline.
 
 The earliest donor `97c875fa3ab5cd8996c56f3c01bc19c9fff906c8` introduced
 the sidecar. Its three generation timestamps agree at `2026-06-18T23:00:16Z`

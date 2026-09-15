@@ -291,11 +291,11 @@ def _validate_aggregate(value: object, keys: frozenset[str], maximum: int, conte
 
 
 def _within_bounds(value: float, lower: float, upper: float) -> bool:
-    # Allow only decimal serialization and a few ULPs of aggregate rounding.
+    # Decimal serialization and aggregate arithmetic errors can accumulate.
     return (value >= lower or math.isclose(value, lower, rel_tol=0,
-                                          abs_tol=max(1e-10, 4 * math.ulp(lower)))) and (
+                                          abs_tol=1e-10 + 8 * math.ulp(lower))) and (
         value <= upper or math.isclose(value, upper, rel_tol=0,
-                                      abs_tol=max(1e-10, 4 * math.ulp(upper))))
+                                      abs_tol=1e-10 + 8 * math.ulp(upper)))
 
 
 def _validate_snapshot(raw: object) -> None:

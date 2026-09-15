@@ -1,4 +1,5 @@
 import json
+import math
 import sys
 from copy import deepcopy
 from pathlib import Path
@@ -432,6 +433,22 @@ def test_too_many_unique_samples_are_not_reported_as_complete(family) -> None:
         compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z")
 
 
+@pytest.mark.parametrize("anomaly", ["extra", "conflict"])
+def test_old_funding_anomaly_blocks_whole_sidecar_without_changing_history(anomaly) -> None:
+    saved = _saved_snapshot()
+    before = deepcopy(saved)
+    fetcher = _day_fetcher(6, 3)
+    fetcher.funding["ETH"].extend(
+        FundingPoint(ms(-300, hour), 0.0001) for hour in (0, 8, 16)
+    )
+    fetcher.funding["ETH"].append(
+        FundingPoint(ms(-300, 4 if anomaly == "extra" else 0), 0.0002)
+    )
+    with pytest.raises(SidecarValidationError, match="funding:"):
+        compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z", existing=saved)
+    assert saved == before
+
+
 def test_valid_saved_history_survives_a_sliding_fetch_window(tmp_path) -> None:
     saved = _saved_snapshot()
     path = tmp_path / "history.json"
@@ -455,21 +472,49 @@ def test_valid_saved_history_survives_a_sliding_fetch_window(tmp_path) -> None:
     assert loaded == saved
 
 
-def test_constant_decimal_oi_is_not_rejected_for_sum_rounding(tmp_path) -> None:
-    fetcher = _day_fetcher(6, 3)
+@pytest.mark.parametrize("value,count", [
+    (3046968.324, 6), (51873.82660427714, 3), (51873.82660427714, 6),
+    (0.000001, 6), (1000000000000.1234, 6),
+])
+def test_constant_decimal_oi_is_not_rejected_for_sum_rounding(tmp_path, value, count) -> None:
+    fetcher = _day_fetcher(count, 3)
     for asset in ("BTC", "ETH"):
         fetcher.oi[asset] = [
-            OpenInterestPoint(ms(0, hour), 3046968.324, 10000000.0)
-            for hour in (0, 4, 8, 12, 16, 20)
+            OpenInterestPoint(ms(0, hour), value, 10000000.0)
+            for hour in range(0, count * 4, 4)
         ]
     snapshot = compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z")
     oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
-    assert oi["sample_count"] == 6
-    assert oi["min"] == oi["max"] == 3046968.324
-    assert oi["avg"] == pytest.approx(3046968.324, rel=0, abs=1e-9)
+    assert oi["sample_count"] == count
+    assert oi["min"] == oi["max"] == round(value, 10)
+    assert oi["avg"] == round(sum([value] * count) / count, 10)
     path = tmp_path / "history.json"
     path.write_text(json.dumps(snapshot))
     assert load_derivatives_history_sidecar(path) == snapshot
+
+
+@pytest.mark.parametrize("field", ["first", "last", "avg"])
+@pytest.mark.parametrize("direction", [-1, 1])
+@pytest.mark.parametrize("base,ulps,valid", [
+    (51873.8266042771, 21, True), (51873.8266042771, 22, False),
+    (3046968.324, 8, True), (3046968.324, 9, False),
+])
+def test_saved_oi_bounds_keep_a_narrow_rounding_budget(
+    tmp_path, field, direction, base, ulps, valid,
+) -> None:
+    snapshot = _saved_snapshot()
+    oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
+    oi.update(first=base, last=base, min=base, max=base, avg=base, growth_pct=0.0)
+    oi[field] = base + direction * ulps * math.ulp(base)
+    path = tmp_path / "history.json"
+    raw = json.dumps(snapshot).encode()
+    path.write_bytes(raw)
+    if valid:
+        assert load_derivatives_history_sidecar(path) == snapshot
+    else:
+        with pytest.raises(SidecarValidationError, match="bounds"):
+            load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
 
 
 @pytest.mark.parametrize("avg,valid", [

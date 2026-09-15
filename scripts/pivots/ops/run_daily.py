@@ -228,6 +228,15 @@ def _run_inside_lock(
         )
         return rc
 
+    warning_detail = ""
+    if sidecar_warnings:
+        warning_detail = f" | sidecar degraded: {'; '.join(sidecar_warnings)}"
+    warning_types = {warning.partition(":")[0] for warning in sidecar_warnings}
+    sidecar_blocked = bool(warning_types & {"SidecarValidationError", "SidecarOrphanBak"})
+    sidecar_orphan = "SidecarOrphanBak" in warning_types
+    if sidecar_blocked:
+        warning_detail += " | sidecar history blocked; operator action required"
+
     # Step 3: archive + prune
     try:
         if assets_path.exists():
@@ -247,8 +256,8 @@ def _run_inside_lock(
             command="ops.retain.archive/prune",
             target_paths=targets,
             previous_snapshot_preserved=True,
-            orphan_bak_present=False,
-            details=f"{type(exc).__name__}: {exc}",
+            orphan_bak_present=sidecar_orphan,
+            details=f"{type(exc).__name__}: {exc}{warning_detail}",
             notify_ok=notify_ok,
         )
         return 0
@@ -273,11 +282,11 @@ def _run_inside_lock(
                 command="git -C <repo> add",
                 target_paths=targets,
                 previous_snapshot_preserved=True,
-                orphan_bak_present=False,
+                orphan_bak_present=sidecar_orphan,
                 details=(
                     "path outside REPO_ROOT (canonical) — auto-commit only "
                     "supports repo-internal data files"
-                ),
+                ) + warning_detail,
                 notify_ok=notify_ok,
             )
             return 0
@@ -374,8 +383,8 @@ def _run_inside_lock(
                 command="git -C <repo> ...",
                 target_paths=targets,
                 previous_snapshot_preserved=True,
-                orphan_bak_present=False,
-                details=f"{type(exc).__name__}: {exc}",
+                orphan_bak_present=sidecar_orphan,
+                details=f"{type(exc).__name__}: {exc}{warning_detail}",
                 notify_ok=notify_ok,
             )
             return 0
@@ -405,34 +414,33 @@ def _run_inside_lock(
                 command="python -m ops.publish_snapshot",
                 target_paths=targets,
                 previous_snapshot_preserved=not production_may_have_changed,
-                orphan_bak_present=False,
-                details=_publisher_failure_details(publish_result),
+                orphan_bak_present=sidecar_orphan,
+                details=_publisher_failure_details(publish_result) + warning_detail,
                 notify_ok=notify_ok,
             )
             return 0
         publication_detail = _truncated_output(publish_result.output, limit=1000)
 
-    # Step 4: success log
-    warning_detail = ""
-    if sidecar_warnings:
-        joined = "; ".join(sidecar_warnings)
-        warning_detail = f" | sidecar degraded: {joined}"
-
+    # Step 4: local public-pair success does not imply healthy history updates.
     success_details = f"live write + archive + prune complete{warning_detail}"
+    if sidecar_blocked:
+        success_details = f"public pair local {success_details}"
     if auto_commit and commit_detail:
         success_details = f"{success_details} | {commit_detail}"
     if auto_publish:
         suffix = publication_detail or "completed"
         success_details = f"{success_details} | production publish: {suffix}"
+    elif sidecar_blocked:
+        success_details += " | production publish: disabled"
 
     _alert(
         log_file,
-        status="OK",
-        error_type="",
+        status="FAILED" if sidecar_blocked else "OK",
+        error_type="SidecarHistoryBlocked" if sidecar_blocked else "",
         command=cmd_live,
         target_paths=targets,
         previous_snapshot_preserved=True,
-        orphan_bak_present=False,
+        orphan_bak_present=sidecar_orphan,
         details=success_details,
         notify_ok=notify_ok,
     )
