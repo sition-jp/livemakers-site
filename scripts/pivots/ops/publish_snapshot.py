@@ -19,7 +19,7 @@ from typing import Literal, Mapping, Sequence
 from urllib import error as urllib_error
 from urllib import request as urllib_request
 
-from producer.derivatives_sidecar import load_derivatives_history_sidecar
+from producer.derivatives_sidecar import SidecarValidationError, load_derivatives_history_sidecar
 
 
 DEFAULT_PUBLISHER_REPO = Path.home() / ".sition_runners" / "livemakers-pivots-publisher"
@@ -1375,7 +1375,11 @@ def _load_source_snapshot(
         raise PublishError("public snapshot generated_at mismatch")
 
     if sidecar_path is not None:
-        if load_derivatives_history_sidecar(sidecar_path) is None:
+        try:
+            sidecar = load_derivatives_history_sidecar(sidecar_path)
+        except SidecarValidationError as exc:
+            raise PublishError(f"derivatives sidecar validation failed: {exc}") from exc
+        if sidecar is None:
             raise PublishError("derivatives sidecar validation failed")
 
     return SourceSnapshot(
