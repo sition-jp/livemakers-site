@@ -80,11 +80,29 @@ May 20-August 11 recovery interval.
   created. Zero restored days with eligible sources is still a valid no-op
   candidate; source eligibility and recovered coverage are different measures.
 
-Runtime malformed-row handling, excessive sample counts, and the loader's
-invalid-file reset behavior (review #1/#2/#9) remain a separate pre-maintenance
-hardening gate. Do not coerce damaged retained counts to zero and overwrite the
-history. Review preservation and explicit degradation before installing recovery
-data in the runner. This PR does not change those runtime paths.
+### Runtime hardening follow-up (#1, #2, #9)
+
+The follow-up validates existing sidecars before merge/retention and validates
+generated sidecars before returning them. Only a genuinely missing file returns
+`None` for bootstrap. Invalid JSON/encoding, read errors, unsupported schema or
+asset sets, malformed rows, invalid counts and inconsistent completeness raise
+`SidecarValidationError`. The producer keeps the old sidecar byte-for-byte while
+the independently composed public pair can succeed. Its existing degraded
+marker includes a safe, single-line reason; dry-run follows the same gate.
+
+Counts must be integers in 0..6 (OI) or 0..3 (funding), excluding booleans.
+Fetched closed-day samples are deduplicated by timestamp only when the complete
+observation is identical. Conflicting same-time observations or too many unique
+observations are rejected, not truncated. Saved aggregates cannot be deduplicated
+because raw timestamps are no longer present: invalid saved counts require
+operator inspection and cannot be coerced to zero or silently replaced.
+
+This intentionally stops sidecar updates until damaged history is repaired or
+migrated; it does not automatically heal existing corruption. Schema/asset or
+funding-interval changes also require review rather than rebuilding the old
+history from the short fetch window. These code changes do not install anything
+in the runner, recover live data, or open publication/AT gates. Recovery-only
+provenance and feasibility validation remains independently enforced.
 
 The earliest donor `97c875fa3ab5cd8996c56f3c01bc19c9fff906c8` introduced
 the sidecar. Its three generation timestamps agree at `2026-06-18T23:00:16Z`

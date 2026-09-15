@@ -62,8 +62,8 @@ def _write_valid_sidecar(root: Path) -> Path:
                 "generated_at": "2026-08-22T23:00:13Z",
                 "provider": "binance_usdm",
                 "assets": {
-                    "BTC": {"symbol": "BTC", "history": []},
-                    "ETH": {"symbol": "ETH", "history": []},
+                    "BTC": {"symbol": "BTCUSDT", "history": []},
+                    "ETH": {"symbol": "ETHUSDT", "history": []},
                 },
             }
         ),
@@ -158,13 +158,22 @@ def test_valid_sidecar_is_accepted(tmp_path: Path) -> None:
     assert snapshot.sidecar_path == sidecar
 
 
-def test_invalid_sidecar_fails_closed(tmp_path: Path) -> None:
+@pytest.mark.parametrize("raw", [
+    b'{"schema_version": "wrong"}',
+    b"{",
+    b"\xff",
+    b"9" * (max(4300, sys.get_int_max_str_digits()) + 1),
+    b"[" * 10000 + b"]" * 10000,
+    '{"schema_version": "wrong"}'.encode("utf-16"),
+])
+def test_invalid_sidecar_fails_closed(tmp_path: Path, raw: bytes) -> None:
     assets, backtest = _write_public_pair(tmp_path)
     sidecar = tmp_path / "pivot_derivatives_history.live.json"
-    sidecar.write_text('{"schema_version": "wrong"}', encoding="utf-8")
+    sidecar.write_bytes(raw)
 
     with pytest.raises(PublishError, match="sidecar validation failed"):
         _load_source_snapshot(assets, backtest, sidecar)
+    assert sidecar.read_bytes() == raw
 
 
 def test_github_env_accepts_owned_0600_token_file(tmp_path: Path) -> None:
