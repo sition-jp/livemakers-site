@@ -127,19 +127,30 @@ history from the short fetch window. These code changes do not install anything
 in the runner, recover live data, or open publication/AT gates. Recovery-only
 provenance and feasibility validation remains independently enforced.
 
-### Hold before regenerating recovery candidates (review follow-up #4)
+### Numeric compatibility and recovery hold (review follow-up #4)
 
 The runtime loader now performs numeric checks, not only shape checks, but it
-is not interchangeable with recovery validation. Runtime tolerates decimal
-rounding plus eight ULPs at an OI boundary; the unchanged recovery validator can
-still reject these valid averages. Recovery also intentionally enforces stricter
-growth, funding arithmetic, feasibility and source/provenance rules.
+is not interchangeable with recovery validation. Recovery now reuses runtime's
+`_within_bounds` for OI first/last/average: absolute tolerance is
+`1e-10 + 8 * ulp(bound)`, with no relative tolerance. Positive values and ordered
+min/max remain mandatory. Values are never clamped or rewritten. This fixes
+valid producer averages being rejected at baseline validation or excluded as
+donors solely because of decimal rounding and floating-point accumulation.
 
-Do not regenerate or apply recovery candidates until this numeric compatibility
-follow-up is resolved and reviewed. Keep the stricter recovery-only checks;
-do not relax them merely to match runtime acceptance. Then pin a fresh baseline,
-validate baseline and candidate through both validators, and inspect donor
-rejection reasons in the audit. The original pinned rehearsal below is a
+Recovery intentionally retains its separate growth, funding arithmetic,
+sample-count/endpoints/extrema feasibility and source/provenance rules. A row
+accepted by runtime can still be correctly rejected by recovery for these
+reasons; numeric compatibility does not mean identical acceptance policies.
+Synthetic regression tests cover producer decimal outputs, both sides of the
+shared rounding boundary, strict rejection cases, and CLI baseline/donor paths
+with candidate and baseline checked through both validators. Invalid donors
+continue to carry explicit rejection reasons in the audit.
+
+**The operational hold remains until this compatibility change is reviewed and
+the exact recovery step is separately approved.** No production candidate was
+regenerated or applied for this code change. After those gates, pin a fresh
+baseline, validate baseline and candidate through both validators, and inspect
+donor rejection reasons in the audit. The original pinned rehearsal below is a
 historical record, not authorization or proof for a new runtime baseline.
 
 The earliest donor `97c875fa3ab5cd8996c56f3c01bc19c9fff906c8` introduced
