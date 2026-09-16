@@ -12,7 +12,7 @@ from copy import deepcopy
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-from producer.derivatives_sidecar import PROVIDER, SCHEMA_VERSION, _daily_point
+from producer.derivatives_sidecar import PROVIDER, SCHEMA_VERSION, _daily_point, _within_bounds
 
 SIDECAR = "data/pivot_derivatives_history.live.json"
 PUBLIC_PAIR = ("data/pivot_assets.live.json", "data/pivot_backtest.live.json")
@@ -76,7 +76,7 @@ def _aggregate(value: dict, keys: set[str], maximum: int) -> int:
 
 
 def validate_snapshot(snapshot: dict) -> None:
-    """Strict recovery-only checks, beyond the runtime loader's shape checks."""
+    """Share runtime OI rounding bounds; retain stricter recovery-only checks."""
     try:
         _require(set(snapshot) == {"schema_version", "generated_at", "provider", "assets"},
                  "invalid snapshot shape")
@@ -109,8 +109,9 @@ def validate_snapshot(snapshot: dict) -> None:
                 if oi_n:
                     _require(oi["min"] > 0 and oi["last_usd"] > 0 and oi["avg_usd"] > 0,
                              "non-positive OI")
-                    _require(all(oi["min"] <= oi[k] <= oi["max"]
-                                 for k in ("first", "last", "avg")), "inconsistent OI bounds")
+                    _require(oi["min"] <= oi["max"]
+                             and all(oi[k] > 0 and _within_bounds(oi[k], oi["min"], oi["max"])
+                                     for k in ("first", "last", "avg")), "inconsistent OI bounds")
                     # First/last and extrema must fit in n actual observations.
                     known = [oi["first"]] if oi_n == 1 else [oi["first"], oi["last"]]
                     if oi_n == 1:

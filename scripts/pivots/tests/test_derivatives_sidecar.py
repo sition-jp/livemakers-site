@@ -1,3 +1,6 @@
+import json
+import math
+import sys
 from copy import deepcopy
 from pathlib import Path
 
@@ -5,6 +8,7 @@ import pytest
 
 from producer.derivatives_sidecar import (
     SCHEMA_VERSION,
+    SidecarValidationError,
     compose_derivatives_history_sidecar,
     load_derivatives_history_sidecar,
 )
@@ -171,7 +175,8 @@ def test_load_sidecar_missing_invalid_and_valid(tmp_path: Path) -> None:
 
     invalid = tmp_path / "invalid.json"
     invalid.write_text('{"schema_version": "wrong"}')
-    assert load_derivatives_history_sidecar(invalid) is None
+    with pytest.raises(ValueError):
+        load_derivatives_history_sidecar(invalid)
 
     valid = tmp_path / "valid.json"
     valid.write_text(
@@ -264,3 +269,289 @@ def test_at_least_as_complete_observations_refresh_values(existing_count) -> Non
     assert row["open_interest"]["avg"] == 112.5
     assert row["funding"]["sum"] == 0.0006
     assert row["completeness"]["overall"] == 1.0
+
+
+def _saved_snapshot() -> dict:
+    return compose_derivatives_history_sidecar(
+        _day_fetcher(6, 3), "2025-12-20T23:00:00Z"
+    )
+
+
+@pytest.mark.parametrize("family,field,value", [
+    ("open_interest", "sample_count", "6"),
+    ("open_interest", "sample_count", True),
+    ("open_interest", "sample_count", 6.0),
+    ("open_interest", "sample_count", -1),
+    ("open_interest", "sample_count", 7),
+    ("funding", "sample_count", 4),
+    ("funding", "sample_count", None),
+    ("open_interest", "avg", float("nan")),
+    ("funding", "last", float("inf")),
+    ("open_interest", "avg_usd", True),
+])
+def test_retained_invalid_aggregate_is_rejected_before_fetch(
+    tmp_path, family, field, value,
+) -> None:
+    saved = _saved_snapshot()
+    saved["assets"]["BTC"]["history"][0][family][field] = value
+    path = tmp_path / "history.json"
+    raw = json.dumps(saved).encode()
+    path.write_bytes(raw)
+
+    with pytest.raises(ValueError, match=r"BTC.*" + family):
+        load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
+
+    # Direct compose callers must not bypass validation or discard bad old rows
+    # just because those rows fall outside this fetch/retention window.
+    fetcher = _Fetcher({}, {})
+    with pytest.raises(ValueError, match=r"BTC.*" + family):
+        compose_derivatives_history_sidecar(
+            fetcher, "2026-03-01T23:00:00Z", existing=saved, retention_days=1,
+        )
+
+
+@pytest.mark.parametrize("damage", [
+    "missing_funding", "missing_oi_field", "missing_asset", "unknown_asset",
+    "wrong_schema", "wrong_provider", "wrong_symbol", "invalid_generated_at",
+    "naive_generated_at", "invalid_bucket", "open_bucket", "duplicate_bucket",
+    "bad_source", "bad_completeness", "extra_row_field",
+])
+def test_structural_damage_never_becomes_an_empty_history(tmp_path, damage) -> None:
+    saved = _saved_snapshot()
+    row = saved["assets"]["BTC"]["history"][0]
+    if damage == "missing_funding":
+        del row["funding"]
+    elif damage == "missing_oi_field":
+        del row["open_interest"]["avg"]
+    elif damage == "missing_asset":
+        del saved["assets"]["ETH"]
+    elif damage == "unknown_asset":
+        saved["assets"]["SOL"] = {"symbol": "SOLUSDT", "history": []}
+    elif damage == "wrong_schema":
+        saved["schema_version"] = "pivots_derivatives_history.v99"
+    elif damage == "wrong_provider":
+        saved["provider"] = "other"
+    elif damage == "wrong_symbol":
+        saved["assets"]["BTC"]["symbol"] = "ETHUSDT"
+    elif damage == "invalid_generated_at":
+        saved["generated_at"] = "not-a-date"
+    elif damage == "naive_generated_at":
+        saved["generated_at"] = "2025-12-20T23:00:00"
+    elif damage == "invalid_bucket":
+        row["bucket_end"] = "2025-12-21T00:00:00Z"
+    elif damage == "open_bucket":
+        saved["generated_at"] = "2025-12-18T23:00:00Z"
+    elif damage == "duplicate_bucket":
+        saved["assets"]["BTC"]["history"].append(deepcopy(row))
+    elif damage == "bad_source":
+        row["source"]["is_closed_bucket"] = False
+    elif damage == "bad_completeness":
+        row["completeness"]["overall"] = 0
+    elif damage == "extra_row_field":
+        row["unknown_history"] = [1, 2, 3]
+    raw = json.dumps(saved).encode()
+    path = tmp_path / "history.json"
+    path.write_bytes(raw)
+    with pytest.raises(ValueError):
+        load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
+
+
+@pytest.mark.parametrize("raw", [b"{", b"null", b"[]", b"\xff"])
+def test_existing_invalid_bytes_are_not_treated_as_missing(tmp_path, raw) -> None:
+    path = tmp_path / "history.json"
+    path.write_bytes(raw)
+    with pytest.raises(ValueError):
+        load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
+
+
+def test_duplicate_json_keys_are_not_silently_overwritten(tmp_path) -> None:
+    raw = json.dumps(_saved_snapshot()).replace(
+        '"schema_version":', '"schema_version": "wrong", "schema_version":', 1,
+    ).encode()
+    path = tmp_path / "history.json"
+    path.write_bytes(raw)
+    with pytest.raises(ValueError, match="duplicate"):
+        load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
+
+
+def test_unreadable_existing_sidecar_is_not_treated_as_missing(tmp_path) -> None:
+    with pytest.raises(ValueError, match="read"):
+        load_derivatives_history_sidecar(tmp_path)
+
+
+def test_dangling_sidecar_symlink_is_not_treated_as_first_run(tmp_path) -> None:
+    path = tmp_path / "history.json"
+    path.symlink_to(tmp_path / "missing-target.json")
+    with pytest.raises(ValueError):
+        load_derivatives_history_sidecar(path)
+    assert path.is_symlink()
+    assert not path.exists()
+
+
+@pytest.mark.parametrize("family", ["open_interest", "funding"])
+def test_duplicate_timestamps_count_once_without_changing_aggregates(family) -> None:
+    fetcher = _day_fetcher(6, 3)
+    points = fetcher.oi if family == "open_interest" else fetcher.funding
+    for asset in ("BTC", "ETH"):
+        points[asset] = list(reversed(points[asset] + [points[asset][0]] * 3))
+    result = compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z")
+    row = result["assets"]["BTC"]["history"][0]
+    assert row["open_interest"]["sample_count"] == 6
+    assert row["open_interest"]["avg"] == 102.5
+    assert row["open_interest"]["growth_pct"] == 0.05
+    assert row["funding"]["sample_count"] == 3
+    assert row["funding"]["sum"] == 0.0003
+    assert row["completeness"]["overall"] == 1.0
+
+
+@pytest.mark.parametrize("family", ["open_interest", "oi_usd", "funding"])
+def test_conflicting_duplicate_timestamp_is_not_arbitrarily_selected(family) -> None:
+    fetcher = _day_fetcher(1, 1)
+    if family == "funding":
+        fetcher.funding["BTC"].append(FundingPoint(ms(0, 0), 0.123))
+    else:
+        fetcher.oi["BTC"].append(OpenInterestPoint(
+            ms(0, 0), 999 if family == "open_interest" else 100,
+            9999 if family == "oi_usd" else 1000,
+        ))
+    with pytest.raises(ValueError, match="conflicting"):
+        compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z")
+
+
+@pytest.mark.parametrize("family", ["open_interest", "funding"])
+def test_too_many_unique_samples_are_not_reported_as_complete(family) -> None:
+    fetcher = _day_fetcher(6, 3)
+    if family == "open_interest":
+        fetcher.oi["BTC"].append(OpenInterestPoint(ms(0, 1), 200, 2000))
+    else:
+        fetcher.funding["BTC"].append(FundingPoint(ms(0, 1), 0.0001))
+    with pytest.raises(ValueError, match="sample"):
+        compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z")
+
+
+@pytest.mark.parametrize("anomaly", ["extra", "conflict"])
+def test_old_funding_anomaly_blocks_whole_sidecar_without_changing_history(anomaly) -> None:
+    saved = _saved_snapshot()
+    before = deepcopy(saved)
+    fetcher = _day_fetcher(6, 3)
+    fetcher.funding["ETH"].extend(
+        FundingPoint(ms(-300, hour), 0.0001) for hour in (0, 8, 16)
+    )
+    fetcher.funding["ETH"].append(
+        FundingPoint(ms(-300, 4 if anomaly == "extra" else 0), 0.0002)
+    )
+    with pytest.raises(SidecarValidationError, match="funding:"):
+        compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z", existing=saved)
+    assert saved == before
+
+
+def test_valid_saved_history_survives_a_sliding_fetch_window(tmp_path) -> None:
+    saved = _saved_snapshot()
+    path = tmp_path / "history.json"
+    path.write_text(json.dumps(saved))
+    loaded = load_derivatives_history_sidecar(path)
+    assert loaded == saved
+    fetcher = _Fetcher(
+        {asset: [OpenInterestPoint(ms(40, 0), 200, 2000)] for asset in ("BTC", "ETH")},
+        {asset: [FundingPoint(ms(40, 0), 0.0002)] for asset in ("BTC", "ETH")},
+    )
+    result = compose_derivatives_history_sidecar(
+        fetcher, "2026-01-29T23:00:00Z", existing=loaded,
+    )
+    for asset in ("BTC", "ETH"):
+        history = result["assets"][asset]["history"]
+        assert [row["bucket_start"] for row in history] == [
+            "2025-12-18T00:00:00Z", "2026-01-27T00:00:00Z",
+        ]
+        assert history[0] == saved["assets"][asset]["history"][0]
+        assert history[1]["open_interest"]["sample_count"] == 1
+    assert loaded == saved
+
+
+@pytest.mark.parametrize("value,count", [
+    (3046968.324, 6), (51873.82660427714, 3), (51873.82660427714, 6),
+    (0.000001, 6), (1000000000000.1234, 6),
+])
+def test_constant_decimal_oi_is_not_rejected_for_sum_rounding(tmp_path, value, count) -> None:
+    fetcher = _day_fetcher(count, 3)
+    for asset in ("BTC", "ETH"):
+        fetcher.oi[asset] = [
+            OpenInterestPoint(ms(0, hour), value, 10000000.0)
+            for hour in range(0, count * 4, 4)
+        ]
+    snapshot = compose_derivatives_history_sidecar(fetcher, "2025-12-20T23:00:00Z")
+    oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
+    assert oi["sample_count"] == count
+    assert oi["min"] == oi["max"] == round(value, 10)
+    assert oi["avg"] == round(sum([value] * count) / count, 10)
+    path = tmp_path / "history.json"
+    path.write_text(json.dumps(snapshot))
+    assert load_derivatives_history_sidecar(path) == snapshot
+
+
+@pytest.mark.parametrize("field", ["first", "last", "avg"])
+@pytest.mark.parametrize("direction", [-1, 1])
+@pytest.mark.parametrize("base,ulps,valid", [
+    (51873.8266042771, 21, True), (51873.8266042771, 22, False),
+    (3046968.324, 8, True), (3046968.324, 9, False),
+])
+def test_saved_oi_bounds_keep_a_narrow_rounding_budget(
+    tmp_path, field, direction, base, ulps, valid,
+) -> None:
+    snapshot = _saved_snapshot()
+    oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
+    oi.update(first=base, last=base, min=base, max=base, avg=base, growth_pct=0.0)
+    oi[field] = base + direction * ulps * math.ulp(base)
+    path = tmp_path / "history.json"
+    raw = json.dumps(snapshot).encode()
+    path.write_bytes(raw)
+    if valid:
+        assert load_derivatives_history_sidecar(path) == snapshot
+    else:
+        with pytest.raises(SidecarValidationError, match="bounds"):
+            load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
+
+
+@pytest.mark.parametrize("avg,valid", [
+    (3046968.3239999996, True),
+    (3046968.3240000004, True),
+    (3046968.314, False),
+    (3046968.334, False),
+])
+def test_saved_oi_bounds_tolerate_only_floating_point_noise(tmp_path, avg, valid) -> None:
+    snapshot = _saved_snapshot()
+    oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
+    oi.update(first=3046968.324, last=3046968.324, min=3046968.324,
+              max=3046968.324, avg=avg, growth_pct=0.0)
+    path = tmp_path / "history.json"
+    raw = json.dumps(snapshot).encode()
+    path.write_bytes(raw)
+    if valid:
+        assert load_derivatives_history_sidecar(path) == snapshot
+    else:
+        with pytest.raises(SidecarValidationError, match="bounds"):
+            load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw
+
+
+@pytest.mark.parametrize("case", ["huge-integer", "deep-nesting", "utf16"])
+def test_decoder_failures_use_the_controlled_validation_error(tmp_path, case) -> None:
+    if case == "huge-integer":
+        digits = max(4300, sys.get_int_max_str_digits()) + 1
+        raw = json.dumps(_saved_snapshot()).replace(
+            '"sample_count": 6', '"sample_count": ' + "9" * digits, 1,
+        ).encode()
+    elif case == "deep-nesting":
+        raw = b"[" * 10000 + b"]" * 10000
+    else:
+        raw = json.dumps(_saved_snapshot()).encode("utf-16")
+    path = tmp_path / "history.json"
+    path.write_bytes(raw)
+    with pytest.raises(SidecarValidationError, match="parse"):
+        load_derivatives_history_sidecar(path)
+    assert path.read_bytes() == raw

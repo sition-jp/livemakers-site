@@ -347,6 +347,90 @@ or publishes data. See
 for eligibility rules, verification, and the separate maintenance and activation
 gates. File row count is not the number of observed OI days.
 
+### Invalid history and duplicate observations
+
+Only a genuinely absent sidecar permits first-run initialization. Existing
+unreadable files, invalid JSON (including duplicate keys), unsupported schemas,
+missing/unknown assets, invalid daily rows, and damaged sample counts raise
+`SidecarValidationError`. The producer preserves the entire sidecar byte-for-byte
+and reports `sidecar_degraded=SidecarValidationError: <reason>`. The public pair
+continues through its normal **local** validation/promotion path. This does not
+mean production was updated. Dry-run reports the same problem without modifying
+any target; the live invocation is authoritative for the daily outcome.
+
+The publisher also rejects an invalid sidecar with `PublishError` rather than
+using it as a publication source. UTF-8 decoding, oversized JSON integers and
+excessive JSON nesting follow the same controlled validation error path. Numeric
+bounds allow decimal serialization error plus eight floating-point ULPs at each
+boundary (`1e-10 + 8 * ulp(bound)`, no relative tolerance); they do not normalize
+or rewrite saved values.
+
+When `--auto-publish` is enabled, the daily wrapper forwards the retained sidecar
+to the publisher. An invalid retained file deliberately stops production
+publication with `AutoPublishFailed`; it is not omitted to bypass validation.
+A dangling sidecar symlink is also retained as an input and rejected before
+publication. A sidecar that disappears or becomes unreadable during the frozen
+source copy fails with a controlled `PublishError` / `phase=pre_merge`, before
+credentials, GitHub or production are accessed.
+Genuine absence is different: the publisher may publish only the public pair
+while leaving the existing main sidecar unchanged. This remains possible when
+the daily wrapper reports `SidecarOrphanBak` and the sidecar file itself is absent;
+the history-block alert is not a blanket prohibition on public-pair publication.
+Do not remove damaged history to force this optional-input path.
+If only fetched observations are invalid but the retained file remains valid,
+publication may still succeed. Always distinguish local public-pair generation,
+sidecar health, and the publisher's production result.
+
+Saved rows are validated before merging or retention. Counts must be integers
+(not booleans or strings), within 0..6 for 4h OI and 0..3 for 8h funding. Do not
+coerce invalid counts to zero, drop damaged rows, or delete a bad file to force
+bootstrap. Even one bad row intentionally pauses all sidecar updates until an
+operator repairs or migrates the file after backup and review. This is explicit
+degradation, not automatic repair. Transient provider warnings still allow an
+overall daily `OK`, so that status alone is not OI-health proof.
+
+Within fetched closed UTC days, identical observations at the same timestamp
+count once. Different values at the same timestamp, or too many distinct daily
+timestamps, degrade the sidecar instead of choosing an arbitrary value or
+clamping completeness. A genuine funding interval/provider/schema change needs
+a reviewed migration, not relaxed counts. Historical aggregates have no raw
+timestamps, so this cannot retrospectively prove their samples were unique.
+
+The all-or-nothing sidecar policy covers both assets and both families, across
+the entire fetched window. For example, one ETH funding anomaly 300 days ago can
+block today's BTC/ETH OI persistence as well. Funding fetches up to 1000 samples
+(roughly 333 days at 8h), so waiting for an old bad sample to leave the window is
+not an acceptable recovery plan. Day/family-level quarantine is not implemented.
+
+`SidecarValidationError` and `SidecarOrphanBak` from the live producer make the
+daily result `FAILED / SidecarHistoryBlocked`, even when local public-pair work
+or production publication succeeds. The existing macOS and configured Telegram
+FAILED notification paths run regardless of `--notify-ok`. If retention, commit
+or publication fails first, its error type takes precedence and the same history
+block reason is retained in details. There is one final alert, not a later OK
+that hides the failure. The wrapper retains its existing exit-code policy:
+these post-producer failures return 0; inspect the JSONL status, not just exit 0.
+
+For a history-block failure after a successful publisher invocation,
+`previous_snapshot_preserved` is false if the outcome is `published` or cannot be
+recognized. Only a structured `already_current` outcome preserves true; exit 0
+alone does not prove that production was unchanged. This flag does not mean the
+blocked sidecar was deleted or that its missing history has been recovered.
+The existing pre-merge/post-merge failure distinction remains unchanged.
+
+Notifications are best-effort: missing Telegram credentials or delivery failures
+do not change the durable JSONL record. Verify the notification route separately
+at installation. Investigate a persistent stop the same day, before the next
+scheduled run where possible. OI has a rolling 30-day provider lookback; this is
+a data-loss limit, **not** permission to wait 30 days. Recovery or migration
+still requires backup, review and separate operational approval.
+
+On validation degradation, inspect the asset/row/field identified in the reason,
+preserve the original and its digest, and use the separately approved maintenance
+procedure. Do not run recovery against a stale pinned baseline or install code
+as part of this diagnostic step. Normal scores, public schema and AT gates are
+unchanged by these checks.
+
 The public snapshots remain:
 
 ```text
@@ -364,7 +448,10 @@ If logs contain:
 sidecar degraded: <reason>
 ```
 
-the public snapshots succeeded but the sidecar was preserved from the previous
-run or skipped for that run. Treat this as an ops note, not a public snapshot
-failure. If a sidecar `.bak` remains, inspect the current sidecar and `.bak`,
-choose the canonical copy, and remove the stale file before the next run.
+the sidecar was preserved from the previous run or skipped for that run. Check
+the final status/error type: transient provider warnings remain ops notes,
+whereas validation/orphan-backup warnings require operator action as described
+above. Neither message proves production publication succeeded. If a sidecar
+`.bak` remains, preserve both files and their digests, then determine the
+canonical copy through the approved repair procedure; do not delete it merely
+to silence the alert.

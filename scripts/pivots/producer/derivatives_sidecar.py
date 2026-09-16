@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 import json
+import math
 from collections import defaultdict
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import TypedDict
+from typing import TypeVar, TypedDict
 
 from producer.fetch_binance import BinanceFetcher, FundingPoint, OpenInterestPoint
 from producer.types import ASSETS, AssetSymbol
@@ -17,6 +18,16 @@ _MS = 1000
 _EXPECTED_OI_SAMPLES = 6
 _EXPECTED_FUNDING_SAMPLES = 3
 _SYMBOLS: dict[AssetSymbol, str] = {"BTC": "BTCUSDT", "ETH": "ETHUSDT"}
+_Point = TypeVar("_Point", OpenInterestPoint, FundingPoint)
+
+
+class SidecarValidationError(ValueError):
+    """History must be preserved for operator inspection, not bootstrapped."""
+
+
+def _require(condition: bool, reason: str) -> None:
+    if not condition:
+        raise SidecarValidationError(reason)
 
 
 class OpenInterestDaily(TypedDict):
@@ -95,14 +106,31 @@ def _round(value: float) -> float:
     return round(value, 10)
 
 
+def _closed_buckets(
+    points: list[_Point], latest_day: datetime, maximum: int, family: str,
+) -> dict[datetime, list[_Point]]:
+    buckets: dict[datetime, dict[int, _Point]] = defaultdict(dict)
+    for point in points:
+        _require(type(point.timestamp) is int, f"{family}: invalid sample timestamp")
+        day = _day_start_from_ms(point.timestamp)
+        if day > latest_day:
+            continue
+        rows = buckets[day]
+        # Identical repeats carry no additional evidence. Conflicting repeats
+        # have no trustworthy first/last winner, so preserve the saved sidecar.
+        _require(
+            point.timestamp not in rows or rows[point.timestamp] == point,
+            f"{family}: conflicting samples at the same timestamp",
+        )
+        rows[point.timestamp] = point
+        _require(len(rows) <= maximum, f"{family}: too many samples in a daily bucket")
+    return {day: list(rows.values()) for day, rows in buckets.items()}
+
+
 def _aggregate_oi(
     points: list[OpenInterestPoint], latest_day: datetime
 ) -> dict[str, OpenInterestDaily]:
-    buckets: dict[datetime, list[OpenInterestPoint]] = defaultdict(list)
-    for point in points:
-        day = _day_start_from_ms(point.timestamp)
-        if day <= latest_day:
-            buckets[day].append(point)
+    buckets = _closed_buckets(points, latest_day, _EXPECTED_OI_SAMPLES, "open_interest")
 
     out: dict[str, OpenInterestDaily] = {}
     for day, rows in buckets.items():
@@ -129,11 +157,7 @@ def _aggregate_oi(
 def _aggregate_funding(
     points: list[FundingPoint], latest_day: datetime
 ) -> dict[str, FundingDaily]:
-    buckets: dict[datetime, list[FundingPoint]] = defaultdict(list)
-    for point in points:
-        day = _day_start_from_ms(point.timestamp)
-        if day <= latest_day:
-            buckets[day].append(point)
+    buckets = _closed_buckets(points, latest_day, _EXPECTED_FUNDING_SAMPLES, "funding")
 
     out: dict[str, FundingDaily] = {}
     for day, rows in buckets.items():
@@ -233,22 +257,123 @@ def _merge_asset_history(
     return rows
 
 
-def load_derivatives_history_sidecar(path: Path) -> DerivativesHistorySnapshot | None:
+def _object_shape(value: object, keys: frozenset[str], context: str) -> dict:
+    _require(isinstance(value, dict) and set(value) == keys, f"{context}: invalid shape")
+    return value
+
+
+def _utc_timestamp(value: object, context: str) -> datetime:
+    _require(isinstance(value, str) and value.endswith("Z"), f"{context}: UTC timestamp required")
     try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
-        return None
-    if not isinstance(raw, dict):
-        return None
-    if raw.get("schema_version") != SCHEMA_VERSION:
-        return None
-    assets = raw.get("assets")
-    if not isinstance(assets, dict):
-        return None
+        return _parse_iso(value)
+    except (ValueError, OverflowError) as exc:
+        raise SidecarValidationError(f"{context}: invalid timestamp") from exc
+
+
+def _finite_number(value: object) -> bool:
+    if type(value) not in (int, float):
+        return False
+    try:
+        return math.isfinite(value)
+    except OverflowError:
+        return False
+
+
+def _validate_aggregate(value: object, keys: frozenset[str], maximum: int, context: str) -> int:
+    aggregate = _object_shape(value, keys, context)
+    count = aggregate["sample_count"]
+    _require(type(count) is int and 0 <= count <= maximum, f"{context}: invalid sample_count")
+    for key in keys - {"sample_count"}:
+        number = aggregate[key]
+        _require(_finite_number(number), f"{context}.{key}: finite number required")
+        _require(count != 0 or number == 0, f"{context}: empty aggregate must contain zeros")
+    return count
+
+
+def _within_bounds(value: float, lower: float, upper: float) -> bool:
+    # Decimal serialization and aggregate arithmetic errors can accumulate.
+    return (value >= lower or math.isclose(value, lower, rel_tol=0,
+                                          abs_tol=1e-10 + 8 * math.ulp(lower))) and (
+        value <= upper or math.isclose(value, upper, rel_tol=0,
+                                      abs_tol=1e-10 + 8 * math.ulp(upper)))
+
+
+def _validate_snapshot(raw: object) -> None:
+    snapshot = _object_shape(raw, DerivativesHistorySnapshot.__required_keys__, "snapshot")
+    _require(snapshot["schema_version"] == SCHEMA_VERSION, "snapshot: unsupported schema; migration required")
+    _require(snapshot["provider"] == PROVIDER, "snapshot: wrong provider")
+    generated = _utc_timestamp(snapshot["generated_at"], "generated_at")
+    latest_end = generated.replace(hour=0, minute=0, second=0, microsecond=0)
+    assets = _object_shape(snapshot["assets"], frozenset(ASSETS), "assets (migration required)")
     for asset in ASSETS:
-        block = assets.get(asset)
-        if not isinstance(block, dict) or not isinstance(block.get("history"), list):
-            return None
+        context = f"assets.{asset}"
+        block = _object_shape(assets[asset], DerivativesAssetHistory.__required_keys__, context)
+        _require(block["symbol"] == _SYMBOLS[asset], f"{context}: wrong symbol")
+        _require(isinstance(block["history"], list), f"{context}: history must be a list")
+        previous = None
+        for index, row in enumerate(block["history"]):
+            context = f"assets.{asset}.history[{index}]"
+            _object_shape(row, DerivativesDailyPoint.__required_keys__, context)
+            start = _utc_timestamp(row["bucket_start"], f"{context}.bucket_start")
+            end = _utc_timestamp(row["bucket_end"], f"{context}.bucket_end")
+            _require(start == start.replace(hour=0, minute=0, second=0, microsecond=0)
+                     and row["bucket_start"] == _iso(start), f"{context}: invalid UTC day")
+            _require(end - start == timedelta(days=1) and end <= latest_end,
+                     f"{context}: unclosed or invalid bucket")
+            _require(previous is None or start > previous, f"{context}: duplicate or unsorted bucket")
+            previous = start
+            oi, funding = row["open_interest"], row["funding"]
+            oi_count = _validate_aggregate(oi, OpenInterestDaily.__required_keys__,
+                                           _EXPECTED_OI_SAMPLES, f"{context}.open_interest")
+            funding_count = _validate_aggregate(funding, FundingDaily.__required_keys__,
+                                                _EXPECTED_FUNDING_SAMPLES, f"{context}.funding")
+            expected = _daily_point(row["bucket_start"], oi, funding)
+            _require(row["source"] == expected["source"]
+                     and row["source"]["is_closed_bucket"] is True,
+                     f"{context}: invalid source metadata")
+            completeness = _object_shape(row["completeness"], Completeness.__required_keys__,
+                                         f"{context}.completeness")
+            for key, value in expected["completeness"].items():
+                _require(_finite_number(completeness[key])
+                         and math.isclose(completeness[key], value, rel_tol=1e-8, abs_tol=1e-9),
+                         f"{context}.completeness: inconsistent {key}")
+            if oi_count:
+                _require(0 < oi["min"] <= oi["max"] and oi["last_usd"] > 0 and oi["avg_usd"] > 0
+                         and all(oi[key] > 0 and _within_bounds(oi[key], oi["min"], oi["max"])
+                                 for key in ("first", "last", "avg")),
+                         f"{context}.open_interest: inconsistent bounds")
+            if funding_count:
+                _require(funding["max_abs"] + 1e-9 >= funding["abs_avg"] >= 0
+                         and funding["max_abs"] + 1e-9 >= abs(funding["last"])
+                         and funding["abs_avg"] + 1e-9 >= abs(funding["avg"]),
+                         f"{context}.funding: inconsistent bounds")
+
+
+def _unique_json_object(pairs: list[tuple[str, object]]) -> dict:
+    result = {}
+    for key, value in pairs:
+        _require(key not in result, "snapshot: duplicate JSON key")
+        result[key] = value
+    return result
+
+
+def load_derivatives_history_sidecar(path: Path) -> DerivativesHistorySnapshot | None:
+    """Only absence permits bootstrap; invalid existing history is never discarded."""
+    try:
+        raw_bytes = path.read_bytes()
+    except FileNotFoundError as exc:
+        if path.is_symlink():
+            raise SidecarValidationError("cannot read sidecar: dangling symlink") from exc
+        return None
+    except OSError as exc:
+        raise SidecarValidationError("cannot read existing sidecar") from exc
+    try:
+        raw = json.loads(raw_bytes.decode("utf-8"), object_pairs_hook=_unique_json_object)
+    except SidecarValidationError:
+        raise
+    except (ValueError, RecursionError) as exc:
+        raise SidecarValidationError("cannot parse existing sidecar JSON") from exc
+    _validate_snapshot(raw)
     return raw
 
 
@@ -258,10 +383,7 @@ def _existing_rows(
 ) -> list[DerivativesDailyPoint]:
     if existing is None:
         return []
-    block = existing.get("assets", {}).get(asset)
-    if not block:
-        return []
-    return list(block.get("history", []))
+    return list(existing["assets"][asset]["history"])
 
 
 def compose_derivatives_history_sidecar(
@@ -270,6 +392,8 @@ def compose_derivatives_history_sidecar(
     existing: DerivativesHistorySnapshot | None = None,
     retention_days: int = DEFAULT_RETENTION_DAYS,
 ) -> DerivativesHistorySnapshot:
+    if existing is not None:
+        _validate_snapshot(existing)
     latest_day = _latest_allowed_day(generated_at)
     assets: dict[str, DerivativesAssetHistory] = {}
     for asset in ASSETS:
@@ -289,9 +413,11 @@ def compose_derivatives_history_sidecar(
                 retention_days,
             ),
         }
-    return {
+    snapshot: DerivativesHistorySnapshot = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": generated_at,
         "provider": PROVIDER,
         "assets": assets,
     }
+    _validate_snapshot(snapshot)
+    return snapshot

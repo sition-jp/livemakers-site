@@ -62,8 +62,8 @@ def _write_valid_sidecar(root: Path) -> Path:
                 "generated_at": "2026-08-22T23:00:13Z",
                 "provider": "binance_usdm",
                 "assets": {
-                    "BTC": {"symbol": "BTC", "history": []},
-                    "ETH": {"symbol": "ETH", "history": []},
+                    "BTC": {"symbol": "BTCUSDT", "history": []},
+                    "ETH": {"symbol": "ETHUSDT", "history": []},
                 },
             }
         ),
@@ -158,13 +158,22 @@ def test_valid_sidecar_is_accepted(tmp_path: Path) -> None:
     assert snapshot.sidecar_path == sidecar
 
 
-def test_invalid_sidecar_fails_closed(tmp_path: Path) -> None:
+@pytest.mark.parametrize("raw", [
+    b'{"schema_version": "wrong"}',
+    b"{",
+    b"\xff",
+    b"9" * (max(4300, sys.get_int_max_str_digits()) + 1),
+    b"[" * 10000 + b"]" * 10000,
+    '{"schema_version": "wrong"}'.encode("utf-16"),
+])
+def test_invalid_sidecar_fails_closed(tmp_path: Path, raw: bytes) -> None:
     assets, backtest = _write_public_pair(tmp_path)
     sidecar = tmp_path / "pivot_derivatives_history.live.json"
-    sidecar.write_text('{"schema_version": "wrong"}', encoding="utf-8")
+    sidecar.write_bytes(raw)
 
     with pytest.raises(PublishError, match="sidecar validation failed"):
         _load_source_snapshot(assets, backtest, sidecar)
+    assert sidecar.read_bytes() == raw
 
 
 def test_github_env_accepts_owned_0600_token_file(tmp_path: Path) -> None:
@@ -1435,3 +1444,145 @@ def test_publisher_cli_marks_post_merge_failure(tmp_path: Path, monkeypatch, cap
     captured = capsys.readouterr()
     assert "phase=post_merge" in captured.err
     assert "production smoke failed" in captured.err
+
+
+@pytest.mark.parametrize("damage", ["dangling", "disappeared", "unreadable"])
+def test_publisher_cli_rejects_unreadable_sidecar_before_publication(
+    tmp_path: Path, monkeypatch, capsys, damage: str,
+) -> None:
+    from ops import publish_snapshot as publisher_module
+
+    assets, backtest = _write_public_pair(tmp_path)
+    sidecar = tmp_path / "sidecar.json"
+    if damage == "dangling":
+        sidecar.symlink_to(tmp_path / "missing-target.json")
+    else:
+        sidecar.write_text("retained history", encoding="utf-8")
+
+    real_copy = shutil.copyfile
+
+    def copy_with_read_failure(src, dst, **kwargs):
+        if Path(src) == sidecar and damage != "dangling":
+            error = FileNotFoundError if damage == "disappeared" else PermissionError
+            raise error("sidecar unavailable after the presence check")
+        return real_copy(src, dst, **kwargs)
+
+    def forbid_publication(*_args, **_kwargs):
+        pytest.fail("invalid sidecar reached publication/credential boundary")
+
+    monkeypatch.setattr(shutil, "copyfile", copy_with_read_failure)
+    monkeypatch.setattr(publisher_module, "_publish_frozen_snapshot", forbid_publication)
+    monkeypatch.setattr(sys, "argv", [
+        "publish_snapshot", "--assets-path", str(assets),
+        "--backtest-path", str(backtest), "--derivatives-history-path", str(sidecar),
+    ])
+
+    assert publisher_module.main() == 1
+    captured = capsys.readouterr()
+    assert "FAILED phase=pre_merge" in captured.err
+    assert "sidecar" in captured.err
+    assert "Traceback" not in captured.err
+    assert captured.out == ""
+    if damage == "dangling":
+        assert sidecar.is_symlink()
+        assert not sidecar.exists()
+    else:
+        assert sidecar.read_text() == "retained history"
+
+
+@pytest.mark.parametrize("sidecar_kind", ["absent", "absent-with-backup", "valid", "valid-symlink"])
+def test_publisher_cli_preserves_optional_and_readable_sidecar_behavior(
+    tmp_path: Path, monkeypatch, capsys, sidecar_kind: str,
+) -> None:
+    from ops import publish_snapshot as publisher_module
+
+    assets, backtest = _write_public_pair(tmp_path)
+    sidecar = tmp_path / "absent-sidecar.json"
+    backup = Path(str(sidecar) + ".bak")
+    if sidecar_kind == "absent-with-backup":
+        backup.write_bytes(b"operator-owned backup")
+    elif sidecar_kind == "valid":
+        sidecar = _write_valid_sidecar(tmp_path)
+    elif sidecar_kind == "valid-symlink":
+        sidecar.symlink_to(_write_valid_sidecar(tmp_path))
+    before = sidecar.read_bytes() if sidecar.exists() else None
+
+    def finish_after_freeze(snapshot, **_kwargs):
+        if sidecar_kind.startswith("absent"):
+            assert snapshot.sidecar_path is None
+        else:
+            assert snapshot.sidecar_path.read_bytes() == before
+        assert json.loads(snapshot.assets_path.read_text())["generated_at"] == "2026-08-22T23:00:13Z"
+        return publisher_module.PublishOutcome(
+            state="already_current", generated_at=snapshot.generated_at,
+            pr_url=None, merge_sha=None,
+        )
+
+    monkeypatch.setattr(publisher_module, "_publish_frozen_snapshot", finish_after_freeze)
+    monkeypatch.setattr(sys, "argv", [
+        "publish_snapshot", "--assets-path", str(assets),
+        "--backtest-path", str(backtest), "--derivatives-history-path", str(sidecar),
+    ])
+
+    assert publisher_module.main() == 0
+    captured = capsys.readouterr()
+    assert json.loads(captured.out)["state"] == "already_current"
+    assert captured.err == ""
+    if sidecar_kind.startswith("absent"):
+        assert not sidecar.exists()
+    else:
+        assert sidecar.read_bytes() == before
+    if sidecar_kind == "absent-with-backup":
+        assert backup.read_bytes() == b"operator-owned backup"
+    if sidecar_kind == "valid-symlink":
+        assert sidecar.is_symlink()
+
+
+@pytest.mark.parametrize("input_name", ["assets", "backtest"])
+@pytest.mark.parametrize("damage", ["dangling", "unreadable"])
+def test_publisher_cli_marks_public_pair_copy_failure_pre_merge(
+    tmp_path: Path, monkeypatch, capsys, input_name: str, damage: str,
+) -> None:
+    from ops import publish_snapshot as publisher_module, run_daily
+
+    assets, backtest = _write_public_pair(tmp_path)
+    target = assets if input_name == "assets" else backtest
+    before = {path: path.read_bytes() for path in (assets, backtest)}
+    missing = tmp_path / "absent-target.json"
+    if damage == "dangling":
+        target.unlink()
+        target.symlink_to(missing)
+
+    real_copy = shutil.copyfile
+
+    def copy_with_read_failure(src, dst, **kwargs):
+        if Path(src) == target and damage == "unreadable":
+            raise PermissionError("fixture public input is unreadable")
+        return real_copy(src, dst, **kwargs)
+
+    def forbid_publication(*_args, **_kwargs):
+        pytest.fail("public input failure reached publication/credential boundary")
+
+    monkeypatch.setattr(shutil, "copyfile", copy_with_read_failure)
+    monkeypatch.setattr(publisher_module, "_publish_frozen_snapshot", forbid_publication)
+    monkeypatch.setattr(sys, "argv", [
+        "publish_snapshot", "--assets-path", str(assets),
+        "--backtest-path", str(backtest),
+        "--derivatives-history-path", str(tmp_path / "absent-sidecar.json"),
+    ])
+
+    assert publisher_module.main() == 1
+    captured = capsys.readouterr()
+    assert "FAILED phase=pre_merge" in captured.err
+    assert "public snapshot" in captured.err
+    assert "Traceback" not in captured.err
+    assert captured.out == ""
+    assert not run_daily._publisher_may_have_changed_production(
+        run_daily.PublisherInvocation(1, captured.err)
+    )
+    for path, raw in before.items():
+        if damage == "dangling" and path == target:
+            assert path.is_symlink()
+            assert not missing.exists()
+        else:
+            assert path.read_bytes() == raw

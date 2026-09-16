@@ -1,13 +1,21 @@
 import json
 import hashlib
+import math
 import os
 import subprocess
 from copy import deepcopy
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import pytest
 
-from ops.recover_oi_history import RecoveryError, build_recovery_candidate, main
+from ops.recover_oi_history import RecoveryError, build_recovery_candidate, main, validate_snapshot
+from producer.derivatives_sidecar import (
+    SidecarValidationError,
+    _aggregate_oi,
+    load_derivatives_history_sidecar,
+)
+from producer.fetch_binance import OpenInterestPoint
 
 
 def _snapshot(generated_at="2026-09-10T23:00:00Z", count=0):
@@ -60,7 +68,7 @@ def repo(tmp_path):
     return root
 
 
-def _commit(repo, snapshot, *, message=None, pair_timestamp=None):
+def _commit(repo, snapshot, *, message=None, pair_timestamp=None, committed_at=None):
     generated = snapshot["generated_at"]
     paths = []
     for name in ("assets", "backtest", "derivatives_history"):
@@ -73,7 +81,8 @@ def _commit(repo, snapshot, *, message=None, pair_timestamp=None):
     _git(repo, "add", "--", *paths)
     _git(repo, "-c", "commit.gpgsign=false", "commit", "-qm",
          message or f"chore(pivots): daily snapshot {generated}",
-         env={**os.environ, "GIT_AUTHOR_DATE": generated, "GIT_COMMITTER_DATE": generated})
+         env={**os.environ, "GIT_AUTHOR_DATE": generated,
+              "GIT_COMMITTER_DATE": committed_at or generated})
     return _git(repo, "rev-parse", "HEAD")
 
 
@@ -117,6 +126,65 @@ def test_unqualified_sources_do_not_restore_oi(repo, kind):
     candidate, audit = build_recovery_candidate(repo, head)
     assert candidate == baseline
     assert audit["restored"] == []
+
+
+@pytest.mark.parametrize("clock,reason", [
+    ("subject", "snapshot subject time mismatch"),
+    ("committer", "commit time mismatch"),
+])
+@pytest.mark.parametrize("offset,eligible", [
+    (-601, False), (-600, True), (0, True), (600, True), (601, False),
+])
+def test_source_timestamp_tolerance_is_inclusive_and_independent(
+    repo, clock, reason, offset, eligible,
+):
+    donor = _snapshot("2026-08-12T23:00:00Z", 6)
+    shifted = (datetime.fromisoformat(donor["generated_at"]) + timedelta(seconds=offset))
+    timestamp = shifted.strftime("%Y-%m-%dT%H:%M:%SZ")
+    donor_sha = _commit(
+        repo, donor,
+        message=f"chore(pivots): daily snapshot {timestamp}" if clock == "subject" else None,
+        committed_at=timestamp if clock == "committer" else None,
+    )
+    baseline = _snapshot()
+    head = _commit(repo, baseline)
+
+    candidate, audit = build_recovery_candidate(repo, head)
+
+    assert audit["accepted_commits"] == ([head, donor_sha] if eligible else [head])
+    assert audit["rejected_commits"] == (
+        [] if eligible else [{"commit": donor_sha, "reason": reason}]
+    )
+    assert len(audit["restored"]) == (2 if eligible else 0)
+    for asset in ("BTC", "ETH"):
+        expected = donor if eligible else baseline
+        assert candidate["assets"][asset] == expected["assets"][asset]
+    assert candidate["generated_at"] == baseline["generated_at"]
+    assert _git(repo, "rev-parse", "HEAD") == head
+    assert _git(repo, "status", "--porcelain") == ""
+
+
+@pytest.mark.parametrize("offset,eligible", [(-1, True), (0, True), (1, False)])
+def test_source_generated_at_cannot_exceed_baseline(repo, offset, eligible):
+    baseline = _snapshot("2026-08-12T23:00:00Z")
+    shifted = (datetime.fromisoformat(baseline["generated_at"]) + timedelta(seconds=offset))
+    donor = _snapshot(shifted.strftime("%Y-%m-%dT%H:%M:%SZ"), 6)
+    donor_sha = _commit(repo, donor)
+    head = _commit(repo, baseline)
+
+    candidate, audit = build_recovery_candidate(repo, head)
+
+    assert audit["accepted_commits"] == ([head, donor_sha] if eligible else [head])
+    assert audit["rejected_commits"] == (
+        [] if eligible else [{"commit": donor_sha, "reason": "source newer than baseline"}]
+    )
+    assert len(audit["restored"]) == (2 if eligible else 0)
+    for asset in ("BTC", "ETH"):
+        expected = donor if eligible else baseline
+        assert candidate["assets"][asset] == expected["assets"][asset]
+    assert candidate["generated_at"] == baseline["generated_at"]
+    assert _git(repo, "rev-parse", "HEAD") == head
+    assert _git(repo, "status", "--porcelain") == ""
 
 
 def test_conflicting_complete_observations_fail_closed(repo):
@@ -347,3 +415,176 @@ def test_cli_zero_restored_days_with_eligible_source_succeeds(repo, tmp_path):
     assert audit["accepted_commits"] == [head]
     assert audit["restored"] == []
     assert json.loads((output / "pivot_derivatives_history.candidate.json").read_text()) == baseline
+
+
+def _decimal_snapshot(value, count=6, generated_at="2026-09-10T23:00:00Z"):
+    day = datetime(2026, 8, 10, tzinfo=UTC)
+    timestamp = int(day.timestamp() * 1000)
+    points = [OpenInterestPoint(timestamp + i * 4 * 3_600_000, value, 10000000.0)
+              for i in range(count)]
+    oi = _aggregate_oi(points, day)["2026-08-10T00:00:00Z"]
+    snapshot = _snapshot(generated_at, count)
+    for block in snapshot["assets"].values():
+        block["history"][0]["open_interest"] = deepcopy(oi)
+    return snapshot
+
+
+@pytest.mark.parametrize("value,count", [
+    (3046968.324, 6), (51873.82660427714, 3), (51873.82660427714, 6),
+    (0.000001, 6), (1000000000000.1234, 6),
+])
+def test_producer_decimal_oi_passes_both_validators_without_rewrite(tmp_path, value, count):
+    snapshot = _decimal_snapshot(value, count)
+    path = tmp_path / "history.json"
+    raw = json.dumps(snapshot).encode()
+    path.write_bytes(raw)
+
+    loaded = load_derivatives_history_sidecar(path)
+    validate_snapshot(loaded)
+
+    assert loaded == snapshot
+    assert path.read_bytes() == raw
+
+
+@pytest.mark.parametrize("field", ["first", "last", "avg"])
+@pytest.mark.parametrize("direction", [-1, 1])
+@pytest.mark.parametrize("base,ulps,valid", [
+    (51873.8266042771, 21, True), (51873.8266042771, 22, False),
+    (3046968.324, 8, True), (3046968.324, 9, False),
+])
+def test_recovery_and_runtime_share_oi_rounding_boundary(
+    tmp_path, field, direction, base, ulps, valid,
+):
+    snapshot = _snapshot(count=6)
+    oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
+    oi.update(first=base, last=base, min=base, max=base, avg=base, growth_pct=0.0)
+    oi[field] = base + direction * ulps * math.ulp(base)
+    before = deepcopy(snapshot)
+    path = tmp_path / "history.json"
+    raw = json.dumps(snapshot).encode()
+    path.write_bytes(raw)
+
+    if valid:
+        assert load_derivatives_history_sidecar(path) == before
+        validate_snapshot(snapshot)
+    else:
+        with pytest.raises(SidecarValidationError, match="bounds"):
+            load_derivatives_history_sidecar(path)
+        with pytest.raises(RecoveryError, match="bounds"):
+            validate_snapshot(snapshot)
+    assert snapshot == before
+    assert path.read_bytes() == raw
+
+
+@pytest.mark.parametrize("kind", ["reversed_bounds", "zero_last", "zero_average"])
+def test_rounding_budget_does_not_admit_invalid_oi_ranges(tmp_path, kind):
+    snapshot = _snapshot(count=6)
+    oi = snapshot["assets"]["BTC"]["history"][0]["open_interest"]
+    oi.update(first=1e-11, last=1e-11, min=1e-11, max=1e-11, avg=1e-11, growth_pct=0.0)
+    if kind == "reversed_bounds":
+        oi["max"] = 0.5e-11
+    elif kind == "zero_last":
+        oi.update(last=0.0, growth_pct=-1.0)
+    else:
+        oi["avg"] = 0.0
+    path = tmp_path / "history.json"
+    path.write_text(json.dumps(snapshot))
+
+    with pytest.raises(SidecarValidationError, match="bounds"):
+        load_derivatives_history_sidecar(path)
+    with pytest.raises(RecoveryError, match="inconsistent OI bounds"):
+        validate_snapshot(snapshot)
+
+
+@pytest.mark.parametrize("kind,reason", [
+    ("growth", "inconsistent OI growth"),
+    ("funding_sum", "inconsistent funding average"),
+    ("average", "infeasible OI average"),
+    ("count", "infeasible OI sample count"),
+    ("endpoints", "infeasible OI endpoints"),
+])
+def test_recovery_keeps_stricter_arithmetic_and_feasibility(tmp_path, kind, reason):
+    count = 2 if kind == "count" else 1 if kind == "endpoints" else 6
+    snapshot = _snapshot(count=count)
+    row = snapshot["assets"]["BTC"]["history"][0]
+    if kind == "growth":
+        row["open_interest"]["growth_pct"] = 0.99
+    elif kind == "funding_sum":
+        row["funding"]["sum"] = 0.0009
+    elif kind == "average":
+        row["open_interest"]["avg"] = 100.0
+    elif kind == "count":
+        row["open_interest"].update(first=101.0, last=109.0)
+    path = tmp_path / "history.json"
+    raw = json.dumps(snapshot).encode()
+    path.write_bytes(raw)
+
+    assert load_derivatives_history_sidecar(path) == snapshot
+    with pytest.raises(RecoveryError, match=reason):
+        validate_snapshot(snapshot)
+    assert path.read_bytes() == raw
+
+
+@pytest.mark.parametrize("location", ["baseline", "donor"])
+def test_rounded_oi_baseline_and_donor_remain_eligible(repo, tmp_path, location):
+    donor = _decimal_snapshot(3046968.324, generated_at="2026-08-12T23:00:00Z")
+    donor_sha = _commit(repo, donor)
+    baseline = _decimal_snapshot(3046968.324) if location == "baseline" else _snapshot()
+    head = _commit(repo, baseline)
+    source_path = repo / "data/pivot_derivatives_history.live.json"
+    baseline_bytes = source_path.read_bytes()
+    status_before = _git(repo, "status", "--porcelain")
+    output = tmp_path / "synthetic-recovery"
+
+    assert main(["--repo", str(repo), "--source-ref", head, "--output-dir", str(output)]) == 0
+
+    candidate_path = output / "pivot_derivatives_history.candidate.json"
+    candidate = load_derivatives_history_sidecar(candidate_path)
+    assert load_derivatives_history_sidecar(source_path) == baseline
+    validate_snapshot(baseline)
+    validate_snapshot(candidate)
+    audit = json.loads((output / "recovery-audit.json").read_text())
+    assert audit["accepted_commits"] == [head, donor_sha]
+    assert audit["rejected_commits"] == []
+    assert len(audit["restored"]) == (2 if location == "donor" else 0)
+    for asset in ("BTC", "ETH"):
+        expected = deepcopy(baseline["assets"][asset]["history"][0])
+        if location == "donor":
+            expected["open_interest"] = donor["assets"][asset]["history"][0]["open_interest"]
+            expected["completeness"] = {"open_interest": 1.0, "funding": 1.0, "overall": 1.0}
+        assert candidate["assets"][asset]["history"] == [expected]
+    assert candidate["generated_at"] == baseline["generated_at"]
+    assert audit["baseline_sha256"] == hashlib.sha256(baseline_bytes).hexdigest()
+    assert audit["candidate_sha256"] == hashlib.sha256(candidate_path.read_bytes()).hexdigest()
+    assert _git(repo, "rev-parse", "HEAD") == head
+    assert _git(repo, "status", "--porcelain") == status_before
+    assert source_path.read_bytes() == baseline_bytes
+
+
+@pytest.mark.parametrize("kind,reason", [
+    ("bounds", "inconsistent OI bounds"),
+    ("reversed_bounds", "inconsistent OI bounds"),
+    ("growth", "inconsistent OI growth"),
+    ("funding", "inconsistent funding average"),
+])
+def test_invalid_decimal_donors_keep_explicit_audit_rejection(repo, kind, reason):
+    donor = _decimal_snapshot(3046968.324, generated_at="2026-08-12T23:00:00Z")
+    row = donor["assets"]["BTC"]["history"][0]
+    if kind == "bounds":
+        row["open_interest"]["avg"] = 3046968.324 + 9 * math.ulp(3046968.324)
+    elif kind == "reversed_bounds":
+        row["open_interest"]["max"] = row["open_interest"]["min"] / 2
+    elif kind == "growth":
+        row["open_interest"]["growth_pct"] = 0.99
+    else:
+        row["funding"]["sum"] = 0.0009
+    donor_sha = _commit(repo, donor)
+    baseline = _snapshot()
+    head = _commit(repo, baseline)
+
+    candidate, audit = build_recovery_candidate(repo, head)
+
+    assert candidate == baseline
+    assert audit["accepted_commits"] == [head]
+    assert audit["rejected_commits"] == [{"commit": donor_sha, "reason": reason}]
+    assert audit["restored"] == []

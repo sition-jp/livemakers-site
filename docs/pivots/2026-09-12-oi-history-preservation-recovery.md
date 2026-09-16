@@ -80,11 +80,78 @@ May 20-August 11 recovery interval.
   created. Zero restored days with eligible sources is still a valid no-op
   candidate; source eligibility and recovered coverage are different measures.
 
-Runtime malformed-row handling, excessive sample counts, and the loader's
-invalid-file reset behavior (review #1/#2/#9) remain a separate pre-maintenance
-hardening gate. Do not coerce damaged retained counts to zero and overwrite the
-history. Review preservation and explicit degradation before installing recovery
-data in the runner. This PR does not change those runtime paths.
+### Runtime hardening follow-up (#1, #2, #9)
+
+The follow-up validates existing sidecars before merge/retention and validates
+generated sidecars before returning them. Only a genuinely missing file returns
+`None` for bootstrap. Invalid JSON/encoding, read errors, unsupported schema or
+asset sets, malformed rows, invalid counts and inconsistent completeness raise
+`SidecarValidationError`. The producer keeps the old sidecar byte-for-byte while
+the independently composed public pair can succeed **locally**. Its existing
+degraded marker includes a safe, single-line reason; dry-run follows the same
+gate and live results determine daily health. Local generation is not production
+publication: with auto-publish enabled, an invalid retained sidecar causes
+`AutoPublishFailed`. The sidecar is not omitted to bypass the publisher's gate.
+A dangling symlink is rejected rather than treated as absent, and sidecar-copy
+I/O failures become controlled pre-merge errors before any external publication.
+If the sidecar is genuinely absent, public-pair-only publication remains allowed
+and leaves the main sidecar unchanged, including a `SidecarOrphanBak` stop with
+no sidecar file. Never delete bad history to enter this optional-input path.
+
+Counts must be integers in 0..6 (OI) or 0..3 (funding), excluding booleans.
+Fetched closed-day samples are deduplicated by timestamp only when the complete
+observation is identical. Conflicting same-time observations or too many unique
+observations are rejected, not truncated. Saved aggregates cannot be deduplicated
+because raw timestamps are no longer present: invalid saved counts require
+operator inspection and cannot be coerced to zero or silently replaced.
+
+The approved policy remains whole-sidecar rejection, not day/family quarantine.
+One old ETH funding anomaly can stop new OI persistence for both assets, across
+the funding endpoint's entire window (up to 1000 samples). Waiting for that
+sample to age out is unsafe for the OI endpoint's rolling 30-day lookback.
+Live `SidecarValidationError` or `SidecarOrphanBak` therefore becomes
+`FAILED / SidecarHistoryBlocked`, using existing macOS and configured Telegram
+failure notifications even without `--notify-ok`. An earlier retention, commit
+or publication failure retains its error type and includes the history-block
+reason. Notification delivery remains best-effort; inspect the JSONL record.
+When publication succeeds but history is blocked, the alert's preservation flag
+is false for `published` or an unrecognized outcome, and true only for a structured
+`already_current` result. It does not claim restored history or sidecar deletion.
+Investigate the same day and before the next scheduled run where possible;
+30 days is a loss boundary, not a repair grace period. Exit 0 alone is not health.
+
+This intentionally stops sidecar updates until damaged history is repaired or
+migrated; it does not automatically heal existing corruption. Schema/asset or
+funding-interval changes also require review rather than rebuilding the old
+history from the short fetch window. These code changes do not install anything
+in the runner, recover live data, or open publication/AT gates. Recovery-only
+provenance and feasibility validation remains independently enforced.
+
+### Numeric compatibility and recovery hold (review follow-up #4)
+
+The runtime loader now performs numeric checks, not only shape checks, but it
+is not interchangeable with recovery validation. Recovery now reuses runtime's
+`_within_bounds` for OI first/last/average: absolute tolerance is
+`1e-10 + 8 * ulp(bound)`, with no relative tolerance. Positive values and ordered
+min/max remain mandatory. Values are never clamped or rewritten. This fixes
+valid producer averages being rejected at baseline validation or excluded as
+donors solely because of decimal rounding and floating-point accumulation.
+
+Recovery intentionally retains its separate growth, funding arithmetic,
+sample-count/endpoints/extrema feasibility and source/provenance rules. A row
+accepted by runtime can still be correctly rejected by recovery for these
+reasons; numeric compatibility does not mean identical acceptance policies.
+Synthetic regression tests cover producer decimal outputs, both sides of the
+shared rounding boundary, strict rejection cases, and CLI baseline/donor paths
+with candidate and baseline checked through both validators. Invalid donors
+continue to carry explicit rejection reasons in the audit.
+
+**The operational hold remains until this compatibility change is reviewed and
+the exact recovery step is separately approved.** No production candidate was
+regenerated or applied for this code change. After those gates, pin a fresh
+baseline, validate baseline and candidate through both validators, and inspect
+donor rejection reasons in the audit. The original pinned rehearsal below is a
+historical record, not authorization or proof for a new runtime baseline.
 
 The earliest donor `97c875fa3ab5cd8996c56f3c01bc19c9fff906c8` introduced
 the sidecar. Its three generation timestamps agree at `2026-06-18T23:00:16Z`

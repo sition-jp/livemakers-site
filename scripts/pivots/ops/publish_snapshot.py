@@ -19,7 +19,7 @@ from typing import Literal, Mapping, Sequence
 from urllib import error as urllib_error
 from urllib import request as urllib_request
 
-from producer.derivatives_sidecar import load_derivatives_history_sidecar
+from producer.derivatives_sidecar import SidecarValidationError, load_derivatives_history_sidecar
 
 
 DEFAULT_PUBLISHER_REPO = Path.home() / ".sition_runners" / "livemakers-pivots-publisher"
@@ -1059,12 +1059,18 @@ def _freeze_source_snapshot(
 ) -> SourceSnapshot:
     frozen_assets = frozen_root / ASSETS_RELATIVE_PATH.name
     frozen_backtest = frozen_root / BACKTEST_RELATIVE_PATH.name
-    shutil.copyfile(assets_path, frozen_assets)
-    shutil.copyfile(backtest_path, frozen_backtest)
+    try:
+        shutil.copyfile(assets_path, frozen_assets)
+        shutil.copyfile(backtest_path, frozen_backtest)
+    except OSError as exc:
+        raise PublishError("public snapshot inputs unavailable during snapshot freeze") from exc
     frozen_sidecar: Path | None = None
     if sidecar_path is not None:
         frozen_sidecar = frozen_root / SIDECAR_RELATIVE_PATH.name
-        shutil.copyfile(sidecar_path, frozen_sidecar)
+        try:
+            shutil.copyfile(sidecar_path, frozen_sidecar)
+        except OSError as exc:
+            raise PublishError("derivatives sidecar unavailable during snapshot freeze") from exc
     return _load_source_snapshot(
         frozen_assets,
         frozen_backtest,
@@ -1300,7 +1306,7 @@ def main() -> int:
 
     sidecar_path = (
         args.derivatives_history_path
-        if args.derivatives_history_path.exists()
+        if args.derivatives_history_path.exists() or args.derivatives_history_path.is_symlink()
         else None
     )
     config = PublishConfig(
@@ -1375,7 +1381,11 @@ def _load_source_snapshot(
         raise PublishError("public snapshot generated_at mismatch")
 
     if sidecar_path is not None:
-        if load_derivatives_history_sidecar(sidecar_path) is None:
+        try:
+            sidecar = load_derivatives_history_sidecar(sidecar_path)
+        except SidecarValidationError as exc:
+            raise PublishError(f"derivatives sidecar validation failed: {exc}") from exc
+        if sidecar is None:
             raise PublishError("derivatives sidecar validation failed")
 
     return SourceSnapshot(
