@@ -667,6 +667,7 @@ def test_auto_publish_runs_after_successful_local_commit(tmp_path, monkeypatch):
     assert "--assets-path" in publisher_args[0]
     assert str(paths["assets_path"]) in publisher_args[0]
     assert captured["p"]["status"] == "OK"
+    assert captured["p"]["previous_snapshot_preserved"] is True
     assert "production publish" in captured["p"]["details"]
     assert "2026-08-22T23:00:13Z" in captured["p"]["details"]
 

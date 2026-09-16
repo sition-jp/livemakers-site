@@ -1536,3 +1536,53 @@ def test_publisher_cli_preserves_optional_and_readable_sidecar_behavior(
         assert backup.read_bytes() == b"operator-owned backup"
     if sidecar_kind == "valid-symlink":
         assert sidecar.is_symlink()
+
+
+@pytest.mark.parametrize("input_name", ["assets", "backtest"])
+@pytest.mark.parametrize("damage", ["dangling", "unreadable"])
+def test_publisher_cli_marks_public_pair_copy_failure_pre_merge(
+    tmp_path: Path, monkeypatch, capsys, input_name: str, damage: str,
+) -> None:
+    from ops import publish_snapshot as publisher_module, run_daily
+
+    assets, backtest = _write_public_pair(tmp_path)
+    target = assets if input_name == "assets" else backtest
+    before = {path: path.read_bytes() for path in (assets, backtest)}
+    missing = tmp_path / "absent-target.json"
+    if damage == "dangling":
+        target.unlink()
+        target.symlink_to(missing)
+
+    real_copy = shutil.copyfile
+
+    def copy_with_read_failure(src, dst, **kwargs):
+        if Path(src) == target and damage == "unreadable":
+            raise PermissionError("fixture public input is unreadable")
+        return real_copy(src, dst, **kwargs)
+
+    def forbid_publication(*_args, **_kwargs):
+        pytest.fail("public input failure reached publication/credential boundary")
+
+    monkeypatch.setattr(shutil, "copyfile", copy_with_read_failure)
+    monkeypatch.setattr(publisher_module, "_publish_frozen_snapshot", forbid_publication)
+    monkeypatch.setattr(sys, "argv", [
+        "publish_snapshot", "--assets-path", str(assets),
+        "--backtest-path", str(backtest),
+        "--derivatives-history-path", str(tmp_path / "absent-sidecar.json"),
+    ])
+
+    assert publisher_module.main() == 1
+    captured = capsys.readouterr()
+    assert "FAILED phase=pre_merge" in captured.err
+    assert "public snapshot" in captured.err
+    assert "Traceback" not in captured.err
+    assert captured.out == ""
+    assert not run_daily._publisher_may_have_changed_production(
+        run_daily.PublisherInvocation(1, captured.err)
+    )
+    for path, raw in before.items():
+        if damage == "dangling" and path == target:
+            assert path.is_symlink()
+            assert not missing.exists()
+        else:
+            assert path.read_bytes() == raw

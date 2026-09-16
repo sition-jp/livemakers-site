@@ -1059,8 +1059,11 @@ def _freeze_source_snapshot(
 ) -> SourceSnapshot:
     frozen_assets = frozen_root / ASSETS_RELATIVE_PATH.name
     frozen_backtest = frozen_root / BACKTEST_RELATIVE_PATH.name
-    shutil.copyfile(assets_path, frozen_assets)
-    shutil.copyfile(backtest_path, frozen_backtest)
+    try:
+        shutil.copyfile(assets_path, frozen_assets)
+        shutil.copyfile(backtest_path, frozen_backtest)
+    except OSError as exc:
+        raise PublishError("public snapshot inputs unavailable during snapshot freeze") from exc
     frozen_sidecar: Path | None = None
     if sidecar_path is not None:
         frozen_sidecar = frozen_root / SIDECAR_RELATIVE_PATH.name
