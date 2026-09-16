@@ -107,11 +107,11 @@ def validate_snapshot(snapshot: dict) -> None:
                 oi_n = _aggregate(oi, OI_KEYS, 6)
                 funding_n = _aggregate(funding, FUNDING_KEYS, 3)
                 if oi_n:
-                    _require(0 < oi["min"] <= oi["max"]
-                             and oi["last_usd"] > 0 and oi["avg_usd"] > 0,
+                    _require(oi["min"] > 0 and oi["last_usd"] > 0 and oi["avg_usd"] > 0,
                              "non-positive OI")
-                    _require(all(oi[k] > 0 and _within_bounds(oi[k], oi["min"], oi["max"])
-                                 for k in ("first", "last", "avg")), "inconsistent OI bounds")
+                    _require(oi["min"] <= oi["max"]
+                             and all(oi[k] > 0 and _within_bounds(oi[k], oi["min"], oi["max"])
+                                     for k in ("first", "last", "avg")), "inconsistent OI bounds")
                     # First/last and extrema must fit in n actual observations.
                     known = [oi["first"]] if oi_n == 1 else [oi["first"], oi["last"]]
                     if oi_n == 1:
