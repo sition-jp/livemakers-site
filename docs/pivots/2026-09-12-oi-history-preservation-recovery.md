@@ -92,6 +92,11 @@ degraded marker includes a safe, single-line reason; dry-run follows the same
 gate and live results determine daily health. Local generation is not production
 publication: with auto-publish enabled, an invalid retained sidecar causes
 `AutoPublishFailed`. The sidecar is not omitted to bypass the publisher's gate.
+A dangling symlink is rejected rather than treated as absent, and sidecar-copy
+I/O failures become controlled pre-merge errors before any external publication.
+If the sidecar is genuinely absent, public-pair-only publication remains allowed
+and leaves the main sidecar unchanged, including a `SidecarOrphanBak` stop with
+no sidecar file. Never delete bad history to enter this optional-input path.
 
 Counts must be integers in 0..6 (OI) or 0..3 (funding), excluding booleans.
 Fetched closed-day samples are deduplicated by timestamp only when the complete
@@ -109,6 +114,9 @@ Live `SidecarValidationError` or `SidecarOrphanBak` therefore becomes
 failure notifications even without `--notify-ok`. An earlier retention, commit
 or publication failure retains its error type and includes the history-block
 reason. Notification delivery remains best-effort; inspect the JSONL record.
+When publication succeeds but history is blocked, the alert's preservation flag
+is false for `published` or an unrecognized outcome, and true only for a structured
+`already_current` result. It does not claim restored history or sidecar deletion.
 Investigate the same day and before the next scheduled run where possible;
 30 days is a loss boundary, not a repair grace period. Exit 0 alone is not health.
 

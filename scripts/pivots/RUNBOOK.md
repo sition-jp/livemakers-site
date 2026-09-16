@@ -368,6 +368,15 @@ or rewrite saved values.
 When `--auto-publish` is enabled, the daily wrapper forwards the retained sidecar
 to the publisher. An invalid retained file deliberately stops production
 publication with `AutoPublishFailed`; it is not omitted to bypass validation.
+A dangling sidecar symlink is also retained as an input and rejected before
+publication. A sidecar that disappears or becomes unreadable during the frozen
+source copy fails with a controlled `PublishError` / `phase=pre_merge`, before
+credentials, GitHub or production are accessed.
+Genuine absence is different: the publisher may publish only the public pair
+while leaving the existing main sidecar unchanged. This remains possible when
+the daily wrapper reports `SidecarOrphanBak` and the sidecar file itself is absent;
+the history-block alert is not a blanket prohibition on public-pair publication.
+Do not remove damaged history to force this optional-input path.
 If only fetched observations are invalid but the retained file remains valid,
 publication may still succeed. Always distinguish local public-pair generation,
 sidecar health, and the publisher's production result.
@@ -401,6 +410,13 @@ or publication fails first, its error type takes precedence and the same history
 block reason is retained in details. There is one final alert, not a later OK
 that hides the failure. The wrapper retains its existing exit-code policy:
 these post-producer failures return 0; inspect the JSONL status, not just exit 0.
+
+For a history-block failure after a successful publisher invocation,
+`previous_snapshot_preserved` is false if the outcome is `published` or cannot be
+recognized. Only a structured `already_current` outcome preserves true; exit 0
+alone does not prove that production was unchanged. This flag does not mean the
+blocked sidecar was deleted or that its missing history has been recovered.
+The existing pre-merge/post-merge failure distinction remains unchanged.
 
 Notifications are best-effort: missing Telegram credentials or delivery failures
 do not change the durable JSONL record. Verify the notification route separately

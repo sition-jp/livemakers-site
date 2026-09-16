@@ -13,6 +13,7 @@ Operator runs this manually or via LaunchAgent / cron.
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import subprocess
 import sys
@@ -120,6 +121,12 @@ def _publisher_failure_details(result: PublisherInvocation) -> str:
 
 
 def _publisher_may_have_changed_production(result: PublisherInvocation) -> bool:
+    if result.returncode == 0:
+        try:
+            outcome = json.loads(result.output)
+        except (ValueError, RecursionError):
+            return True
+        return not (isinstance(outcome, dict) and outcome.get("state") == "already_current")
     return "phase=pre_merge" not in result.output
 
 
@@ -391,6 +398,7 @@ def _run_inside_lock(
 
     # Step 3.6: guarded production publication
     publication_detail = ""
+    production_may_have_changed = False
     if auto_publish:
         publish_args = [
             "--assets-path",
@@ -419,6 +427,7 @@ def _run_inside_lock(
                 notify_ok=notify_ok,
             )
             return 0
+        production_may_have_changed = _publisher_may_have_changed_production(publish_result)
         publication_detail = _truncated_output(publish_result.output, limit=1000)
 
     # Step 4: local public-pair success does not imply healthy history updates.
@@ -439,7 +448,7 @@ def _run_inside_lock(
         error_type="SidecarHistoryBlocked" if sidecar_blocked else "",
         command=cmd_live,
         target_paths=targets,
-        previous_snapshot_preserved=True,
+        previous_snapshot_preserved=not (sidecar_blocked and production_may_have_changed),
         orphan_bak_present=sidecar_orphan,
         details=success_details,
         notify_ok=notify_ok,

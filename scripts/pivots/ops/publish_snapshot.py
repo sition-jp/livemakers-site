@@ -1064,7 +1064,10 @@ def _freeze_source_snapshot(
     frozen_sidecar: Path | None = None
     if sidecar_path is not None:
         frozen_sidecar = frozen_root / SIDECAR_RELATIVE_PATH.name
-        shutil.copyfile(sidecar_path, frozen_sidecar)
+        try:
+            shutil.copyfile(sidecar_path, frozen_sidecar)
+        except OSError as exc:
+            raise PublishError("derivatives sidecar unavailable during snapshot freeze") from exc
     return _load_source_snapshot(
         frozen_assets,
         frozen_backtest,
@@ -1300,7 +1303,7 @@ def main() -> int:
 
     sidecar_path = (
         args.derivatives_history_path
-        if args.derivatives_history_path.exists()
+        if args.derivatives_history_path.exists() or args.derivatives_history_path.is_symlink()
         else None
     )
     config = PublishConfig(

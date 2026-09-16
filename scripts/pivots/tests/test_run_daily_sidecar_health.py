@@ -56,14 +56,16 @@ def _producer(monkeypatch, *, dry=(), live=()):
     "SidecarOrphanBak: sidecar.json.bak",
 ])
 @pytest.mark.parametrize("notify_ok", [False, True])
-@pytest.mark.parametrize("publication", ["disabled", "success", "invalid-sidecar", "post-merge-failure"])
+@pytest.mark.parametrize("publication", [
+    "disabled", "success", "already_current", "invalid-sidecar", "post-merge-failure",
+])
 def test_persistent_failure_notifies_without_ok_and_preserves_sidecar(
     pipeline, monkeypatch, warning, notify_ok, publication,
 ):
     paths, events = pipeline
     _producer(monkeypatch, live=[warning])
     sidecar = paths["derivatives_history_path"]
-    if publication == "success":
+    if publication in ("success", "already_current"):
         sidecar.write_text(json.dumps({
             "schema_version": "pivots_derivatives_history.v0.1",
             "provider": "binance_usdm",
@@ -86,7 +88,11 @@ def test_persistent_failure_notifies_without_ok_and_preserves_sidecar(
         if publication == "post-merge-failure":
             return rd.PublisherInvocation(1, "phase=post_merge production smoke failed")
         _load_source_snapshot(paths["assets_path"], paths["backtest_path"], sidecar)
-        return rd.PublisherInvocation(0, "published: fixture success")
+        return rd.PublisherInvocation(0, json.dumps({
+            "state": "published" if publication == "success" else "already_current",
+            "generated_at": "2026-09-15T23:00:00Z",
+            "pr_url": None, "merge_sha": None,
+        }))
 
     monkeypatch.setattr(rd, "_invoke_publisher", publisher)
     rc = rd.run_daily(**paths, auto_commit=publication != "disabled",
@@ -102,12 +108,14 @@ def test_persistent_failure_notifies_without_ok_and_preserves_sidecar(
     )
     assert warning in payload["details"]
     assert payload["orphan_bak_present"] is warning.startswith("SidecarOrphanBak:")
-    assert payload["previous_snapshot_preserved"] is (publication != "post-merge-failure")
-    if publication in ("disabled", "success"):
+    assert payload["previous_snapshot_preserved"] is (
+        publication in ("disabled", "already_current", "invalid-sidecar")
+    )
+    if publication in ("disabled", "success", "already_current"):
         assert "public pair" in payload["details"]
         assert "operator action required" in payload["details"]
     if publication == "success":
-        assert "production publish: published: fixture success" in payload["details"]
+        assert '"state": "published"' in payload["details"]
     assert len(events["publisher"]) == (publication != "disabled")
     assert len(events["macos"]) == len(events["telegram"]) == 1
     assert "test-token" not in paths["log_file"].read_text()
@@ -117,6 +125,27 @@ def test_persistent_failure_notifies_without_ok_and_preserves_sidecar(
         assert bak.read_bytes() == b"preserved backup"
     assert events["archives"] == [paths["assets_path"], paths["backtest_path"]]
     assert events["prunes"] == ["pivot_assets.live", "pivot_backtest.live"]
+
+
+@pytest.mark.parametrize("output", [
+    "", "published: fixture success", "phase=pre_merge",
+    '{"state": "already_current"', '[]', 'null', '{"state": "unknown"}',
+    '{"state": "already_current"}\nunstructured warning',
+])
+def test_blocked_history_does_not_claim_preservation_for_unknown_publish_success(
+    pipeline, monkeypatch, output,
+):
+    paths, events = pipeline
+    _producer(monkeypatch, live=["SidecarOrphanBak: pending backup"])
+    monkeypatch.setattr(rd, "_invoke_publisher", lambda _: rd.PublisherInvocation(0, output))
+
+    assert rd.run_daily(**paths, auto_commit=True, auto_publish=True, notify_ok=False) == 0
+    payload = json.loads(paths["log_file"].read_text())
+    assert payload["status"] == "FAILED"
+    assert payload["error_type"] == "SidecarHistoryBlocked"
+    assert payload["previous_snapshot_preserved"] is False
+    assert "production publish:" in payload["details"]
+    assert len(events["macos"]) == len(events["telegram"]) == 1
 
 
 @pytest.mark.parametrize("live_warning", [
