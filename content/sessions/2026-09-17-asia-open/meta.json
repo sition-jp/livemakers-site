@@ -1,0 +1,96 @@
+{
+  "sessionId": "2026-09-17-asia-open",
+  "date": "2026-09-17",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-17-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-17-asia-open",
+  "publishedAt": "2026-09-18T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260917_0730_a743f987",
+  "asOfJst": "2026-09-17T07:30:18+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月17日 07:30 JST",
+  "bullets": [
+    "日経平均先物 63,465 → 64,410（+1.49%）",
+    "変動幅上位: WTI -3.7% / VIX +3.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260917_0610_36f59716",
+    "crawlAnchorJst": "2026-09-17T05:03:00+09:00",
+    "writtenAtJst": "2026-09-17T06:10:00+09:00",
+    "lead": "FRB が3年ぶりに政策金利を上げ、クラリティ法が上院で止まった翌日の市場に金利の重しが加わった。株は会見中に下げて引けた一方、サークルの Arc が本番で動き始め、金融の本体が暗号資産の仕組みを取り込む流れは続いている。Cardano では Gero Wallet が Midnight とガバナンスと DEX を一つの画面にまとめた。暮らしの側では、AI が遺伝子と新薬の研究の相棒になり、家の中の機器を動かす入口にもなり始めた。",
+    "items": [
+      {
+        "headline": "FRB が政策金利の誘導目標を0.25ポイント上げて3.75〜4%とし、2023年7月以来の利上げになった",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/16/fed-raises-rates-by-25-basis-points-in-first-hike-since-july-2023"
+      },
+      {
+        "headline": "FRB が FOMC の声明を公表した",
+        "sourceUrl": "https://x.com/federalreserve/status/2100283838094086213"
+      },
+      {
+        "headline": "FRB が理事と地区連銀総裁の経済見通しを公表した",
+        "sourceUrl": "https://x.com/federalreserve/status/2100283970134954162"
+      },
+      {
+        "headline": "米国株が FRB の利上げの後に下げて取引を終えた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dow-jones-sp-500-nasdaq-us-boersen-schliessen-nach-fed-zinserhoehung-im-minus/100255058.html"
+      },
+      {
+        "headline": "ホワイトハウスの報道担当が、今回の利上げは「かなり残念だ」と述べたと伝えられた",
+        "sourceUrl": "https://x.com/CryptosR_Us/status/2100313461506904391"
+      },
+      {
+        "headline": "サークルが、ブラックロック、DTCC、Visa などを検証者に迎えて Arc のメインネットを始動した",
+        "sourceUrl": "https://decrypt.co/378374/circle-launches-arc-mainnet-with-blackrock-dtcc-and-visa-as-validators"
+      },
+      {
+        "headline": "ビットコインの ETF が、クラリティ法の採決の失敗を受けて6月以来で最も悪い1日になった",
+        "sourceUrl": "https://decrypt.co/378382/bitcoin-etfs-clarity-act-vote"
+      },
+      {
+        "headline": "下院歳入委員会が、クラリティ法の否決の後で暗号資産の税制案を前に進めた",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/16/u-s-house-s-tax-committee-advances-crypto-tax-bill-in-wake-of-clarity-act-loss"
+      },
+      {
+        "headline": "ルミス議員が、下院で暗号資産の税制と戦略ビットコイン準備の審議が進むことを歓迎した",
+        "sourceUrl": "https://x.com/SenLummis/status/2100230404464582753"
+      },
+      {
+        "headline": "Revolut を攻撃した者が、顧客データを売ると脅して300万ドル相当の Monero を要求していると報じられた",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/16/revolut-hackers-demand-usd3-million-in-monero-threaten-to-sell-customer-data"
+      },
+      {
+        "headline": "アバランチで、許可なしで取引できる米国株のトークンを扱う計画が示された",
+        "sourceUrl": "https://x.com/avax/status/2100265352710037622"
+      },
+      {
+        "headline": "Gero Wallet が v2.7.1 を公開し、Midnight の秘匿残高の表示やガバナンスの画面を加えた",
+        "sourceUrl": "https://x.com/GeroWallet/status/2100263746849435856"
+      },
+      {
+        "headline": "Gero Wallet で、DRep や提案、投票の理由、自分の委任の履歴を追えるようになった",
+        "sourceUrl": "https://x.com/GeroWallet/status/2100263757318340813"
+      },
+      {
+        "headline": "グーグルが、どの AI エージェントからでもスマートホームの機器を動かせるようにすると伝えられた",
+        "sourceUrl": "https://www.theverge.com/tech/996310/google-home-mcp-integration-agentic-ai-smart-home-price-release-date"
+      },
+      {
+        "headline": "NATO の事務総長が、一世代で最も危険で複雑な安全保障の環境にあると警告した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/16/nato-leader-warns-of-most-dangerous-and-complex-security-environment-in-a-generation"
+      }
+    ],
+    "watch": [
+      "今日から始まる日銀会合で、米国の利上げの直後に日本の金利がどう動くか",
+      "米10年債の5%と、ビットコイン ETF からの資金の流出が続くか",
+      "VyFi の Safe Swaps の不正流出について、影響の範囲と原因の報告が出るか"
+    ]
+  }
+}
