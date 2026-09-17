@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-09-09-asia-open",
+  "date": "2026-09-09",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-09-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-09-asia-open",
+  "publishedAt": "2026-09-10T02:30:14+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260909_0503_27870bbe",
+  "asOfJst": "2026-09-09T05:03:10+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月9日 05:03 JST",
+  "bullets": [
+    "日経平均先物 65,820 → 65,145（-1.03%）",
+    "変動幅上位: WTI +2.4% / NIGHT/USD -1.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260909_0737_708b9748",
+    "crawlAnchorJst": "2026-09-09T05:03:00+09:00",
+    "writtenAtJst": "2026-09-09T07:37:07+09:00",
+    "lead": "任せられる相手の幅が、同じ24時間で上下の両端から広がった。片方はエージェントの集団が数学の未解決問題の解を出し、もう片方は月額の決まった個人エージェントが買い物と予約を引き受けにきた。同じ日、米国では制度の側が二つ動いている。デジタル資産の市場構造法は来週の採決で落ちる見込みだと与党側が語り、制裁は航空と個人向けの許可の両方へ広がった。",
+    "items": [
+      {
+        "headline": "OpenAIがナビエ・ストークスのミレニアム懸賞問題の解を公開した",
+        "sourceUrl": "https://x.com/OpenAI/status/2097374640582668336",
+        "note": "エージェントの集団が、まだ公開されていない次世代モデルを使って導いたとしている。証明支援系での形式検証を経たと説明されている。"
+      },
+      {
+        "headline": "Metaが個人向けエージェントMuseを公開した",
+        "sourceUrl": "https://x.com/AIatMeta/status/2097401493770956808",
+        "note": "買い物・チケット・予約・書類の記入を代行するとしている。専用の仮想環境で動き、操作中の画面は利用者から見える。"
+      },
+      {
+        "headline": "上院共和党が、クラリティ法は来週の採決で通らない見込みだと語った",
+        "sourceUrl": "https://x.com/AshCrypto/status/2097359290998604268",
+        "note": "議事進行動議は9月15日で変わっていない。必要な票は60、共和党は53議席にとどまる。"
+      },
+      {
+        "headline": "ラミス議員が、クラリティ法は銀行委員会で15対9の超党派で可決されたと投稿した",
+        "sourceUrl": "https://x.com/SenLummis/status/2097398564611645683"
+      },
+      {
+        "headline": "米財務省が、イランの航空分野を中心に36の対象を指定した",
+        "sourceUrl": "https://x.com/USTreasury/status/2097352094717993426",
+        "note": "うち27はイランの航空会社とされる。同じ日に、教育・送金・学術交流に関わる一般ライセンスが停止された。"
+      },
+      {
+        "headline": "イランがホルムズ海峡で米国の無人機を拿捕したと主張した",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/sep/08/iran-underwater-drone-strait-of-hormuz",
+        "note": "米側は機体が故障したものだと説明している。双方の説明が並んだ段階にある。"
+      },
+      {
+        "headline": "サークルが、独自チェーンArcのメインネットを9月16日に稼働させると告知した",
+        "sourceUrl": "https://x.com/circle/status/2097366721929896081"
+      },
+      {
+        "headline": "米連邦準備制度が7月の消費者信用を公表した",
+        "sourceUrl": "https://x.com/federalreserve/status/2097399749385289954",
+        "note": "年率換算で4.2%増。伸びが大きいのは自動車や学生の借入にあたる非リボルビングのほうで、カード残高の伸びは鈍い。"
+      },
+      {
+        "headline": "Cardanoが、台帳の規則は機械が検査し主要な性質を形式的に検証していると説明した",
+        "sourceUrl": "https://x.com/Cardano/status/2097360590037500385",
+        "note": "取引の前後で価値が勝手に増減しないことも、その検証の対象に含まれるとしている。"
+      },
+      {
+        "headline": "IOGが、AIエージェントの執行前にリスク上限を強制する構想を示した",
+        "sourceUrl": "https://x.com/IOGroup/status/2097310330535702639",
+        "note": "戦略そのものを見せずに、条件を守ったことだけを証明する設計だと説明している。"
+      },
+      {
+        "headline": "Liqwidが、利用者の操作を既存の注文の流れと並べて原子的に実行できるようにしたと公開した",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2097373710210539797"
+      },
+      {
+        "headline": "World Labsが、空間を扱う世界モデルAtlasの早期アクセスの登録案内を出した",
+        "sourceUrl": "https://x.com/theworldlabs/status/2097386580503842895"
+      }
+    ],
+    "watch": [
+      "9月15日の議事進行動議に向けて、倫理条項の文言が動くかどうか。日程は固定されている。",
+      "停止された一般ライセンスが、大学や個人送金の実務にどこから効いてくるか。",
+      "実行の前に条件を検査する設計が、構想の紹介から仕様や監査の言葉へ移るかどうか。"
+    ]
+  }
+}
