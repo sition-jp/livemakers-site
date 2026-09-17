@@ -1,6 +1,6 @@
 {
   "schema_version": "pivots_derivatives_history.v0.1",
-  "generated_at": "2026-09-17T00:51:01Z",
+  "generated_at": "2026-09-17T23:00:14Z",
   "provider": "binance_usdm",
   "assets": {
     "BTC": {
