@@ -147,7 +147,6 @@ if [ "$PREVIOUS_LOADED" -eq 1 ]; then
   echo "service currently loaded; booting out before reinstall"
   if ! launchctl bootout "$DOMAIN/$LABEL"; then
     echo "ERROR: launchctl bootout failed — investigate before reinstall" >&2
-    launchctl print "$DOMAIN/$LABEL" >&2 || true
     exit 1
   fi
 fi
