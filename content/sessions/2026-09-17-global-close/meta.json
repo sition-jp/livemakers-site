@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-09-17-global-close",
+  "date": "2026-09-17",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-17-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-17-global-close",
+  "publishedAt": "2026-09-18T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260917_2303_b8c1016d",
+  "asOfJst": "2026-09-17T23:03:07+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月17日 23:03 JST",
+  "bullets": [
+    "Gold $4,387.50 → $4,408.10（+0.47%）",
+    "変動幅上位: VIX -11.2% / NIGHT/USD +5.3%"
+  ]
+}
