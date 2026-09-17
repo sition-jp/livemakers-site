@@ -1,0 +1,66 @@
+{
+  "sessionId": "2026-09-13-europe-bridge",
+  "date": "2026-09-13",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-13-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-13-europe-bridge",
+  "publishedAt": "2026-09-14T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260913_1203_1aaf1d21",
+  "asOfJst": "2026-09-13T12:03:09+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月13日 12:03 JST",
+  "bullets": [
+    "DXY 99.090 → 99.120（+0.03%）",
+    "変動幅上位: VIX -11.2% / WTI -2.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260913_1226_69248260",
+    "crawlAnchorJst": "2026-09-13T12:03:00+09:00",
+    "writtenAtJst": "2026-09-13T12:26:35+09:00",
+    "lead": "週末の論点は AI の開発ペースに移った。トランプ大統領は AI の悲観論を退けて中国に対する優位を守る側に立ち、OpenAI のアルトマン氏は年内の上場を否定した。暗号資産の側では Cardano が今週の催しを並べ、Midnight の日本ツアーは東京で締めくくる。",
+    "items": [
+      {
+        "headline": "トランプ大統領、AI の悲観論を退けて対中優位の維持を優先",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-brushes-off-ai-doomsaying-to-guard-us-lead-over-china"
+      },
+      {
+        "headline": "OpenAI の年内 IPO はなし、アルトマン氏がフォーチュン誌に語る",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2098871807717621775"
+      },
+      {
+        "headline": "ロシアの攻撃でウクライナの9人が死亡、数十人が負傷。キーウは厳しい冬に備える",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/13/ukraine-war-briefing-nine-killed-and-dozens-wounded-in-russian-strikes-as-kyiv-braces-for-harsh-winter"
+      },
+      {
+        "headline": "テスラ新型ロードスターの発表は10月1日",
+        "sourceUrl": "https://x.com/elonmusk/status/2098932438055469451"
+      },
+      {
+        "headline": "Cardano 公式が今週のコミュニティ主催イベントを案内、初回は9月15日",
+        "sourceUrl": "https://x.com/Cardano/status/2098947795591782789"
+      },
+      {
+        "headline": "Midnight のアンバサダーツアーは東京開催の9月13日が最終日",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2098915604023620020"
+      },
+      {
+        "headline": "ロゴスの軽量「Ultra Light 7075」シリーズにスツールとチェアが加わる",
+        "sourceUrl": "https://www.bepal.net/archives/722375"
+      },
+      {
+        "headline": "ロボット掃除機のカメラで不倫の証拠を撮った男性が、逆にプライバシー侵害で訴えられる",
+        "sourceUrl": "https://gigazine.net/news/20260913-man-jailed-record-wife-adultery/"
+      }
+    ],
+    "watch": [
+      "9月15日、米上院が CLARITY 法の審議入りを決める手続き採決に臨む",
+      "10月1日のテスラ新型ロードスター発表"
+    ]
+  }
+}

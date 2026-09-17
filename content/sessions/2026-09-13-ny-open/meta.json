@@ -1,0 +1,76 @@
+{
+  "sessionId": "2026-09-13-ny-open",
+  "date": "2026-09-13",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-13-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-13-ny-open",
+  "publishedAt": "2026-09-14T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260913_1803_f1571de0",
+  "asOfJst": "2026-09-13T18:34:04+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月13日 18:03 JST（読み解きのみ）",
+  "bullets": [
+    "フーシ派のバブ・エル・マンデブ掌握は、イラン援護に加えて自前の資金源づくりが狙いだとNZZが分析",
+    "AI企業トップの警告が目先の半導体株の重しに、ただし投資テーマは維持との声（ブルームバーグ）",
+    "マスク氏、アモデイ氏の主張について「一定の監督は必要」と投稿し、競合同士によるAIの相互評価に言及"
+  ],
+  "editorial": {
+    "digestId": "dig_20260913_1834_48d15f15",
+    "crawlAnchorJst": "2026-09-13T18:03:00+09:00",
+    "writtenAtJst": "2026-09-13T18:34:04+09:00",
+    "lead": "週末の論点は紅海とAIの二つに集まった。フーシ派によるバブ・エル・マンデブ海峡の掌握は、イランへの援護にとどまらず自前の資金源づくりだとNZZは読む。AIでは、アモデイ氏の減速提案に対してマスク氏が一定の監督の必要性を認める一方、半導体株の重しになるとの見方も出た。Cardanoでは、最小固定費を₳75に下げる提案が単独案として戻ってきた。",
+    "items": [
+      {
+        "headline": "フーシ派のバブ・エル・マンデブ掌握は、イラン援護に加えて自前の資金源づくりが狙いだとNZZが分析",
+        "sourceUrl": "https://www.nzz.ch/international/die-huthi-erobern-die-meerenge-bab-al-mandab-nicht-nur-zur-schuetzenhilfe-irans-sie-wollen-ihre-eigene-kasse-mit-milliarden-fuellen-ld.10023548",
+        "note": "紅海の出口を押さえることで、通航をめぐる交渉力と収入の両方を得ようとしている、という見立てだ。"
+      },
+      {
+        "headline": "AI企業トップの警告が目先の半導体株の重しに、ただし投資テーマは維持との声（ブルームバーグ）",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2099060575678460192"
+      },
+      {
+        "headline": "マスク氏、アモデイ氏の主張について「一定の監督は必要」と投稿し、競合同士によるAIの相互評価に言及",
+        "sourceUrl": "https://x.com/elonmusk/status/2098986888572907643"
+      },
+      {
+        "headline": "中国の国家主席、BRICS首脳会議でオープンソースAIなどの協力強化を提案（ブルームバーグ）",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2099056787018141799"
+      },
+      {
+        "headline": "ドイツの選挙でAfDが番狂わせの勝利、マスク氏は歓迎したとガーディアンが報道",
+        "sourceUrl": "https://www.theguardian.com/technology/2026/sep/13/afd-germany-elon-musk"
+      },
+      {
+        "headline": "Cardanoの最小固定費を₳75に下げるガバナンス提案が再提出、今回は他の変更と切り離した単独案",
+        "sourceUrl": "https://x.com/JaromirTesar/status/2099027515071181132",
+        "note": "前回は Plutus のメモリ上限引き上げと束ねた提案だった。DRep からは賛成票の表明が続いている。"
+      },
+      {
+        "headline": "Cardano公式が今週のコミュニティ主催イベントを案内、9月15日にはハードフォーク作業部会の枠",
+        "sourceUrl": "https://x.com/Cardano/status/2098947795591782789"
+      },
+      {
+        "headline": "CardanoのDRep上位10人への投票力集中度（CR10）は9月12日時点で51.1%との算出",
+        "sourceUrl": "https://x.com/hix_coffeepool/status/2098777658192752963"
+      },
+      {
+        "headline": "SecondFi、アプリ内で復旧申請の受け付けを始め、同社を名乗るフィッシングメールに警告",
+        "sourceUrl": "https://x.com/secondfiappCM/status/2099038787200258128",
+        "note": "復旧手続きを装った偽メールが送られているとして、利用者に注意を呼びかけた。"
+      }
+    ],
+    "watch": [
+      "9月15日（米国時間）の上院でのCLARITY法案の手続き投票。",
+      "紅海の通航と、サウジの輸出路の停止・再開をめぐる続報。",
+      "最小固定費₳75の単独案に対する、DRepと憲法委員会の投票の進み方。"
+    ]
+  },
+  "observationStatus": "absent"
+}
