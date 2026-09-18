@@ -34,11 +34,11 @@ describe("buildNavModel", () => {
     expect(nav.topLevel[1].href).toBe("/future-atlas");
   });
 
-  it("keeps the weekly brief pointing at /brief (spec §8-4)", () => {
+  it("points the weekly brief at the article-lane series page (2026-09-19)", () => {
     for (const surfacePublished of [false, true]) {
       const nav = buildNavModel(surfacePublished);
       expect(nav.articlesGroup.find((i) => i.key === "weeklyBrief")?.href).toBe(
-        "/brief",
+        "/articles/series/weekly-brief",
       );
     }
   });
