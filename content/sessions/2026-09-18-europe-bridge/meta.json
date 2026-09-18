@@ -1,0 +1,117 @@
+{
+  "sessionId": "2026-09-18-europe-bridge",
+  "date": "2026-09-18",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-18-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-18-europe-bridge",
+  "publishedAt": "2026-09-19T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260918_1203_4d853992",
+  "asOfJst": "2026-09-18T12:03:07+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月18日 12:03 JST",
+  "bullets": [
+    "DXY 100.310 → 100.219（-0.09%）",
+    "変動幅上位: VIX -12.8% / ADA/USD +9.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260918_1240_71f2aa71",
+    "crawlAnchorJst": "2026-09-18T12:03:00+09:00",
+    "writtenAtJst": "2026-09-18T12:40:00+09:00",
+    "lead": "日銀が政策金利を0.25%引き上げ、利上げは反対2票を抱えたまま決まった。金利のある世界が日本で定着しつつある一方、米国では株式そのものをブロックチェーンに載せる枠組みの設計が具体化し、中東とウクライナの緊張は原油と安全保障の前提を揺らし続けている。今日の材料は「お金の値段」「取引の器」「地政学の前提」という三つの層で同時に動いた。",
+    "items": [
+      {
+        "headline": "日銀が政策金利を0.25%引き上げ",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/17/boj-rate-hike",
+        "note": "利上げ幅は0.25%。市場では株式や暗号資産の反応も同時に伝えられた。"
+      },
+      {
+        "headline": "日本のコアインフレは安定、利上げ前の状況として報じられる",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/asien-japans-kerninflation-bleibt-stabil-notenbank-vor-zinserhoehung/100255488.html",
+        "note": "利上げ判断の前提となる物価の落ち着きが、決定前の観測として伝えられていた。"
+      },
+      {
+        "headline": "米SEC、実株式をブロックチェーンに載せる枠組みの考え方を示す",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/17/real-stocks-are-finally-coming-on-blockchain-here-s-how-the-sec-wants-it-to-work",
+        "note": "トークン化された株式をどう扱うかという設計論が、規制側の言葉で具体化してきた。"
+      },
+      {
+        "headline": "Ondo Finance の後継者問題が法廷闘争の様相に",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/17/the-ondo-finance-succession-crisis-gets-messier-as-kathleen-allman-s-daughter-alleges-dementia-alcoholism-and-reckless-spending",
+        "note": "経営の継承が外から見えにくいままだと、プロトコルの信用にも跳ね返る。"
+      },
+      {
+        "headline": "金融庁、有価証券報告書の不記載に課徴金納付命令",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/shouken/20260917/20260917-4.html",
+        "note": "開示の不備に対して金銭的な制裁が実際に下される、という運用の実例。"
+      },
+      {
+        "headline": "Midnight の改善提案リポジトリでメインネット配備の記録が進む",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-improvement-proposals/commit/cd84e5b7ca8401f976c620073738de9bcbc5661e",
+        "note": "提案から実際の配備アドレス記録まで、公開の場で手順が踏まれている。"
+      },
+      {
+        "headline": "DAG型BFT合意プロトコルへのMEV攻撃を整理した論文が公開",
+        "sourceUrl": "https://arxiv.org/abs/2609.20069v1",
+        "note": "競争・共謀・汚職という三段階で攻撃面を分類している。"
+      },
+      {
+        "headline": "米政府サイトが中国製AI検索ツールを利用していたと報じられる",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-government-website-used-ai-search-tool-from-china-that-fbi-said-copied-anthropic",
+        "note": "FBIはそのツールがAnthropicの技術を模倣したと指摘したとされる。"
+      },
+      {
+        "headline": "米国、過剰生産能力への関税を首脳会談後まで先送りと報道",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-said-to-delay-excess-capacity-tariffs-until-after-xi-summit",
+        "note": "通商カードを外交日程に合わせて温存する動き。"
+      },
+      {
+        "headline": "ロシアと中国、イラン制裁の監視継続をめぐる米提案に拒否権",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/17/china-russia-veto-us-proposal-un-experts-keep-monitoring-sanctions/",
+        "note": "制裁の実効性を支える監視の枠組み自体が争点になっている。"
+      },
+      {
+        "headline": "JPモルガン、イラン情勢で石油市場の予測が立たないと指摘",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/devisen-rohstoffe/rohstoffe-jp-morgan-oelmarkt-wegen-iran-kriegs-nicht-mehr-prognostizierbar/100255477.html",
+        "note": "原油の前提が置けないと、物価見通しの土台も揺らぐ。"
+      },
+      {
+        "headline": "ロシアで下院選挙、ウクライナ戦争を背景に投票",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/18/russia-parliament-election-duma-putin"
+      },
+      {
+        "headline": "中国のジブチ基地の改修で監視範囲が広がるとの報告",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/chinas-djibouti-base-upgrades-should-boost-its-monitoring-reach-report-says"
+      },
+      {
+        "headline": "米国の世帯所得の中央値が2025年に過去最高と報じられる",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/17/us-median-household-income-hit-highest-level-record-2025/"
+      },
+      {
+        "headline": "Google、家族やグループ向けのAIエージェントを刷新",
+        "sourceUrl": "https://www.engadget.com/2261924/google-cc-is-an-ai-agent-for-families-and-groups/",
+        "note": "個人単位ではなく世帯単位で使う前提のAIが表に出てきた。"
+      },
+      {
+        "headline": "Ankerのポータブル電源、小型でも冷蔵庫を動かせる容量に",
+        "sourceUrl": "https://kaden.watch.impress.co.jp/docs/news/2141691.html",
+        "note": "停電時に何を動かせるかが、そのまま生活の耐久力になる。"
+      },
+      {
+        "headline": "地域内で貸し借りを回す「ぶんじキャピタルマーケット」の試み",
+        "sourceUrl": "https://greenz.jp/2026/09/18/sekisui_bunjicapital/",
+        "note": "売買だけでなく貸借の循環を地域に作る、小さな資本市場の実験。"
+      }
+    ],
+    "watch": [
+      "日銀総裁の記者会見で、次の利上げの間隔と円相場への言及がどこまで踏み込むか。",
+      "トークン化株式の枠組みが、実際にどの取引所・どの商品から動き出すか。",
+      "イラン情勢と国連での制裁監視の行方が、原油とインフレ見通しに跳ね返るか。"
+    ]
+  }
+}
