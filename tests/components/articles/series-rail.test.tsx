@@ -166,12 +166,12 @@ describe("SeriesRail (G44 D9)", () => {
     expect(onSection.textContent).toContain(copy.atlasPublishedHeading);
   });
 
-  it("keeps weekly brief as a /brief entry even with no weekly-brief articles", () => {
+  it("keeps weekly brief as a series-page entry even with no weekly-brief articles", () => {
     const { container } = render(
       <SeriesRail articles={catalog} current={current} surfacePublished={false} copy={copy} />,
     );
     const section = container.querySelector('[data-rail-section="weekly-brief"]')!;
-    expect(section.querySelector('a[href="/brief"]')).not.toBeNull();
+    expect(section.querySelector('a[href="/articles/series/weekly-brief"]')).not.toBeNull();
     expect(section.querySelectorAll("[data-article-id]")).toHaveLength(0);
   });
 
