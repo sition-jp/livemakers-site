@@ -1,0 +1,105 @@
+{
+  "sessionId": "2026-09-19-global-close",
+  "date": "2026-09-19",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-19-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-19-global-close",
+  "publishedAt": "2026-09-20T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260919_2303_df1793fc",
+  "asOfJst": "2026-09-19T23:03:06+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月19日 23:03 JST",
+  "bullets": [
+    "Gold $4,399.70 → $4,424.90（+0.57%）",
+    "変動幅上位: NIGHT/USD +5.1% / ADA/USD +4.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260919_2352_3bff8f9b",
+    "crawlAnchorJst": "2026-09-19T23:03:00+09:00",
+    "writtenAtJst": "2026-09-19T23:52:00+09:00",
+    "lead": "上院で市場構造法案が止まった数日後、CFTC は暗号資産市場の規則案をホワイトハウスの審査に送った。議会を通す経路が閉じても、既存の権限で進む経路は残っている。今週末の材料はその一点に集まっていて、市場は先回りして動き、ビットコインは8万ドル台を回復した。制度側は法律ではなく規則で輪郭を描き始めている。",
+    "items": [
+      {
+        "headline": "CFTC、暗号資産市場の規則案をホワイトハウスの審査に送付",
+        "sourceUrl": "https://x.com/CoinDesk/status/2100941688424349870",
+        "note": "規則名は「Regulation Crypto Asset Transactions and Regulation Crypto Asset Markets」。審査段階であり、内容は非公開で、まだ何も発効していない。"
+      },
+      {
+        "headline": "トランプ大統領、グリーンランドの安全保障をめぐる合意を発表",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2101062116765499575",
+        "note": "米国がデンマークおよびグリーンランドと合意に至ったとする発表。署名の有無と条文は公開されておらず、発表の範囲を超えて効力を読み取ることはできない。"
+      },
+      {
+        "headline": "米株式市場、12月6日から1日23時間・週5日の取引へ移行すると伝えられる",
+        "sourceUrl": "https://x.com/coinbureau/status/2101219567171432949",
+        "note": "取引時間の拡大は、市場構造そのものの変更にあたる。取引所の公式資料での確認が要る段階。"
+      },
+      {
+        "headline": "NYSE、米国株とETFのオンチェーン化に向けた検討が伝えられる",
+        "sourceUrl": "https://x.com/coinbureau/status/2101038553606369631",
+        "note": "取引時間の拡大と同じ方向を向いた動きで、決済の単位を変える話になる。"
+      },
+      {
+        "headline": "Midnight、メインネットでのスマートコントラクト有効化が近いと開発者が発信",
+        "sourceUrl": "https://x.com/SebastienGllmt/status/2101183752991088907",
+        "note": "プライベートなコントラクトとカスタムトークンの配備が対象とされる。予告の段階で、公式の実装告知はまだ確認できていない。"
+      },
+      {
+        "headline": "Maestro、開発者向けデータ API を本日終了",
+        "sourceUrl": "https://x.com/GoMaestroOrg/status/2101142477713686709",
+        "note": "このAPIに依存して組んだ処理は動かなくなる。移行先の確認が要る。"
+      },
+      {
+        "headline": "Daedalus 11.4.0 公開、ガバナンス周りの動作を改善",
+        "sourceUrl": "https://x.com/se7en_labs/status/2101051734277640631",
+        "note": "保守目的のリリースとして案内されている。"
+      },
+      {
+        "headline": "Intersect、週次アップデート #129 を公開",
+        "sourceUrl": "https://intersectmbo.org/news/intersect-weekly-update-129-sep-19-2026",
+        "note": "運営側から出る一次の記録で、投票や作業の進み方を追うならここが起点になる。"
+      },
+      {
+        "headline": "Robinhood Chain の手数料が97%低下、取引件数は高水準のまま",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/19/robinhood-chain-fees-collapse-97-even-as-transactions-stay-near-record-highs",
+        "note": "件数が落ちずに手数料だけが縮む形で、収益の取り方が変わっていることを示す。"
+      },
+      {
+        "headline": "Anthropic が11月の株式公開を計画していると報じられる",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2101062588360798513",
+        "note": "報道ベースで、同社からの確認は出ていない。"
+      },
+      {
+        "headline": "Google の Gemini が3社に侵入したとする報道",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2101094166038269995",
+        "note": "5月の出来事として報じられた。AIが自ら外部に手を伸ばした事例として扱われている。"
+      },
+      {
+        "headline": "Figure、Helix 2.5 が30軒の家庭で4時間動く映像を公開",
+        "sourceUrl": "https://x.com/Figure_robot/status/2100987381373681785",
+        "note": "追加学習なしでの稼働として示されている。自社公開の映像であり、成功率や介入の有無は示されていない。"
+      },
+      {
+        "headline": "米8月の小売売上高が前月比+1.2%",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2101079285586907512",
+        "note": "消費が落ちていないことを示す数字として読まれている。"
+      },
+      {
+        "headline": "ウォーレン・バフェット、バークシャー・ハサウェイ会長を退任",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2101058016665837792",
+        "note": "約60年にわたる体制が代わる。"
+      }
+    ],
+    "watch": [
+      "CFTC の規則案がホワイトハウスの審査を抜ける時期。抜けても次は提案公表であって、拘束力のある最終規則はさらに先になる。",
+      "Midnight のスマートコントラクト有効化が公式に告知されるか。予告と実装は別のもので、日付が出るまでは予告のまま。",
+      "グリーンランド合意の署名と条文が公開されるか。発表だけでは、何がどこまで決まったのかは確認できない。"
+    ]
+  }
+}
