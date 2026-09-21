@@ -11,7 +11,7 @@ export interface NavItem {
 }
 
 export interface NavModel {
-  articlesGroup: NavItem[]; // flag OFF: 8 項目 / ON: 7 項目 (future-map 除去)
+  articlesGroup: NavItem[]; // flag OFF: 9 項目 / ON: 8 項目 (future-map 除去・2026-09-21 flash 追加)
   topLevel: NavItem[]; // ON のとき futureAtlas を先頭に含む
 }
 
@@ -22,6 +22,8 @@ const seriesHref = (slug: SeriesSlug): string => `/articles/series/${slug}`;
 export function buildNavModel(surfacePublished: boolean): NavModel {
   // Weekly Brief は series page でなく /brief 誘導 (spec §8-4)。future-map は flag OFF のみ。
   const articlesGroup: NavItem[] = [
+    // 2026-09-21 田平氏 GO (案 1): 速報はトップ帯と対で先頭 (series page へ)
+    { key: "flash", href: seriesHref("flash") },
     { key: "dailyIntel", href: seriesHref("daily-intel") },
     { key: "signal", href: seriesHref("signal") },
     { key: "deepDive", href: seriesHref("deep-dive") },
@@ -50,7 +52,7 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
 /**
  * フラット 1 列ナビ (2026-08-14 田平氏指示 — dropdown 廃止・左揃え)。
  * ヘッダ 1 段目・モバイルパネル・フッタが同一順で共有する:
- * トップ → Intelligence Terminal → Daily Intel → Signal → Deep Dive →
+ * トップ → Intelligence Terminal → 速報 → Daily Intel → Signal → Deep Dive →
  * 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
  * 次の時代の地図 (published 時は 未来アトラス) → About
  */

@@ -80,6 +80,7 @@ export default async function OverviewPage({
         radarSource={radarSource}
         sessionsSource={sessionsSource}
         showSessionEditorial={locale === "ja"}
+        locale={locale}
         copy={copy}
         surfacePublished={surfacePublished}
       />

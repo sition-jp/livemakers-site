@@ -291,6 +291,54 @@ describe("home slot selection (B+)", () => {
     ).toBe(false);
   });
 
+  describe("flashLatest (2026-09-21 田平氏 GO 案 1: トップ帯)", () => {
+    const flashAt = (id: string, publishedAtJst: string) => ({
+      ...input().articles[0],
+      articleId: id,
+      family: "flash" as const,
+      publishedAtJst,
+      href: `/articles/${id}`,
+    });
+
+    it("surfaces the newest flash published today as flashLatest", () => {
+      const older = flashAt("flash-a", "2026-07-10T08:00:00+09:00");
+      const newest = flashAt("flash-b", "2026-07-10T23:50:00+09:00");
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [older, newest, ...input().articles],
+      });
+      expect(slots.flashLatest?.articleId).toBe("flash-b");
+    });
+
+    it("still surfaces a flash published yesterday (48h 窓の日付近似)", () => {
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [flashAt("flash-y", "2026-07-09T06:00:00+09:00"), ...input().articles],
+      });
+      expect(slots.flashLatest?.articleId).toBe("flash-y");
+    });
+
+    it("hides flashLatest once the newest flash is older than yesterday", () => {
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [flashAt("flash-old", "2026-07-08T23:59:00+09:00"), ...input().articles],
+      });
+      expect(slots.flashLatest).toBeNull();
+    });
+
+    it("is null when the catalog has no flash", () => {
+      expect(selectHomeSlots(input()).flashLatest).toBeNull();
+    });
+
+    it("does not consume the flash from the dedupe set (index semantics)", () => {
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [flashAt("flash-b", "2026-07-10T23:50:00+09:00"), ...input().articles],
+      });
+      expect(collectSelectedArticleIds(slots)).not.toContain("flash-b");
+    });
+  });
+
   it("resolves the per-family latest slots for the index modules", () => {
     const slots = selectHomeSlots(input());
     expect(slots.eventRiskLatest?.articleId).toBe("event-risk-radar-w29");

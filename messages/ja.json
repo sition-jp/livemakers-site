@@ -20,7 +20,8 @@
     "eventRiskRadar": "Event Risk Radar",
     "weeklyBrief": "Weekly Brief",
     "futureMap": "次の時代の地図",
-    "sessionTerminal": "Intelligence Terminal"
+    "sessionTerminal": "Intelligence Terminal",
+    "flash": "速報"
   },
   "assets": {
     "dashboard": {
