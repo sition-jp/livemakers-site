@@ -74,7 +74,7 @@
   --lmk-staleness-stale: #9a5b0b;
   --lmk-staleness-hard: #b3403e;
 
-  --lmk-logo-color: #0a4f44;
+  --lmk-logo-color: #8ae617;
 
   --lmk-selection: rgb(14 107 92 / 0.18);
 }
@@ -120,7 +120,7 @@
   --lmk-staleness-stale: #f59e0b;  /* 180-360s — stale */
   --lmk-staleness-hard: #ef4444;   /* ≥ 360s — very stale */
 
-  --lmk-logo-color: #0a4f44;
+  --lmk-logo-color: #8ae617;
 
   --lmk-selection: rgb(84 185 164 / 0.25);
 }
