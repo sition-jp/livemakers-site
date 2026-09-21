@@ -12,7 +12,10 @@ import { buildFlatNav } from "@/lib/home/nav-model";
  * logo + フラット 1 列ナビ (dropdown なし・左揃え)。旧右側クラスタ
  * (LIGHT/DARK・日付・SNAPSHOT チップ・version) は 3 段目
  * (GlobalProvenanceStrip) へ移設。言語トグル (EN/日本語) も 2026-08-23
- * 田平氏指示で同クラスタ (LIGHT/DARK の前) へ移設。ナビ順の正本 = buildFlatNav。
+ * 田平氏指示で同クラスタ (LIGHT/DARK の前) へ移設 → 2026-09-21 田平氏指示で
+ * 非表示 (日本語版のみ稼働中、EN 導線は読者を迷わせるため)。
+ * ロゴ横の段階バッジは 2026-09-21 田平氏指示で ALPHA → ベータ版 (nav.stage)。
+ * ナビ順の正本 = buildFlatNav。
  */
 export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("nav");
@@ -32,7 +35,7 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           <span className="flex items-center gap-2">
             <span className="text-sm font-bold tracking-logo">LIVEMAKERS</span>
             <span className="hidden rounded border border-border-primary px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-label text-text-secondary sm:inline-block">
-              {t("alpha")}
+              {t("stage")}
             </span>
           </span>
         </Link>

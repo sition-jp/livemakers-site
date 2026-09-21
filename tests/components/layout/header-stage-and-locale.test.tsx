@@ -54,54 +54,46 @@ function renderChrome() {
 }
 
 /**
- * 言語トグル (2026-08-21 田平氏 GO で復活 → 2026-08-23 田平氏指示で
- * ヘッダ 1 段目から 3 段目 = 来歴帯の右クラスタへ移設)。
- * localePrefix "always" + localeDetection false なので、トグルは
- * cookie 細工なしの明示 URL リンク 2 本でよい。
+ * 言語トグル (2026-08-21 田平氏 GO で復活 → 2026-08-23 来歴帯の右クラスタへ
+ * 移設 → 2026-09-21 田平氏指示で非表示)。日本語版のみ稼働中のため EN への
+ * 導線はヘッダにも来歴帯にも出さない。/en ルートと LanguageToggle
+ * コンポーネント自体は残す (URL 契約・復活時の手間の観点)。
  */
-describe("Language toggle placement", () => {
-  it("links to the same page in each locale", () => {
+describe("Language toggle hidden (2026-09-21 田平氏指示)", () => {
+  it("renders no EN / 日本語 locale links anywhere in the chrome", () => {
     usePathnameMock.mockReturnValue("/articles");
-    renderChrome();
-    expect(screen.getByRole("link", { name: "日本語" })).toHaveAttribute(
-      "href",
-      "/ja/articles",
-    );
-    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute(
-      "href",
-      "/en/articles",
-    );
+    const { container } = renderChrome();
+    expect(screen.queryByRole("link", { name: "EN" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "日本語" })).toBeNull();
+    expect(
+      [...container.querySelectorAll("a[href]")].filter((anchor) =>
+        anchor.getAttribute("href")!.startsWith("/en"),
+      ),
+    ).toHaveLength(0);
   });
 
-  it("links to the locale roots from the home page", () => {
-    usePathnameMock.mockReturnValue("/");
-    renderChrome();
-    expect(screen.getByRole("link", { name: "日本語" })).toHaveAttribute(
-      "href",
-      "/ja",
-    );
-    expect(screen.getByRole("link", { name: "EN" })).toHaveAttribute(
-      "href",
-      "/en",
-    );
-  });
-
-  it("lives in the provenance strip's right cluster, before LIGHT/DARK, not in the header (2026-08-23 田平氏指示)", () => {
+  it("keeps LIGHT/DARK → date → SNAPSHOT → version order in the strip's right cluster", () => {
     usePathnameMock.mockReturnValue("/");
     const { container } = renderChrome();
-    const toggle = screen.getByRole("link", { name: "日本語" });
     const strip = container.querySelector('[data-chrome="provenance-strip"]');
-    expect(strip?.contains(toggle)).toBe(true);
-    expect(container.querySelector("header")?.contains(toggle)).toBe(false);
-
-    // 操作系 (言語 → テーマ) を左、表示系 (日付 → SNAPSHOT → version) を右に
     const light = screen.getByRole("button", { name: /light/i });
-    expect(
-      toggle.compareDocumentPosition(light) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+    expect(strip?.contains(light)).toBe(true);
     const snapshot = screen.getByText(/SNAPSHOT 07:30 JST/);
     expect(
       light.compareDocumentPosition(snapshot) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
+  });
+});
+
+/**
+ * 段階バッジ (2026-09-21 田平氏指示): ALPHA → ベータ版。ロゴ横に出す。
+ */
+describe("Release stage badge", () => {
+  it("shows ベータ版 next to the logo and no ALPHA text", () => {
+    usePathnameMock.mockReturnValue("/");
+    const { container } = renderChrome();
+    const badge = screen.getByText("ベータ版");
+    expect(container.querySelector("header")?.contains(badge)).toBe(true);
+    expect(screen.queryByText("ALPHA")).toBeNull();
   });
 });
