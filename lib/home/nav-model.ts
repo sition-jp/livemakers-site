@@ -20,7 +20,9 @@ type SeriesSlug = (typeof SERIES_SLUGS)[number];
 const seriesHref = (slug: SeriesSlug): string => `/articles/series/${slug}`;
 
 export function buildNavModel(surfacePublished: boolean): NavModel {
-  // Weekly Brief は series page でなく /brief 誘導 (spec §8-4)。future-map は flag OFF のみ。
+  // Weekly Brief は記事レーンの series page へ (2026-09-19 田平氏指示)。旧 content/brief/ の
+  // /brief はアーカイブ面で、series page 内の「これまでの Weekly Brief アーカイブ」から辿る。
+  // future-map は flag OFF のみ。
   const articlesGroup: NavItem[] = [
     { key: "dailyIntel", href: seriesHref("daily-intel") },
     { key: "signal", href: seriesHref("signal") },
@@ -28,7 +30,7 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
     { key: "mkt12Morning", href: seriesHref("mkt12-morning") },
     { key: "mkt12Weekend", href: seriesHref("mkt12-weekend") },
     { key: "eventRiskRadar", href: seriesHref("event-risk-radar") },
-    { key: "weeklyBrief", href: "/brief" },
+    { key: "weeklyBrief", href: seriesHref("weekly-brief") },
     ...(surfacePublished
       ? []
       : [{ key: "futureMap", href: seriesHref("future-map") }]),

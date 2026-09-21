@@ -296,7 +296,7 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
 
     // Gradient columns: body links must be article-ledger routes resolving to
     // real documents. Index-nav entry links may instead target a chrome surface
-    // (weekly-brief entry = /brief) — still allowlisted, still one path per anchor.
+    // (e.g. a series index) — still allowlisted, still one path per anchor.
     const gradientBodyAnchors = gradientAnchors.filter(
       (anchor) => !sourceAnchors.includes(anchor),
     );

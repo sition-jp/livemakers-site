@@ -75,7 +75,7 @@ export function LaggingColumn({
         return (
           <IndexEntryCard
             heading={copy.familyLabels["weekly-brief"]}
-            entryHref="/brief"
+            entryHref="/articles/series/weekly-brief"
             entryLabel={copy.gradient.viewAll}
             latest={slots.weeklyBriefLatest}
             copy={indexCopy}

@@ -153,7 +153,7 @@ export function SeriesRail({
             entryHref = atlas.href;
           } else if (section === "weekly-brief") {
             heading = copy.familyLabels["weekly-brief"];
-            entryHref = "/brief";
+            entryHref = "/articles/series/weekly-brief";
           } else {
             heading = copy.familyLabels[family!];
             entryHref = `/articles/series/${family}`;
