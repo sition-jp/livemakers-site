@@ -55,6 +55,10 @@ export interface HomeSlots {
   };
   deepDives: ArticleMeta[];
   latestArticles: ArticleMeta[];
+  // 2026-09-21 田平氏 GO (案 1): トップ帯用の最新速報。当日または前日公開
+  // (D13 に従い now を持ち込まず articleCutoffToday の日付で近似する 48h 窓)。
+  // 無ければ null で帯ごと非表示。索引意味論 (used に加えない)。
+  flashLatest: ArticleMeta | null;
   eventRiskLatest: ArticleMeta | null;
   atlasLatest: ArticleMeta | null;
   mkt12WeekendLatest: ArticleMeta | null;
@@ -63,6 +67,26 @@ export interface HomeSlots {
 
 const dateOf = (article: ArticleMeta): string =>
   article.publishedAtJst.slice(0, 10);
+
+const previousDateOf = (isoDate: string): string => {
+  const d = new Date(`${isoDate}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() - 1);
+  return d.toISOString().slice(0, 10);
+};
+
+/**
+ * トップ速報帯の 1 本 (2026-09-21 田平氏 GO 案 1)。catalog は新着順前提。
+ * 「48 時間以内」を D13 (now 不使用) に合わせて「articleToday か前日の公開」で近似する。
+ */
+export function selectFlashLatest(
+  catalog: readonly ArticleMeta[],
+  articleToday: string,
+): ArticleMeta | null {
+  const newest = catalog.find((article) => article.family === "flash");
+  if (!newest) return null;
+  const day = dateOf(newest);
+  return day === articleToday || day === previousDateOf(articleToday) ? newest : null;
+}
 
 export function normalizeHomeInput(
   input: HomeSlotInput,
@@ -180,6 +204,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const latestArticles = catalog
     .filter((article) => article.family !== "flash")
     .slice(0, 20);
+  const flashLatest = selectFlashLatest(catalog, articleToday);
   const eventRiskLatest = take(latestOf("event-risk-radar") ?? undefined) ?? null;
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");
@@ -193,6 +218,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     signalTimelineSummary,
     deepDives,
     latestArticles,
+    flashLatest,
     eventRiskLatest,
     atlasLatest,
     mkt12WeekendLatest,

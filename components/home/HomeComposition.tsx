@@ -6,6 +6,7 @@ import type {
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeCatalogSource } from "@/lib/home/load-home-composition";
 import { CompositeHero } from "./CompositeHero";
+import { FlashBand } from "./FlashBand";
 import { CoincidentColumn } from "./columns/CoincidentColumn";
 import { LaggingColumn } from "./columns/LaggingColumn";
 import { LeadingColumn } from "./columns/LeadingColumn";
@@ -21,6 +22,8 @@ export type HomeCompositionProps = ReturnType<
   /** G43-e (S2): resolved outside the builder — same posture, see load-home-composition.ts. */
   sessionsSource?: HomeSessionsSource;
   showSessionEditorial?: boolean;
+  /** 2026-09-21: 速報帯の表示言語 (page.tsx の locale)。省略時 ja。 */
+  locale?: string;
 };
 
 /**
@@ -50,6 +53,7 @@ export function HomeComposition({
   radarSource = "empty",
   sessionsSource = "repo",
   showSessionEditorial = true,
+  locale = "ja",
 }: HomeCompositionProps) {
   return (
     <div
@@ -59,6 +63,7 @@ export function HomeComposition({
       data-home-sessions-editorial={live?.editorial ? "present" : "absent"}
       className="mx-auto max-w-[1760px] px-4 pb-10 pt-6 md:px-8"
     >
+      <FlashBand article={slots.flashLatest} locale={locale} />
       <CompositeHero
         live={live}
         recentClosed={recentClosed}

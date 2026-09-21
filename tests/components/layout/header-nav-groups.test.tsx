@@ -50,6 +50,8 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
   const EXPECTED_UNPUBLISHED = [
     "/",
     "/sessions/archive",
+    // 2026-09-21 田平氏 GO (案 1): 速報はトップ帯と対でナビ先頭 (Intelligence Terminal の次)
+    "/articles/series/flash",
     "/articles/series/daily-intel",
     "/articles/series/signal",
     "/articles/series/deep-dive",
@@ -73,6 +75,7 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     const labels = [...nav.querySelectorAll("a")].map((a) => a.textContent);
     expect(labels[0]).toBe("トップ");
     expect(labels[1]).toBe("Intelligence Terminal");
+    expect(labels[2]).toBe("速報");
   });
 
   it("swaps future-map for future-atlas at the same slot when published", () => {

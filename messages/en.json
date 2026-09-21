@@ -20,7 +20,8 @@
     "eventRiskRadar": "EVENT RISK",
     "weeklyBrief": "WEEKLY BRIEF",
     "futureMap": "MAP OF THE NEXT ERA",
-    "sessionTerminal": "INTELLIGENCE TERMINAL"
+    "sessionTerminal": "INTELLIGENCE TERMINAL",
+    "flash": "FLASH"
   },
   "assets": {
     "dashboard": {
