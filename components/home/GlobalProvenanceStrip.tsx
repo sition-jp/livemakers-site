@@ -1,4 +1,3 @@
-import { LanguageToggle } from "@/components/layout/LanguageToggle";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import type { SnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
@@ -9,9 +8,12 @@ import type { ProvenanceLabels } from "./WindowProvenanceRow";
  * 左 = 来歴 (審査状態/ソース/as-of/パケットID) + 注記「数値は取得時点の…」を
  * 続けて表示。右 = 旧ヘッダ 1 段目のクラスタ (LIGHT/DARK・日付・SNAPSHOT
  * チップ・version)。2026-08-23 田平氏指示で言語トグル (EN/日本語) も
- * ヘッダ 1 段目からこのクラスタ先頭へ移設 — 操作系 (言語 → テーマ) を左、
- * 表示系 (日付 → SNAPSHOT → version) を右にまとめる。chromeMeta を渡さない
- * 呼び出し (テスト等) は従来表示。
+ * ヘッダ 1 段目からこのクラスタ先頭へ移設していたが、2026-09-21 田平氏指示で
+ * 非表示にした — 日本語版のみ稼働中で EN 導線は読者を迷わせるため。
+ * /en ルート自体と LanguageToggle コンポーネントは残してあり (公開
+ * パイプラインの URL 契約と復活時の手間を考慮)、UI から外しただけ。
+ * 残る並び = 操作系 (テーマ) を左、表示系 (日付 → SNAPSHOT → version) を右。
+ * chromeMeta を渡さない呼び出し (テスト等) は従来表示。
  */
 export function GlobalProvenanceStrip({
   provenance,
@@ -50,7 +52,6 @@ export function GlobalProvenanceStrip({
         <span>{note}</span>
         {chromeMeta ? (
           <span className="ml-auto flex items-center gap-2 sm:gap-3">
-            <LanguageToggle />
             <ThemeToggle />
             <span className="hidden font-mono text-[10px] xl:inline">
               {chromeMeta.dateLabel}
