@@ -25,7 +25,7 @@ describe("B+ palette tokens (G39 layer preserved)", () => {
   it("carries the locked logo color through the existing token mechanism", () => {
     expect(css).toContain("--lmk-logo-color");
     expect(css).toContain("--color-logo");
-    expect(css).toMatch(/--lmk-logo-color:\s*#0A4F44/i);
+    expect(css).toMatch(/--lmk-logo-color:\s*#8AE617/i);
   });
 
   it("keeps the light ground cool-neutral", () => {
