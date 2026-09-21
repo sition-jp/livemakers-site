@@ -337,8 +337,9 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     const chromeAnchors = [
       ...container.querySelectorAll("header a[href], footer a[href]"),
     ];
-    // 言語トグル (EN / 日本語) は 2026-08-23 田平氏指示でヘッダから来歴帯の
-    // 右クラスタへ移設 — header/footer には数えず、strip 側で 2 本を別検証
+    // 言語トグル (EN / 日本語) は 2026-08-23 に来歴帯の右クラスタへ移設 →
+    // 2026-09-21 田平氏指示で非表示 (日本語版のみ稼働中)。header/footer/
+    // strip のどこにも EN 導線が出ないことを検証する。
     // G3 (2026-09-11): フッタに編集方針・連絡先・プライバシーの 3 本を追加
     // (buildFlatNav = header/footer 共用ナビの外・フッタ専用 2 段目)
     const FOOTER_LEGAL_LINK_COUNT = 3;
@@ -352,14 +353,12 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     const stripAnchors = [
       ...container.querySelectorAll('[data-chrome="provenance-strip"] a[href]'),
     ];
-    expect(stripAnchors.map((anchor) => anchor.textContent)).toEqual([
-      "EN",
-      "日本語",
-    ]);
-    for (const anchor of stripAnchors) {
-      const href = stripLocale(anchor.getAttribute("href")!);
-      expect(isAllowedChromeRoute(href), `strip:${href}`).toBe(true);
-    }
+    expect(stripAnchors).toHaveLength(0);
+    expect(
+      [...container.querySelectorAll("a[href]")].filter((anchor) =>
+        anchor.getAttribute("href")!.startsWith("/en"),
+      ),
+    ).toHaveLength(0);
 
     const ledgerAnchors = [
       ...container.querySelectorAll("[data-ledger-group] a[href]"),
