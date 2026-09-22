@@ -91,6 +91,10 @@ export const ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS = 4_000;
  * new article lands, and a long memo would hold the previous catalog on
  * warm instances. The structural fix (split the feed into a body-less
  * catalog + per-article bodies) is a separate gate.
+ *
+ * 2026-09-22: the catalog (FEEDSPLIT, ~460KB) is NOT memoized — it fits the
+ * data cache, and a shared memo defeats revalidatePath (see
+ * fetchProductionArticleInflowFeed). Only the v0 fallback feed uses this memo.
  */
 export const ARTICLE_INFLOW_FEED_MEMO_TTL_MS = 120_000;
 
@@ -208,7 +212,13 @@ export async function fetchProductionArticleInflowFeed(
   // 失敗時のみ v0 feed へ fallback する (移行完了 = S3 で fallback 撤去)
   const catalogUrl = process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY];
   if (catalogUrl) {
-    const catalog = await loadValidatedArticleInflowFeedMemoized(
+    // 2026-09-22: catalog は memo しない。~460KB で data cache (2MB 上限) に
+    // 載るので memo の元の理由 (1.8MB の v0 を毎描画ダウンロード) が無い。
+    // 逆に memo はインスタンス内の全描画で共有され revalidate で消えないため、
+    // revalidatePath で再生成した記事ページが別ページの読んだ旧 catalog を使い、
+    // 新記事 404・取り下げ記事 200 が焼き付いた (9/22 14:30 / 14:56 実測)。
+    // data cache 経由なら再生成された path の implicit tag で旧 entry を捨てられる
+    const catalog = await fetchValidatedArticleInflowFeed(
       catalogUrl, fetcher, "production", parseArticleInflowCatalog);
     if (catalog) return catalog;
     console.warn(
