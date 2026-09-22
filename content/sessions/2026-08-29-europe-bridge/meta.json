@@ -1,0 +1,81 @@
+{
+  "sessionId": "2026-08-29-europe-bridge",
+  "date": "2026-08-29",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-29-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-08-29-europe-bridge",
+  "publishedAt": "2026-08-30T05:38:52+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260829_1203_33646d25",
+  "asOfJst": "2026-08-29T12:45:00+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 8月29日 12:03 JST（読み解きのみ）",
+  "bullets": [
+    "米国、ベネズエラの17鉱区・650億バレルで合意——新設会社に100年の開発権",
+    "同じ合意を、英紙も同じ枠組みで報じた",
+    "ビシュケクに露・中・印・イランの首脳が集まる"
+  ],
+  "editorial": {
+    "digestId": "dig_20260829_1245_2224a650",
+    "crawlAnchorJst": "2026-08-29T12:03:00+09:00",
+    "writtenAtJst": "2026-08-29T12:45:00+09:00",
+    "lead": "米国がベネズエラの17鉱区・650億バレルに手をかけた。発表の骨格は量ではなく、新設会社に渡す100年の開発権と、米側55%という取り分の設計にある。同じ週末、ビシュケクには露・中・印・イランの首脳が集まる。資源の所有と、枠組みの点検が、それぞれ別の場所で同時に進んでいる。",
+    "items": [
+      {
+        "headline": "米国、ベネズエラの17鉱区・650億バレルで合意——新設会社に100年の開発権",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2093472546494501175",
+        "note": "米側の実効取り分は55%とされる。交渉は Rubio 国務長官・Hegseth 国防長官と、ベネズエラ側の Delcy Rodriguez が担った。"
+      },
+      {
+        "headline": "同じ合意を、英紙も同じ枠組みで報じた",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/aug/28/trump-venezuela-oil-agreement",
+        "note": "発表の骨子は複数の報道で一致している。埋蔵量の数字と、実際に汲み上がる量は別勘定として読む必要がある。"
+      },
+      {
+        "headline": "ビシュケクに露・中・印・イランの首脳が集まる",
+        "sourceUrl": "https://www.straitstimes.com/world/leaders-of-russia-china-iran-to-attend-summit-in-kyrgyzstan",
+        "note": "上海協力機構の発足25年にあたる会合で、首脳級が約12か国。多国間の文書より、個別会談の並びのほうが情報量を持つ。"
+      },
+      {
+        "headline": "SpaceX、Super Heavy で33基のフル時間静止燃焼",
+        "sourceUrl": "https://x.com/SpaceX/status/2093477720638341395",
+        "note": "Flight 14 に向けた工程試験。船体側ではなくブースター側が次の段階へ進んだ。"
+      },
+      {
+        "headline": "Input Output Research、9月3日にデータ可用性の技術ワークショップ",
+        "sourceUrl": "https://x.com/IOGroup/status/2093322709174243504",
+        "note": "L2 が増えるほど、データをどこに置くかが先に詰まる。日付が付いたことで、論点が予定表に乗った。"
+      },
+      {
+        "headline": "週次の開発報告に Lace の Keystone 対応が載った",
+        "sourceUrl": "https://x.com/IOGroup/status/2093368010840973564",
+        "note": "署名の手順が変わる話で、使う側から見える変化はここに出る。"
+      },
+      {
+        "headline": "Midnight が Passport の考え方を解説した",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2093321920129175560",
+        "note": "秘匿がひとつのネットワークの内側で止まらない、という設計思想の説明にあたる。"
+      },
+      {
+        "headline": "Genesis Pre-Accelerator の13チーム・6か国がシリコンバレーに",
+        "sourceUrl": "https://x.com/Cardano/status/2093306885759746477"
+      },
+      {
+        "headline": "10年期待インフレ率は2.31で引けた",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE",
+        "note": "8月28日時点の値。物価の織り込みは、政策の言い回しより静かに動く。"
+      }
+    ],
+    "watch": [
+      "ベネズエラ側の民間オペレーターが誰になるか。名前が出た時点で、この合意の実行可能性が測れる。",
+      "ビシュケクでの個別会談の並びと、閉幕文書に決済やエネルギーの実務項目が入るかどうか。",
+      "Flight 14 の日程が確定するか。静止燃焼から打ち上げまでの間隔が、今の開発速度を示す。"
+    ]
+  },
+  "observationStatus": "absent"
+}
