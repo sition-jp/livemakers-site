@@ -142,6 +142,40 @@ describe("catalog v1 loader", () => {
     expect(warning.mock.calls.flat().join(" ")).toContain("falling back");
   });
 
+  // 2026-09-22: catalog をプロセス内 memo (120s) に載せると、revalidatePath で
+  // 再生成された記事ページが「同じインスタンスの別ページが直前に読んだ旧 catalog」
+  // を使い、新記事が 404・取り下げ記事が 200 のまま焼き付いた (14:30 / 14:56 実測)。
+  // catalog は data cache に載るサイズ (~460KB) なので memo しない。
+  it("does not memoize the catalog: the next load sees a newly published catalog", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    let served = 0;
+    const fetcher = routedFetcher({
+      [CATALOG_URL]: () => {
+        served += 1;
+        return jsonResponse({
+          ...catalogPayload(),
+          feed_checksum: served === 1 ? "1111111111111111" : "2222222222222222",
+        });
+      },
+    });
+    const first = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
+    const second = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
+    expect(first?.feed_checksum).toBe("1111111111111111");
+    expect(second?.feed_checksum).toBe("2222222222222222");
+  });
+
+  it("still memoizes the v0 fallback feed (too large for the data cache)", async () => {
+    enablePublic();
+    delete process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY];
+    const fetcher = routedFetcher({
+      [FEED_URL]: () => jsonResponse(feedPayload()),
+    });
+    await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
+    await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+
   it("keeps the exact current behavior when the catalog env is unset", async () => {
     enablePublic();
     delete process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY];
