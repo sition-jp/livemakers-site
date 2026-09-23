@@ -1,0 +1,70 @@
+{
+  "sessionId": "2026-08-31-global-close",
+  "date": "2026-08-31",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-31-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-31-global-close",
+  "publishedAt": "2026-09-01T02:30:40+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260831_2303_8a45f5ba",
+  "asOfJst": "2026-08-31T23:03:09+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月31日 23:03 JST",
+  "bullets": [
+    "Gold $4,478.10 → $4,471.70（-0.14%）",
+    "変動幅上位: NIGHT/USD -7.0% / VIX +5.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260831_2354_cdbf8fab",
+    "crawlAnchorJst": "2026-08-31T23:03:00+09:00",
+    "writtenAtJst": "2026-08-31T23:54:18+09:00",
+    "lead": "8月31日、ホルムズ海峡は7月以来はじめて実弾の応酬に戻った。米軍がイラン保有の島を攻撃し、イラン側はヨルダンの米軍基地へミサイルとドローンで報復、UAE も領海上空でイランからのドローンに対処している。原油は上を向き、株式先物は月末を下で終えた。同じ日、日本では金融庁が来年度の税制改正要望を公表し、暗号資産まわりでは Cronos の融資プロトコルが攻撃を受けたことを クリプト・ドット・コムの CEO が認めた。",
+    "items": [
+      {
+        "headline": "イランがヨルダンとUAE方面へ報復、ホルムズでの応酬が7月以来再開した",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/aug/31/iran-launches-retaliatory-strikes-jordan-uae-us-attacks-strait-hormuz/",
+        "note": "米軍がホルムズ海峡のイラン保有島を攻撃した週末を受けた動き。ヨルダン軍は自国空域に入った8発を迎撃したとしている。"
+      },
+      {
+        "headline": "欧州側の報道も「1か月の静けさのあと、米国とイランが再び撃ち合った」と伝えた",
+        "sourceUrl": "https://www.nzz.ch/international/gefecht-um-hormuz-nach-einem-monat-ruhe-schiessen-die-usa-und-iran-wieder-aufeinander-ld.10021709",
+        "note": "停戦後の空白がどれくらい続いたのかを、現地時間の経緯とあわせて整理している。"
+      },
+      {
+        "headline": "クリプト・ドット・コムの CEO が、Cronos 上の融資プロトコル Tectonic への侵害を認めた",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2094220081643356257",
+        "note": "被害規模の確定値と復旧の枠組みは、この時点では示されていない。"
+      },
+      {
+        "headline": "Strategy が 4,603 BTC を 3億7,000万ドルで取得したと発表した",
+        "sourceUrl": "https://x.com/saylor/status/2094395804962152885",
+        "note": "あわせて現金を2,900万ドル積み増し、優先株を1億5,200万ドル買い戻したとしている。6月以来の取得となる。"
+      },
+      {
+        "headline": "金融庁が令和9年度の税制改正要望を公表した",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/sonota/20260831.html",
+        "note": "要望項目の全文が同庁のページに掲載されている。"
+      },
+      {
+        "headline": "Cardano が Blockforce のトレーサビリティ基盤の公開証明レイヤーとして稼働に入った",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2094396049838252539",
+        "note": "サプライチェーンの記録は50万件超が既にアンカーされ、商用データ自体は Hyperledger Fabric 側に置く構成だとしている。"
+      },
+      {
+        "headline": "日本の防衛予算は過去最大の8.9兆円要求となった",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2094349499154002352",
+        "note": "安保3文書の改定次第でさらに積み増す余地があるとも伝えられている。"
+      }
+    ],
+    "watch": [
+      "ホルムズ海峡の通航量と船舶保険料が、今回の応酬でどこまで動くか。",
+      "Cronos の再開時刻・復旧計画・補償の枠組みが示されるかどうか。",
+      "金融庁の要望項目が年末の与党税制改正大綱にどう反映されるか。"
+    ]
+  }
+}
