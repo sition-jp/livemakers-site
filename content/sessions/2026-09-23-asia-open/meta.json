@@ -1,0 +1,70 @@
+{
+  "sessionId": "2026-09-23-asia-open",
+  "date": "2026-09-23",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-23-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-23-asia-open",
+  "publishedAt": "2026-09-24T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260923_0730_37197e2c",
+  "asOfJst": "2026-09-23T07:30:24+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月23日 07:30 JST",
+  "bullets": [
+    "日経平均先物 66,465 → 66,925（+0.69%）",
+    "変動幅上位: WTI -6.4% / VIX -4.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260923_0608_c6d3e78b",
+    "crawlAnchorJst": "2026-09-23T05:03:00+09:00",
+    "writtenAtJst": "2026-09-23T06:08:22+09:00",
+    "lead": "値段と言葉が、同じ朝に別々の方向へ動いた。AI を動かす費用は二つの会社から同時に下がり、ホルムズ海峡が開いたかどうかでは当事者の説明が食い違ったまま原油だけが下げた。確定した数字と、まだ確定していない見通しを、同じ相場が同時に織り込んでいる。",
+    "items": [
+      {
+        "headline": "OpenAI が GPT-6 の Sol と Luna を公開、API 価格は 5.6 系の促販価格比で半額",
+        "sourceUrl": "https://x.com/OpenAI/status/2102460975790137662",
+        "note": "キャッシュと推論の効率化分をそのまま価格へ回したと説明している。"
+      },
+      {
+        "headline": "トークンあたり半額、仕事ひとつあたりではさらに安いと開発元が説明",
+        "sourceUrl": "https://x.com/sama/status/2102464672519815512"
+      },
+      {
+        "headline": "米国務長官、ホルムズ海峡を出る原油の流量が戦前の 6〜7 割まで戻り増えていると発言",
+        "sourceUrl": "https://x.com/RapidResponse47/status/2102357336144667092"
+      },
+      {
+        "headline": "米国・デンマーク・グリーンランドが安全保障協定に署名",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2102427344862355561"
+      },
+      {
+        "headline": "バイナンスがサークルへ 1 億ドル出資、新興国での USDC 展開に 5 年契約",
+        "sourceUrl": "https://x.com/circle/status/2102367809082909123"
+      },
+      {
+        "headline": "四足ロボットがウィーンの発電所で点検 4,000 回超・1,600 km を歩き、4 台増設へ",
+        "sourceUrl": "https://x.com/BostonDynamics/status/2102410714325414277",
+        "note": "2023 年の導入以来の累計で、実証から常設運用へ移った例になる。"
+      },
+      {
+        "headline": "Cardano、プールの最低固定費を 75 ADA へ下げる議案の深掘り会を開催",
+        "sourceUrl": "https://x.com/Cardano/status/2102482831804895699"
+      },
+      {
+        "headline": "Intersect の理事選挙、11 人が 2 議席を争い 9 月 25 日に締切",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2102352494118482315"
+      }
+    ],
+    "watch": [
+      "ホルムズ海峡の通航隻数。発言ではなく、追跡できる船の数が戻りを判定する。",
+      "値下げ後の使われ方。回数を増やす使い方の報告が実際に出てくるか。",
+      "最低固定費の議案。深掘り会のあと、未投票の割合が動くかどうか。"
+    ]
+  }
+}
