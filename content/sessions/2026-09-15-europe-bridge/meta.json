@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-09-15-europe-bridge",
+  "date": "2026-09-15",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-15-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-15-europe-bridge",
+  "publishedAt": "2026-09-16T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260915_1203_52a2147f",
+  "asOfJst": "2026-09-15T12:03:10+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月15日 12:03 JST",
+  "bullets": [
+    "DXY 99.120 → 99.591（+0.48%）",
+    "変動幅上位: VIX +8.0% / WTI +2.9%"
+  ]
+}

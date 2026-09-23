@@ -1,0 +1,124 @@
+{
+  "sessionId": "2026-09-15-asia-open",
+  "date": "2026-09-15",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-15-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-15-asia-open",
+  "publishedAt": "2026-09-16T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260915_0730_3f3eefde",
+  "asOfJst": "2026-09-15T07:30:17+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月15日 07:30 JST",
+  "bullets": [
+    "日経平均先物 64,590 → 63,260（-2.06%）",
+    "変動幅上位: VIX +8.0% / NIGHT/USD +6.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260915_0553_17dace54",
+    "crawlAnchorJst": "2026-09-15T05:03:00+09:00",
+    "writtenAtJst": "2026-09-15T05:53:06+09:00",
+    "lead": "米上院共和党がクラリティ法の最終案を公表し、法案を止めていた倫理条項をトランプ大統領が受け入れた。争点は倫理から、銀行の預金と開発者の責任という制度の中身に戻り、上院は9月15日午後（日本時間16日未明）に議事終結の採決に臨む。原油は1バレル105ドルに迫り、AI 減速論でアジアの半導体株が売られる中、暗号資産は下げに加わらなかった。",
+    "items": [
+      {
+        "headline": "ルミス議員が、民主党は自己保管の権利や最良執行義務、小口の商品取引の利用者を代弁する部局の新設など、100を超える変更を勝ち取ったと説明した",
+        "sourceUrl": "https://x.com/SenLummis/status/2099573395151331347"
+      },
+      {
+        "headline": "8つの銀行業界団体が、新しい文面のサーキットブレーカーは大規模な預金流出の後にしか作動せず、安全装置になっていないと批判した",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099547924443140520"
+      },
+      {
+        "headline": "開発者の責任を免じる条項（BRCA）の修正に、業界から失望の声が相次いでいると伝えられた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099540063986086270"
+      },
+      {
+        "headline": "インディアン・ゲーミング協会の会長が、現行の文言のままでは部族の主権にとってこの世代で最大の脅威になると述べた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099520202731827430"
+      },
+      {
+        "headline": "ベッセント財務長官が、クラリティ法は技術の世界競争に勝つために不可欠だと改めて訴えた",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2099543149773197382"
+      },
+      {
+        "headline": "上院銀行委員会の共和党側が、クラリティ法はステーブルコインの利回りに明確な上限を設けていると説明した",
+        "sourceUrl": "https://x.com/BankingGOP/status/2099548463084032382"
+      },
+      {
+        "headline": "ポリマーケットで、クラリティ法が年内に成立する確率が28%に上がった",
+        "sourceUrl": "https://x.com/Polymarket/status/2099529644596731950"
+      },
+      {
+        "headline": "下院金融サービス委員会が9月16日に、財務省に戦略的ビットコイン準備を設ける法案を審議すると伝えられた",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2099570691284840726"
+      },
+      {
+        "headline": "米財務省が、イランへの関与を理由にロシアの大手銀行 VTB を制裁対象に指定した",
+        "sourceUrl": "https://x.com/USTreasury/status/2099587988413931542"
+      },
+      {
+        "headline": "ベッセント財務長官が、イラン政権の資金源に関する内部告発を改めて呼びかけた",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2099513911569494201"
+      },
+      {
+        "headline": "日銀が8月の企業物価指数の月報を公表した",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2099470740156240033"
+      },
+      {
+        "headline": "日銀の増一行審議委員の福井での講演の内容が公表された",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2099468558711320971"
+      },
+      {
+        "headline": "グラスノードが、ビットコインは7万8,000ドル前後で週間1%ほどの下げにとどまり、値幅を保っていると分析した",
+        "sourceUrl": "https://x.com/glassnode/status/2099536718345163258"
+      },
+      {
+        "headline": "サークルが、ビットコインを貸し借りの担保として使うための cirBTC を紹介した",
+        "sourceUrl": "https://x.com/circle/status/2099528601666458033"
+      },
+      {
+        "headline": "ステーキングした TRX に連動する Canary の ETF が、フィデリティで取引できるようになった",
+        "sourceUrl": "https://x.com/trondao/status/2099550652854915210"
+      },
+      {
+        "headline": "Cardano の公式アカウントが「Governance Hours」の第10回で、OpenZeppelin Stack のために 11,787,063 AD…",
+        "sourceUrl": "https://x.com/Cardano/status/2099559083397333263"
+      },
+      {
+        "headline": "AlphaGrowth が、コミュニティの要望を受けて Cardano PRIME の募集分野に2つを加えました。そのうち一つは、Cardano の外から利用…",
+        "sourceUrl": "https://x.com/alphagrowth1/status/2099589037577425348"
+      },
+      {
+        "headline": "Liqwid Finance の週次の集計で、借り入れの総額が29.49%増えて886万ドルになり、増えた分の大半が ADA によるものでした",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2099561848999739859"
+      },
+      {
+        "headline": "Midnight Foundation が、償還された NIGHT が20億枚に達したと発表しました",
+        "sourceUrl": "https://x.com/midnightfdn/status/2099531123546108427"
+      },
+      {
+        "headline": "Mesh が、AI での開発との相性を高めるため、x402 を SDK に直接組み込むことを検討していると投稿しました",
+        "sourceUrl": "https://x.com/meshsdk/status/2099511247825666547"
+      },
+      {
+        "headline": "Cardano Foundation のアーキテクトによる、コーディングエージェントが Cardano について誤りやすい点を扱う配信が案内されました",
+        "sourceUrl": "https://x.com/Cardano/status/2099537435843579928"
+      },
+      {
+        "headline": "ゴミ箱1個を使った室内の水耕栽培で、ニラを380グラム収穫し、6回目の収穫になった",
+        "sourceUrl": "https://x.com/mikanbo_ya1987/status/2099445766645535206"
+      }
+    ],
+    "watch": [
+      "9月15日午後2時15分（米東部時間）の上院の議事終結の採決で、民主党から7票が出るか",
+      "9月16日の FOMC で利上げと声明の引き締めの度合い",
+      "ホルムズ海峡の航路をめぐる湾岸諸国とイランの協議が再び日程に上がるか"
+    ]
+  }
+}
