@@ -1,0 +1,65 @@
+{
+  "sessionId": "2026-09-19-ny-open",
+  "date": "2026-09-19",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-19-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-19-ny-open",
+  "publishedAt": "2026-09-20T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260919_1803_a15aa8bc",
+  "asOfJst": "2026-09-19T18:03:06+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月19日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,637.76 → 7,650.50（+0.17%）",
+    "変動幅上位: ETH/USD +5.5% / NIGHT/USD +5.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260919_1840_1d42f8fe",
+    "crawlAnchorJst": "2026-09-19T18:03:00+09:00",
+    "writtenAtJst": "2026-09-19T18:40:00+09:00",
+    "lead": "土曜の夕方に並んだのは、基盤の段が一つ上がる話と、その基盤に資産を預ける側の足元が崩れる話だった。Midnight はメインネットでのスマートコントラクト配備が近く有効になると開発者が述べ、公式アカウントがそれを拡散した。一方でセキュリティ企業は、あるアプリが iOS の深部を突いて秘密鍵やシードフレーズを読み取れる状態にあったと公表している。作る側の前進と、預ける側の前提は同じ速度では進まない。",
+    "items": [
+      {
+        "headline": "Midnight、メインネットでのスマートコントラクト配備が近く有効に",
+        "sourceUrl": "https://x.com/SebastienGllmt/status/2101183752991088907",
+        "note": "秘匿性のあるスマートコントラクトと、秘匿型カスタムトークンの発行を含むと開発者が説明し、公式アカウントが約3時間後にこの投稿を拡散した。有効化の具体日は示されていない。"
+      },
+      {
+        "headline": "IOG 創業者、RealFi は来月・Pogen は90日以内と述べる",
+        "sourceUrl": "https://x.com/IOHK_Charles/status/2101065153408041089",
+        "note": "同じ投稿で、Midnight は大型アップグレードの最中でアプリを有効化するとも述べた。あわせて、商用プロジェクトへの資金拠出が得られていないことへの不満を示している。"
+      },
+      {
+        "headline": "FomoPeek v1.1–1.2 に iOS カーネルの攻撃コード、鍵の露出が確認される",
+        "sourceUrl": "https://x.com/SlowMist_Team/status/2101211432541192615",
+        "note": "セキュリティ企業が、取引所のセキュリティチームとの共同調査の結果として公表した。攻撃が成功すればアプリの隔離を抜けて Keychain を復号し、ほかのアプリのファイルまで読めるという。"
+      },
+      {
+        "headline": "Electron 96号機、日本企業の地球観測衛星を572kmの軌道へ",
+        "sourceUrl": "https://x.com/RocketLab/status/2101173241406713953",
+        "note": "シンスペクティブの StriX としては12基目にあたる。同社向けの次の打ち上げは来週を予定しているという。"
+      },
+      {
+        "headline": "Qwen、同時通訳モデルの平均の遅れを2.8秒から2.3秒へ",
+        "sourceUrl": "https://x.com/Alibaba_Qwen/status/2101206705111757253",
+        "note": "60言語に対応し、話者の切り分けと、原文と訳文を同時に表示する機能を加えたと説明している。"
+      },
+      {
+        "headline": "Midnight 日本公式、TOKEN2049 のサイドイベントを告知",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2101158590400655692",
+        "note": "シンガポールで3日間、それぞれ異なるテーマで開催するとしている。"
+      }
+    ],
+    "watch": [
+      "Midnight のスマートコントラクト有効化が、いつ公式のリリースノートに日付付きで載るか",
+      "鍵の露出が確認された端末からの資産移動が、週明けの取引所側の動きに出るか",
+      "シンスペクティブ向けの次の打ち上げが、来週予定どおり行われるか"
+    ]
+  }
+}
