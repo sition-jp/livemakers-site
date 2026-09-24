@@ -8,6 +8,7 @@ from pathlib import Path
 
 INSTALLER = Path(__file__).resolve().parents[1] / "ops" / "install_launchagent.sh"
 PLIST_NAME = "com.sition.livemakers.pivots.daily.plist"
+LAUNCHCTL_SECRET_SENTINEL = "unit-launchctl-secret-sentinel"
 
 
 def _write_executable(path: Path, body: str) -> None:
@@ -22,6 +23,7 @@ def _installer_fixture(
     kickstart_status: str = "FAILED",
     kickstart_pid: int = 4242,
     logged_pid: int | None = None,
+    fail_initial_bootout: bool = False,
     fail_rollback_bootout: bool = False,
 ) -> tuple[Path, dict[str, str], Path, Path]:
     repo = tmp_path / "repo"
@@ -81,10 +83,14 @@ def _installer_fixture(
 echo "$*" >> "$PIVOTS_TEST_ACTIONS"
 case "$1" in
   print)
+    printf 'inherited environment = { TEST_SECRET => %s }\n' "$PIVOTS_TEST_PRINT_SECRET"
     grep -q '^loaded$' "$PIVOTS_TEST_STATE"
     ;;
   bootout)
     bootout_count="$(grep -c '^bootout ' "$PIVOTS_TEST_ACTIONS")"
+    if [ "$PIVOTS_TEST_FAIL_INITIAL_BOOTOUT" = 1 ] && [ "$bootout_count" -eq 1 ]; then
+      exit 1
+    fi
     if [ "$PIVOTS_TEST_FAIL_ROLLBACK_BOOTOUT" = 1 ] && [ "$bootout_count" -ge 2 ]; then
       exit 1
     fi
@@ -115,12 +121,46 @@ esac
                 kickstart_pid if logged_pid is None else logged_pid
             ),
             "PIVOTS_INSTALL_VERIFY_TIMEOUT_SECONDS": "1",
+            "PIVOTS_TEST_PRINT_SECRET": LAUNCHCTL_SECRET_SENTINEL,
+            "PIVOTS_TEST_FAIL_INITIAL_BOOTOUT": (
+                "1" if fail_initial_bootout else "0"
+            ),
             "PIVOTS_TEST_FAIL_ROLLBACK_BOOTOUT": (
                 "1" if fail_rollback_bootout else "0"
             ),
         }
     )
     return installer, env, plist, actions
+
+
+def test_initial_bootout_failure_does_not_leak_environment_and_restores_agent(
+    tmp_path: Path,
+) -> None:
+    installer, env, plist, actions = _installer_fixture(
+        tmp_path,
+        fail_initial_bootout=True,
+    )
+
+    result = subprocess.run(
+        ["bash", str(installer)],
+        env=env,
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )
+
+    assert result.returncode == 1
+    assert "launchctl bootout failed" in result.stderr
+    assert plist.read_text(encoding="utf-8") == "previous-plist\n"
+    assert Path(env["PIVOTS_TEST_STATE"]).read_text(encoding="utf-8") == "loaded\n"
+    recorded = actions.read_text(encoding="utf-8").splitlines()
+    assert sum(line.startswith("bootout ") for line in recorded) == 2
+    assert sum(line.startswith("bootstrap ") for line in recorded) == 1
+    assert not any(line.startswith("kickstart ") for line in recorded)
+    assert "restored previous LaunchAgent" in result.stderr
+    assert LAUNCHCTL_SECRET_SENTINEL not in result.stdout
+    assert LAUNCHCTL_SECRET_SENTINEL not in result.stderr
 
 
 def test_failed_kickstart_restores_previous_plist_and_loaded_agent(
