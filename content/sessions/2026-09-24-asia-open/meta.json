@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-09-24-asia-open",
+  "date": "2026-09-24",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-24-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-24-asia-open",
+  "publishedAt": "2026-09-25T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260924_0730_bd5332f3",
+  "asOfJst": "2026-09-24T07:30:19+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月24日 07:30 JST",
+  "bullets": [
+    "日経平均先物 67,020 → 66,080（-1.40%）",
+    "変動幅上位: ADA/USD -5.1% / NIGHT/USD -3.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260924_0603_2987e356",
+    "crawlAnchorJst": "2026-09-24T05:03:00+09:00",
+    "writtenAtJst": "2026-09-24T06:03:50+09:00",
+    "lead": "原油が下げ続けるなかで、米10年債利回りは5%台に乗せた。エネルギー価格が緩めば金利も緩むという順番が今回は成り立っておらず、市場が値付けしているのはインフレではなく国債そのものの需給だ。同じ日にトークン化された株式と預金の話が規制当局・取引所・銀行から並んで出てきた点も見逃せない。立法が止まっても配管の側は動く。",
+    "items": [
+      {
+        "headline": "米10年債利回りが5.13%まで上昇",
+        "sourceUrl": "https://x.com/CryptosR_Us/status/2102837923603484822",
+        "note": "金利上昇が株と暗号資産に同時に効いた。原油が下げても金利が下がらない点が今回の特徴になっている。"
+      },
+      {
+        "headline": "10月の米追加利上げ観測が予測市場で急上昇",
+        "sourceUrl": "https://x.com/Polymarket/status/2102778529360568504",
+        "note": "実現すれば連続利上げになる。"
+      },
+      {
+        "headline": "10年債利回りの上昇が住宅ローン金利に波及するとの指摘",
+        "sourceUrl": "https://x.com/WallStreetMav/status/2102838532918153246"
+      },
+      {
+        "headline": "NYSE がトークン化された米国株を扱う合意に署名",
+        "sourceUrl": "https://x.com/coinbureau/status/2102850960464973963",
+        "note": "対象は暗号資産口座4,400万件とされる。実際の開始には規制当局の承認が要る。"
+      },
+      {
+        "headline": "同じ枠組みで米国株の24時間取引が計画されている",
+        "sourceUrl": "https://x.com/AshCrypto/status/2102775399306744180"
+      },
+      {
+        "headline": "Securitize が KB 証券・Optimism と韓国の機関投資家向けトークン化証券で覚書",
+        "sourceUrl": "https://x.com/Securitize/status/2102765285837283691",
+        "note": "マネー・マーケット・ファンドのトークン化から始める計画が示された。"
+      },
+      {
+        "headline": "ChatGPT の音声がメール・カレンダー・Slack を扱えるようになった",
+        "sourceUrl": "https://x.com/OpenAI/status/2102808325742322002",
+        "note": "GPT-6 Astra、Sol、Luna が動かす。話しかけるだけで文書や表計算を作れる範囲まで広がった。"
+      },
+      {
+        "headline": "Cardano、minPoolCost を 75 ada へ下げる変更の解説会を告知",
+        "sourceUrl": "https://x.com/Cardano/status/2102775004463325620",
+        "note": "ステークプールが徴収する最低固定手数料を下げる案。成立には DRep と運営者の双方の賛成が要る。"
+      },
+      {
+        "headline": "Intersect 理事選の投票締切まで48時間",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2102714851684442310",
+        "note": "締切は9月25日12時（協定世界時）。"
+      },
+      {
+        "headline": "Cardano が9周年、ステークプール2,890・取引1億2,398万件",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2102732897451139475",
+        "note": "158件のガバナンスアクションに36,322票が投じられてきた。"
+      },
+      {
+        "headline": "SpaceX が Flight 14 に向けて Starship の積み上げを開始",
+        "sourceUrl": "https://x.com/SpaceX/status/2102820322915353038"
+      }
+    ],
+    "watch": [
+      "原油の下落が続いても長期金利が下がらないままか。下がらなければ金利の主因はインフレではない。",
+      "10月の米利上げが現実味を帯びるか。連続利上げならドル高と新興国債務が次の圧力点になる。",
+      "Cardano の minPoolCost 投票で、委任者の取り分と運営者の収入のどちらが優先されるか。"
+    ]
+  }
+}
