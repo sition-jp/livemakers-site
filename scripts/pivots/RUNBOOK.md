@@ -288,8 +288,15 @@ kickstart automatically restores the prior agent as described above.
 If no OK Telegram arrives by 08:30 JST:
 
 ```bash
-# Check the agent's current state and next-fire time
-launchctl print "gui/$(id -u)/com.sition.livemakers.pivots.daily" | grep -E "(state|next-time)"
+# Read only PID and last exit status from the launchctl list table
+launchctl list | awk '
+  NF == 3 && $3 == "com.sition.livemakers.pivots.daily" &&
+  $1 ~ /^(-|[0-9]+)$/ && $2 ~ /^-?[0-9]+$/ {
+    printf "pid=%s last_exit_status=%s\n", $1, $2
+    found = 1
+  }
+  END { if (!found) exit 1 }
+'
 
 # Check launchd's stderr for the agent
 tail -50 ~/Library/Logs/sition-livemakers/launchd.stderr.log
@@ -300,6 +307,23 @@ tail -1 scripts/pivots/ops.log.jsonl
 # Check whether the lock is stuck (rare — should never persist after process exit)
 ls -l scripts/pivots/.run_daily.lock 2>/dev/null
 ```
+
+`pid=-` means the loaded agent is idle; this table does not report the next fire
+time. No matching row or a command error is inconclusive: check the user session
+and read permissions before diagnosing an unloaded agent. Do not restart it just
+to obtain a status result. Inspect logs privately; do not paste raw logs or secret
+values into tickets, memory, or chat.
+
+PR #162 removed the installer's raw bootout-failure diagnostic rather than
+redacting it. Do not use raw `launchctl print` output or keyword filtering as a
+safe diagnostic: an inherited secret can itself contain a matching keyword.
+
+A last exit status of 0 is not proof of publication. Check the day's JSONL status
+and publisher result, then compare the public API/page `generated_at` with the
+generated snapshot. A success heartbeat alone does not prove current public data;
+actual Telegram receipt is a separate check. Historical OI ends at the latest
+eligible closed UTC bucket, so compare its coverage using the sidecar's bucket
+rules rather than requiring today's UTC date.
 
 Common causes:
 
