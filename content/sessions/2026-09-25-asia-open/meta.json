@@ -1,0 +1,104 @@
+{
+  "sessionId": "2026-09-25-asia-open",
+  "date": "2026-09-25",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-25-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-25-asia-open",
+  "publishedAt": "2026-09-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260925_0730_10fc0dec",
+  "asOfJst": "2026-09-25T07:30:16+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月25日 07:30 JST",
+  "bullets": [
+    "日経平均先物 65,990 → 65,565（-0.64%）",
+    "変動幅上位: NIGHT/USD +5.1% / ADA/USD +3.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260925_0620_14b3e4e2",
+    "crawlAnchorJst": "2026-09-25T05:03:00+09:00",
+    "writtenAtJst": "2026-09-25T06:20:00+09:00",
+    "lead": "FRB が銀行と子会社によるステーブルコイン発行の規則案 2 本を公表し、ドルのデジタル化は議会を待たずに当局の側で進み始めた。同じ日、トランプ大統領は習近平国家主席をホワイトハウスに迎えて首脳会談を行った。Cardano ではネイティブトークンの Fireblocks 対応が発表され、機関が使う保管基盤に入る道筋がついた。",
+    "items": [
+      {
+        "headline": "FRB、GENIUS 法にもとづく決済用ステーブルコイン発行者の規則案 2 本で意見募集",
+        "sourceUrl": "https://x.com/federalreserve/status/2103190602095702180",
+        "note": "準備資産の全額裏付け、資本基準、申請手続きを定める。意見募集は官報掲載から60日。"
+      },
+      {
+        "headline": "トランプ大統領と習近平国家主席がホワイトハウスで首脳会談",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2103203278465192194"
+      },
+      {
+        "headline": "米中首脳がそれぞれ演説",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2103124757852168551"
+      },
+      {
+        "headline": "DTCC のトークン化サービス、第4四半期に開始予定",
+        "sourceUrl": "https://x.com/chainlink/status/2103156578064941117",
+        "note": "DTC が保管する114兆ドルの資産が対象になる。"
+      },
+      {
+        "headline": "米現物ビットコイン ETF、前日3億4,690万ドルの純流入",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2103203235494552004",
+        "note": "直近5営業日の純流入は26億5,000万ドル。"
+      },
+      {
+        "headline": "今回のビットコインの下落局面は実現価格を一度も下回らなかったと glassnode",
+        "sourceUrl": "https://x.com/glassnode/status/2103162903599906971"
+      },
+      {
+        "headline": "Circle と Alpen、ビットコインを基盤とするチェーンに USDC を導入へ",
+        "sourceUrl": "https://x.com/AlpenLabs/status/2103122283006996655"
+      },
+      {
+        "headline": "Circle の提携プログラム、参加者が1,500社を超える",
+        "sourceUrl": "https://x.com/circle/status/2103152481572184464"
+      },
+      {
+        "headline": "外務省、旧敵国条項をめぐる中国の投稿は国連決議と相いれないと反論",
+        "sourceUrl": "https://x.com/MofaJapan_en/status/2103111094655242248"
+      },
+      {
+        "headline": "関東財務局、台風25号の被災者への預金払い戻しで柔軟な対応を金融機関に要請",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2103064115656949956"
+      },
+      {
+        "headline": "Cardano のネイティブトークン、Fireblocks で保管・送付・受領が可能に",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2103122498510262609",
+        "note": "取引所・銀行・フィンテックが既存のポリシー管理のまま扱えるようになる。"
+      },
+      {
+        "headline": "Catalyst Pilot 2026 の採択12件、資金の大半は利用実績に連動",
+        "sourceUrl": "https://x.com/Catalyst_onX/status/2103161746684838295"
+      },
+      {
+        "headline": "Intersect 理事選、日本時間9月25日21時に投票締切",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2103077424736932133"
+      },
+      {
+        "headline": "Midnight Foundation、SecondFi 事案の影響を受けた利用者と償還の対応を説明",
+        "sourceUrl": "https://x.com/midnightfdn/status/2103099939538501776"
+      },
+      {
+        "headline": "Odyssey、最大20人の人間とエージェントが同じ環境で動く世界モデル Agora-2 を公開",
+        "sourceUrl": "https://x.com/odysseyml/status/2103146841378586820"
+      },
+      {
+        "headline": "Google、宇宙の AI データセンターに向けた実験衛星を計画と伝えられる",
+        "sourceUrl": "https://x.com/Kalshi/status/2103205327017492502"
+      }
+    ],
+    "watch": [
+      "FRB 規則案の官報掲載日。60日間の意見募集の起点になる",
+      "米中首脳会談の共同文書で、貿易休戦と AI の扱いがどこまで文字になるか",
+      "Intersect 理事選の結果発表（9月28日）"
+    ]
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "sessionId": "2026-09-25-europe-bridge",
+  "date": "2026-09-25",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-25-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-25-europe-bridge",
+  "publishedAt": "2026-09-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260925_1203_debc0aab",
+  "asOfJst": "2026-09-25T12:03:09+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月25日 12:03 JST",
+  "bullets": [
+    "DXY 101.100 → 101.264（+0.16%）",
+    "変動幅上位: VIX +3.2% / NIGHT/USD +2.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260925_1229_261fb2ef",
+    "crawlAnchorJst": "2026-09-25T12:03:00+09:00",
+    "writtenAtJst": "2026-09-25T12:29:00+09:00",
+    "lead": "暗号資産取引所 Bitget の大規模流出が、今日いちばん重い出来事になった。守りの要はコールドウォレットと保護基金という二重の備えで、事後報告書が出るまでは帰属の断定を避けるべき局面だ。一方で、規制の側はトークン化資産を担保や運用の器として正式に受け入れ始め、宇宙では AI の計算そのものを軌道へ運ぶ実験が動き出す。盗まれるリスクと、新しい器へ資産と計算が移る流れが、同じ日に並んで見えている。",
+    "items": [
+      {
+        "headline": "暗号資産取引所 Bitget で約3.5億ドルが流出、出金を一時停止",
+        "sourceUrl": "https://x.com/AshCrypto/status/2103236717063094286",
+        "note": "ホット／ウォームウォレットが破られ、コールドは無事と同社は説明。約4.6億ドルの利用者保護基金で補填するとし、北朝鮮系集団の関与を疑うと述べたが、技術的根拠はまだ示されていない。"
+      },
+      {
+        "headline": "トランプ大統領、訪米中の習近平主席をホワイトハウスの国賓晩餐会で迎える",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2103263587225460772",
+        "note": "国賓訪問は2日目に入り、米中の首脳外交は儀礼の段階から実務協議の中身へ焦点が移る。"
+      },
+      {
+        "headline": "Google、AI チップを搭載した試作衛星を来週打ち上げへ",
+        "sourceUrl": "https://x.com/Polymarket/status/2103224704295453030",
+        "note": "Project Suncatcher の初実験で、TPU が打ち上げの衝撃や宇宙の放射線・温度差に耐えられるかを確かめる。計算の電力制約を地上から外す構想の第一歩になる。"
+      },
+      {
+        "headline": "CFTC、先物業者が顧客資金をトークン化資産で運用することを認める",
+        "sourceUrl": "https://x.com/coinbureau/status/2103218858089988548",
+        "note": "記録をオンチェーンで持つことも認められ、トークン化資産が規制下の担保・運用対象へ入り始めた。"
+      },
+      {
+        "headline": "Iridium 株主が Rocket Lab による買収を承認",
+        "sourceUrl": "https://x.com/RocketLab/status/2103226281093742762",
+        "note": "賛成は投じられた票の99.6%。打ち上げ会社が衛星通信網を抱える垂直統合で、完了は2027年半ばの見込み。"
+      },
+      {
+        "headline": "SpaceX、Starship 第14回飛行に向けた打ち上げリハーサルを完了",
+        "sourceUrl": "https://x.com/SpaceX/status/2103230238390173995"
+      },
+      {
+        "headline": "Cardano の Catalyst Pilot 2026、採択12プロジェクトを公表",
+        "sourceUrl": "https://x.com/Catalyst_onX/status/2103161746684838295",
+        "note": "ステーブルコインやオラクルなど実用寄りの案件が並び、支払いは利用実績に連動する設計。"
+      },
+      {
+        "headline": "千葉・印旛沼の堤防決壊で一帯が冠水、水没した太陽光パネル付近から火と煙",
+        "sourceUrl": "https://x.com/nhk_news/status/2102960620161442247",
+        "note": "浸水した太陽光設備は通電が続くおそれがあり、近づかないことが基本になる。"
+      },
+      {
+        "headline": "スターバックス、北米で業績不振の約250店舗を閉鎖へ",
+        "sourceUrl": "https://x.com/Sankei_news/status/2103271115493969987"
+      }
+    ],
+    "watch": [
+      "Bitget の事後報告書 (9/25 21:30 UTC 公表予定) で、侵入経路と帰属の根拠がどこまで示されるか",
+      "Google の試作衛星を載せた Transporter-18 の打ち上げ (10/1 予定) と、TPU の軌道上動作の初報",
+      "米中首脳の実務協議で、関税・半導体・AI 安全保障のどこに合意文言が出るか"
+    ]
+  }
+}
