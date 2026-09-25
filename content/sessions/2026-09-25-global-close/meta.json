@@ -1,0 +1,109 @@
+{
+  "sessionId": "2026-09-25-global-close",
+  "date": "2026-09-25",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-25-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-25-global-close",
+  "publishedAt": "2026-09-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260925_2303_cd933c19",
+  "asOfJst": "2026-09-25T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月25日 23:03 JST",
+  "bullets": [
+    "Gold $4,298.00 → $4,317.60（+0.46%）",
+    "変動幅上位: ADA/USD +5.3% / NIGHT/USD +3.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260925_0020_369d1c46",
+    "crawlAnchorJst": "2026-09-25T23:03:00+09:00",
+    "writtenAtJst": "2026-09-26T00:20:00+09:00",
+    "lead": "今夜の中心は「トークン化の足場を誰が握るか」だ。FRB が銀行発行ステーブルコインの規則案 2 本を意見募集にかけ、Injective は譲渡制限などの規制要件をトークン自体に埋め込む仕組みをメインネットで稼働させた。Cardano 側では FC バルセロナがファン参加の記録基盤に Cardano を選び、非金融の大型ブランドが検証可能なクレデンシャルという使い道を示した。一方で Bitget の大規模流出は、取引所の保管リスクが依然として残っていることを突きつけている。",
+    "items": [
+      {
+        "headline": "FRB、銀行が発行するステーブルコインの規制枠組みに関する提案 2 本で意見募集",
+        "sourceUrl": "https://x.com/federalreserve/status/2103190602095702180"
+      },
+      {
+        "headline": "Injective、規制対応トークンと RWA 無期限先物を扱う Meridian アップグレードをメインネットで稼働",
+        "sourceUrl": "https://x.com/injective/status/2103177012760244403",
+        "note": "発行者がコンプライアンスや譲渡条件をトークンに組み込める設計で、機関向けの秘匿型 RFQ の試験も始まる。"
+      },
+      {
+        "headline": "FC バルセロナ、Andamio と組んだ Cardano 上のファン参加基盤『Barça Fan Lab』を公開",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2103477183570227385",
+        "note": "クラブの歴史や価値観を学び、コミュニティ活動に参加した記録を検証可能なデジタル証明として受け取れる。"
+      },
+      {
+        "headline": "Bitget、ホットウォレットから約 3.5 億ドル規模の流出 — CEO は利用者資産は保全と説明",
+        "sourceUrl": "https://x.com/coinbureau/status/2103241640370688019"
+      },
+      {
+        "headline": "Cardano ネイティブトークンが Fireblocks の保管・送付基盤で扱えるように",
+        "sourceUrl": "https://x.com/FireblocksHQ/status/2103123084635169128"
+      },
+      {
+        "headline": "Catalyst Pilot 2026 の採択 12 件が公表、ステーブルコインやオラクルなど基盤系が中心",
+        "sourceUrl": "https://x.com/Catalyst_onX/status/2103161746684838295"
+      },
+      {
+        "headline": "Intersect 理事選挙 2026 の投票が締め切り、候補 11 名から 2 議席を選出",
+        "sourceUrl": "https://discord.com/channels/1136727663583698984/1139084723763814590/1552970212012331040"
+      },
+      {
+        "headline": "Midnight 財団、SecondFi の事案と Glacier Drop 償還の対応状況を更新",
+        "sourceUrl": "https://x.com/midnightfdn/status/2103099939538501776"
+      },
+      {
+        "headline": "Midnight、EU 電池パスポート向けの NightPass を紹介 — 2027 年 2 月からの規制を見据えた秘匿型の証明",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2103431110529077312"
+      },
+      {
+        "headline": "Iagon、AlphaGrowth の Cardano PRIME 公募に RWA 部門で提案を提出",
+        "sourceUrl": "https://x.com/IagonOfficial/status/2103331812789387312"
+      },
+      {
+        "headline": "ラミス上院議員、民主党が DeFi のフロントエンドにも制裁法の順守を求めていると指摘",
+        "sourceUrl": "https://x.com/SenLummis/status/2103482150997954881"
+      },
+      {
+        "headline": "イラン、ホルムズ海峡の再開につながる『7 日間』案を米国に提示したと報道",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2103311276982010014"
+      },
+      {
+        "headline": "SpaceX、Starship Flight 14 に向けた打ち上げリハーサルを完了",
+        "sourceUrl": "https://x.com/SpaceX/status/2103230238390173995"
+      },
+      {
+        "headline": "Google、TPU を宇宙で動かす Project Suncatcher の実証へ",
+        "sourceUrl": "https://x.com/sundarpichai/status/2103209164072010051"
+      },
+      {
+        "headline": "Tesla、Semi の量産ロールアウトを公開",
+        "sourceUrl": "https://x.com/Tesla/status/2103290825618960607"
+      },
+      {
+        "headline": "Gemini 3.8 Live の Live Avatar が Gemini Enterprise で一般提供に",
+        "sourceUrl": "https://x.com/GoogleCloudTech/status/2103157502988746877"
+      },
+      {
+        "headline": "DeepMind Institute、エージェント群の逸脱をどう制御するかなど論考 3 本を公開",
+        "sourceUrl": "https://x.com/ShaneLegg/status/2103123676178866658"
+      },
+      {
+        "headline": "Bitcoin Optech Newsletter #424 公開",
+        "sourceUrl": "https://bitcoinops.org/en/newsletters/2026/09/25/"
+      }
+    ],
+    "watch": [
+      "Bitget の事後報告書 — 流出経路と補償の範囲がどこまで具体的に示されるか。",
+      "Intersect 理事選挙の結果公表（9 月 28 日予定）と Starship Flight 14 の打ち上げ（9 月 28 日予定）。",
+      "FRB のステーブルコイン規則案と CLARITY 法案の上院審議が、銀行発行と非銀行発行の線引きをどう分けるか。"
+    ]
+  }
+}
