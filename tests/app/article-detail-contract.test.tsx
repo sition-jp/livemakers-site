@@ -254,6 +254,10 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
       "#■-三日で二件",
       "#■-今後-48-72-時間",
     ]);
+    const labels = [...container.querySelectorAll("[data-article-toc] a")].map((a) =>
+      a.textContent,
+    );
+    expect(labels).toEqual(["発表されたこと", "三日で二件", "今後 48-72 時間"]);
   });
 
   it("separates source / display checksums with an inert transform (INFLOW-G2 T1a)", async () => {

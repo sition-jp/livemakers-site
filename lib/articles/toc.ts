@@ -23,6 +23,17 @@ const DAILY_INTEL_BLOCK_MARKERS = ["🎯", "🧭", "📊", "⚡", "🔄", "📎"
 const SQUARE_MARKER = "■";
 const SUB_MARKER = "▫";
 
+/**
+ * 表示用の見出し文字列。■ / ▫ は原稿 (X 公開体裁) の章マーカーで、サイトでは
+ * h2/h3 の装飾が同じ役を担うため表示から外す (2026-09-26 田平氏 GO — LMK サイトの
+ * lib/articles/article-section-heading.ts と同じ扱い)。Daily Intel のブロック
+ * 絵文字は型の一部なので残す。id は従来どおり原文 (マーカー込み) から採番し、
+ * アンカーと本文文字列 (feed checksum の証跡) は変えない。
+ */
+export function displayHeadingText(text: string): string {
+  return text.trim().replace(/^[■▫][ \u3000]*/u, "");
+}
+
 export function slugifyHeading(text: string): string {
   return text
     .trim()
@@ -109,7 +120,7 @@ export function extractToc(markdown: string): TocItem[] {
     // level 3 (■/▫ 副見出し) は TOC に載せないが、描画側と id の序数を
     // 揃えるため claim だけ行う (同名見出しの -2 suffix ずれ防止)。
     const id = claimId(text);
-    if (marker.level === 2) items.push({ id, text });
+    if (marker.level === 2) items.push({ id, text: displayHeadingText(text) });
   }
   return items;
 }
