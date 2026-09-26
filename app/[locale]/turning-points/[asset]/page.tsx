@@ -13,6 +13,7 @@ import { AssetDetail } from "@/components/turning-points/AssetDetail";
 import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
+import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 
 /**
  * /turning-points/[asset]?h=<horizon> — Asset Detail (PRD §22 Screen 2).
@@ -55,6 +56,8 @@ export default async function TurningPointAssetPage({
   const t = await getTranslations("turningPoints");
   const result = await readAssetsSnapshot();
   const detail = result.snapshot?.detail[detailKey(assetParse.data, selectedHorizon)];
+  const prevRadar = result.snapshot?.previous?.radar.find((a) => a.symbol === assetParse.data);
+  const previous = prevRadar ? prevRadar.scores[selectedHorizon] : null;
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-12 space-y-8">
@@ -75,6 +78,8 @@ export default async function TurningPointAssetPage({
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
 
+      <ReadingGuide variant="radar" />
+
       <DisclaimerBanner />
 
       {result.parseError !== null ? (
@@ -87,6 +92,7 @@ export default async function TurningPointAssetPage({
           detail={detail}
           asset={assetParse.data}
           selectedHorizon={selectedHorizon}
+          previous={previous}
         />
       ) : (
         <div

@@ -6,6 +6,7 @@ import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ProvisionalBacktestBanner } from "@/components/turning-points/ProvisionalBacktestBanner";
+import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 
 /**
  * /turning-points/backtest — Backtest screen (PRD §22 Screen 3).
@@ -46,6 +47,8 @@ export default async function BacktestPage({
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
       <ProvisionalBacktestBanner />
+
+      <ReadingGuide variant="backtest" />
 
       <DisclaimerBanner />
 
