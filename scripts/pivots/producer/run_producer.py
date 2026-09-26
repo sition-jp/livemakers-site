@@ -43,7 +43,6 @@ from producer.bulk_history import BulkHistory, default_http_get_status, refresh
 from producer.compose_assets import compose_pivot_assets_snapshot
 from producer.compose_backtest import (
     BACKTEST_HISTORY_START_DAY,
-    BacktestHistoryError,
     compose_pivot_backtest_snapshot,
 )
 from producer.derivatives_sidecar import (

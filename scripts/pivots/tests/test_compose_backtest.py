@@ -1,16 +1,16 @@
 import json
-from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
 
-from producer.bulk_history import BulkHistory, DayRecord
+from producer.bulk_history import BulkHistory
 from producer.compose_backtest import (
     MIN_HISTORY_COVERAGE,
     BacktestHistoryError,
     compose_pivot_backtest_snapshot,
 )
 from producer.fetch_binance import BinanceFetcher
+from tests._bulk_fixture import synthetic_day_records
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
 NOW_ISO = "2026-05-04T00:00:00Z"
@@ -33,16 +33,7 @@ def fetcher() -> BinanceFetcher:
 def _synthetic_history(symbol: str, klines_path: Path, *, drop_every: int | None = None) -> BulkHistory:
     """Six OI samples and three funding events per candle day; OI ramps 14-day-wise so the OI rule can fire."""
     rows = json.loads(klines_path.read_text())
-    records = []
-    for i, row in enumerate(rows):
-        day = datetime.fromtimestamp(row[0] / 1000, tz=timezone.utc)
-        d = day.strftime("%Y-%m-%d")
-        if drop_every and i % drop_every == 0:
-            continue
-        base = 1000.0 * (1.0 + 0.15 * ((i // 14) % 2))
-        oi = tuple((int((day + timedelta(hours=h)).timestamp() * 1000), base, base * 2) for h in (0, 4, 8, 12, 16, 20))
-        fu = tuple((int((day + timedelta(hours=h)).timestamp() * 1000), 0.0001 if i % 40 else 0.001) for h in (0, 8, 16))
-        records.append(DayRecord(day=d, oi=oi, funding=fu))
+    records = synthetic_day_records(rows, drop_every=drop_every)
     return BulkHistory(symbol, records)
 
 

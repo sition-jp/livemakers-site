@@ -823,3 +823,29 @@ def test_run_producer_emits_bulk_degraded_marker_when_refresh_errors(
     )
     assert rc == 0                                  # cache is complete enough; refresh failure only degrades
     assert "bulk_history_degraded=" in capsys.readouterr().out
+
+
+def test_run_producer_emits_lag_marker_when_bulk_days_are_missing(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, bulk_cache: Path, capsys, monkeypatch
+) -> None:
+    from producer.bulk_history import RefreshResult
+    monkeypatch.setattr(
+        "producer.run_producer.refresh",
+        lambda *args, **kwargs: RefreshResult(
+            fetched_days=0,
+            missing_days={"BTCUSDT": ["2026-09-24", "2026-09-25", "2026-09-26"]},
+            errors=[],
+        ),
+    )
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=tmp_path / "a.json",
+        backtest_path=tmp_path / "b.json",
+        derivatives_history_path=tmp_path / "s.json",
+        dry_run=True,
+        skip_zod_validate=True,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
+    )
+    assert rc == 0
+    assert "bulk_history_degraded=bulk_history_lag_days=3" in capsys.readouterr().out
