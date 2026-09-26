@@ -1,11 +1,14 @@
 /**
  * Turning-point timeline — pure coordinate model (spec 2026-09-26 §3.6 T1-T6, §5.8 T-U1).
  *
- * Renders no markup and knows no i18n. It only turns a snapshot's rolling
- * `history`, the currently selected horizon's scores, and backtest lead-time
- * metrics into SVG coordinates the component can draw. Wording lives entirely
- * in the component + i18n layer so this file can never assert a direction —
- * it only emits numbers and an "up"/"down" lean flag that the caller labels.
+ * Renders no markup and knows no i18n. It turns a snapshot's rolling
+ * `history` (read at the selected horizon for the past panel), each
+ * horizon's own current scores/direction bias (for the three forward
+ * windows — T2: each window is shaded and leaned by ITS OWN horizon, not
+ * the selected one), and backtest lead-time metrics into SVG coordinates
+ * the component can draw. Wording lives entirely in the component + i18n
+ * layer so this file can never assert a direction — it only emits numbers
+ * and an "up"/"down" lean flag that the caller labels.
  */
 import { DIRECTION_GAP } from "./describe";
 import { scoreLevel } from "./types";
@@ -114,9 +117,12 @@ export interface TimelineInput {
   asset: AssetSymbol;
   /** YYYY-MM-DD, the snapshot's generated_at date. */
   today: string;
+  /** Selected horizon — drives the past panel only (markers/strip/example). */
   horizon: Horizon;
-  current: RadarScores;
-  directionBias: DirectionBias | null;
+  /** Each horizon's own current scores — drives that window's opacity/level (T2). */
+  currentByHorizon: Record<Horizon, RadarScores>;
+  /** Each horizon's own direction bias — drives that window's lean (T2). */
+  biasByHorizon: Partial<Record<Horizon, DirectionBias | null>>;
   history: HistoryEntry[] | null;
   backtest: BacktestEntry[];
   /** SVG viewBox width; layout constants scale to this. Default 680. */
@@ -265,21 +271,25 @@ export function buildTimelineModel(input: TimelineInput): TimelineModel {
     past = { points, strip, markers, example };
   }
 
-  const level = scoreLevel(input.current.overall);
-  const lean = computeLean(level, input.directionBias);
-  const opacity = Math.max(0.12, input.current.overall / 100);
   const windowX = todayX;
   const windowWidth = futureXEnd - todayX;
 
-  const windows: TimelineWindow[] = HORIZONS.map((horizon) => ({
-    horizon,
-    x: windowX,
-    width: windowWidth,
-    opacity,
-    level,
-    lean,
-    ticks: buildTicks(input.backtest, input.asset, horizon, windowX, windowWidth),
-  }));
+  const windows: TimelineWindow[] = HORIZONS.map((horizon) => {
+    const scores = input.currentByHorizon[horizon];
+    const level = scoreLevel(scores.overall);
+    const bias = input.biasByHorizon[horizon] ?? null;
+    const lean = computeLean(level, bias);
+    const opacity = Math.max(0.12, scores.overall / 100);
+    return {
+      horizon,
+      x: windowX,
+      width: windowWidth,
+      opacity,
+      level,
+      lean,
+      ticks: buildTicks(input.backtest, input.asset, horizon, windowX, windowWidth),
+    };
+  });
 
   return {
     xOfDate,

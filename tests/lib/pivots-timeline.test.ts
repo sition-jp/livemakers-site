@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildTimelineModel, TIMELINE_LAYOUT } from "@/lib/pivots/timeline";
-import type { BacktestEntry, DirectionBias, HistoryEntry, RadarScores } from "@/lib/pivots/types";
+import type { BacktestEntry, DirectionBias, HistoryEntry, Horizon, RadarScores } from "@/lib/pivots/types";
 
 const TODAY = "2026-09-26";
 
@@ -12,6 +12,21 @@ function scores(overall: number, pp = overall, vp = overall): RadarScores {
     confidence_grade: "B",
     main_signal: "mixed",
   };
+}
+
+/** Same RadarScores reused for all three horizons — for tests that don't exercise T2 per-horizon variance. */
+function uniformCurrent(overall: number, pp = overall, vp = overall): Record<Horizon, RadarScores> {
+  const s = scores(overall, pp, vp);
+  return { "7D": s, "30D": s, "90D": s };
+}
+
+/** Same DirectionBias (or null) reused for all three horizons. */
+function uniformBias(bias: DirectionBias | null): Partial<Record<Horizon, DirectionBias | null>> {
+  return { "7D": bias, "30D": bias, "90D": bias };
+}
+
+function bias(bullish: number, bearish: number): DirectionBias {
+  return { bullish, bearish, neutral: 100 - bullish - bearish };
 }
 
 function entry(date: string, close: number, overall30: number, extra: Partial<HistoryEntry["overall"]> = {}): HistoryEntry {
@@ -50,8 +65,8 @@ describe("buildTimelineModel — no history (T5)", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: null,
       backtest: [],
     });
@@ -65,8 +80,8 @@ describe("buildTimelineModel — no history (T5)", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: [],
       backtest: [],
     });
@@ -93,8 +108,8 @@ describe("buildTimelineModel — past strip and markers", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history,
       backtest: [],
     });
@@ -107,8 +122,8 @@ describe("buildTimelineModel — past strip and markers", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history,
       backtest: [],
     });
@@ -136,8 +151,8 @@ describe("buildTimelineModel — past strip and markers", () => {
       asset: "BTC",
       today: long[long.length - 1].date,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: long,
       backtest: [],
     });
@@ -146,72 +161,72 @@ describe("buildTimelineModel — past strip and markers", () => {
   });
 });
 
-describe("buildTimelineModel — lean", () => {
-  const bias = (bullish: number, bearish: number): DirectionBias => ({
-    bullish,
-    bearish,
-    neutral: 100 - bullish - bearish,
-  });
-
-  it("is null when the state is Low, even with a wide bias gap", () => {
+describe("buildTimelineModel — lean and opacity are per-horizon (T2)", () => {
+  it("shades and leans each window by ITS OWN horizon: 7D quiet/no-lean, 30D up, 90D down", () => {
     const model = buildTimelineModel({
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: bias(80, 5),
+      currentByHorizon: {
+        "7D": scores(10), // Low
+        "30D": scores(55), // Medium
+        "90D": scores(78), // High
+      },
+      biasByHorizon: {
+        "7D": bias(90, 5), // wide gap, but Low blocks lean regardless of bias
+        "30D": bias(70, 30), // gap 40 >= 25 -> up
+        "90D": bias(10, 80), // gap -70 -> down
+      },
       history: null,
       backtest: [],
     });
-    expect(model.windows.every((w) => w.lean === null)).toBe(true);
+
+    const w7 = model.windows.find((w) => w.horizon === "7D")!;
+    const w30 = model.windows.find((w) => w.horizon === "30D")!;
+    const w90 = model.windows.find((w) => w.horizon === "90D")!;
+
+    expect(w7.level).toBe("Low");
+    expect(w7.lean).toBeNull();
+    expect(w30.level).toBe("Medium");
+    expect(w30.lean).toBe("up");
+    expect(w90.level).toBe("High");
+    expect(w90.lean).toBe("down");
+
+    // opacity tracks each window's OWN horizon score — not a single shared value.
+    expect(w7.opacity).toBeCloseTo(0.12, 5); // max(0.12, 10/100)
+    expect(w30.opacity).toBeCloseTo(0.55, 5);
+    expect(w90.opacity).toBeCloseTo(0.78, 5);
+    expect(w7.opacity).not.toBeCloseTo(w30.opacity, 2);
+    expect(w30.opacity).not.toBeCloseTo(w90.opacity, 2);
+    expect(w7.opacity).not.toBeCloseTo(w90.opacity, 2);
   });
 
-  it("is 'up' when Medium+ and bullish-bearish gap >= 25", () => {
+  it("keeps the gap-threshold rule independently per horizon (< 25 stays null even at Medium+)", () => {
     const model = buildTimelineModel({
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(55),
-      directionBias: bias(60, 20),
+      currentByHorizon: uniformCurrent(55), // Medium on every horizon
+      biasByHorizon: {
+        "7D": bias(45, 35), // gap 10 < 25 -> null
+        "30D": bias(60, 20), // gap 40 -> up
+        "90D": bias(20, 60), // gap -40 -> down
+      },
       history: null,
       backtest: [],
     });
-    expect(model.windows.every((w) => w.lean === "up")).toBe(true);
+    expect(model.windows.find((w) => w.horizon === "7D")!.lean).toBeNull();
+    expect(model.windows.find((w) => w.horizon === "30D")!.lean).toBe("up");
+    expect(model.windows.find((w) => w.horizon === "90D")!.lean).toBe("down");
   });
 
-  it("is 'down' when Medium+ and bearish-bullish gap >= 25", () => {
+  it("is null when a horizon has no entry at all in biasByHorizon", () => {
     const model = buildTimelineModel({
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(55),
-      directionBias: bias(20, 60),
-      history: null,
-      backtest: [],
-    });
-    expect(model.windows.every((w) => w.lean === "down")).toBe(true);
-  });
-
-  it("is null when Medium+ but the gap is under 25", () => {
-    const model = buildTimelineModel({
-      asset: "BTC",
-      today: TODAY,
-      horizon: "30D",
-      current: scores(55),
-      directionBias: bias(45, 35),
-      history: null,
-      backtest: [],
-    });
-    expect(model.windows.every((w) => w.lean === null)).toBe(true);
-  });
-
-  it("is null when directionBias is null", () => {
-    const model = buildTimelineModel({
-      asset: "BTC",
-      today: TODAY,
-      horizon: "30D",
-      current: scores(55),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(55),
+      biasByHorizon: {}, // no keys for any horizon
       history: null,
       backtest: [],
     });
@@ -233,8 +248,8 @@ describe("buildTimelineModel — lead-time ticks (T3)", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: null,
       backtest,
     });
@@ -259,8 +274,8 @@ describe("buildTimelineModel — lead-time ticks (T3)", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: null,
       backtest,
     });
@@ -270,10 +285,6 @@ describe("buildTimelineModel — lead-time ticks (T3)", () => {
 
 describe("buildTimelineModel — example arrow (T4)", () => {
   it("builds a label-worthy example from the latest strong marker when the +H close exists", () => {
-    const history: HistoryEntry[] = [
-      entry("2026-08-27", 58000, 20),
-      entry("2026-08-28", 59000, 75), // strong marker, 30D horizon +30d -> 2026-09-27 (not in range/today)
-    ];
     // Use a 7D horizon so the target date (2026-09-04) can exist within a short history.
     const withTarget: HistoryEntry[] = [
       entry("2026-08-28", 59000, 75, {}),
@@ -289,8 +300,8 @@ describe("buildTimelineModel — example arrow (T4)", () => {
       asset: "BTC",
       today: "2026-09-04",
       horizon: "7D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: withTarget,
       backtest: [],
     });
@@ -318,8 +329,8 @@ describe("buildTimelineModel — example arrow (T4)", () => {
       asset: "BTC",
       today: "2026-09-04",
       horizon: "7D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history,
       backtest: [],
     });
@@ -336,8 +347,8 @@ describe("buildTimelineModel — example arrow (T4)", () => {
       asset: "BTC",
       today: "2026-09-02",
       horizon: "7D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history,
       backtest: [],
     });
@@ -353,8 +364,8 @@ describe("buildTimelineModel — example arrow (T4)", () => {
       asset: "BTC",
       today: "2026-09-02",
       horizon: "7D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history,
       backtest: [],
     });
@@ -368,8 +379,8 @@ describe("buildTimelineModel — width scaling", () => {
       asset: "BTC",
       today: TODAY,
       horizon: "30D",
-      current: scores(10),
-      directionBias: null,
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
       history: null,
       backtest: [],
       width: 340, // half of 680
