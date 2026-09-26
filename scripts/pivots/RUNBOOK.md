@@ -456,7 +456,6 @@ above. Neither message proves production publication succeeded. If a sidecar
 canonical copy through the approved repair procedure; do not delete it merely
 to silence the alert.
 
-
 ## Bulk derivatives history (backtest input, 2026-10)
 
 The backtest reads OI/funding from a runner-local cache under
