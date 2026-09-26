@@ -79,7 +79,20 @@ from urllib import request as _urllib_request
 from urllib import parse as _urllib_parse
 
 
-_SECRETS_PATH = Path.home() / ".sition" / "secrets.env"
+_SECRETS_PATH_ENV = "PIVOTS_SECRETS_ENV"
+
+
+def _resolve_secrets_path() -> Path:
+    """Secrets file location: PIVOTS_SECRETS_ENV when set, else ~/.sition/secrets.env.
+
+    The override exists so test sessions (and ad-hoc operator runs) can point the
+    alert adapter away from the real operator credentials; production never sets it.
+    """
+    override = os.environ.get(_SECRETS_PATH_ENV)
+    return Path(override) if override else Path.home() / ".sition" / "secrets.env"
+
+
+_SECRETS_PATH = _resolve_secrets_path()
 _TELEGRAM_BOT_TOKEN_KEY = "TELEGRAM_LIVEMAKERS_BOT_TOKEN"
 _TELEGRAM_CHAT_ID_KEY = "TELEGRAM_LIVEMAKERS_CHAT_ID"
 _TELEGRAM_TIMEOUT_SECONDS = 10
