@@ -822,6 +822,22 @@
       "use": "How to use it: as background when reading articles. A ten-second check of \"quiet or aligning?\" and \"price or volatility?\".",
       "backtest_title": "How to read this table",
       "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only."
+    },
+    "timeline": {
+      "heading": "Turning-point timeline",
+      "past": "Last 120 days",
+      "future": "Windows ahead",
+      "window": "{h} window",
+      "lead": "Past signals of this kind moved after {days} days on average (n={n})",
+      "lead_weak": "indicative",
+      "lean_up": "Lean: up",
+      "lean_down": "Lean: down",
+      "example": "{date} score {score} → {move} within {days} days",
+      "note": "Windows show how likely a move is, not its direction; the lean can be wrong",
+      "no_history": "History is still accumulating",
+      "legend_marker": "Days with score ≥ 40",
+      "legend_strong": "Days ≥ 70",
+      "legend_strip": "Score intensity"
     }
   },
   "futureAtlas": {
