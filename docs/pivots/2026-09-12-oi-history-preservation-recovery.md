@@ -208,11 +208,14 @@ Require JSONL OK, no sidecar degradation, public-pair validation, and preservati
 of restored OI after fetching. Process exit 0 alone is insufficient. Re-enable
 the generation-only schedule as appropriate; do not accidentally enable publish.
 
-Before the later zero-touch activation, install the reviewed publisher code and
-resolve two preflight issues separately: the installer default 120-second verify
-timeout is shorter than publication/deployment polling budgets, and its bootout
-failure branch prints raw `launchctl print` output (possible inherited secrets).
-Use a reviewed redacted diagnostic and an explicitly chosen verification budget.
+Before any separately approved zero-touch activation or reinstall, install the
+reviewed publisher code and choose an explicit verification budget: the installer
+default 120-second verify timeout is shorter than publication/deployment polling
+budgets. PR #162 (merged as `478c92f`) removed the raw `launchctl print` diagnostic
+from the bootout failure branch. The policy is omission, not redaction; remaining
+internal `print` queries discard both stdout and stderr. Do not restore raw output
+or treat a keyword filter as secret redaction. Use the RUNBOOK's table-only
+LaunchAgent status check when investigating.
 Check credentials privately, then follow the separately approved activation
 procedure. The installer itself kickstarts the first run; do not start a second.
 
