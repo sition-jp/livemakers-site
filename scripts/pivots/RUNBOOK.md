@@ -455,3 +455,24 @@ above. Neither message proves production publication succeeded. If a sidecar
 `.bak` remains, preserve both files and their digests, then determine the
 canonical copy through the approved repair procedure; do not delete it merely
 to silence the alert.
+
+
+## Bulk derivatives history (backtest input, 2026-10)
+
+The backtest reads OI/funding from a runner-local cache under
+`scripts/pivots/.bulk_cache/<SYMBOL>/<YYYY-MM-DD>.json` (gitignored; never part of
+the publication allowlist). Sources: Binance public bulk metrics
+(`data.binance.vision`, 5-minute OI, 4h-aligned samples) and `/fapi/v1/fundingRate`.
+The live sidecar is unchanged and is NOT merged with this cache.
+
+- Seed once: `.venv/bin/python -m ops.backfill_bulk_history --start 2021-12-01`
+  (idempotent; reruns fetch only missing days).
+- Daily run refreshes missing days before composing. Fetch problems print
+  `bulk_history_degraded=<reason>` and the run continues on the cache.
+- Fail closed: if OI coverage over the backtest window is below 90%, the producer
+  exits 1 (`compose failed: ... history coverage ...`) and nothing is published.
+  There is no proxy fallback by design. Fix the cache (rerun the seed), then rerun.
+- The bulk host publishes a day's file the next day; a lag of 1–2 days is normal.
+  `bulk_history_lag_days=N` with N > 2 for three consecutive runs is an incident.
+- Alignment gate (run before wiring changes): `.venv/bin/python -m ops.alignment_report
+  --sidecar data/pivot_derivatives_history.live.json --cache-dir .bulk_cache`.
