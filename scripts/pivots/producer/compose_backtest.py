@@ -81,6 +81,12 @@ BACKTEST_HISTORY_START_DAY = "2021-12-01"
 # over the walked window, compose_pivot_backtest_snapshot refuses to run.
 MIN_HISTORY_COVERAGE = 0.90
 
+# Fail-closed threshold: if the fetched klines end more than this many days
+# before generated_at, the price series is stale/truncated (e.g. Binance's
+# undocumented 1000-row klines cap silently cutting off a paged fetch) and
+# the backtest must not run on it.
+KLINES_MAX_STALENESS_DAYS = 3
+
 _HISTORY_SOURCE = "binance_public_bulk_metrics+fapi_funding"
 
 
@@ -354,6 +360,13 @@ def compose_pivot_backtest_snapshot(
     if not history:
         raise BacktestHistoryError("bulk derivatives history is required (no proxy fallback)")
 
+    generated_at_ms = int(
+        datetime.strptime(generated_at, "%Y-%m-%dT%H:%M:%SZ")
+        .replace(tzinfo=timezone.utc)
+        .timestamp()
+        * 1000
+    )
+
     start_ms = int(
         datetime.strptime(BACKTEST_HISTORY_START_DAY, "%Y-%m-%d")
         .replace(tzinfo=timezone.utc)
@@ -367,6 +380,12 @@ def compose_pivot_backtest_snapshot(
     deriv_by_asset: dict[AssetSymbol, list[_DerivAtT]] = {}
     for a in ASSETS:
         klines = fetcher.fetch_klines_range(a, start_ms=start_ms)
+        staleness_cutoff_ms = generated_at_ms - KLINES_MAX_STALENESS_DAYS * 86_400_000
+        if klines[-1].close_time < staleness_cutoff_ms:
+            last_date = _isoformat_from_ms(klines[-1].close_time)
+            raise BacktestHistoryError(
+                f"{a}: klines end {last_date} is more than {KLINES_MAX_STALENESS_DAYS} days before generated_at"
+            )
         if a not in history:
             raise BacktestHistoryError(f"{a}: no bulk history supplied")
         hist = history[a]

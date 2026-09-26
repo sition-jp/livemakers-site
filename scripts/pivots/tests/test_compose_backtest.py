@@ -20,10 +20,15 @@ _KLINES_START_MS = 1_638_316_800_000   # 2021-12-01 = BACKTEST_HISTORY_START_DAY
 @pytest.fixture
 def fetcher() -> BinanceFetcher:
     canned = {
-        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1500": (
+        # fetch_klines_range's default page_limit is now BINANCE_KLINES_MAX_LIMIT
+        # (1000) -- Binance silently caps the real API at 1000 rows regardless of
+        # what a caller asks for (see fetch_binance.py). The fixture has fewer
+        # than 1000 candles, so this single canned page still satisfies the
+        # "short page ends paging" check with no second request.
+        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
             FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
         ).read_bytes(),
-        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1500": (
+        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
         ).read_bytes(),
     }
@@ -174,3 +179,13 @@ def test_missing_asset_history_fails_closed(fetcher: BinanceFetcher) -> None:
 def test_no_proxy_code_path_remains() -> None:
     src = (Path(__file__).parents[1] / "producer" / "compose_backtest.py").read_text()
     assert "oi_growth_proxy" not in src and "abs_funding_history\": [0.0001] * 50" not in src
+
+
+def test_stale_klines_fail_closed(fetcher: BinanceFetcher, history: dict) -> None:
+    """R19 guard: klines truncated by Binance's 1000-row cap (or any other
+    fetch that ends far short of the run date) must fail closed, not silently
+    backtest on a stale price series."""
+    with pytest.raises(BacktestHistoryError, match="klines end"):
+        compose_pivot_backtest_snapshot(
+            fetcher, generated_at="2026-09-26T00:00:00Z", history=history
+        )
