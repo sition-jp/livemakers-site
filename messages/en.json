@@ -821,7 +821,7 @@
       "freshness": "Updated every morning at 08:00 JST with data through the previous day. If it says stale, do not use it for that day's reading.",
       "use": "How to use it: as background when reading articles. A ten-second check of \"quiet or aligning?\" and \"price or volatility?\".",
       "backtest_title": "How to read this table",
-      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only. OI and funding history come from Binance public data."
+      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only."
     }
   },
   "futureAtlas": {

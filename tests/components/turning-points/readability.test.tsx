@@ -108,6 +108,7 @@ describe("AssetDetail readability", () => {
     expect(screen.getAllByText(/重み 0\.15/).length).toBeGreaterThan(0);
     expect(screen.getByText("データ整合度")).toBeTruthy();
     expect(screen.getByText(/的中率ではありません/)).toBeTruthy();
+    expect(screen.queryByTestId("score-level")).toBeNull();
   });
   it("shows deltas on the three scores when previous is supplied", () => {
     wrap(

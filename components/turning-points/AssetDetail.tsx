@@ -69,7 +69,7 @@ export function AssetDetail({
           <p className="text-xs uppercase tracking-label text-text-tertiary mb-1">
             {t("price_pivot_label")}
           </p>
-          <ScoreBadge score={detail.scores.price_pivot} size="md" showLevel />
+          <ScoreBadge score={detail.scores.price_pivot} size="md" showLevel={false} />
           {priceDelta !== null ? (
             <span className="ml-2 text-xs text-text-tertiary" data-testid="delta-price_pivot">
               {priceDelta}
@@ -83,7 +83,7 @@ export function AssetDetail({
           <ScoreBadge
             score={detail.scores.volatility_pivot}
             size="md"
-            showLevel
+            showLevel={false}
           />
           {volatilityDelta !== null ? (
             <span className="ml-2 text-xs text-text-tertiary" data-testid="delta-volatility_pivot">
