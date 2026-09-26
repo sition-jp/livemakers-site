@@ -56,6 +56,12 @@ class BacktestHitContext:
     realized_vol_30d: float | None
 
 
+# Minimum |bullish - bearish| lean (from score_direction_bias, spec §5.4.7)
+# for a signal to count toward direction_samples / direction_hit_rate. Single
+# source of truth, shared with the UI's DIRECTION_GAP.
+DIRECTION_LEAN_GAP = 25
+
+
 @dataclass(frozen=True)
 class Signal:
     index: int        # position in closes[] when score crossed threshold
@@ -63,6 +69,7 @@ class Signal:
     hit: bool
     forward_move: float  # signed pct move at horizon
     lead_time_days: int | None = None
+    lean: float | None = None  # bullish - bearish at signal time (spec §5.4.7)
 
 
 def _thresholds(
@@ -136,10 +143,29 @@ def forward_move(
     return (closes[end] - closes[signal_index]) / closes[signal_index]
 
 
+def _direction_hit(signal: Signal) -> bool:
+    """sign(forward_move) == sign(lean); forward_move == 0 is always a miss
+    (there is no direction to have matched — spec §5.4.7)."""
+    if signal.forward_move > 0:
+        return signal.lean > 0
+    if signal.forward_move < 0:
+        return signal.lean < 0
+    return False
+
+
 def compute_metrics(
     signals: list[Signal], total_reversals: int
 ) -> BacktestMetrics:
     n = len(signals)
+    direction_signals = [
+        s for s in signals
+        if s.lean is not None and abs(s.lean) >= DIRECTION_LEAN_GAP
+    ]
+    direction_samples = len(direction_signals)
+    direction_hit_rate = (
+        sum(1 for s in direction_signals if _direction_hit(s)) / direction_samples
+        if direction_samples > 0 else 0.0
+    )
     if n == 0:
         return {
             "precision": 0.0,
@@ -150,6 +176,8 @@ def compute_metrics(
             "average_move": 0.0,
             "worst_forward_return": 0.0,
             "sample_size": 0,
+            "direction_samples": direction_samples,
+            "direction_hit_rate": round(direction_hit_rate, 4),
         }
     hits = [s for s in signals if s.hit]
     misses = [s for s in signals if not s.hit]
@@ -177,4 +205,6 @@ def compute_metrics(
         "average_move": round(avg_move, 4),
         "worst_forward_return": round(max_dd, 4),
         "sample_size": n,
+        "direction_samples": direction_samples,
+        "direction_hit_rate": round(direction_hit_rate, 4),
     }

@@ -94,6 +94,7 @@ class PivotAssetsSnapshot(TypedDict):
     radar: list[RadarAsset]
     detail: dict  # Record<detailKey, PivotDetail>
     previous: NotRequired[dict]  # {"generated_at": str, "radar": list[RadarAsset]}
+    history: NotRequired[dict]  # {"BTC": [HistoryEntry], "ETH": [...]} — spec §5.8 T-P1
 
 
 class BacktestMetrics(TypedDict):
@@ -105,6 +106,11 @@ class BacktestMetrics(TypedDict):
     average_move: float
     worst_forward_return: float
     sample_size: int
+    # Optional — spec 2026-09-26 §5.4.7. Always present in producer output
+    # (never omitted), but optional in the zod contract (lib/pivots/types.ts)
+    # since older snapshots on disk won't carry them.
+    direction_samples: NotRequired[int]
+    direction_hit_rate: NotRequired[float]
 
 
 class BacktestEntry(TypedDict):

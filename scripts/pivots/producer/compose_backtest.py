@@ -36,6 +36,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from producer.backtest import (
+    DIRECTION_LEAN_GAP,
     HIT_DEFINITIONS,
     BacktestHitContext,
     Signal,
@@ -55,6 +56,7 @@ from producer.indicators import (
     rsi,
 )
 from producer.percentiles import LOOKBACK_DAYS
+from producer.score_direction_bias import score_direction_bias
 from producer.score_price_pivot import score_price_pivot
 from producer.score_volatility_pivot import score_volatility_pivot
 from producer.types import (
@@ -116,6 +118,10 @@ class _DerivAtT:
     oi_growth_pct: float
     abs_funding: float
     abs_funding_history: list[float]
+    # Signed last funding event of the day (0.0 when unavailable) — feeds the
+    # direction-bias recompute (spec §5.4.7), which needs the sign, not just
+    # the magnitude abs_funding carries.
+    funding_signed: float = 0.0
 
 
 def _deriv_series(klines_open_times: list[int], hist: BulkHistory) -> list[_DerivAtT]:
@@ -130,10 +136,12 @@ def _deriv_series(klines_open_times: list[int], hist: BulkHistory) -> list[_Deri
         growth = hist.oi_growth_pct(day)
         funding = hist.abs_funding(day)
         funding_history = hist.abs_funding_history(day)
+        funding_signed = hist.funding_last(day)
         out.append(_DerivAtT(
             oi_growth_pct=growth if growth is not None else 0.0,
             abs_funding=funding if funding is not None else 0.0,
             abs_funding_history=funding_history if funding_history else [0.0, 0.0],
+            funding_signed=funding_signed if funding_signed is not None else 0.0,
         ))
     return out
 
@@ -216,16 +224,16 @@ def _hit_context(series: _AssetSeries, t: int) -> BacktestHitContext:
     )
 
 
-def _historical_score(
+def _historical_scores(
     closes: list[float],
     volumes: list[float],
     series: _AssetSeries,
     deriv: list[_DerivAtT],
     t: int,
-    score_type: ScoreType,
     horizon: Horizon,
-) -> int:
-    """Compute scores using only data available at time t (no look-ahead).
+) -> tuple[int, int, int]:
+    """Compute (price_pivot, volatility_pivot, overall) using only data
+    available at time t (no look-ahead).
 
     Uses precomputed indicator series (rsi/macd/dist_ma20/dist_ma50/rv/bb/atr)
     at t, with percentile histories sized by the horizon's lookback window.
@@ -237,7 +245,7 @@ def _historical_score(
     rsi_t = series.rsi[t]
     macd_t = series.macd_hist_recent[t]
     if rsi_t is None or macd_t is None:
-        return 0
+        return 0, 0, 0
 
     lookback = LOOKBACK_DAYS[horizon]
     dist20_history = _slice_history(series.dist20, t, lookback)
@@ -248,7 +256,7 @@ def _historical_score(
 
     # Need at least minimum history for percentile rules to be meaningful.
     if len(dist20_history) < 5 or len(rv_history) < 5:
-        return 0
+        return 0, 0, 0
 
     dist20_t = series.dist20[t] or 0.0
     dist50_t = series.dist50[t] or 0.0
@@ -304,11 +312,62 @@ def _historical_score(
         "volume_ratio_30d": vol_ratio,
     })
     overall = int(round(pp * 0.45 + vp * 0.45 + 60 * 0.10))
+    return pp, vp, overall
+
+
+def _select_score(pp: int, vp: int, overall: int, score_type: ScoreType) -> int:
     if score_type == "price_pivot":
         return pp
     if score_type == "volatility_pivot":
         return vp
     return overall
+
+
+def _historical_score(
+    closes: list[float],
+    volumes: list[float],
+    series: _AssetSeries,
+    deriv: list[_DerivAtT],
+    t: int,
+    score_type: ScoreType,
+    horizon: Horizon,
+) -> int:
+    """Thin wrapper over _historical_scores, kept for callers/tests that only
+    need a single score_type's score."""
+    pp, vp, overall = _historical_scores(closes, volumes, series, deriv, t, horizon)
+    return _select_score(pp, vp, overall, score_type)
+
+
+def _historical_direction_lean(
+    closes: list[float],
+    series: _AssetSeries,
+    deriv: list[_DerivAtT],
+    t: int,
+    vp: int,
+) -> Optional[float]:
+    """Recompute the direction bias lean (bullish - bearish) at t, using the
+    SAME rule set the live producer uses (score_direction_bias). Spec
+    2026-09-26 §5.4.7 — feeds the backtest's direction_samples /
+    direction_hit_rate metrics. None before RSI/MACD warm up or before a 30D
+    support/resistance window exists (t < 29)."""
+    rsi_t = series.rsi[t]
+    macd_t = series.macd_hist_recent[t]
+    if rsi_t is None or macd_t is None or t < 29:
+        return None
+
+    recent = closes[t - 29 : t + 1]
+    near_support = closes[t] <= min(recent) * 1.02
+    near_resistance = closes[t] >= max(recent) * 0.98
+
+    bias = score_direction_bias({
+        "rsi_14": rsi_t,
+        "near_support": near_support,
+        "near_resistance": near_resistance,
+        "funding": deriv[t].funding_signed,
+        "macd_hist_recent": macd_t,
+        "volatility_pivot_score": vp,
+    })
+    return round(bias["bullish"] - bias["bearish"], 1)
 
 
 def _walk_backtest(
@@ -328,7 +387,8 @@ def _walk_backtest(
     total_reversals = 0
     for t in range(start_idx, len(closes) - hd.horizon_days):
         ctx = _hit_context(series, t)
-        score = _historical_score(closes, volumes, series, deriv, t, score_type, horizon)
+        pp, vp, overall = _historical_scores(closes, volumes, series, deriv, t, horizon)
+        score = _select_score(pp, vp, overall, score_type)
         if score >= threshold and not in_signal:
             in_signal = True
             lead_time = first_hit_day(closes, t, hd, ctx)
@@ -338,6 +398,7 @@ def _walk_backtest(
                 hit=lead_time is not None,
                 forward_move=forward_move(closes, t, hd),
                 lead_time_days=lead_time,
+                lean=_historical_direction_lean(closes, series, deriv, t, vp),
             ))
         elif score < threshold:
             in_signal = False
