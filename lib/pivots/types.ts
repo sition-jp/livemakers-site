@@ -128,6 +128,12 @@ export const PivotDetailSchema = z.object({
 });
 export type PivotDetail = z.infer<typeof PivotDetailSchema>;
 
+export const PreviousRadarSchema = z.object({
+  generated_at: z.string().min(1),
+  radar: z.array(RadarAssetSchema).min(1),
+});
+export type PreviousRadar = z.infer<typeof PreviousRadarSchema>;
+
 /**
  * The materialised file `data/pivot_assets.live.json` shape.
  *
@@ -141,6 +147,7 @@ export const PivotAssetsSnapshotSchema = z.object({
   // detail keyed by `${symbol}__${horizon}` — flat string key keeps the JSON
   // round-trippable through Python `json.dumps` without nested transforms.
   detail: z.record(z.string(), PivotDetailSchema),
+  previous: PreviousRadarSchema.optional(),
 });
 export type PivotAssetsSnapshot = z.infer<typeof PivotAssetsSnapshotSchema>;
 
