@@ -134,6 +134,15 @@ export const PreviousRadarSchema = z.object({
 });
 export type PreviousRadar = z.infer<typeof PreviousRadarSchema>;
 
+export const HistoryEntrySchema = z.object({
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  close: z.number().positive(),
+  overall: z.object({ "7D": Score0to100, "30D": Score0to100, "90D": Score0to100 }),
+  lean: z.object({ "7D": z.number().min(-100).max(100), "30D": z.number().min(-100).max(100), "90D": z.number().min(-100).max(100) }),
+});
+export type HistoryEntry = z.infer<typeof HistoryEntrySchema>;
+export const ScoreHistorySchema = z.record(AssetSymbolSchema, z.array(HistoryEntrySchema).max(120));
+
 /**
  * The materialised file `data/pivot_assets.live.json` shape.
  *
@@ -148,6 +157,7 @@ export const PivotAssetsSnapshotSchema = z.object({
   // round-trippable through Python `json.dumps` without nested transforms.
   detail: z.record(z.string(), PivotDetailSchema),
   previous: PreviousRadarSchema.optional(),
+  history: ScoreHistorySchema.optional(),
 });
 export type PivotAssetsSnapshot = z.infer<typeof PivotAssetsSnapshotSchema>;
 
