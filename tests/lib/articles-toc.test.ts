@@ -79,9 +79,9 @@ describe("extractToc marker headings (X 公開体裁の平文マーカー)", () 
       "・観察点",
     ].join("\n");
     expect(extractToc(markdown)).toEqual([
-      { id: "■-発表されたこと", text: "■ 発表されたこと" },
-      { id: "■-効いているのは、上限がないほう", text: "■ 効いているのは、上限がないほう" },
-      { id: "■-今後-48-72-時間", text: "■ 今後 48-72 時間" },
+      { id: "■-発表されたこと", text: "発表されたこと" },
+      { id: "■-効いているのは、上限がないほう", text: "効いているのは、上限がないほう" },
+      { id: "■-今後-48-72-時間", text: "今後 48-72 時間" },
     ]);
   });
 
@@ -93,7 +93,7 @@ describe("extractToc marker headings (X 公開体裁の平文マーカー)", () 
   it("keeps a ■ line standalone when a markdown list interrupts it (daily-intel 重要な動き)", () => {
     const markdown = ["前段。", "", "■ 重要な動き", "- 項目 https://example.com"].join("\n");
     expect(extractToc(markdown)).toEqual([
-      { id: "■-重要な動き", text: "■ 重要な動き" },
+      { id: "■-重要な動き", text: "重要な動き" },
     ]);
   });
 
@@ -142,7 +142,7 @@ describe("extractToc marker headings (X 公開体裁の平文マーカー)", () 
 
   it("ignores marker lines inside code fences", () => {
     const markdown = ["```", "■ コード内", "```", "", "■ 実見出し", ""].join("\n");
-    expect(extractToc(markdown).map((item) => item.text)).toEqual(["■ 実見出し"]);
+    expect(extractToc(markdown).map((item) => item.text)).toEqual(["実見出し"]);
   });
 });
 

@@ -3,6 +3,7 @@ import { Children, isValidElement, type ComponentProps, type ReactNode } from "r
 import { TweetEmbed } from "@/components/articles/TweetEmbed";
 import {
   classifyMarkerHeading,
+  displayHeadingText,
   hasDailyIntelBlockHeadings,
   slugifyHeading,
 } from "@/lib/articles/toc";
@@ -15,7 +16,8 @@ import { extractTopicTweetId } from "@/lib/articles/topic-tweet";
  * mirror/site-first の本文は `■ 見出し` / Daily Intel ブロック絵文字で章を
  * 区切るが、markdown 見出しではないため素通しだと本文と同じ段落で描画される。
  * 本文文字列は feed checksum の証跡 (source = rendered) なので一切変更せず、
- * 「単独段落 1 行のマーカー行」だけを h2/h3 タグへ差し替える。
+ * 「単独段落 1 行のマーカー行」だけを h2/h3 タグへ差し替える。表示テキストからは
+ * ■ / ▫ を外す (2026-09-26 — 見出し装飾と二重になるため。LMK サイトと同じ扱い)。
  * id は lib/articles/toc.ts の抽出と同一規則・同一順序で採番し、
  * TOC のアンカーとクライアント JS なしで一致させる。
  */
@@ -71,7 +73,7 @@ export function createArticleMdxComponents(body: string): {
         const Tag = marker.level === 2 ? "h2" : "h3";
         return (
           <Tag id={claimId(text)} data-marker-heading="">
-            {children}
+            {displayHeadingText(text)}
           </Tag>
         );
       }

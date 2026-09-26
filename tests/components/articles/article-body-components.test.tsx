@@ -25,13 +25,13 @@ const DAILY_INTEL_BODY = [
 ].join("\n");
 
 describe("createArticleMdxComponents", () => {
-  it("promotes a single-line ■ paragraph to h2 with a toc-compatible id", () => {
+  it("promotes a single-line ■ paragraph to h2 (id keeps the marker, displayed text drops it)", () => {
     const { p: P } = createArticleMdxComponents(SIGNAL_BODY);
     const { container } = render(<P>■ 発表されたこと</P>);
     const heading = container.querySelector("h2")!;
     expect(heading).not.toBeNull();
     expect(heading.id).toBe("■-発表されたこと");
-    expect(heading.textContent).toBe("■ 発表されたこと");
+    expect(heading.textContent).toBe("発表されたこと");
     expect(container.querySelector("p")).toBeNull();
   });
 
@@ -42,6 +42,16 @@ describe("createArticleMdxComponents", () => {
     expect(important.container.querySelector("h2")).toBeNull();
     const block = render(<P>🎯 今日の主役</P>);
     expect(block.container.querySelector("h2")).not.toBeNull();
+  });
+
+  it("drops ■/▫ from the displayed heading text but keeps daily-intel emoji headings", () => {
+    const { p: P } = createArticleMdxComponents(DAILY_INTEL_BODY);
+    const sub = render(<P>▫ その他の動き</P>);
+    const h3 = sub.container.querySelector("h3")!;
+    expect(h3.textContent).toBe("その他の動き");
+    expect(h3.id).toBe("▫-その他の動き");
+    const block = render(<P>🎯 今日の主役</P>);
+    expect(block.container.querySelector("h2")!.textContent).toBe("🎯 今日の主役");
   });
 
   it("leaves multi-line and non-plain-text paragraphs untouched", () => {
