@@ -173,9 +173,14 @@ def refresh(
                 _to_ms(_day_start(days[0])),
                 _to_ms(_day_start(days[-1]) + timedelta(days=1)),
             )
-        except Exception as exc:  # noqa: BLE001 - record and continue with other symbols/days
+        except Exception as exc:  # noqa: BLE001 - record and move on to the next symbol
+            # Do not proceed to the metrics loop below: saving a day's OI now with an
+            # empty funding tuple would permanently cache it as "complete" (load_day
+            # would short-circuit any later refresh from ever retrying the funding
+            # fetch for this span). Leave every day of this symbol's span missing so
+            # the next refresh() call retries both metrics and funding together.
             errors.append(f"{symbol} funding: {exc}")
-            funding = []
+            continue
         by_day: dict[str, list[tuple[int, float]]] = {}
         for ts, rate in funding:
             by_day.setdefault(datetime.fromtimestamp(ts / 1000, tz=timezone.utc).strftime("%Y-%m-%d"), []).append((ts, rate))

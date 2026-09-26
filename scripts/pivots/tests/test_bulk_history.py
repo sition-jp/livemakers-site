@@ -126,6 +126,18 @@ def test_refresh_fetches_only_missing_days_and_records_404(tmp_path: Path) -> No
     assert load_day(tmp_path, "BTCUSDT", "2026-09-21") is not None
 
 
+def test_refresh_does_not_cache_days_when_funding_fetch_fails(tmp_path: Path) -> None:
+    def http_get(url: str):
+        if "fundingRate" in url:
+            return 503, b""
+        return 200, _zip(_csv("2026-09-21", {h: 2.0 for h in (0, 4, 8, 12, 16, 20)}), "BTCUSDT-metrics-2026-09-21.csv")
+
+    result = refresh(tmp_path, ["BTCUSDT"], "2026-09-21", "2026-09-21", http_get)
+    assert result.fetched_days == 0
+    assert load_day(tmp_path, "BTCUSDT", "2026-09-21") is None
+    assert any("funding" in e for e in result.errors)
+
+
 def _history(days: int, oi_value=lambda i: 100.0, funding_value=lambda i: 0.0001) -> BulkHistory:
     records = []
     start = datetime(2026, 1, 1, tzinfo=timezone.utc)
