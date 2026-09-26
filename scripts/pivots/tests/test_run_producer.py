@@ -32,6 +32,14 @@ def canned_fetcher() -> BinanceFetcher:
         "https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&limit=1500": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
         ).read_bytes(),
+        # Rolling score history (spec §5.8 T-P1) reads today's close via a
+        # separate limit=2 request (last two closed daily candles).
+        "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=2": (
+            FIXTURE_DIR / "btcusdt_klines_1d_2.json"
+        ).read_bytes(),
+        "https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&limit=2": (
+            FIXTURE_DIR / "ethusdt_klines_1d_2.json"
+        ).read_bytes(),
         # fetch_klines_range's default page_limit is now BINANCE_KLINES_MAX_LIMIT
         # (1000) -- Binance silently caps the real API at 1000 rows regardless of
         # what a caller asks for (see fetch_binance.py). The plain (no startTime)
@@ -860,3 +868,54 @@ def test_run_producer_emits_lag_marker_when_bulk_days_are_missing(
     )
     assert rc == 0
     assert "bulk_history_degraded=bulk_history_lag_days=3" in capsys.readouterr().out
+
+
+# --- rolling score history (spec §5.8 T-P1) ---
+from producer.run_producer import HISTORY_MAX_DAYS, _carry_history  # noqa: E402
+
+
+def _payload(generated_at: str, btc_overall: float, btc_lean: float = 0.0) -> dict:
+    sc = {"overall": btc_overall, "price_pivot": btc_overall, "volatility_pivot": 0.0, "confidence_grade": "A", "main_signal": "price"}
+    det = {"scores": {"overall": btc_overall, "price_pivot": btc_overall, "volatility_pivot": 0.0, "confidence": {"grade": "A", "score": 80.0}},
+           "direction_bias": {"bullish": 50.0 + btc_lean / 2, "bearish": 50.0 - btc_lean / 2, "neutral": 0.0}}
+    return {"schema_version": "v0.1", "generated_at": generated_at,
+            "radar": [{"symbol": "BTC", "scores": {"7D": sc, "30D": sc, "90D": sc}}, {"symbol": "ETH", "scores": {"7D": sc, "30D": sc, "90D": sc}}],
+            "detail": {f"{a}__{h}": dict(det) for a in ("BTC", "ETH") for h in ("7D", "30D", "90D")}}
+
+
+def test_carry_history_starts_from_empty() -> None:
+    hist = _carry_history(None, _payload("2026-10-01T23:00:00Z", 16.0, 10.0), {"BTC": 84000.0, "ETH": 2700.0})
+    assert set(hist) == {"BTC", "ETH"}
+    assert hist["BTC"] == [{"date": "2026-10-01", "close": 84000.0, "overall": {"7D": 16.0, "30D": 16.0, "90D": 16.0}, "lean": {"7D": 10.0, "30D": 10.0, "90D": 10.0}}]
+
+
+def test_carry_history_appends_and_replaces_same_day() -> None:
+    existing = {"history": {"BTC": [{"date": "2026-09-30", "close": 83000.0, "overall": {"7D": 20.0, "30D": 20.0, "90D": 20.0}, "lean": {"7D": 0.0, "30D": 0.0, "90D": 0.0}},
+                                    {"date": "2026-10-01", "close": 83500.0, "overall": {"7D": 15.0, "30D": 15.0, "90D": 15.0}, "lean": {"7D": 0.0, "30D": 0.0, "90D": 0.0}}], "ETH": []}}
+    hist = _carry_history(existing, _payload("2026-10-01T23:30:00Z", 16.0), {"BTC": 84000.0, "ETH": 2700.0})
+    assert [e["date"] for e in hist["BTC"]] == ["2026-09-30", "2026-10-01"]   # same-day rerun replaces
+    assert hist["BTC"][-1]["close"] == 84000.0 and hist["BTC"][-1]["overall"]["7D"] == 16.0
+
+
+def test_carry_history_caps_at_max_days() -> None:
+    days = [{"date": f"2026-01-{d:02d}" if d <= 31 else f"2026-02-{d-31:02d}", "close": 1.0, "overall": {"7D": 0, "30D": 0, "90D": 0}, "lean": {"7D": 0, "30D": 0, "90D": 0}} for d in range(1, 60)]
+    existing = {"history": {"BTC": [dict(e) for e in days] * 3, "ETH": []}}   # 177 entries, unsorted duplicates tolerated
+    hist = _carry_history(existing, _payload("2026-10-01T23:00:00Z", 1.0), {"BTC": 1.0, "ETH": 1.0})
+    assert len(hist["BTC"]) <= HISTORY_MAX_DAYS and hist["BTC"][-1]["date"] == "2026-10-01"
+
+
+def test_carry_history_ignores_malformed_existing() -> None:
+    hist = _carry_history({"history": "nope"}, _payload("2026-10-01T23:00:00Z", 1.0), {"BTC": 1.0, "ETH": 1.0})
+    assert len(hist["BTC"]) == 1
+
+
+def test_run_producer_writes_history(tmp_path: Path, canned_fetcher: BinanceFetcher, bulk_cache: Path) -> None:
+    assets = tmp_path / "pivot_assets.live.json"
+    rc = run_producer(fetcher=canned_fetcher, assets_path=assets, backtest_path=tmp_path / "b.json",
+                      derivatives_history_path=tmp_path / "s.json", dry_run=False, skip_zod_validate=True,
+                      bulk_cache_dir=bulk_cache, bulk_http_get=lambda url: (404, b""))
+    assert rc == 0
+    written = json.loads(assets.read_text(encoding="utf-8"))
+    assert list(written["history"]) == ["BTC", "ETH"] and len(written["history"]["BTC"]) == 1
+    assert written["history"]["BTC"][0]["date"] == "2026-05-04"     # pinned clock
+    assert written["history"]["BTC"][0]["close"] > 0

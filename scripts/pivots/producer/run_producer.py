@@ -57,6 +57,7 @@ DEFAULT_BACKTEST = REPO_ROOT / "data" / "pivot_backtest.live.json"
 DEFAULT_DERIVATIVES_HISTORY = REPO_ROOT / "data" / "pivot_derivatives_history.live.json"
 DEFAULT_BULK_CACHE = Path(__file__).resolve().parents[1] / ".bulk_cache"
 _BULK_SYMBOLS = {"BTC": "BTCUSDT", "ETH": "ETHUSDT"}
+HISTORY_MAX_DAYS = 120
 
 
 def _now_iso() -> str:
@@ -69,6 +70,45 @@ def _bak_path(target: Path) -> Path:
 
 def _tmp_path(target: Path) -> Path:
     return target.with_suffix(target.suffix + ".tmp")
+
+
+def _read_json_or_none(path: Path) -> dict | None:
+    """Best-effort read of an existing JSON object; None on any read/parse failure.
+
+    Used by the rolling score history step (_carry_history) to read the
+    pre-existing assets file it is about to replace. Factored out on its own
+    (rather than inlined) so a future second reader of the same file — e.g. a
+    `previous`-style carry-forward — can share this one read.
+    """
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return raw if isinstance(raw, dict) else None
+
+
+def _lean(detail: dict) -> float:
+    bias = detail.get("direction_bias") or {}
+    return round(float(bias.get("bullish", 0.0)) - float(bias.get("bearish", 0.0)), 1)
+
+
+def _carry_history(existing_raw: dict | None, new_payload: dict, closes_by_asset: dict[str, float]) -> dict[str, list]:
+    """Rolling per-asset score history (spec §5.8 T-P1): previous entries + today, capped, same-day replaced."""
+    day = new_payload["generated_at"][:10]
+    out: dict[str, list] = {}
+    for a in ("BTC", "ETH"):
+        prior: list = []
+        if isinstance(existing_raw, dict) and isinstance(existing_raw.get("history"), dict):
+            cand = existing_raw["history"].get(a)
+            if isinstance(cand, list):
+                prior = [e for e in cand if isinstance(e, dict) and isinstance(e.get("date"), str) and e["date"] != day]
+        by_date = {e["date"]: e for e in prior}
+        entry = {"date": day, "close": float(closes_by_asset[a]),
+                 "overall": {h: float(new_payload["detail"][f"{a}__{h}"]["scores"]["overall"]) for h in ("7D", "30D", "90D")},
+                 "lean": {h: _lean(new_payload["detail"][f"{a}__{h}"]) for h in ("7D", "30D", "90D")}}
+        by_date[day] = entry
+        out[a] = [by_date[d] for d in sorted(by_date)][-HISTORY_MAX_DAYS:]
+    return out
 
 
 def _unlink_quiet(path: Path) -> None:
@@ -286,6 +326,21 @@ def run_producer(
     except Exception as exc:  # noqa: BLE001
         print(f"[pivots-producer] compose failed: {exc}", file=sys.stderr)
         return 1
+
+    existing_assets_raw = _read_json_or_none(assets_path)
+    try:
+        closes = {
+            a: fetcher.fetch_klines(a, interval="1d", limit=2)[-1].close
+            for a in ("BTC", "ETH")
+        }
+        assets_payload["history"] = _carry_history(
+            existing_assets_raw, assets_payload, closes
+        )
+    except Exception as exc:  # noqa: BLE001
+        # Soft-degrade: the rolling history block feeds a chart, not the core
+        # radar/detail contract, so a fetch/shape problem here must not block
+        # an otherwise-good run (same posture as sidecar/bulk-history above).
+        print(f"[pivots-producer] history_degraded={type(exc).__name__}: {exc}")
 
     sidecar_payload = None
     sidecar_warning: str | None = None
