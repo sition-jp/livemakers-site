@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, test, expect } from "vitest";
 import {
   BacktestMetricsSchema,
   DirectionBiasSchema,
@@ -209,5 +209,23 @@ describe("PivotBacktestSnapshotSchema.data_provenance", () => {
         data_provenance: { source: "" },
       }).success,
     ).toBe(false);
+  });
+});
+
+describe("PivotAssetsSnapshotSchema.previous (R4)", () => {
+  const scores = { overall: 16, price_pivot: 16, volatility_pivot: 0, confidence_grade: "A", main_signal: "price" } as const;
+  const radar = [{ symbol: "BTC", scores: { "7D": scores, "30D": scores, "90D": scores } }];
+  const base = { schema_version: "v0.1", generated_at: "2026-10-02T23:00:00Z", radar, detail: {} };
+
+  test("accepts a snapshot without previous", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse(base).success).toBe(true);
+  });
+  test("accepts a well-formed previous block", () => {
+    const withPrev = { ...base, previous: { generated_at: "2026-10-01T23:00:00Z", radar } };
+    expect(PivotAssetsSnapshotSchema.safeParse(withPrev).success).toBe(true);
+  });
+  test("rejects previous with an empty radar", () => {
+    const bad = { ...base, previous: { generated_at: "2026-10-01T23:00:00Z", radar: [] } };
+    expect(PivotAssetsSnapshotSchema.safeParse(bad).success).toBe(false);
   });
 });

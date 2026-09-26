@@ -518,6 +518,22 @@ def _validate_pr_identity(
         raise PublishError("publication PR identity does not match main and owned branch")
 
 
+PR_CREATE_ATTEMPTS = 3
+PR_CREATE_BACKOFF_SECONDS: tuple[int, ...] = (30, 90)
+_TRANSIENT_MARKERS = (
+    "http 502", "http 503", "http 504", "bad gateway", "service unavailable",
+    "gateway timeout", "timed out", "connection reset", "connection refused",
+    "temporarily unavailable", "eof",
+)
+
+
+def _is_transient_github_error(message: str) -> bool:
+    lowered = message.lower()
+    if "could not run" in lowered:
+        return False
+    return any(marker in lowered for marker in _TRANSIENT_MARKERS)
+
+
 class GitHubClient:
     def __init__(self, config: PublishConfig, *, env: Mapping[str, str]):
         self.config = config
@@ -567,6 +583,8 @@ class GitHubClient:
         branch: str,
         generated_at: str,
         committed_paths: frozenset[Path],
+        *,
+        sleep: Callable[[float], None] = time.sleep,
     ) -> PullRequest:
         paths = "\n".join(f"- `{path}`" for path in sorted(committed_paths))
         title = f"chore(pivots): publish daily snapshot {generated_at}"
@@ -577,24 +595,35 @@ class GitHubClient:
             f"Changed paths:\n{paths}\n\n"
             "Merge is permitted only after `guards` and Vercel preview succeed."
         )
-        created = _run_command(
-            [
-                "gh",
-                "pr",
-                "create",
-                "--repo",
-                self.config.repository,
-                "--base",
-                "main",
-                "--head",
-                branch,
-                "--title",
-                title,
-                "--body",
-                body,
-            ],
-            env=self.env,
-        )
+        create_args = [
+            "gh", "pr", "create", "--repo", self.config.repository,
+            "--base", "main", "--head", branch, "--title", title, "--body", body,
+        ]
+        last_error: PublishError | None = None
+        for attempt in range(1, PR_CREATE_ATTEMPTS + 1):
+            try:
+                created = _run_command(create_args, env=self.env)
+                break
+            except PublishError as exc:
+                last_error = exc
+                if not _is_transient_github_error(str(exc)):
+                    raise
+                # gh may have created the PR before the transient error surfaced.
+                existing = self.find_pr(branch)
+                if existing is not None:
+                    return existing
+                if attempt == PR_CREATE_ATTEMPTS:
+                    raise PublishError(
+                        f"PR creation failed after {PR_CREATE_ATTEMPTS} attempts: {exc}"
+                    ) from exc
+                sleep(PR_CREATE_BACKOFF_SECONDS[min(attempt - 1, len(PR_CREATE_BACKOFF_SECONDS) - 1)])
+                # The PR may have become visible while we waited; avoid a
+                # redundant create attempt if it has.
+                existing = self.find_pr(branch)
+                if existing is not None:
+                    return existing
+        else:  # pragma: no cover - loop always breaks or raises
+            raise last_error or PublishError("PR creation failed")
         url = created.stdout.strip().splitlines()[-1] if created.stdout.strip() else ""
         if not url.startswith("https://github.com/"):
             raise PublishError("GitHub PR creation returned no canonical URL")

@@ -93,6 +93,7 @@ class PivotAssetsSnapshot(TypedDict):
     generated_at: str
     radar: list[RadarAsset]
     detail: dict  # Record<detailKey, PivotDetail>
+    previous: NotRequired[dict]  # {"generated_at": str, "radar": list[RadarAsset]}
 
 
 class BacktestMetrics(TypedDict):
