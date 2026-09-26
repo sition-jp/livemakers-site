@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-09-25T23:00:17Z",
+  "generated_at": "2026-09-26T14:36:26Z",
   "entries": [
     {
       "asset": "BTC",
@@ -8,8 +8,96 @@
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "7D",
+      "score_type": "overall",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "7D",
+      "score_type": "price_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.58,
+        "recall": 0.0291,
+        "avg_lead_time_days": 3.0345,
+        "false_positive_rate": 0.42,
+        "false_negative_rate": 0.9709,
+        "average_move": 0.0158,
+        "worst_forward_return": -0.12,
+        "sample_size": 50,
+        "direction_samples": 50,
+        "direction_hit_rate": 0.4
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "7D",
+      "score_type": "price_pivot",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.5769,
+        "recall": 0.0151,
+        "avg_lead_time_days": 2.3333,
+        "false_positive_rate": 0.4231,
+        "false_negative_rate": 0.9849,
+        "average_move": 0.0284,
+        "worst_forward_return": -0.0851,
+        "sample_size": 26,
+        "direction_samples": 26,
+        "direction_hit_rate": 0.3077
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "7D",
+      "score_type": "volatility_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 0.0,
@@ -17,19 +105,21 @@
         "avg_lead_time_days": 0.0,
         "false_positive_rate": 1.0,
         "false_negative_rate": 1.0,
-        "average_move": 0.0432,
-        "max_drawdown": 0.0432,
-        "sample_size": 1
+        "average_move": -0.0192,
+        "worst_forward_return": -0.0192,
+        "sample_size": 1,
+        "direction_samples": 1,
+        "direction_hit_rate": 0.0
       }
     },
     {
       "asset": "BTC",
       "horizon": "7D",
-      "score_type": "overall",
+      "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 0.0,
@@ -38,98 +128,394 @@
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.0,
         "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
       }
     },
     {
       "asset": "BTC",
+      "horizon": "30D",
+      "score_type": "overall",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "30D",
+      "score_type": "overall",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "30D",
+      "score_type": "price_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.619,
+        "recall": 0.0219,
+        "avg_lead_time_days": 10.4231,
+        "false_positive_rate": 0.381,
+        "false_negative_rate": 0.9781,
+        "average_move": 0.0743,
+        "worst_forward_return": -0.1622,
+        "sample_size": 42,
+        "direction_samples": 42,
+        "direction_hit_rate": 0.2857
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "30D",
+      "score_type": "price_pivot",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.625,
+        "recall": 0.0126,
+        "avg_lead_time_days": 13.1333,
+        "false_positive_rate": 0.375,
+        "false_negative_rate": 0.9874,
+        "average_move": 0.0868,
+        "worst_forward_return": -0.1002,
+        "sample_size": 24,
+        "direction_samples": 24,
+        "direction_hit_rate": 0.1667
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "30D",
+      "score_type": "volatility_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 1.0,
+        "recall": 0.0042,
+        "avg_lead_time_days": 11.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.9958,
+        "average_move": 0.0508,
+        "worst_forward_return": -0.1181,
+        "sample_size": 5,
+        "direction_samples": 3,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "30D",
+      "score_type": "volatility_pivot",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "90D",
+      "score_type": "overall",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "90D",
+      "score_type": "overall",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "90D",
+      "score_type": "price_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.6316,
+        "recall": 0.0205,
+        "avg_lead_time_days": 46.1667,
+        "false_positive_rate": 0.3684,
+        "false_negative_rate": 0.9795,
+        "average_move": 0.0975,
+        "worst_forward_return": -0.5627,
+        "sample_size": 38,
+        "direction_samples": 38,
+        "direction_hit_rate": 0.3947
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "90D",
+      "score_type": "price_pivot",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.6522,
+        "recall": 0.0128,
+        "avg_lead_time_days": 46.6667,
+        "false_positive_rate": 0.3478,
+        "false_negative_rate": 0.9872,
+        "average_move": 0.1696,
+        "worst_forward_return": -0.2627,
+        "sample_size": 23,
+        "direction_samples": 23,
+        "direction_hit_rate": 0.2174
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "90D",
+      "score_type": "volatility_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 1.0,
+        "recall": 0.0085,
+        "avg_lead_time_days": 32.3,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.9915,
+        "average_move": 0.228,
+        "worst_forward_return": -0.1957,
+        "sample_size": 10,
+        "direction_samples": 7,
+        "direction_hit_rate": 0.2857
+      }
+    },
+    {
+      "asset": "BTC",
+      "horizon": "90D",
+      "score_type": "volatility_pivot",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "ETH",
+      "horizon": "7D",
+      "score_type": "overall",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "ETH",
+      "horizon": "7D",
+      "score_type": "overall",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "ETH",
       "horizon": "7D",
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
-        "precision": 0.72,
-        "recall": 0.0325,
+        "precision": 0.8679,
+        "recall": 0.0376,
+        "avg_lead_time_days": 3.1087,
+        "false_positive_rate": 0.1321,
+        "false_negative_rate": 0.9624,
+        "average_move": 0.0043,
+        "worst_forward_return": -0.3508,
+        "sample_size": 53,
+        "direction_samples": 53,
+        "direction_hit_rate": 0.4528
+      }
+    },
+    {
+      "asset": "ETH",
+      "horizon": "7D",
+      "score_type": "price_pivot",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.7308,
+        "recall": 0.0155,
+        "avg_lead_time_days": 3.3158,
+        "false_positive_rate": 0.2692,
+        "false_negative_rate": 0.9845,
+        "average_move": 0.0091,
+        "worst_forward_return": -0.3508,
+        "sample_size": 26,
+        "direction_samples": 26,
+        "direction_hit_rate": 0.6154
+      }
+    },
+    {
+      "asset": "ETH",
+      "horizon": "7D",
+      "score_type": "volatility_pivot",
+      "threshold": 70,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.5,
+        "recall": 0.0016,
         "avg_lead_time_days": 3.5,
-        "false_positive_rate": 0.28,
-        "false_negative_rate": 0.9675,
-        "average_move": 0.0093,
-        "max_drawdown": -0.12,
-        "sample_size": 25
+        "false_positive_rate": 0.5,
+        "false_negative_rate": 0.9984,
+        "average_move": 0.0836,
+        "worst_forward_return": -0.0109,
+        "sample_size": 4,
+        "direction_samples": 2,
+        "direction_hit_rate": 0.0
       }
     },
     {
-      "asset": "BTC",
-      "horizon": "7D",
-      "score_type": "price_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.75,
-        "recall": 0.0163,
-        "avg_lead_time_days": 2.5556,
-        "false_positive_rate": 0.25,
-        "false_negative_rate": 0.9837,
-        "average_move": 0.0406,
-        "max_drawdown": -0.0158,
-        "sample_size": 12
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "7D",
-      "score_type": "volatility_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.3333,
-        "recall": 0.0036,
-        "avg_lead_time_days": 3.5,
-        "false_positive_rate": 0.6667,
-        "false_negative_rate": 0.9964,
-        "average_move": 0.0103,
-        "max_drawdown": -0.0294,
-        "sample_size": 6
-      }
-    },
-    {
-      "asset": "BTC",
+      "asset": "ETH",
       "horizon": "7D",
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.6667,
-        "recall": 0.0036,
-        "avg_lead_time_days": 3.5,
-        "false_positive_rate": 0.3333,
-        "false_negative_rate": 0.9964,
-        "average_move": 0.0546,
-        "max_drawdown": 0.0147,
-        "sample_size": 3
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "30D",
-      "score_type": "overall",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 0.0,
@@ -138,18 +524,20 @@
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.0,
         "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
       }
     },
     {
-      "asset": "BTC",
+      "asset": "ETH",
       "horizon": "30D",
       "score_type": "overall",
-      "threshold": 80,
+      "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 0.0,
@@ -158,338 +546,130 @@
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.0,
         "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
       }
     },
     {
-      "asset": "BTC",
+      "asset": "ETH",
+      "horizon": "30D",
+      "score_type": "overall",
+      "threshold": 80,
+      "period": {
+        "start": "2021-12-01",
+        "end": "2026-09-26"
+      },
+      "metrics": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "avg_lead_time_days": 0.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0,
+        "average_move": 0.0,
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
+      }
+    },
+    {
+      "asset": "ETH",
       "horizon": "30D",
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
-        "precision": 0.65,
-        "recall": 0.0203,
-        "avg_lead_time_days": 10.3077,
-        "false_positive_rate": 0.35,
-        "false_negative_rate": 0.9797,
-        "average_move": 0.0507,
-        "max_drawdown": -0.1259,
-        "sample_size": 20
+        "precision": 0.8704,
+        "recall": 0.0321,
+        "avg_lead_time_days": 10.1277,
+        "false_positive_rate": 0.1296,
+        "false_negative_rate": 0.9679,
+        "average_move": 0.01,
+        "worst_forward_return": -0.3065,
+        "sample_size": 54,
+        "direction_samples": 54,
+        "direction_hit_rate": 0.463
       }
     },
     {
-      "asset": "BTC",
+      "asset": "ETH",
       "horizon": "30D",
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
-        "precision": 0.6364,
-        "recall": 0.011,
-        "avg_lead_time_days": 13.2857,
-        "false_positive_rate": 0.3636,
-        "false_negative_rate": 0.989,
-        "average_move": 0.0788,
-        "max_drawdown": -0.0815,
-        "sample_size": 11
+        "precision": 0.8286,
+        "recall": 0.0198,
+        "avg_lead_time_days": 10.7931,
+        "false_positive_rate": 0.1714,
+        "false_negative_rate": 0.9802,
+        "average_move": 0.0302,
+        "worst_forward_return": -0.3065,
+        "sample_size": 35,
+        "direction_samples": 35,
+        "direction_hit_rate": 0.4
       }
     },
     {
-      "asset": "BTC",
+      "asset": "ETH",
       "horizon": "30D",
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
-        "precision": 0.8889,
-        "recall": 0.0125,
-        "avg_lead_time_days": 17.125,
-        "false_positive_rate": 0.1111,
-        "false_negative_rate": 0.9875,
-        "average_move": 0.0382,
-        "max_drawdown": -0.1512,
-        "sample_size": 9
+        "precision": 0.9091,
+        "recall": 0.0068,
+        "avg_lead_time_days": 10.3,
+        "false_positive_rate": 0.0909,
+        "false_negative_rate": 0.9932,
+        "average_move": 0.0443,
+        "worst_forward_return": -0.3539,
+        "sample_size": 11,
+        "direction_samples": 8,
+        "direction_hit_rate": 0.375
       }
     },
     {
-      "asset": "BTC",
+      "asset": "ETH",
       "horizon": "30D",
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 1.0,
-        "recall": 0.0063,
-        "avg_lead_time_days": 12.75,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9937,
-        "average_move": 0.0059,
-        "max_drawdown": -0.0451,
-        "sample_size": 4
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "90D",
-      "score_type": "overall",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "avg_lead_time_days": 0.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
-        "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "90D",
-      "score_type": "overall",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "avg_lead_time_days": 0.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
-        "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "90D",
-      "score_type": "price_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.5789,
-        "recall": 0.0188,
-        "avg_lead_time_days": 51.9091,
-        "false_positive_rate": 0.4211,
-        "false_negative_rate": 0.9812,
-        "average_move": 0.098,
-        "max_drawdown": -0.2627,
-        "sample_size": 19
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "90D",
-      "score_type": "price_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.5455,
-        "recall": 0.0103,
-        "avg_lead_time_days": 49.8333,
-        "false_positive_rate": 0.4545,
-        "false_negative_rate": 0.9897,
-        "average_move": 0.1092,
-        "max_drawdown": -0.2627,
-        "sample_size": 11
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "90D",
-      "score_type": "volatility_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.6667,
-        "recall": 0.0103,
-        "avg_lead_time_days": 50.8333,
-        "false_positive_rate": 0.3333,
-        "false_negative_rate": 0.9897,
-        "average_move": -0.0464,
-        "max_drawdown": -0.2591,
-        "sample_size": 9
-      }
-    },
-    {
-      "asset": "BTC",
-      "horizon": "90D",
-      "score_type": "volatility_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0103,
-        "avg_lead_time_days": 45.6667,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9897,
-        "average_move": -0.0373,
-        "max_drawdown": -0.2591,
-        "sample_size": 6
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "7D",
-      "score_type": "overall",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0014,
-        "avg_lead_time_days": 1.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9986,
-        "average_move": 0.0455,
-        "max_drawdown": 0.0455,
-        "sample_size": 1
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "7D",
-      "score_type": "overall",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "avg_lead_time_days": 0.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
-        "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "7D",
-      "score_type": "price_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.8148,
-        "recall": 0.0319,
-        "avg_lead_time_days": 3.3182,
-        "false_positive_rate": 0.1852,
-        "false_negative_rate": 0.9681,
-        "average_move": 0.0123,
-        "max_drawdown": -0.1488,
-        "sample_size": 27
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "7D",
-      "score_type": "price_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.6,
-        "recall": 0.0087,
-        "avg_lead_time_days": 3.3333,
-        "false_positive_rate": 0.4,
-        "false_negative_rate": 0.9913,
-        "average_move": 0.0416,
-        "max_drawdown": -0.0458,
-        "sample_size": 10
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "7D",
-      "score_type": "volatility_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.7143,
-        "recall": 0.0072,
-        "avg_lead_time_days": 4.4,
-        "false_positive_rate": 0.2857,
-        "false_negative_rate": 0.9928,
-        "average_move": 0.0528,
-        "max_drawdown": -0.0717,
-        "sample_size": 7
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "7D",
-      "score_type": "volatility_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0014,
+        "recall": 0.0007,
         "avg_lead_time_days": 5.0,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9986,
-        "average_move": 0.1793,
-        "max_drawdown": 0.1793,
-        "sample_size": 1
+        "false_negative_rate": 0.9993,
+        "average_move": 0.25,
+        "worst_forward_return": 0.25,
+        "sample_size": 1,
+        "direction_samples": 1,
+        "direction_hit_rate": 0.0
       }
     },
     {
       "asset": "ETH",
-      "horizon": "30D",
+      "horizon": "90D",
       "score_type": "overall",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 0.0,
@@ -498,18 +678,20 @@
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.0,
         "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
       }
     },
     {
       "asset": "ETH",
-      "horizon": "30D",
+      "horizon": "90D",
       "score_type": "overall",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 0.0,
@@ -518,128 +700,10 @@
         "false_positive_rate": 0.0,
         "false_negative_rate": 0.0,
         "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "30D",
-      "score_type": "price_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.963,
-        "recall": 0.0306,
-        "avg_lead_time_days": 11.2692,
-        "false_positive_rate": 0.037,
-        "false_negative_rate": 0.9694,
-        "average_move": 0.0323,
-        "max_drawdown": -0.1921,
-        "sample_size": 27
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "30D",
-      "score_type": "price_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0129,
-        "avg_lead_time_days": 13.6364,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9871,
-        "average_move": 0.0877,
-        "max_drawdown": -0.1555,
-        "sample_size": 11
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "30D",
-      "score_type": "volatility_pivot",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0071,
-        "avg_lead_time_days": 8.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9929,
-        "average_move": 0.084,
-        "max_drawdown": -0.3868,
-        "sample_size": 6
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "30D",
-      "score_type": "volatility_pivot",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0024,
-        "avg_lead_time_days": 6.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9976,
-        "average_move": 0.0447,
-        "max_drawdown": -0.3868,
-        "sample_size": 2
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "90D",
-      "score_type": "overall",
-      "threshold": 70,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 1.0,
-        "recall": 0.0012,
-        "avg_lead_time_days": 40.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9988,
-        "average_move": 0.5836,
-        "max_drawdown": 0.5836,
-        "sample_size": 1
-      }
-    },
-    {
-      "asset": "ETH",
-      "horizon": "90D",
-      "score_type": "overall",
-      "threshold": 80,
-      "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
-      },
-      "metrics": {
-        "precision": 0.0,
-        "recall": 0.0,
-        "avg_lead_time_days": 0.0,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.0,
-        "average_move": 0.0,
-        "max_drawdown": 0.0,
-        "sample_size": 0
+        "worst_forward_return": 0.0,
+        "sample_size": 0,
+        "direction_samples": 0,
+        "direction_hit_rate": 0.0
       }
     },
     {
@@ -648,18 +712,20 @@
       "score_type": "price_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
-        "precision": 0.875,
-        "recall": 0.0262,
-        "avg_lead_time_days": 44.4762,
-        "false_positive_rate": 0.125,
-        "false_negative_rate": 0.9738,
-        "average_move": 0.0425,
-        "max_drawdown": -0.4493,
-        "sample_size": 24
+        "precision": 0.9348,
+        "recall": 0.0298,
+        "avg_lead_time_days": 40.6279,
+        "false_positive_rate": 0.0652,
+        "false_negative_rate": 0.9702,
+        "average_move": 0.0289,
+        "worst_forward_return": -0.697,
+        "sample_size": 46,
+        "direction_samples": 46,
+        "direction_hit_rate": 0.4783
       }
     },
     {
@@ -668,18 +734,20 @@
       "score_type": "price_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 1.0,
-        "recall": 0.01,
-        "avg_lead_time_days": 36.875,
+        "recall": 0.0173,
+        "avg_lead_time_days": 31.84,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.99,
-        "average_move": -0.0182,
-        "max_drawdown": -0.4497,
-        "sample_size": 8
+        "false_negative_rate": 0.9827,
+        "average_move": 0.0246,
+        "worst_forward_return": -0.697,
+        "sample_size": 25,
+        "direction_samples": 25,
+        "direction_hit_rate": 0.44
       }
     },
     {
@@ -688,18 +756,20 @@
       "score_type": "volatility_pivot",
       "threshold": 70,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
-        "precision": 1.0,
-        "recall": 0.0075,
-        "avg_lead_time_days": 21.1667,
-        "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9925,
-        "average_move": 0.0763,
-        "max_drawdown": -0.2904,
-        "sample_size": 6
+        "precision": 0.8182,
+        "recall": 0.0062,
+        "avg_lead_time_days": 36.3333,
+        "false_positive_rate": 0.1818,
+        "false_negative_rate": 0.9938,
+        "average_move": 0.1166,
+        "worst_forward_return": -0.4686,
+        "sample_size": 11,
+        "direction_samples": 9,
+        "direction_hit_rate": 0.0
       }
     },
     {
@@ -708,19 +778,27 @@
       "score_type": "volatility_pivot",
       "threshold": 80,
       "period": {
-        "start": "2023-12-31",
-        "end": "2026-09-25"
+        "start": "2021-12-01",
+        "end": "2026-09-26"
       },
       "metrics": {
         "precision": 1.0,
-        "recall": 0.0037,
-        "avg_lead_time_days": 20.0,
+        "recall": 0.0007,
+        "avg_lead_time_days": 11.0,
         "false_positive_rate": 0.0,
-        "false_negative_rate": 0.9963,
-        "average_move": 0.1954,
-        "max_drawdown": -0.2904,
-        "sample_size": 3
+        "false_negative_rate": 0.9993,
+        "average_move": 0.4079,
+        "worst_forward_return": 0.4079,
+        "sample_size": 1,
+        "direction_samples": 1,
+        "direction_hit_rate": 0.0
       }
     }
-  ]
+  ],
+  "data_provenance": {
+    "source": "binance_public_bulk_metrics+fapi_funding",
+    "start": "2021-12-01",
+    "end": "2026-09-25",
+    "coverage_pct": 99.9
+  }
 }
