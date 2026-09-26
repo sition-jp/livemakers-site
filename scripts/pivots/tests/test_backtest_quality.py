@@ -33,7 +33,7 @@ def make_entry(
             "false_positive_rate": 0.0,
             "false_negative_rate": 0.0,
             "average_move": 0.0,
-            "max_drawdown": 0.0,
+            "worst_forward_return": 0.0,
             "sample_size": sample_size,
         },
     }

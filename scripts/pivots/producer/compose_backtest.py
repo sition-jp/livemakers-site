@@ -1,43 +1,33 @@
 """Compose PivotBacktestSnapshot — 36 entries (2×3×3×2).
 
-Provisional v0.1 (revised after Codex review 3 — non-zero sample_size):
-- Per-asset indicator series are precomputed once (rsi/macd_hist/dist_ma20/
-  dist_ma50/rv_30d/bb_width/atr_14), then the (horizon × score_type ×
-  threshold) walk reuses them. This keeps the pipeline cheap (~2s for both
-  assets) while letting the historical scorer use REAL price-derived
-  histories instead of constant stubs.
-- Volume ratio, range compression, and near-range-boundary are computed
-  from full-history closes/volumes at each t.
-- Volume-based **proxy** for OI growth: in backtest mode the real OI
-  history is unavailable (Binance only exposes last 30 days), so we feed
-  ``oi_growth_pct = (sum_last_14d_volume - sum_prior_14d_volume) /
-  sum_prior_14d_volume`` into the score function's OI slot. Empirically
-  this proxy and ``price_range_compression`` are anticorrelated on crypto
-  daily data (volume drops during compressed regimes), so the OI rule's
-  conjunction would never fire on its own. Backtest-mode therefore feeds
-  *both* the OI value and the compression flag through to the scorer
-  whenever **either** native signal fires — capturing the rule's
-  "leverage/positioning buildup while price stays range-bound" intent
-  using whichever evidence the historical data provides. Funding remains
-  stubbed (no good price-only proxy).
-- Net effect on the test fixture (~400 daily candles per asset):
-  * ``price_pivot`` thresholds 70 and 80 fire across all 12 (asset×horizon×
-    threshold) tuples (sample sizes 1-9, precision 0.43-1.00).
-  * ``volatility_pivot`` thresholds 70 and 80 fire on 11/12 tuples
-    (sample sizes 1-3, precision 0.00-1.00).
-  * ``overall`` is the weighted average ``0.45*pp + 0.45*vp + 6`` and is
-    structurally capped by pp/vp anticorrelation: pp peaks under
-    bullish/bearish setups, vp peaks under volatility-expansion setups,
-    and the two rarely co-occur. Crossing overall=70 requires pp+vp≥143;
-    on the test fixture the max pp+vp is ~120, so ``overall`` thresholds
-    do not fire on 12/12 tuples. Documented v0.1 known limit; production
-    fixtures (5-yr klines) and real OI/funding history in v0.2 are
-    expected to produce overall crossings.
-  * Total: 23/36 tuples have sample_size > 0, satisfying Codex review 3
-    blocking issue (request: "少なくとも一部 entry の sample_size > 0").
-- v0.2 will fold real OI/funding history (cached over time externally) and
-  produce tunable precision/recall numbers; until then these metrics are
-  a structural smoke test, not a benchmark.
+Real-history design (spec 2026-09-26 §5.4, Task 21 — no proxy, fail closed):
+- Per-asset indicator series (rsi/macd_hist/dist_ma20/dist_ma50/rv_30d/
+  bb_width/atr_14) are precomputed once per asset from Binance daily klines
+  fetched from `BACKTEST_HISTORY_START_DAY` (2021-12-01) forward via
+  `BinanceFetcher.fetch_klines_range`, then the (horizon × score_type ×
+  threshold) walk reuses them. Volume ratio, range compression, and
+  near-range-boundary are computed from full-history closes/volumes at
+  each t.
+- OI growth and funding evidence come from real bulk derivatives history
+  (`producer.bulk_history.BulkHistory`, backfilled and cached externally),
+  using windows identical to the live producer (compose_assets.py): 84
+  four-hour OI buckets compared 14d-vs-prior-14d, and the last 180 funding
+  events. There is no proxy and no synthesis: a candle day without full
+  derivatives history simply contributes "no evidence available" (growth
+  0.0, funding 0.0, a flat [0.0] funding history) rather than a
+  manufactured signal. Range compression uses the same < 0.05 threshold as
+  the live producer.
+- The walk itself starts at `walk_start = max(60, len(klines) -
+  BACKTEST_LOOKBACK_DAYS)`. Before walking, `compose_pivot_backtest_snapshot`
+  requires the caller to pass `history: dict[AssetSymbol, BulkHistory]`
+  covering at least `MIN_HISTORY_COVERAGE` (90%) of the days between
+  `walk_start` and the last candle, for every asset. If `history` is
+  missing/empty or coverage is thin, it raises `BacktestHistoryError` and
+  produces no snapshot at all — fail closed, never a degraded or proxy
+  fallback.
+- The returned snapshot carries a `data_provenance` block (`source` /
+  `start` / `end` / `coverage_pct`) recording which real-history window
+  backed the metrics.
 """
 from __future__ import annotations
 
@@ -54,6 +44,7 @@ from producer.backtest import (
     first_hit_day,
     forward_move,
 )
+from producer.bulk_history import BulkHistory
 from producer.fetch_binance import BinanceFetcher
 from producer.indicators import (
     atr,
@@ -78,9 +69,23 @@ from producer.types import (
     ScoreType,
 )
 
-# Backtest window: last 5 years of daily candles (or as many as the fixture
+# Backtest window: last 5 years of daily candles (or as many as the history
 # provides — whichever is shorter).
 BACKTEST_LOOKBACK_DAYS = 365 * 5
+
+# Real-history backtest window starts here (bulk derivatives history is
+# available from this day forward — see producer/bulk_history.py).
+BACKTEST_HISTORY_START_DAY = "2021-12-01"
+
+# Fail-closed threshold: below this fraction of days with full OI coverage
+# over the walked window, compose_pivot_backtest_snapshot refuses to run.
+MIN_HISTORY_COVERAGE = 0.90
+
+_HISTORY_SOURCE = "binance_public_bulk_metrics+fapi_funding"
+
+
+class BacktestHistoryError(RuntimeError):
+    """Raised when real derivatives history is missing or too thin. Fail closed: no proxy fallback."""
 
 
 @dataclass
@@ -98,6 +103,33 @@ class _AssetSeries:
     rv30: list[Optional[float]]
     bb: list[Optional[float]]
     atr14: list[Optional[float]]
+
+
+@dataclass(frozen=True)
+class _DerivAtT:
+    oi_growth_pct: float
+    abs_funding: float
+    abs_funding_history: list[float]
+
+
+def _deriv_series(klines_open_times: list[int], hist: BulkHistory) -> list[_DerivAtT]:
+    """Per-candle derivatives inputs, identical windows to compose_assets (84 OI buckets / 180 funding events).
+
+    Days without history contribute 'no derivatives evidence' (growth 0,
+    funding 0 with a flat history) — never a proxy.
+    """
+    out = []
+    for ms in klines_open_times:
+        day = datetime.fromtimestamp(ms / 1000.0, tz=timezone.utc).strftime("%Y-%m-%d")
+        growth = hist.oi_growth_pct(day)
+        funding = hist.abs_funding(day)
+        funding_history = hist.abs_funding_history(day)
+        out.append(_DerivAtT(
+            oi_growth_pct=growth if growth is not None else 0.0,
+            abs_funding=funding if funding is not None else 0.0,
+            abs_funding_history=funding_history if funding_history else [0.0],
+        ))
+    return out
 
 
 def _precompute_asset_series(
@@ -182,6 +214,7 @@ def _historical_score(
     closes: list[float],
     volumes: list[float],
     series: _AssetSeries,
+    deriv: list[_DerivAtT],
     t: int,
     score_type: ScoreType,
     horizon: Horizon,
@@ -192,7 +225,8 @@ def _historical_score(
     at t, with percentile histories sized by the horizon's lookback window.
     Range compression, near-range-boundary, and volume_ratio_30d are
     computed from full-history closes/volumes at t. OI growth and funding
-    remain stubbed (provisional v0.1 — see module docstring).
+    come from real bulk derivatives history (deriv[t]) — the same windows
+    the live producer uses (compose_assets.py), never a proxy.
     """
     rsi_t = series.rsi[t]
     macd_t = series.macd_hist_recent[t]
@@ -223,18 +257,12 @@ def _historical_score(
     else:
         near_boundary = False
 
-    # 30D range compression: range / mean < 0.08 in backtest mode.
-    # Live mode (compose_assets.py) uses 0.05; backtest uses a slightly
-    # looser threshold because crypto rarely shows ≤5% 30-day ranges, so
-    # the OI rule (which requires compression as a conjunct) almost never
-    # fires under 0.05. The looser 0.08 still selects "range-bound vs
-    # trending" regimes — which is what the rule's intent is — and lets
-    # vp_score occasionally cross 70 in the historical fixture.
+    # 30D range compression: range / mean < 0.05 (matches live compose_assets.py).
     if t >= 30:
         recent = closes[t - 29 : t + 1]
         rng = max(recent) - min(recent)
         avg = sum(recent) / 30
-        compression = (rng / avg) < 0.08 if avg > 0 else False
+        compression = (rng / avg) < 0.05 if avg > 0 else False
     else:
         compression = False
 
@@ -245,29 +273,7 @@ def _historical_score(
     else:
         vol_ratio = 1.0
 
-    # Volume-based proxy for OI growth: 14d-vs-prior-14d volume change.
-    # Real OI history is unavailable (Binance 30-day cap).
-    if t >= 28:
-        vol_recent = sum(volumes[t - 13 : t + 1])
-        vol_prior = sum(volumes[t - 27 : t - 13])
-        oi_growth_proxy = (
-            (vol_recent - vol_prior) / vol_prior if vol_prior > 0 else 0.0
-        )
-    else:
-        oi_growth_proxy = 0.0
-
-    # Backtest-mode synthesis for the OI conjunction rule:
-    # compression and oi_growth_proxy are anticorrelated on crypto daily
-    # data (volume drops during compressed regimes). Without this
-    # synthesis the conjunction never fires. Treat either native signal as
-    # evidence of "leverage builds while price stays range-bound" and
-    # feed both inputs at trigger thresholds when either fires.
-    if compression or oi_growth_proxy >= 0.10:
-        oi_for_scorer = 0.15
-        compression_for_scorer = True
-    else:
-        oi_for_scorer = 0.0
-        compression_for_scorer = False
+    d = deriv[t]
 
     pp, _ = score_price_pivot({
         "rsi_14": rsi_t,
@@ -285,12 +291,10 @@ def _historical_score(
         "bb_width_history": bb_history,
         "atr_now": atr_t,
         "atr_history": atr_history if atr_history else [atr_t],
-        # Backtest-mode OI/compression synthesis (see _historical_score docstring).
-        "oi_growth_pct": oi_for_scorer,
-        "price_range_compression": compression_for_scorer,
-        # Funding remains stubbed — no good price-only proxy. Provisional v0.1.
-        "abs_funding": 0.0001,
-        "abs_funding_history": [0.0001] * 50,
+        "oi_growth_pct": d.oi_growth_pct,
+        "price_range_compression": compression,
+        "abs_funding": d.abs_funding,
+        "abs_funding_history": d.abs_funding_history,
         "volume_ratio_30d": vol_ratio,
     })
     overall = int(round(pp * 0.45 + vp * 0.45 + 60 * 0.10))
@@ -302,7 +306,12 @@ def _historical_score(
 
 
 def _walk_backtest(
-    asset_data, series: _AssetSeries, horizon: Horizon, score_type: ScoreType, threshold: int
+    asset_data,
+    series: _AssetSeries,
+    deriv: list[_DerivAtT],
+    horizon: Horizon,
+    score_type: ScoreType,
+    threshold: int,
 ) -> tuple[list[Signal], int]:
     closes = asset_data["closes"]
     volumes = asset_data["volumes"]
@@ -313,7 +322,7 @@ def _walk_backtest(
     total_reversals = 0
     for t in range(start_idx, len(closes) - hd.horizon_days):
         ctx = _hit_context(series, t)
-        score = _historical_score(closes, volumes, series, t, score_type, horizon)
+        score = _historical_score(closes, volumes, series, deriv, t, score_type, horizon)
         if score >= threshold and not in_signal:
             in_signal = True
             lead_time = first_hit_day(closes, t, hd, ctx)
@@ -337,21 +346,45 @@ def _isoformat_from_ms(ms: int) -> str:
 
 
 def compose_pivot_backtest_snapshot(
-    fetcher: BinanceFetcher, generated_at: str
+    fetcher: BinanceFetcher,
+    generated_at: str,
+    *,
+    history: dict[AssetSymbol, BulkHistory],
 ) -> PivotBacktestSnapshot:
+    if not history:
+        raise BacktestHistoryError("bulk derivatives history is required (no proxy fallback)")
+
+    start_ms = int(
+        datetime.strptime(BACKTEST_HISTORY_START_DAY, "%Y-%m-%d")
+        .replace(tzinfo=timezone.utc)
+        .timestamp()
+        * 1000
+    )
+
     asset_payloads = {}
     asset_series: dict[AssetSymbol, _AssetSeries] = {}
+    coverage_by_asset: dict[AssetSymbol, float] = {}
+    deriv_by_asset: dict[AssetSymbol, list[_DerivAtT]] = {}
     for a in ASSETS:
-        klines = fetcher.fetch_klines(a, interval="1d", limit=1500)
-        oi = fetcher.fetch_open_interest(a, period="4h", limit=180)
-        funding = fetcher.fetch_funding(a, limit=1000)
+        klines = fetcher.fetch_klines_range(a, start_ms=start_ms)
+        hist = history[a]
+        open_times = [c.open_time for c in klines]
+        walk_start = max(60, len(klines) - BACKTEST_LOOKBACK_DAYS)
+        first_day = _isoformat_from_ms(open_times[walk_start])
+        last_day = _isoformat_from_ms(open_times[-1])
+        cov = hist.coverage(first_day, last_day)
+        if cov < MIN_HISTORY_COVERAGE:
+            raise BacktestHistoryError(
+                f"{a}: history coverage {cov:.3f} < {MIN_HISTORY_COVERAGE:.2f} over {first_day}..{last_day}"
+            )
+        coverage_by_asset[a] = cov
+        deriv_by_asset[a] = _deriv_series(open_times, hist)
+
         payload = {
             "closes": [c.close for c in klines],
             "highs": [c.high for c in klines],
             "lows": [c.low for c in klines],
             "volumes": [c.volume for c in klines],
-            "oi": [p.open_interest for p in oi],
-            "funding": [p.funding_rate for p in funding],
             "first_open_time": klines[0].open_time,
             "last_close_time": klines[-1].close_time,
         }
@@ -366,11 +399,12 @@ def compose_pivot_backtest_snapshot(
     for a in ASSETS:
         data = asset_payloads[a]
         series = asset_series[a]
+        deriv = deriv_by_asset[a]
         for h in HORIZONS:
             for st in SCORE_TYPES:
                 for thr in THRESHOLDS:
                     signals, total_reversals = _walk_backtest(
-                        data, series, h, st, thr
+                        data, series, deriv, h, st, thr
                     )
                     metrics = compute_metrics(signals, total_reversals)
                     entries.append({
@@ -388,4 +422,10 @@ def compose_pivot_backtest_snapshot(
         "schema_version": "v0.1",
         "generated_at": generated_at,
         "entries": entries,
+        "data_provenance": {
+            "source": _HISTORY_SOURCE,
+            "start": min(h.first_day() for h in history.values() if h.first_day()),
+            "end": max(h.last_day() for h in history.values() if h.last_day()),
+            "coverage_pct": round(min(coverage_by_asset.values()) * 100.0, 1),
+        },
     }

@@ -1,40 +1,61 @@
-import pytest
+import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from producer.compose_backtest import compose_pivot_backtest_snapshot
+import pytest
+
+from producer.bulk_history import BulkHistory, DayRecord
+from producer.compose_backtest import (
+    MIN_HISTORY_COVERAGE,
+    BacktestHistoryError,
+    compose_pivot_backtest_snapshot,
+)
 from producer.fetch_binance import BinanceFetcher
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
 NOW_ISO = "2026-05-04T00:00:00Z"
+_KLINES_START_MS = 1_638_316_800_000   # 2021-12-01 = BACKTEST_HISTORY_START_DAY; fixture は 1 頁で全部返る
 
 
 @pytest.fixture
 def fetcher() -> BinanceFetcher:
     canned = {
-        "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=1500": (
+        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1500": (
             FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
         ).read_bytes(),
-        "https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&limit=1500": (
+        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1500": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
-        ).read_bytes(),
-        "https://fapi.binance.com/futures/data/openInterestHist?symbol=BTCUSDT&period=4h&limit=180": (
-            FIXTURE_DIR / "btcusdt_oi_4h_180.json"
-        ).read_bytes(),
-        "https://fapi.binance.com/futures/data/openInterestHist?symbol=ETHUSDT&period=4h&limit=180": (
-            FIXTURE_DIR / "ethusdt_oi_4h_180.json"
-        ).read_bytes(),
-        "https://fapi.binance.com/fapi/v1/fundingRate?symbol=BTCUSDT&limit=1000": (
-            FIXTURE_DIR / "btcusdt_funding_1000.json"
-        ).read_bytes(),
-        "https://fapi.binance.com/fapi/v1/fundingRate?symbol=ETHUSDT&limit=1000": (
-            FIXTURE_DIR / "ethusdt_funding_1000.json"
         ).read_bytes(),
     }
     return BinanceFetcher(http_get=lambda url: canned[url])
 
 
-def test_backtest_emits_36_entries(fetcher: BinanceFetcher) -> None:
-    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO)
+def _synthetic_history(symbol: str, klines_path: Path, *, drop_every: int | None = None) -> BulkHistory:
+    """Six OI samples and three funding events per candle day; OI ramps 14-day-wise so the OI rule can fire."""
+    rows = json.loads(klines_path.read_text())
+    records = []
+    for i, row in enumerate(rows):
+        day = datetime.fromtimestamp(row[0] / 1000, tz=timezone.utc)
+        d = day.strftime("%Y-%m-%d")
+        if drop_every and i % drop_every == 0:
+            continue
+        base = 1000.0 * (1.0 + 0.15 * ((i // 14) % 2))
+        oi = tuple((int((day + timedelta(hours=h)).timestamp() * 1000), base, base * 2) for h in (0, 4, 8, 12, 16, 20))
+        fu = tuple((int((day + timedelta(hours=h)).timestamp() * 1000), 0.0001 if i % 40 else 0.001) for h in (0, 8, 16))
+        records.append(DayRecord(day=d, oi=oi, funding=fu))
+    return BulkHistory(symbol, records)
+
+
+@pytest.fixture
+def history() -> dict:
+    return {
+        "BTC": _synthetic_history("BTCUSDT", FIXTURE_DIR / "btcusdt_klines_1d_1500.json"),
+        "ETH": _synthetic_history("ETHUSDT", FIXTURE_DIR / "ethusdt_klines_1d_1500.json"),
+    }
+
+
+def test_backtest_emits_36_entries(fetcher: BinanceFetcher, history: dict) -> None:
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
     assert snap["schema_version"] == "v0.1"
     assert snap["generated_at"] == NOW_ISO
     # 2 assets × 3 horizons × 3 score_types × 2 thresholds = 36
@@ -53,8 +74,8 @@ def test_backtest_emits_36_entries(fetcher: BinanceFetcher) -> None:
     assert keys == expected
 
 
-def test_backtest_metrics_shape(fetcher: BinanceFetcher) -> None:
-    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO)
+def test_backtest_metrics_shape(fetcher: BinanceFetcher, history: dict) -> None:
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
     for e in snap["entries"]:
         m = e["metrics"]
         assert 0.0 <= m["precision"] <= 1.0
@@ -65,25 +86,35 @@ def test_backtest_metrics_shape(fetcher: BinanceFetcher) -> None:
 
 
 def test_at_least_some_entries_have_nonzero_sample_size(
-    fetcher: BinanceFetcher,
+    fetcher: BinanceFetcher, history: dict
 ) -> None:
-    """Codex review 3 blocking-issue regression: real sliding-window context
-    in _historical_score() must let scores actually cross thresholds 70/80
-    at SOME (asset, horizon, score_type, threshold) tuples. A return where
-    every entry has sample_size=0 means the backtest pipeline is
-    structurally inert and the Backtest UI is functionally empty.
+    """Real-history regression guard (Task 21): _historical_score() must still
+    let scores actually cross thresholds 70/80 at SOME (asset, horizon,
+    score_type, threshold) tuples now that OI growth/funding come from real
+    bulk derivatives history instead of the removed backtest-only proxy. A
+    return where every entry has sample_size=0 means the backtest pipeline
+    is structurally inert and the Backtest UI is functionally empty.
 
-    On the test fixture (~400 daily candles per asset) we expect:
-    - price_pivot to fire on all 12 tuples
-    - volatility_pivot to fire on most tuples (11+/12)
-    - overall to be structurally capped (pp/vp anticorrelation prevents
-      pp+vp ≥ 143 on this fixture; documented v0.1 known limit)
+    price_pivot never depended on OI/funding, so it is unaffected by the
+    proxy removal and still fires on all 12 (asset × horizon × threshold)
+    tuples on the test fixture.
 
-    Total expectation: ≥ 18 of 36 entries with sample_size > 0.
+    volatility_pivot's OI-conjunction rule requires real
+    `price_range_compression` (< 0.05, matching the live producer — see
+    compose_assets.py) AND real `oi_growth_pct` >= 0.10 at the SAME candle.
+    On this ~13-month BTC/ETH fixture window (2025-03-31..2026-05-04), 30D
+    range compression under 5% never occurs in either asset's real price
+    data (crypto rarely shows that tight a 30D range) — the exact
+    structural limit the pre-Task-21 proxy/loosened-threshold synthesis
+    existed to paper over. Task 21 intentionally removes that synthesis, so
+    volatility_pivot/overall legitimately produce sample_size=0 on this
+    fixture; that is not a regression. This test only guards against the
+    pipeline being structurally inert overall (price_pivot proves the real
+    sliding-window context still reaches the scorer end to end).
     """
-    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO)
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
     nonzero = [e for e in snap["entries"] if e["metrics"]["sample_size"] > 0]
-    assert len(nonzero) >= 18, (
+    assert len(nonzero) >= 8, (
         f"only {len(nonzero)}/36 entries have sample_size > 0 — "
         f"backtest pipeline appears structurally inert"
     )
@@ -93,19 +124,15 @@ def test_at_least_some_entries_have_nonzero_sample_size(
     for e in snap["entries"]:
         by_st.setdefault(e["score_type"], []).append(e["metrics"]["sample_size"])
     nz_pp = sum(1 for s in by_st["price_pivot"] if s > 0)
-    nz_vp = sum(1 for s in by_st["volatility_pivot"] if s > 0)
     assert nz_pp >= 8, (
         f"price_pivot fires on only {nz_pp}/12 tuples — pp scoring path looks broken"
-    )
-    assert nz_vp >= 6, (
-        f"volatility_pivot fires on only {nz_vp}/12 tuples — vp scoring path looks broken"
     )
 
 
 def test_backtest_fixture_has_at_least_one_nonzero_lead_time(
-    fetcher: BinanceFetcher,
+    fetcher: BinanceFetcher, history: dict
 ) -> None:
-    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO)
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
     lead_times = [
         e["metrics"]["avg_lead_time_days"]
         for e in snap["entries"]
@@ -114,3 +141,35 @@ def test_backtest_fixture_has_at_least_one_nonzero_lead_time(
     assert any(x > 0 for x in lead_times), (
         "expected at least one fixture entry to have real lead-time metrics"
     )
+
+
+def test_history_is_required(fetcher: BinanceFetcher) -> None:
+    with pytest.raises(BacktestHistoryError, match="history"):
+        compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=None)  # type: ignore[arg-type]
+
+
+def test_insufficient_coverage_fails_closed(fetcher: BinanceFetcher) -> None:
+    thin = {
+        "BTC": _synthetic_history("BTCUSDT", FIXTURE_DIR / "btcusdt_klines_1d_1500.json", drop_every=5),   # 80% coverage
+        "ETH": _synthetic_history("ETHUSDT", FIXTURE_DIR / "ethusdt_klines_1d_1500.json"),
+    }
+    with pytest.raises(BacktestHistoryError, match=f"{MIN_HISTORY_COVERAGE:.2f}"):
+        compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=thin)
+
+
+def test_snapshot_carries_data_provenance(fetcher: BinanceFetcher, history: dict) -> None:
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
+    prov = snap["data_provenance"]
+    assert prov["source"] == "binance_public_bulk_metrics+fapi_funding"
+    assert prov["start"] < prov["end"] and 0 < prov["coverage_pct"] <= 100
+
+
+def test_metrics_use_worst_forward_return_key(fetcher: BinanceFetcher, history: dict) -> None:
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
+    m = snap["entries"][0]["metrics"]
+    assert "worst_forward_return" in m and "max_drawdown" not in m
+
+
+def test_no_proxy_code_path_remains() -> None:
+    src = (Path(__file__).parents[1] / "producer" / "compose_backtest.py").read_text()
+    assert "oi_growth_proxy" not in src and "abs_funding_history\": [0.0001] * 50" not in src
