@@ -1,8 +1,11 @@
 import { describe, it, expect } from "vitest";
 import {
+  BacktestMetricsSchema,
   DirectionBiasSchema,
   PivotAssetsSnapshotSchema,
+  PivotBacktestSnapshotSchema,
   scoreLevel,
+  worstForwardReturn,
 } from "@/lib/pivots/types";
 
 describe("DirectionBiasSchema sum=100 invariant", () => {
@@ -127,5 +130,84 @@ describe("scoreLevel boundaries (PRD §12)", () => {
     [100, "Extreme"],
   ])("score %d → %s", (score, level) => {
     expect(scoreLevel(score)).toBe(level);
+  });
+});
+
+describe("BacktestMetricsSchema transition (D6)", () => {
+  const base = {
+    precision: 0.5,
+    recall: 0.4,
+    avg_lead_time_days: 3,
+    false_positive_rate: 0.5,
+    false_negative_rate: 0.6,
+    average_move: 0.02,
+    sample_size: 4,
+  };
+
+  it("accepts legacy max_drawdown", () => {
+    expect(
+      BacktestMetricsSchema.safeParse({ ...base, max_drawdown: -0.1 })
+        .success,
+    ).toBe(true);
+  });
+
+  it("accepts worst_forward_return", () => {
+    expect(
+      BacktestMetricsSchema.safeParse({
+        ...base,
+        worst_forward_return: -0.1,
+      }).success,
+    ).toBe(true);
+  });
+
+  it("rejects neither", () => {
+    expect(BacktestMetricsSchema.safeParse(base).success).toBe(false);
+  });
+
+  it("worstForwardReturn reads either", () => {
+    expect(worstForwardReturn({ ...base, max_drawdown: -0.1 })).toBe(-0.1);
+    expect(worstForwardReturn({ ...base, worst_forward_return: -0.2 })).toBe(
+      -0.2,
+    );
+  });
+});
+
+describe("PivotBacktestSnapshotSchema.data_provenance", () => {
+  it("optional and validated when present", () => {
+    const entry = {
+      asset: "BTC",
+      horizon: "7D",
+      score_type: "overall",
+      threshold: 70,
+      period: { start: "2022-01-01", end: "2026-10-01" },
+      metrics: {
+        precision: 0,
+        recall: 0,
+        avg_lead_time_days: 0,
+        false_positive_rate: 0,
+        false_negative_rate: 0,
+        average_move: 0,
+        worst_forward_return: 0,
+        sample_size: 0,
+      },
+    };
+    const ok = {
+      schema_version: "v0.1",
+      generated_at: "x",
+      entries: [entry],
+      data_provenance: {
+        source: "binance_public_bulk_metrics+fapi_funding",
+        start: "2021-12-01",
+        end: "2026-10-01",
+        coverage_pct: 99.4,
+      },
+    };
+    expect(PivotBacktestSnapshotSchema.safeParse(ok).success).toBe(true);
+    expect(
+      PivotBacktestSnapshotSchema.safeParse({
+        ...ok,
+        data_provenance: { source: "" },
+      }).success,
+    ).toBe(false);
   });
 });

@@ -144,17 +144,32 @@ export const PivotAssetsSnapshotSchema = z.object({
 });
 export type PivotAssetsSnapshot = z.infer<typeof PivotAssetsSnapshotSchema>;
 
-export const BacktestMetricsSchema = z.object({
-  precision: z.number().min(0).max(1),
-  recall: z.number().min(0).max(1),
-  avg_lead_time_days: z.number(),
-  false_positive_rate: z.number().min(0).max(1),
-  false_negative_rate: z.number().min(0).max(1),
-  average_move: z.number(),
-  max_drawdown: z.number(),
-  sample_size: z.number().int().nonnegative(),
-});
+export const BacktestMetricsSchema = z
+  .object({
+    precision: z.number().min(0).max(1),
+    recall: z.number().min(0).max(1),
+    avg_lead_time_days: z.number(),
+    false_positive_rate: z.number().min(0).max(1),
+    false_negative_rate: z.number().min(0).max(1),
+    average_move: z.number(),
+    /** Legacy name (pre 2026-10). Producer now emits worst_forward_return. */
+    max_drawdown: z.number().optional(),
+    worst_forward_return: z.number().optional(),
+    sample_size: z.number().int().nonnegative(),
+  })
+  .superRefine((m, ctx) => {
+    if (m.max_drawdown === undefined && m.worst_forward_return === undefined) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "worst_forward_return (or legacy max_drawdown) is required",
+      });
+    }
+  });
 export type BacktestMetrics = z.infer<typeof BacktestMetricsSchema>;
+
+export function worstForwardReturn(m: BacktestMetrics): number {
+  return m.worst_forward_return ?? m.max_drawdown ?? 0;
+}
 
 export const BacktestEntrySchema = z.object({
   asset: AssetSymbolSchema,
@@ -169,10 +184,19 @@ export const BacktestEntrySchema = z.object({
 });
 export type BacktestEntry = z.infer<typeof BacktestEntrySchema>;
 
+export const DataProvenanceSchema = z.object({
+  source: z.string().min(1),
+  start: z.string().min(1),
+  end: z.string().min(1),
+  coverage_pct: z.number().min(0).max(100),
+});
+export type DataProvenance = z.infer<typeof DataProvenanceSchema>;
+
 export const PivotBacktestSnapshotSchema = z.object({
   schema_version: z.literal("v0.1"),
   generated_at: z.string().min(1),
   entries: z.array(BacktestEntrySchema).min(1),
+  data_provenance: DataProvenanceSchema.optional(),
 });
 export type PivotBacktestSnapshot = z.infer<
   typeof PivotBacktestSnapshotSchema
