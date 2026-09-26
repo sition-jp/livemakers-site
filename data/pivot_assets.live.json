@@ -1,16 +1,16 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-09-25T23:00:17Z",
+  "generated_at": "2026-09-26T14:36:26Z",
   "radar": [
     {
       "symbol": "BTC",
       "scores": {
         "7D": {
-          "overall": 16.0,
+          "overall": 27.0,
           "price_pivot": 15.0,
-          "volatility_pivot": 0.0,
+          "volatility_pivot": 25.0,
           "confidence_grade": "A",
-          "main_signal": "price"
+          "main_signal": "volatility"
         },
         "30D": {
           "overall": 16.0,
@@ -20,7 +20,7 @@
           "main_signal": "price"
         },
         "90D": {
-          "overall": 15.0,
+          "overall": 16.0,
           "price_pivot": 15.0,
           "volatility_pivot": 0.0,
           "confidence_grade": "A",
@@ -62,140 +62,14 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-09-25T23:00:17Z",
-      "scores": {
-        "overall": 16.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 0.0,
-        "confidence": {
-          "grade": "A",
-          "score": 88.0
-        }
-      },
-      "direction_bias": {
-        "bullish": 0.0,
-        "bearish": 100.0,
-        "neutral": 0.0
-      },
-      "evidence": [
-        {
-          "category": "price",
-          "direction": "bearish",
-          "weight": 0.15,
-          "message": "MACD momentum is weakening"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.4867793391318223
-        }
-      ],
-      "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in BTC 7D",
-        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
-      }
-    },
-    "BTC__30D": {
-      "asset": {
-        "symbol": "BTC",
-        "name": "Bitcoin"
-      },
-      "horizon": "30D",
-      "timestamp": "2026-09-25T23:00:17Z",
-      "scores": {
-        "overall": 16.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 0.0,
-        "confidence": {
-          "grade": "A",
-          "score": 88.0
-        }
-      },
-      "direction_bias": {
-        "bullish": 0.0,
-        "bearish": 100.0,
-        "neutral": 0.0
-      },
-      "evidence": [
-        {
-          "category": "price",
-          "direction": "bearish",
-          "weight": 0.15,
-          "message": "MACD momentum is weakening"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.4867793391318223
-        }
-      ],
-      "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in BTC 30D",
-        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
-      }
-    },
-    "BTC__90D": {
-      "asset": {
-        "symbol": "BTC",
-        "name": "Bitcoin"
-      },
-      "horizon": "90D",
-      "timestamp": "2026-09-25T23:00:17Z",
-      "scores": {
-        "overall": 15.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 0.0,
-        "confidence": {
-          "grade": "A",
-          "score": 86.0
-        }
-      },
-      "direction_bias": {
-        "bullish": 0.0,
-        "bearish": 100.0,
-        "neutral": 0.0
-      },
-      "evidence": [
-        {
-          "category": "price",
-          "direction": "bearish",
-          "weight": 0.15,
-          "message": "MACD momentum is weakening"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.4867793391318223
-        }
-      ],
-      "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in BTC 90D",
-        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
-      }
-    },
-    "ETH__7D": {
-      "asset": {
-        "symbol": "ETH",
-        "name": "Ethereum"
-      },
-      "horizon": "7D",
-      "timestamp": "2026-09-25T23:00:17Z",
+      "timestamp": "2026-09-26T14:36:26Z",
       "scores": {
         "overall": 27.0,
         "price_pivot": 15.0,
         "volatility_pivot": 25.0,
         "confidence": {
           "grade": "A",
-          "score": 91.0
+          "score": 90.0
         }
       },
       "direction_bias": {
@@ -215,27 +89,153 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.4573198733470603
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 2.7779
+          "raw_value": 0.427287070491924
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5917977223152603
+          "raw_value": 0.46115834249032706
+        }
+      ],
+      "summary": {
+        "level": "Low",
+        "headline": "Low turning point conditions in BTC 7D",
+        "explanation": "Direction bias leans bearish; main driver appears to be volatility. Evidence count: 3."
+      }
+    },
+    "BTC__30D": {
+      "asset": {
+        "symbol": "BTC",
+        "name": "Bitcoin"
+      },
+      "horizon": "30D",
+      "timestamp": "2026-09-26T14:36:26Z",
+      "scores": {
+        "overall": 16.0,
+        "price_pivot": 15.0,
+        "volatility_pivot": 0.0,
+        "confidence": {
+          "grade": "A",
+          "score": 88.0
+        }
+      },
+      "direction_bias": {
+        "bullish": 0.0,
+        "bearish": 100.0,
+        "neutral": 0.0
+      },
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.15,
+          "message": "MACD momentum is weakening"
+        },
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.2,
+          "message": "Top trader positioning diverges from broader account positioning",
+          "raw_value": 0.46115834249032706
+        }
+      ],
+      "summary": {
+        "level": "Low",
+        "headline": "Low turning point conditions in BTC 30D",
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
+      }
+    },
+    "BTC__90D": {
+      "asset": {
+        "symbol": "BTC",
+        "name": "Bitcoin"
+      },
+      "horizon": "90D",
+      "timestamp": "2026-09-26T14:36:26Z",
+      "scores": {
+        "overall": 16.0,
+        "price_pivot": 15.0,
+        "volatility_pivot": 0.0,
+        "confidence": {
+          "grade": "A",
+          "score": 88.0
+        }
+      },
+      "direction_bias": {
+        "bullish": 0.0,
+        "bearish": 100.0,
+        "neutral": 0.0
+      },
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.15,
+          "message": "MACD momentum is weakening"
+        },
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.2,
+          "message": "Top trader positioning diverges from broader account positioning",
+          "raw_value": 0.46115834249032706
+        }
+      ],
+      "summary": {
+        "level": "Low",
+        "headline": "Low turning point conditions in BTC 90D",
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
+      }
+    },
+    "ETH__7D": {
+      "asset": {
+        "symbol": "ETH",
+        "name": "Ethereum"
+      },
+      "horizon": "7D",
+      "timestamp": "2026-09-26T14:36:26Z",
+      "scores": {
+        "overall": 27.0,
+        "price_pivot": 15.0,
+        "volatility_pivot": 25.0,
+        "confidence": {
+          "grade": "A",
+          "score": 93.0
+        }
+      },
+      "direction_bias": {
+        "bullish": 0.0,
+        "bearish": 100.0,
+        "neutral": 0.0
+      },
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "bearish",
+          "weight": 0.15,
+          "message": "MACD momentum is weakening"
+        },
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.25,
+          "message": "30D realized volatility is compressed (bottom 20% of lookback)",
+          "raw_value": 0.4574797355963705
+        },
+        {
+          "category": "volatility",
+          "direction": "volatility",
+          "weight": 0.2,
+          "message": "Top trader positioning diverges from broader account positioning",
+          "raw_value": 0.5530062563512198
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans bearish; main driver appears to be volatility. Evidence count: 4."
+        "explanation": "Direction bias leans bearish; main driver appears to be volatility. Evidence count: 3."
       }
     },
     "ETH__30D": {
@@ -244,7 +244,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-09-25T23:00:17Z",
+      "timestamp": "2026-09-26T14:36:26Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -270,21 +270,14 @@
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 2.7779
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5917977223152603
+          "raw_value": 0.5530062563512198
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 30D",
-        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 3."
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
       }
     },
     "ETH__90D": {
@@ -293,14 +286,14 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-09-25T23:00:17Z",
+      "timestamp": "2026-09-26T14:36:26Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
         "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 89.0
+          "score": 90.0
         }
       },
       "direction_bias": {
@@ -319,22 +312,1954 @@
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 2.7779
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5917977223152603
+          "raw_value": 0.5530062563512198
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 90D",
-        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 3."
+        "explanation": "Direction bias leans bearish; main driver appears to be price reversal. Evidence count: 2."
       }
     }
+  },
+  "previous": {
+    "generated_at": "2026-09-25T23:00:17Z",
+    "radar": [
+      {
+        "symbol": "BTC",
+        "scores": {
+          "7D": {
+            "overall": 16.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 0.0,
+            "confidence_grade": "A",
+            "main_signal": "price"
+          },
+          "30D": {
+            "overall": 16.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 0.0,
+            "confidence_grade": "A",
+            "main_signal": "price"
+          },
+          "90D": {
+            "overall": 15.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 0.0,
+            "confidence_grade": "A",
+            "main_signal": "price"
+          }
+        }
+      },
+      {
+        "symbol": "ETH",
+        "scores": {
+          "7D": {
+            "overall": 27.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 25.0,
+            "confidence_grade": "A",
+            "main_signal": "volatility"
+          },
+          "30D": {
+            "overall": 16.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 0.0,
+            "confidence_grade": "A",
+            "main_signal": "price"
+          },
+          "90D": {
+            "overall": 16.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 0.0,
+            "confidence_grade": "A",
+            "main_signal": "price"
+          }
+        }
+      }
+    ]
+  },
+  "history": {
+    "BTC": [
+      {
+        "date": "2026-05-04",
+        "close": 79861.01,
+        "overall": {
+          "7D": 74.0,
+          "30D": 78.0,
+          "90D": 71.0
+        },
+        "lean": {
+          "7D": 4.0,
+          "30D": 8.0,
+          "90D": 4.0
+        }
+      },
+      {
+        "date": "2026-05-06",
+        "close": 81447.01,
+        "overall": {
+          "7D": 51.0,
+          "30D": 44.0,
+          "90D": 31.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-07",
+        "close": 80006.0,
+        "overall": {
+          "7D": 37.0,
+          "30D": 29.0,
+          "90D": 17.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-08",
+        "close": 80193.17,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-09",
+        "close": 80678.4,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-10",
+        "close": 82210.07,
+        "overall": {
+          "7D": 45.0,
+          "30D": 37.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-11",
+        "close": 81745.65,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-12",
+        "close": 80504.47,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-13",
+        "close": 79313.61,
+        "overall": {
+          "7D": 27.0,
+          "30D": 27.0,
+          "90D": 27.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-14",
+        "close": 81089.99,
+        "overall": {
+          "7D": 29.0,
+          "30D": 29.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-05-15",
+        "close": 79113.21,
+        "overall": {
+          "7D": 19.0,
+          "30D": 28.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-05-16",
+        "close": 78148.05,
+        "overall": {
+          "7D": 19.0,
+          "30D": 28.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-05-17",
+        "close": 77457.67,
+        "overall": {
+          "7D": 28.0,
+          "30D": 28.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-05-18",
+        "close": 77001.87,
+        "overall": {
+          "7D": 34.0,
+          "30D": 34.0,
+          "90D": 26.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-05-19",
+        "close": 76834.36,
+        "overall": {
+          "7D": 37.0,
+          "30D": 37.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-20",
+        "close": 77552.23,
+        "overall": {
+          "7D": 41.0,
+          "30D": 41.0,
+          "90D": 41.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-21",
+        "close": 77615.52,
+        "overall": {
+          "7D": 41.0,
+          "30D": 41.0,
+          "90D": 41.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-22",
+        "close": 75539.5,
+        "overall": {
+          "7D": 29.0,
+          "30D": 37.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-23",
+        "close": 76752.01,
+        "overall": {
+          "7D": 43.0,
+          "30D": 43.0,
+          "90D": 43.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-24",
+        "close": 77064.96,
+        "overall": {
+          "7D": 43.0,
+          "30D": 43.0,
+          "90D": 43.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-25",
+        "close": 77322.01,
+        "overall": {
+          "7D": 27.0,
+          "30D": 27.0,
+          "90D": 27.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-26",
+        "close": 75930.01,
+        "overall": {
+          "7D": 24.0,
+          "30D": 29.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-27",
+        "close": 74449.3,
+        "overall": {
+          "7D": 31.0,
+          "30D": 35.0,
+          "90D": 35.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-28",
+        "close": 73617.51,
+        "overall": {
+          "7D": 38.0,
+          "30D": 42.0,
+          "90D": 42.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-29",
+        "close": 73460.78,
+        "overall": {
+          "7D": 31.0,
+          "30D": 35.0,
+          "90D": 35.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-30",
+        "close": 73884.38,
+        "overall": {
+          "7D": 24.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-31",
+        "close": 73674.39,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-01",
+        "close": 71408.9,
+        "overall": {
+          "7D": 38.0,
+          "30D": 49.0,
+          "90D": 49.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-02",
+        "close": 66760.83,
+        "overall": {
+          "7D": 53.0,
+          "30D": 53.0,
+          "90D": 53.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-03",
+        "close": 64142.75,
+        "overall": {
+          "7D": 53.0,
+          "30D": 53.0,
+          "90D": 53.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-04",
+        "close": 63885.99,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 45.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-05",
+        "close": 61056.47,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 45.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-06",
+        "close": 60884.62,
+        "overall": {
+          "7D": 38.0,
+          "30D": 38.0,
+          "90D": 38.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-07",
+        "close": 63332.01,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-08",
+        "close": 63085.99,
+        "overall": {
+          "7D": 30.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-09",
+        "close": 61730.0,
+        "overall": {
+          "7D": 44.0,
+          "30D": 44.0,
+          "90D": 44.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-10",
+        "close": 61510.99,
+        "overall": {
+          "7D": 38.0,
+          "30D": 44.0,
+          "90D": 44.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-11",
+        "close": 63625.99,
+        "overall": {
+          "7D": 15.0,
+          "30D": 28.0,
+          "90D": 28.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-12",
+        "close": 63580.01,
+        "overall": {
+          "7D": 15.0,
+          "30D": 22.0,
+          "90D": 28.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-13",
+        "close": 64458.01,
+        "overall": {
+          "7D": 15.0,
+          "30D": 15.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-14",
+        "close": 65746.45,
+        "overall": {
+          "7D": 16.0,
+          "30D": 16.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-15",
+        "close": 66328.74,
+        "overall": {
+          "7D": 10.0,
+          "30D": 9.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-16",
+        "close": 65675.01,
+        "overall": {
+          "7D": 10.0,
+          "30D": 9.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-17",
+        "close": 64509.4,
+        "overall": {
+          "7D": 16.0,
+          "30D": 15.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-18",
+        "close": 62958.01,
+        "overall": {
+          "7D": 16.0,
+          "30D": 15.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-19",
+        "close": 63543.91,
+        "overall": {
+          "7D": 16.0,
+          "30D": 15.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-20",
+        "close": 64298.01,
+        "overall": {
+          "7D": 10.0,
+          "30D": 9.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-21",
+        "close": 63311.99,
+        "overall": {
+          "7D": 25.0,
+          "30D": 15.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-23",
+        "close": 62734.57,
+        "overall": {
+          "7D": 25.0,
+          "30D": 25.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-24",
+        "close": 61077.99,
+        "overall": {
+          "7D": 41.0,
+          "30D": 31.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-25",
+        "close": 59794.0,
+        "overall": {
+          "7D": 34.0,
+          "30D": 30.0,
+          "90D": 30.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-26",
+        "close": 60097.27,
+        "overall": {
+          "7D": 41.0,
+          "30D": 31.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-27",
+        "close": 60029.0,
+        "overall": {
+          "7D": 24.0,
+          "30D": 24.0,
+          "90D": 30.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-28",
+        "close": 59577.01,
+        "overall": {
+          "7D": 24.0,
+          "30D": 24.0,
+          "90D": 30.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-29",
+        "close": 60260.21,
+        "overall": {
+          "7D": 25.0,
+          "30D": 25.0,
+          "90D": 31.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-30",
+        "close": 58624.71,
+        "overall": {
+          "7D": 18.0,
+          "30D": 18.0,
+          "90D": 30.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-07-01",
+        "close": 60024.0,
+        "overall": {
+          "7D": 16.0,
+          "30D": 15.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-08-22",
+        "close": 77074.93,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 45.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-17",
+        "close": 76417.01,
+        "overall": {
+          "7D": 16.0,
+          "30D": 15.0,
+          "90D": 25.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-09-18",
+        "close": 80883.87,
+        "overall": {
+          "7D": 24.0,
+          "30D": 24.0,
+          "90D": 33.0
+        },
+        "lean": {
+          "7D": -20.0,
+          "30D": -20.0,
+          "90D": -20.0
+        }
+      },
+      {
+        "date": "2026-09-19",
+        "close": 81249.99,
+        "overall": {
+          "7D": 31.0,
+          "30D": 31.0,
+          "90D": 31.0
+        },
+        "lean": {
+          "7D": -20.0,
+          "30D": -20.0,
+          "90D": -20.0
+        }
+      },
+      {
+        "date": "2026-09-21",
+        "close": 86620.0,
+        "overall": {
+          "7D": 52.0,
+          "30D": 52.0,
+          "90D": 52.0
+        },
+        "lean": {
+          "7D": -50.0,
+          "30D": -50.0,
+          "90D": -50.0
+        }
+      },
+      {
+        "date": "2026-09-22",
+        "close": 86208.56,
+        "overall": {
+          "7D": 32.0,
+          "30D": 44.0,
+          "90D": 44.0
+        },
+        "lean": {
+          "7D": -50.0,
+          "30D": -50.0,
+          "90D": -50.0
+        }
+      },
+      {
+        "date": "2026-09-23",
+        "close": 84397.6,
+        "overall": {
+          "7D": 9.0,
+          "30D": 9.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-09-24",
+        "close": 84410.24,
+        "overall": {
+          "7D": 9.0,
+          "30D": 9.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-09-25",
+        "close": 84099.99,
+        "overall": {
+          "7D": 16.0,
+          "30D": 16.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-26",
+        "close": 84008.08,
+        "overall": {
+          "7D": 27.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      }
+    ],
+    "ETH": [
+      {
+        "date": "2026-05-04",
+        "close": 2347.16,
+        "overall": {
+          "7D": 69.0,
+          "30D": 73.0,
+          "90D": 62.0
+        },
+        "lean": {
+          "7D": -4.0,
+          "30D": 1.0,
+          "90D": 2.0
+        }
+      },
+      {
+        "date": "2026-05-06",
+        "close": 2350.84,
+        "overall": {
+          "7D": 35.0,
+          "30D": 35.0,
+          "90D": 35.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-07",
+        "close": 2291.06,
+        "overall": {
+          "7D": 34.0,
+          "30D": 34.0,
+          "90D": 34.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-05-08",
+        "close": 2307.06,
+        "overall": {
+          "7D": 28.0,
+          "30D": 28.0,
+          "90D": 28.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-05-09",
+        "close": 2326.44,
+        "overall": {
+          "7D": 41.0,
+          "30D": 41.0,
+          "90D": 41.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-10",
+        "close": 2371.27,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 45.0
+        },
+        "lean": {
+          "7D": -20.0,
+          "30D": -20.0,
+          "90D": -20.0
+        }
+      },
+      {
+        "date": "2026-05-11",
+        "close": 2339.87,
+        "overall": {
+          "7D": 35.0,
+          "30D": 35.0,
+          "90D": 35.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-12",
+        "close": 2274.96,
+        "overall": {
+          "7D": 37.0,
+          "30D": 37.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-13",
+        "close": 2258.65,
+        "overall": {
+          "7D": 29.0,
+          "30D": 37.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-14",
+        "close": 2283.25,
+        "overall": {
+          "7D": 36.0,
+          "30D": 45.0,
+          "90D": 45.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-15",
+        "close": 2224.66,
+        "overall": {
+          "7D": 29.0,
+          "30D": 37.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-16",
+        "close": 2180.77,
+        "overall": {
+          "7D": 36.0,
+          "30D": 37.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-17",
+        "close": 2131.0,
+        "overall": {
+          "7D": 36.0,
+          "30D": 37.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-18",
+        "close": 2130.08,
+        "overall": {
+          "7D": 36.0,
+          "30D": 37.0,
+          "90D": 37.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-19",
+        "close": 2111.93,
+        "overall": {
+          "7D": 42.0,
+          "30D": 29.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-20",
+        "close": 2129.44,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-21",
+        "close": 2133.76,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-22",
+        "close": 2065.85,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-23",
+        "close": 2117.68,
+        "overall": {
+          "7D": 34.0,
+          "30D": 27.0,
+          "90D": 27.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-24",
+        "close": 2099.85,
+        "overall": {
+          "7D": 48.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-25",
+        "close": 2113.01,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-26",
+        "close": 2073.77,
+        "overall": {
+          "7D": 48.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-27",
+        "close": 2024.84,
+        "overall": {
+          "7D": 42.0,
+          "30D": 29.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-28",
+        "close": 2009.9,
+        "overall": {
+          "7D": 42.0,
+          "30D": 29.0,
+          "90D": 29.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-29",
+        "close": 2014.54,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-30",
+        "close": 2022.44,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-05-31",
+        "close": 2007.01,
+        "overall": {
+          "7D": 42.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-01",
+        "close": 2006.73,
+        "overall": {
+          "7D": 49.0,
+          "30D": 43.0,
+          "90D": 43.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-02",
+        "close": 1859.84,
+        "overall": {
+          "7D": 45.0,
+          "30D": 58.0,
+          "90D": 51.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-03",
+        "close": 1813.05,
+        "overall": {
+          "7D": 53.0,
+          "30D": 65.0,
+          "90D": 59.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-04",
+        "close": 1770.77,
+        "overall": {
+          "7D": 45.0,
+          "30D": 58.0,
+          "90D": 51.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-05",
+        "close": 1583.4,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 58.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-06",
+        "close": 1569.69,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 58.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-07",
+        "close": 1690.51,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-08",
+        "close": 1690.49,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-09",
+        "close": 1639.52,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-10",
+        "close": 1621.59,
+        "overall": {
+          "7D": 36.0,
+          "30D": 36.0,
+          "90D": 36.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-11",
+        "close": 1673.46,
+        "overall": {
+          "7D": 15.0,
+          "30D": 28.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-12",
+        "close": 1666.41,
+        "overall": {
+          "7D": 15.0,
+          "30D": 28.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-13",
+        "close": 1681.18,
+        "overall": {
+          "7D": 15.0,
+          "30D": 22.0,
+          "90D": 15.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-14",
+        "close": 1725.62,
+        "overall": {
+          "7D": 16.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-15",
+        "close": 1796.13,
+        "overall": {
+          "7D": 16.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-06-16",
+        "close": 1792.99,
+        "overall": {
+          "7D": 10.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-17",
+        "close": 1750.6,
+        "overall": {
+          "7D": 10.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-18",
+        "close": 1711.11,
+        "overall": {
+          "7D": 16.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-19",
+        "close": 1711.19,
+        "overall": {
+          "7D": 16.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-20",
+        "close": 1741.08,
+        "overall": {
+          "7D": 10.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-21",
+        "close": 1706.94,
+        "overall": {
+          "7D": 25.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-23",
+        "close": 1667.13,
+        "overall": {
+          "7D": 25.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-24",
+        "close": 1622.17,
+        "overall": {
+          "7D": 25.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-06-25",
+        "close": 1567.84,
+        "overall": {
+          "7D": 41.0,
+          "30D": 31.0,
+          "90D": 31.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-26",
+        "close": 1578.68,
+        "overall": {
+          "7D": 34.0,
+          "30D": 24.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-27",
+        "close": 1573.99,
+        "overall": {
+          "7D": 24.0,
+          "30D": 24.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-28",
+        "close": 1571.96,
+        "overall": {
+          "7D": 24.0,
+          "30D": 24.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": 20.0,
+          "30D": 20.0,
+          "90D": 20.0
+        }
+      },
+      {
+        "date": "2026-06-29",
+        "close": 1613.07,
+        "overall": {
+          "7D": 10.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-06-30",
+        "close": 1572.01,
+        "overall": {
+          "7D": 18.0,
+          "30D": 18.0,
+          "90D": 18.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-07-01",
+        "close": 1609.58,
+        "overall": {
+          "7D": 10.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-08-22",
+        "close": 2422.6,
+        "overall": {
+          "7D": 45.0,
+          "30D": 45.0,
+          "90D": 45.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-17",
+        "close": 2447.28,
+        "overall": {
+          "7D": 16.0,
+          "30D": 25.0,
+          "90D": 25.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-09-18",
+        "close": 2612.14,
+        "overall": {
+          "7D": 43.0,
+          "30D": 37.0,
+          "90D": 41.0
+        },
+        "lean": {
+          "7D": -20.0,
+          "30D": -20.0,
+          "90D": -20.0
+        }
+      },
+      {
+        "date": "2026-09-19",
+        "close": 2632.69,
+        "overall": {
+          "7D": 36.0,
+          "30D": 24.0,
+          "90D": 34.0
+        },
+        "lean": {
+          "7D": -20.0,
+          "30D": -20.0,
+          "90D": -20.0
+        }
+      },
+      {
+        "date": "2026-09-21",
+        "close": 2776.19,
+        "overall": {
+          "7D": 59.0,
+          "30D": 59.0,
+          "90D": 59.0
+        },
+        "lean": {
+          "7D": -50.0,
+          "30D": -50.0,
+          "90D": -50.0
+        }
+      },
+      {
+        "date": "2026-09-22",
+        "close": 2753.63,
+        "overall": {
+          "7D": 30.0,
+          "30D": 30.0,
+          "90D": 24.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-23",
+        "close": 2684.71,
+        "overall": {
+          "7D": 20.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
+      },
+      {
+        "date": "2026-09-24",
+        "close": 2688.05,
+        "overall": {
+          "7D": 27.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-25",
+        "close": 2691.61,
+        "overall": {
+          "7D": 27.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-26",
+        "close": 2688.74,
+        "overall": {
+          "7D": 27.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      }
+    ]
   }
 }
