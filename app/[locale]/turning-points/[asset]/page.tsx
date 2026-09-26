@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { turningPointAssetParams } from "@/lib/static-params";
-import { readAssetsSnapshot } from "@/lib/pivots/pivots-reader";
+import { readAssetsSnapshot, readBacktestSnapshot } from "@/lib/pivots/pivots-reader";
 import {
   AssetSymbolSchema,
   HorizonSchema,
@@ -14,6 +14,7 @@ import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
+import { TurningPointTimeline } from "@/components/turning-points/TurningPointTimeline";
 
 /**
  * /turning-points/[asset]?h=<horizon> — Asset Detail (PRD §22 Screen 2).
@@ -59,6 +60,20 @@ export default async function TurningPointAssetPage({
   const prevRadar = result.snapshot?.previous?.radar.find((a) => a.symbol === assetParse.data);
   const previous = prevRadar ? prevRadar.scores[selectedHorizon] : null;
 
+  const radarAsset = result.snapshot?.radar.find((a) => a.symbol === assetParse.data);
+  const backtestResult = await readBacktestSnapshot();
+  const backtestEntries =
+    backtestResult.snapshot?.entries.filter((e) => e.asset === assetParse.data) ?? [];
+  const todayIso = (result.snapshot?.generated_at ?? new Date().toISOString()).slice(0, 10);
+  // T2: each forward window is shaded/leaned by its OWN horizon, not the
+  // selected one — so this reads all three horizons' direction_bias, not
+  // just `detail`'s (which is scoped to selectedHorizon).
+  const biasByHorizon = {
+    "7D": result.snapshot?.detail[detailKey(assetParse.data, "7D")]?.direction_bias ?? null,
+    "30D": result.snapshot?.detail[detailKey(assetParse.data, "30D")]?.direction_bias ?? null,
+    "90D": result.snapshot?.detail[detailKey(assetParse.data, "90D")]?.direction_bias ?? null,
+  };
+
   return (
     <section className="mx-auto max-w-5xl px-6 py-12 space-y-8">
       <div>
@@ -88,12 +103,23 @@ export default async function TurningPointAssetPage({
           testid="detail-unavailable"
         />
       ) : detail ? (
-        <AssetDetail
-          detail={detail}
-          asset={assetParse.data}
-          selectedHorizon={selectedHorizon}
-          previous={previous}
-        />
+        <>
+          <TurningPointTimeline
+            asset={assetParse.data}
+            horizon={selectedHorizon}
+            today={todayIso}
+            currentByHorizon={radarAsset?.scores}
+            biasByHorizon={biasByHorizon}
+            history={result.snapshot?.history?.[assetParse.data] ?? null}
+            backtest={backtestEntries}
+          />
+          <AssetDetail
+            detail={detail}
+            asset={assetParse.data}
+            selectedHorizon={selectedHorizon}
+            previous={previous}
+          />
+        </>
       ) : (
         <div
           data-testid="detail-not-found"
