@@ -13,11 +13,19 @@ from unittest.mock import patch
 
 import pytest
 
-from ops.run_daily import ProducerInvocation, run_daily
+from ops.run_daily import ProducerInvocation, _parse_bulk_warnings, run_daily
 
 OK = ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
 DRY_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="dry failed")
 LIVE_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="live failed")
+
+
+def test_parse_bulk_warnings() -> None:
+    out = (
+        "x\n[pivots-producer] bulk_history_degraded=RuntimeError: HTTP 503\n"
+        "[pivots-producer] OK generated_at=..."
+    )
+    assert _parse_bulk_warnings(out) == ["RuntimeError: HTTP 503"]
 
 
 @pytest.fixture

@@ -170,6 +170,16 @@ def test_metrics_use_worst_forward_return_key(fetcher: BinanceFetcher, history: 
     assert "worst_forward_return" in m and "max_drawdown" not in m
 
 
+def test_missing_asset_history_fails_closed(fetcher: BinanceFetcher) -> None:
+    """R18 guard: history missing an asset entirely must fail closed with a
+    clear per-asset message, not a bare KeyError from `history[a]`."""
+    history = {
+        "BTC": _synthetic_history("BTCUSDT", FIXTURE_DIR / "btcusdt_klines_1d_1500.json"),
+    }
+    with pytest.raises(BacktestHistoryError, match="ETH"):
+        compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
+
+
 def test_no_proxy_code_path_remains() -> None:
     src = (Path(__file__).parents[1] / "producer" / "compose_backtest.py").read_text()
     assert "oi_growth_proxy" not in src and "abs_funding_history\": [0.0001] * 50" not in src

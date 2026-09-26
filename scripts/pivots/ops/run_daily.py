@@ -17,7 +17,7 @@ import json
 import os
 import subprocess
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Sequence
@@ -41,6 +41,7 @@ class ProducerInvocation:
     returncode: int
     sidecar_warnings: list[str]
     output: str
+    bulk_warnings: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -62,8 +63,13 @@ def _parse_sidecar_warnings(output: str) -> list[str]:
     return warnings
 
 
+def _parse_bulk_warnings(output: str) -> list[str]:
+    marker = "bulk_history_degraded="
+    return [line.split(marker, 1)[1].strip() for line in output.splitlines() if marker in line]
+
+
 def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
-    """Subprocess the producer CLI. Returns rc plus sidecar soft warnings."""
+    """Subprocess the producer CLI. Returns rc plus sidecar/bulk soft warnings."""
     proc = subprocess.run(
         [sys.executable, "-m", "producer.run_producer", *args],
         cwd=str(Path(__file__).resolve().parents[1]),  # scripts/pivots
@@ -76,6 +82,7 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
         returncode=proc.returncode,
         sidecar_warnings=_parse_sidecar_warnings(output),
         output=output,
+        bulk_warnings=_parse_bulk_warnings(output),
     )
 
 
@@ -243,6 +250,8 @@ def _run_inside_lock(
     sidecar_orphan = "SidecarOrphanBak" in warning_types
     if sidecar_blocked:
         warning_detail += " | sidecar history blocked; operator action required"
+    if live_result.bulk_warnings:
+        warning_detail += f" | bulk history degraded: {'; '.join(live_result.bulk_warnings)}"
 
     # Step 3: archive + prune
     try:

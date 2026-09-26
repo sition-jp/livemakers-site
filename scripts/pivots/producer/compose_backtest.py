@@ -367,6 +367,8 @@ def compose_pivot_backtest_snapshot(
     deriv_by_asset: dict[AssetSymbol, list[_DerivAtT]] = {}
     for a in ASSETS:
         klines = fetcher.fetch_klines_range(a, start_ms=start_ms)
+        if a not in history:
+            raise BacktestHistoryError(f"{a}: no bulk history supplied")
         hist = history[a]
         open_times = [c.open_time for c in klines]
         walk_start = max(60, len(klines) - BACKTEST_LOOKBACK_DAYS)

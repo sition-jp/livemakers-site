@@ -33,14 +33,19 @@ import os
 import shutil
 import subprocess
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Iterable
 
 from producer.atomic_write import atomic_write_json
 from producer.backtest_quality import build_backtest_quality_map
+from producer.bulk_history import BulkHistory, default_http_get_status, refresh
 from producer.compose_assets import compose_pivot_assets_snapshot
-from producer.compose_backtest import compose_pivot_backtest_snapshot
+from producer.compose_backtest import (
+    BACKTEST_HISTORY_START_DAY,
+    BacktestHistoryError,
+    compose_pivot_backtest_snapshot,
+)
 from producer.derivatives_sidecar import (
     compose_derivatives_history_sidecar,
     load_derivatives_history_sidecar,
@@ -51,6 +56,8 @@ REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
 DEFAULT_BACKTEST = REPO_ROOT / "data" / "pivot_backtest.live.json"
 DEFAULT_DERIVATIVES_HISTORY = REPO_ROOT / "data" / "pivot_derivatives_history.live.json"
+DEFAULT_BULK_CACHE = Path(__file__).resolve().parents[1] / ".bulk_cache"
+_BULK_SYMBOLS = {"BTC": "BTCUSDT", "ETH": "ETHUSDT"}
 
 
 def _now_iso() -> str:
@@ -93,6 +100,36 @@ def _sidecar_warning(exc: Exception) -> str:
 
 def _emit_sidecar_degraded(reason: str) -> None:
     print(f"[pivots-producer] sidecar_degraded={reason}")
+
+
+def _emit_bulk_degraded(reason: str) -> None:
+    print(f"[pivots-producer] bulk_history_degraded={reason}")
+
+
+def _load_bulk_history(cache_dir: Path, start_day: str, http_get) -> dict:
+    """Refresh the on-disk bulk OI/funding cache, then load it for the backtest.
+
+    Soft-degrades (prints a marker, keeps going) on fetch errors or a stale
+    tail lag; never raises. The caller (compose_pivot_backtest_snapshot, via
+    its own coverage check) is what fails closed if the loaded history is too
+    thin — this function's job is only to keep the cache as fresh as
+    possible and to surface fetch problems as a marker for run_daily to pick
+    up, not to gate the run itself.
+    """
+    yesterday = (datetime.now(tz=timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
+    try:
+        result = refresh(cache_dir, list(_BULK_SYMBOLS.values()), start_day, yesterday, http_get)
+        if result.errors:
+            _emit_bulk_degraded("; ".join(result.errors[:3]))
+        lag = max((len(v) for v in result.missing_days.values()), default=0)
+        if lag > 2:
+            _emit_bulk_degraded(f"bulk_history_lag_days={lag}")
+    except Exception as exc:  # noqa: BLE001
+        _emit_bulk_degraded(f"{type(exc).__name__}: {exc}")
+    return {
+        asset: BulkHistory.load(cache_dir, symbol, start_day, yesterday)
+        for asset, symbol in _BULK_SYMBOLS.items()
+    }
 
 
 def _run_vitest_validator(
@@ -215,6 +252,9 @@ def run_producer(
     dry_run: bool = False,
     skip_zod_validate: bool = False,
     repo_root: Path = REPO_ROOT,
+    bulk_cache_dir: Path | None = None,
+    bulk_start_day: str = BACKTEST_HISTORY_START_DAY,
+    bulk_http_get=default_http_get_status,
 ) -> int:
     if derivatives_history_path is None:
         derivatives_history_path = assets_path.with_name(
@@ -230,7 +270,12 @@ def run_producer(
     derivatives_tmp = _tmp_path(derivatives_history_path)
 
     try:
-        backtest_payload = compose_pivot_backtest_snapshot(fetcher, generated_at)
+        history = _load_bulk_history(
+            bulk_cache_dir or DEFAULT_BULK_CACHE, bulk_start_day, bulk_http_get
+        )
+        backtest_payload = compose_pivot_backtest_snapshot(
+            fetcher, generated_at, history=history
+        )
         backtest_quality = build_backtest_quality_map(backtest_payload["entries"])
         assets_payload = compose_pivot_assets_snapshot(
             fetcher,
@@ -330,6 +375,8 @@ def main() -> int:
         "--skip-zod-validate", action="store_true",
         help="skip the post-write Vitest zod validator (NOT RECOMMENDED outside tests)",
     )
+    p.add_argument("--bulk-cache-dir", type=Path, default=DEFAULT_BULK_CACHE)
+    p.add_argument("--bulk-start-day", type=str, default=BACKTEST_HISTORY_START_DAY)
     args = p.parse_args()
     return run_producer(
         fetcher=BinanceFetcher(),
@@ -338,6 +385,8 @@ def main() -> int:
         derivatives_history_path=args.derivatives_history_path,
         dry_run=args.dry_run,
         skip_zod_validate=args.skip_zod_validate,
+        bulk_cache_dir=args.bulk_cache_dir,
+        bulk_start_day=args.bulk_start_day,
     )
 
 
