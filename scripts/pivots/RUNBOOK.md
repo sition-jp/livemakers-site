@@ -157,12 +157,14 @@ confirm all of the following:
 
 ### Operational ownership
 
-**Primary operational AI: Claude.** Claude is the default for routine
-monitoring, incident triage, and runbook-led operations. Codex may handle
-implementation, review, investigation, or second-opinion work when explicitly
-assigned by 田平氏. This preference does not change the deterministic scheduled
-automation or its approval boundaries: activation/cutover, rollback, and policy
-changes still require explicit human approval.
+**Operating AI: Claude only (since 2026-09-26, 田平氏 decision).** Claude
+handles implementation, review (an independent Claude subagent reviews every
+PR once), routine monitoring, incident triage, and runbook-led operations.
+Codex is no longer assigned to this lane. This does not change the
+deterministic scheduled automation or its approval boundaries: merge,
+activation/cutover, runner code reflection, rollback, and policy changes still
+require explicit human approval. Living status:
+sition-core `08_DOCS/knowledge/specs/ai-turning-point-status.md`.
 
 ### GitHub publisher credential (one-time, before cutover)
 
