@@ -17,6 +17,12 @@ FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
 _KLINES_START_MS = 1_638_316_800_000   # 2021-12-01 = BACKTEST_HISTORY_START_DAY
 
 
+@pytest.fixture(autouse=True)
+def _pin_producer_clock(monkeypatch):
+    """Fixture klines end 2026-05-04; the staleness guard compares against generated_at."""
+    monkeypatch.setattr("producer.run_producer._now_iso", lambda: "2026-05-04T00:00:00Z")
+
+
 @pytest.fixture
 def canned_fetcher() -> BinanceFetcher:
     canned = {
@@ -26,10 +32,15 @@ def canned_fetcher() -> BinanceFetcher:
         "https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&limit=1500": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
         ).read_bytes(),
-        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1500": (
+        # fetch_klines_range's default page_limit is now BINANCE_KLINES_MAX_LIMIT
+        # (1000) -- Binance silently caps the real API at 1000 rows regardless of
+        # what a caller asks for (see fetch_binance.py). The plain (no startTime)
+        # entries above are for fetch_klines, which compose_assets still calls
+        # with limit=1500 -- unaffected by that change.
+        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
             FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
         ).read_bytes(),
-        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1500": (
+        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
         ).read_bytes(),
         "https://fapi.binance.com/futures/data/openInterestHist?symbol=BTCUSDT&period=4h&limit=180": (
