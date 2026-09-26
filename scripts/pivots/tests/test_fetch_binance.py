@@ -159,3 +159,23 @@ def test_http_failure_propagates() -> None:
     f = BinanceFetcher(http_get=_broken)
     with pytest.raises(OSError, match="network down"):
         f.fetch_klines("BTC")
+
+
+def test_fetch_klines_range_pages_from_start_time() -> None:
+    def row(t: int):
+        return [t, "1", "2", "0.5", "1.5", "10", t + 86_399_999, "0", 1, "0", "0", "0"]
+
+    page1 = [row(1_700_000_000_000 + i * 86_400_000) for i in range(1500)]
+    page2 = [row(1_700_000_000_000 + i * 86_400_000) for i in range(1500, 1650)]
+    calls: list[str] = []
+
+    def http_get(url: str) -> bytes:
+        calls.append(url)
+        return json.dumps(page1 if "startTime=1700000000000" in url else page2).encode()
+
+    fetcher = BinanceFetcher(http_get=http_get)
+    candles = fetcher.fetch_klines_range("BTC", start_ms=1_700_000_000_000)
+    assert len(calls) == 2 and "limit=1500" in calls[0]
+    assert len(candles) == 1650
+    assert candles[0].open_time == 1_700_000_000_000
+    assert all(candles[i].open_time < candles[i + 1].open_time for i in range(len(candles) - 1))

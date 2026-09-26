@@ -112,6 +112,35 @@ class BinanceFetcher:
             )
         return out
 
+    def fetch_klines_range(
+        self,
+        asset: AssetSymbol,
+        *,
+        start_ms: int,
+        interval: Literal["1d", "4h", "1h"] = "1d",
+        page_limit: int = 1500,
+    ) -> list[Candle]:
+        """All candles from start_ms to now, paging forward by open_time."""
+        symbol = self._resolve(asset)
+        out: list[Candle] = []
+        cursor = start_ms
+        while True:
+            url = (
+                f"https://api.binance.com/api/v3/klines"
+                f"?symbol={symbol}&interval={interval}&startTime={cursor}&limit={page_limit}"
+            )
+            raw = json.loads(self._http_get(url))
+            if not raw:
+                break
+            for row in raw:
+                c = Candle(open_time=int(row[0]), open=float(row[1]), high=float(row[2]), low=float(row[3]), close=float(row[4]), volume=float(row[5]), close_time=int(row[6]))
+                if not out or c.open_time > out[-1].open_time:
+                    out.append(c)
+            if len(raw) < page_limit:
+                break
+            cursor = int(raw[-1][0]) + 1
+        return out
+
     def fetch_open_interest(
         self,
         asset: AssetSymbol,
