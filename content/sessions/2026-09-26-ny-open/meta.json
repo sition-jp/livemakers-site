@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-09-26-ny-open",
+  "date": "2026-09-26",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-26-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-26-ny-open",
+  "publishedAt": "2026-09-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260926_1803_f9f2ed8b",
+  "asOfJst": "2026-09-26T18:40:00+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月26日 18:03 JST（読み解きのみ）",
+  "bullets": [
+    "米中、首脳会談を経て AI 事案の通報チャネルを開設へ",
+    "Midnight、コントラクト展開の解禁前で最後となる主要ノードリリースを公開",
+    "ビットコインにソフトフォークなしで秘匿送金を載せる「Shielded Bitcoin」草案"
+  ],
+  "editorial": {
+    "digestId": "dig_20260926_1840_aba81276",
+    "crawlAnchorJst": "2026-09-26T18:03:00+09:00",
+    "writtenAtJst": "2026-09-26T18:40:00+09:00",
+    "lead": "米中は首脳会談の成果として、AI を「超知能」と呼び替え、事案の通報チャネルと定期対話を置いた。競争を止めずに事故の連絡線だけは先に引く、という管理の形が文書になった。暗号資産の側では、ビットコインの合意ルールを変えずに秘匿送金を載せる草案と、Midnight のコントラクト解禁に向けた最後のノードリリースが並んだ。プライバシーを後から足す設計と、最初から組み込む設計が同じ日に前へ進んだ。",
+    "items": [
+      {
+        "headline": "米中、首脳会談を経て AI 事案の通報チャネルを開設へ",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-china-to-set-up-communication-channel-for-ai-incidents",
+        "note": "ホワイトハウスは両首脳が AI を「超知能」と呼ぶことで合意したと説明。リスクと便益を話し合う対話も新設し、次回は11月までに開く。"
+      },
+      {
+        "headline": "Midnight、コントラクト展開の解禁前で最後となる主要ノードリリースを公開",
+        "sourceUrl": "https://x.com/SebastienGllmt/status/2103675854387826952",
+        "note": "開発者の Guillemot 氏は、しばらく安定性を確かめてから展開を有効にすると説明した。解禁の日付はまだ示していない。"
+      },
+      {
+        "headline": "ビットコインにソフトフォークなしで秘匿送金を載せる「Shielded Bitcoin」草案",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/26/bitcoin-could-soon-get-zcash-style-shielded-privacy-without-changing-its-rules",
+        "note": "送り手・受け手・金額をゼロ知識証明で隠し、検証はマイナーではなくインデクサが担う設計。BTC の出し入れの仕組みはまだ設計されていない。"
+      },
+      {
+        "headline": "XRP Ledger の Batch 修正、検証者の支持がリセットされ発効は10月9日にずれ込む",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/26/xrp-ledger-s-batch-upgrade-slips-to-oct-9-after-validator-support-resets"
+      },
+      {
+        "headline": "Solana の150ミリ秒決済アップグレード、2つ目の公開テストネットに到達",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/26/solana-s-150-millisecond-settlement-upgrade-reaches-second-public-test-network"
+      },
+      {
+        "headline": "IOG 週報：Leios のデータベースを巻き戻し用と確定済みに分割、Hydra は資金が引き出せない不具合を修正",
+        "sourceUrl": "https://x.com/IOGroup/status/2103466672069730491"
+      },
+      {
+        "headline": "EMURGO、自社と Yoroi のステークプールの運営体制について続報を公表",
+        "sourceUrl": "https://x.com/emurgo_io/status/2103665867276054752"
+      },
+      {
+        "headline": "ロシア、ウクライナのプロバイダとデータセンターを攻撃しデジタル経済の中枢を狙う",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/26/russia-strikes-ukraine-digital-economy-attacks-isps-datacentres"
+      },
+      {
+        "headline": "ブラジルのルラ大統領、選挙1週間前に固定オッズのスポーツ賭博を禁止",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/26/lula-bans-fixed-odds-sports-betting-a-week-before-brazilian-elections"
+      },
+      {
+        "headline": "独 Bankhaus RSA、支援案件として約4億5000万ユーロの保証を受けていたと判明",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/stuetzungsfall-bankhaus-rsa-hat-fast-450-millionen-euro-an-garantien-erhalten/100257511.html"
+      },
+      {
+        "headline": "防衛省、部隊の現場課題をスタートアップから募る防衛省版 SBIR 制度を開始",
+        "sourceUrl": "https://x.com/atla_kouhou_jp/status/2103404325452366266"
+      },
+      {
+        "headline": "千葉県知事、印旛沼の堤防は1週間を目標に応急復旧と説明、JR 内房線の早期復旧も国・JR と連携",
+        "sourceUrl": "https://x.com/kumagai_chiba/status/2103641890872807576"
+      },
+      {
+        "headline": "雨の日や夜も発電する太陽光技術、弱点を埋める方向へ",
+        "sourceUrl": "https://www.gizmodo.jp/article/2609-recent-solar-power-evolution/"
+      }
+    ],
+    "watch": [
+      "米中の超知能対話は11月までに次回。通報チャネルが何を「事案」と定義するかが最初の焦点",
+      "Midnight のコントラクト展開がいつ解禁されるか。安定性の確認期間の長さに注目",
+      "Shielded Bitcoin の後続論文で、BTC をどう出し入れするかが示されるか"
+    ]
+  },
+  "observationStatus": "absent"
+}

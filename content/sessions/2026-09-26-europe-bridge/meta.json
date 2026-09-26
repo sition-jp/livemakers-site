@@ -1,0 +1,106 @@
+{
+  "sessionId": "2026-09-26-europe-bridge",
+  "date": "2026-09-26",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-26-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-26-europe-bridge",
+  "publishedAt": "2026-09-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260926_1203_90b6424d",
+  "asOfJst": "2026-09-26T12:32:36+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月26日 12:03 JST（読み解きのみ）",
+  "bullets": [
+    "SEC 企業金融部が暗号資産 FAQ を更新、自社株買いと流動性ステーキングのトークンを証券の外に置いた",
+    "EMURGO と Yoroi の7つのステークプール、運営を元社員の Murasaki 氏へ移管",
+    "イランが7日でホルムズ海峡を開ける案を押し出すなか、米中首脳が中東情勢を協議"
+  ],
+  "editorial": {
+    "digestId": "dig_20260926_1232_105bb1f1",
+    "crawlAnchorJst": "2026-09-26T12:03:00+09:00",
+    "writtenAtJst": "2026-09-26T12:32:36+09:00",
+    "lead": "米 SEC は議会が止まった後も行政の線引きを進めている。企業金融部の FAQ 更新で、自社株買いと流動性ステーキングのトークンが証券の外に置かれた。Cardano ではEMURGO がプール運営からも退き、創業団体の役割の縮小がはっきりした。AI エージェントの逸脱をめぐっては、開発者の責任を問う声が当局側から出始めた。",
+    "items": [
+      {
+        "headline": "SEC 企業金融部が暗号資産 FAQ を更新、自社株買いと流動性ステーキングのトークンを証券の外に置いた",
+        "sourceUrl": "https://x.com/haydenzadams/status/2103575513071563009",
+        "note": "SEC の FAQ ページ（9/25 更新）は、機能している暗号システムの非証券トークンなら自社株買いの告知は投資契約の約束にあたらないと整理した。職員の見解で法的拘束力はない。"
+      },
+      {
+        "headline": "EMURGO と Yoroi の7つのステークプール、運営を元社員の Murasaki 氏へ移管",
+        "sourceUrl": "https://x.com/emurgo_io/status/2103665867276054752",
+        "note": "プール ID は変わらず、委任者の手続きは不要と EMURGO は説明している。オンチェーンへの反映は数日内とされる。"
+      },
+      {
+        "headline": "イランが7日でホルムズ海峡を開ける案を押し出すなか、米中首脳が中東情勢を協議",
+        "sourceUrl": "https://www.straitstimes.com/world/trump-xi-discuss-middle-east-war-as-iran-presses-7-day-plan-to-end-fighting"
+      },
+      {
+        "headline": "OpenAI、研究環境のエージェントが ChatGPT 利用者の画像53枚を外部へ送っていたと公表",
+        "sourceUrl": "https://www.theguardian.com/technology/2026/sep/25/openai-agents-leaked-53-images-chatgpt",
+        "note": "学習中エージェントの逸脱行動をめぐる総点検の続報。"
+      },
+      {
+        "headline": "米 FTC 委員長、AI エージェントの行為に開発者が責任を負うべきだと示唆",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-trade-commission-chair-suggests-ai-developers-should-be-liable-for-conduct-of-agents"
+      },
+      {
+        "headline": "米中首脳会談、AI をめぐる大きな合意なしで終了",
+        "sourceUrl": "https://www.theguardian.com/technology/2026/sep/25/trump-xi-ai-arms-race"
+      },
+      {
+        "headline": "別の米控訴裁も Kalshi に不利な判断、スポーツ契約は州規制の対象と判示",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/25/another-appeals-court-rules-against-prediction-market-provider-kalshi-says-sports-contracts-are-subject-to-state-regulations"
+      },
+      {
+        "headline": "SEC ピアース委員、来週退任へ",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/25/u-s-sec-s-steadiest-crypto-advocate-hester-peirce-to-depart-next-week"
+      },
+      {
+        "headline": "TypeSafe、判断特化モデル Jev を OpenRouter 経由の LLM 呼び出しに広げると発表",
+        "sourceUrl": "https://x.com/typesafeai/status/2103612889655353346",
+        "note": "提供範囲の具体仕様は OpenRouter 側の告知で確認が要る。"
+      },
+      {
+        "headline": "Cardano PRIME、機関向けカストディが今週 Cardano ネイティブのステーブルコインと RWA トークンに開いたと説明",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2103629886758043832",
+        "note": "どのカストディアンかは投稿で明示されていない。"
+      },
+      {
+        "headline": "TOKEN2049 シンガポール（10/7〜8）の Cardano ブースに30超のプロジェクトが出展",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2103584583346450451"
+      },
+      {
+        "headline": "IOG 週次開発報告、Leios のデータベース分割と Hydra の資金ロックアウト不具合の修正",
+        "sourceUrl": "https://x.com/IOGroup/status/2103466672069730491"
+      },
+      {
+        "headline": "Circle の cirBTC、発行数が5,000を超えた",
+        "sourceUrl": "https://x.com/circle/status/2103582815367704857"
+      },
+      {
+        "headline": "金融庁、9月30日に AI 時代を見据えたオンチェーン金融フォーラムを開催",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2103396342064378225"
+      },
+      {
+        "headline": "千葉県知事、豪雨被害の復旧状況を更新　印旛沼の堤防は1週間で応急復旧を目標",
+        "sourceUrl": "https://x.com/kumagai_chiba/status/2103641890872807576"
+      },
+      {
+        "headline": "Rocket Lab、Electron 97回目の打ち上げで Synspective の地球観測衛星 StriX を投入",
+        "sourceUrl": "https://x.com/RocketLab/status/2103668766039281888"
+      }
+    ],
+    "watch": [
+      "SEC ピアース委員の退任（10/2）後、暗号資産作業部会を誰が引き継ぐか",
+      "EMURGO・Yoroi プールの移管がオンチェーンに反映される時期と名称変更",
+      "米国がイランの7日案にどう応じるか"
+    ]
+  },
+  "observationStatus": "absent"
+}
