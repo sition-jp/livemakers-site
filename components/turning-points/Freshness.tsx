@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import { classifyFreshness, type FreshnessTier } from "@/lib/pivots/freshness";
+import { formatJst } from "@/lib/pivots/format-jst";
 
 interface FreshnessProps {
   generatedAt: string | null | undefined;
@@ -39,8 +40,8 @@ export function Freshness({ generatedAt, now }: FreshnessProps) {
     >
       <span className="text-text-tertiary">{t("label")}:</span>
       {generatedAt ? (
-        <time dateTime={generatedAt} className="font-mono text-xs">
-          {generatedAt}
+        <time dateTime={generatedAt} className="font-mono text-xs" title={generatedAt}>
+          {formatJst(generatedAt) ?? generatedAt}
         </time>
       ) : null}
       <span
@@ -48,6 +49,7 @@ export function Freshness({ generatedAt, now }: FreshnessProps) {
       >
         {tierLabel}
       </span>
+      <span className="text-xs text-text-tertiary">{t("schedule")}</span>
     </div>
   );
 }

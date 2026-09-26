@@ -619,11 +619,13 @@
       "col_asset": "Asset",
       "col_horizon": "{horizon} Score",
       "col_main_signal": "Main signal",
-      "col_confidence": "Confidence",
+      "col_confidence": "Data integrity",
       "signal_price": "Price",
       "signal_volatility": "Volatility",
       "signal_mixed": "Price/Vol",
-      "empty": "No assets in the radar yet."
+      "empty": "No assets in the radar yet.",
+      "col_state": "Current state",
+      "col_delta": "vs. yesterday"
     },
     "detail": {
       "back": "← Back to radar",
@@ -633,7 +635,7 @@
       "price_pivot_label": "Price pivot",
       "volatility_pivot_label": "Volatility pivot",
       "direction_bias_label": "Direction bias",
-      "confidence_label": "Confidence",
+      "confidence_label": "Data integrity",
       "summary_label": "Summary",
       "evidence_label": "Evidence",
       "not_found_title": "Detail not found",
@@ -646,7 +648,9 @@
       "aria_summary": "Bullish {bullish} percent, neutral {neutral} percent, bearish {bearish} percent"
     },
     "evidence": {
-      "empty": "No evidence items recorded for this score."
+      "empty": "No evidence is attached to this score yet.",
+      "weight": "weight",
+      "meaning_label": "meaning"
     },
     "unavailable": {
       "title": "Data temporarily unavailable",
@@ -659,24 +663,165 @@
       "col_horizon": "Horizon",
       "col_score_type": "Score type",
       "col_threshold": "Threshold",
-      "col_precision": "Precision",
-      "col_recall": "Recall",
-      "col_lead": "Avg lead",
+      "col_precision": "Hit rate",
+      "col_recall": "Capture rate",
+      "col_lead": "Avg lead (days)",
       "col_avg_move": "Avg move",
       "col_max_dd": "Max DD",
-      "col_n": "N",
-      "empty": "No backtest entries yet."
+      "col_n": "Samples",
+      "empty": "No backtest entries yet.",
+      "col_worst": "Worst forward return",
+      "low_sample": "indicative",
+      "explain_precision": "Hit rate = share of signals followed by a qualifying move within the horizon",
+      "explain_recall": "Capture rate = share of actual moves that had a signal beforehand",
+      "explain_lead": "Avg lead = average days from signal to the confirmed move",
+      "explain_worst": "Worst forward return = minimum end-of-horizon return after a signal (not an equity-curve drawdown)",
+      "provenance": "OI / funding source: {source} ({start} to {end}, coverage {coverage}%)",
+      "provenance_missing": "OI / funding history is still a proxy (real history in preparation)"
     },
     "freshness": {
       "label": "Last updated",
       "fresh": "fresh",
       "stale": "stale",
       "veryStale": "very stale (>72h)",
-      "unknown": "timestamp unavailable"
+      "unknown": "timestamp unavailable",
+      "schedule": "Updated every morning at 08:00 JST"
     },
     "backtestProvisional": {
       "title": "Provisional v0.1 backtest metrics",
       "body": "These metrics are intended for pipeline validation, not model-performance benchmarking. Real OI/funding history and full sliding-window context land in v0.2."
+    },
+    "state": {
+      "heading": "Current state",
+      "level": {
+        "Low": {
+          "label": "Quiet",
+          "meaning": "Few turning-point conditions are present. Ordinary price behaviour.",
+          "action": "Nothing special to prepare. Read it as \"a calm regime\" in the background of articles."
+        },
+        "Medium": {
+          "label": "Early signs",
+          "meaning": "Some conditions are starting to light up. A move is not guaranteed.",
+          "action": "Check which evidence is lit and follow the change over the next days."
+        },
+        "High": {
+          "label": "Conditions aligning",
+          "meaning": "Several reversal or volatility-expansion conditions overlap.",
+          "action": "Larger moves become more likely within days to weeks. Judge direction separately; not a reason to add exposure."
+        },
+        "Extreme": {
+          "label": "Conditions strong",
+          "meaning": "Almost every condition is lit; historically common before moves.",
+          "action": "Prepare for movement itself rather than a direction. Use it to frame the articles you read."
+        }
+      },
+      "driver": {
+        "price": "Main driver: price-reversal conditions",
+        "volatility": "Main driver: volatility-expansion conditions",
+        "mixed": "Both price and volatility conditions"
+      },
+      "driver_short": {
+        "price": "Price",
+        "volatility": "Vol",
+        "mixed": "Price+Vol"
+      },
+      "direction": {
+        "up": "Lean: upward",
+        "down": "Lean: downward",
+        "flat": "Lean: neutral"
+      },
+      "direction_weak": "Directional evidence is weak",
+      "delta_label": "vs. yesterday",
+      "delta_none": "No previous day",
+      "summary": "{label}. {driver}. {direction}. {count} evidence items.",
+      "score_hint": "Score {score} / 100"
+    },
+    "integrity": {
+      "label": "Data integrity",
+      "note": "An internal measure of data completeness and indicator agreement. Not a hit rate."
+    },
+    "evidenceCopy": {
+      "rsi_oversold": {
+        "text": "RSI in oversold territory ({value})",
+        "meaning": "A level where short-term bounces are common"
+      },
+      "rsi_overheated": {
+        "text": "RSI in overheated territory ({value})",
+        "meaning": "A level where short-term pullbacks are common"
+      },
+      "ma20_far": {
+        "text": "Price far from the 20-day average (top 20% of recent range)",
+        "meaning": "Stretched; snap-backs become likely"
+      },
+      "ma50_far": {
+        "text": "Price far from the 50-day average (top 20% of recent range)",
+        "meaning": "Detached from the medium-term trend"
+      },
+      "macd_improving": {
+        "text": "MACD momentum improving",
+        "meaning": "Downside momentum is fading"
+      },
+      "macd_weakening": {
+        "text": "MACD momentum weakening",
+        "meaning": "Upside momentum is fading"
+      },
+      "range_boundary": {
+        "text": "Price near the edge of its recent range",
+        "meaning": "Break-or-bounce point"
+      },
+      "rv_compressed": {
+        "text": "30-day realized volatility compressed (bottom 20%)",
+        "meaning": "Quiet tape often precedes larger moves"
+      },
+      "bb_compressed": {
+        "text": "Bollinger Band width compressed (bottom 20%)",
+        "meaning": "Narrow range; expansion setup"
+      },
+      "atr_rising": {
+        "text": "ATR rising out of a low-volatility area",
+        "meaning": "Daily ranges are starting to widen"
+      },
+      "oi_up_range_bound": {
+        "text": "Open interest rose while price stayed range-bound",
+        "meaning": "Bets pile up without price moving"
+      },
+      "funding_skewed": {
+        "text": "Funding skewed to one side (top 20%)",
+        "meaning": "Crowded positioning; vulnerable to unwinds"
+      },
+      "volume_spike": {
+        "text": "Volume expanded sharply versus the 30-day average",
+        "meaning": "More participants; moves get confirmed"
+      },
+      "oi_expanded_range_bound": {
+        "text": "Open interest expanded while price stayed range-bound",
+        "meaning": "Leverage is building"
+      },
+      "funding_skewed_recent": {
+        "text": "Funding skewed versus recent history",
+        "meaning": "Positioning imbalance is growing"
+      },
+      "ls_crowded": {
+        "text": "Long/short positioning is crowded",
+        "meaning": "Sensitive to squeezes and liquidations"
+      },
+      "top_trader_divergence": {
+        "text": "Top traders positioned against the broader crowd",
+        "meaning": "Large and small accounts disagree"
+      }
+    },
+    "guide": {
+      "title": "How to read this page",
+      "what": "What it measures: for BTC and ETH, how likely the market is to move into its next state, scored 0–100 from price-reversal and volatility-expansion conditions.",
+      "not": "What it does not measure: price targets, trade timing, or whether price goes up or down. A high score means \"more likely to move\", not a direction or a size.",
+      "levels": "Four levels: Quiet (0–39), Early signs (40–69), Conditions aligning (70–84), Conditions strong (85–100). Read the level before the number.",
+      "pivots": "Price pivot = reversal conditions (RSI, distance from moving averages, MACD, range edges). Volatility pivot = expansion conditions (realized vol, band width, ATR, open interest, funding, volume).",
+      "bias": "Lean = which way the evidence tilts. Small differences show as neutral. Hidden while the state is Quiet.",
+      "integrity": "Data integrity = completeness of inputs and agreement between indicators. Not a hit rate; an A does not mean it will be right.",
+      "freshness": "Updated every morning at 08:00 JST with data through the previous day. If it says stale, do not use it for that day's reading.",
+      "use": "How to use it: as background when reading articles. A ten-second check of \"quiet or aligning?\" and \"price or volatility?\".",
+      "backtest_title": "How to read this table",
+      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only."
     }
   },
   "futureAtlas": {

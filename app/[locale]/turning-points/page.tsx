@@ -5,6 +5,7 @@ import { RadarTable } from "@/components/turning-points/RadarTable";
 import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
+import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 
 /**
  * /turning-points — Market Timing Radar (PRD §22 Screen 1).
@@ -43,6 +44,8 @@ export default async function TurningPointsRadarPage({
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
 
+      <ReadingGuide variant="radar" />
+
       <DisclaimerBanner />
 
       <section aria-labelledby="radar-heading" className="space-y-4">
@@ -58,7 +61,7 @@ export default async function TurningPointsRadarPage({
             testid="radar-unavailable"
           />
         ) : (
-          <RadarTable assets={result.snapshot?.radar ?? []} />
+          <RadarTable assets={result.snapshot?.radar ?? []} previous={result.snapshot?.previous ?? null} />
         )}
       </section>
 

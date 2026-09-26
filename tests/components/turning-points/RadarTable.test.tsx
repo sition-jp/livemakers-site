@@ -87,11 +87,15 @@ describe("RadarTable", () => {
     expect(screen.queryByTestId("radar-table")).toBeNull();
   });
 
-  it("surfaces dominant horizon's main_signal + confidence", () => {
-    render(withIntl(<RadarTable assets={sampleAssets} />));
+  it("surfaces dominant horizon's state label + driver and confidence", () => {
+    render(withIntl(<RadarTable assets={sampleAssets} previous={null} />));
     const row = screen.getByTestId("radar-row-BTC");
-    // 30D has the highest overall (78) → its main_signal=volatility &
-    // confidence_grade=B+ should appear.
+    // 30D has the highest overall (78) → level High ("Conditions aligning")
+    // with main_signal=volatility ("Vol") should appear in the state cell,
+    // and confidence_grade=B+ should appear in the confidence cell.
+    const stateCell = within(row).getByTestId("radar-state-BTC");
+    expect(stateCell).toHaveTextContent("Conditions aligning");
+    expect(stateCell).toHaveTextContent("Vol");
     expect(row.textContent ?? "").toMatch(/B\+/);
   });
 });
