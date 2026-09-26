@@ -860,3 +860,78 @@ def test_run_producer_emits_lag_marker_when_bulk_days_are_missing(
     )
     assert rc == 0
     assert "bulk_history_degraded=bulk_history_lag_days=3" in capsys.readouterr().out
+
+
+# --- previous radar embedding (spec 2026-09-26 §5.6 R4) ---
+
+from producer.run_producer import _load_previous_radar  # noqa: E402
+
+
+def _radar_only(generated_at: str, overall: float) -> dict:
+    scores = {
+        "overall": overall, "price_pivot": overall, "volatility_pivot": 0.0,
+        "confidence_grade": "A", "main_signal": "price",
+    }
+    return {
+        "schema_version": "v0.1",
+        "generated_at": generated_at,
+        "radar": [{"symbol": "BTC", "scores": {"7D": scores, "30D": scores, "90D": scores}}],
+        "detail": {},
+    }
+
+
+def test_previous_radar_none_when_target_absent(tmp_path: Path) -> None:
+    assert _load_previous_radar(tmp_path / "missing.json", "2026-10-02T23:00:00Z") is None
+
+
+def test_previous_radar_none_when_target_malformed(tmp_path: Path) -> None:
+    target = tmp_path / "assets.json"
+    target.write_text("{not json", encoding="utf-8")
+    assert _load_previous_radar(target, "2026-10-02T23:00:00Z") is None
+
+
+def test_previous_radar_uses_existing_radar_on_a_new_day(tmp_path: Path) -> None:
+    target = tmp_path / "assets.json"
+    target.write_text(json.dumps(_radar_only("2026-10-01T23:00:00Z", 16.0)), encoding="utf-8")
+    prev = _load_previous_radar(target, "2026-10-02T23:00:00Z")
+    assert prev == {"generated_at": "2026-10-01T23:00:00Z", "radar": _radar_only("x", 16.0)["radar"]}
+
+
+def test_previous_radar_carries_older_previous_on_same_day_rerun(tmp_path: Path) -> None:
+    """A kickstart on the same UTC day must keep the day-over-day delta, not a minutes-over-minutes one."""
+    existing = _radar_only("2026-10-02T00:51:00Z", 20.0)
+    existing["previous"] = {"generated_at": "2026-10-01T23:00:00Z", "radar": _radar_only("x", 16.0)["radar"]}
+    target = tmp_path / "assets.json"
+    target.write_text(json.dumps(existing), encoding="utf-8")
+    prev = _load_previous_radar(target, "2026-10-02T23:00:00Z")
+    assert prev is not None and prev["generated_at"] == "2026-10-01T23:00:00Z"
+
+
+def test_run_producer_embeds_previous_block(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, bulk_cache: Path
+) -> None:
+    assets = tmp_path / "pivot_assets.live.json"
+    backtest = tmp_path / "pivot_backtest.live.json"
+    assets.write_text(json.dumps(_radar_only("2026-10-01T23:00:00Z", 16.0)), encoding="utf-8")
+    rc = run_producer(
+        fetcher=canned_fetcher, assets_path=assets, backtest_path=backtest,
+        derivatives_history_path=tmp_path / "sidecar.json", dry_run=False, skip_zod_validate=True,
+        bulk_cache_dir=bulk_cache, bulk_http_get=lambda url: (404, b""),
+    )
+    assert rc == 0
+    written = json.loads(assets.read_text(encoding="utf-8"))
+    assert written["previous"]["generated_at"] == "2026-10-01T23:00:00Z"
+    assert written["previous"]["radar"][0]["symbol"] == "BTC"
+
+
+def test_run_producer_omits_previous_when_no_prior_snapshot(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, bulk_cache: Path
+) -> None:
+    assets = tmp_path / "pivot_assets.live.json"
+    rc = run_producer(
+        fetcher=canned_fetcher, assets_path=assets, backtest_path=tmp_path / "bt.json",
+        derivatives_history_path=tmp_path / "sidecar.json", dry_run=False, skip_zod_validate=True,
+        bulk_cache_dir=bulk_cache, bulk_http_get=lambda url: (404, b""),
+    )
+    assert rc == 0
+    assert "previous" not in json.loads(assets.read_text(encoding="utf-8"))

@@ -131,6 +131,36 @@ def _load_bulk_history(cache_dir: Path, start_day: str, http_get) -> dict:
     }
 
 
+def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
+    """Return {generated_at, radar} of the snapshot about to be replaced.
+
+    Same-UTC-day reruns (installer kickstart) carry the older `previous`
+    forward so the public delta stays day-over-day. Any read/parse/shape
+    problem returns None: the delta is a display convenience, never a reason
+    to fail the run.
+    """
+    try:
+        raw = json.loads(assets_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(raw, dict):
+        return None
+    generated_at = raw.get("generated_at")
+    radar = raw.get("radar")
+    if not isinstance(generated_at, str) or not isinstance(radar, list) or not radar:
+        return None
+    older = raw.get("previous")
+    if (
+        generated_at[:10] == new_generated_at[:10]
+        and isinstance(older, dict)
+        and isinstance(older.get("generated_at"), str)
+        and isinstance(older.get("radar"), list)
+        and older["radar"]
+    ):
+        return {"generated_at": older["generated_at"], "radar": older["radar"]}
+    return {"generated_at": generated_at, "radar": radar}
+
+
 def _run_vitest_validator(
     repo_root: Path, assets_tmp: Path, backtest_tmp: Path
 ) -> bool:
@@ -283,6 +313,9 @@ def run_producer(
             generated_at,
             backtest_quality_by_key=backtest_quality,
         )
+        previous = _load_previous_radar(assets_path, generated_at)
+        if previous is not None:
+            assets_payload["previous"] = previous
     except Exception as exc:  # noqa: BLE001
         print(f"[pivots-producer] compose failed: {exc}", file=sys.stderr)
         return 1
