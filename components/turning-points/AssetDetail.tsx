@@ -5,6 +5,8 @@ import { ScoreBadge } from "./ScoreBadge";
 import { ConfidenceGradeBadge } from "./ConfidenceGrade";
 import { DirectionBiasBar } from "./DirectionBiasBar";
 import { EvidenceList } from "./EvidenceList";
+import { StateBlock, formatDelta } from "./StateBlock";
+import { scoreDelta } from "@/lib/pivots/describe";
 
 const HORIZONS: Horizon[] = ["7D", "30D", "90D"];
 
@@ -12,12 +14,18 @@ export function AssetDetail({
   detail,
   asset,
   selectedHorizon,
+  previous = null,
 }: {
   detail: PivotDetail;
   asset: AssetSymbol;
   selectedHorizon: Horizon;
+  previous?: { overall?: number; price_pivot?: number; volatility_pivot?: number } | null;
 }) {
   const t = useTranslations("turningPoints.detail");
+  const ti = useTranslations("turningPoints.integrity");
+
+  const priceDelta = formatDelta(scoreDelta(detail.scores.price_pivot, previous?.price_pivot));
+  const volatilityDelta = formatDelta(scoreDelta(detail.scores.volatility_pivot, previous?.volatility_pivot));
 
   return (
     <div className="space-y-10">
@@ -48,31 +56,40 @@ export function AssetDetail({
         })}
       </nav>
 
-      <section className="space-y-6">
-        <header>
-          <p className="text-xs uppercase tracking-label text-text-tertiary">
-            {t("overall_label")}
-          </p>
-          <ScoreBadge score={detail.scores.overall} size="lg" showLevel />
-        </header>
+      <StateBlock
+        size="lg"
+        scores={detail.scores}
+        directionBias={detail.direction_bias}
+        previous={previous}
+        evidenceCount={detail.evidence.length}
+      />
 
-        <div className="grid gap-6 sm:grid-cols-2">
-          <div>
-            <p className="text-xs uppercase tracking-label text-text-tertiary mb-1">
-              {t("price_pivot_label")}
-            </p>
-            <ScoreBadge score={detail.scores.price_pivot} size="md" showLevel />
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-label text-text-tertiary mb-1">
-              {t("volatility_pivot_label")}
-            </p>
-            <ScoreBadge
-              score={detail.scores.volatility_pivot}
-              size="md"
-              showLevel
-            />
-          </div>
+      <section className="grid gap-6 sm:grid-cols-2">
+        <div>
+          <p className="text-xs uppercase tracking-label text-text-tertiary mb-1">
+            {t("price_pivot_label")}
+          </p>
+          <ScoreBadge score={detail.scores.price_pivot} size="md" showLevel />
+          {priceDelta !== null ? (
+            <span className="ml-2 text-xs text-text-tertiary" data-testid="delta-price_pivot">
+              {priceDelta}
+            </span>
+          ) : null}
+        </div>
+        <div>
+          <p className="text-xs uppercase tracking-label text-text-tertiary mb-1">
+            {t("volatility_pivot_label")}
+          </p>
+          <ScoreBadge
+            score={detail.scores.volatility_pivot}
+            size="md"
+            showLevel
+          />
+          {volatilityDelta !== null ? (
+            <span className="ml-2 text-xs text-text-tertiary" data-testid="delta-volatility_pivot">
+              {volatilityDelta}
+            </span>
+          ) : null}
         </div>
       </section>
 
@@ -91,18 +108,7 @@ export function AssetDetail({
           grade={detail.scores.confidence.grade}
           score={detail.scores.confidence.score}
         />
-      </section>
-
-      <section>
-        <h2 className="text-sm uppercase tracking-label text-text-secondary mb-2">
-          {t("summary_label")}
-        </h2>
-        <p className="text-lg text-text-primary mb-2">
-          {detail.summary.headline}
-        </p>
-        <p className="text-sm text-text-secondary leading-relaxed max-w-prose">
-          {detail.summary.explanation}
-        </p>
+        <p className="text-xs text-text-tertiary mt-1">{ti("note")}</p>
       </section>
 
       <section>
