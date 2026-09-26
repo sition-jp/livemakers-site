@@ -1,5 +1,5 @@
 import { useTranslations, useFormatter } from "next-intl";
-import type { BacktestEntry } from "@/lib/pivots/types";
+import { worstForwardReturn, type BacktestEntry } from "@/lib/pivots/types";
 
 export function BacktestPanel({ entries }: { entries: BacktestEntry[] }) {
   const t = useTranslations("turningPoints.backtest");
@@ -84,7 +84,7 @@ export function BacktestPanel({ entries }: { entries: BacktestEntry[] }) {
                 {pct(e.metrics.average_move)}
               </td>
               <td className="px-4 py-3 text-status-down">
-                {pct(e.metrics.max_drawdown)}
+                {pct(worstForwardReturn(e.metrics))}
               </td>
               <td className="px-4 py-3 text-text-tertiary">
                 {e.metrics.sample_size}

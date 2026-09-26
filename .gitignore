@@ -41,3 +41,6 @@ scripts/pivots/ops.log.jsonl
 scripts/pivots/launchd.stdout.log
 scripts/pivots/launchd.stderr.log
 scripts/pivots/.run_daily.lock
+
+# bulk derivatives history cache (runner-local; never committed)
+scripts/pivots/.bulk_cache/

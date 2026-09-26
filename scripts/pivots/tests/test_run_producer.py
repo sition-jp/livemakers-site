@@ -11,8 +11,16 @@ import producer.run_producer as run_producer_module
 from producer.derivatives_sidecar import load_derivatives_history_sidecar
 from producer.fetch_binance import BinanceFetcher
 from producer.run_producer import run_producer
+from tests._bulk_fixture import write_synthetic_bulk_cache
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
+_KLINES_START_MS = 1_638_316_800_000   # 2021-12-01 = BACKTEST_HISTORY_START_DAY
+
+
+@pytest.fixture(autouse=True)
+def _pin_producer_clock(monkeypatch):
+    """Fixture klines end 2026-05-04; the staleness guard compares against generated_at."""
+    monkeypatch.setattr("producer.run_producer._now_iso", lambda: "2026-05-04T00:00:00Z")
 
 
 @pytest.fixture
@@ -22,6 +30,17 @@ def canned_fetcher() -> BinanceFetcher:
             FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
         ).read_bytes(),
         "https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&limit=1500": (
+            FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
+        ).read_bytes(),
+        # fetch_klines_range's default page_limit is now BINANCE_KLINES_MAX_LIMIT
+        # (1000) -- Binance silently caps the real API at 1000 rows regardless of
+        # what a caller asks for (see fetch_binance.py). The plain (no startTime)
+        # entries above are for fetch_klines, which compose_assets still calls
+        # with limit=1500 -- unaffected by that change.
+        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
+            FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
+        ).read_bytes(),
+        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
         ).read_bytes(),
         "https://fapi.binance.com/futures/data/openInterestHist?symbol=BTCUSDT&period=4h&limit=180": (
@@ -38,6 +57,17 @@ def canned_fetcher() -> BinanceFetcher:
         ).read_bytes(),
     }
     return BinanceFetcher(http_get=lambda url: canned[url])
+
+
+@pytest.fixture
+def bulk_cache(tmp_path: Path) -> Path:
+    """Synthetic bulk OI/funding cache covering every candle day in the klines
+    fixtures, so producer.bulk_history.refresh() finds the walked backtest
+    window's coverage complete without any network access (offline tests)."""
+    cache_dir = tmp_path / "bulk"
+    write_synthetic_bulk_cache(cache_dir, "BTCUSDT", FIXTURE_DIR / "btcusdt_klines_1d_1500.json")
+    write_synthetic_bulk_cache(cache_dir, "ETHUSDT", FIXTURE_DIR / "ethusdt_klines_1d_1500.json")
+    return cache_dir
 
 
 @pytest.fixture
@@ -140,6 +170,7 @@ def test_invalid_saved_sidecar_degrades_without_replacing_history(
     dry_run: bool,
     capsys,
     monkeypatch,
+    bulk_cache: Path,
 ) -> None:
     sidecar_target, old_sidecar, unreadable = invalid_saved_sidecar
     assets_target = tmp_path / "pivot_assets.live.json"
@@ -169,6 +200,8 @@ def test_invalid_saved_sidecar_degrades_without_replacing_history(
             read_patch.setattr(Path, "open", unreadable_sidecar)
         rc = run_producer(
             fetcher=canned_fetcher,
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             derivatives_history_path=sidecar_target,
@@ -214,7 +247,8 @@ def test_invalid_saved_sidecar_degrades_without_replacing_history(
 
 
 def test_dry_run_does_not_touch_target(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -222,6 +256,8 @@ def test_dry_run_does_not_touch_target(
     backtest_target.write_text('{"sentinel": "old"}')
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         dry_run=True,
@@ -242,7 +278,8 @@ def test_dry_run_does_not_touch_target(
 
 
 def test_dry_run_still_runs_zod_validator(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher,
+    bulk_cache: Path,
 ) -> None:
     """Codex review 1, should-fix: dry-run must still validate the produced
     payload so schema bugs surface during local development before they
@@ -256,6 +293,8 @@ def test_dry_run_still_runs_zod_validator(
     ) as validator:
         rc = run_producer(
             fetcher=canned_fetcher,
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             dry_run=True,
@@ -265,7 +304,7 @@ def test_dry_run_still_runs_zod_validator(
     assert validator.called, "validator must run even in dry-run mode"
 
 
-def test_run_producer_passes_backtest_quality_to_assets(tmp_path: Path) -> None:
+def test_run_producer_passes_backtest_quality_to_assets(tmp_path: Path, bulk_cache: Path) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
     entries = [{"symbol": "BTC", "timeframe": "1d", "score": 1}]
@@ -287,6 +326,8 @@ def test_run_producer_passes_backtest_quality_to_assets(tmp_path: Path) -> None:
     ):
         rc = run_producer(
             fetcher=BinanceFetcher(http_get=lambda _url: b"[]"),
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             dry_run=True,
@@ -303,13 +344,16 @@ def test_run_producer_passes_backtest_quality_to_assets(tmp_path: Path) -> None:
 
 
 def test_live_write_replaces_target_atomically(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
     assets_target.write_text('{"sentinel": "old"}')
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         dry_run=False,
@@ -327,7 +371,8 @@ def test_live_write_replaces_target_atomically(
 
 
 def test_custom_targets_do_not_touch_canonical_sidecar(
-    tmp_path: Path, canned_fetcher: BinanceFetcher, monkeypatch
+    tmp_path: Path, canned_fetcher: BinanceFetcher, monkeypatch,
+    bulk_cache: Path,
 ) -> None:
     parameter = inspect.signature(run_producer).parameters[
         "derivatives_history_path"
@@ -349,6 +394,8 @@ def test_custom_targets_do_not_touch_canonical_sidecar(
 
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         dry_run=False,
@@ -360,7 +407,7 @@ def test_custom_targets_do_not_touch_canonical_sidecar(
     assert (custom_dir / "pivot_derivatives_history.live.json").exists()
 
 
-def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path) -> None:
+def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path, bulk_cache: Path) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
     assets_target.write_text('{"sentinel": "good_old"}')
@@ -371,6 +418,8 @@ def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path) -> None
 
     rc = run_producer(
         fetcher=BinanceFetcher(http_get=_broken),
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         dry_run=False,
@@ -391,7 +440,8 @@ def test_fetcher_failure_leaves_existing_snapshot_intact(tmp_path: Path) -> None
 
 
 def test_partial_promotion_failure_rolls_back_assets(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher,
+    bulk_cache: Path,
 ) -> None:
     """Codex review 1, must-fix #2: if assets replace succeeds but backtest
     replace fails, the prior assets snapshot must be restored from .bak so
@@ -418,6 +468,8 @@ def test_partial_promotion_failure_rolls_back_assets(
     with patch("producer.run_producer.os.replace", side_effect=_flaky_replace):
         rc = run_producer(
             fetcher=canned_fetcher,
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             dry_run=False,
@@ -438,7 +490,8 @@ def test_partial_promotion_failure_rolls_back_assets(
 
 
 def test_orphan_bak_warning_on_startup(
-    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys,
+    bulk_cache: Path,
 ) -> None:
     """If a previous run crashed mid-promotion the .bak files persist. The
     producer's startup path warns about them and refuses to run; the
@@ -452,6 +505,8 @@ def test_orphan_bak_warning_on_startup(
 
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         dry_run=False,
@@ -466,7 +521,8 @@ def test_orphan_bak_warning_on_startup(
 
 
 def test_partial_promotion_failure_with_absent_targets_unlinks_promoted(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher,
+    bulk_cache: Path,
 ) -> None:
     """Codex review 2, fix #3: when the targets did not exist before this run
     (fresh install) and the backtest promotion fails after the assets
@@ -492,6 +548,8 @@ def test_partial_promotion_failure_with_absent_targets_unlinks_promoted(
     with patch("producer.run_producer.os.replace", side_effect=_flaky_replace):
         rc = run_producer(
             fetcher=canned_fetcher,
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             dry_run=False,
@@ -511,7 +569,8 @@ def test_partial_promotion_failure_with_absent_targets_unlinks_promoted(
 
 
 def test_dry_run_writes_and_removes_sidecar_tmp(
-    tmp_path: Path, canned_fetcher: BinanceFetcher
+    tmp_path: Path, canned_fetcher: BinanceFetcher,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -520,6 +579,8 @@ def test_dry_run_writes_and_removes_sidecar_tmp(
     backtest_target.write_text('{"sentinel": "old"}')
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         derivatives_history_path=sidecar_target,
@@ -533,7 +594,8 @@ def test_dry_run_writes_and_removes_sidecar_tmp(
 
 
 def test_live_write_promotes_sidecar_after_public_pair(
-    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -541,6 +603,8 @@ def test_live_write_promotes_sidecar_after_public_pair(
     assert load_derivatives_history_sidecar(sidecar_target) is None
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         derivatives_history_path=sidecar_target,
@@ -565,6 +629,7 @@ def test_valid_sidecar_preserves_oi_outside_fetch_window(
     valid_existing_sidecar: dict,
     dry_run: bool,
     capsys,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -578,6 +643,8 @@ def test_valid_sidecar_preserves_oi_outside_fetch_window(
 
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         derivatives_history_path=sidecar_target,
@@ -616,6 +683,7 @@ def test_sidecar_compose_failure_keeps_public_success_and_preserves_old_sidecar(
     canned_fetcher: BinanceFetcher,
     valid_existing_sidecar: dict,
     capsys,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -629,6 +697,8 @@ def test_sidecar_compose_failure_keeps_public_success_and_preserves_old_sidecar(
     ) as compose_sidecar:
         rc = run_producer(
             fetcher=canned_fetcher,
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             derivatives_history_path=sidecar_target,
@@ -656,6 +726,7 @@ def test_sidecar_promotion_failure_does_not_rollback_public_pair(
     valid_existing_sidecar: dict,
     rollback_fails: bool,
     capsys,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -676,6 +747,8 @@ def test_sidecar_promotion_failure_does_not_rollback_public_pair(
     with patch("producer.run_producer.os.replace", side_effect=_flaky_replace):
         rc = run_producer(
             fetcher=canned_fetcher,
+            bulk_cache_dir=bulk_cache,
+            bulk_http_get=lambda url: (404, b""),
             assets_path=assets_target,
             backtest_path=backtest_target,
             derivatives_history_path=sidecar_target,
@@ -699,7 +772,8 @@ def test_sidecar_promotion_failure_does_not_rollback_public_pair(
 
 
 def test_sidecar_orphan_bak_does_not_block_public_pair(
-    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys
+    tmp_path: Path, canned_fetcher: BinanceFetcher, capsys,
+    bulk_cache: Path,
 ) -> None:
     assets_target = tmp_path / "pivot_assets.live.json"
     backtest_target = tmp_path / "pivot_backtest.live.json"
@@ -711,6 +785,8 @@ def test_sidecar_orphan_bak_does_not_block_public_pair(
 
     rc = run_producer(
         fetcher=canned_fetcher,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
         assets_path=assets_target,
         backtest_path=backtest_target,
         derivatives_history_path=sidecar_target,
@@ -724,3 +800,63 @@ def test_sidecar_orphan_bak_does_not_block_public_pair(
     assert json.loads(sidecar_target.read_text()) == {"sentinel": "current_sidecar"}
     assert (tmp_path / "pivot_derivatives_history.live.json.bak").exists()
     assert "sidecar_degraded=SidecarOrphanBak:" in capsys.readouterr().out
+
+
+def test_run_producer_fails_closed_without_bulk_cache(
+    tmp_path: Path, canned_fetcher: BinanceFetcher
+) -> None:
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=tmp_path / "a.json",
+        backtest_path=tmp_path / "b.json",
+        derivatives_history_path=tmp_path / "s.json",
+        dry_run=True,
+        skip_zod_validate=True,
+        bulk_cache_dir=tmp_path / "empty",
+        bulk_http_get=lambda url: (404, b""),
+    )
+    assert rc == 1
+    assert not (tmp_path / "b.json").exists()
+
+
+def test_run_producer_emits_bulk_degraded_marker_when_refresh_errors(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, bulk_cache: Path, capsys
+) -> None:
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=tmp_path / "a.json",
+        backtest_path=tmp_path / "b.json",
+        derivatives_history_path=tmp_path / "s.json",
+        dry_run=True,
+        skip_zod_validate=True,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (503, b""),
+    )
+    assert rc == 0                                  # cache is complete enough; refresh failure only degrades
+    assert "bulk_history_degraded=" in capsys.readouterr().out
+
+
+def test_run_producer_emits_lag_marker_when_bulk_days_are_missing(
+    tmp_path: Path, canned_fetcher: BinanceFetcher, bulk_cache: Path, capsys, monkeypatch
+) -> None:
+    from producer.bulk_history import RefreshResult
+    monkeypatch.setattr(
+        "producer.run_producer.refresh",
+        lambda *args, **kwargs: RefreshResult(
+            fetched_days=0,
+            missing_days={"BTCUSDT": ["2026-09-24", "2026-09-25", "2026-09-26"]},
+            errors=[],
+        ),
+    )
+    rc = run_producer(
+        fetcher=canned_fetcher,
+        assets_path=tmp_path / "a.json",
+        backtest_path=tmp_path / "b.json",
+        derivatives_history_path=tmp_path / "s.json",
+        dry_run=True,
+        skip_zod_validate=True,
+        bulk_cache_dir=bulk_cache,
+        bulk_http_get=lambda url: (404, b""),
+    )
+    assert rc == 0
+    assert "bulk_history_degraded=bulk_history_lag_days=3" in capsys.readouterr().out

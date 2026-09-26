@@ -102,7 +102,7 @@ class BacktestMetrics(TypedDict):
     false_positive_rate: float
     false_negative_rate: float
     average_move: float
-    max_drawdown: float
+    worst_forward_return: float
     sample_size: int
 
 
@@ -119,6 +119,7 @@ class PivotBacktestSnapshot(TypedDict):
     schema_version: Literal["v0.1"]
     generated_at: str
     entries: list[BacktestEntry]
+    data_provenance: NotRequired[dict]
 
 
 def detail_key(asset: AssetSymbol, horizon: Horizon) -> str:

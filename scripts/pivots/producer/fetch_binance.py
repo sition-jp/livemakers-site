@@ -23,6 +23,13 @@ from producer.types import AssetSymbol
 
 _SYMBOL_MAP: dict[str, str] = {"BTC": "BTCUSDT", "ETH": "ETHUSDT"}
 
+# Binance's spot /api/v3/klines endpoint silently caps `limit` at 1000 rows
+# even though the documented max used to read 1500 — a request for more than
+# 1000 is honored but truncated to 1000 with no error, so a page_limit above
+# this value makes fetch_klines_range's "short page" end-of-data check fire
+# after the very first page and silently truncate the series.
+BINANCE_KLINES_MAX_LIMIT = 1000
+
 HttpGet = Callable[[str], bytes]
 
 
@@ -110,6 +117,42 @@ class BinanceFetcher:
                     close_time=int(row[6]),
                 )
             )
+        return out
+
+    def fetch_klines_range(
+        self,
+        asset: AssetSymbol,
+        *,
+        start_ms: int,
+        interval: Literal["1d", "4h", "1h"] = "1d",
+        page_limit: int = BINANCE_KLINES_MAX_LIMIT,
+    ) -> list[Candle]:
+        """All candles from start_ms to now, paging forward by open_time.
+
+        A page shorter than `page_limit` ends paging (treated as the last
+        page), so `page_limit` must not exceed BINANCE_KLINES_MAX_LIMIT (the
+        API's actual cap) — passing a larger value causes the first page to
+        come back short (silently truncated by Binance) and paging to stop
+        after just one page, truncating the series.
+        """
+        symbol = self._resolve(asset)
+        out: list[Candle] = []
+        cursor = start_ms
+        while True:
+            url = (
+                f"https://api.binance.com/api/v3/klines"
+                f"?symbol={symbol}&interval={interval}&startTime={cursor}&limit={page_limit}"
+            )
+            raw = json.loads(self._http_get(url))
+            if not raw:
+                break
+            for row in raw:
+                c = Candle(open_time=int(row[0]), open=float(row[1]), high=float(row[2]), low=float(row[3]), close=float(row[4]), volume=float(row[5]), close_time=int(row[6]))
+                if not out or c.open_time > out[-1].open_time:
+                    out.append(c)
+            if len(raw) < page_limit:
+                break
+            cursor = int(raw[-1][0]) + 1
         return out
 
     def fetch_open_interest(

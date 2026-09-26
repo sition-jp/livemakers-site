@@ -148,7 +148,7 @@ def compute_metrics(
             "false_positive_rate": 0.0,
             "false_negative_rate": 0.0,
             "average_move": 0.0,
-            "max_drawdown": 0.0,
+            "worst_forward_return": 0.0,
             "sample_size": 0,
         }
     hits = [s for s in signals if s.hit]
@@ -175,6 +175,6 @@ def compute_metrics(
         "false_positive_rate": round(fp_rate, 4),
         "false_negative_rate": round(fn_rate, 4),
         "average_move": round(avg_move, 4),
-        "max_drawdown": round(max_dd, 4),
+        "worst_forward_return": round(max_dd, 4),
         "sample_size": n,
     }
