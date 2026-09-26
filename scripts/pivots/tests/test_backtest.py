@@ -1,6 +1,7 @@
 import pytest
 
 from producer.backtest import (
+    DIRECTION_LEAN_GAP,
     BacktestHitContext,
     HitDefinition,
     HIT_DEFINITIONS,
@@ -77,3 +78,43 @@ def test_compute_metrics_empty() -> None:
     assert m["sample_size"] == 0
     assert m["precision"] == 0.0
     assert m["recall"] == 0.0
+
+
+def test_direction_lean_gap_is_25() -> None:
+    """Task 31: single source of truth for the |lean| gate, shared by
+    compute_metrics and the UI's DIRECTION_GAP (spec 2026-09-26 §5.4.7)."""
+    assert DIRECTION_LEAN_GAP == 25
+
+
+def test_compute_metrics_direction_hit_rate() -> None:
+    """Task 31: direction_samples counts signals with |lean| >= gap; a hit is
+    sign(forward_move) == sign(lean) (forward_move == 0 counts as a miss)."""
+    signals = [
+        Signal(index=0, score=80, hit=True, forward_move=0.05, lean=30.0),   # |lean|>=25, sign matches -> hit
+        Signal(index=1, score=75, hit=False, forward_move=0.02, lean=-30.0),  # |lean|>=25, sign mismatch -> miss
+        Signal(index=2, score=70, hit=False, forward_move=0.01, lean=10.0),   # |lean|<25 -> excluded
+        Signal(index=3, score=72, hit=False, forward_move=0.03, lean=None),   # no lean -> excluded
+    ]
+    m = compute_metrics(signals, total_reversals=5)
+    assert m["direction_samples"] == 2
+    assert m["direction_hit_rate"] == pytest.approx(0.5)
+
+
+def test_compute_metrics_direction_hit_rate_zero_forward_move_is_a_miss() -> None:
+    signals = [
+        Signal(index=0, score=80, hit=False, forward_move=0.0, lean=30.0),
+    ]
+    m = compute_metrics(signals, total_reversals=1)
+    assert m["direction_samples"] == 1
+    assert m["direction_hit_rate"] == 0.0
+
+
+def test_compute_metrics_direction_hit_rate_zero_when_no_samples() -> None:
+    m = compute_metrics([], total_reversals=10)
+    assert m["direction_samples"] == 0
+    assert m["direction_hit_rate"] == 0.0
+
+
+def test_signal_lean_defaults_to_none() -> None:
+    s = Signal(index=0, score=80, hit=True, forward_move=0.10)
+    assert s.lean is None

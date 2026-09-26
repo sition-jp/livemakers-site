@@ -186,6 +186,9 @@ export const BacktestMetricsSchema = z
     max_drawdown: z.number().optional(),
     worst_forward_return: z.number().optional(),
     sample_size: z.number().int().nonnegative(),
+    /** Spec 2026-09-26 §5.4.7 — optional so older snapshots on disk still validate. */
+    direction_samples: z.number().int().nonnegative().optional(),
+    direction_hit_rate: z.number().min(0).max(1).optional(),
   })
   .superRefine((m, ctx) => {
     if (m.max_drawdown === undefined && m.worst_forward_return === undefined) {

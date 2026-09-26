@@ -253,6 +253,14 @@ class BulkHistory:
         r = self._by_day.get(day)
         return abs(r.funding[-1][1]) if r and r.funding else None
 
+    def funding_last(self, day: str) -> float | None:
+        """Signed last funding event of the day (unlike abs_funding, which
+        drops the sign). Used by the backtest's direction-bias recompute
+        (spec 2026-09-26 §5.4.7) — the live producer's funding rule in
+        score_direction_bias depends on the sign, not just the magnitude."""
+        r = self._by_day.get(day)
+        return r.funding[-1][1] if r and r.funding else None
+
     def abs_funding_history(self, day: str) -> list[float]:
         end = self._funding_index_end.get(day)
         if end is None:

@@ -8,6 +8,7 @@ from producer.compose_backtest import (
     MIN_HISTORY_COVERAGE,
     BacktestHistoryError,
     _DerivAtT,
+    _historical_direction_lean,
     _historical_score,
     _precompute_asset_series,
     compose_pivot_backtest_snapshot,
@@ -283,3 +284,59 @@ def test_oi_growth_with_compression_adds_25() -> None:
         closes, volumes, series, deriv_growth, t, "volatility_pivot", "30D"
     )
     assert score_growth - score_no_growth == 25
+
+
+def test_backtest_entries_carry_direction_metrics(fetcher: BinanceFetcher, history: dict) -> None:
+    """Task 31: every backtest entry's metrics carries the optional
+    direction_samples / direction_hit_rate pair, well-formed even when 0."""
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
+    for e in snap["entries"]:
+        m = e["metrics"]
+        assert "direction_samples" in m and "direction_hit_rate" in m
+        assert isinstance(m["direction_samples"], int) and m["direction_samples"] >= 0
+        assert 0.0 <= m["direction_hit_rate"] <= 1.0
+
+
+def test_historical_direction_lean_bullish_when_oversold() -> None:
+    """Task 31: a steady 60-day decline drives RSI deep into oversold
+    territory (<30, +15 bullish) and leaves the last close at the 30D low
+    (near_support, +15 bullish) with nothing on the bearish side, so
+    lean = bullish - bearish must be clearly positive."""
+    n = 60
+    closes = [200.0 - i * 1.0 for i in range(n)]
+    highs = [c * 1.01 for c in closes]
+    lows = [c * 0.99 for c in closes]
+    series = _precompute_asset_series(closes, highs, lows)
+    flat_history = [0.0001] * 180
+    deriv = [_DerivAtT(0.0, 0.0001, flat_history, funding_signed=0.0)] * n
+
+    lean = _historical_direction_lean(closes, series, deriv, n - 1, 0)
+    assert lean is not None and lean > 0
+
+
+def test_historical_direction_lean_bearish_when_overbought() -> None:
+    """Task 31: mirror of the oversold case — a steady 60-day rise drives RSI
+    into overbought territory (>70, +15 bearish) and leaves the last close at
+    the 30D high (near_resistance, +15 bearish), so lean must be negative."""
+    n = 60
+    closes = [100.0 + i * 1.0 for i in range(n)]
+    highs = [c * 1.01 for c in closes]
+    lows = [c * 0.99 for c in closes]
+    series = _precompute_asset_series(closes, highs, lows)
+    flat_history = [0.0001] * 180
+    deriv = [_DerivAtT(0.0, 0.0001, flat_history, funding_signed=0.0)] * n
+
+    lean = _historical_direction_lean(closes, series, deriv, n - 1, 0)
+    assert lean is not None and lean < 0
+
+
+def test_historical_direction_lean_none_before_warmup() -> None:
+    n = 20  # < 29, before the 30D range window is available
+    closes = [100.0 + i for i in range(n)]
+    highs = [c * 1.01 for c in closes]
+    lows = [c * 0.99 for c in closes]
+    series = _precompute_asset_series(closes, highs, lows)
+    flat_history = [0.0001] * 180
+    deriv = [_DerivAtT(0.0, 0.0001, flat_history, funding_signed=0.0)] * n
+
+    assert _historical_direction_lean(closes, series, deriv, n - 1, 0) is None

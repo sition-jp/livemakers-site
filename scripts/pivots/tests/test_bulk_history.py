@@ -163,6 +163,26 @@ def test_abs_funding_and_history_windows() -> None:
     assert len(hist) == 180 and hist[-1] == pytest.approx(0.0003)
 
 
+def test_funding_last_returns_signed_last_event() -> None:
+    """Task 31: funding_last is signed (unlike abs_funding), so the direction
+    bias scorer can tell shorts-paying-longs (negative) from
+    longs-paying-shorts (positive) — score_direction_bias's funding rule
+    depends on the sign, not just the magnitude."""
+    h = _history(70, funding_value=lambda i: -0.0003 if i == 69 else 0.0001)
+    assert h.funding_last("2026-03-11") == pytest.approx(-0.0003)
+    assert h.funding_last("2026-03-10") == pytest.approx(0.0001)
+
+
+def test_funding_last_none_when_no_record_or_no_events() -> None:
+    h = _history(5)
+    assert h.funding_last("2099-01-01") is None  # no cached day at all
+    no_events = BulkHistory(
+        "BTCUSDT",
+        [DayRecord(day="2026-01-01", oi=h._records[0].oi, funding=())],
+    )
+    assert no_events.funding_last("2026-01-01") is None
+
+
 def test_coverage_counts_only_full_oi_days() -> None:
     h = _history(10)
     partial = BulkHistory("BTCUSDT", list(h._records)[:-1] + [DayRecord(day="2026-01-10", oi=h._records[-1].oi[:3], funding=h._records[-1].funding)])
