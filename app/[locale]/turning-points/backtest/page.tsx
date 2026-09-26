@@ -5,7 +5,7 @@ import { BacktestPanel } from "@/components/turning-points/BacktestPanel";
 import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
-import { ProvisionalBacktestBanner } from "@/components/turning-points/ProvisionalBacktestBanner";
+import { BacktestProvenanceBanner } from "@/components/turning-points/BacktestProvenanceBanner";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 
 /**
@@ -46,7 +46,7 @@ export default async function BacktestPage({
       </header>
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
-      <ProvisionalBacktestBanner />
+      <BacktestProvenanceBanner provenance={result.snapshot?.data_provenance ?? null} />
 
       <ReadingGuide variant="backtest" />
 

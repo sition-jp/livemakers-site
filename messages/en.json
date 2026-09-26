@@ -667,7 +667,6 @@
       "col_recall": "Capture rate",
       "col_lead": "Avg lead (days)",
       "col_avg_move": "Avg move",
-      "col_max_dd": "Max DD",
       "col_n": "Samples",
       "empty": "No backtest entries yet.",
       "col_worst": "Worst forward return",
@@ -686,10 +685,6 @@
       "veryStale": "very stale (>72h)",
       "unknown": "timestamp unavailable",
       "schedule": "Updated every morning at 08:00 JST"
-    },
-    "backtestProvisional": {
-      "title": "Provisional v0.1 backtest metrics",
-      "body": "These metrics are intended for pipeline validation, not model-performance benchmarking. Real OI/funding history and full sliding-window context land in v0.2."
     },
     "state": {
       "heading": "Current state",
@@ -821,7 +816,7 @@
       "freshness": "Updated every morning at 08:00 JST with data through the previous day. If it says stale, do not use it for that day's reading.",
       "use": "How to use it: as background when reading articles. A ten-second check of \"quiet or aligning?\" and \"price or volatility?\".",
       "backtest_title": "How to read this table",
-      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only."
+      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only. OI and funding history come from Binance public data."
     },
     "timeline": {
       "heading": "Turning-point timeline",
