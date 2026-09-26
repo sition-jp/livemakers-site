@@ -174,6 +174,52 @@ describe("BacktestMetricsSchema transition (D6)", () => {
   });
 });
 
+describe("BacktestMetricsSchema direction hit rate (Task 31)", () => {
+  const base = {
+    precision: 0.5,
+    recall: 0.4,
+    avg_lead_time_days: 3,
+    false_positive_rate: 0.5,
+    false_negative_rate: 0.6,
+    average_move: 0.02,
+    worst_forward_return: -0.1,
+    sample_size: 4,
+  };
+
+  it("accepts metrics with direction fields absent", () => {
+    expect(BacktestMetricsSchema.safeParse(base).success).toBe(true);
+  });
+
+  it("accepts metrics with direction fields present", () => {
+    const r = BacktestMetricsSchema.safeParse({
+      ...base,
+      direction_samples: 2,
+      direction_hit_rate: 0.5,
+    });
+    expect(r.success).toBe(true);
+  });
+
+  it("rejects direction_hit_rate outside 0..1", () => {
+    expect(
+      BacktestMetricsSchema.safeParse({
+        ...base,
+        direction_samples: 2,
+        direction_hit_rate: 1.5,
+      }).success,
+    ).toBe(false);
+  });
+
+  it("rejects a negative direction_samples", () => {
+    expect(
+      BacktestMetricsSchema.safeParse({
+        ...base,
+        direction_samples: -1,
+        direction_hit_rate: 0.5,
+      }).success,
+    ).toBe(false);
+  });
+});
+
 describe("PivotBacktestSnapshotSchema.data_provenance", () => {
   it("optional and validated when present", () => {
     const entry = {
