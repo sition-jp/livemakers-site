@@ -2,8 +2,10 @@ import { describe, it, test, expect } from "vitest";
 import {
   BacktestMetricsSchema,
   DirectionBiasSchema,
+  HistoryEntrySchema,
   PivotAssetsSnapshotSchema,
   PivotBacktestSnapshotSchema,
+  ScoreHistorySchema,
   scoreLevel,
   worstForwardReturn,
 } from "@/lib/pivots/types";
@@ -227,5 +229,69 @@ describe("PivotAssetsSnapshotSchema.previous (R4)", () => {
   test("rejects previous with an empty radar", () => {
     const bad = { ...base, previous: { generated_at: "2026-10-01T23:00:00Z", radar: [] } };
     expect(PivotAssetsSnapshotSchema.safeParse(bad).success).toBe(false);
+  });
+});
+
+describe("HistoryEntrySchema / ScoreHistorySchema (spec §5.8 T-P1)", () => {
+  const validEntry = {
+    date: "2026-10-01",
+    close: 84000.5,
+    overall: { "7D": 16, "30D": 20, "90D": 24 },
+    lean: { "7D": 10, "30D": -5, "90D": 0 },
+  };
+
+  it("accepts a valid entry", () => {
+    expect(HistoryEntrySchema.safeParse(validEntry).success).toBe(true);
+  });
+
+  it("rejects a malformed date (not YYYY-MM-DD)", () => {
+    const r = HistoryEntrySchema.safeParse({ ...validEntry, date: "2026/10/01" });
+    expect(r.success).toBe(false);
+  });
+
+  it("ScoreHistorySchema accepts an empty per-asset array", () => {
+    const r = ScoreHistorySchema.safeParse({ BTC: [], ETH: [] });
+    expect(r.success).toBe(true);
+  });
+
+  it("ScoreHistorySchema accepts a single entry per asset", () => {
+    const r = ScoreHistorySchema.safeParse({ BTC: [validEntry], ETH: [] });
+    expect(r.success).toBe(true);
+  });
+
+  it("ScoreHistorySchema rejects 121 entries for one asset (cap is 120)", () => {
+    const many = Array.from({ length: 121 }, (_, i) => ({
+      ...validEntry,
+      date: `2026-01-${String((i % 28) + 1).padStart(2, "0")}`,
+    }));
+    const r = ScoreHistorySchema.safeParse({ BTC: many, ETH: [] });
+    expect(r.success).toBe(false);
+  });
+
+  it("PivotAssetsSnapshotSchema treats history as optional and validates when present", () => {
+    const base = {
+      schema_version: "v0.1",
+      generated_at: "2026-05-04T00:00:00Z",
+      radar: [
+        {
+          symbol: "BTC",
+          scores: {
+            "7D": { overall: 70, price_pivot: 60, volatility_pivot: 80, confidence_grade: "B+", main_signal: "volatility" },
+            "30D": { overall: 70, price_pivot: 60, volatility_pivot: 80, confidence_grade: "B+", main_signal: "volatility" },
+            "90D": { overall: 70, price_pivot: 60, volatility_pivot: 80, confidence_grade: "B+", main_signal: "volatility" },
+          },
+        },
+      ],
+      detail: {},
+    };
+    expect(PivotAssetsSnapshotSchema.safeParse(base).success).toBe(true);
+    expect(
+      PivotAssetsSnapshotSchema.safeParse({ ...base, history: { BTC: [validEntry], ETH: [] } })
+        .success,
+    ).toBe(true);
+    expect(
+      PivotAssetsSnapshotSchema.safeParse({ ...base, history: { BTC: [{ ...validEntry, date: "bad" }] } })
+        .success,
+    ).toBe(false);
   });
 });

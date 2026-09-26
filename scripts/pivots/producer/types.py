@@ -94,6 +94,7 @@ class PivotAssetsSnapshot(TypedDict):
     radar: list[RadarAsset]
     detail: dict  # Record<detailKey, PivotDetail>
     previous: NotRequired[dict]  # {"generated_at": str, "radar": list[RadarAsset]}
+    history: NotRequired[dict]  # {"BTC": [HistoryEntry], "ETH": [...]} — spec §5.8 T-P1
 
 
 class BacktestMetrics(TypedDict):

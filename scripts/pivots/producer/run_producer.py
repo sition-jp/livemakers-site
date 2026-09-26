@@ -57,6 +57,7 @@ DEFAULT_BACKTEST = REPO_ROOT / "data" / "pivot_backtest.live.json"
 DEFAULT_DERIVATIVES_HISTORY = REPO_ROOT / "data" / "pivot_derivatives_history.live.json"
 DEFAULT_BULK_CACHE = Path(__file__).resolve().parents[1] / ".bulk_cache"
 _BULK_SYMBOLS = {"BTC": "BTCUSDT", "ETH": "ETHUSDT"}
+HISTORY_MAX_DAYS = 120
 
 
 def _now_iso() -> str:
@@ -69,6 +70,47 @@ def _bak_path(target: Path) -> Path:
 
 def _tmp_path(target: Path) -> Path:
     return target.with_suffix(target.suffix + ".tmp")
+
+
+def _read_json_or_none(path: Path) -> dict | None:
+    """Best-effort read of an existing JSON object; None on any read/parse failure.
+
+    run_producer() calls this exactly once per run (before compose) to read
+    the pre-existing assets file it is about to replace, then shares that
+    single read between _previous_radar_from() (day-over-day `previous`
+    block) and _carry_history() (rolling score history) — both derive their
+    view of "what was there before" from the same raw dict instead of each
+    re-reading the file.
+    """
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    return raw if isinstance(raw, dict) else None
+
+
+def _lean(detail: dict) -> float:
+    bias = detail.get("direction_bias") or {}
+    return round(float(bias.get("bullish", 0.0)) - float(bias.get("bearish", 0.0)), 1)
+
+
+def _carry_history(existing_raw: dict | None, new_payload: dict, closes_by_asset: dict[str, float]) -> dict[str, list]:
+    """Rolling per-asset score history (spec §5.8 T-P1): previous entries + today, capped, same-day replaced."""
+    day = new_payload["generated_at"][:10]
+    out: dict[str, list] = {}
+    for a in ("BTC", "ETH"):
+        prior: list = []
+        if isinstance(existing_raw, dict) and isinstance(existing_raw.get("history"), dict):
+            cand = existing_raw["history"].get(a)
+            if isinstance(cand, list):
+                prior = [e for e in cand if isinstance(e, dict) and isinstance(e.get("date"), str) and e["date"] != day]
+        by_date = {e["date"]: e for e in prior}
+        entry = {"date": day, "close": float(closes_by_asset[a]),
+                 "overall": {h: float(new_payload["detail"][f"{a}__{h}"]["scores"]["overall"]) for h in ("7D", "30D", "90D")},
+                 "lean": {h: _lean(new_payload["detail"][f"{a}__{h}"]) for h in ("7D", "30D", "90D")}}
+        by_date[day] = entry
+        out[a] = [by_date[d] for d in sorted(by_date)][-HISTORY_MAX_DAYS:]
+    return out
 
 
 def _unlink_quiet(path: Path) -> None:
@@ -131,25 +173,24 @@ def _load_bulk_history(cache_dir: Path, start_day: str, http_get) -> dict:
     }
 
 
-def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
+def _previous_radar_from(existing_raw: dict | None, new_generated_at: str) -> dict | None:
     """Return {generated_at, radar} of the snapshot about to be replaced.
 
     Same-UTC-day reruns (installer kickstart) carry the older `previous`
-    forward so the public delta stays day-over-day. Any read/parse/shape
-    problem returns None: the delta is a display convenience, never a reason
+    forward so the public delta stays day-over-day. Any missing/malformed
+    shape returns None: the delta is a display convenience, never a reason
     to fail the run.
+
+    Pure function over the already-read raw dict (see _read_json_or_none) so
+    run_producer() can share one file read between this and _carry_history().
     """
-    try:
-        raw = json.loads(assets_path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
+    if not isinstance(existing_raw, dict):
         return None
-    if not isinstance(raw, dict):
-        return None
-    generated_at = raw.get("generated_at")
-    radar = raw.get("radar")
+    generated_at = existing_raw.get("generated_at")
+    radar = existing_raw.get("radar")
     if not isinstance(generated_at, str) or not isinstance(radar, list) or not radar:
         return None
-    older = raw.get("previous")
+    older = existing_raw.get("previous")
     if (
         generated_at[:10] == new_generated_at[:10]
         and isinstance(older, dict)
@@ -159,6 +200,16 @@ def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | Non
     ):
         return {"generated_at": older["generated_at"], "radar": older["radar"]}
     return {"generated_at": generated_at, "radar": radar}
+
+
+def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
+    """Thin wrapper over _previous_radar_from: read assets_path, then delegate.
+
+    Kept (signature unchanged) for direct unit tests and any external caller
+    that only has a path; run_producer() itself calls _previous_radar_from
+    directly against the single existing_assets_raw read it already holds.
+    """
+    return _previous_radar_from(_read_json_or_none(assets_path), new_generated_at)
 
 
 def _run_vitest_validator(
@@ -300,6 +351,11 @@ def run_producer(
 
     http_get = bulk_http_get or default_http_get_status
 
+    # Single read of the pre-existing assets file, shared below by both the
+    # `previous` day-over-day block and the rolling `history` block — see
+    # _read_json_or_none's docstring.
+    existing_assets_raw = _read_json_or_none(assets_path)
+
     try:
         history = _load_bulk_history(
             bulk_cache_dir or DEFAULT_BULK_CACHE, bulk_start_day, http_get
@@ -313,12 +369,26 @@ def run_producer(
             generated_at,
             backtest_quality_by_key=backtest_quality,
         )
-        previous = _load_previous_radar(assets_path, generated_at)
+        previous = _previous_radar_from(existing_assets_raw, generated_at)
         if previous is not None:
             assets_payload["previous"] = previous
     except Exception as exc:  # noqa: BLE001
         print(f"[pivots-producer] compose failed: {exc}", file=sys.stderr)
         return 1
+
+    try:
+        closes = {
+            a: fetcher.fetch_klines(a, interval="1d", limit=2)[-1].close
+            for a in ("BTC", "ETH")
+        }
+        assets_payload["history"] = _carry_history(
+            existing_assets_raw, assets_payload, closes
+        )
+    except Exception as exc:  # noqa: BLE001
+        # Soft-degrade: the rolling history block feeds a chart, not the core
+        # radar/detail contract, so a fetch/shape problem here must not block
+        # an otherwise-good run (same posture as sidecar/bulk-history above).
+        print(f"[pivots-producer] history_degraded={type(exc).__name__}: {exc}")
 
     sidecar_payload = None
     sidecar_warning: str | None = None
