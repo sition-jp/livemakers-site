@@ -577,6 +577,14 @@ v0.3-3 does not wire the sidecar into `compose_backtest.py`.
 It may add read/query helpers that future work can use, but the backtest output
 must remain unchanged until a later slice designs calibration.
 
+> **Superseded 2026-09-26.** The day-count stages below assumed OI history
+> could only be accumulated from the 30-day REST window. Binance public bulk
+> metrics (`data.binance.vision`, 5-minute OI from 2021-12) remove that
+> assumption. The quality-based gates in
+> sition-core `08_DOCS/knowledge/specs/2026-09-26-ai-turning-point-claude-only-reboot-design.md` §5.5
+> replace this table. The doctrine sentence after the table (sidecar existence
+> alone does not lift the AT gate) remains in force.
+
 Future unlock stages:
 
 | Stage | Minimum evidence | Allowed next step |
