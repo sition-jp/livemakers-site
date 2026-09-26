@@ -23,3 +23,30 @@ def _no_real_alert_side_effects(monkeypatch, tmp_path):
     monkeypatch.setenv(alert._SECRETS_PATH_ENV, str(absent))
     monkeypatch.setattr(alert, "_SECRETS_PATH", absent)
     monkeypatch.setattr(alert, "_send_macos_notification", lambda *args, **kwargs: None)
+
+
+@pytest.fixture(autouse=True)
+def _no_real_bulk_http(monkeypatch):
+    """Never let a test reach the real Binance bulk-history endpoints.
+
+    run_producer's `bulk_http_get` parameter used to default-bind
+    `default_http_get_status` at *function definition* time, so any test on
+    another branch/PR calling `run_producer(...)` without an explicit
+    `bulk_http_get=` kwarg would silently hit the real network and self-seed
+    the on-disk bulk cache (cross-PR hazard — see I3 in the tp-bulk-history
+    final review). The parameter now resolves its default at *call* time
+    (`bulk_http_get or default_http_get_status`), so patching the name here
+    is sufficient to catch every caller, present and future, that forgets to
+    inject a fake. Two patch targets are required: `producer.bulk_history`
+    (where the function is defined) and `producer.run_producer` (which did
+    `from producer.bulk_history import default_http_get_status`, binding its
+    own module-local name to the same function object at import time).
+    """
+    import producer.bulk_history as bulk_history
+    import producer.run_producer as run_producer_module
+
+    def _forbidden(*args, **kwargs):
+        raise AssertionError("real bulk HTTP attempted during tests")
+
+    monkeypatch.setattr(bulk_history, "default_http_get_status", _forbidden)
+    monkeypatch.setattr(run_producer_module, "default_http_get_status", _forbidden)

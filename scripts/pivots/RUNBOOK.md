@@ -473,5 +473,5 @@ The live sidecar is unchanged and is NOT merged with this cache.
   There is no proxy fallback by design. Fix the cache (rerun the seed), then rerun.
 - The bulk host publishes a day's file the next day; a lag of 1–2 days is normal.
   `bulk_history_lag_days=N` with N > 2 for three consecutive runs is an incident.
-- Alignment gate (run before wiring changes): `.venv/bin/python -m ops.alignment_report
-  --sidecar data/pivot_derivatives_history.live.json --cache-dir .bulk_cache`.
+- Alignment gate (run before wiring changes, from `scripts/pivots`): `.venv/bin/python -m ops.alignment_report
+  --sidecar ../../data/pivot_derivatives_history.live.json --cache-dir .bulk_cache`.

@@ -253,7 +253,7 @@ def run_producer(
     repo_root: Path = REPO_ROOT,
     bulk_cache_dir: Path | None = None,
     bulk_start_day: str = BACKTEST_HISTORY_START_DAY,
-    bulk_http_get=default_http_get_status,
+    bulk_http_get=None,
 ) -> int:
     if derivatives_history_path is None:
         derivatives_history_path = assets_path.with_name(
@@ -268,9 +268,11 @@ def run_producer(
     backtest_tmp = _tmp_path(backtest_path)
     derivatives_tmp = _tmp_path(derivatives_history_path)
 
+    http_get = bulk_http_get or default_http_get_status
+
     try:
         history = _load_bulk_history(
-            bulk_cache_dir or DEFAULT_BULK_CACHE, bulk_start_day, bulk_http_get
+            bulk_cache_dir or DEFAULT_BULK_CACHE, bulk_start_day, http_get
         )
         backtest_payload = compose_pivot_backtest_snapshot(
             fetcher, generated_at, history=history

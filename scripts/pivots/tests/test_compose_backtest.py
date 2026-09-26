@@ -7,6 +7,9 @@ from producer.bulk_history import BulkHistory
 from producer.compose_backtest import (
     MIN_HISTORY_COVERAGE,
     BacktestHistoryError,
+    _DerivAtT,
+    _historical_score,
+    _precompute_asset_series,
     compose_pivot_backtest_snapshot,
 )
 from producer.fetch_binance import BinanceFetcher
@@ -189,3 +192,94 @@ def test_stale_klines_fail_closed(fetcher: BinanceFetcher, history: dict) -> Non
         compose_pivot_backtest_snapshot(
             fetcher, generated_at="2026-09-26T00:00:00Z", history=history
         )
+
+
+def test_single_missing_walked_day_does_not_raise(fetcher: BinanceFetcher) -> None:
+    """I1 regression: a single missing walked day (coverage still comfortably
+    above MIN_HISTORY_COVERAGE) must not raise. hist.abs_funding_history()
+    returns [] for a day with no cached record; _deriv_series' fallback used
+    to be the single-element list [0.0], and percentiles.pct_rank raises
+    "needs at least 2 points" for any series shorter than 2 — so a real-world
+    single-day gap inside the walk window (not just a thin-coverage day)
+    crashed the whole backtest. The fallback must carry >= 2 points (mid-rank
+    0.5, so the funding rule simply cannot fire for that candle) instead."""
+    rows = json.loads((FIXTURE_DIR / "btcusdt_klines_1d_1500.json").read_text())
+    records = synthetic_day_records(rows)
+    del records[200]  # one day inside the walk window (walk_start = max(60, ...))
+    history = {
+        "BTC": BulkHistory("BTCUSDT", records),
+        "ETH": _synthetic_history("ETHUSDT", FIXTURE_DIR / "ethusdt_klines_1d_1500.json"),
+    }
+    snap = compose_pivot_backtest_snapshot(fetcher, generated_at=NOW_ISO, history=history)
+    assert len(snap["entries"]) == 36
+
+
+def test_funding_spike_raises_volatility_pivot_by_15() -> None:
+    """I2 regression: prove real funding actually reaches the scorer (not
+    just that the pipeline runs end to end). Holds price/volume/OI inputs
+    fixed across two _historical_score calls and flips only abs_funding at
+    a single candle t; score_volatility_pivot's top-20%-funding rule must
+    add exactly +15 when funding is a spike against an otherwise-flat
+    180-event history (pct_rank([0.0001]*180, 0.01) == 1.0, which is >= the
+    0.80 top-pct threshold; the flat case ties the whole history and lands
+    on the pct_rank mid-rank of 0.5, below threshold)."""
+    rows = json.loads((FIXTURE_DIR / "btcusdt_klines_1d_1500.json").read_text())
+    closes = [float(r[4]) for r in rows]
+    highs = [float(r[2]) for r in rows]
+    lows = [float(r[3]) for r in rows]
+    volumes = [float(r[5]) for r in rows]
+    series = _precompute_asset_series(closes, highs, lows)
+
+    t = 300  # inside the walk window (well past every indicator's warmup)
+    flat_history = [0.0001] * 180
+    deriv_flat = [_DerivAtT(0.0, 0.0001, flat_history)] * len(closes)
+    deriv_spike = list(deriv_flat)
+    deriv_spike[t] = _DerivAtT(
+        oi_growth_pct=0.0, abs_funding=0.01, abs_funding_history=flat_history
+    )
+
+    score_flat = _historical_score(
+        closes, volumes, series, deriv_flat, t, "volatility_pivot", "30D"
+    )
+    score_spike = _historical_score(
+        closes, volumes, series, deriv_spike, t, "volatility_pivot", "30D"
+    )
+    assert score_spike - score_flat == 15
+
+
+def test_oi_growth_with_compression_adds_25() -> None:
+    """I2 regression: prove real OI growth actually reaches the scorer.
+    Builds a fully synthetic 200-candle series (no fixture splicing needed)
+    whose last 30 days are flat within +/-0.4 around 100.0 so
+    price_range_compression is True at t, then flips only oi_growth_pct at
+    that single candle between two _historical_score calls.
+    score_volatility_pivot's OI-growth-with-compression conjunction rule
+    (oi_growth_pct >= 0.10 AND price_range_compression) must add exactly
+    +25."""
+    n = 200
+    closes = [100.0 + i * 0.5 for i in range(170)]
+    closes += [100.0 + (0.4 if i % 2 == 0 else -0.4) for i in range(170, n)]
+    highs = [c * 1.01 for c in closes]
+    lows = [c * 0.99 for c in closes]
+    volumes = [1000.0] * n
+    series = _precompute_asset_series(closes, highs, lows)
+
+    t = n - 1
+    recent = closes[t - 29 : t + 1]
+    compression_ratio = (max(recent) - min(recent)) / (sum(recent) / 30)
+    assert compression_ratio < 0.05  # precondition: compression rule is armed
+
+    flat_history = [0.0001] * 180
+    deriv_no_growth = [_DerivAtT(0.0, 0.0001, flat_history)] * n
+    deriv_growth = list(deriv_no_growth)
+    deriv_growth[t] = _DerivAtT(
+        oi_growth_pct=0.15, abs_funding=0.0001, abs_funding_history=flat_history
+    )
+
+    score_no_growth = _historical_score(
+        closes, volumes, series, deriv_no_growth, t, "volatility_pivot", "30D"
+    )
+    score_growth = _historical_score(
+        closes, volumes, series, deriv_growth, t, "volatility_pivot", "30D"
+    )
+    assert score_growth - score_no_growth == 25

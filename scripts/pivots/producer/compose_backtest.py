@@ -14,7 +14,7 @@ Real-history design (spec 2026-09-26 §5.4, Task 21 — no proxy, fail closed):
   four-hour OI buckets compared 14d-vs-prior-14d, and the last 180 funding
   events. There is no proxy and no synthesis: a candle day without full
   derivatives history simply contributes "no evidence available" (growth
-  0.0, funding 0.0, a flat [0.0] funding history) rather than a
+  0.0, funding 0.0, a flat [0.0, 0.0] funding history) rather than a
   manufactured signal. Range compression uses the same < 0.05 threshold as
   the live producer.
 - The walk itself starts at `walk_start = max(60, len(klines) -
@@ -133,7 +133,7 @@ def _deriv_series(klines_open_times: list[int], hist: BulkHistory) -> list[_Deri
         out.append(_DerivAtT(
             oi_growth_pct=growth if growth is not None else 0.0,
             abs_funding=funding if funding is not None else 0.0,
-            abs_funding_history=funding_history if funding_history else [0.0],
+            abs_funding_history=funding_history if funding_history else [0.0, 0.0],
         ))
     return out
 
