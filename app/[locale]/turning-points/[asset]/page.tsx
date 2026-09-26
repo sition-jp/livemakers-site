@@ -60,13 +60,19 @@ export default async function TurningPointAssetPage({
   const prevRadar = result.snapshot?.previous?.radar.find((a) => a.symbol === assetParse.data);
   const previous = prevRadar ? prevRadar.scores[selectedHorizon] : null;
 
-  const radarScores = result.snapshot?.radar.find((a) => a.symbol === assetParse.data)?.scores[
-    selectedHorizon
-  ];
+  const radarAsset = result.snapshot?.radar.find((a) => a.symbol === assetParse.data);
   const backtestResult = await readBacktestSnapshot();
   const backtestEntries =
     backtestResult.snapshot?.entries.filter((e) => e.asset === assetParse.data) ?? [];
   const todayIso = (result.snapshot?.generated_at ?? new Date().toISOString()).slice(0, 10);
+  // T2: each forward window is shaded/leaned by its OWN horizon, not the
+  // selected one — so this reads all three horizons' direction_bias, not
+  // just `detail`'s (which is scoped to selectedHorizon).
+  const biasByHorizon = {
+    "7D": result.snapshot?.detail[detailKey(assetParse.data, "7D")]?.direction_bias ?? null,
+    "30D": result.snapshot?.detail[detailKey(assetParse.data, "30D")]?.direction_bias ?? null,
+    "90D": result.snapshot?.detail[detailKey(assetParse.data, "90D")]?.direction_bias ?? null,
+  };
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-12 space-y-8">
@@ -102,8 +108,8 @@ export default async function TurningPointAssetPage({
             asset={assetParse.data}
             horizon={selectedHorizon}
             today={todayIso}
-            current={radarScores}
-            directionBias={detail?.direction_bias ?? null}
+            currentByHorizon={radarAsset?.scores}
+            biasByHorizon={biasByHorizon}
             history={result.snapshot?.history?.[assetParse.data] ?? null}
             backtest={backtestEntries}
           />

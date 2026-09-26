@@ -15,8 +15,10 @@ export interface TurningPointTimelineProps {
   horizon: Horizon;
   /** Snapshot's generated_at date (YYYY-MM-DD) — keeps the chart deterministic per snapshot. */
   today: string;
-  current?: RadarScores | null;
-  directionBias: DirectionBias | null;
+  /** Each horizon's own current scores (T2) — the radar entry's full `scores` map. */
+  currentByHorizon?: Record<Horizon, RadarScores> | null;
+  /** Each horizon's own direction bias (T2) — that horizon's detail entry's `direction_bias`. */
+  biasByHorizon?: Partial<Record<Horizon, DirectionBias | null>> | null;
   history: HistoryEntry[] | null;
   backtest: BacktestEntry[];
 }
@@ -29,6 +31,11 @@ const NEUTRAL_CURRENT: RadarScores = {
   volatility_pivot: 0,
   confidence_grade: "C",
   main_signal: "mixed",
+};
+const NEUTRAL_CURRENT_BY_HORIZON: Record<Horizon, RadarScores> = {
+  "7D": NEUTRAL_CURRENT,
+  "30D": NEUTRAL_CURRENT,
+  "90D": NEUTRAL_CURRENT,
 };
 
 /** Typographic minus (matches StateBlock.formatDelta / house style). */
@@ -56,8 +63,8 @@ export function TurningPointTimeline({
   asset,
   horizon,
   today,
-  current,
-  directionBias,
+  currentByHorizon,
+  biasByHorizon,
   history,
   backtest,
 }: TurningPointTimelineProps) {
@@ -66,8 +73,8 @@ export function TurningPointTimeline({
     asset,
     today,
     horizon,
-    current: current ?? NEUTRAL_CURRENT,
-    directionBias,
+    currentByHorizon: currentByHorizon ?? NEUTRAL_CURRENT_BY_HORIZON,
+    biasByHorizon: biasByHorizon ?? {},
     history,
     backtest,
   });

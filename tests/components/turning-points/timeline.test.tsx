@@ -7,7 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import ja from "@/messages/ja.json";
 import en from "@/messages/en.json";
 import { TurningPointTimeline } from "@/components/turning-points/TurningPointTimeline";
-import type { BacktestEntry, HistoryEntry, RadarScores } from "@/lib/pivots/types";
+import type { BacktestEntry, DirectionBias, HistoryEntry, Horizon, RadarScores } from "@/lib/pivots/types";
 
 function wrap(locale: "ja" | "en", ui: React.ReactNode) {
   const messages = locale === "ja" ? ja : en;
@@ -18,12 +18,29 @@ function wrap(locale: "ja" | "en", ui: React.ReactNode) {
   );
 }
 
-const current: RadarScores = {
-  overall: 62,
-  price_pivot: 55,
-  volatility_pivot: 70,
-  confidence_grade: "B+",
-  main_signal: "mixed",
+function scores(overall: number, pp = overall, vp = overall): RadarScores {
+  return {
+    overall,
+    price_pivot: pp,
+    volatility_pivot: vp,
+    confidence_grade: "B+",
+    main_signal: "mixed",
+  };
+}
+
+// T2: each horizon carries its OWN scores — 7D quiet (Low, no lean possible),
+// 30D Medium with a wide bullish gap (-> lean up), 90D High with a wide
+// bearish gap (-> lean down). Deliberately different per horizon so a
+// regression back to "one shared current for all three windows" fails loudly.
+const currentByHorizon: Record<Horizon, RadarScores> = {
+  "7D": scores(20),
+  "30D": scores(62),
+  "90D": scores(80),
+};
+const biasByHorizon: Partial<Record<Horizon, DirectionBias | null>> = {
+  "7D": null,
+  "30D": { bullish: 60, bearish: 20, neutral: 20 },
+  "90D": { bullish: 10, bearish: 70, neutral: 20 },
 };
 
 const history: HistoryEntry[] = [
@@ -65,8 +82,8 @@ describe("TurningPointTimeline", () => {
         asset="BTC"
         horizon="7D"
         today="2026-09-04"
-        current={current}
-        directionBias={{ bullish: 60, bearish: 20, neutral: 20 }}
+        currentByHorizon={currentByHorizon}
+        biasByHorizon={biasByHorizon}
         history={history}
         backtest={backtest}
       />,
@@ -83,6 +100,38 @@ describe("TurningPointTimeline", () => {
     expect(screen.getByTestId("timeline-window-90D")).toBeTruthy();
   });
 
+  it("shades and leans each forward window by ITS OWN horizon (T2)", () => {
+    wrap(
+      "ja",
+      <TurningPointTimeline
+        asset="BTC"
+        horizon="30D"
+        today="2026-09-04"
+        currentByHorizon={currentByHorizon}
+        biasByHorizon={biasByHorizon}
+        history={null}
+        backtest={[]}
+      />,
+    );
+    const w7 = screen.getByTestId("timeline-window-7D");
+    const w30 = screen.getByTestId("timeline-window-30D");
+    const w90 = screen.getByTestId("timeline-window-90D");
+
+    // 7D is Low (score 20) — no lean arrow/title should render at all.
+    expect(w7.textContent).not.toContain("傾き:");
+    // 30D is Medium with a wide bullish gap — lean up.
+    expect(w30.textContent).toContain("傾き: 上");
+    // 90D is High with a wide bearish gap — lean down.
+    expect(w90.textContent).toContain("傾き: 下");
+
+    // The rect fill-opacity differs per window (driven by each horizon's own overall).
+    const rect7 = w7.querySelector("rect")!;
+    const rect30 = w30.querySelector("rect")!;
+    const rect90 = w90.querySelector("rect")!;
+    expect(rect7.getAttribute("fill-opacity")).not.toBe(rect30.getAttribute("fill-opacity"));
+    expect(rect30.getAttribute("fill-opacity")).not.toBe(rect90.getAttribute("fill-opacity"));
+  });
+
   it("renders without throwing when history is absent (T5)", () => {
     wrap(
       "ja",
@@ -90,8 +139,8 @@ describe("TurningPointTimeline", () => {
         asset="BTC"
         horizon="30D"
         today="2026-09-04"
-        current={current}
-        directionBias={null}
+        currentByHorizon={currentByHorizon}
+        biasByHorizon={{}}
         history={null}
         backtest={[]}
       />,
@@ -105,15 +154,15 @@ describe("TurningPointTimeline", () => {
     expect(screen.getByTestId("timeline-window-90D")).toBeTruthy();
   });
 
-  it("renders without throwing when current scores are missing", () => {
+  it("renders without throwing when currentByHorizon/biasByHorizon are missing", () => {
     wrap(
       "en",
       <TurningPointTimeline
         asset="ETH"
         horizon="30D"
         today="2026-09-04"
-        current={null}
-        directionBias={null}
+        currentByHorizon={null}
+        biasByHorizon={null}
         history={null}
         backtest={[]}
       />,
