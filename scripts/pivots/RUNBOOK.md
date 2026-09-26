@@ -259,6 +259,9 @@ The automated publisher is fail closed:
    repository owner, PR file set, source blobs, and head SHA are all pinned. A
    remote branch without a PR, merged PR not reflected on fetched `main`,
    unexpected blob, draft/conflict, failed check, or timeout stops publication.
+   `gh pr create` retries up to 3 times (30s, 90s) on transient GitHub errors
+   (5xx, timeouts, connection resets) and resumes an already-created PR instead
+   of opening a duplicate. Non-transient errors fail immediately.
 4. Require successful `guards` and `Vercel` checks, squash-merge the pinned head,
    wait for Vercel production success, then smoke the radar API, backtest API,
    and `/ja/turning-points` against the expected timestamp.

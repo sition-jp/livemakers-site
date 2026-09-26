@@ -20,6 +20,7 @@ from ops.publish_snapshot import (
     _evaluate_vercel_status,
     _load_github_env,
     _load_source_snapshot,
+    _parse_pull_request,
     _prepare_publisher_repo,
     _require_pr_files,
     _safe_command_output,
@@ -1586,3 +1587,128 @@ def test_publisher_cli_marks_public_pair_copy_failure_pre_merge(
             assert not missing.exists()
         else:
             assert path.read_bytes() == raw
+
+
+# --- create_pr bounded retry (spec 2026-09-26 §5.2 0-7) ---
+
+from ops.publish_snapshot import (  # noqa: E402
+    PR_CREATE_ATTEMPTS,
+    PR_CREATE_BACKOFF_SECONDS,
+    GitHubClient,
+    PublishConfig,
+    _is_transient_github_error,
+)
+
+
+def _client() -> GitHubClient:
+    config = PublishConfig(
+        publisher_repo=Path("/tmp/unused"),
+        token_file=Path("/tmp/unused.env"),
+        repository="sition-jp/livemakers-site",
+        remote_url="https://github.com/sition-jp/livemakers-site.git",
+        production_base_url="https://livemakers.com",
+    )
+    return GitHubClient(config, env={"GH_TOKEN": "x"})
+
+
+_PR_PAYLOAD = {
+    "number": 999,
+    "url": "https://github.com/sition-jp/livemakers-site/pull/999",
+    "state": "OPEN",
+    "isDraft": False,
+    "mergeCommit": None,
+    "baseRefName": "main",
+    "headRefName": "pivots/publish-x",
+    "headRepositoryOwner": {"login": "sition-jp"},
+}
+
+
+@pytest.mark.parametrize(
+    "message, expected",
+    [
+        ("pull request create failed: HTTP 502: 502 Bad Gateway (https://api.github.com/graphql)", True),
+        ("HTTP 503: Service Unavailable", True),
+        ("HTTP 504", True),
+        ("connection reset by peer", True),
+        ("timed out", True),
+        ("HTTP 422: Validation Failed", False),
+        ("HTTP 401: Bad credentials", False),
+        ("command could not run: gh", False),
+    ],
+)
+def test_transient_github_error_classification(message: str, expected: bool) -> None:
+    assert _is_transient_github_error(message) is expected
+
+
+def test_create_pr_retries_on_transient_then_succeeds(monkeypatch) -> None:
+    client = _client()
+    calls: list[list[str]] = []
+    sleeps: list[float] = []
+
+    def fake_run(args, **kwargs):
+        calls.append(list(args))
+        if args[:3] == ["gh", "pr", "create"] and len([c for c in calls if c[:3] == ["gh", "pr", "create"]]) < 3:
+            raise PublishError("command failed (gh, rc=1): pull request create failed: HTTP 502: 502 Bad Gateway")
+        return subprocess.CompletedProcess(args, 0, stdout=_PR_PAYLOAD["url"] + "\n", stderr="")
+
+    monkeypatch.setattr("ops.publish_snapshot._run_command", fake_run)
+    monkeypatch.setattr(client, "find_pr", lambda _branch: None)
+    monkeypatch.setattr(client, "_json_command", lambda _args: dict(_PR_PAYLOAD))
+
+    pr = client.create_pr("pivots/publish-x", "2026-09-21T23:00:00Z", frozenset({Path("data/pivot_assets.live.json")}), sleep=sleeps.append)
+
+    assert pr.number == 999
+    assert len([c for c in calls if c[:3] == ["gh", "pr", "create"]]) == 3
+    assert sleeps == list(PR_CREATE_BACKOFF_SECONDS)
+
+
+def test_create_pr_does_not_retry_non_transient(monkeypatch) -> None:
+    client = _client()
+    attempts = 0
+
+    def fake_run(args, **kwargs):
+        nonlocal attempts
+        attempts += 1
+        raise PublishError("command failed (gh, rc=1): HTTP 422: Validation Failed")
+
+    monkeypatch.setattr("ops.publish_snapshot._run_command", fake_run)
+    monkeypatch.setattr(client, "find_pr", lambda _branch: None)
+    with pytest.raises(PublishError, match="422"):
+        client.create_pr("pivots/publish-x", "2026-09-21T23:00:00Z", frozenset(), sleep=lambda _s: None)
+    assert attempts == 1
+
+
+def test_create_pr_resumes_existing_pr_after_transient_failure(monkeypatch) -> None:
+    """If gh reported 502 but the PR was in fact created, the retry must not open a duplicate."""
+    client = _client()
+    attempts = 0
+
+    def fake_run(args, **kwargs):
+        nonlocal attempts
+        attempts += 1
+        raise PublishError("command failed (gh, rc=1): HTTP 502: Bad Gateway")
+
+    existing = _parse_pull_request(dict(_PR_PAYLOAD))
+    lookups = iter([None, existing])
+    monkeypatch.setattr("ops.publish_snapshot._run_command", fake_run)
+    monkeypatch.setattr(client, "find_pr", lambda _branch: next(lookups))
+
+    pr = client.create_pr("pivots/publish-x", "2026-09-21T23:00:00Z", frozenset(), sleep=lambda _s: None)
+    assert pr.number == 999
+    assert attempts == 1
+
+
+def test_create_pr_gives_up_after_max_attempts(monkeypatch) -> None:
+    client = _client()
+    attempts = 0
+
+    def fake_run(args, **kwargs):
+        nonlocal attempts
+        attempts += 1
+        raise PublishError("command failed (gh, rc=1): HTTP 502: Bad Gateway")
+
+    monkeypatch.setattr("ops.publish_snapshot._run_command", fake_run)
+    monkeypatch.setattr(client, "find_pr", lambda _branch: None)
+    with pytest.raises(PublishError, match="502"):
+        client.create_pr("pivots/publish-x", "2026-09-21T23:00:00Z", frozenset(), sleep=lambda _s: None)
+    assert attempts == PR_CREATE_ATTEMPTS
