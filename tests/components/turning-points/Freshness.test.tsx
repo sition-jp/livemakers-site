@@ -18,12 +18,15 @@ function renderFreshness(generatedAt: string | null) {
 }
 
 describe("<Freshness>", () => {
-  test("renders fresh badge with localized label and ISO timestamp", () => {
+  test("renders fresh badge with localized label, JST timestamp, raw ISO in title, and schedule line", () => {
     const generatedAt = new Date(NOW.getTime() - 6 * 3_600_000).toISOString();
     renderFreshness(generatedAt);
     expect(screen.getByText(/last updated/i)).toBeInTheDocument();
     expect(screen.getByText(/fresh/i)).toBeInTheDocument();
-    expect(screen.getByText(generatedAt)).toBeInTheDocument();
+    // generatedAt is 2026-05-04T18:00:00.000Z, i.e. 2026-05-05 03:00 JST (UTC+9).
+    expect(screen.getByText("2026-05-05 03:00 JST")).toBeInTheDocument();
+    expect(screen.getByTitle(generatedAt)).toBeInTheDocument();
+    expect(screen.getByText("Updated every morning at 08:00 JST")).toBeInTheDocument();
   });
 
   test("renders stale tier when age between 36h and 72h", () => {

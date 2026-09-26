@@ -621,11 +621,13 @@
       "col_asset": "資産",
       "col_horizon": "{horizon} スコア",
       "col_main_signal": "主要シグナル",
-      "col_confidence": "信頼度",
+      "col_confidence": "データ整合度",
       "signal_price": "価格",
       "signal_volatility": "ボラティリティ",
       "signal_mixed": "価格/ボラ",
-      "empty": "対象資産がまだ登録されていません。"
+      "empty": "対象資産がまだ登録されていません。",
+      "col_state": "いまの状態",
+      "col_delta": "前日比"
     },
     "detail": {
       "back": "← レーダーに戻る",
@@ -635,9 +637,9 @@
       "price_pivot_label": "価格ピボット",
       "volatility_pivot_label": "ボラティリティ・ピボット",
       "direction_bias_label": "方向バイアス",
-      "confidence_label": "信頼度",
-      "summary_label": "サマリー",
-      "evidence_label": "エビデンス",
+      "confidence_label": "データ整合度",
+      "summary_label": "要約",
+      "evidence_label": "根拠（エビデンス）",
       "not_found_title": "詳細データなし",
       "not_found_body": "この資産・期間の組み合わせの詳細データはまだ存在しません。"
     },
@@ -648,7 +650,9 @@
       "aria_summary": "強気 {bullish}％、中立 {neutral}％、弱気 {bearish}％"
     },
     "evidence": {
-      "empty": "このスコアに紐付くエビデンスはまだありません。"
+      "empty": "このスコアに紐付く根拠はまだありません。",
+      "weight": "重み",
+      "meaning_label": "意味"
     },
     "unavailable": {
       "title": "データを一時的に取得できません",
@@ -667,18 +671,159 @@
       "col_avg_move": "平均変動",
       "col_max_dd": "最大DD",
       "col_n": "N",
-      "empty": "バックテストの結果がまだありません。"
+      "empty": "バックテストの結果がまだありません。",
+      "col_worst": "最悪の先行リターン",
+      "low_sample": "参考値",
+      "explain_precision": "的中率 = シグナルが出た回数のうち、期間内に条件を満たす動きがあった割合",
+      "explain_recall": "捕捉率 = 実際に起きた動きのうち、事前にシグナルが出ていた割合",
+      "explain_lead": "平均先行日数 = シグナルから動きが確認されるまでの平均日数",
+      "explain_worst": "最悪の先行リターン = シグナル後の期間末リターンの最小値（資産曲線の最大ドローダウンではありません）",
+      "provenance": "OI / ファンディングの出所: {source}（{start}〜{end}・カバー率 {coverage}%）",
+      "provenance_missing": "OI / ファンディングの履歴は代理値です（実データ化は準備中）"
     },
     "freshness": {
       "label": "最終更新",
       "fresh": "新鮮",
       "stale": "やや古い",
       "veryStale": "古い (>72h)",
-      "unknown": "タイムスタンプ未取得"
+      "unknown": "タイムスタンプ未取得",
+      "schedule": "毎朝 8:00 JST 更新"
     },
     "backtestProvisional": {
       "title": "v0.1 暫定バックテスト指標",
       "body": "これらの指標はパイプライン検証用であり、モデル性能のベンチマークとしては利用できません。実 OI / Funding 履歴と sliding-window context は v0.2 で対応予定です。"
+    },
+    "state": {
+      "heading": "いまの状態",
+      "level": {
+        "Low": {
+          "label": "静か",
+          "meaning": "転換の条件はほとんど揃っていない。いつもの値動きの範囲",
+          "action": "特別な準備は不要。記事の背景として「落ち着いた局面」と押さえる"
+        },
+        "Medium": {
+          "label": "兆候あり",
+          "meaning": "いくつかの条件が点き始めている。すぐ動くとは限らない",
+          "action": "どの根拠が点いているかを見る。翌日以降の変化を追う価値がある"
+        },
+        "High": {
+          "label": "条件が揃いつつある",
+          "meaning": "価格の反転かボラティリティ拡大の条件が複数重なっている",
+          "action": "数日〜数週間で大きめの動きが出やすい。方向は別途判断し、ポジションを増やす根拠にはしない"
+        },
+        "Extreme": {
+          "label": "条件が強い",
+          "meaning": "ほぼ全ての条件が点いている。過去にも動きの前によく見られた状態",
+          "action": "方向より「動くこと」自体に備える局面。記事の文脈確認に使う"
+        }
+      },
+      "driver": {
+        "price": "主な材料は価格の反転条件",
+        "volatility": "主な材料はボラティリティ拡大の条件",
+        "mixed": "価格とボラティリティの両方が材料"
+      },
+      "driver_short": {
+        "price": "価格",
+        "volatility": "ボラ",
+        "mixed": "価格+ボラ"
+      },
+      "direction": {
+        "up": "傾き: 上方向",
+        "down": "傾き: 下方向",
+        "flat": "傾き: 中立"
+      },
+      "direction_weak": "方向の材料は弱い",
+      "delta_label": "前日比",
+      "delta_none": "前日データなし",
+      "summary": "{label}。{driver}。{direction}。根拠 {count} 件。",
+      "score_hint": "スコア {score} / 100"
+    },
+    "integrity": {
+      "label": "データ整合度",
+      "note": "データの揃い具合と指標の一致度を示す内部指標。的中率ではありません"
+    },
+    "evidenceCopy": {
+      "rsi_oversold": {
+        "text": "RSI が売られすぎ圏（{value}）",
+        "meaning": "短期的に反発しやすい水準"
+      },
+      "rsi_overheated": {
+        "text": "RSI が買われすぎ圏（{value}）",
+        "meaning": "短期的に反落しやすい水準"
+      },
+      "ma20_far": {
+        "text": "価格が 20 日移動平均から大きく乖離（直近で上位 20% の開き）",
+        "meaning": "行き過ぎの反動が出やすい"
+      },
+      "ma50_far": {
+        "text": "価格が 50 日移動平均から大きく乖離（直近で上位 20% の開き）",
+        "meaning": "中期トレンドから離れすぎている"
+      },
+      "macd_improving": {
+        "text": "MACD の勢いが改善",
+        "meaning": "下落の勢いが弱まっている"
+      },
+      "macd_weakening": {
+        "text": "MACD の勢いが減速",
+        "meaning": "上昇の勢いが弱まっている"
+      },
+      "range_boundary": {
+        "text": "価格が直近レンジの上端または下端に接近",
+        "meaning": "抜けるか跳ね返るかの分かれ目"
+      },
+      "rv_compressed": {
+        "text": "30 日の実現ボラティリティが圧縮（直近で下位 20%）",
+        "meaning": "静かな相場は大きな動きの前によく見られる"
+      },
+      "bb_compressed": {
+        "text": "ボリンジャーバンド幅が収縮（直近で下位 20%）",
+        "meaning": "値幅が狭く、拡大の準備段階"
+      },
+      "atr_rising": {
+        "text": "ATR が低ボラ圏から上向き始めた",
+        "meaning": "値幅が広がり始めている"
+      },
+      "oi_up_range_bound": {
+        "text": "価格がレンジ内のまま建玉（OI）が増加",
+        "meaning": "動かないまま賭けが積み上がっている"
+      },
+      "funding_skewed": {
+        "text": "ファンディングレートが一方向に偏り（直近で上位 20%）",
+        "meaning": "ポジションが片側に寄り、巻き戻しに弱い"
+      },
+      "volume_spike": {
+        "text": "出来高が 30 日平均に対して急増",
+        "meaning": "参加者が増え、動きが確認されやすい"
+      },
+      "oi_expanded_range_bound": {
+        "text": "価格がレンジ内のまま建玉（OI）が拡大",
+        "meaning": "レバレッジが積み上がっている"
+      },
+      "funding_skewed_recent": {
+        "text": "ファンディングレートが直近履歴に対して偏り",
+        "meaning": "ポジションの偏りが強まっている"
+      },
+      "ls_crowded": {
+        "text": "ロング / ショートの偏りが大きい",
+        "meaning": "踏み上げ・投げに敏感な状態"
+      },
+      "top_trader_divergence": {
+        "text": "大口トレーダーの持ち高が一般口座と逆方向",
+        "meaning": "大口と個人の見方が割れている"
+      }
+    },
+    "guide": {
+      "title": "このページの読み方",
+      "what": "何を測っているか: BTC と ETH について「次の局面に移りやすい状態か」を、価格の反転条件とボラティリティ拡大の条件から 0〜100 で数値化しています。",
+      "not": "何を測っていないか: 価格の予測、売買のタイミング、上がるか下がるかの断定。スコアが高くても「動きやすい」だけで、方向も大きさも約束しません。",
+      "levels": "4 段階: 静か（0〜39）・兆候あり（40〜69）・条件が揃いつつある（70〜84）・条件が強い（85〜100）。数字より段階を見てください。",
+      "pivots": "価格ピボット = 反転しやすい条件（RSI・移動平均からの乖離・MACD・レンジ端）。ボラティリティ・ピボット = 動き出しやすい条件（実現ボラ・バンド幅・ATR・建玉・ファンディング・出来高）。",
+      "bias": "傾き = 上下どちらに寄っているか。差が小さいときは「中立」と表示します。静かな局面では傾きを表示しません。",
+      "integrity": "データ整合度 = データの揃い具合と指標の一致度。的中率ではありません。A でも当たるとは限りません。",
+      "freshness": "毎朝 8:00 JST に前日までのデータで更新します。「古い」と表示されたら、その日の判断材料にしないでください。",
+      "use": "使い方: 記事を読むときの背景確認に。「今は静かか、条件が揃っているか」「主な材料は価格かボラか」を 10 秒で押さえる道具です。",
+      "backtest_title": "この表の読み方",
+      "backtest_body": "過去に同じ条件でスコアが閾値を超えた場面を集め、その後の期間内に一定以上の動きがあった割合（的中率）などを示します。標本が 5 件未満の行は参考値です。OI とファンディングの履歴は Binance の公開データから取り込んでいます。"
     }
   },
   "futureAtlas": {
