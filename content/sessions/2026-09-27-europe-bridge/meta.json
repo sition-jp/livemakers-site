@@ -1,0 +1,82 @@
+{
+  "sessionId": "2026-09-27-europe-bridge",
+  "date": "2026-09-27",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-27-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-27-europe-bridge",
+  "publishedAt": "2026-09-28T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260927_1203_c112c65c",
+  "asOfJst": "2026-09-27T12:03:08+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月27日 12:03 JST",
+  "bullets": [
+    "DXY 101.290 → 100.970（-0.32%）",
+    "変動幅上位: VIX -5.1% / NIGHT/USD +3.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260927_1240_87a5b592",
+    "crawlAnchorJst": "2026-09-27T12:03:00+09:00",
+    "writtenAtJst": "2026-09-27T12:40:00+09:00",
+    "lead": "週末の昼は、暗号資産の担保が株式市場へ広がる動きが目立った。Ethena は USDe の裏付けとなるベーシス取引を株式の無期限先物へ広げ、最初の取引所に Binance を選んだ。現物ビットコイン ETF への資金流入も続いており、伝統資産と暗号資産の境目は運用の現場から薄れている。Cardano では最低プール手数料の引き下げ案をめぐる議論が続く。",
+    "items": [
+      {
+        "headline": "Ethena、USDe の裏付けとなるベーシス取引を株式の無期限先物へ拡張　最初の取引所は Binance",
+        "sourceUrl": "https://x.com/ethena/status/2103439484113346986",
+        "note": "トークン化株式を現物担保にし、Binance の USDT 建て株式先物でヘッジする。Ethena は担保の対象市場が暗号資産から実物資産へ大きく広がると説明している。"
+      },
+      {
+        "headline": "米現物ビットコイン ETF、9月25日も純流入が続く",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2103832975003537619",
+        "note": "Bitcoin Magazine の集計では、流入は直近7営業日にわたって続いている。"
+      },
+      {
+        "headline": "Vitalik Buterin 氏、PeerDAS の安定稼働をクライアント開発者の成果として評価",
+        "sourceUrl": "https://x.com/VitalikButerin/status/2103825405530853710"
+      },
+      {
+        "headline": "ベッセント米財務長官、片山財務相と電話会談",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2103498533168951768"
+      },
+      {
+        "headline": "Cardano 公式、minPoolCost 引き下げ案を扱った Governance Hour の解説を公開",
+        "sourceUrl": "https://x.com/Cardano/status/2103786522176602476"
+      },
+      {
+        "headline": "Intersect の2026年理事選、投票を締め切る",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2103455244474634450"
+      },
+      {
+        "headline": "IOG の週次開発報告、Leios のデータベースを巻き戻し用と確定済みに分割",
+        "sourceUrl": "https://x.com/IOGroup/status/2103466672069730491"
+      },
+      {
+        "headline": "OpenRouter、分類用途のリクエストで Jev の比率が27%に達したと公表",
+        "sourceUrl": "https://x.com/OpenRouter/status/2103915026205806610"
+      },
+      {
+        "headline": "千葉県知事、26日時点の復旧状況を公表　印旛沼の堤防は1週間を目標に応急復旧",
+        "sourceUrl": "https://x.com/kumagai_chiba/status/2103641890872807576",
+        "note": "JR 内房線と並走する県道の早期復旧や、停電解消に向けて東京電力・国と連携するとしている。"
+      },
+      {
+        "headline": "SpaceX、カリフォルニアから Falcon 9 で米宇宙軍の USSF-385 を打ち上げ",
+        "sourceUrl": "https://x.com/SpaceX/status/2103912982832988264"
+      },
+      {
+        "headline": "スノーピーク初のエアフレーム大型シェルター、設営は約5分",
+        "sourceUrl": "https://www.bepal.net/archives/728469"
+      }
+    ],
+    "watch": [
+      "Ethena の株式ベーシスで、対象銘柄や取引所がどこまで広がるか",
+      "Intersect 理事選の結果発表（9月28日予定）と、minPoolCost 案への投票の行方（10月11日まで）",
+      "米・イランの海峡をめぐるやりとりと、原油・金利の反応"
+    ]
+  }
+}
