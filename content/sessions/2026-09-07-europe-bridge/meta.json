@@ -1,0 +1,60 @@
+{
+  "sessionId": "2026-09-07-europe-bridge",
+  "date": "2026-09-07",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-07-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-07-europe-bridge",
+  "publishedAt": "2026-09-08T02:30:08+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260907_1203_07937d0e",
+  "asOfJst": "2026-09-07T12:03:10+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月7日 12:03 JST",
+  "bullets": [
+    "DXY 99.160 → 99.198（+0.04%）",
+    "変動幅上位: NIGHT/USD +8.1% / VIX +1.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260907_1235_2f19d777",
+    "crawlAnchorJst": "2026-09-07T12:03:00+09:00",
+    "writtenAtJst": "2026-09-07T12:35:00+09:00",
+    "lead": "「AGIは到来した」という言葉が、モデルを作った側ではなく、計算基盤を売る側から出た。NVIDIA の黄仁勲が OpenAI の GPT-6 Astra を名指しでそう書き、学習に使われた基盤の規模と、次に稼働する GPU の数を同じ投稿に添えている。言葉の中身より、それを誰が最初に口にしたかのほうが、この日の材料としては重い。同じ時間帯には日本銀行の月次計数と、日本各地で開かれる開発者の集まりの告知が並んだ。",
+    "items": [
+      {
+        "headline": "NVIDIA の黄仁勲が「AGIは到来した」と投稿し、OpenAI の GPT-6 Astra を挙げた",
+        "sourceUrl": "https://x.com/JensenHuang/status/2096700264569090384",
+        "note": "同じ投稿に、学習へ10万台超の Grace Blackwell NVLink72 が使われたことと、次に40万基の GPU が稼働することが書かれている。"
+      },
+      {
+        "headline": "Midnight のコミュニティ集会が今週末、福岡・名古屋・東京で開かれる",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2096792279491244414",
+        "note": "日本向けの告知で三都市が示された。申し込み先は別の投稿に案内されている。"
+      },
+      {
+        "headline": "日本銀行が8月分のマネタリーベースと取引状況を公表した",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2096748454517370909",
+        "note": "月次の公表で、8月分の計数が出そろった。"
+      },
+      {
+        "headline": "セントルイス連銀が、家計の実感と景況感のずれを取り上げた",
+        "sourceUrl": "https://x.com/stlouisfed/status/2096732952117854494",
+        "note": "家計が自分の家計について語る内容と、経済全体への見方は同じ方向を向くとは限らない、と指摘している。"
+      },
+      {
+        "headline": "英ポーツマスに数百人の抗議者が集まった",
+        "sourceUrl": "https://www.theguardian.com/uk-news/2026/sep/06/far-right-protesters-descend-on-portsmouth-after-small-boat-arrival",
+        "note": "小型ボートの到着を受けて、極右系の抗議が現地で起きたと報じられている。"
+      }
+    ],
+    "watch": [
+      "名付けの言葉が、開発元と供給元のどちらから出続けるか。",
+      "8月の計数が出そろい、次は積み上がり方に目が向く。",
+      "週末の集まりが、日本での開発者の動きにどうつながるか。"
+    ]
+  }
+}
