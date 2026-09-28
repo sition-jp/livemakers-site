@@ -1,0 +1,31 @@
+週末の焦点はニューヨークだった。ベッセント財務長官と何立峰副首相が今週の米中首脳会談を前に協議し、関税と重要鉱物に加えて AI が通商の議題に入り、米側は深刻な AI 脅威を両国で知らせ合う仕組みを示した。同じ週末、米国はロシアとイランを対象とする制裁法を成立させ、ロシアはモスクワへの大規模ドローン攻撃を受けて報復の強化を示した。対話と圧力が同時に進む一週間の入口にある。
+
+## 数値スナップショット
+
+- DXY 100.220 → 100.275（+0.05%）
+- 変動幅上位: WTI -6.4% / ADA/USD +5.1%
+
+| 指標 | 起点 | 現値 | 変化率 |
+| --- | --- | --- | --- |
+| DXY | 100.220 | 100.275 | +0.05% |
+| 米10年金利 | 4.947% | 4.998% | +1.03% |
+
+## 一次情報ハイライト
+
+- [ベッセント長官と何立峰副首相、ニューヨークで米中経済協議を継続](https://x.com/SecScottBessent/status/2101690588428963939) — 財務長官本人が協議の継続を投稿した。今週予定される米中首脳会談の準備にあたる。
+- [米側、首脳会談を前に米中の AI 警報システムを提案](https://www.straitstimes.com/world/united-states/us-treasury-chief-says-meeting-with-china-on-trade-ai-very-successful) — 協議の議題には通商と AI が並んだ。長官は会合を「非常に成功した」と評価した。
+- [トランプ大統領、ロシアとイランを対象とする制裁法に署名](https://x.com/WhiteHouse/status/2101332077257826508) — ホワイトハウスが「Lindsey O. Graham Sanctioning Russia and Iran Act of 2026」への署名を発表した。
+- [F-35 部品の香港への流出疑惑、米議会が調査](https://www.straitstimes.com/world/united-states/f-35-parts-diversion-to-hong-kong-under-probe-in-us-congress)
+- [モスクワへの大規模ドローン攻撃を受け、ロシアがキーウへの攻撃強化を示す](https://www.theguardian.com/world/2026/sep/21/ukraine-war-briefing-russia-intensify-attacks-kyiv)
+- [マクロン大統領とカーニー首相、フランスとカナダの関係強化を表明](https://www.theguardian.com/world/2026/sep/21/france-canada-relations-eu-europe-macron-carney) — 米国との緊張が続くなかで、欧州とカナダが結びつきを確かめる動きである。
+- [トランプ大統領、「Artificial Intelligence」という呼び名は不正確だと投稿](https://x.com/realDonaldTrump/status/2101350559328416142)
+- [EPA 長官、電力部門で過去最大の規制緩和を打ち出したと主張](https://x.com/epaleezeldin/status/2101792638697447663)
+- [Cardano の次世代合意方式 Leios、週次の試作版 prototype-2026w38 を公開](https://github.com/input-output-hk/ouroboros-leios/releases/tag/prototype-2026w38)
+- [Rocket Lab、96 機目の Electron を打ち上げ。97 機目も今週に控える](https://x.com/RocketLab/status/2101815461319180323)
+- [今年の「中秋の名月」は満月の 2 日前にあたる](https://www.bepal.net/archives/727124)
+
+## 次の見どころ
+
+- 今週ワシントンで開かれる米中首脳会談で、AI 脅威の通知の仕組みと関税休戦の延長が合意文書に入るか。
+- 対ロシア・対イラン制裁法の運用が、第三国の原油の買い手にどこまで及ぶか。
+- モスクワ攻撃後のロシアの報復が、エネルギー施設への攻撃に広がるか。

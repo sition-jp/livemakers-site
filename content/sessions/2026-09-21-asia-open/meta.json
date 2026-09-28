@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-09-21-asia-open",
+  "date": "2026-09-21",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-21-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-21-asia-open",
+  "publishedAt": "2026-09-22T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260921_0730_61fdf46c",
+  "asOfJst": "2026-09-21T07:30:19+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月21日 07:30 JST",
+  "bullets": [
+    "日経平均先物 65,025 → 65,045（+0.03%）",
+    "変動幅上位: VIX -4.1% / NIGHT/USD -4.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260921_0556_86475e8a",
+    "crawlAnchorJst": "2026-09-21T05:03:00+09:00",
+    "writtenAtJst": "2026-09-21T05:56:54+09:00",
+    "lead": "週末の材料は、交渉と圧力が同じ机に載る形で並んだ。米財務長官と中国の何立峰副首相が首脳会談を前にニューヨークで会い、同じ 48 時間に米大統領はイランへの大規模攻撃を検討していると述べている。欧州では情報機関がロシアの次の動きに警告を出し、北朝鮮は弾道ミサイルを複数発射した。どの線も独立して動いているのではなく、来週の国連総会という一点に向かって収束している。",
+    "items": [
+      {
+        "headline": "米財務長官と中国の何立峰副首相が、首脳会談を前にニューヨークで会談",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-treasurys-bessent-and-chinas-he-lifeng-meet-ahead-of-trump-xi-summit",
+        "note": "関税・AI・イランが議題に挙がっている。首脳会談の地ならしがどこまで進むかが、週明けの材料になる。"
+      },
+      {
+        "headline": "トランプ大統領が、イランへの大規模攻撃を検討していると述べた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/20/trump-says-hes-weighing-massive-attack-iran/"
+      },
+      {
+        "headline": "中東が次の衝突に備える。イランは米国が爆撃の再開を計画していると主張",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/20/middle-east-braces-for-more-violence-as-iran-claims-us-is-planning-to-renew-bombing-campaign",
+        "note": "停戦の条件交渉と攻撃準備の観測が同時に出ている。どちらが先に確定するかで原油と海運の前提が変わる。"
+      },
+      {
+        "headline": "バルト諸国の情報機関トップが、ロシアがより踏み込んだ行動を準備していると警告",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/20/baltic-spy-chiefs-warn-moscow-is-preparing-for-more-decisive-action-in-europe"
+      },
+      {
+        "headline": "北朝鮮が弾道ミサイルを複数発射",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/20/north-korea-launches-multiple-ballistic-missiles/"
+      },
+      {
+        "headline": "ドイツのメルツ首相が、州選挙での敗北後も続投の意思を示した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/20/friedrich-merz-chancellor-germany-state-elections-cdu-afd-linke-berlin"
+      },
+      {
+        "headline": "米政権の AI 政策を取り仕切る人物像を追った記事が出た",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/sep/20/david-sacks-trump-ai-czar",
+        "note": "AI の規制と産業振興を同じ人物が差配する構図が、政策の振れ幅そのものになっている。"
+      },
+      {
+        "headline": "暗号資産取引所ジェミナイの株価が、上場時から 8 割下げた",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/20/gemini-s-stock-is-down-80-from-its-ipo-that-s-reviving-takeover-speculation",
+        "note": "上場した暗号資産企業の評価が、相場の戻りとは別の軸で動いていることを示す例として読める。"
+      },
+      {
+        "headline": "中国が、パナマ運河をめぐる係争で自国民の引き渡しを求めている",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/20/china-seeking-extradition-national-panama-battle-canal-ports/"
+      },
+      {
+        "headline": "イランとの衝突が、モザンビークでの米国のエネルギー投資を再び動かしている",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/20/iran-war-revives-us-energy-bet-mozambique-despite-islamic-state/"
+      },
+      {
+        "headline": "UBS の最高経営責任者が、規制論争はスイスの問題だと述べた",
+        "sourceUrl": "https://www.nzz.ch/wirtschaft/es-geht-um-mehr-als-die-ubs-es-geht-um-die-schweiz-sagt-ubs-chef-sergio-ermotti-vor-dem-showdown-in-bern-ld.10024572"
+      },
+      {
+        "headline": "国外のロシア人が、大統領と戦争への異議を示すために投票した",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/russian-exiles-cast-votes-to-voice-dissent-to-putin-and-ukraine-war"
+      }
+    ],
+    "watch": [
+      "国連総会週の日程。グリーンランド合意の署名と米中首脳会談の地ならしが同じ週に入る。",
+      "イランをめぐる二つの線。停戦条件の交渉と攻撃準備の観測が、どちらから確定するか。",
+      "欧州の長期金利と防衛関連の予算。情報機関の警告が予算の議論へ移る速さを見る。"
+    ]
+  }
+}
