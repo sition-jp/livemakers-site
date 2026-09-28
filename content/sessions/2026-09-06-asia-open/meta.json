@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-09-06-asia-open",
+  "date": "2026-09-06",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-06-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-06-asia-open",
+  "publishedAt": "2026-09-07T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260906_0730_5eee9ff6",
+  "asOfJst": "2026-09-06T07:30:18+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月6日 07:30 JST",
+  "bullets": [
+    "日経平均先物 64,585 → 65,820（+1.91%）",
+    "変動幅上位: NIGHT/USD +6.0% / ADA/USD +4.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260906_0650_1065b99e",
+    "crawlAnchorJst": "2026-09-06T05:03:00+09:00",
+    "writtenAtJst": "2026-09-06T06:50:32+09:00",
+    "lead": "戦闘と外交が同じ24時間に並んだ。米軍がイラン籍タンカー3隻を攻撃した一方で、プーチン大統領はキーウへの攻撃停止を指示したが、原油もボラティリティもほとんど動いていない。米国のビットコイン現物ETFには週9億8,680万ドルが流入しており、動いているのは個別資産の物語ではなく通貨の評価のほうだ。AI の側では、数学の証明を機械が検算できる形へ落とす作業と、中央の指令役を置かないエージェント群が同じ日に並んだ。",
+    "items": [
+      {
+        "headline": "米軍がイラン籍タンカー3隻を攻撃、艦艇へのミサイル攻撃に反撃",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/05/us-military-iran-tankers",
+        "note": "海上では戦闘が続いている。それでも原油もボラティリティもほとんど動いていない。"
+      },
+      {
+        "headline": "プーチン大統領がキーウへの攻撃停止を指示、米特使の訪問に合わせる",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/5/zelenskyy-putin-agree-pause-strikes-kyiv-moscow-talks-us-envoys/",
+        "note": "二つの戦線で、戦闘の継続と外交の前進が同時に走っている。"
+      },
+      {
+        "headline": "米国のビットコイン現物ETFに週間で9億8,680万ドルが流入",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2096292784516817257"
+      },
+      {
+        "headline": "ホワイトハウスが19か月で100万人の新規雇用と発信、労働者の日に合わせ雇用と製造業回帰を前面に",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2096316544359731200"
+      },
+      {
+        "headline": "財務長官が建設と工場の雇用を挙げ、製造業ブームの条件が整いつつあると発信",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2096292042900914498"
+      },
+      {
+        "headline": "フェルマーの最終定理の証明が機械検算できる形式で公開されたと共有される",
+        "sourceUrl": "https://x.com/scaling01/status/2095941610651455822",
+        "note": "定理そのものは30年以上前に人間が証明している。今回動いたのは、その証明を機械が一行ずつ検算できる形へ落とす作業のほうだ。"
+      },
+      {
+        "headline": "メタの研究システムは中央の指令役を置かず、長時間稼働のエージェントを多数走らせる構成",
+        "sourceUrl": "https://x.com/AIatMeta/status/2096271550517575918"
+      },
+      {
+        "headline": "GPT-6 Astra について実際の動作例を交えた解説が公開される",
+        "sourceUrl": "https://x.com/altryne/status/2095726740677255407"
+      },
+      {
+        "headline": "カルダノが直近30日のコード変更量でレイヤー1の上位に位置すると公式が発信",
+        "sourceUrl": "https://x.com/Cardano/status/2096175031709564987"
+      },
+      {
+        "headline": "南アフリカ・ガーナ・コンゴ・ブルキナファソで草の根イベント7件、参加59人",
+        "sourceUrl": "https://x.com/Cardano/status/2096228384560857235"
+      },
+      {
+        "headline": "Intersect が週次アップデート第127号を公開",
+        "sourceUrl": "https://intersectmbo.org/news/intersect-weekly-update-127-sep-5-2026"
+      },
+      {
+        "headline": "日本が偵察衛星にAIを搭載する方向で開発を進めていると報じられる",
+        "sourceUrl": "https://x.com/Polymarket/status/2096269964336328740"
+      },
+      {
+        "headline": "ビットコインの90日相関が金に対して+0.50へ上昇、近年で最も高い水準",
+        "sourceUrl": "https://x.com/coinbureau/status/2096311400897683545",
+        "note": "戦争と雇用が同時に動く週に、ビットコインが株ではなく金と一緒に動き始めている。"
+      }
+    ],
+    "watch": [
+      "海上の攻撃が続いても原油とボラティリティが動かないままか。外した前提が崩れる日の振れ幅は大きくなる。",
+      "ビットコインと金の相関が高止まりするか。株ではなく金と歩調を合わせる形が続けば、読むべきはドルの側になる。",
+      "カルダノの新しい委員会が着席したあと、最初に扱う議題と次の投票の参加率。"
+    ]
+  }
+}

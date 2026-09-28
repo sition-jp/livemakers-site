@@ -1,0 +1,39 @@
+{
+  "sessionId": "2026-09-06-europe-bridge",
+  "date": "2026-09-06",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-06-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-06-europe-bridge",
+  "publishedAt": "2026-09-07T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260906_1203_c8263d26",
+  "asOfJst": "2026-09-06T18:25:00+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月6日 12:03 JST（読み解きのみ）",
+  "bullets": [
+    "米国の労働参加率、8月はわずかに上向いて 61.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260906_1825_f63d7fa1",
+    "crawlAnchorJst": "2026-09-06T12:03:00+09:00",
+    "writtenAtJst": "2026-09-06T18:25:00+09:00",
+    "lead": "日曜の昼は、公的機関の発信がほとんど止まる。動いていたのは金曜に出た米国の雇用統計の読み直しで、労働参加率が8月にわずかに上向いたことが数字として出ている。強い雇用という見出しは先に流れたが、働き手として市場に戻る人の割合という別の角度は、いま置かれたばかりだ。静かな日に出てくる数字のほうが、後から効いてくることがある。",
+    "items": [
+      {
+        "headline": "米国の労働参加率、8月はわずかに上向いて 61.6%",
+        "sourceUrl": "https://x.com/stlouisfed/status/2096399504668831816",
+        "note": "セントルイス連銀が公表した数字。雇用の強さは先に伝えられていたが、働く側が市場にどれだけ戻っているかは別の指標として見る必要がある。"
+      }
+    ],
+    "watch": [
+      "労働参加率の上向きが一時的か、数か月続く傾向になるか。次回の統計で確かめられる。",
+      "週明けに公的機関の発信が戻ったとき、金曜の統計をどう位置づけ直すか。"
+    ]
+  },
+  "observationStatus": "absent"
+}
