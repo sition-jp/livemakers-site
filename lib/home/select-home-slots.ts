@@ -103,8 +103,14 @@ export function normalizeHomeInput(
     // otherwise) — a fixture session must never present as live once the
     // real date has moved past it. (2026-09-05: 記事の時計 articleCutoffToday
     // とは分離。builder 側の sessionClockToday を参照する。)
+    // 2026-09-28: 読み解きのみ (observationStatus=absent) は市場スナップショット
+    // を持たないので packet の時計に縛らない — 実 JST 今日 (記事の時計) の
+    // 日付なら live のまま。観測 RED が日をまたいで続き packet が前日のまま
+    // 採用されている朝に、当日の読み解きが「切替中」に消えていた。
     sessions: input.sessions.map((session) =>
-      session.liveStatus === "live" && session.date !== sessionToday
+      session.liveStatus === "live" &&
+      session.date !== sessionToday &&
+      !(session.observationStatus === "absent" && session.date === articleToday)
         ? { ...session, liveStatus: "closed" as const }
         : session,
     ),
