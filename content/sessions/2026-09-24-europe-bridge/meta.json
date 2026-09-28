@@ -1,0 +1,72 @@
+{
+  "sessionId": "2026-09-24-europe-bridge",
+  "date": "2026-09-24",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-24-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-24-europe-bridge",
+  "publishedAt": "2026-09-25T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260924_1203_9b58d586",
+  "asOfJst": "2026-09-24T12:03:07+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月24日 12:03 JST",
+  "bullets": [
+    "DXY 100.430 → 101.092（+0.66%）",
+    "変動幅上位: ADA/USD -6.2% / NIGHT/USD -5.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260924_1240_29a0e812",
+    "crawlAnchorJst": "2026-09-24T12:03:00+09:00",
+    "writtenAtJst": "2026-09-24T12:40:00+09:00",
+    "lead": "習近平国家主席の国賓訪米が始まり、トランプ大統領はアンドルーズ基地で自ら出迎えた。米国側は歓迎の演出を最大化する一方、ワシントンでは拘束米国人や軍事部品の流出をめぐる論点も同時に浮上している。首脳会談は米東部時間24日。関税・半導体・中東の三つの論点がどこまで一つの合意文書に収まるかが、今週後半の市場の方向を決める。",
+    "items": [
+      {
+        "headline": "ホワイトハウス、習近平主席の到着式典を公開　国賓訪問は3日間",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2102880153332580521"
+      },
+      {
+        "headline": "トランプ大統領が機側で習主席を出迎え、3日間のワシントン訪問が開始",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/23/trump-greets-chinese-leader-xi-jinping-andrews-kick-three-day-visit/",
+        "note": "大統領自らの出迎えは異例の厚遇として報じられた。"
+      },
+      {
+        "headline": "拘束中の米国人の家族らが習主席訪米に合わせて人権問題を訴え",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/23/families-advocates-use-xis-visit-highlight-detained-americans-human/"
+      },
+      {
+        "headline": "国防総省、F-35の部品が中国に渡った経緯を調査",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/23/pentagon-investigates-f-35-stealth-fighter-jet-parts-end-china/"
+      },
+      {
+        "headline": "ベッセント財務長官「PMIは2021年以来の強さ」",
+        "sourceUrl": "https://x.com/USTreasury/status/2102903760699768979"
+      },
+      {
+        "headline": "高市首相がニューヨークから帰国、羽田から官邸へ直行",
+        "sourceUrl": "https://x.com/PressSec_JP/status/2102937167362392259"
+      },
+      {
+        "headline": "テスラ車内で Grok Bot が利用可能に",
+        "sourceUrl": "https://x.com/grok/status/2102567609044517198"
+      },
+      {
+        "headline": "SpaceX、Flight 14 の打ち上げに向けスターベースで機体の統合試験を予定",
+        "sourceUrl": "https://x.com/SpaceX/status/2102899767403851945"
+      },
+      {
+        "headline": "ゼレンスキー大統領、北朝鮮兵捕虜2人を韓国へ送ったと表明",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/23/zelenskyy-says-ukraine-sent-2-north-korean-prisoners-war-south-korea/"
+      }
+    ],
+    "watch": [
+      "米東部時間24日の米中首脳会談で、関税と半導体輸出規制に具体的な文言が出るか。",
+      "会談の結果を受けた米国債利回りとドル、人民元の反応。",
+      "SpaceX Flight 14 の打ち上げ日程の確定。"
+    ]
+  }
+}
