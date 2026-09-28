@@ -1,0 +1,32 @@
+今日の東京後場は、「あとから取り消せるか」で線が引かれた。Cronos は確定していたはずの履歴を1時間54分ぶん消して資金を戻し、米国はカナダ産の一部について関税ではなく輸入そのものを止めた。取り消せない側もある。Ethereum は量子耐性の期限を2029年と切り、テレビは電源を落としたあとも家の中の機器を数えていた。
+
+## 数値スナップショット
+
+- DXY 99.160 → 98.771（-0.39%）
+- 変動幅上位: WTI +3.1% / VIX +2.7%
+
+| 指標 | 起点 | 現値 | 変化率 |
+| --- | --- | --- | --- |
+| DXY | 99.160 | 98.771 | -0.39% |
+| 米10年金利 | 4.784% | 4.806% | +0.46% |
+
+## 一次情報ハイライト
+
+- [Cronos が約1時間54分ぶんのブロックを取り消し、1億1,120万ドルを元に戻した](https://www.coindesk.com/business/2026/09/08/cronos-executes-controversial-blockchain-rollback-to-recover-crypto-worth-usd111-million) — 貸付プロトコルへの攻撃で1億2,040万ドルが借り出され、バリデータがネットワークを止めて10,961ブロックを破棄した。919万ドルは停止前に外へ出ており、戻らなかった。
+- [米国がカナダ産の乳製品・酒類・二輪を輸入禁止に。関税ではなく数量そのものを止めた](https://www.washingtontimes.com/news/2026/sep/8/trump-bans-canadian-products-us-government-contracts/) — 大統領令3本が署名され、発効は9月29日午前0時1分。ホエイ・糖蜜・ノンアルコールビールも対象で、カナダが200億ドル相当の米国製品に高関税をかけた翌日の措置になる。
+- [Ethereum が量子耐性を最優先課題に置き、2029年という期限を切った](https://www.coindesk.com/tech/2026/09/08/ethereum-makes-quantum-resistance-a-top-priority-with-a-2029-deadline) — 暗号の置き換えは、動いている資産を止めずにやる必要がある。期限が明示されたことで、移行の設計が実務の議題になった。
+- [cardano-node 11.1.1 が公開。次のエラに向けた土台と、旧トレーシングの完全撤去が同居している](https://github.com/IntersectMBO/cardano-node/releases/tag/11.1.1) — メインネット利用は推奨しないと明記された先行版。運用者には設定の移行が必要になり、V1 LedgerDB と LMDB バックエンドは削除された。
+- [画面が消えている間も、テレビが家のネットワーク上の機器を走査していたと報告された](https://arstechnica.com/gadgets/2026/09/lg-tv-shown-capable-of-tracking-user-activity-even-when-offline/) — 独立系の調査チームが市販機を解析し、機器名・MACアドレス・内部IPなどが集められる挙動を示した。メーカーは対応機器の識別と接続機能のためだと説明している。
+- [Visa が自社の決済ネットワークのデータを、オンチェーン融資の運転資金に接続する](https://www.coindesk.com/business/2026/09/08/visa-opens-settlement-data-to-help-blockchain-lenders-finance-crypto-cards-as-volume-surges) — カード決済の入金までの時間差を、外部の貸し手が埋める形になる。既存レールと新しい資金供給の接点が1つ増えた。
+- [韓国の国会予算政策処が、加盟店の決済手数料を年間最大38億ドル圧縮しうると試算した](https://www.coindesk.com/business/2026/09/08/stablecoins-could-save-south-korean-merchants-up-to-usd3-8-billion-a-year-budget-office-says) — 決済手段の話が、事業者の損益の話として国の機関から出てきた。
+- [ストレージの値上がりが、SSDだけでなくハードディスクにも広がっている](https://www.engadget.com/2252075/drive-price-rise-driven-by-ai-even-hdd-affected/) — データセンター側の需要が個人向けの棚まで届いた形。買い替えの計画を持っている人には、今日から効く話。
+- [中国の8月の物価が上向き、生産者物価はエネルギー価格に押し上げられた](https://www.handelsblatt.com/finanzen/maerkte/asien-inflation-in-china-zieht-im-august-an-energiepreise-treiben-erzeugerpreise/100253077.html)
+- [米軍が、海軍艦艇へのミサイル攻撃を受けてイラン産原油タンカー5隻を破壊したと発表した](https://www.washingtontimes.com/news/2026/sep/8/attempted-missile-attacks-navy-warship-us-strikes-iranian-tankers/) — 原油の海上輸送に直接手がかかる段階に入った。エネルギー価格の前提が動く可能性がある。
+- [公共のEV充電で法外な請求が相次ぎ、10万円を請求された例も出ている](https://gigazine.net/news/20260908-public-ev-charge-station-matter/) — 料金体系が事前に読み取りにくいまま課金される構造が背景にある。使う前に単価と時間課金の有無を確認しておきたい。
+- [Curve の緩やかな清算方式で、数百件の借入が数週間清算状態のまま生き残っていた](https://www.coindesk.com/tech/2026/09/08/hundreds-of-defi-loans-on-curve-stayed-in-liquidation-for-weeks-without-dying) — 一括で強制決済しない設計が、急落局面で借り手を残す方向に働いた実例。
+
+## 次の見どころ
+
+- 取り消しを実行できる主体が誰なのかは、チェーンごとに違う。次に同じ判断が起きたときの経路を見る。
+- カナダ産の輸入禁止は9月29日発効。それまでに適用除外や再報復が出るかどうか。
+- ストレージとエネルギーの値上がりは、家計と個人の設備投資に先に届く。
