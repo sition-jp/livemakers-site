@@ -1,0 +1,79 @@
+{
+  "sessionId": "2026-08-29-global-close",
+  "date": "2026-08-29",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-08-29-global-close",
+  "canonicalArticleUrl": "/sessions/2026-08-29-global-close",
+  "publishedAt": "2026-08-30T05:38:52+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260829_2303_f4d78984",
+  "asOfJst": "2026-08-30T01:20:00+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 8月29日 23:03 JST（読み解きのみ）",
+  "bullets": [
+    "OpenAI が Cursor へのモデル提供を打ち切ると発表した",
+    "Cursor 側は「OpenAI のモデルは利用の 5% にすぎない」と応じた",
+    "米国がベネズエラの原油 650 億バレル超について合意したと発表された"
+  ],
+  "editorial": {
+    "digestId": "dig_20260829_0120_0e1f5558",
+    "crawlAnchorJst": "2026-08-29T23:03:00+09:00",
+    "writtenAtJst": "2026-08-30T01:20:00+09:00",
+    "lead": "土曜の夜に大きく動いたのは、供給を止める側の判断だった。OpenAI は SpaceX 傘下に入った Cursor へのモデル提供を打ち切ると発表し、停止の予定日まで示した。同じ週末に、米国はベネズエラの原油をめぐる合意を発表し、Starship は地上で確かめる工程を終えている。いずれも「誰が何を握るか」が先に決まり、値段や性能の話は後から追いつく形になっている。",
+    "items": [
+      {
+        "headline": "OpenAI が Cursor へのモデル提供を打ち切ると発表した",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2093531642010677649",
+        "note": "SpaceX による買収を受けた判断で、提供停止の予定日として 11 月 12 日が示されている。"
+      },
+      {
+        "headline": "Cursor 側は「OpenAI のモデルは利用の 5% にすぎない」と応じた",
+        "sourceUrl": "https://x.com/Kalshi/status/2093692647638446393",
+        "note": "打ち切りの影響範囲について、供給する側と使う側で見立てが分かれている。"
+      },
+      {
+        "headline": "米国がベネズエラの原油 650 億バレル超について合意したと発表された",
+        "sourceUrl": "https://x.com/AFP/status/2093709009563930927",
+        "note": "大統領は「史上最大の石油取引」と表現し、米国の負担はないと述べている。合意文書は公開されていない。"
+      },
+      {
+        "headline": "Starship の下段ブースターが 33 基すべてでフル時間の静的燃焼試験を終えた",
+        "sourceUrl": "https://x.com/SpaceX/status/2093477720638341395",
+        "note": "上段 6 基の試験は 8 月 21 日に済んでおり、地上で確かめる工程はこれで一通り揃った。"
+      },
+      {
+        "headline": "NASA 長官が「2027 年には Starship をほぼ毎週打ち上げる見込み」と述べた",
+        "sourceUrl": "https://x.com/Kalshi/status/2093690128984375459"
+      },
+      {
+        "headline": "米国のマネーサプライ M2 が 7 月に 1,028 億ドル増え、過去最高の 23.22 兆ドルになったと報じられた",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2093466405312123265",
+        "note": "増加は 27 か月連続とされる。"
+      },
+      {
+        "headline": "ウォーシュ FRB 議長が、市場は次の取引の手掛かりを中央銀行に求めるべきではないと述べた",
+        "sourceUrl": "https://x.com/CoinDesk/status/2093362644778455543",
+        "note": "ジャクソンホールでの講演。金融政策の予告をやめるという趣旨で受け止められている。"
+      },
+      {
+        "headline": "ソラナの ETF が今週 1 億 5,300 万ドル分を買い越したと報告された",
+        "sourceUrl": "https://x.com/AshCrypto/status/2093627755870953701"
+      },
+      {
+        "headline": "Apple が Apple TV の購読料を 25% 近く引き上げた",
+        "sourceUrl": "https://x.com/Kalshi/status/2093699587278037151"
+      }
+    ],
+    "watch": [
+      "Cursor 側が示した「利用の 5%」という見立てが、実際の乗り換えでどう出るか。",
+      "ベネズエラとの合意が、条件のわかる文書として公開されるかどうか。",
+      "Starship Flight 14 の打ち上げ日程が示されるか。"
+    ]
+  },
+  "observationStatus": "absent"
+}
