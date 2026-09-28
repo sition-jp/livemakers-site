@@ -1,0 +1,118 @@
+{
+  "sessionId": "2026-09-19-asia-open",
+  "date": "2026-09-19",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-19-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-19-asia-open",
+  "publishedAt": "2026-09-20T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260919_0503_88fafa14",
+  "asOfJst": "2026-09-19T05:03:07+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月19日 05:03 JST",
+  "bullets": [
+    "日経平均先物 64,900 → 65,015（+0.18%）",
+    "変動幅上位: NIGHT/USD +10.4% / ADA/USD +10.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260919_0610_1ea0fb59",
+    "crawlAnchorJst": "2026-09-19T05:03:00+09:00",
+    "writtenAtJst": "2026-09-19T06:10:00+09:00",
+    "lead": "日本銀行が無担保コールレートの誘導目標を 1.25% 程度へ引き上げ、31 年ぶりの水準になった。同じ週に FRB も利上げしており、主要中銀が 2 行そろって締めた形だが、暗号資産は上げ、原油は下げた。米国では立法が止まったまま CFTC が規則案を大統領府へ送り、規制の担い手が議会から行政へ移りつつある。",
+    "items": [
+      {
+        "headline": "CFTC が暗号資産市場の規則案を大統領府へ審査に送った",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2100961694377759141",
+        "note": "上院でクラリティ法の手続き投票が止まったあと、規制側が自分の権限で先へ進む動きが続いている。"
+      },
+      {
+        "headline": "ヘイズ氏、法整備ではなく利上げのほうが効いたと投稿",
+        "sourceUrl": "https://x.com/CryptoHayes/status/2101040488262566233"
+      },
+      {
+        "headline": "アルトコインのレバレッジは建玉比で見てまだ閾値の下にある",
+        "sourceUrl": "https://x.com/glassnode/status/2100961476848787786",
+        "note": "価格が戻る局面でも、レバレッジの積み上がりはまだ risk-off の水準を超えていない。"
+      },
+      {
+        "headline": "Column が USDC を決済基盤に加え、提携する金融機関が使えるようになった",
+        "sourceUrl": "https://x.com/circle/status/2100932866712740340"
+      },
+      {
+        "headline": "FRB ボウマン副議長がシリコンバレー銀行の独立検証の初期所見を講演",
+        "sourceUrl": "https://x.com/federalreserve/status/2100941772851716536"
+      },
+      {
+        "headline": "マスク氏、AI は来年の米 GDP 成長率を 2% から 4% へ倍にすると述べた",
+        "sourceUrl": "https://x.com/elonmusk/status/2101011740574052697"
+      },
+      {
+        "headline": "Anthropic が Accenture と組み、フロンティア AI の独立評価を行う",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2101039819870937247"
+      },
+      {
+        "headline": "フェイフェイ・リー氏、エージェントは AI でも主体性は人間のものだと述べた",
+        "sourceUrl": "https://x.com/drfeifei/status/2100963146446025096"
+      },
+      {
+        "headline": "モリック氏、自分の LinkedIn のコメント欄でボット同士が会話を始めたと投稿",
+        "sourceUrl": "https://x.com/emollick/status/2100978802843177081"
+      },
+      {
+        "headline": "ルペン氏が 2027 年フランス大統領選の予測市場で上昇",
+        "sourceUrl": "https://x.com/Polymarket/status/2101008534452252943"
+      },
+      {
+        "headline": "最恵国待遇にもとづく処方薬の価格協定を州のメディケイドへ広げると発表",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2101036857039430138"
+      },
+      {
+        "headline": "Cardano の実効スループットは Cexplorer の集計でおよそ 10 TPS",
+        "sourceUrl": "https://x.com/Cardanians_io/status/2100934523869393035"
+      },
+      {
+        "headline": "Cardano が 9 月 21 日 13:00 UTC のトレジャリー配分ラウンドテーブルを案内",
+        "sourceUrl": "https://x.com/Cardano/status/2100963330902884786"
+      },
+      {
+        "headline": "Midnight が NIGHT から DUST が生まれ手数料を払う仕組みを整理したスレッドを公開",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2100957469333696572"
+      },
+      {
+        "headline": "Midnight がシンガポールでの予定を公開、TOKEN2049 で 2 つの基調講演",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2100992759771369933"
+      },
+      {
+        "headline": "Cardano Foundation が TOKEN2049 週のサイドイベントを案内",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2100967705775923317"
+      },
+      {
+        "headline": "Indigo がローン管理のフローを刷新し、複数の操作をまとめられるようにした",
+        "sourceUrl": "https://x.com/Indigo_protocol/status/2101007676448833919"
+      },
+      {
+        "headline": "Cardano がエコシステムの週次まとめを公開",
+        "sourceUrl": "https://x.com/Cardano/status/2100944635472257056"
+      },
+      {
+        "headline": "Midnight 日本語アカウントが、抽象化に取り組む事業者を紹介する記事を共有",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2099679031356743705"
+      },
+      {
+        "headline": "猪の被害を受けて、畑に支柱を立てて防獣ネットを張ったという報告",
+        "sourceUrl": "https://x.com/kumejirou202509/status/2100876776163659851"
+      }
+    ],
+    "watch": [
+      "日銀の新しい誘導目標が適用される 9 月 24 日と、それまでの国債金利の水準。",
+      "CFTC の規則案が大統領府の審査でどの区分に載るか。",
+      "9 月 21 日 13:00 UTC の Cardano トレジャリー配分ラウンドテーブル。"
+    ]
+  }
+}
