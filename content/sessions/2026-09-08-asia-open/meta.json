@@ -1,0 +1,115 @@
+{
+  "sessionId": "2026-09-08-asia-open",
+  "date": "2026-09-08",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-08-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-08-asia-open",
+  "publishedAt": "2026-09-09T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260908_0730_aa4bed8a",
+  "asOfJst": "2026-09-08T07:30:18+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月8日 07:30 JST",
+  "bullets": [
+    "日経平均先物 64,585 → 65,820（+1.91%）",
+    "変動幅上位: VIX +5.3% / NIGHT/USD -2.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260908_0617_d32fe03d",
+    "crawlAnchorJst": "2026-09-08T05:03:00+09:00",
+    "writtenAtJst": "2026-09-08T06:17:11+09:00",
+    "lead": "今日はチェーンに「何を載せないか」を設計した事例が二つ並んだ。Cardanoにはサプライチェーンの証明50万件が載ったが、供給業者のデータそのものは許可型ネットワークに残っている。同じ24時間にMidnightが機関投資家の取引監督について書き、取引の中身を見せずに検証だけ成立させる設計を説明した。公開の度合いを全か無かで決めない、という同じ考え方が、業種の違う二か所から同時に出てきている。",
+    "items": [
+      {
+        "headline": "サプライチェーン証明50万件がCardanoに載った",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2096946596248216014",
+        "note": "供給業者のデータは許可型ネットワークに残し、公開されるのは証明だけという構成。取引先名も数量も契約条件もパブリックチェーンには出ていない。"
+      },
+      {
+        "headline": "Midnightが機関投資家の取引監督について書いた",
+        "sourceUrl": "https://midnight.network/blog/privacy-enhancing-oversight-and-the-future-of-institutional-trading",
+        "note": "取引の中身を見せずに規制側が必要とする検証は成立させる、という設計の説明。前項と同じ日に、同じ形の問題を扱っている。"
+      },
+      {
+        "headline": "Dijkstraの見通しが具体化した",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2096916012973039969",
+        "note": "第1段階はLinear LeiosとNested Transactionsを含み2026年内のメインネットが目標で、第2段階のPerasは2027年第2四半期に別のハードフォークで有効化する計画。ただし開発目標であって確定日程ではない"
+      },
+      {
+        "headline": "Dijkstraの段階分けを日本語で解説する投稿が出た",
+        "sourceUrl": "https://x.com/AichiStakePool/status/2097036829791060296"
+      },
+      {
+        "headline": "Liqwidの週次で貸出の利用率が締まった",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2097006985564582138",
+        "note": "供給は1.14%減、借入は全指標で増加、返済額は81%減。8月の戻りは先週いったん止まった。"
+      },
+      {
+        "headline": "CardanoがHydra・Leiosと資金面の現在地をまとめた",
+        "sourceUrl": "https://x.com/Cardano/status/2097000715520536651"
+      },
+      {
+        "headline": "ウォレットにAIチャットボットを入れる是非が議論された",
+        "sourceUrl": "https://x.com/IOGroup/status/2096901287967154343",
+        "note": "鍵と署名を扱う場所に会話型のインターフェースを置く話。便利さと危険が同じ方向から来る。"
+      },
+      {
+        "headline": "テヘランがホルムズ海峡近くに商船向けの制限区域を設けると述べた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/7/security-official-says-tehran-set-restricted-zone-near-stait-hormuz/",
+        "note": "治安当局者の発言としての報道。区域の範囲・対象船種・発効時期は示されていない。"
+      },
+      {
+        "headline": "欧州のガス価格が3年半ぶりの高値をつけた",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/anlagestrategie/kolumnen/markt-investoren-bleiben-beim-hohen-gaspreis-zu-recht-gelassen1234/100252378.html"
+      },
+      {
+        "headline": "韓国が湾岸でのタンカー保護への参加を検討していると報じられた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/7/south-korea-weighs-joining-us-effort-protect-tankers-gulf-despite/"
+      },
+      {
+        "headline": "メルツ首相が州選挙の結果にもかかわらず続投の意向を示した",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/07/german-chancellor-friedrich-merz-cdu-afd-saxony-anhalt",
+        "note": "ザクセン=アンハルト州でAfDが43.9%・83議席中39議席を得た一方、CDUは17.2%・15議席に後退した。"
+      },
+      {
+        "headline": "金融庁が台風被災者向けの預金払戻しなどで弾力的対応を要請した",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/ginkou/20260907.html"
+      },
+      {
+        "headline": "ハンター・バイデン氏がミームコインを出すと告知された",
+        "sourceUrl": "https://x.com/Kalshi/status/2096980560623100069",
+        "note": "9月9日にBase上で。総供給10億のうち創業者側が30%を6か月ロックで保有し、20%はTRUMPで損失を出したウォレットなどへ配る設計とされる。"
+      },
+      {
+        "headline": "サークルがBlockchain Weekでの基調講演を告知した",
+        "sourceUrl": "https://x.com/circle/status/2097037183362228290"
+      },
+      {
+        "headline": "EcoFlowがIFA2026で新しいポータブル電源を発表した",
+        "sourceUrl": "https://x.com/EcoFlowTech/status/2096976801541030089",
+        "note": "高出力で防塵・防水に対応するという。価格・容量・発売時期は示されていない。"
+      },
+      {
+        "headline": "BOXABLが工場生産住宅の州別の認証状況を公開した",
+        "sourceUrl": "https://x.com/BOXABL/status/2096990458685640805",
+        "note": "テキサス、カリフォルニアの2寝室仕様、カリフォルニアの商用ライセンス。住所ごとに可否が変わるとしている。"
+      },
+      {
+        "headline": "AIの評価指標が作業の自動化を測る側へ動いた",
+        "sourceUrl": "https://x.com/ArtificialAnlys/status/2097025638695940590",
+        "note": "Intelligence Indexがv4.3に更新され、非公開テストセットを持つエージェント型ワークフロー自動化の指標が追加された。"
+      }
+    ],
+    "watch": [
+      "同じ「データは許可型・証明だけ公開」の構成が、別の業種から2件目として出てくるか。",
+      "Dijkstra第1段階の目標時期が、年内という幅から四半期や月の単位に絞られるか。",
+      "ホルムズの制限区域が宣言にとどまるか、実際の迂回や運賃の上乗せとして現れるか。"
+    ]
+  }
+}
