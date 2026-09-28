@@ -1,0 +1,78 @@
+{
+  "sessionId": "2026-09-20-europe-bridge",
+  "date": "2026-09-20",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-20-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-20-europe-bridge",
+  "publishedAt": "2026-09-21T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260920_1203_9f2ae477",
+  "asOfJst": "2026-09-20T12:03:08+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月20日 12:03 JST",
+  "bullets": [
+    "DXY 100.220 → 100.220（0.00%）",
+    "変動幅上位: ADA/USD -6.0% / VIX -4.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260920_1245_880edb73",
+    "crawlAnchorJst": "2026-09-20T12:03:00+09:00",
+    "writtenAtJst": "2026-09-20T12:45:00+09:00",
+    "lead": "日曜の昼は、価格の話が設備の話に変わった半日だった。フーシはリヤドへの弾道ミサイル攻撃を発表し、首都の国際空港では爆発が伝えられている。米軽油が過去最高値を更新したのと同じ週に、燃料を運び貯める側の設備が標的になっている。一方で米国の住宅は着工も許可も年率130万戸前後にとどまり、金利の高い側の景色はまだ動いていない。",
+    "items": [
+      {
+        "headline": "フーシがリヤドへの弾道ミサイル攻撃を発表、国際空港で爆発",
+        "sourceUrl": "https://www.nzz.ch/international/iran-krieg-huthis-melden-angriff-auf-riad-mit-ballistischen-raketen-teheran-will-zurueck-zu-rahmenabkommen-ld.10021246",
+        "note": "同じ記事は、テヘランが枠組み合意に戻る意向を示していることも伝えている。攻撃の被害規模と当局側の説明は、発表主体ごとに分けて確かめる必要がある。"
+      },
+      {
+        "headline": "米住宅着工は年率125万戸台、住宅の川上は動いていない",
+        "sourceUrl": "https://x.com/stlouisfed/status/2101452299239383276",
+        "note": "季節調整済みの年率換算で1,275,000戸。金利が高い側に留まるかぎり、着工は先行きの需要より資金調達の条件を映す。"
+      },
+      {
+        "headline": "米住宅着工許可は年率139万戸台、着工との差は縮んでいない",
+        "sourceUrl": "https://x.com/stlouisfed/status/2101486525317845352",
+        "note": "季節調整済みの年率換算で1,394,000戸。許可が着工を上回る状態は、着工に移せない案件が積み上がっていることを示す。"
+      },
+      {
+        "headline": "Daedalus が内部で cardano-node 11.1.2 に切り替わった",
+        "sourceUrl": "https://x.com/HephyPool/status/2101446172732797276",
+        "note": "ウォレット側が先に新しいノードを載せたため、プール運用者にも同じ更新を促す声が出ている。"
+      },
+      {
+        "headline": "SpaceX、カリフォルニアから Starlink 27 機を軌道へ投入",
+        "sourceUrl": "https://x.com/SpaceX/status/2101504221266792661",
+        "note": "衛星の分離まで確認された。同じ便でフェアリングの片殻が40回目の飛行に達している。"
+      },
+      {
+        "headline": "高速鉄道網の発達が中国の EV 普及を押し上げた可能性",
+        "sourceUrl": "https://gigazine.net/news/20260920-china-bullet-trains-fueled-ev-boom/",
+        "note": "長距離を鉄道に任せられる地域ほど、航続距離の短い車でも生活が成り立つ。移動手段の組み合わせが購入の条件を変えるという見立てだ。"
+      },
+      {
+        "headline": "安価な Slate Truck、航続距離では平均に届かない",
+        "sourceUrl": "https://www.engadget.com/2258757/slate-truck-lower-battery-range-than-average/",
+        "note": "価格を下げた小型トラックが、電池の積載量という物理的な制約にぶつかっている。"
+      },
+      {
+        "headline": "イスラエル大統領、負傷したパレスチナ人を射殺した衛生兵を恩赦",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/19/israel-president-pardon-elor-azaria-wounded-palestinian-attacker"
+      },
+      {
+        "headline": "秋冬キャンプ向けに英スナグパックが新作寝袋を2タイプ投入",
+        "sourceUrl": "https://www.bepal.net/archives/724096"
+      }
+    ],
+    "watch": [
+      "リヤドとヤンブの燃料設備に運転上の影響が出たかどうか、当局側の説明を待つ。",
+      "原油が下げるなかで軽油の精製マージンが逆に開くかどうか。",
+      "住宅の許可と着工の差が縮むか、それとも積み上がったまま越年するか。"
+    ]
+  }
+}
