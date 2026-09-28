@@ -1,0 +1,89 @@
+{
+  "sessionId": "2026-09-28-asia-open",
+  "date": "2026-09-28",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-28-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-28-asia-open",
+  "publishedAt": "2026-09-29T02:30:05+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260928_0503_1e683058",
+  "asOfJst": "2026-09-28T06:05:00+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月28日 05:03 JST（読み解きのみ）",
+  "bullets": [
+    "ベッセント財務長官、イラン経済は2週間以内に崩壊と予測",
+    "ウォルツ国連大使、イランは「誠実に交渉していない」",
+    "イラン、米国の攻撃に備えると表明"
+  ],
+  "editorial": {
+    "digestId": "dig_20260928_0605_56399a88",
+    "crawlAnchorJst": "2026-09-28T05:03:00+09:00",
+    "writtenAtJst": "2026-09-28T06:05:00+09:00",
+    "lead": "米国はイランに対し、停戦交渉より先に資金と物流の出口をふさぐ段階に入った。ベッセント財務長官はイラン経済が2週間以内に崩壊するとの見方を示し、国連大使はイランの交渉姿勢を「誠実でない」と退けた。日本では高市首相がトランプ大統領から米中首脳会談の説明を受け、1週間で2度目の首脳会談となった。",
+    "items": [
+      {
+        "headline": "ベッセント財務長官、イラン経済は2週間以内に崩壊と予測",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/27/scott-bessent-predicts-irans-economic-collapse-next-two-weeks/",
+        "note": "洋上に残るイラン産原油は1,500万バレルで、売り切れば取引に使えるものがなくなるとの見方を示した。"
+      },
+      {
+        "headline": "ウォルツ国連大使、イランは「誠実に交渉していない」",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/sep/27/trump-un-ambassador-iran-war",
+        "note": "イランが制裁の全面解除を先に求めたことを、和平案を退けた理由に挙げた。"
+      },
+      {
+        "headline": "イラン、米国の攻撃に備えると表明",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/27/iran-says-ready-doomsday-onslaught-us-attacks-trump-rejects-ceasefire/"
+      },
+      {
+        "headline": "高市首相とトランプ大統領が電話会談、米中首脳会談の説明を受ける",
+        "sourceUrl": "https://x.com/MofaJapan_jp/status/2104050597150519350",
+        "note": "経済安全保障を含む中国をめぐる課題を中心に意見を交わした。"
+      },
+      {
+        "headline": "米国はアジアの同盟から手を引くべきとの主張、インド太平洋に警戒",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/27/call-us-pull-back-asia-alliances-defer-china-indo-pacific-edge/"
+      },
+      {
+        "headline": "スイスの国民投票、NATO との協力を縛る中立の厳格化案を否決",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/27/swiss-vote-reject-stricter-neutrality-rules-nato"
+      },
+      {
+        "headline": "カリフォルニア州、公職者のミームコイン発行を禁じる州法が成立",
+        "sourceUrl": "https://x.com/AshCrypto/status/2104296989156597768"
+      },
+      {
+        "headline": "ヴィタリック氏、イーサリアムの今後を「暗号の世界コンピューター」と整理",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2104232354877231517"
+      },
+      {
+        "headline": "TRON の送金額の累計が30兆ドルを突破、96%がステーブルコイン",
+        "sourceUrl": "https://x.com/eco/status/2103589130727047590"
+      },
+      {
+        "headline": "Aptos、量子計算に備えた署名への切り替えを利用者が選べる形で用意",
+        "sourceUrl": "https://x.com/Aptos/status/2104239648054661496"
+      },
+      {
+        "headline": "Grok の Bot、取引所やウォレットとつないで24時間売買する使い方が広がる",
+        "sourceUrl": "https://x.com/coinbureau/status/2104220767709978965"
+      },
+      {
+        "headline": "AI エージェント45万2,000体が参加する取引大会、損益プラスは8%",
+        "sourceUrl": "https://x.com/CryptoHayes/status/2103945339594252724"
+      }
+    ],
+    "watch": [
+      "今週の米国の指標（30日の8月 PCE 物価、10月2日の9月雇用統計）と、原油・長期金利がイランへの圧力をどう織り込むか",
+      "10月1日にキャンベラで開かれる豪上院の AI 公聴会に、OpenAI と Anthropic の CEO が出席するか",
+      "Bitwise の NEAR 現物 ETF の取引開始と、最初の数日の資金の出入り"
+    ]
+  },
+  "observationStatus": "absent"
+}

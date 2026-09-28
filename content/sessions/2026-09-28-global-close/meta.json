@@ -1,0 +1,125 @@
+{
+  "sessionId": "2026-09-28-global-close",
+  "date": "2026-09-28",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-28-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-28-global-close",
+  "publishedAt": "2026-09-29T02:30:05+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260928_2303_39de0675",
+  "asOfJst": "2026-09-28T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月28日 23:03 JST",
+  "bullets": [
+    "Gold $4,321.20 → $4,187.60（-3.09%）",
+    "変動幅上位: VIX +7.5% / Gold -3.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260928_0005_e2fc381b",
+    "crawlAnchorJst": "2026-09-28T23:03:00+09:00",
+    "writtenAtJst": "2026-09-29T00:05:00+09:00",
+    "lead": "Starship が初めて地球周回軌道に入り、次世代 Starlink 26基を一度に運んだ。宇宙の輸送力が一段上がった夜だ。金融では Chainlink の CCIP 2.0 稼働と Citi の Coinbase 提携が重なり、トークン化資産とステーブルコインが銀行の配管へ入る動きがそろって進んだ。一方で米上院はイランの制裁回避に USDT が使われていると報告し、凍結できる通貨であることの重みが改めて問われている。",
+    "items": [
+      {
+        "headline": "Starship が初めて地球周回軌道へ、Starlink V3 26基の放出も完了",
+        "sourceUrl": "https://x.com/SpaceX/status/2104560708969259344",
+        "note": "14号機は軌道投入燃焼で初の周回軌道に入り、搭載した次世代 Starlink 26基を放出した。SpaceX は全基との交信を確認している。"
+      },
+      {
+        "headline": "SpaceX、Starlink V3 全26基が軌道上にあると発表",
+        "sourceUrl": "https://x.com/SpaceX/status/2104570428844888471"
+      },
+      {
+        "headline": "Chainlink、クロスチェーン基盤 CCIP 2.0 を本番稼働",
+        "sourceUrl": "https://x.com/chainlink/status/2104550070922129569",
+        "note": "機関向け資産の移動に新しい安全制御を加えた。トークン化株の xStocks などが同日に対応を表明した。"
+      },
+      {
+        "headline": "CCIP 2.0、競合ブリッジの大型流出から数か月後の刷新",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/28/chainlink-updates-its-crypto-bridge-tech-months-after-a-usd292-million-hack-shook-the-industry"
+      },
+      {
+        "headline": "Coinbase、Citi と組み銀行システムにステーブルコインの受け取りを",
+        "sourceUrl": "https://x.com/coinbase/status/2104554110381121878",
+        "note": "Citi の法人顧客が、自社の顧客からステーブルコインで支払いを受けられるようにする。銀行が発行ではなく受け取り口から入る形だ。"
+      },
+      {
+        "headline": "米上院の調査、制裁対象のイラン関連ウォレットの84%が主に USDT を使用と報告",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2104561226084716857",
+        "note": "上院調査小委の報告書として報じられた。Tether は同日、2026年にイラン関連の約5.5億ドルの凍結を支援したと表明した。"
+      },
+      {
+        "headline": "Tether、イラン関連 USDT の凍結支援は今年約5.5億ドルと表明",
+        "sourceUrl": "https://x.com/tether/status/2104567517947502639"
+      },
+      {
+        "headline": "Intersect 理事選、Adam Rusch 氏ら2人が当選",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2104552549462298683",
+        "note": "Cardano の会員制組織 Intersect が2026年理事選の結果を公表した。"
+      },
+      {
+        "headline": "Lace 2.4 公開、スワップの中身を署名前に表示",
+        "sourceUrl": "https://www.lace.io/blog/lace-2-4-we-re-moving-quickly",
+        "note": "ウォレットから出る資産・手数料・担保・有効期限を確認画面で示す。DApp 署名の扱いと Midnight の表示も改善した。"
+      },
+      {
+        "headline": "Midnight の compact-js v3.0.0 リリース候補が公開",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-sdk/releases/tag/compact-js-v3.0.0-rc.2"
+      },
+      {
+        "headline": "Strategy、BTC を1,665枚追加 保有は84万7,666枚に",
+        "sourceUrl": "https://x.com/Strategy/status/2104542212184813634"
+      },
+      {
+        "headline": "Franklin Templeton、トークン化担保サービスを拡大",
+        "sourceUrl": "https://www.coindesk.com/business/2026/09/28/crypto-friendly-institution-franklin-templeton-brings-its-tokenized-collateral-service-to-bybit"
+      },
+      {
+        "headline": "Bitwise の NEAR ETF、上場と登録の手続きを通過",
+        "sourceUrl": "https://thedefiant.io/converge/tradfi-and-fintech/bitwise-near-etf-clears-listing-and-registration-hurdles"
+      },
+      {
+        "headline": "米現物ビットコイン ETF、7営業日で約30億ドルの流入 2026年累計も流入超に",
+        "sourceUrl": "https://thedefiant.io/news/markets/bitcoin-etfs-draw-nearly-3-billion-in-seven-sessions-as-2026-flows-turn-positive"
+      },
+      {
+        "headline": "Bitcoin は8.3万ドル近辺へ、金曜のアルト上昇も巻き戻し",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/28/bitcoin-falls-to-usd83-000-while-altcoins-unwind-friday-s-rally"
+      },
+      {
+        "headline": "THORChain、Bitget の流出資金のブロック要請を拒否 約600万ドルがビットコインへ",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/28/thorchain-rejects-bitget-request-to-block-hacker-as-usd6-million-moves-to-bitcoin"
+      },
+      {
+        "headline": "Apollo のスロック氏、AI エージェントが低利の銀行預金を流出させうると警告",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/28/ai-agents-could-drain-cheap-bank-deposits-apollo-s-torsten-slok-warns"
+      },
+      {
+        "headline": "米中が相互の関税引き下げ品目表を公表、それぞれ約300億ドル規模",
+        "sourceUrl": "https://www.theguardian.com/business/2026/sep/28/china-and-us-cut-reciprocal-tariffs"
+      },
+      {
+        "headline": "NVIDIA、100社超と AI エージェントの安全基盤を公開",
+        "sourceUrl": "https://x.com/JensenHuang/status/2104499465055023424"
+      },
+      {
+        "headline": "イラン、米国と交渉する予定はないと表明 トランプ氏の発言と食い違い",
+        "sourceUrl": "https://www.theguardian.com/us-news/live/2026/sep/28/donald-trump-iran-negotiations-fuel-deportations-media-china-latest-news-updates"
+      },
+      {
+        "headline": "Hoskinson 氏、Midnight は選択的開示で Zcash を上回ると発言",
+        "sourceUrl": "https://x.com/IOHK_Charles/status/2104365667722133640"
+      }
+    ],
+    "watch": [
+      "今週の米雇用統計が利下げ観測とビットコインの方向を決める",
+      "Starship の再突入と着水の結果、Starlink V3 の運用開始時期",
+      "上院報告書を受けた Tether とステーブルコイン規制の議会論議"
+    ]
+  }
+}
