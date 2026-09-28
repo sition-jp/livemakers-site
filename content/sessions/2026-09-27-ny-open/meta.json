@@ -1,0 +1,79 @@
+{
+  "sessionId": "2026-09-27-ny-open",
+  "date": "2026-09-27",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-27-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-27-ny-open",
+  "publishedAt": "2026-09-28T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260927_1803_81fc7b4d",
+  "asOfJst": "2026-09-27T18:40:00+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月27日 18:03 JST（読み解きのみ）",
+  "bullets": [
+    "米現物ソラナ ETF、週間の純流入が上場来最大の1.88億ドル",
+    "ソラナ上のステーブルコイン供給、173億ドルで過去最高",
+    "Bitwise の NEAR 現物 ETF、NYSE Arca で上場承認　ティッカーは NRR"
+  ],
+  "editorial": {
+    "digestId": "dig_20260927_1840_74050537",
+    "crawlAnchorJst": "2026-09-27T18:03:00+09:00",
+    "writtenAtJst": "2026-09-27T18:40:00+09:00",
+    "lead": "週末の暗号資産市場は、価格よりも資金の入り口が動いた。米現物ソラナ ETF は上場来最大の週間流入を記録し、Bitwise の NEAR 現物 ETF も上場承認を得た。ビットコイン以外の銘柄に、規制された受け皿が一つずつ増えている。チェーン上でも、ソラナのステーブルコイン残高と BNB Chain のトークン化資産が過去最高を更新した。",
+    "items": [
+      {
+        "headline": "米現物ソラナ ETF、週間の純流入が上場来最大の1.88億ドル",
+        "sourceUrl": "https://x.com/solana/status/2104103751208272136",
+        "note": "9月21〜25日の週の集計。ビットコイン現物 ETF の流入が続く同じ週に、ソラナ側でも資金の入りが最大を更新した。"
+      },
+      {
+        "headline": "ソラナ上のステーブルコイン供給、173億ドルで過去最高",
+        "sourceUrl": "https://x.com/solana/status/2103484678590353515",
+        "note": "ETF の資金流入と並んで、チェーン上のドル建て残高も積み上がっている。"
+      },
+      {
+        "headline": "Bitwise の NEAR 現物 ETF、NYSE Arca で上場承認　ティッカーは NRR",
+        "sourceUrl": "https://x.com/cryptorover/status/2104079980133331367",
+        "note": "9月24日付の目論見書で、保有する NEAR をステーキングに回す設計が示されている。上場日は未公表。"
+      },
+      {
+        "headline": "BNB Chain の RWA 預かり資産、60億ドルで過去最高",
+        "sourceUrl": "https://x.com/BNBCHAIN/status/2103484989086032117",
+        "note": "BNB Chain が外部の集計を引用して公表した。トークン化資産の受け皿を巡るチェーン間の競争が数字に表れている。"
+      },
+      {
+        "headline": "Injective、トークン化資産が10億ドルを超えたと発表",
+        "sourceUrl": "https://x.com/injective/status/2103502738944311601"
+      },
+      {
+        "headline": "Longbow、トークン化株式・米国債・ETH を担保にした固定金利の借入を開始",
+        "sourceUrl": "https://x.com/longbowlend/status/2104072318976696426"
+      },
+      {
+        "headline": "日米首脳電話会談、米中首脳会談の直後に実施　高市首相が記者団に説明",
+        "sourceUrl": "https://x.com/PressSec_JP/status/2103849413122924800",
+        "note": "1週間で2度の首脳会談が行われた点を首相自身が強調した。"
+      },
+      {
+        "headline": "千葉・印旛沼の堤防決壊、3地区4か所の応急復旧を県と国で分担",
+        "sourceUrl": "https://x.com/kumagai_chiba/status/2104132108620861585",
+        "note": "熊谷知事が現地を視察し、100m を超える決壊を地上から確認した。"
+      },
+      {
+        "headline": "ガザのがれき6,100万トン、国連の支援要員が撤去の難しさに直面",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/27/rubble-gaza-un-aid-workers-ruins-dead-bodies"
+      }
+    ],
+    "watch": [
+      "NEAR 現物 ETF（NRR）の取引開始日と初日の資金流入",
+      "米現物ソラナ ETF の流入が翌週も続くか、ビットコイン ETF との同時流入か",
+      "千葉・印旛沼の応急復旧（1週間目標）の進み具合"
+    ]
+  },
+  "observationStatus": "absent"
+}
