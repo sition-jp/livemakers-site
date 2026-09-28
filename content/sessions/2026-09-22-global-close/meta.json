@@ -1,0 +1,125 @@
+{
+  "sessionId": "2026-09-22-global-close",
+  "date": "2026-09-22",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-22-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-22-global-close",
+  "publishedAt": "2026-09-23T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260922_2303_83eb7032",
+  "asOfJst": "2026-09-22T23:03:09+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月22日 23:03 JST",
+  "bullets": [
+    "Gold $4,383.90 → $4,375.10（-0.20%）",
+    "変動幅上位: WTI -5.4% / ADA/USD +3.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260922_2355_4ce77cee",
+    "crawlAnchorJst": "2026-09-22T23:03:00+09:00",
+    "writtenAtJst": "2026-09-22T23:55:00+09:00",
+    "lead": "今夜の中心は、ドルのステーブルコインを誰が広めるかという流通の話だ。バイナンスがサークルに1億ドルを出資して USDC の普及を5年契約にし、発行体と最大級の取引所が資本でつながった。同じ夜、SEC の担当者はトークン化株の取引所について、最初の申請が来四半期にも出うると語った。原油の側では、ホルムズ海峡の再開をめぐる発言が米国とイランで食い違ったまま動いている。",
+    "items": [
+      {
+        "headline": "バイナンスがサークルに1億ドルを出資し、USDC の普及で5年の商業契約を結んだ",
+        "sourceUrl": "https://x.com/circle/status/2102367809082909123",
+        "note": "サークルは USDC の保有残高に連動した月次インセンティブを払い、バイナンスは新興国を中心に USDC を広める。株式は2年間売却できない条件とされる。"
+      },
+      {
+        "headline": "SEC の担当者、トークン化株の取引所は来四半期にも最初の申請が出うると述べた",
+        "sourceUrl": "https://x.com/CoinDesk/status/2102343932890009945",
+        "note": "9月17日に出たイノベーション免除を使う最初の事業者が、年内から来年初めにかけて姿を見せる時間軸になる。"
+      },
+      {
+        "headline": "ルビオ国務長官、海峡から出ていた原油の6〜7割が再び流れていると述べた",
+        "sourceUrl": "https://x.com/RapidResponse47/status/2102357336144667092"
+      },
+      {
+        "headline": "イランは、米国の封鎖が解かれれば7日以内にホルムズ海峡を再開できると伝えられた",
+        "sourceUrl": "https://x.com/Kalshi/status/2102322258568249557",
+        "note": "一方でイラン側の通信社は、海峡再開をめぐる一部報道を否定したと伝えられており、発言は揃っていない。"
+      },
+      {
+        "headline": "サウジアラビアが東西原油パイプラインを再稼働させたと伝えられた",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2102337209433297130"
+      },
+      {
+        "headline": "米国・グリーンランド・デンマークが安全保障協定に署名する見通しと伝えられた",
+        "sourceUrl": "https://x.com/Kalshi/status/2102301873621635486"
+      },
+      {
+        "headline": "トランプ大統領が国連総会に合わせてニューヨークで演説した",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2102392985828880599"
+      },
+      {
+        "headline": "暗号資産の時価総額が3兆ドルを回復したと伝えられた",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2102366465542520905"
+      },
+      {
+        "headline": "グレースケールの AI 計算基盤 ETF「GCPU」が取引を始めた",
+        "sourceUrl": "https://x.com/Grayscale/status/2102381328880832751"
+      },
+      {
+        "headline": "ロシアは、規制された暗号資産市場の整備を最優先課題に挙げたと伝えられた",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2102323081704550860"
+      },
+      {
+        "headline": "OpenAI が、開発中の AI で数学の未解決問題100件超を解いたと発表したと伝えられた",
+        "sourceUrl": "https://x.com/polymarketjapan/status/2102169436417667394",
+        "note": "外部の数学者による検証の枠組みと合わせて見る話になる。"
+      },
+      {
+        "headline": "a16z が、高校卒業者と大学生向けに無料の AI スクールを始めたと伝えられた",
+        "sourceUrl": "https://x.com/Polymarket/status/2102384550751965638"
+      },
+      {
+        "headline": "TypeSafe はコーディング用エージェント Jev の新規登録を一時停止した",
+        "sourceUrl": "https://x.com/typesafeai/status/2102281508950307159",
+        "note": "需要の急増に計算資源が追いつかないためとしている。"
+      },
+      {
+        "headline": "米国防長官が「統合戦闘員評価」の実施を発表した",
+        "sourceUrl": "https://x.com/SecWar/status/2102382410600182000"
+      },
+      {
+        "headline": "WMTX のブリッジ事案、Base 上で予定していた追加発行は中止された",
+        "sourceUrl": "https://x.com/wmchain/status/2102389658567033325",
+        "note": "流出の起点は SingularityNET のブリッジで、関係者が現状の説明を続けている。"
+      },
+      {
+        "headline": "Intersect の理事選挙は11人が2席を争い、投票締め切りまで残り3日となった",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2102352494118482315"
+      },
+      {
+        "headline": "Midnight のノード 1.0.300 が公開された",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-node/releases/tag/node-1.0.300"
+      },
+      {
+        "headline": "Cardano の Leios 試作版 2026w38a が公開された",
+        "sourceUrl": "https://github.com/input-output-hk/ouroboros-leios/releases/tag/prototype-2026w38a"
+      },
+      {
+        "headline": "テスラ・エナジーが、家庭用蓄電池を束ねた過去最大の仮想発電所の稼働を報告した",
+        "sourceUrl": "https://x.com/teslaenergy/status/2102147190823293204"
+      },
+      {
+        "headline": "8月の千葉豪雨で半壊と認定された住宅の多くが、生活再建の支援金の対象外になっている",
+        "sourceUrl": "https://x.com/kokkai_map/status/2102329558829568170"
+      },
+      {
+        "headline": "リチウムイオン電池の診断と修理をブラウザから行える「Open Battery Information」が紹介された",
+        "sourceUrl": "https://gigazine.net/news/20260922-open-battery-information/"
+      }
+    ],
+    "watch": [
+      "9月24日の米中首脳会談で、AI の事故通報の仕組みが共同文書に入るか。",
+      "ホルムズ海峡の通航隻数。米国とイランの発言の食い違いが、実際の船の数でどちらに寄るか。",
+      "USDC の取引所残高。5年契約のインセンティブが、新興国での保有にどれだけ早く効くか。"
+    ]
+  }
+}

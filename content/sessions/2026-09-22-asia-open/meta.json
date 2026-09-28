@@ -1,0 +1,104 @@
+{
+  "sessionId": "2026-09-22-asia-open",
+  "date": "2026-09-22",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-22-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-22-asia-open",
+  "publishedAt": "2026-09-23T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260922_0503_d1636c82",
+  "asOfJst": "2026-09-22T05:03:07+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月22日 05:03 JST",
+  "bullets": [
+    "日経平均先物 65,025 → 66,485（+2.25%）",
+    "変動幅上位: WTI -8.2% / ADA/USD +7.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260922_0543_de434517",
+    "crawlAnchorJst": "2026-09-22T05:03:00+09:00",
+    "writtenAtJst": "2026-09-22T05:43:32+09:00",
+    "lead": "AI の安全性が米中の外交議題に入った。米国は国家安全保障に関わる AI の事故を互いに知らせ合う仕組みを中国に提案し、木曜の首脳会談へつなげる。市場ではビットコインが 8 万 6,000 ドルに届き、原油安とショートの巻き戻しがリスク資産を押し上げた。Cardano は x402 の公式 SDK に加わり、AI エージェントの決済網に名乗りを上げた。",
+    "items": [
+      {
+        "headline": "米中首脳会談を前に、AI の覇権と安全リスクが争点として並んだ",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2102054062858395830",
+        "note": "木曜の会談を前に、米国は AI の事故を互いに知らせ合う仕組みを中国に提案している。"
+      },
+      {
+        "headline": "ビットコインが 8 万 6,000 ドルに到達、1 月以来の水準",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2102052572471472300",
+        "note": "3 か月で 49% 上げた。"
+      },
+      {
+        "headline": "ビットコインが 50 週移動平均を取り戻した",
+        "sourceUrl": "https://x.com/coinbureau/status/2102064154773430692"
+      },
+      {
+        "headline": "グラスノード、上昇は現物と先物の買い手が主導し ETF だけが逆向きと分析",
+        "sourceUrl": "https://x.com/glassnode/status/2102052744937021669"
+      },
+      {
+        "headline": "ロシア中銀、暗号資産市場が 2026 年末までに合法運営されうると表明",
+        "sourceUrl": "https://x.com/Kalshi/status/2102084190493696118"
+      },
+      {
+        "headline": "サークル、BTC を担保に USDC を借りられる仕組みを機関向けに開始",
+        "sourceUrl": "https://x.com/circle/status/2102110618467627341",
+        "note": "BTC を預けて cirBTC を発行し、それを担保にする流れを 1 か所で完結させる。"
+      },
+      {
+        "headline": "アマゾンがメタの AI エージェント「Muse」を遮断、買い物代行をめぐり対立",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2102114541735702855"
+      },
+      {
+        "headline": "英中銀副総裁、AI による市場混乱のリスクに対応する時間は少ないと警告",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2102106974099824652"
+      },
+      {
+        "headline": "AMD の時価総額が 1 兆ドルに迫る勢い",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2102080504467992643"
+      },
+      {
+        "headline": "OpenAI、数学者の独立助言グループと組み、AI の数学成果の評価と発表の基準づくりへ",
+        "sourceUrl": "https://x.com/OpenAI/status/2102093145051943229"
+      },
+      {
+        "headline": "Cardano の x402 対応が npm で公開、AI エージェントが ADA で API 代金を払える",
+        "sourceUrl": "https://x.com/Cardano/status/2102074143994745187",
+        "note": "Cardano Foundation は Cardano が x402 の公式 SDK に加わったと発表した。"
+      },
+      {
+        "headline": "Cardano Foundation、アクセラレーター秋期コホート 8 社を発表",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2102058538088509788"
+      },
+      {
+        "headline": "10 月 6 日、独立したノード実装 10 種類のチームがシンガポールで現状を発表",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2102018015223021661"
+      },
+      {
+        "headline": "アジリティ、Digit 5 の持ち手を交換して 1 台で複数の仕事をこなす仕組みを紹介",
+        "sourceUrl": "https://x.com/agilityrobotics/status/2102098743512486331"
+      },
+      {
+        "headline": "JPYC の償還遅延、代表は銀行側で止められている事例があると説明",
+        "sourceUrl": "https://x.com/noritaka_okabe/status/2101936417593286795"
+      },
+      {
+        "headline": "TypeSafe のコーディング用エージェント「Jev」が一般公開",
+        "sourceUrl": "https://x.com/typesafeai/status/2102121915733405896"
+      }
+    ],
+    "watch": [
+      "9 月 24 日の米中首脳会談で、AI の事故通報の仕組みが文書に残るか。",
+      "ビットコインが 2 年移動平均を試すかと、現物 ETF の資金の向き。",
+      "x402 対応サービスが Cardano を有効にする動きが出るか。"
+    ]
+  }
+}
