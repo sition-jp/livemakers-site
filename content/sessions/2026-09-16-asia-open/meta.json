@@ -1,0 +1,136 @@
+{
+  "sessionId": "2026-09-16-asia-open",
+  "date": "2026-09-16",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-16-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-16-asia-open",
+  "publishedAt": "2026-09-17T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260916_0730_94ba54d0",
+  "asOfJst": "2026-09-16T07:30:16+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月16日 07:30 JST",
+  "bullets": [
+    "日経平均先物 63,180 → 63,545（+0.58%）",
+    "変動幅上位: ADA/USD -7.2% / ETH/USD -5.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260916_0552_c7ea1e5d",
+    "crawlAnchorJst": "2026-09-16T05:03:00+09:00",
+    "writtenAtJst": "2026-09-16T05:52:14+09:00",
+    "lead": "米上院でクラリティ法の審議入りが否決され、暗号資産は法律の後ろ盾を待つ時間が延びた。同じ夜に米10年債は取引中に5.04%まで上がり、翌日の FOMC を前に金利と原油が値動きの主導権を握る。Cardano では Mastercard の暗号資産パートナープログラムへの参加と、Go 製ノードのメインネット初ブロックが重なった。暮らしの側では、東京のロボタクシーと人のそばで働く人型ロボットが、機械との距離を一段縮めた。",
+    "items": [
+      {
+        "headline": "クラリティ法が上院の手続き採決で必要な60票に届かず、審議入りできなかった。賛成は50票にも届いていないと記者のテレット氏が伝えた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099937347521368383"
+      },
+      {
+        "headline": "何か月も交渉に加わってきたギリブランド、ワーナー、ブッカーなど民主党の7議員が、そろって反対票を投じた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099933607280230598"
+      },
+      {
+        "headline": "ルミス議員が、民主党は消費者の保護と米国の主導権に本気ではなかったと声明で批判した",
+        "sourceUrl": "https://x.com/SenLummis/status/2099947865468523001"
+      },
+      {
+        "headline": "ケネディ議員が、否決に驚きはないが法案が死んだとは考えていないと述べた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099942080382681135"
+      },
+      {
+        "headline": "テレット氏が、GENIUS 法とクラリティ法の交渉で中心的な役割を担ったアルソブルックス議員に、反対票で法案を止めることへの考えを尋ねた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2099947843838730376"
+      },
+      {
+        "headline": "ビットコインが8月20日以来初めて7万5,000ドルを割り込んだ",
+        "sourceUrl": "https://x.com/coinbureau/status/2099935119637426653"
+      },
+      {
+        "headline": "否決の直後の20分ほどで、暗号資産の買い持ち2.75億ドル規模が清算されたと伝えられた",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2099938236554731593"
+      },
+      {
+        "headline": "FRB が、ウォーシュ議長が16日の FOMC の後に記者会見を開くと告知した",
+        "sourceUrl": "https://x.com/federalreserve/status/2099859647197073756"
+      },
+      {
+        "headline": "金融庁が、2026事務年度の金融行政方針を公表した",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/202609/260915.html"
+      },
+      {
+        "headline": "暗号資産関連の株が、クラリティ法の否決を受けて下げた",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/15/crypto-stocks-sink-after-senate-rejects-clarity-act"
+      },
+      {
+        "headline": "クリプトクアントが、ビットコインの実現時価総額が2026年に入って初めて増え始めたと分析した",
+        "sourceUrl": "https://x.com/cryptoquant_com/status/2099926632991518772"
+      },
+      {
+        "headline": "Blink Labs が、Dingo のブロック生成機能を使って Star Forge Pool がメインネットでブロックを作ったと発表しました",
+        "sourceUrl": "https://x.com/blinklabs_io/status/2099951643920142612"
+      },
+      {
+        "headline": "Gero Wallet が v2.7.1 で、自分の Midnight ウォレットどうしで DUST の手数料を肩代わりできるようにしました",
+        "sourceUrl": "https://x.com/GeroWallet/status/2099917284823146916"
+      },
+      {
+        "headline": "Liqwid Finance が、V3 の API に6種類の取引を組み立てる機能を加えました",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2099906089173336075"
+      },
+      {
+        "headline": "SundaeSwap が、Float に市場の異変を知らせる「Signals」を加えました",
+        "sourceUrl": "https://x.com/SundaeSwap/status/2099950686964179397"
+      },
+      {
+        "headline": "Cardano の公式アカウントが「Governance Hours」で、OpenZeppelin Stack のトレジャリー引き出し提案を取り上げました",
+        "sourceUrl": "https://x.com/Cardano/status/2099891043667943426"
+      },
+      {
+        "headline": "Midnight の公式アカウントが、Monument Bank との関係に触れました",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2099522467588944144"
+      },
+      {
+        "headline": "Midnight の公式アカウントが、AI が自律的になるほど何でも公開される仕組みは逆行していると投稿しました",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2099866805225271737"
+      },
+      {
+        "headline": "グーグル・ディープマインドが、会話を止めずに裏で考えて作業を進める音声 AI「Gemini 3.8 Live」を発表した",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2099907440422830269"
+      },
+      {
+        "headline": "スペースXが、スターシップの14回目の飛行で初めて軌道に乗せる挑戦を、承認を前提に9月22日にも行うと発表した",
+        "sourceUrl": "https://x.com/SpaceX/status/2099912172146995456"
+      },
+      {
+        "headline": "オデッセイが、ロボットや車の操作に使える世界モデル「Odyssey-3」を発表した",
+        "sourceUrl": "https://x.com/odysseyml/status/2099900067356586276"
+      },
+      {
+        "headline": "アンカーの SOLIX E10 を入れた家族が、停電が重なって家の備えを決めた経緯が紹介された",
+        "sourceUrl": "https://x.com/AnkerSOLIX/status/2099923052217995475"
+      },
+      {
+        "headline": "マイクロソフトの AI 部門が、自社のモデルの行動規範を公表したと伝えられた",
+        "sourceUrl": "https://x.com/altryne/status/2099911699851862275"
+      },
+      {
+        "headline": "窓際の水耕栽培で、種まきから386日目のミニトマトが72個実った",
+        "sourceUrl": "https://x.com/mikanbo_ya1987/status/2099802469798924435"
+      },
+      {
+        "headline": "ファルコン9が、カリフォルニアで米宇宙軍の USSF-259 の打ち上げに向けて発射台に立った",
+        "sourceUrl": "https://x.com/SpaceX/status/2099902873014247835"
+      }
+    ],
+    "watch": [
+      "FOMC の声明とウォーシュ議長の会見が、次の引き締めをどこまで示すか。",
+      "クラリティ法の再採決に向けた調整と、SEC などの規則づくりのどちらが前に出るか。",
+      "17〜18日の日銀会合と、1ドル155円台の円と長い金利の動き。"
+    ]
+  }
+}
