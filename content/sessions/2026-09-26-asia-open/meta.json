@@ -1,0 +1,108 @@
+{
+  "sessionId": "2026-09-26-asia-open",
+  "date": "2026-09-26",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-26-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-26-asia-open",
+  "publishedAt": "2026-09-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260926_0503_4979ee24",
+  "asOfJst": "2026-09-26T05:03:06+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月26日 05:03 JST",
+  "bullets": [
+    "日経平均先物 65,715 → 66,560（+1.29%）",
+    "変動幅上位: VIX -5.7% / NIGHT/USD +3.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260926_0549_8c099d9b",
+    "crawlAnchorJst": "2026-09-26T05:03:00+09:00",
+    "writtenAtJst": "2026-09-26T05:49:29+09:00",
+    "lead": "イランがホルムズ海峡を7日以内に再び開く段取りを公に示し、原油と長期金利の焦点は戦争の継続から解除の順番へ移った。米国は受け入れておらず、交渉材料を最後まで手元に残す設計に応じるかが次の分かれ目になる。習主席の訪米は儀礼が先行したまま終わり、日米は強い円の望ましさを確認した。暗号資産では SEC の要となってきたピアース委員の退任が決まり、Bitget の大型流出も続報が相次いだ。",
+    "items": [
+      {
+        "headline": "イランが7日以内のホルムズ海峡再開案を提示",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/25/iran-floats-seven-day-plan-end-war-reopen-strait-hormuz/",
+        "note": "米国が受け入れれば、戦闘停止や制裁解除を経て7日後に海峡を開き、その後に核協議へ入る段取りだ。米国側は大きな突破口ではないとの立場を崩していない。"
+      },
+      {
+        "headline": "習主席の訪米が茶会と公文書館の見学で終了",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-xi-wrap-up-summit-with-tea-and-tour-of-us-national-archives",
+        "note": "会談の成果は乏しいとの見方も残るが、トランプ氏は友好の成功と総括した。"
+      },
+      {
+        "headline": "米通商代表部、米中貿易委員会で市場アクセスを広げると表明",
+        "sourceUrl": "https://x.com/USTradeRep/status/2103540348421071102"
+      },
+      {
+        "headline": "ベッセント長官と片山財務相、実態を映す強い円の望ましさを確認",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2103498533168951768"
+      },
+      {
+        "headline": "SEC のピアース委員が10月2日付で退任",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2103537578091634936",
+        "note": "暗号資産の作業部会を率いてきた委員で、11月からは法科大学院で教える。"
+      },
+      {
+        "headline": "クラリティ法案の頓挫後、ブロックチェーン協会で指導部が交代",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/25/blockchain-association-sees-leadership-shift-shortly-after-crypto-clarity-act-fizzles"
+      },
+      {
+        "headline": "Bitget がハッキング被害の見積もりを3億8,750万ドルに引き上げ",
+        "sourceUrl": "https://thedefiant.io/news/hacks/bitget-raises-hack-estimate-to-387-5-million-as-token-accounting-widens"
+      },
+      {
+        "headline": "Circle と Tether が Bitget の攻撃者ウォレットを凍結",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/25/circle-and-tether-step-in-to-freeze-hacker-wallet-after-massive-bitget-crypto-heist"
+      },
+      {
+        "headline": "米現物ビットコイン ETF、直近6営業日で28億4,000万ドルの純流入",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2103563815887532081"
+      },
+      {
+        "headline": "トランプ氏がゼレンスキー氏に、モスクワでのプーチン氏との和平協議を求めた",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/trump-asked-ukraines-zelensky-to-meet-russias-putin-in-moscow-for-peace-talks"
+      },
+      {
+        "headline": "米科学技術政策局長、超知能の国際対話が世界的な統治に向かうことは認めないと表明",
+        "sourceUrl": "https://x.com/mkratsios47/status/2103547205999100298"
+      },
+      {
+        "headline": "OpenAI、学習と評価の最中のエージェント行動を広範に点検中と公表",
+        "sourceUrl": "https://x.com/OpenAI/status/2103566736356458911",
+        "note": "第三者のサイトへの想定外の働きかけを洗い出しており、完了まで数か月かかる見通し。"
+      },
+      {
+        "headline": "FRB が銀行監督のルール緩和を検討と独紙が報道",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/federal-reserve-us-notenbank-plant-offenbar-lockerung-der-aufsichtsregeln-fuer-banken/100257509.html"
+      },
+      {
+        "headline": "中国は EV を5分未満で70%まで充電、米国は充電速度で後れ",
+        "sourceUrl": "https://arstechnica.com/cars/2026/09/us-being-left-behind-in-ev-charging-speeds-as-china-goes-sub-5-min-to-70/"
+      },
+      {
+        "headline": "Cardano の週次開発報告、Hydra の資金滞留を修正し Leios はデータベースを分割",
+        "sourceUrl": "https://x.com/IOGroup/status/2103466672069730491"
+      },
+      {
+        "headline": "Lace 拡張版 2.4.1 が Ledger の Cardano アプリ最新版に対応",
+        "sourceUrl": "https://github.com/input-output-hk/lace/releases/tag/lace-extension%402.4.1"
+      },
+      {
+        "headline": "Intersect の理事選挙の投票が締め切り、結果は9月28日発表予定",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2103455244474634450"
+      }
+    ],
+    "watch": [
+      "米国がイランの7日案に正式に答えるか。封鎖と原油制裁の解除の順番に触れるかどうか",
+      "9月29日のトランプ大統領とテック企業トップによる AI 会合",
+      "日本の10年国債3%台と円相場、片山財務相の発言が行動に移るか"
+    ]
+  }
+}
