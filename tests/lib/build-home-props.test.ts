@@ -549,6 +549,88 @@ describe("build-home-props digest-only live session (observationStatus=absent)",
     expect(props.pageProvenance.packetId).not.toBe(props.sessionProvenance!.packetId);
   });
 
+  // 2026-09-28 (月) 本番: 9/27 12:03 以降の観測が全 RED で reviewed packet が
+  // 前日 (dataDate 9/27) のまま採用継続 → 9/28 asia-open の読み解きのみ live が
+  // packet の時計 (sessionClockToday) で closed に降格され、recentClosed も
+  // {9/27, 9/26} しか見ないため「切替中」だけが出た。digest-only は市場
+  // スナップショットを持たないので、packet ではなく実 JST 今日の時計で判定する。
+  function nextDayDigestOnlyFeed() {
+    const { home, sessions } = digestOnlyFeed();
+    const record = sessions.records[0];
+    const nextDay = {
+      ...record,
+      sessionId: "2026-07-13-asia-open",
+      date: "2026-07-13",
+      sessionSlug: "asia-open" as const,
+      currentUrl: "/sessions/2026-07-13-asia-open",
+      packetId: "sess_20260713_0503_0badc0de",
+      asOfJst: "2026-07-13T06:05:00+09:00",
+      focusInstruments: ["nikkei_futures", "usd_jpy"],
+      titleJa: "Asia Open Terminal — 7月13日 05:03 JST（読み解きのみ）",
+      editorial: {
+        ...record.editorial!,
+        digestId: "dig_20260713_0605_ab12cd34",
+        crawlAnchorJst: "2026-07-13T05:03:00+09:00",
+        writtenAtJst: "2026-07-13T06:05:00+09:00",
+      },
+    };
+    return { home, sessions: { ...sessions, records: [nextDay] } };
+  }
+
+  it("keeps a digest-only live dated real JST today live while the adopted packet is from the previous day", () => {
+    const { home, sessions } = nextDayDigestOnlyFeed();
+    expect(home.dataDate).toBe("2026-07-12");
+    // 07-12 07:30 packet から 23h20m 後 — 24h 以内なので reviewed は採用継続
+    const now = new Date("2026-07-13T06:50:00+09:00");
+    expect(
+      resolveHomeSessionsSource({ source: home, feedSessions: sessions, now, sessionRecords: [] }),
+    ).toBe("feed_today");
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now,
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live?.sessionId).toBe("2026-07-13-asia-open");
+    expect(props.live?.observationStatus).toBe("absent");
+    expect(
+      props.schedule.find((row) => row.def.slug === "asia-open")?.isCurrent,
+    ).toBe(true);
+    // 市場面は packet の日付を正直に出し続ける (時計は分離)
+    expect(props.today).toBe("2026-07-12");
+    expect(props.focusSessionSlug).toBe("asia-open");
+  });
+
+  it("still demotes a GREEN live record dated after the adopted packet (P0-1b unchanged)", () => {
+    const { home, sessions } = nextDayDigestOnlyFeed();
+    const green = { ...sessions.records[0] };
+    delete (green as { observationStatus?: string }).observationStatus;
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: { ...sessions, records: [green] },
+      now: new Date("2026-07-13T06:50:00+09:00"),
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live).toBeNull();
+  });
+
+  it("does not loosen the packet-clock rule for a digest-only live dated the packet's own day", () => {
+    const { home, sessions } = digestOnlyFeed();
+    // 07-12 の読み解きのみ live を、packet (07-12) から 24h 以内の 07-13 に見る
+    // — packet の時計では当日なので従来どおり live。実日付ルールは packet より
+    // 新しい日付への例外だけで、既存の判定を変えない。
+    const props = buildHomeCompositionProps({
+      source: home,
+      feedSessions: sessions,
+      now: new Date("2026-07-13T06:50:00+09:00"),
+      sessionRecords: [],
+      contentDir: TEST_CONTENT_DIR,
+    });
+    expect(props.live?.sessionId).toBe("2026-07-12-europe-bridge");
+  });
+
   it("still rejects a GREEN live record whose slug mismatches focusSession (guard unchanged)", () => {
     const { home, sessions } = digestOnlyFeed();
     const green = { ...sessions.records[0] };

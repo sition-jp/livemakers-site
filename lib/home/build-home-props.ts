@@ -691,7 +691,13 @@ export function buildHomeCompositionProps(
     live,
     recentClosed,
     recentClosedProvenance,
-    schedule: getTodaySchedule(today, live, normalized.sessions),
+    // 読み解きのみ live は実 JST 今日で live 判定される (normalizeHomeInput)
+    // ので、「本日の更新予定」の現在行もその日付で照合する。
+    schedule: getTodaySchedule(
+      live?.observationStatus === "absent" ? live.date : today,
+      live,
+      normalized.sessions,
+    ),
     slots,
     focusSeries,
     focusSessionSlug,
