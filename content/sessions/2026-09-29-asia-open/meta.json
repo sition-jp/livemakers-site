@@ -1,0 +1,190 @@
+{
+  "sessionId": "2026-09-29-asia-open",
+  "date": "2026-09-29",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-29-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-09-29-asia-open",
+  "publishedAt": "2026-09-30T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260929_0730_3ae86c4f",
+  "asOfJst": "2026-09-29T07:30:17+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 9月29日 07:30 JST",
+  "bullets": [
+    "日経平均先物 66,495 → 65,875（-0.93%）",
+    "変動幅上位: VIX +8.1% / NIGHT/USD +4.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260929_0549_601cc038",
+    "crawlAnchorJst": "2026-09-29T05:03:00+09:00",
+    "writtenAtJst": "2026-09-29T05:49:34+09:00",
+    "lead": "米国の長期金利が主役の朝になった。10年債は5.24%、30年債は5.56%まで上がり、原油がイラン協議への期待で下げた日にも金利は下がらなかった。金と株が同時に売られる一方、ビットコインは週足の高値からの反落にとどまり、ETF への流入と企業の買い増しが下支えしている。",
+    "items": [
+      {
+        "headline": "米30年債利回りの上昇とともに米国株の時価総額が約7,000億ドル減った",
+        "sourceUrl": "https://x.com/AshCrypto/status/2104586920852701471",
+        "note": "米財務省の9月28日の値で10年債は5.24%、30年債は5.56%まで上がった。"
+      },
+      {
+        "headline": "トランプ氏、イランが核の要求をのめば制裁緩和と資産凍結の解除に応じる用意",
+        "sourceUrl": "https://x.com/AshCrypto/status/2104611616037679330",
+        "note": "報道の直後に原油は30分で約4%下げた。"
+      },
+      {
+        "headline": "トランプ氏「イランとの戦争はまもなく終わる」",
+        "sourceUrl": "https://x.com/AshCrypto/status/2104645381489631524",
+        "note": "ガソリン価格も下がるとの見方を示した。"
+      },
+      {
+        "headline": "仲介国、米国とイランの合意に向けた調整を継続",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/28/mediators-still-working-iran-us-possible-deal-officials-say/",
+        "note": "米当局者が明らかにした。"
+      },
+      {
+        "headline": "ベッセント長官、対イランの経済作戦で通貨リアルが最安値と表明",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2104629169724260361",
+        "note": "資金源を断つ締め付けを続けるとした。"
+      },
+      {
+        "headline": "米上院の民主党、Tether がイラン体制の「命綱」とする報告書",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/28/tether-is-a-lifeline-for-iranian-regime-senate-dems-say-in-new-report"
+      },
+      {
+        "headline": "Citi、Coinbase と組み法人顧客のステーブルコイン決済へ",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-09-28-citi-coinbase-stablecoin-payments-corporate-clients-417082"
+      },
+      {
+        "headline": "Chainlink の CCIP 2.0 が本番稼働、発行体が独自の検証者を組み込める",
+        "sourceUrl": "https://thedefiant.io/news/infrastructure/chainlink-launches-ccip-2-0-with-custom-verifiers-and-faster-transfers"
+      },
+      {
+        "headline": "米通商代表部、対中輸出の30%で市場参入が改善と説明",
+        "sourceUrl": "https://x.com/USTradeRep/status/2104398986006483191",
+        "note": "農産物や水産物、化粧品、医療機器が対象に含まれる。"
+      },
+      {
+        "headline": "トランプ氏が習主席に米国の兵器購入を打診、と米大使",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/28/donald-trump-asked-chinas-president-wanted-buy-us-arms-ambassador/"
+      },
+      {
+        "headline": "SEC、トークン買い戻しの FAQ を更新",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2104621352552726543",
+        "note": "中心となる主体がいない買い戻しは投資契約にあたらない可能性が高いとの一文を加えた。"
+      },
+      {
+        "headline": "ラミス議員、クラリティ法案に民主党の要求を入れたが反対されたと主張",
+        "sourceUrl": "https://x.com/SenLummis/status/2104626152002269565",
+        "note": "分散していない取引プロトコルへの銀行秘密法の基準の適用をめぐる発言。"
+      },
+      {
+        "headline": "米財務省と IRS、税逃れ目的の投資手法に通知",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2104621754056347839",
+        "note": "あらかじめ仕組まれた ETF への現物拠出も取り上げた。"
+      },
+      {
+        "headline": "Goldman Sachs、1,000億ドル規模の米国債ファンドを暗号資産の機関決済の仕組みへ",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/28/goldman-sachs-brings-usd100-billion-treasury-fund-into-crypto-s-institutional-plumbing"
+      },
+      {
+        "headline": "Ondo Perps、トークン化株式と ETF 12銘柄の現物取引を追加",
+        "sourceUrl": "https://thedefiant.io/news/defi/ondo-perps-adds-spot-trading-for-12-tokenized-stocks-and-etfs"
+      },
+      {
+        "headline": "トークン化株式、オンチェーンで初めて30億ドル超",
+        "sourceUrl": "https://x.com/Securitize/status/2104599430863245752",
+        "note": "年初から369%増えたと Securitize が示した。"
+      },
+      {
+        "headline": "Avalanche へのトークン化株式の流入、7日で1億3,120万ドル",
+        "sourceUrl": "https://x.com/avax/status/2104635913905008779"
+      },
+      {
+        "headline": "Solana 上のステーブルコイン供給が173億ドルで最高",
+        "sourceUrl": "https://x.com/eco/status/2104612858126549059"
+      },
+      {
+        "headline": "ビットコインは8万4,000ドル近辺、上昇を支えたのは ETF の流入",
+        "sourceUrl": "https://x.com/glassnode/status/2104645931840971250",
+        "note": "先物の取引や利益確定の売りがそこに当たったと glassnode が分析した。"
+      },
+      {
+        "headline": "イーサリアムも週足で8か月ぶりの高値",
+        "sourceUrl": "https://x.com/AshCrypto/status/2104576186751889871"
+      },
+      {
+        "headline": "Zcash のノード Zebra 6.4.2 が緊急のセキュリティ修正",
+        "sourceUrl": "https://x.com/ZcashFoundation/status/2104629951710248991",
+        "note": "6.4.0 と 6.4.1 は回収された。"
+      },
+      {
+        "headline": "Canary、INJ のステーキング ETF の届出を修正（3回目）",
+        "sourceUrl": "https://x.com/injective/status/2104614580198715624"
+      },
+      {
+        "headline": "Starship が初の挑戦で軌道に到達、Starlink V3 の衛星を初めて配備",
+        "sourceUrl": "https://x.com/SpaceX/status/2104653511883628569"
+      },
+      {
+        "headline": "アンドリュー・ン氏、AI エージェントの隔離の弱さを指摘",
+        "sourceUrl": "https://x.com/AndrewYNg/status/2104660347730969087",
+        "note": "OpenWorker をエヌビディアの OpenShell の上に作り、API キーやログイン情報に既定で触れさせないとした。"
+      },
+      {
+        "headline": "米フロリダ州司法長官、OpenAI の新モデル開発に仮差し止めを申し立て",
+        "sourceUrl": "https://www.engadget.com/2270988/florida-ag-requests-emergency-order-to-stop-openai-model-development/"
+      },
+      {
+        "headline": "米政権、新車の燃費基準を2014年の水準へ",
+        "sourceUrl": "https://arstechnica.com/cars/2026/09/trump-cuts-fuel-economy-standards-back-to-2014-levels/"
+      },
+      {
+        "headline": "テスラ、ロードスターの発表会を10月15日に延期",
+        "sourceUrl": "https://x.com/Tesla/status/2104647484169728442"
+      },
+      {
+        "headline": "FRB のクック理事、AI と新技術について講演",
+        "sourceUrl": "https://x.com/federalreserve/status/2104623676184531325"
+      },
+      {
+        "headline": "Liqwid で ADA の借り入れが DJED を抜き最大に",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2104617131937825108",
+        "note": "借り入れの総額は初めて1,000万ドルを超えた。"
+      },
+      {
+        "headline": "Strike の無期限先物、Cardano の DeFi で預かり資産10位に",
+        "sourceUrl": "https://defillama.com/protocol/strike-finance-perpetuals"
+      },
+      {
+        "headline": "FluidTokens、ADA に年6%の報酬上乗せを2026年末まで再開",
+        "sourceUrl": "https://x.com/FluidTokens/status/2104599651001287077"
+      },
+      {
+        "headline": "Lace 2.4 公開、スワップの中身を署名前に確認できるように",
+        "sourceUrl": "https://x.com/lace_io/status/2104586931808178535"
+      },
+      {
+        "headline": "Midnight のノード 2.1.0 の3回目のリリース候補を公開",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-node/releases/tag/node-2.1.0-rc.3"
+      },
+      {
+        "headline": "ロシアの攻撃でキーウの科学アカデミーに被害、少なくとも1人死亡",
+        "sourceUrl": "https://www.theguardian.com/world/2026/sep/28/russia-strike-on-kyiv-science-academy-drone-ukraine"
+      },
+      {
+        "headline": "韓国、国境付近の爆発は北朝鮮の地雷が原因とみられると発表",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/28/south-korea-says-border-blasts-likely-caused-north-korean-mines/"
+      }
+    ],
+    "watch": [
+      "30日の PCE 物価と10月2日の雇用統計で、10年債が5.3%台に乗るか",
+      "仲介国による米国・イランとの個別協議が開かれ、制裁緩和の条件がどう示されるか",
+      "10月1日の Cardano での RealFi の始動と、Lace での利用の入口"
+    ]
+  }
+}

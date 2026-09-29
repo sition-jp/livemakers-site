@@ -1,0 +1,120 @@
+{
+  "sessionId": "2026-09-29-ny-open",
+  "date": "2026-09-29",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-29-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-09-29-ny-open",
+  "publishedAt": "2026-09-30T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260929_1803_72961b69",
+  "asOfJst": "2026-09-29T18:50:00+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 9月29日 18:03 JST（読み解きのみ）",
+  "bullets": [
+    "金融庁、貿易取引の資金決済にステーブルコインを使う実証をPIPの支援案件に決定",
+    "World Labs、AMD への合流を発表 Fei-Fei Li 氏は AMD の上級副社長兼チーフサイエンティストに",
+    "NEAR Intents、Bitget の流出資金とみられる5,000万ドル超の移動を遮断"
+  ],
+  "editorial": {
+    "digestId": "dig_20260929_1850_6cd742ef",
+    "crawlAnchorJst": "2026-09-29T18:03:00+09:00",
+    "writtenAtJst": "2026-09-29T18:50:00+09:00",
+    "lead": "夕方の焦点は、お金の通り道を誰が握るかだ。金融庁は3メガ銀行とNTTデータらによる貿易決済のステーブルコイン実証を支援案件に決め、円の決済を実務の検証段階へ進めた。AI では AMD が World Labs の買収で合意し、世界モデルの研究所が丸ごと半導体会社の内側に入る。暗号資産では、Bitget から流出した資金の移動を NEAR Intents が遮断し、分散型インフラがどこまで線を引くかという問いが続いている。",
+    "items": [
+      {
+        "headline": "金融庁、貿易取引の資金決済にステーブルコインを使う実証をPIPの支援案件に決定",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/sonota/20260929-2/20260929.html",
+        "note": "申請者はトレードワルツ、NTTデータ、3メガバンク、三菱UFJ信託の6社。実務上の対応と法的論点を整理する。"
+      },
+      {
+        "headline": "World Labs、AMD への合流を発表 Fei-Fei Li 氏は AMD の上級副社長兼チーフサイエンティストに",
+        "sourceUrl": "https://x.com/theworldlabs/status/2104665621120311465",
+        "note": "空間を理解し生成する世界モデルの研究が、半導体会社の研究組織の中核に入る。"
+      },
+      {
+        "headline": "NEAR Intents、Bitget の流出資金とみられる5,000万ドル超の移動を遮断",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/09/29/usd50-million-in-bitget-hacker-swaps-puts-near-intents-permissionless-claim-to-the-test",
+        "note": "パーミッションレスを掲げる基盤が資金洗浄への対抗を明言し、その呼び方をめぐる議論が広がっている。"
+      },
+      {
+        "headline": "米10年債利回りの6%到達を見込む分析、ビットコインへの影響を検証",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/29/analysts-see-10-year-treasury-yield-hitting-6-bitcoin-bulls-shouldn-t-panic"
+      },
+      {
+        "headline": "ビットコインは8万3,000ドル台を維持、ZEC は12%安、原油は再び上昇",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/29/bitcoin-holds-usd83-000-as-zec-drops-12-and-oil-climbs-again"
+      },
+      {
+        "headline": "Anthropic の AI インフラ投資計画に、上場前トークンの先物市場はほぼ無反応",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/09/29/anthropic-plans-to-spend-usd518-billion-on-ai-infrastructure-pre-ipo-perps-barely-blink"
+      },
+      {
+        "headline": "フロリダ州、OpenAI の最先端モデル開発の差し止めを裁判所に求める",
+        "sourceUrl": "https://arstechnica.com/ai/2026/09/florida-asks-court-to-put-the-brakes-on-openais-frontier-ai-development/"
+      },
+      {
+        "headline": "OpenAI、最先端の強化学習の訓練を守る考え方を公開",
+        "sourceUrl": "https://x.com/OpenAI/status/2104815409522483470"
+      },
+      {
+        "headline": "Starship が初めて地球周回軌道へ、次世代 Starlink を放出",
+        "sourceUrl": "https://arstechnica.com/space/2026/09/starships-first-orbital-launch-gives-lift-to-spacexs-next-gen-starlinks/"
+      },
+      {
+        "headline": "イラン当局、トランプ氏の和平案拒否後もホルムズ海峡を開く合意を改めて要求",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/28/iran-officials-renew-call-deal-open-hormuz-despite-donald-trumps/"
+      },
+      {
+        "headline": "米軍が約20年ぶりにイラクから撤収、イランに空白が生まれるとの見方",
+        "sourceUrl": "https://www.straitstimes.com/world/middle-east/us-forces-exit-iraq-after-two-decades-leaving-opening-for-iran"
+      },
+      {
+        "headline": "内閣府、9月の月例経済報告を公表",
+        "sourceUrl": "https://www5.cao.go.jp/keizai3/getsurei/getsurei-index.html"
+      },
+      {
+        "headline": "Coinbase、法人向け仮想口座の銀行レイヤーに Citi の仕組みを採用",
+        "sourceUrl": "https://x.com/laurashin/status/2104697627342492110"
+      },
+      {
+        "headline": "スペイン、自己管理ウォレットの暗号資産は国外資産の申告対象外と確認",
+        "sourceUrl": "https://x.com/coinbureau/status/2104770510051840102"
+      },
+      {
+        "headline": "Glassnode、ビットコインは長期保有者の供給が最も厚い価格帯の下で足踏みと分析",
+        "sourceUrl": "https://x.com/glassnode/status/2104861516206149818"
+      },
+      {
+        "headline": "Cardano PRIME、Indigo の INDY キャッシュバック制度を紹介 報酬を利用者に結びつける設計",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2104681051461480821"
+      },
+      {
+        "headline": "Lace、Midnight Preview 拡張機能からの移行期限が残り1日と告知",
+        "sourceUrl": "https://x.com/lace_io/status/2104850397407945137"
+      },
+      {
+        "headline": "IOG、Hydra の設定と用途を学ぶ技術ワークショップを告知",
+        "sourceUrl": "https://x.com/IOGroup/status/2104828377828073796"
+      },
+      {
+        "headline": "EcoFlow、容量2,048Wh でキャスター付きのポータブル電源",
+        "sourceUrl": "https://kaden.watch.impress.co.jp/docs/news/2143336.html"
+      },
+      {
+        "headline": "イワタニ、電源も灯油も使わない暖房機の新作「マル暖プラス」",
+        "sourceUrl": "https://camphack.nap-camp.com/14005"
+      }
+    ],
+    "watch": [
+      "金融庁の実証で、どの通貨建てのステーブルコインを使い、どんな法的論点が挙がるか。",
+      "AMD と World Labs の買収に対する規制当局の審査と、世界モデルの公開方針が変わるか。",
+      "Bitget の流出資金を、ほかの分散型の交換経路がどう扱うか。"
+    ]
+  },
+  "observationStatus": "absent"
+}
