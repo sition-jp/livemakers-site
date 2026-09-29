@@ -1,6 +1,6 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-09-28T23:00:18Z",
+  "generated_at": "2026-09-29T23:00:20Z",
   "radar": [
     {
       "symbol": "BTC",
@@ -62,7 +62,7 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-09-28T23:00:18Z",
+      "timestamp": "2026-09-29T23:00:20Z",
       "scores": {
         "overall": 27.0,
         "price_pivot": 15.0,
@@ -89,14 +89,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.41402472561519105
+          "raw_value": 0.4129263375485884
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.40709383612168437
+          "raw_value": 0.48029049304140675
         }
       ],
       "summary": {
@@ -111,7 +111,7 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-09-28T23:00:18Z",
+      "timestamp": "2026-09-29T23:00:20Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -138,7 +138,7 @@
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.40709383612168437
+          "raw_value": 0.48029049304140675
         }
       ],
       "summary": {
@@ -153,7 +153,7 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-09-28T23:00:18Z",
+      "timestamp": "2026-09-29T23:00:20Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -180,7 +180,7 @@
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.40709383612168437
+          "raw_value": 0.48029049304140675
         }
       ],
       "summary": {
@@ -195,7 +195,7 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-09-28T23:00:18Z",
+      "timestamp": "2026-09-29T23:00:20Z",
       "scores": {
         "overall": 27.0,
         "price_pivot": 15.0,
@@ -222,14 +222,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.44501008598195374
+          "raw_value": 0.4397722936867872
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5095972732860288
+          "raw_value": 0.5095681878020784
         }
       ],
       "summary": {
@@ -244,7 +244,7 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-09-28T23:00:18Z",
+      "timestamp": "2026-09-29T23:00:20Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -271,7 +271,7 @@
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5095972732860288
+          "raw_value": 0.5095681878020784
         }
       ],
       "summary": {
@@ -286,7 +286,7 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-09-28T23:00:18Z",
+      "timestamp": "2026-09-29T23:00:20Z",
       "scores": {
         "overall": 27.0,
         "price_pivot": 15.0,
@@ -313,14 +313,14 @@
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.44501008598195374
+          "raw_value": 0.4397722936867872
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5095972732860288
+          "raw_value": 0.5095681878020784
         }
       ],
       "summary": {
@@ -331,7 +331,7 @@
     }
   },
   "previous": {
-    "generated_at": "2026-09-27T23:00:19Z",
+    "generated_at": "2026-09-28T23:00:18Z",
     "radar": [
       {
         "symbol": "BTC",
@@ -1354,6 +1354,20 @@
           "30D": -100.0,
           "90D": -100.0
         }
+      },
+      {
+        "date": "2026-09-29",
+        "close": 83613.9,
+        "overall": {
+          "7D": 27.0,
+          "30D": 16.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
       }
     ],
     "ETH": [
@@ -2312,6 +2326,20 @@
       {
         "date": "2026-09-28",
         "close": 2687.6,
+        "overall": {
+          "7D": 27.0,
+          "30D": 16.0,
+          "90D": 27.0
+        },
+        "lean": {
+          "7D": -100.0,
+          "30D": -100.0,
+          "90D": -100.0
+        }
+      },
+      {
+        "date": "2026-09-29",
+        "close": 2681.93,
         "overall": {
           "7D": 27.0,
           "30D": 16.0,
