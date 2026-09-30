@@ -1,0 +1,109 @@
+{
+  "sessionId": "2026-09-30-global-close",
+  "date": "2026-09-30",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-30-global-close",
+  "canonicalArticleUrl": "/sessions/2026-09-30-global-close",
+  "publishedAt": "2026-10-01T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260930_2303_b46fc7cb",
+  "asOfJst": "2026-09-30T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 9月30日 23:03 JST",
+  "bullets": [
+    "Gold $4,179.70 → $4,210.40（+0.73%）",
+    "変動幅上位: NIGHT/USD +18.9% / WTI +1.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260930_2355_b53687bd",
+    "crawlAnchorJst": "2026-09-30T23:03:00+09:00",
+    "writtenAtJst": "2026-09-30T23:55:00+09:00",
+    "lead": "米国の夜は、AI と物価の二本立てで動いた。ホワイトハウスが超知能をめぐる協定を公開し、グーグルとメタのトップが署名と内部統制の約束を自ら認めた。前日の OpenAI は GPT-6 Astra と、その5分の1の価格の 6.1 Sol を出し、性能と単価の階段をさらに一段下げた。8月の PCE 物価は前年比3.4%、コアは3.0%まで下がり、秋の金融政策を読む材料がひとつ増えた。",
+    "items": [
+      {
+        "headline": "ホワイトハウスが「超知能に関する協定」を公開",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2105292669303791687",
+        "note": "前日の会合で米大手 AI ラボの首脳が署名した文書を、ホワイトハウスが公式に出した。"
+      },
+      {
+        "headline": "グーグルのピチャイ CEO、協定への署名を本人が公表",
+        "sourceUrl": "https://x.com/sundarpichai/status/2105121763176894804",
+        "note": "過去2年で数千億ドルを米国に投じたとも書いた。"
+      },
+      {
+        "headline": "ザッカーバーグ氏、全米の主要ラボが内部統制と多層の監査を約束したと評価",
+        "sourceUrl": "https://x.com/finkd/status/2105087367686025454"
+      },
+      {
+        "headline": "OpenAI、GPT-6.1 Sol を発表 Astra に迫る性能を5分の1の価格で",
+        "sourceUrl": "https://x.com/OpenAI/status/2104986129686741046"
+      },
+      {
+        "headline": "OpenAI、GPT-6 Astra で動く常時稼働エージェント「dots」を公開",
+        "sourceUrl": "https://x.com/OpenAI/status/2104984504133918973"
+      },
+      {
+        "headline": "OpenAI、生成を速くする有料の高速オプション Ultrafast を導入",
+        "sourceUrl": "https://x.com/OpenAI/status/2104993966043320759",
+        "note": "Codex で最大8倍、API で最大6倍の生成速度をうたう。"
+      },
+      {
+        "headline": "米8月の PCE 物価は前年比3.4%、コアは3.0%",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2105274437381583011",
+        "note": "米商務省の公表値と一致する。今回の公表には年次改定が含まれる。"
+      },
+      {
+        "headline": "ホワイトハウス、政府の案内をひとつにまとめる新サイトを開設",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2104967240059687393"
+      },
+      {
+        "headline": "ブラジルの証券保管機関、証券の所有記録を XRP Ledger で開始",
+        "sourceUrl": "https://x.com/Ripple/status/2105099333498777997",
+        "note": "免許を持つ証券保管機関が公開チェーンに所有を記録するのは初めてだとリップルは説明している。"
+      },
+      {
+        "headline": "米財務省、イランを支える資金網への制裁を継続すると表明",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2105035992415551571"
+      },
+      {
+        "headline": "財務省、8月27日〜9月28日の為替介入はゼロ円と公表",
+        "sourceUrl": "https://www.mof.go.jp/policy/international_policy/reference/feio/data/monthly/20260930.html"
+      },
+      {
+        "headline": "Cardano 財団、ペトロブラスとの協業で再生燃料向けアプリ2本を納品",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2105266505512304879",
+        "note": "持続可能な航空燃料と再生ディーゼル「Diesel R」が対象。"
+      },
+      {
+        "headline": "FluidTokens、攻撃で止めた貸付の貸し手に返金 担保には影響なし",
+        "sourceUrl": "https://x.com/FluidTokens/status/2105295280761344278"
+      },
+      {
+        "headline": "Cardano の無期限先物 Strike、Android アプリを公開",
+        "sourceUrl": "https://x.com/strikeperps/status/2105299457075970299"
+      },
+      {
+        "headline": "Cardano-Swaps v2、TxPipe の監査で重大な指摘なし",
+        "sourceUrl": "https://x.com/__fallen_icarus/status/2104934117498593611"
+      },
+      {
+        "headline": "Starship が運んだ Starlink V3 衛星、軌道からの映像を公開",
+        "sourceUrl": "https://x.com/Starlink/status/2104603601943339071"
+      },
+      {
+        "headline": "金融庁、台風18号の被災者向けの金融上の措置を公表",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/ginkou/20260930.html"
+      }
+    ],
+    "watch": [
+      "超知能協定の本文で、監視の担い手と期限がどこまで具体的に書かれているか",
+      "PCE の減速が10月の FOMC の判断材料としてどう扱われるか",
+      "Strike の iOS 版と、10月に掲げた月間出来高5億ドルの目標"
+    ]
+  }
+}
