@@ -1,0 +1,99 @@
+{
+  "sessionId": "2026-09-30-europe-bridge",
+  "date": "2026-09-30",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-09-30-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-09-30-europe-bridge",
+  "publishedAt": "2026-10-01T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20260930_1203_e8daeadc",
+  "asOfJst": "2026-09-30T12:03:08+09:00",
+  "focusInstruments": [
+    "dxy",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 9月30日 12:03 JST",
+  "bullets": [
+    "DXY 101.200 → 101.338（+0.14%）",
+    "変動幅上位: NIGHT/USD +16.6% / WTI -3.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20260930_1240_175d0064",
+    "crawlAnchorJst": "2026-09-30T12:03:00+09:00",
+    "writtenAtJst": "2026-09-30T12:40:00+09:00",
+    "lead": "ワシントンは技術の呼び名から国家の物語を作り直しにかかった。大統領令で連邦の公式用語を「超知能」に切り替え、同じ日にテック企業トップとの自主規律の合意も打ち出した。市場の側では、米国の個人に無期限先物が届き、ブラジルの証券保管機関が公開チェーンを所有台帳に使い始めた。規制の言葉と金融の配管が、同時に書き換わっている。",
+    "items": [
+      {
+        "headline": "米政府、連邦の公式文書で「AI」を「超知能」と呼ぶ大統領令",
+        "sourceUrl": "https://x.com/mkratsios47/status/2105062312424206553",
+        "note": "科学技術担当の補佐官には60日以内に連邦としての定義案を出すよう求めた。既存の規制や契約は書き換えない。"
+      },
+      {
+        "headline": "トランプ大統領、テック企業トップとの AI 合意を発表",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/sep/29/trump-ai-deal-tech-ceos-superintelligence",
+        "note": "報道によれば中身は「道義的な拘束」にとどまる自主規律で、法的な強制力は示されていない。"
+      },
+      {
+        "headline": "ブラジルの中央証券保管機関 CSD BR、XRP Ledger で証券の所有記録を開始",
+        "sourceUrl": "https://x.com/Ripple/status/2105099333498777997",
+        "note": "免許を持つ保管機関が公開チェーンを所有台帳に使う事例として Ripple が発表した。"
+      },
+      {
+        "headline": "Robinhood、米国の利用者に無期限先物の提供を開始",
+        "sourceUrl": "https://x.com/RobinhoodApp/status/2105072490993119423",
+        "note": "満期がなく24時間取引でき、レバレッジは最大10倍。週末の株式取引も打ち出した。"
+      },
+      {
+        "headline": "Robinhood の無期限先物と週末の株式取引、米国向けに展開",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-09-29-robinhood-perps-trading-417242"
+      },
+      {
+        "headline": "Cardano のレンディング FluidTokens、攻撃を受けて一時停止",
+        "sourceUrl": "https://x.com/FluidTokens/status/2105099703599993084",
+        "note": "影響は限定的で、損失の出た少数の貸し手には返金するとしている。"
+      },
+      {
+        "headline": "FluidTokens、攻撃者を遮断したと続報",
+        "sourceUrl": "https://x.com/FluidTokens/status/2105117787760844990",
+        "note": "スマートコントラクトの脆弱性によるものではないと説明した。原因の詳細はまだ示されていない。"
+      },
+      {
+        "headline": "Fireblocks が Cardano のネイティブトークンに対応",
+        "sourceUrl": "https://x.com/IOGroup/status/2105032468860404038",
+        "note": "機関が既存の保管・送金・権限管理の仕組みで Cardano のトークンを扱えるようになる。"
+      },
+      {
+        "headline": "Chainlink、金融機関を Swift 経由でブロックチェーンにつなぐ取り組みを発表",
+        "sourceUrl": "https://x.com/chainlink/status/2104647756426227781"
+      },
+      {
+        "headline": "米財務省、メキシコのカルテルへの資金供給者を制裁対象に",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2105035992415551571",
+        "note": "Operation Economic Outcast の下で締め付けを続けると表明した。"
+      },
+      {
+        "headline": "ホルムズ海峡の通航量、戦前の水準に近づく",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/29/hormuz-traffic-nears-prewar-levels-iran-war-simmers/"
+      },
+      {
+        "headline": "Bitwise、米国初の NEAR 現物 ETF を上場",
+        "sourceUrl": "https://decrypt.co/379612/bitwise-launches-first-spot-near-etf"
+      },
+      {
+        "headline": "SpaceX、NROL-97 に向け Falcon Heavy を射点へ移動",
+        "sourceUrl": "https://x.com/SpaceX/status/2105107345852522585"
+      },
+      {
+        "headline": "Input Output の週次開発報告、Leios のデータベース分割などを記載",
+        "sourceUrl": "https://x.com/IOGroup/status/2103466672069730491"
+      }
+    ],
+    "watch": [
+      "超知能の連邦定義案（60日以内）が、規制や政府調達の対象範囲をどこまで広げるか",
+      "Robinhood の無期限先物に続く米国ブローカーの動きと、海外の取引所からの流動性の移り方",
+      "FluidTokens の原因説明と返金の完了"
+    ]
+  }
+}
