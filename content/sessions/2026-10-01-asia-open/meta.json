@@ -1,0 +1,176 @@
+{
+  "sessionId": "2026-10-01-asia-open",
+  "date": "2026-10-01",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-01-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-01-asia-open",
+  "publishedAt": "2026-10-02T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261001_0730_cf936491",
+  "asOfJst": "2026-10-01T07:30:15+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月1日 07:30 JST",
+  "bullets": [
+    "日経平均先物 66,355 → 67,170（+1.23%）",
+    "変動幅上位: NIGHT/USD +21.8% / VIX +1.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261001_0554_96c54806",
+    "crawlAnchorJst": "2026-10-01T05:03:00+09:00",
+    "writtenAtJst": "2026-10-01T05:54:26+09:00",
+    "lead": "この時間帯の軸は、ステーブルコインが発行体どうしの競争から共有インフラへ移る動きだ。Open USD が Solana・Base・Uniswap で稼働を始め、Chainlink のオラクル採用や Aave への上場提案が同じ日に並んだ。米上院では少額のステーブルコイン決済を非課税とする税制法案が出たと報じられ、発行・流通・課税の三面が同じ方向に動いている。マクロでは米インフレ指標が予想を下回ったと伝えられ、現物ビットコイン ETF の流入も続くが、価格は 8.5 万ドル付近の売りの壁で足踏みしている。",
+    "items": [
+      {
+        "headline": "Open USD（OUSD）が Solana で稼働開始、準備金は BlackRock・Lead Bank・BNY に置く",
+        "sourceUrl": "https://x.com/solana/status/2105340880991519072",
+        "note": "発行は Stablecoin 社。企業は BVNK・Stripe・Visa のステーブルコイン基盤を通じて 1:1 で無償のミント・バーンができる。"
+      },
+      {
+        "headline": "Open USD、Stripe の既定ステーブルコインとして始動と報じられる",
+        "sourceUrl": "https://thedefiant.io/converge/tradfi-and-fintech/open-usd-launches-as-stripe-s-default-stablecoin"
+      },
+      {
+        "headline": "OUSD が Base でも稼働し流動性がついたと Base が告知",
+        "sourceUrl": "https://x.com/base/status/2105366796265984442"
+      },
+      {
+        "headline": "Uniswap、OUSD がプロトコル・アプリ・API で利用可能になったと発表",
+        "sourceUrl": "https://x.com/Uniswap/status/2105367521721233629",
+        "note": "Uniswap Labs は Open Standard と新しい v4 フックも共同開発中としている。"
+      },
+      {
+        "headline": "Open Standard、OUSD の公式データオラクルに Chainlink を採用",
+        "sourceUrl": "https://x.com/chainlink/status/2105372616542368211"
+      },
+      {
+        "headline": "Aave、OUSD を V3 Core と V4 Core に上場させる提案を公開",
+        "sourceUrl": "https://x.com/aave/status/2105315320806404160"
+      },
+      {
+        "headline": "Pi Network、Open USD を運営する Open Standard との提携を発表",
+        "sourceUrl": "https://x.com/PiCoreTeam/status/2105353237750833470",
+        "note": "Open Standard には Visa・Google・Stripe を含む 200 超のパートナーが参加しているとしている。"
+      },
+      {
+        "headline": "ダインズ上院議員、56 ページの暗号資産税制法案を提出と報じられる",
+        "sourceUrl": "https://x.com/coinbureau/status/2105361740254822756",
+        "note": "少額のステーブルコイン決済の非課税化やウォッシュセール規制の導入を含むとされ、ティム・スコット銀行委員長やルミス議員らが支持していると伝えられる。"
+      },
+      {
+        "headline": "米国の主要インフレ指標が予想を下回り、FRB への圧力が和らいだと報じられる",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/sep/30/key-inflation-reading-comes-cooler-expected-easing-pressure-fed-trump/"
+      },
+      {
+        "headline": "クリーブランド連銀、8 月の中央値 PCE インフレ率を前月比 0.2%・前年比 2.6% と公表",
+        "sourceUrl": "https://x.com/ClevelandFed/status/2105320290402066933"
+      },
+      {
+        "headline": "FRB の監察官、本部改修をめぐりパウエル議長に刑事上の不正はないと結論と報じられる",
+        "sourceUrl": "https://x.com/axios/status/2105355930565288271"
+      },
+      {
+        "headline": "ラガルド ECB 総裁、任期満了より数か月早く退任する可能性に触れたと報じられる",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/geldpolitik-ezb-praesidentin-lagarde-koennte-paar-monate-frueher-abtreten/100258774.html"
+      },
+      {
+        "headline": "米国の現物ビットコイン ETF、9 営業日連続の資金流入と報じられる",
+        "sourceUrl": "https://decrypt.co/379731/bitcoin-etf-9-day-streak-august-rally",
+        "note": "連続日数は 8 月の上昇局面に並んだとされる。"
+      },
+      {
+        "headline": "Glassnode、ビットコインは 8.5 万ドル付近で売りの壁に当たっていると分析",
+        "sourceUrl": "https://x.com/glassnode/status/2105306775679541311"
+      },
+      {
+        "headline": "Bitget のホット・ウォームウォレットから 3.875 億ドルが流出したと報じられる",
+        "sourceUrl": "https://x.com/RektHQ/status/2105349500768546822",
+        "note": "第三者のセキュリティ製品を突破してウォレットシステムに到達されたとされる。Bitget は鍵の流出はないとしている。"
+      },
+      {
+        "headline": "Chainlink、銀行や運用会社向けのクロスチェーン担保・融資基盤 Fulcrum を始動と報じられる",
+        "sourceUrl": "https://x.com/CoinDesk/status/2105308019185582156",
+        "note": "公開・非公開のブロックチェーンをまたいで、24 時間の担保移動と日中融資を可能にするとされる。"
+      },
+      {
+        "headline": "Chainlink 共同創業者、Sibos で CCIP 2.0 の機関向け機能への反応が良好と説明",
+        "sourceUrl": "https://x.com/SergeyNazarov/status/2105280564555092288"
+      },
+      {
+        "headline": "Anchorage、Western Union のステーブルコイン USDPT を発行体として紹介",
+        "sourceUrl": "https://x.com/Anchorage/status/2105300645465170148"
+      },
+      {
+        "headline": "Base、条件付きトランザクションと B20 資産機能を加える Cobalt アップグレードを実施と報じられる",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-09-30-base-launches-cobalt-upgrade-with-conditional-transactions-and-new-b20-asset-functions-417308"
+      },
+      {
+        "headline": "DogeOS、Dogecoin に EVM スマートコントラクトを持ち込むテストネットを公開と報じられる",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-09-30-dogeos-launches-public-testnet-dogecoin-zk-rollup-evm-417307"
+      },
+      {
+        "headline": "Stacks 創業者のムニーブ・アリ氏、10 月 15 日に Stacks Labs の CEO に就任",
+        "sourceUrl": "https://x.com/Stacks/status/2105302890374168968"
+      },
+      {
+        "headline": "日立、9 月 30 日付で Hedera Council での任務を終了",
+        "sourceUrl": "https://x.com/hedera/status/2105327837888848177"
+      },
+      {
+        "headline": "CFTC、州の賭博規制と対立しうるイベント契約の定義づくりを進めると報じられる",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/09/30/u-s-cftc-seeks-event-contract-definitions-that-may-defy-states-gambling-claims"
+      },
+      {
+        "headline": "Google DeepMind、新たなフロンティアモデル Gemini 4 Argon を発表",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2105388084154056939",
+        "note": "コーディング、企業の知識業務、サイバー防御を想定。まず Fairwind Program の限定テスターに提供する。"
+      },
+      {
+        "headline": "Hugging Face へのハッキングの原因になったとして、OpenAI に開発停止を求める訴訟と報じられる",
+        "sourceUrl": "https://arstechnica.com/tech-policy/2026/09/lawsuit-demands-openai-halt-unsafe-development-that-caused-hugging-face-hack/"
+      },
+      {
+        "headline": "Minswap、CIP-113 対応コントラクトをテスト中で近く稼働と表明",
+        "sourceUrl": "https://x.com/MinswapDEX/status/2105382993237868683",
+        "note": "CIP-113 は Cardano のネイティブ資産にプログラム可能なロジックを加える規格で、マージ済みと伝えられている。"
+      },
+      {
+        "headline": "Cardano PRIME、RFP の締め切りを 2 週間延長し 10 月 14 日に",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2105388972755333293"
+      },
+      {
+        "headline": "DRep Council のプラットフォームで初の提案が承認されたと告知",
+        "sourceUrl": "https://x.com/JaromirTesar/status/2105316595426029669",
+        "note": "次は理事の選出投票に進むとしている。"
+      },
+      {
+        "headline": "金融庁、「AI 時代を見据えたオンチェーン金融フォーラム」の議事次第と配布資料を公開",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2105161288842408335"
+      },
+      {
+        "headline": "KDDI ら、au PAY で暗号資産ウォレットの提供を始めたと報じられる",
+        "sourceUrl": "https://x.com/anpota_info/status/2105236239914016805",
+        "note": "Ponta ポイントを JPYC・WBTC・ETH に交換でき、保有資産から au PAY 残高へのチャージにも対応するとされる。"
+      },
+      {
+        "headline": "トランプ大統領、最後の米軍部隊がイラクから撤収すると発表",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2105348930762318132",
+        "note": "ISIS に対する「決定的な勝利」と位置づけた。約 20 年に及んだ米軍駐留の区切りになる。"
+      },
+      {
+        "headline": "SpaceX、Starship Flight 14 を発信。Starbase からの朝の打ち上げは Flight 5 以来と説明",
+        "sourceUrl": "https://x.com/SpaceX/status/2105352066424017118"
+      }
+    ],
+    "watch": [
+      "Aave の OUSD 上場提案の行方と、ほかの DeFi・決済網への追加展開",
+      "ダインズ法案の条文と、上院銀行委員会での扱い",
+      "ビットコインが 8.5 万ドル付近の売りの壁を抜けられるか、ETF の連続流入が続くか"
+    ]
+  }
+}
