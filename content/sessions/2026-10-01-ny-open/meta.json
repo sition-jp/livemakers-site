@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-10-01-ny-open",
+  "date": "2026-10-01",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-01-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-01-ny-open",
+  "publishedAt": "2026-10-02T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261001_1803_5e0e90b9",
+  "asOfJst": "2026-10-01T18:03:09+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月1日 18:03 JST",
+  "bullets": [
+    "S&P 500 7,670.84 → 7,651.54（-0.25%）",
+    "変動幅上位: NIGHT/USD +27.5% / VIX +3.5%"
+  ]
+}
