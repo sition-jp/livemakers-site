@@ -5,21 +5,25 @@ import { pageWindow, seriesPageHref } from "@/lib/articles/series-pagination";
  * シリーズ一覧のページ送り。並びは新しい順なので、← が新しい記事 (前のページ)・
  * → が古い記事 (次のページ)。全リンクは通常の <a> で、クローラがたどれる。
  * 1 ページしかないシリーズでは何も描かない。
+ * `hrefFor` を渡すとリンク先を差し替えられる (検索結果 /search?q=…&page=n で共用)。
  */
 export function SeriesPagination({
   series,
   page,
   totalPages,
   copy,
+  hrefFor,
 }: {
   series: string;
   page: number;
   totalPages: number;
   copy: { label: string; newer: string; older: string };
+  hrefFor?: (page: number) => string;
 }) {
   if (totalPages <= 1) {
     return null;
   }
+  const hrefOf = hrefFor ?? ((number: number) => seriesPageHref(series, number));
   const stepClass =
     "rounded-sm border border-border-primary px-3 py-1.5 text-text-secondary transition-colors hover:bg-bg-tertiary hover:text-text-primary";
 
@@ -30,7 +34,7 @@ export function SeriesPagination({
       className="mt-8 flex flex-wrap items-center justify-center gap-2 font-mono text-xs"
     >
       {page > 1 && (
-        <Link href={seriesPageHref(series, page - 1)} rel="prev" className={stepClass}>
+        <Link href={hrefOf(page - 1)} rel="prev" className={stepClass}>
           {copy.newer}
         </Link>
       )}
@@ -50,7 +54,7 @@ export function SeriesPagination({
         ) : (
           <Link
             key={number}
-            href={seriesPageHref(series, number)}
+            href={hrefOf(number)}
             className="min-w-8 rounded-sm border border-border-primary px-2 py-1.5 text-center text-text-secondary transition-colors hover:bg-bg-tertiary hover:text-text-primary"
           >
             {number}
@@ -58,7 +62,7 @@ export function SeriesPagination({
         ),
       )}
       {page < totalPages && (
-        <Link href={seriesPageHref(series, page + 1)} rel="next" className={stepClass}>
+        <Link href={hrefOf(page + 1)} rel="next" className={stepClass}>
           {copy.older}
         </Link>
       )}

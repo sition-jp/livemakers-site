@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/LogoMark";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
+import { SearchBar } from "@/components/search/SearchBar";
+import { SearchIcon } from "@/components/search/SearchIcon";
 import { buildFlatNav } from "@/lib/home/nav-model";
 
 /**
@@ -16,11 +18,38 @@ import { buildFlatNav } from "@/lib/home/nav-model";
  * 非表示 (日本語版のみ稼働中、EN 導線は読者を迷わせるため)。
  * ロゴ横の段階バッジは 2026-09-21 田平氏指示で ALPHA → ベータ版 (nav.stage)。
  * ナビ順の正本 = buildFlatNav。
+ * 検索 (2026-10-02 田平氏 GO): 🔍 ボタンは nav の外・右端 (スマホは ☰ の左)。
+ * 押すか `/` キーでヘッダー直下に検索バーを開く。☰ パネルとは同時に開かない。
  */
 export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("nav");
+  const tSearch = useTranslations("search");
   const nav = buildFlatNav(futureAtlasNav);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+
+  // `/` で検索を開く (入力欄・textarea・contenteditable にいる時と修飾キー付きは無視)
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
+      ) {
+        return;
+      }
+      event.preventDefault();
+      setMobileOpen(false);
+      setSearchOpen(true);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
@@ -40,34 +69,64 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           </span>
         </Link>
 
-        {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
-        <nav
-          className="ml-auto hidden flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex"
-          aria-label="primary"
-        >
-          {nav.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
-            >
-              {t(item.key)}
-            </Link>
-          ))}
-        </nav>
+        {/* ナビ + 検索をひと塊で右寄せ。🔍 は nav の外だが同じ箱に入れ、ナビが
+            ロゴの下へ回り込む幅 (≤1280px) でも 🔍 だけが次の行に落ちないようにする。
+            スマホ (lg 未満) はナビが隠れ、🔍 が ☰ の左隣になる */}
+        <div className="ml-auto flex min-w-0 items-center gap-x-4">
+          {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
+          <nav
+            className="hidden min-w-0 flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex"
+            aria-label="primary"
+          >
+            {nav.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
+              >
+                {t(item.key)}
+              </Link>
+            ))}
+          </nav>
+
+          <button
+            ref={searchButtonRef}
+            type="button"
+            className="shrink-0 text-text-secondary hover:text-text-primary"
+            aria-expanded={searchOpen}
+            aria-controls="site-search"
+            aria-label={tSearch("button")}
+            onClick={() => {
+              setMobileOpen(false);
+              setSearchOpen((open) => !open);
+            }}
+          >
+            <SearchIcon className="h-4 w-4" />
+          </button>
+        </div>
 
         {/* Mobile disclosure (lg 未満) — 同一順のフラットリスト */}
         <button
           type="button"
-          className="ml-auto text-text-secondary hover:text-text-primary lg:hidden"
+          className="text-text-secondary hover:text-text-primary lg:hidden"
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-label={t("menu")}
-          onClick={() => setMobileOpen((open) => !open)}
+          onClick={() => {
+            setSearchOpen(false);
+            setMobileOpen((open) => !open);
+          }}
         >
           <span aria-hidden="true">☰</span>
         </button>
       </div>
+
+      {searchOpen ? (
+        <SearchBar
+          onClose={() => setSearchOpen(false)}
+          returnFocusRef={searchButtonRef}
+        />
+      ) : null}
 
       {mobileOpen ? (
         <div
