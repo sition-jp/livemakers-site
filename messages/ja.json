@@ -574,6 +574,12 @@
     "seriesTitle": "シリーズ一覧",
     "futureAtlasGuide": "未来アトラスを見る →",
     "briefArchiveNote": "これまでの Weekly Brief アーカイブはこちら",
+    "pagination": {
+      "label": "ページ送り",
+      "newer": "← 新しい記事",
+      "older": "古い記事 →",
+      "pageOf": "{page} / {total} ページ"
+    },
     "detail": {
       "tocTitle": "目次",
       "prevLabel": "前の{series}",

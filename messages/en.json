@@ -574,6 +574,12 @@
     "seriesTitle": "Series",
     "futureAtlasGuide": "View Future Atlas →",
     "briefArchiveNote": "Browse the Weekly Brief archive",
+    "pagination": {
+      "label": "Pagination",
+      "newer": "← Newer",
+      "older": "Older →",
+      "pageOf": "Page {page} of {total}"
+    },
     "detail": {
       "tocTitle": "Contents",
       "prevLabel": "Previous {series}",
