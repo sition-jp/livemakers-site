@@ -946,5 +946,23 @@
     "cookieBody": "This site does not set tracking cookies.",
     "contactTitle": "Contact",
     "contactBody": "For questions about this policy, please reach us via the contact page."
+  },
+  "search": {
+    "button": "Search",
+    "close": "Close search",
+    "label": "Site search",
+    "placeholder": "Search articles (e.g. Midnight, ETF)",
+    "submit": "Search",
+    "pageTitle": "Search articles",
+    "resultsHeading": "Results for \"{q}\"",
+    "count": "{count} results",
+    "all": "All",
+    "familyFilterLabel": "Filter by series",
+    "titleTier": "Title matches",
+    "otherTier": "Other matches",
+    "empty": "No articles matched \"{q}\".",
+    "emptyHint": "Try a shorter or different keyword, or browse by series.",
+    "promptHint": "Enter a keyword to search, or browse by series.",
+    "seriesHeading": "Browse by series"
   }
 }

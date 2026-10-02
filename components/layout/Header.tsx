@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/LogoMark";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
+import { SearchBar } from "@/components/search/SearchBar";
+import { SearchIcon } from "@/components/search/SearchIcon";
 import { buildFlatNav } from "@/lib/home/nav-model";
 
 /**
@@ -16,11 +18,38 @@ import { buildFlatNav } from "@/lib/home/nav-model";
  * 非表示 (日本語版のみ稼働中、EN 導線は読者を迷わせるため)。
  * ロゴ横の段階バッジは 2026-09-21 田平氏指示で ALPHA → ベータ版 (nav.stage)。
  * ナビ順の正本 = buildFlatNav。
+ * 検索 (2026-10-02 田平氏 GO): 🔍 ボタンは nav の外・右端 (スマホは ☰ の左)。
+ * 押すか `/` キーでヘッダー直下に検索バーを開く。☰ パネルとは同時に開かない。
  */
 export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("nav");
+  const tSearch = useTranslations("search");
   const nav = buildFlatNav(futureAtlasNav);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
+
+  // `/` で検索を開く (入力欄・textarea・contenteditable にいる時と修飾キー付きは無視)
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+      const target = event.target as HTMLElement | null;
+      if (
+        target &&
+        (target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName))
+      ) {
+        return;
+      }
+      event.preventDefault();
+      setMobileOpen(false);
+      setSearchOpen(true);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border-primary bg-bg-primary/95 backdrop-blur">
@@ -56,18 +85,44 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           ))}
         </nav>
 
+        {/* 検索 — PC はナビの後ろ (右端)、スマホは ml-auto で右へ寄せて ☰ の左隣 */}
+        <button
+          ref={searchButtonRef}
+          type="button"
+          className="ml-auto text-text-secondary hover:text-text-primary lg:ml-0"
+          aria-expanded={searchOpen}
+          aria-controls="site-search"
+          aria-label={tSearch("button")}
+          onClick={() => {
+            setMobileOpen(false);
+            setSearchOpen((open) => !open);
+          }}
+        >
+          <SearchIcon className="h-4 w-4" />
+        </button>
+
         {/* Mobile disclosure (lg 未満) — 同一順のフラットリスト */}
         <button
           type="button"
-          className="ml-auto text-text-secondary hover:text-text-primary lg:hidden"
+          className="text-text-secondary hover:text-text-primary lg:hidden"
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           aria-label={t("menu")}
-          onClick={() => setMobileOpen((open) => !open)}
+          onClick={() => {
+            setSearchOpen(false);
+            setMobileOpen((open) => !open);
+          }}
         >
           <span aria-hidden="true">☰</span>
         </button>
       </div>
+
+      {searchOpen ? (
+        <SearchBar
+          onClose={() => setSearchOpen(false)}
+          returnFocusRef={searchButtonRef}
+        />
+      ) : null}
 
       {mobileOpen ? (
         <div
