@@ -49,4 +49,12 @@ describe("home instrument registry (spec 2026-10-02 §4-1)", () => {
     expect(LANE_ROWS.rwa.map((row) => row.instrumentId)).toEqual(["rwa_tvl"]);
     expect(() => assertLaneRowsExcludeCore(LANE_ROWS)).not.toThrow();
   });
+
+  it("assertLaneRowsExcludeCore throws when a lane duplicates a core instrument", () => {
+    const rows = {
+      ...LANE_ROWS,
+      macro: [...LANE_ROWS.macro, { instrumentId: "btc_vol" as const, nameJa: "x" }],
+    };
+    expect(() => assertLaneRowsExcludeCore(rows)).toThrow(/duplicates core instrument: btc_vol/);
+  });
 });
