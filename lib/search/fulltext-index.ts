@@ -20,6 +20,14 @@ export type FullTextIndex = {
   complete: boolean;
 };
 
+export const FULLTEXT_SEARCH_FLAG_ENV_KEY = "LIVEMAKERS_SEARCH_FULLTEXT_ENABLED";
+
+/** 本文検索の段階有効化 (SDE が shard を出し始めてから Vercel env で on) */
+export function isFullTextSearchEnabled(): boolean {
+  const value = process.env[FULLTEXT_SEARCH_FLAG_ENV_KEY];
+  return value === "1" || value === "true";
+}
+
 export const FULLTEXT_SHARD_FETCH_TIMEOUT_MS = 8_000;
 const FULLTEXT_SHARD_FETCH_ATTEMPTS = 2;
 

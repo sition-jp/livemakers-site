@@ -43,6 +43,12 @@ const ARTICLE_LANE_REDIRECTS = [
 ] as const;
 
 const nextConfig = {
+  // サイト内検索 第2段階 (2026-10-02): 検索ページは repo 記事の本文
+  // (content/articles/<slug>/ja.md) を実行時に読む。記事ページとは別の関数に
+  // なるので、本文ファイルを確実に同梱する
+  outputFileTracingIncludes: {
+    "/[locale]/search": ["./content/articles/**/*.md"],
+  },
   async redirects() {
     return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
       // locale 付き (X 告知が指しているのはこちら)

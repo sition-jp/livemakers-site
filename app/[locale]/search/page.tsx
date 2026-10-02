@@ -27,10 +27,17 @@ import {
   type RawSearchParams,
 } from "@/lib/search/parse-query";
 import {
+  isFullTextSearchEnabled,
+  loadFullTextIndex,
+} from "@/lib/search/fulltext-index";
+import {
+  SEARCH_TIERS,
   countByFamily,
   searchArticles,
   type SearchHit,
+  type SearchTier,
 } from "@/lib/search/search-articles";
+import { bodySnippet } from "@/lib/search/snippet";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -44,6 +51,9 @@ type PageProps = {
  * 載っているので毎回 Blob へは行かない。検索語は記録しない (プライバシーページ)。
  * noindex,follow・canonical は q なし。robots.ts の disallow には入れない
  * (Google に noindex を読ませるため)。
+ * 第2段階 (本文検索): env LIVEMAKERS_SEARCH_FULLTEXT_ENABLED の時だけ本文索引を
+ * 読み、「本文に一致」を 3 つ目の群に足す。索引が欠けたらタイトル/抜粋で返し、
+ * その旨を 1 行出す。
  */
 export async function generateMetadata({
   params,
@@ -58,6 +68,12 @@ export async function generateMetadata({
     alternates: { canonical: `/${locale}/search` },
   };
 }
+
+const TIER_LABEL_KEYS: Record<SearchTier, "titleTier" | "otherTier" | "bodyTier"> = {
+  title: "titleTier",
+  meta: "otherTier",
+  body: "bodyTier",
+};
 
 function SeriesLinks({
   heading,
@@ -102,10 +118,18 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
     articles: catalog.articles,
   });
 
+  const fullText =
+    terms.length > 0 && isFullTextSearchEnabled()
+      ? await loadFullTextIndex(catalog)
+      : null;
+  const bodyTexts = fullText
+    ? new Map([...fullText.texts].map(([slug, entry]) => [slug, entry.norm]))
+    : undefined;
   const allHits = searchArticles(
     catalog.articles,
     terms,
     resolveTodayJst(new Date()),
+    bodyTexts,
   );
   const counts = countByFamily(allHits);
   // 該当 0 件の種別 (語を変えた後に残った family 等) は「すべて」扱い — 空の一覧を見せない
@@ -115,12 +139,14 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
     : allHits;
   // 範囲外ページは 1 ページ目 (検索語を変えた直後に 404 を見せない)
   const current = paginateSeries(hits, page) ?? paginateSeries(hits, 1)!;
-  const showTiers =
-    hits.some((hit) => hit.titleMatch) && hits.some((hit) => !hit.titleMatch);
-  const tiers: { key: "titleTier" | "otherTier"; items: SearchHit[] }[] = [
-    { key: "titleTier", items: current.items.filter((hit) => hit.titleMatch) },
-    { key: "otherTier", items: current.items.filter((hit) => !hit.titleMatch) },
-  ];
+  // 見出しは 2 群以上ある時だけ (1 群なら区切る意味がない)
+  const showTiers = new Set(hits.map((hit) => hit.tier)).size > 1;
+  const tiers: { tier: SearchTier; items: SearchHit[] }[] = SEARCH_TIERS.map(
+    (tier) => ({
+      tier,
+      items: current.items.filter((hit) => hit.tier === tier),
+    }),
+  );
   const latestYear = hits[0]?.article.publishedAtJst.slice(0, 4) ?? "";
   const tabClass =
     "rounded-sm border px-2.5 py-1 font-mono text-[11px] transition-colors";
@@ -156,6 +182,15 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
             {t("submit")}
           </button>
         </form>
+
+        {fullText && !fullText.complete ? (
+          <p
+            data-testid="fulltext-unavailable"
+            className="mt-3 text-xs text-text-tertiary"
+          >
+            {t("fulltextUnavailable")}
+          </p>
+        ) : null}
 
         {terms.length === 0 ? (
           <>
@@ -205,10 +240,13 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
             <div className="mt-4">
               {tiers.map((tier) =>
                 tier.items.length === 0 ? null : (
-                  <div key={tier.key} data-search-tier={tier.key}>
+                  <div
+                    key={tier.tier}
+                    data-search-tier={TIER_LABEL_KEYS[tier.tier]}
+                  >
                     {showTiers ? (
                       <p className="mt-6 px-3 font-mono text-[10px] uppercase tracking-label text-text-tertiary">
-                        {t(tier.key)}
+                        {t(TIER_LABEL_KEYS[tier.tier])}
                       </p>
                     ) : null}
                     {groupByJstDate(tier.items.map((hit) => hit.article)).map(
@@ -219,14 +257,23 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
                               {formatDateHeading(group.date, locale, latestYear)}
                             </time>
                           </h2>
-                          {group.items.map((article) => (
-                            <SearchResultRow
-                              key={article.articleId}
-                              article={article}
-                              familyLabel={familyLabel(article.family)}
-                              terms={terms}
-                            />
-                          ))}
+                          {group.items.map((article) => {
+                            const body =
+                              tier.tier === "body"
+                                ? fullText?.texts.get(article.articleId)
+                                : undefined;
+                            return (
+                              <SearchResultRow
+                                key={article.articleId}
+                                article={article}
+                                familyLabel={familyLabel(article.family)}
+                                terms={terms}
+                                snippet={
+                                  body ? bodySnippet(body.raw, terms) : undefined
+                                }
+                              />
+                            );
+                          })}
                         </section>
                       ),
                     )}

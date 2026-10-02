@@ -3,7 +3,15 @@ import { render, screen, within } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-const mocks = vi.hoisted(() => ({ articles: [] as unknown[] }));
+const mocks = vi.hoisted(() => ({
+  articles: [] as unknown[],
+  fullTextEnabled: false,
+  fullText: {
+    texts: new Map<string, { raw: string; norm: string }>(),
+    complete: true,
+  },
+  loadFullTextIndex: vi.fn(),
+}));
 
 vi.mock("next-intl/server", () => ({
   setRequestLocale: vi.fn(),
@@ -43,6 +51,11 @@ vi.mock("@/lib/articles/latest-articles-rail", () => ({
 
 vi.mock("@/lib/home/resolve-today", () => ({
   resolveTodayJst: () => "2026-10-02",
+}));
+
+vi.mock("@/lib/search/fulltext-index", () => ({
+  isFullTextSearchEnabled: () => mocks.fullTextEnabled,
+  loadFullTextIndex: mocks.loadFullTextIndex,
 }));
 
 import SearchPage, { generateMetadata } from "@/app/[locale]/search/page";
@@ -88,6 +101,15 @@ beforeEach(() => {
     a("s2", "signal", "Midnight 続報", "2026-09-30T08:00:00+09:00"),
     a("x1", "signal", "無関係", "2026-09-30T07:00:00+09:00"),
   ];
+  mocks.fullTextEnabled = false;
+  mocks.fullText = {
+    texts: new Map([
+      ["x1", { raw: "前置き。本文で Midnight を論じる。結び。", norm: "前置き。本文で midnight を論じる。結び。" }],
+    ]),
+    complete: true,
+  };
+  mocks.loadFullTextIndex.mockReset();
+  mocks.loadFullTextIndex.mockImplementation(async () => mocks.fullText);
 });
 
 describe("/search page (2026-10-02 spec)", () => {
@@ -159,6 +181,42 @@ describe("/search page (2026-10-02 spec)", () => {
   it("falls back to page 1 for out-of-range pages", async () => {
     await renderSearch({ q: "midnight", page: "9" });
     expect(rowIds()).toEqual(["s1", "s2", "d1"]);
+  });
+});
+
+describe("/search full-text (phase 2)", () => {
+  it("does not load the index while the env flag is off", async () => {
+    await renderSearch({ q: "midnight" });
+    expect(mocks.loadFullTextIndex).not.toHaveBeenCalled();
+    expect(rowIds()).toEqual(["s1", "s2", "d1"]);
+  });
+
+  it("adds body matches as a third group with a highlighted snippet", async () => {
+    mocks.fullTextEnabled = true;
+    await renderSearch({ q: "midnight" });
+    expect(rowIds()).toEqual(["s1", "s2", "d1", "x1"]);
+    const bodyGroup = main().querySelector('[data-search-tier="bodyTier"]')!;
+    expect(within(bodyGroup as HTMLElement).getByText("bodyTier")).toBeTruthy();
+    const snippet = bodyGroup.querySelector("[data-search-snippet]")!;
+    expect(snippet.textContent).toBe("前置き。本文で Midnight を論じる。結び。");
+    expect(snippet.querySelector("mark")?.textContent).toBe("Midnight");
+    expect(screen.queryByTestId("fulltext-unavailable")).toBeNull();
+  });
+
+  it("says so when the index is incomplete", async () => {
+    mocks.fullTextEnabled = true;
+    mocks.fullText = { texts: new Map(), complete: false };
+    await renderSearch({ q: "midnight" });
+    expect(screen.getByTestId("fulltext-unavailable").textContent).toBe(
+      "fulltextUnavailable",
+    );
+    expect(rowIds()).toEqual(["s1", "s2", "d1"]);
+  });
+
+  it("skips the index when there is no query", async () => {
+    mocks.fullTextEnabled = true;
+    await renderSearch({});
+    expect(mocks.loadFullTextIndex).not.toHaveBeenCalled();
   });
 });
 

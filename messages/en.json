@@ -963,6 +963,8 @@
     "empty": "No articles matched \"{q}\".",
     "emptyHint": "Try a shorter or different keyword, or browse by series.",
     "promptHint": "Enter a keyword to search, or browse by series.",
-    "seriesHeading": "Browse by series"
+    "seriesHeading": "Browse by series",
+    "bodyTier": "Body matches",
+    "fulltextUnavailable": "Full-text search is temporarily unavailable; showing title and excerpt matches."
   }
 }
