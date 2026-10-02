@@ -4,13 +4,13 @@ import path from "node:path";
 import { z } from "zod";
 
 import {
-  CORE_12_INSTRUMENTS,
+  CORE_INSTRUMENTS,
   LANE_ROWS,
   type InstrumentId,
 } from "./instruments";
 
 const INSTRUMENT_IDS = [
-  ...CORE_12_INSTRUMENTS,
+  ...CORE_INSTRUMENTS,
   ...LANE_ROWS.macro.map((row) => row.instrumentId),
   ...LANE_ROWS.crypto.map((row) => row.instrumentId),
   ...LANE_ROWS.rwa.map((row) => row.instrumentId),

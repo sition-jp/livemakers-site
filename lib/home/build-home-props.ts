@@ -27,7 +27,7 @@ import {
 } from "@/lib/terminal/live-market-feed";
 import type { MarketTickerItem } from "@/lib/terminal/market-lanes";
 import {
-  CORE_12_INSTRUMENTS,
+  CORE_INSTRUMENTS,
   LANE_ROWS,
   type LaneId,
 } from "./instruments";
@@ -663,7 +663,7 @@ export function buildHomeCompositionProps(
   );
 
   const byInstrument = cellMap(snapshot.cells);
-  const coreCells = CORE_12_INSTRUMENTS.map(
+  const coreCells = CORE_INSTRUMENTS.map(
     (instrumentId) => byInstrument.get(instrumentId)!,
   );
   const laneCells = Object.fromEntries(
