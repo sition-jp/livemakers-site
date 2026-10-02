@@ -69,37 +69,41 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           </span>
         </Link>
 
-        {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
-        <nav
-          className="ml-auto hidden flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex"
-          aria-label="primary"
-        >
-          {nav.map((item) => (
-            <Link
-              key={item.key}
-              href={item.href}
-              className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
-            >
-              {t(item.key)}
-            </Link>
-          ))}
-        </nav>
+        {/* ナビ + 検索をひと塊で右寄せ。🔍 は nav の外だが同じ箱に入れ、ナビが
+            ロゴの下へ回り込む幅 (≤1280px) でも 🔍 だけが次の行に落ちないようにする。
+            スマホ (lg 未満) はナビが隠れ、🔍 が ☰ の左隣になる */}
+        <div className="ml-auto flex min-w-0 items-center gap-x-4">
+          {/* フラット 1 列ナビ (lg 以上・右寄せ — 2026-08-14 田平氏指示) */}
+          <nav
+            className="hidden min-w-0 flex-wrap items-center justify-end gap-x-4 gap-y-1 lg:flex"
+            aria-label="primary"
+          >
+            {nav.map((item) => (
+              <Link
+                key={item.key}
+                href={item.href}
+                className="text-xs tracking-tabs text-text-secondary hover:text-text-primary"
+              >
+                {t(item.key)}
+              </Link>
+            ))}
+          </nav>
 
-        {/* 検索 — PC はナビの後ろ (右端)、スマホは ml-auto で右へ寄せて ☰ の左隣 */}
-        <button
-          ref={searchButtonRef}
-          type="button"
-          className="ml-auto text-text-secondary hover:text-text-primary lg:ml-0"
-          aria-expanded={searchOpen}
-          aria-controls="site-search"
-          aria-label={tSearch("button")}
-          onClick={() => {
-            setMobileOpen(false);
-            setSearchOpen((open) => !open);
-          }}
-        >
-          <SearchIcon className="h-4 w-4" />
-        </button>
+          <button
+            ref={searchButtonRef}
+            type="button"
+            className="shrink-0 text-text-secondary hover:text-text-primary"
+            aria-expanded={searchOpen}
+            aria-controls="site-search"
+            aria-label={tSearch("button")}
+            onClick={() => {
+              setMobileOpen(false);
+              setSearchOpen((open) => !open);
+            }}
+          >
+            <SearchIcon className="h-4 w-4" />
+          </button>
+        </div>
 
         {/* Mobile disclosure (lg 未満) — 同一順のフラットリスト */}
         <button
