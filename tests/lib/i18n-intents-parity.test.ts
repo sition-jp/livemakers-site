@@ -45,6 +45,15 @@ describe("i18n intents namespace parity", () => {
     ).toBeTruthy();
   });
 
+  // 2026-10-02: sessions.prev / next が en だけ欠け、英語版セッション記事の
+  // 前後リンクが MISSING_MESSAGE になっていた (intents.* だけの検査では拾えない)
+  it("I18N-5: every message key exists in both en.json and ja.json", () => {
+    const en = collectKeys(enMessages).sort();
+    const ja = collectKeys(jaMessages).sort();
+    expect(ja.filter((key) => !en.includes(key))).toEqual([]);
+    expect(en.filter((key) => !ja.includes(key))).toEqual([]);
+  });
+
   it("I18N-4: public message payloads do not expose legacy rollout phases", () => {
     expect(JSON.stringify(enMessages)).not.toMatch(/Phase\s*2/i);
     expect(JSON.stringify(jaMessages)).not.toMatch(/Phase\s*2/i);
