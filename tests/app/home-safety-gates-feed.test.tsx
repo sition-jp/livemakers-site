@@ -434,7 +434,8 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     const focusExpected = props.focusSeries
       .filter((series) => series !== null)
       .map((series) => series!.seriesPacketId);
-    expect(focusExpected.length).toBeGreaterThanOrEqual(2);
+    // 2026-10-02: focus-series fixture は 0 件 → fixture 経路ではチャートも packet も出ない
+    expect(focusExpected).toHaveLength(0);
 
     for (const [region, modules] of Object.entries(REGION_MODULES)) {
       for (const module of modules) {

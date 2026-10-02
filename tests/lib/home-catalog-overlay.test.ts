@@ -132,10 +132,10 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
     expect(props.snapshot.pagePacketId).toContain("_fx01");
     // P0-1b (G44 Amendment A): the 2026-07-10 fixture session must not
     // present as live once the real date has moved past it. The focus
-    // fallback still renders fixture series with fixture provenance.
+    // fallback has no fixture series now (2026-10-02: focus-series fixture is empty).
     expect(props.live).toBeNull();
     expect(props.focusSessionSlug).toBe("asia-open");
-    expect(props.focusSeries.filter(Boolean).length).toBeGreaterThan(0);
+    expect(props.focusSeries.filter(Boolean)).toHaveLength(0);
     expect(Object.keys(props).sort()).toEqual([
       "asOfLabel",
       "coreCells",

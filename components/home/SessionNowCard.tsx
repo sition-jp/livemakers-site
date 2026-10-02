@@ -57,7 +57,9 @@ export function SessionNowCard({
   // 市場観測 RED の窓で読み解き digest だけから組まれたセッション。数値が
   // 無いので市場来歴 (reviewed_live 等) を主張せず、注記 1 行に置き換える。
   const digestOnly = record.observationStatus === "absent";
-  const [headline, ...restBullets] = record.bullets;
+  // P3 (Hyperliquid 移行) でセッション bullets が 0 件になりうる → titleJa へ。
+  const [firstBullet, ...restBullets] = record.bullets;
+  const headline = firstBullet ?? record.titleJa;
   const freshnessHm = record.asOfJst.slice(11, 16);
   const editorial = showEditorial ? record.editorial : undefined;
   // 2026-08-23 (田平氏 GO): the full-session CTA always targets the

@@ -72,7 +72,7 @@ export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 // with identical upstream data. This fetch runs in the [locale] layout, so
 // its revalidate becomes the ISR interval for EVERY page on the site —
 // 3600s matches the actual delivery cadence and cuts ISR writes ~12x.
-// Client-side live surfaces (/api/dashboard/live no-store, /api/ticker,
+// Client-side live surfaces (/api/dashboard/live no-store,
 // SWR polling) are unaffected.
 export const TERMINAL_FEED_REVALIDATE_SECONDS = 3600;
 

@@ -8,7 +8,6 @@ import { SessionFocusChart } from "@/components/home/SessionFocusChart";
 import { SessionNowCard } from "@/components/home/SessionNowCard";
 import {
   buildFocusSeries,
-  loadFocusSeriesRecords,
 } from "@/lib/sessions/focus-series";
 import { getSessionRecord } from "@/lib/sessions/session-content";
 
@@ -75,8 +74,13 @@ describe("lead group (ledger group 1)", () => {
   });
 
   it("renders one sparkline and series packet per available focus instrument", () => {
+    // 2026-10-02: 同梱 fixture は 0 件なので、描画経路は注入レコードで検証する
+    const records = ["nikkei_futures", "usd_jpy", "btc_usd"].flatMap((id, index) => [
+      { instrumentId: id, atJst: "2026-07-09T12:03:00+09:00", value: 100 + index },
+      { instrumentId: id, atJst: "2026-07-10T07:30:00+09:00", value: 102 + index },
+    ]);
     const series = ["nikkei_futures", "usd_jpy", "btc_usd"].map((id) =>
-      buildFocusSeries(loadFocusSeriesRecords(), id as never, {
+      buildFocusSeries(records, id as never, {
         windowEndJst: "2026-07-10T07:58:00+09:00",
       }),
     );
@@ -100,13 +104,13 @@ describe("lead group (ledger group 1)", () => {
     expect(
       screen.getByText(/series\.2026-07-10\.nikkei_futures/),
     ).toBeInTheDocument();
-    expect(screen.getByText("日経平均先物")).toBeInTheDocument();
-    expect(screen.getByText("USD/JPY")).toBeInTheDocument();
+    expect(screen.getByText("日経225（perp）")).toBeInTheDocument();
+    expect(screen.getByText("USD/JPY（perp）")).toBeInTheDocument();
     expect(screen.getByText("BTC/USD")).toBeInTheDocument();
     const labels = [
       ...container.querySelectorAll("[data-focus-instrument-label]"),
     ].map((element) => element.textContent ?? "");
-    expect(labels).toEqual(["日経平均先物", "USD/JPY", "BTC/USD"]);
+    expect(labels).toEqual(["日経225（perp）", "USD/JPY（perp）", "BTC/USD"]);
     expect(labels.some((label) => /[a-z]+_[a-z]+/.test(label))).toBe(false);
   });
 

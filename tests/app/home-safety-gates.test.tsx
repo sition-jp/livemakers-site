@@ -336,7 +336,8 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
     const focusExpected = props.focusSeries
       .filter((series) => series !== null)
       .map((series) => series!.seriesPacketId);
-    expect(focusExpected.length).toBeGreaterThanOrEqual(2);
+    // 2026-10-02: focus-series fixture は 0 件 → fixture 経路ではチャートも packet も出ない
+    expect(focusExpected).toHaveLength(0);
 
     // Exhaustive matrix over the gradient ledger: the four data-bearing modules
     // carry exactly their packets; every other module (hero / article / index)

@@ -46,5 +46,9 @@ describe("session registry v2 (G40 verbatim)", () => {
       "spx",
       "us10y",
     ]);
+    expect(getSessionBySlug("europe-bridge").defaultFocusInstruments).toEqual([
+      "eur_usd",
+      "us10y",
+    ]);
   });
 });

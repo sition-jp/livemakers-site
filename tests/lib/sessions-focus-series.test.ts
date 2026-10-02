@@ -10,14 +10,20 @@ import { getSessionBySlug } from "@/lib/sessions/session-registry";
 
 describe("focus series contract (G-e / D3)", () => {
   it("builds update-point steps inside the 24-hour window", () => {
+    // fixture は 0 件になったので、窓判定は注入レコードで検証する
+    const records = [
+      { instrumentId: "nikkei_futures", atJst: "2026-07-09T06:00:00+09:00", value: 68000 }, // 窓外 (25h58m 前)
+      { instrumentId: "nikkei_futures", atJst: "2026-07-09T12:03:00+09:00", value: 68020 },
+      { instrumentId: "nikkei_futures", atJst: "2026-07-09T23:03:00+09:00", value: 68480 },
+      { instrumentId: "nikkei_futures", atJst: "2026-07-10T07:30:00+09:00", value: 69035 },
+    ];
     const series = buildFocusSeries(
-      loadFocusSeriesRecords(),
+      records,
       "nikkei_futures",
       { windowEndJst: "2026-07-10T07:58:00+09:00" },
     );
     expect(series).not.toBeNull();
-    expect(series?.points.length).toBeGreaterThanOrEqual(2);
-    expect(series?.points.length).toBeLessThanOrEqual(6);
+    expect(series?.points).toHaveLength(3);
     expect(series?.seriesPacketId).toBe(
       "series.2026-07-10.nikkei_futures",
     );
@@ -29,9 +35,13 @@ describe("focus series contract (G-e / D3)", () => {
     );
   });
 
+  it("the shipped fixture holds no records, so no chart renders from it", () => {
+    expect(loadFocusSeriesRecords()).toEqual([]);
+  });
+
   it("returns null when fewer than two points exist", () => {
     expect(
-      buildFocusSeries([], "vix", {
+      buildFocusSeries([], "us10y", {
         windowEndJst: "2026-07-10T07:58:00+09:00",
       }),
     ).toBeNull();

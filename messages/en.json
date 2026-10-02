@@ -165,7 +165,7 @@
   "footer": {
     "brand": "LIVEMAKERS · SITION GROUP",
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
-    "dataSources": "Data: Koios · DefiLlama · CoinGecko · GitHub",
+    "dataSources": "Data: Koios · DefiLlama · Hyperliquid · U.S. Treasury · GitHub",
     "disclaimer": "Not investment advice. Information provided for learning and research.",
     "copyright": "© 2026 SITION Group",
     "editorialPolicy": "Editorial Policy",
@@ -427,7 +427,7 @@
       "source": "Source",
       "asOf": "as-of",
       "packet": "Packet ID",
-      "note": "Values are snapshots from the stated observation time."
+      "note": "Top-page market prices are Hyperliquid perpetual-futures prices (US 10Y from the U.S. Treasury)."
     },
     "masthead": {
       "title": "See Now ⇄ Read Today",
@@ -506,8 +506,8 @@
     "mkt12": {
       "groupTitle": "Two Faces of the Market",
       "groupSubtitle": "Current data and its interpretation",
-      "sectionTitle": "12 Core Indicators — Current Data and Today's Reading",
-      "jointLabel": "The same 12 instruments",
+      "sectionTitle": "10 core indicators — today's numbers and reading",
+      "jointLabel": "Market numbers",
       "articleTitle": "This Morning's 12 Indicators",
       "awaiting": "Today's 12 Indicators article is being prepared.",
       "previous": "Read the previous 12 Indicators →",
@@ -516,15 +516,15 @@
       "awaitingWeekend": "This weekend's edition is being prepared.",
       "previousWeekend": "Read the previous weekend's 12 Indicators →",
       "indicator": {
-        "title": "12 Core Indicators",
+        "title": "10 core indicators",
         "dataDatePrefix": "Data date",
         "snapshotBadge": "SNAPSHOT",
-        "scrollHint": "← Scroll horizontally for all 12 indicators (key indicators appear first)",
+        "scrollHint": "← Scroll horizontally for all 10 indicators (key indicators appear first)",
         "regimeLabel": "Today's regime"
       },
       "movers": {
         "title": "Largest moves",
-        "subtitle": "From the same 12-instrument dataset"
+        "subtitle": "From the same 10 instruments"
       }
     },
     "radar": {
@@ -546,7 +546,7 @@
       "macro": "MACRO",
       "crypto": "CRYPTO",
       "rwa": "RWA",
-      "subtitle": "Complementary data beyond the 12 indicators"
+      "subtitle": "Complementary data beyond the 10 core indicators"
     },
     "library": {
       "title": "Article Library — Cross-Series",

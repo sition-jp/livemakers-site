@@ -32,7 +32,7 @@ export const READER_SESSIONS = [
     nameEn: "Europe Bridge Terminal",
     nameJa: "昼 · アジアから欧州への橋渡し",
     updateTimeLabel: "12:03",
-    defaultFocusInstruments: ["dxy", "us10y"],
+    defaultFocusInstruments: ["eur_usd", "us10y"],
   },
   {
     slug: "ny-open",

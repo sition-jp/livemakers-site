@@ -320,12 +320,12 @@ describe("fetchLiveMarketData — transient failure retry (2026-08-23)", () => {
 });
 
 describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
-  it("maps the exact 18 cells and focus-session series", () => {
+  it("maps the exact 15 cells and focus-session series", () => {
     const data = mapTerminalFeed(sampleHomeV02());
     expect(data).not.toBeNull();
     expect(data?.home?.pagePacketId).toBe("lmk_20260712_0730_a1");
     expect(data?.home?.marketPacketId).toBe("mkt12_20260712_am");
-    expect(data?.home?.cells).toHaveLength(18);
+    expect(data?.home?.cells).toHaveLength(15);
     expect(data?.home?.focusSession.focusInstruments).toEqual([
       "btc_usd",
       "usd_jpy",
@@ -334,8 +334,8 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
     expect(data?.home?.focusSession.series[0]).toMatchObject({
       instrumentId: "btc_usd",
       seriesPacketId: "series.2026-07-12.btc_usd",
-      baseValue: 61520,
-      lastValue: 63299,
+      baseValue: 83540,
+      lastValue: 84880,
       sourceMode: "reviewed_live",
       reviewStatus: "reviewed_snapshot",
     });
@@ -440,8 +440,8 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
     [
       "RWA cell",
       (feed: Record<string, any>) => {
-        feed.home.cells[17].instrumentId = "rwa_tvl";
-        feed.home.cells[17].nameJa = "RWA TVL";
+        feed.home.cells[14].instrumentId = "rwa_tvl";
+        feed.home.cells[14].nameJa = "RWA TVL";
       },
     ],
     [
@@ -1453,5 +1453,26 @@ describe("feed sessions editorial v0.4 (P2-LVM-IT-G1 T4)", () => {
       },
     ];
     expect(mapTerminalFeed(feed)?.sessions).toBeNull();
+  });
+});
+
+import legacyRegistryFeed from "../fixtures/terminal/terminal_feed_legacy_registry.home.sample.json";
+import newRegistryFeed from "../fixtures/terminal/terminal_feed_v0.2.home.sample.json";
+
+describe("home registry cutover (spec 2026-10-02 §5)", () => {
+  it("adopts a home section built on the new Hyperliquid registry", () => {
+    const mapped = mapTerminalFeed(newRegistryFeed);
+    expect(mapped?.home?.cells.map((cell) => cell.instrumentId)).toEqual([
+      "btc_usd", "eth_usd", "spx", "nikkei_futures", "eur_usd",
+      "usd_jpy", "gold", "wti", "us10y", "btc_vol",
+      "nasdaq", "brent", "xrp_usd", "sol_usd", "coin_stock",
+    ]);
+  });
+
+  it("rejects a legacy Yahoo/CoinGecko home without rejecting the rest of the feed", () => {
+    const mapped = mapTerminalFeed(legacyRegistryFeed);
+    expect(mapped).not.toBeNull();
+    expect(mapped?.home ?? null).toBeNull();
+    expect(mapped?.lanes.length).toBeGreaterThan(0);
   });
 });
