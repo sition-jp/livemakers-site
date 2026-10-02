@@ -102,6 +102,19 @@ describe("SessionNowCard", () => {
     ).toBeInTheDocument();
   });
 
+  it("falls back to titleJa as the headline when bullets is empty", () => {
+    render(
+      <SessionNowCard
+        record={{ ...record, bullets: [] }}
+        provenance={provenance}
+        copy={copy}
+      />,
+    );
+    expect(screen.getByRole("heading", { level: 3 }).textContent).toBe(
+      "Asia Open Terminal",
+    );
+  });
+
   it("shows a dated snapshot freshness line and never a live-now token", () => {
     const { container } = render(
       <SessionNowCard record={record} provenance={provenance} copy={copy} />,

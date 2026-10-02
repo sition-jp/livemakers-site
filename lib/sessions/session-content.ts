@@ -166,7 +166,7 @@ export const SessionMetaSchema = z
     asOfJst: z.string().regex(JST_ISO),
     focusInstruments: z.array(z.string()),
     titleJa: z.string().min(1),
-    bullets: z.array(z.string().min(1)).min(1),
+    bullets: z.array(z.string().min(1)),
     editorial: SessionEditorialSchema.optional(),
     // 2026-08-23 田平氏 GO (spec 2026-08-23-digest-only-session-design §2):
     // "absent" = 市場観測 (home observer preflight) が RED で数値スナップ

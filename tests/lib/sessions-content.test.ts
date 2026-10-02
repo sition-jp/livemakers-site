@@ -290,6 +290,10 @@ describe("SessionMetaSchema observationStatus (digest-only session)", () => {
     expect(parseSessionMeta({ ...base, observationStatus: "green" }).observationStatus).toBe("green");
   });
 
+  it("accepts a session meta with no bullets (P3 removes Yahoo-era numeric bullets)", () => {
+    expect(parseSessionMeta({ ...base, bullets: [] }).bullets).toEqual([]);
+  });
+
   it("rejects absent without an editorial (digest-only needs the digest)", () => {
     expect(() => parseSessionMeta({ ...base, observationStatus: "absent" })).toThrow(
       /observationStatus absent requires editorial/,
