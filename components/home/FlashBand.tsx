@@ -6,6 +6,9 @@ import type { ArticleMeta } from "@/lib/articles/article-model";
  * 当日/前日の最新速報 1 本だけを masthead 直下に出し、無い日は帯ごと出さない。
  * 鮮度判定は select-home-slots (slots.flashLatest) 側で行い、ここは描画のみ。
  * 色は family flash のトークン (--lmk-family-flash)。
+ * 余白 (2026-10-02 田平氏指示): 上は親 wrapper の pt-6 だけ (masthead との
+ * 空きを 40px → 24px に詰める)・下は mb-6 で Intelligence Terminal 見出しとの
+ * 密着を解く。帯が無い日は null なので下余白も一緒に消える。
  */
 export function FlashBand({
   article,
@@ -23,7 +26,7 @@ export function FlashBand({
     <section
       data-home-section="flash"
       aria-label={ja ? "速報" : "Flash"}
-      className="mx-auto mt-4 flex max-w-[1760px] flex-wrap items-center gap-3 rounded-lg border-l-4 px-4 py-3 md:px-8"
+      className="mx-auto mb-6 flex max-w-[1760px] flex-wrap items-center gap-3 rounded-lg border-l-4 px-4 py-3 md:px-8"
       style={{
         borderColor: "var(--lmk-family-flash)",
         background: "color-mix(in srgb, var(--lmk-family-flash) 8%, transparent)",
