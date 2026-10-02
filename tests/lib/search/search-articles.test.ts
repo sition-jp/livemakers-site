@@ -41,40 +41,62 @@ describe("searchArticles", () => {
       family: "flash",
       publishedAtJst: "2026-09-30T08:00:00+09:00",
     }),
+    article("body-only", {
+      titleJa: "市場の一日",
+      publishedAtJst: "2026-10-02T09:00:00+09:00",
+    }),
   ];
+  const bodyTexts = new Map([
+    ["body-only", "本文で midnight の話をする"],
+    ["future", "midnight"],
+  ]);
 
-  it("puts title matches first, each group newest first, excludes the future, keeps flash", () => {
-    const hits = searchArticles(articles, ["midnight"], TODAY);
-    expect(hits.map((hit) => [hit.article.articleId, hit.titleMatch])).toEqual([
-      ["new-title", true],
-      ["flash", true],
-      ["old-title", true],
-      ["new-excerpt", false],
+  it("orders title → meta → body groups, each newest first, excludes the future, keeps flash", () => {
+    const hits = searchArticles(articles, ["midnight"], TODAY, bodyTexts);
+    expect(hits.map((hit) => [hit.article.articleId, hit.tier])).toEqual([
+      ["new-title", "title"],
+      ["flash", "title"],
+      ["old-title", "title"],
+      ["new-excerpt", "meta"],
+      ["body-only", "body"],
     ]);
   });
 
-  it("requires every term (AND) across title + excerpt + family label", () => {
+  it("without body texts behaves like phase 1 (no body group)", () => {
+    expect(
+      searchArticles(articles, ["midnight"], TODAY).map((hit) => hit.tier),
+    ).toEqual(["title", "title", "title", "meta"]);
+  });
+
+  it("requires every term (AND) across title + excerpt + family label (+ body)", () => {
     expect(
       searchArticles(articles, ["midnight", "etf"], TODAY).map(
         (hit) => hit.article.articleId,
       ),
     ).toEqual(["new-excerpt"]);
-    // 種別名「Signal」でも当たる (タイトルに無いので後ろの群)
+    // 種別名「Signal」でも当たる (タイトルに無いので meta 群)
     expect(
       searchArticles(articles, ["signal", "ノード"], TODAY).map((hit) => [
         hit.article.articleId,
-        hit.titleMatch,
+        hit.tier,
       ]),
-    ).toEqual([["old-title", false]]);
+    ).toEqual([["old-title", "meta"]]);
+    // タイトルの語 + 本文の語 = body 群
+    expect(
+      searchArticles(articles, ["市場", "話"], TODAY, bodyTexts).map((hit) => [
+        hit.article.articleId,
+        hit.tier,
+      ]),
+    ).toEqual([["body-only", "body"]]);
   });
 
-  it("titleMatch needs all terms in the title", () => {
+  it("title tier needs all terms in the title", () => {
     const hits = searchArticles(articles, ["midnight", "ノード"], TODAY);
-    expect(hits).toEqual([{ article: articles[0], titleMatch: true }]);
+    expect(hits).toEqual([{ article: articles[0], tier: "title" }]);
   });
 
   it("returns nothing for no terms", () => {
-    expect(searchArticles(articles, [], TODAY)).toEqual([]);
+    expect(searchArticles(articles, [], TODAY, bodyTexts)).toEqual([]);
   });
 });
 

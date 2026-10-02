@@ -30,17 +30,21 @@ function Highlighted({
 
 /**
  * 検索結果の 1 行 (2026-10-02 spec)。ArticleThumbRow と同じ枠 (サムネ 16:9・
- * 種別チップ・日付) に、一致語の強調と抜粋 2 行を足したもの。
+ * 種別チップ・日付) に、一致語の強調と抜粋 2 行を足したもの。本文一致の行
+ * (第2段階) は抜粋の代わりに本文の抜き出し (snippet) を出す。
  */
 export function SearchResultRow({
   article,
   familyLabel,
   terms,
+  snippet,
 }: {
   article: ArticleMeta;
   familyLabel: string;
   terms: readonly string[];
+  snippet?: string;
 }) {
+  const lead = snippet ?? article.excerptJa;
   const color = FAMILY_COLORS[article.family];
   return (
     <Link
@@ -74,9 +78,12 @@ export function SearchResultRow({
         <span className="block text-sm font-semibold text-text-primary group-hover:underline">
           <Highlighted text={article.titleJa} terms={terms} />
         </span>
-        {article.excerptJa ? (
-          <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-text-secondary">
-            <Highlighted text={article.excerptJa} terms={terms} />
+        {lead ? (
+          <span
+            data-search-snippet={snippet ? "" : undefined}
+            className="mt-1 line-clamp-2 block text-xs leading-relaxed text-text-secondary"
+          >
+            <Highlighted text={lead} terms={terms} />
           </span>
         ) : null}
         <span className="mt-1.5 flex flex-wrap items-center gap-2">
