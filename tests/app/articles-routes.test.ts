@@ -26,7 +26,14 @@ describe("articles routes (G41)", () => {
     expect(read("app/[locale]/articles/today/page.tsx")).toContain(
       "loadPublicArticleInflowCatalog",
     );
-    const series = read("app/[locale]/articles/series/[series]/page.tsx");
+    // シリーズ一覧の本体は 1 ページ目・2 ページ目以降の両ルートで共用 (SeriesListPage)
+    for (const route of [
+      "app/[locale]/articles/series/[series]/page.tsx",
+      "app/[locale]/articles/series/[series]/page/[page]/page.tsx",
+    ]) {
+      expect(read(route)).toContain("renderSeriesListPage");
+    }
+    const series = read("components/articles/SeriesListPage.tsx");
     expect(series).toContain("loadPublicArticleInflowCatalog");
     expect(series).toContain("SERIES_SLUGS");
     expect(series).toContain("notFound");
@@ -37,6 +44,8 @@ describe("articles routes (G41)", () => {
       "app/[locale]/articles/[slug]/page.tsx",
       "app/[locale]/articles/today/page.tsx",
       "app/[locale]/articles/series/[series]/page.tsx",
+      "app/[locale]/articles/series/[series]/page/[page]/page.tsx",
+      "components/articles/SeriesListPage.tsx",
     ]) {
       expect(read(route)).not.toMatch(/fetch\(|useSWR|\/api\//);
     }
