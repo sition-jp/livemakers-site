@@ -1,5 +1,5 @@
 /* @vitest-environment jsdom */
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
@@ -153,7 +153,9 @@ describe("public article inflow routes", () => {
     render(await ArticleSeriesPage({
       params: Promise.resolve({ locale: "ja", series: "daily-intel" }),
     }));
-    expect(screen.getByText("Feed article")).toBeInTheDocument();
-    expect(screen.queryByText("Repository article")).toBeNull();
+    // 右レール「最新の記事」(全 family) を除いた本体一覧で検査する
+    const body = within(screen.getByRole("main"));
+    expect(body.getByText("Feed article")).toBeInTheDocument();
+    expect(body.queryByText("Repository article")).toBeNull();
   });
 });
