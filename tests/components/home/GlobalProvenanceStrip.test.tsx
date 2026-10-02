@@ -29,14 +29,14 @@ describe("GlobalProvenanceStrip", () => {
           asOf: "as-of",
           packet: "パケットID",
         }}
-        note="価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
+        note="トップの市場価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
       />,
     );
     expect(screen.getByText("reviewed_fixture")).toBeInTheDocument();
     expect(screen.getByText("fixture_only")).toBeInTheDocument();
     expect(screen.getByText("lmk_20260710_0758_fx01")).toBeInTheDocument();
     expect(
-      screen.getByText("価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"),
+      screen.getByText("トップの市場価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"),
     ).toBeInTheDocument();
     const root = container.querySelector('[data-chrome="provenance-strip"]');
     expect(root?.getAttribute("data-packet-id")).toBe(
@@ -63,7 +63,7 @@ describe("GlobalProvenanceStrip", () => {
           asOf: "as-of",
           packet: "パケットID",
         }}
-        note="価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
+        note="トップの市場価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
       />,
     );
     const root = container.querySelector('[data-chrome="provenance-strip"]');
@@ -90,7 +90,7 @@ describe("GlobalProvenanceStrip", () => {
           asOf: "as-of",
           packet: "パケットID",
         }}
-        note="価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
+        note="トップの市場価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
       />,
     );
     expect(screen.getByText("reviewed_live")).toBeInTheDocument();

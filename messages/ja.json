@@ -165,7 +165,7 @@
   "footer": {
     "brand": "LIVEMAKERS · SITION GROUP",
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
-    "dataSources": "データ: Koios · DefiLlama · CoinGecko · GitHub",
+    "dataSources": "データ: Koios · DefiLlama · Hyperliquid · 米財務省 · GitHub",
     "disclaimer": "本レポートは投資助言ではありません。学習・リサーチ目的の情報提供です。",
     "copyright": "© 2026 SITION Group",
     "editorialPolicy": "編集方針",
@@ -427,7 +427,7 @@
       "source": "ソース",
       "asOf": "as-of",
       "packet": "パケットID",
-      "note": "価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
+      "note": "トップの市場価格は Hyperliquid 上の先物（perp）価格です（米10年金利は米財務省）"
     },
     "masthead": {
       "title": "いまを見る ⇄ 今日を読む",

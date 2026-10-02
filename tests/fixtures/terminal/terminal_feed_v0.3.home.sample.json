@@ -62,7 +62,7 @@
       { "instrumentId": "usd_jpy", "nameJa": "USD/JPY（perp）", "value": "157.880", "changeLabel": "-0.06%", "direction": "down" },
       { "instrumentId": "gold", "nameJa": "Gold（perp）", "value": "$4,158.90", "changeLabel": "+0.10%", "direction": "up" },
       { "instrumentId": "wti", "nameJa": "WTI（perp）", "value": "$92.90", "changeLabel": "+3.34%", "direction": "up" },
-      { "instrumentId": "us10y", "nameJa": "米10年金利", "value": "5.250%", "changeLabel": "-0.76%", "direction": "down" },
+      { "instrumentId": "us10y", "nameJa": "米10年金利", "value": "5.25%", "changeLabel": "-0.76%", "direction": "down" },
       { "instrumentId": "btc_vol", "nameJa": "BTCボラティリティ（BVIV）", "value": "38.94", "changeLabel": "+3.90%", "direction": "up" },
       { "instrumentId": "nasdaq", "nameJa": "米テック100（perp）", "value": "30,596.00", "changeLabel": "0.00%", "direction": "flat" },
       { "instrumentId": "brent", "nameJa": "Brent（perp）", "value": "$102.46", "changeLabel": "+4.93%", "direction": "up" },

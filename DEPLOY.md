@@ -165,7 +165,7 @@ git push -u origin main
 - Import `sition-group/livemakers-site` in Vercel dashboard
 - Set environment variables:
   - `RESEND_API_KEY` = (from step 1)
-  - Optional: `COINGECKO_API_KEY`, `GITHUB_TOKEN`
+  - Optional: `GITHUB_TOKEN`
 - First deploy succeeds → verify at the Vercel preview URL (`https://livemakers-site-xxxxx.vercel.app`)
 - In Vercel project settings → Domains, add `livemakers.com` and `www.livemakers.com`
 - Follow Vercel's DNS instructions to update records at your registrar

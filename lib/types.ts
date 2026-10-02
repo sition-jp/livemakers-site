@@ -54,13 +54,3 @@ export interface Brief {
   bodyJa: string;
   pdfPath: string;
 }
-
-export interface TickerResponse {
-  ada: { price_usd: number; change_24h: number; mcap_usd: number };
-  tvl: { cardano_usd: number; change_24h: number };
-  stake: { active_percent: number };
-  epoch: number;
-  naka: number;
-  updated_at: string;
-  stale?: boolean;
-}
