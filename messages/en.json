@@ -951,7 +951,7 @@
     "button": "Search",
     "close": "Close search",
     "label": "Site search",
-    "placeholder": "Search articles (e.g. Midnight, ETF)",
+    "placeholder": "Search articles (e.g. ETF, BTC)",
     "submit": "Search",
     "pageTitle": "Search articles",
     "resultsHeading": "Results for \"{q}\"",
