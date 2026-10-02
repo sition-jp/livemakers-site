@@ -67,28 +67,9 @@ describe("build-home-props as-of integration (P1-2)", () => {
     expect(props.pageProvenance).toEqual(props.sessionProvenance);
   });
 
-  it("includes the newest fixture record through the snapshot window end", () => {
-    for (const series of props.focusSeries.filter(
-      (candidate) => candidate !== null,
-    )) {
-      const newestInWindow = loadFocusSeriesRecords()
-        .filter(
-          (record) =>
-            record.instrumentId === series!.instrumentId &&
-            record.atJst <= snapshot.asOfJst,
-        )
-        .sort((left, right) => left.atJst.localeCompare(right.atJst))
-        .at(-1)!;
-      expect(series!.points.at(-1)!.atJst).toBe(newestInWindow.atJst);
-      expect(series!.points.at(-1)!.atJst <= snapshot.asOfJst).toBe(true);
-    }
-    expect(
-      props.focusSeries.some(
-        (series) =>
-          series?.points.at(-1)?.atJst ===
-          "2026-07-10T07:30:00+09:00",
-      ),
-    ).toBe(true);
+  it("shows no chart when the fixture has no focus-series records (unavailable)", () => {
+    expect(loadFocusSeriesRecords()).toEqual([]);
+    expect(props.focusSeries.filter((candidate) => candidate !== null)).toEqual([]);
   });
 
   it("fails closed when snapshot date and today disagree", () => {

@@ -48,7 +48,7 @@ describe("SessionScheduleCard", () => {
     ).toBeInTheDocument();
     // 一意な focus 名で preview を検査（米10年金利=us10y は europe/ny の2行に
     // 出て複数一致するため使わない）。
-    expect(screen.getByText(/DXY/)).toBeInTheDocument(); // europe-bridge focus（一意）
-    expect(screen.getByText(/日経平均先物/)).toBeInTheDocument(); // asia-open focus（一意）
+    expect(screen.getByText(/EUR\/USD/)).toBeInTheDocument(); // europe-bridge focus（一意）
+    expect(screen.getByText(/日経225/)).toBeInTheDocument(); // asia-open focus（一意）
   });
 });

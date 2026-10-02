@@ -64,13 +64,13 @@ describe("G43 reviewed home source resolution", () => {
 
     expect(props.today).toBe("2026-07-12");
     expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
-    // 2026-08-14: RWA 2 行撤去で 18 live + 1 RWA = 19
-    expect(props.snapshot.cells).toHaveLength(19);
+    // 2026-10-02: 新レジストリ 15 live + 1 RWA = 16
+    expect(props.snapshot.cells).toHaveLength(16);
     expect(
-      props.snapshot.cells.find((cell) => cell.instrumentId === "night_usd"),
-    ).toMatchObject({ nameJa: "NIGHT/USD", direction: "down" });
+      props.snapshot.cells.find((cell) => cell.instrumentId === "spx"),
+    ).toMatchObject({ nameJa: "S&P 500（perp）", direction: "down" });
     expect(
-      props.snapshot.cells.find((cell) => cell.instrumentId === "ada_usd"),
+      props.snapshot.cells.find((cell) => cell.instrumentId === "nasdaq"),
     ).toMatchObject({ changeLabel: "0.00%", direction: "flat" });
     expect(props.mkt12Provenance.sourceMode).toBe("reviewed_live");
     expect(props.laneProvenance.macro.sourceMode).toBe("reviewed_live");
@@ -175,7 +175,7 @@ describe("G43 reviewed home source resolution", () => {
       now: nowAt("2026-07-13T07:30:01+09:00"),
     });
 
-    expect(props.coreCells).toHaveLength(12);
+    expect(props.coreCells).toHaveLength(10);
     expect(props.laneCells.macro.length).toBeGreaterThan(0);
     expect(props.laneCells.crypto.length).toBeGreaterThan(0);
     expect(props.laneCells.rwa.length).toBeGreaterThan(0);
@@ -187,7 +187,8 @@ describe("G43 reviewed home source resolution", () => {
       sourceMode: "fixture_only",
       reviewStatus: "reviewed_fixture",
     });
-    expect(props.focusSeries.filter(Boolean).length).toBeGreaterThan(0);
+    // fixture の focus-series は 0 件 (古い折れ線を出さない) → チャートは出ない
+    expect(props.focusSeries.filter(Boolean)).toHaveLength(0);
     expect(
       props.focusSeries.every(
         (series) => series === null || series.sourceMode === "fixture_only",
@@ -279,7 +280,7 @@ describe("RWA live lane (2026-08-14 田平氏裁定 — TVL 1 行のみ live)", 
     const cell = props.snapshot.cells.find(
       (candidate) => candidate.instrumentId === "rwa_tvl",
     )!;
-    expect(cell.value).toBe("$28.4B");
+    expect(cell.value).toBeNull();
     expect(props.laneProvenance.rwa.sourceMode).toBe("fixture_only");
   });
 
@@ -295,6 +296,6 @@ describe("RWA live lane (2026-08-14 田平氏裁定 — TVL 1 行のみ live)", 
     const cell = props.snapshot.cells.find(
       (candidate) => candidate.instrumentId === "rwa_tvl",
     )!;
-    expect(cell.value).toBe("$28.4B");
+    expect(cell.value).toBeNull();
   });
 });
