@@ -121,6 +121,15 @@ describe("/search page (2026-10-02 spec)", () => {
     expect(active?.textContent).toBe("family.deep-dive1");
   });
 
+  it("treats a family with no hits as 'all' instead of showing an empty list", async () => {
+    await renderSearch({ q: "midnight", family: "flash" });
+    expect(rowIds()).toEqual(["s1", "s2", "d1"]);
+    const active = within(main())
+      .getByRole("navigation", { name: "familyFilterLabel" })
+      .querySelector('[aria-current="page"]');
+    expect(active?.textContent).toBe("all3");
+  });
+
   it("highlights the term in titles", async () => {
     await renderSearch({ q: "midnight" });
     expect(

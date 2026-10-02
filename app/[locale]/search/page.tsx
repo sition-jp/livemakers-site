@@ -90,7 +90,8 @@ function SeriesLinks({
 export default async function SearchPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const { q, terms, family, page } = parseSearchParams(await searchParams);
+  const parsed = parseSearchParams(await searchParams);
+  const { q, terms, page } = parsed;
 
   const t = await getTranslations("search");
   const tArticles = await getTranslations("articles");
@@ -107,6 +108,8 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
     resolveTodayJst(new Date()),
   );
   const counts = countByFamily(allHits);
+  // 該当 0 件の種別 (語を変えた後に残った family 等) は「すべて」扱い — 空の一覧を見せない
+  const family = parsed.family && counts[parsed.family] ? parsed.family : null;
   const hits = family
     ? allHits.filter((hit) => hit.article.family === family)
     : allHits;
