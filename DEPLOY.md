@@ -229,10 +229,6 @@ git commit -m "docs: mark Week 4 complete, v0.1 shipped"
 
 ## Troubleshooting
 
-### `/api/ticker` returns 503 in production
-- CoinGecko free tier has tight rate limits. The Route Handler caches for 5 minutes and falls back to stale data on error. If all three upstream APIs fail on a cold cache, the endpoint returns 503 and the TickerBar shows "TICKER · OFFLINE" — this is the expected degraded state.
-- If this persists: set `COINGECKO_API_KEY` env var in Vercel for the paid tier.
-
 ### `/api/subscribe` returns 503 "not_configured"
 - `RESEND_API_KEY` env var is missing in Vercel.
 
