@@ -32,14 +32,14 @@ export function SessionPendingView({
         </p>
       ) : null}
 
-      {digestOnly ? (
+      {digestOnly || (record.bullets.length === 0 && !editorial) ? (
         <p
           data-session-observation="absent"
           className="text-sm text-text-tertiary"
         >
           {copy.noSnapshotNote}
         </p>
-      ) : (
+      ) : record.bullets.length > 0 ? (
         <section>
           {editorial ? (
             <h2 className="text-sm font-bold text-text-primary">
@@ -57,7 +57,7 @@ export function SessionPendingView({
             ))}
           </ul>
         </section>
-      )}
+      ) : null}
 
       {editorial ? (
         <>
