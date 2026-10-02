@@ -1,0 +1,99 @@
+{
+  "sessionId": "2026-10-02-ny-open",
+  "date": "2026-10-02",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-02-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-02-ny-open",
+  "publishedAt": "2026-10-03T02:30:06+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261002_1803_d3e5e4c3",
+  "asOfJst": "2026-10-02T18:36:55+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月2日 18:03 JST（読み解きのみ）",
+  "bullets": [
+    "Midnight、メインネットで許可不要のスマートコントラクト公開を開始",
+    "ユーロ圏の9月の物価上昇率、3年ぶりの高水準",
+    "米国が中東へ空母を追加派遣と報道、イエメンの首都で爆発"
+  ],
+  "editorial": {
+    "digestId": "dig_20261002_1836_c3b23844",
+    "crawlAnchorJst": "2026-10-02T18:03:00+09:00",
+    "writtenAtJst": "2026-10-02T18:36:55+09:00",
+    "lead": "Midnight がメインネットで誰でもスマートコントラクトを公開できる段階に入った。連合ノードで始まったネットワークが、開発者に門を開く節目だ。欧州ではユーロ圏の9月の物価上昇率が3年ぶりの高さに跳ね、エネルギー高が中東の戦争と地続きであることを示した。日本ではスマホに入るマイナンバーカードの対象が Android に広がり、身分証の置き場所が財布から端末へ移る。",
+    "items": [
+      {
+        "headline": "Midnight、メインネットで許可不要のスマートコントラクト公開を開始",
+        "sourceUrl": "https://x.com/midnightfdn/status/2105925238206664996",
+        "note": "Midnight 財団が告知した。これまで限られた運営者で動かしてきたネットワークで、誰でもコントラクトを公開できるようになる。"
+      },
+      {
+        "headline": "ユーロ圏の9月の物価上昇率、3年ぶりの高水準",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/inflation-teuerung-im-euroraum-springt-auf-drei-jahres-hoch/100254617.html",
+        "note": "Eurostat の速報値は3.8%で、8月の3.2%から上昇した。エネルギーが大きく押し上げている。"
+      },
+      {
+        "headline": "米国が中東へ空母を追加派遣と報道、イエメンの首都で爆発",
+        "sourceUrl": "https://www.nzz.ch/international/iran-krieg-berichte-von-explosionen-in-jemens-hauptstadt-sanaa-ld.10021246"
+      },
+      {
+        "headline": "ロシア、NATO の攻撃時は意思決定中枢への先制攻撃もと核の威嚇",
+        "sourceUrl": "https://www.nzz.ch/international/kaliningrad-im-fokus-russland-stoesst-nukleare-drohungen-gegen-die-nato-aus-ld.10026316",
+        "note": "カリーニングラードをめぐる発言として NZZ が報じた。"
+      },
+      {
+        "headline": "Android 端末のマイナンバーカード、10月20日に開始予定",
+        "sourceUrl": "https://x.com/digital_jpn/status/2105852398942208246",
+        "note": "Google ウォレットに入れて使う形になる。デジタル庁が告知した。"
+      },
+      {
+        "headline": "古川デジタル相、サイバー対処能力強化法の施行を会見で説明",
+        "sourceUrl": "https://x.com/digital_jpn/status/2105922470624842090"
+      },
+      {
+        "headline": "財務省、ウクライナ情勢に関する外為法の措置を公表",
+        "sourceUrl": "https://www.mof.go.jp/policy/international_policy/gaitame_kawase/gaitame/economic_sanctions/20261001205921.html"
+      },
+      {
+        "headline": "ローソンでのステーブルコイン決済の実証、支払いに約20秒",
+        "sourceUrl": "https://x.com/INSPAY_io/status/2105547363377156587",
+        "note": "AI・オンチェーン金融サミットでの報告。商用化に向けて速さが課題として挙がった。"
+      },
+      {
+        "headline": "Bitcoin、米雇用統計を前に8万6000ドル台を回復",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/02/bitcoin-tops-usd86-000-ahead-of-u-s-jobs-report"
+      },
+      {
+        "headline": "無期限先物のファンディングレートが上昇、買い方向のレバレッジが積み上がる",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/02/why-rising-perpetual-funding-rates-signal-growing-bullish-leverage-as-bitcoin-crosses-usd86-500"
+      },
+      {
+        "headline": "Cardano Academy、AI エージェントでアプリを作る新講座を公開",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2105931918873128963"
+      },
+      {
+        "headline": "テスラ、家庭用蓄電池 Powerwall 3 を25秒に1台のペースで製造",
+        "sourceUrl": "https://x.com/teslajapan/status/2105931901173367012"
+      },
+      {
+        "headline": "Falcon Heavy、14回目の打ち上げで NRO の衛星を軌道へ",
+        "sourceUrl": "https://x.com/SpaceX/status/2105897474300973427",
+        "note": "両側のブースターは着陸に成功した。"
+      },
+      {
+        "headline": "フランスで抗議行動が激化、400校が休校",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/02/france-schools-protests-violence-ukraine-kallas-rome-pope-latest-news-updates"
+      }
+    ],
+    "watch": [
+      "Midnight で最初に公開されるコントラクトと、開発者の動き",
+      "今夜の米雇用統計と、ユーロ圏の物価を受けた ECB の発言",
+      "中東への増派の規模と、原油・ホルムズ海峡の通航"
+    ]
+  },
+  "observationStatus": "absent"
+}

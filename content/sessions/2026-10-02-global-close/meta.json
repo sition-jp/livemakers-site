@@ -1,0 +1,140 @@
+{
+  "sessionId": "2026-10-02-global-close",
+  "date": "2026-10-02",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-02-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-02-global-close",
+  "publishedAt": "2026-10-03T02:30:06+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261002_2303_d7e0fe08",
+  "asOfJst": "2026-10-02T23:03:10+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月2日 23:03 JST",
+  "bullets": [
+    "BTC/USD $83,923 → $86,634（+3.23%）",
+    "変動幅上位: BTC/USD +3.2% / 日経225（perp） +2.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261002_2350_397c4a13",
+    "crawlAnchorJst": "2026-10-02T23:03:00+09:00",
+    "writtenAtJst": "2026-10-02T23:50:37+09:00",
+    "lead": "米国の9月雇用は2.9万人増にとどまり、市場は利上げの織り込みを一気に外した。ビットコインは8.7万ドル近辺まで戻り、原油は下げた。日本ではSMBC日興がUniswapやBaseと組み、規制に沿ったDeFiの入口を作り始めた。大手証券がAMMに資金を出す構造は、金融庁との対話を通じて2027年の制度論点になる。",
+    "items": [
+      {
+        "headline": "米9月の雇用は2.9万人増、失業率は4.2%に上昇",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/02/u-s-added-just-29-000-jobs-in-september-with-unemployment-rate-rising-to-4-2",
+        "note": "労働統計局の発表では、非農業部門の雇用増は2.9万人にとどまった。失業率は3月以降4.1〜4.3%の狭い範囲にある。"
+      },
+      {
+        "headline": "雇用の弱さを受け、年内に1回の利上げを織り込む動きが消える",
+        "sourceUrl": "https://x.com/zerohedge/status/2106000773326995488",
+        "note": "FF金利の期日別スワップが、年内の利上げ1回分を織り込まなくなったと伝えられた。"
+      },
+      {
+        "headline": "ビットコインは8.7万ドル近辺、ドミナンスは60%に接近",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/02/crypto-traders-are-in-risk-on-mode-as-bitcoin-dominance-nears-return-to-60",
+        "note": "雇用統計の後、暗号資産市場はリスクを取る方向に動いたと報じられた。"
+      },
+      {
+        "headline": "原油が下落、ブレントは100ドル、米WTIは90ドルを割り込む",
+        "sourceUrl": "https://x.com/coinbureau/status/2105934761688760707"
+      },
+      {
+        "headline": "SMBC日興、Uniswap Labs・Base・Nethermind らと日本向け DeFi の入口づくりへ",
+        "sourceUrl": "https://x.com/nadanews_com/status/2105998040515416261",
+        "note": "覚書で、規制対応の流動性プール「DeFi Gateway」を開発する。Uniswap v4 のフックで AML/CFT と投資家保護を組み込み、2027年半ばの開発完了をめどとし、金融庁と進捗を共有する。"
+      },
+      {
+        "headline": "三井住友DS、仏国債を全て売却し独・日本国債へ資金を移す",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2105888406576267595",
+        "note": "フランスの財政懸念が理由と報じられた。"
+      },
+      {
+        "headline": "プルデンシャル、金融庁が処分へ 金銭詐取問題で保険販売を停止",
+        "sourceUrl": "https://x.com/nikkei/status/2105936049729896929"
+      },
+      {
+        "headline": "ユーロ圏のインフレ率が3年ぶりの高さに",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/inflation-teuerung-im-euroraum-springt-auf-dreijahreshoch/100254617.html"
+      },
+      {
+        "headline": "米国、中東へ空母をもう1隻と兵士約1万人を追加派遣",
+        "sourceUrl": "https://www.nzz.ch/international/iran-die-usa-verlegen-einen-weiteren-flugzeugtraeger-nach-nahost-ld.10026495"
+      },
+      {
+        "headline": "Google、TPU 4基を積んだ試作衛星を Planet と軌道へ",
+        "sourceUrl": "https://x.com/Google/status/2105803583648100611",
+        "note": "SpaceX のライドシェア Transporter-18 で打ち上げた。宇宙で AI の計算をする構想の第一歩と位置づけている。"
+      },
+      {
+        "headline": "テスラの7〜9月期は納車48.7万台、生産46.4万台、蓄電池13.7GWh",
+        "sourceUrl": "https://x.com/Tesla/status/2106008799605923958",
+        "note": "決算説明は10月21日に X で配信される。"
+      },
+      {
+        "headline": "FBI、ランサムウェア集団 KillSec を標的に米欧で共同作戦",
+        "sourceUrl": "https://x.com/FBICyberDiv/status/2105708131351146668"
+      },
+      {
+        "headline": "南アフリカの大手銀行 Absa が暗号資産のカストディを開始",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2105957289480077461"
+      },
+      {
+        "headline": "Midnight、メインネットで誰でもスマートコントラクトを公開できる段階へ",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2105926258295206019"
+      },
+      {
+        "headline": "Midnight 財団、日本のカントリーマネージャーを迎える",
+        "sourceUrl": "https://x.com/XRPSEOUL/status/2105871374275457169"
+      },
+      {
+        "headline": "SundaeSwap V4 が Cardano メインネットで稼働",
+        "sourceUrl": "https://x.com/SundaeSwap/status/2105659878656340043"
+      },
+      {
+        "headline": "Cardano のプログラム可能なトークン規格 CIP-113 が完了扱いに",
+        "sourceUrl": "https://x.com/atrium_lab/status/2106001074104697218"
+      },
+      {
+        "headline": "Cardano ノード 11.1.3、次の 11.2 へ Dijkstra の統合が進む",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2105702828723298360"
+      },
+      {
+        "headline": "Cardano の DEX 出来高、1週間で44%増",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2106024409811255361"
+      },
+      {
+        "headline": "FluidTokens、レンディングの貸し借りを再開",
+        "sourceUrl": "https://x.com/FluidTokens/status/2105713242651975996"
+      },
+      {
+        "headline": "Strike、9月は過去最高の月に",
+        "sourceUrl": "https://x.com/strikeperps/status/2105708675344031782"
+      },
+      {
+        "headline": "カリフォルニア州、ベランダ太陽光を合法化 2027年1月施行",
+        "sourceUrl": "https://www.engadget.com/2275466/california-legalizes-balcony-plug-in-solar/",
+        "note": "上限は1,200W。電力会社への登録は不要になる。"
+      },
+      {
+        "headline": "判断に特化した AI「Jev」が n8n に統合",
+        "sourceUrl": "https://x.com/n8n_io/status/2105609243827077164",
+        "note": "文章を書く代わりに、選択肢と確信度を返す。ワークフローの分岐や振り分けに使える。"
+      },
+      {
+        "headline": "Bitcoin Optech ニュースレター #425",
+        "sourceUrl": "https://bitcoinops.org/en/newsletters/2026/10/02/"
+      }
+    ],
+    "watch": [
+      "次の FOMC までに、利上げ観測の後退がドルと長期金利をどこまで動かすか",
+      "SMBC日興の DeFi Gateway について、金融庁がどう反応するか",
+      "Midnight でコントラクトの公開が自由になった後、最初に出てくる dApp"
+    ]
+  }
+}
