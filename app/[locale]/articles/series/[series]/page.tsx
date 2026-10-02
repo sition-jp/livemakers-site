@@ -41,7 +41,10 @@ export default async function ArticleSeriesPage({
   const articles = catalog.articles.filter(
     (article) => article.family === series,
   );
-  const rail = await loadLatestArticlesRail(catalog.articles);
+  const rail = await loadLatestArticlesRail({
+    locale,
+    articles: catalog.articles,
+  });
 
   return (
     <LatestArticlesRailLayout rail={rail}>

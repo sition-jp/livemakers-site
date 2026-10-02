@@ -14,7 +14,7 @@ export default async function AboutPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("about");
-  const rail = await loadLatestArticlesRail();
+  const rail = await loadLatestArticlesRail({ locale });
 
   return (
     <LatestArticlesRailLayout rail={rail}>

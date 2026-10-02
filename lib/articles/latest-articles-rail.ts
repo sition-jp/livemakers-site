@@ -21,13 +21,17 @@ export interface LatestArticlesRailData {
  * selectLatestArticles に一本化し、記事の時計は実 JST 今日 (ホームと同じ)。
  * catalog を既に読んだページは articles を渡す (二重 fetch を避ける)。
  */
-export async function loadLatestArticlesRail(
-  articles?: readonly ArticleMeta[],
-): Promise<LatestArticlesRailData> {
+export async function loadLatestArticlesRail({
+  locale,
+  articles,
+}: {
+  locale: string;
+  articles?: readonly ArticleMeta[];
+}): Promise<LatestArticlesRailData> {
   const catalogArticles =
     articles ?? (await loadPublicArticleInflowCatalog()).articles;
-  const tHome = await getTranslations("home");
-  const tArticles = await getTranslations("articles");
+  const tHome = await getTranslations({ locale, namespace: "home" });
+  const tArticles = await getTranslations({ locale, namespace: "articles" });
   const familyLabels = Object.fromEntries(
     ARTICLE_FAMILIES.map((family) => [family, tArticles(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;

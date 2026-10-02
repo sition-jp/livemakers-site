@@ -40,7 +40,7 @@ export default async function SessionArchivePage({
     ? recent
     : records.slice(0, EMPTY_FALLBACK_COUNT);
 
-  const rail = await loadLatestArticlesRail();
+  const rail = await loadLatestArticlesRail({ locale });
 
   return (
     <LatestArticlesRailLayout rail={rail}>

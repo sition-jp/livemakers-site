@@ -25,7 +25,7 @@ export default async function SessionArchivePastPage({
     (record) => record.articleStatus === "published",
   );
 
-  const rail = await loadLatestArticlesRail();
+  const rail = await loadLatestArticlesRail({ locale });
 
   return (
     <LatestArticlesRailLayout rail={rail}>

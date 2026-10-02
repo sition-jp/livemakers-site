@@ -1,9 +1,11 @@
 /* @vitest-environment jsdom */
 import { render } from "@testing-library/react";
+import { NextIntlClientProvider } from "next-intl";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import type { ArticleMeta } from "@/lib/articles/article-model";
+import ja from "@/messages/ja.json";
 
 const { catalogArticles } = vi.hoisted(() => {
   const article = (
@@ -68,14 +70,22 @@ vi.mock("@/lib/articles/article-inflow-feed", () => ({
   })),
 }));
 
+const { surface } = vi.hoisted(() => ({ surface: { published: false } }));
 vi.mock("@/lib/future-atlas/surface", () => ({
-  loadEffectiveSurfacePublished: vi.fn(async () => false),
+  loadEffectiveSurfacePublished: vi.fn(async () => surface.published),
 }));
 vi.mock("@/lib/future-atlas/load", () => ({
-  loadFutureAtlas: vi.fn(async () => ({ config: { surfacePublished: false } })),
+  loadFutureAtlas: vi.fn(async () => ({
+    config: { surfacePublished: surface.published },
+    manifest: { themes: [], entries: [] },
+    contracts: [],
+    states: new Map(),
+    articles: new Map(),
+  })),
 }));
 
 import AboutPage from "@/app/[locale]/about/page";
+import FutureAtlasPage from "@/app/[locale]/future-atlas/page";
 import ArticleSeriesPage from "@/app/[locale]/articles/series/[series]/page";
 import SessionArchivePage from "@/app/[locale]/sessions/archive/page";
 import SessionArchivePastPage from "@/app/[locale]/sessions/archive/past/page";
@@ -136,6 +146,20 @@ describe("list pages carry the latest-articles rail", () => {
       await SessionArchivePastPage({ params: Promise.resolve({ locale: "ja" }) }),
     );
     expectHomeEquivalentRail();
+  });
+
+  it("Future Atlas page (surface published)", async () => {
+    surface.published = true;
+    try {
+      render(
+        <NextIntlClientProvider locale="ja" messages={ja}>
+          {await FutureAtlasPage({ params: Promise.resolve({ locale: "ja" }) })}
+        </NextIntlClientProvider>,
+      );
+      expectHomeEquivalentRail();
+    } finally {
+      surface.published = false;
+    }
   });
 
   it("About page", async () => {
