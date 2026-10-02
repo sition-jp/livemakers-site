@@ -1,9 +1,14 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
+import { LatestArticlesRailLayout } from "@/components/articles/LatestArticlesRailLayout";
 import { SessionArchiveList } from "@/components/sessions/SessionArchiveList";
+import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import { resolveTodayJst } from "@/lib/home/resolve-today";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
+
+// 右レール「最新の記事」を記事一覧 (series) と同じ間隔で更新する (2026-10-02)
+export const revalidate = 300;
 
 /**
  * Intelligence Terminal セッション記事の一覧 (2026-08-14 Phase 3b 田平氏指示)。
@@ -35,23 +40,27 @@ export default async function SessionArchivePage({
     ? recent
     : records.slice(0, EMPTY_FALLBACK_COUNT);
 
+  const rail = await loadLatestArticlesRail();
+
   return (
-    <main className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6">
-      <h1 className="text-3xl font-bold text-text-primary">
-        {t("archiveTitle")}
-      </h1>
-      <p className="mt-3 text-sm text-text-secondary">{t("archiveNote")}</p>
-      <div className="mt-8">
-        <SessionArchiveList records={visible} familyLabel={t("family")} />
-      </div>
-      <div data-index-nav className="mt-6">
-        <Link
-          href="/sessions/archive/past"
-          className="text-sm font-bold text-accent"
-        >
-          {t("archivePastLink")}
-        </Link>
-      </div>
-    </main>
+    <LatestArticlesRailLayout rail={rail}>
+      <main className="min-w-0">
+        <h1 className="text-3xl font-bold text-text-primary">
+          {t("archiveTitle")}
+        </h1>
+        <p className="mt-3 text-sm text-text-secondary">{t("archiveNote")}</p>
+        <div className="mt-8">
+          <SessionArchiveList records={visible} familyLabel={t("family")} />
+        </div>
+        <div data-index-nav className="mt-6">
+          <Link
+            href="/sessions/archive/past"
+            className="text-sm font-bold text-accent"
+          >
+            {t("archivePastLink")}
+          </Link>
+        </div>
+      </main>
+    </LatestArticlesRailLayout>
   );
 }

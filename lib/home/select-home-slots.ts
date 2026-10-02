@@ -1,4 +1,5 @@
 import type { ArticleMeta } from "@/lib/articles/article-model";
+import { selectLatestArticles } from "@/lib/articles/latest-articles";
 import type { SessionRecord } from "@/lib/sessions/session-content";
 import type { RadarObservation } from "./radar-observations";
 import { selectSignalTimeline } from "./select-signal-timeline";
@@ -207,9 +208,8 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   // 2026-09-11 Task 13: flash (速報) はホームのヒーロー/最新レールに乗せない
   // (専用シリーズページのみ・SIPO 先行例と同型)。lead は dailyIntel 由来のため
   // flash は元々混入し得ない (上記 todayIntel/dailyIntel 参照)。
-  const latestArticles = catalog
-    .filter((article) => article.family !== "flash")
-    .slice(0, 20);
+  // 選定は一覧ページ右レールと共有 (selectLatestArticles・2026-10-02)。
+  const latestArticles = selectLatestArticles(catalog, articleToday);
   const flashLatest = selectFlashLatest(catalog, articleToday);
   const eventRiskLatest = take(latestOf("event-risk-radar") ?? undefined) ?? null;
   const atlasLatest = latestOf("future-map");
