@@ -7,6 +7,8 @@ export interface SessionPendingCopy {
   crystallizeNote: string;
   /** 2026-08-23 digest-only (observationStatus=absent): 数値節の代わりの注記 */
   noSnapshotNote?: string;
+  /** 2026-10-02 P3a: 数値箇条を掲載しない回 (箇条空・読み解きなし) の注記 */
+  noNumbersNote?: string;
 }
 
 /** Pending same-URL view. Editorial is deliberately JA-only for this gate. */
@@ -32,7 +34,11 @@ export function SessionPendingView({
         </p>
       ) : null}
 
-      {digestOnly || (record.bullets.length === 0 && !editorial) ? (
+      {!digestOnly && record.bullets.length === 0 && !editorial ? (
+        <p data-session-numbers="removed" className="text-sm text-text-tertiary">
+          {copy.noNumbersNote}
+        </p>
+      ) : digestOnly ? (
         <p
           data-session-observation="absent"
           className="text-sm text-text-tertiary"

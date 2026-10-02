@@ -129,9 +129,23 @@ describe("SessionPendingView with empty bullets", () => {
     watchHeading: "次の見どころ",
     crystallizeNote: "このページは次のセッション切替時に記事になります。",
     noSnapshotNote: "この回は市場観測が取得できず、読み解きのみです。",
+    noNumbersNote: "この回の数値は掲載していません。",
   };
 
-  it("renders the no-snapshot note instead of an empty list when bullets are empty and no editorial is shown", () => {
+  it("renders the no-numbers note (not the no-snapshot note) when bullets are empty and editorial is hidden by locale", () => {
+    const { container } = render(
+      <SessionPendingView
+        record={{ ...record, bullets: [] }}
+        locale="en"
+        copy={copy}
+      />,
+    );
+    expect(container.querySelector("ul")).toBeNull();
+    expect(container.textContent).toContain(copy.noNumbersNote);
+    expect(container.textContent).not.toContain(copy.noSnapshotNote);
+  });
+
+  it("renders the no-numbers note instead of an empty list when bullets are empty and no editorial is shown", () => {
     const { container } = render(
       <SessionPendingView
         record={{ ...record, bullets: [], editorial: undefined }}
@@ -140,7 +154,8 @@ describe("SessionPendingView with empty bullets", () => {
       />,
     );
     expect(container.querySelector("ul")).toBeNull();
-    expect(container.textContent).toContain(copy.noSnapshotNote);
+    expect(container.textContent).toContain(copy.noNumbersNote);
+    expect(container.textContent).not.toContain(copy.noSnapshotNote);
   });
 
   it("hides the snapshot section but keeps the editorial when bullets are empty (ja)", () => {
