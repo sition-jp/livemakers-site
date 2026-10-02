@@ -28,7 +28,6 @@
 - [Anthropic、これまでで最も詳細な脅威インテリジェンスレポートを公開](https://x.com/AnthropicAI/status/2098097512544444447) — サイバー攻撃・影響工作・監視・生物・兵器製造への悪用の試みを扱うと公式が説明している。
 - [ECB が利上げ、ラガルド総裁は決定を「当然の判断」と説明したと報じられる](https://www.handelsblatt.com/finanzen/geldpolitik/geldpolitik-so-hat-ezb-chefin-lagarde-die-zinserhoehung-erklaert/100253567.html) — 欧州側が引き締めに戻った意味は、為替と長期金利の両方に効いてくる。
 - [米 2 年債利回りは 4.43% (9 月 9 日時点)](https://fred.stlouisfed.org/series/DGS2) — 短期ゾーンは次の政策変更を織り込みにいっている。
-- [ハイイールド債スプレッドは 2.71% (9 月 9 日時点) と低位のまま](https://fred.stlouisfed.org/series/BAMLH0A0HYM2) — 信用市場の側にはまだ緊張が出ていない。
 - [OKX、OpenAI と Anthropic をめぐる取引を欧州へ](https://www.coindesk.com/markets/2026/09/10/okx-brings-openai-and-anthropic-bets-to-europe-as-pre-ipo-trading-grows) — 未上場企業を対象とした取引の広がりを背景にした動きだと報じられている。
 - [Valinor、トークン化した BDC ファンドを Superstate 上で提供開始](https://thedefiant.io/news/defi/valinor-launches-tokenized-bdc-fund-on-superstate) — プライベートクレジット領域のトークン化がまた 1 本増えた形。
 - [ユニバーサル ミュージックが ElevenLabs と AI 音楽制作基盤で協業](https://www.theverge.com/ai-artificial-intelligence/993465/universal-music-elevenlabs-ai) — 権利者側が AI 生成の入口を自ら設計しにいく動きだと報じられている。

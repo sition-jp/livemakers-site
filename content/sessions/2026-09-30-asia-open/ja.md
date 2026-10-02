@@ -15,7 +15,6 @@ OpenAI が DevDay で常時稼働エージェント「dots」と、Astra 級に�
 - [AMD、フェイフェイ・リー氏の World Labs を 82 億ドルで買収と報じられる](https://x.com/DigWatchWorld/status/2105026707321205034) — ワールドモデル技術を自社の AI 基盤に取り込む狙いとされる。
 - [米 30 年債利回りが 2002 年以来の高水準と報じられる](https://www.handelsblatt.com/finanzen/maerkte/anleihen/anleihen-rendite-von-30-jaehrigen-us-bonds-jetzt-so-hoch-wie-zuletzt-2002/100258428.html) — 独経済紙は一段の金利上昇余地を指摘している。
 - [米 2 年債利回り 4.92%(9/28)、前日の 4.81% から上昇](https://fred.stlouisfed.org/series/DGS2)
-- [VIX 16.07(9/28)、前日の 14.87 から上昇](https://fred.stlouisfed.org/series/VIXCLS)
 - [クリーブランド連銀のナウキャスト、8 月 PCE 前年比を 3.78% と予測](https://x.com/ClevelandFed/status/2104940034273022079) — 公式統計は 9/30 に発表予定。
 - [クック FRB 理事、AI によるインフレ圧力は目先続くと警告と報道](https://x.com/axios/status/2104969373249134955)
 - [FRB と FDIC、15 の銀行グループに破綻処理計画へのフィードバック書簡を公表](https://x.com/federalreserve/status/2105025095496548590)

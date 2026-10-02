@@ -14,7 +14,7 @@ White Houseは、イラン合意について「Iran will never have a nuclear we
 
 2つ目は、CLARITY Actだ。Lummis上院議員は、CLARITY Actが成立すれば、1933年型の証券開示を無理に当てはめるのではなく、2026年以降のデジタル資産向け開示枠組みが初めて作られると発信した。一方で、Eleanor Terrett氏は、7月4日までの成立には残り営業日、倫理条項、農業委員会テキスト、手続き上のハードルが重く、「今年成立の期待」と「独立記念日までの成立」は分けて見るべきだとしている。
 
-3つ目は、実体経済データだ。Federal Reserveの5月Industrial Productionは、全体+0.1%、製造業+0.0%、公益-0.4%、鉱業+1.3%、Capacity Utilization 76.2%。FREDでは6/12時点でFF金利3.62%、2年債利回り4.09%、High Yield spread 2.71、Broad Dollar index 119.51。地政学ヘッドラインの一方で、ドル高と信用スプレッドはまだ監視対象である。
+3つ目は、実体経済データだ。Federal Reserveの5月Industrial Productionは、全体+0.1%、製造業+0.0%、公益-0.4%、鉱業+1.3%、Capacity Utilization 76.2%。FREDでは6/12時点でFF金利3.62%、2年債利回り4.09%、Broad Dollar index 119.51。地政学ヘッドラインの一方で、ドル高と信用スプレッドはまだ監視対象である。
 
 🧭 今日の焦点 3件
 
@@ -40,7 +40,7 @@ Cardano networkはepoch 637、epoch progress 40.2%、latest block 13,554,800。�
 - Hormuzの実通航、保険料、タンカー運航、地雷除去
 - 凍結資産・制裁解除の実行有無
 - CLARITY Actの倫理条項、農業委員会テキスト、上院日程
-- Fed H.8、Industrial Production改定、FRED DFF/DGS2/HY spread
+- Fed H.8、Industrial Production改定、FRED DFF/DGS2
 - Broad Dollar index 119台の継続
 - HLNEなどインサイダー買いクラスターの継続性
 
@@ -69,7 +69,6 @@ Iran/Hormuzのリスク後退、CLARITYの制度化期待、FedDataの落ち着�
 - Federal Reserve Industrial Production: https://x.com/federalreserve/status/2066510357733032409
 - FRED DFF: https://fred.stlouisfed.org/series/DFF
 - FRED DGS2: https://fred.stlouisfed.org/series/DGS2
-- FRED High Yield Spread: https://fred.stlouisfed.org/series/BAMLH0A0HYM2
 - FRED Broad Dollar Index: https://fred.stlouisfed.org/series/DTWEXBGS
 
 🌐 https://sition.jp

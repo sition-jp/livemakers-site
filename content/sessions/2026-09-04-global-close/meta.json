@@ -24,7 +24,7 @@
     "digestId": "dig_20260904_0002_f29e2660",
     "crawlAnchorJst": "2026-09-04T23:03:00+09:00",
     "writtenAtJst": "2026-09-05T00:02:56+09:00",
-    "lead": "夜のセッションは AI と雇用統計の二正面で動いた。OpenAI が GPT-6 Astra を公開し、コンピュータ操作で世界最良と位置づける一方、システムカードでは思考過程を外から追う手がかりが弱まったと記されている。能力の伸びと可観測性が同じ方向に進まない局面に入りつつある。米 8 月雇用は市場予想を大きく上回ったと報じられたが、失業率は 4.1% で横ばい、ハイイールド債スプレッドも 2.65% にとどまり、信用市場は緩んだままだ。",
+    "lead": "夜のセッションは AI と雇用統計の二正面で動いた。OpenAI が GPT-6 Astra を公開し、コンピュータ操作で世界最良と位置づける一方、システムカードでは思考過程を外から追う手がかりが弱まったと記されている。能力の伸びと可観測性が同じ方向に進まない局面に入りつつある。米 8 月雇用は市場予想を大きく上回ったと報じられたが、失業率は 4.1% で横ばい、ハイイールド債スプレッドも低位にとどまり、信用市場は緩んだままだ。",
     "items": [
       {
         "headline": "OpenAI が GPT-6 Astra を公開 — 「コンピュータでできることは Astra ができる」",
@@ -60,15 +60,6 @@
         "headline": "強い雇用統計にもかかわらず米株はプラス圏と報じられる",
         "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dow-jones-sp-500-nasdaq-us-aktien-trotz-starkem-arbeitsmarktbericht-im-plus/100252070.html",
         "note": "「強い経済 = 利下げ後退」の反射的な下押しが続かなかった、という読み方ができる。"
-      },
-      {
-        "headline": "VIX は 14.32（9 月 3 日時点）",
-        "sourceUrl": "https://fred.stlouisfed.org/series/VIXCLS"
-      },
-      {
-        "headline": "ハイイールド債スプレッドは 2.65%（9 月 3 日時点）",
-        "sourceUrl": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
-        "note": "株価指数の変動よりも、信用市場が緩んだままである点のほうが今は情報量が大きい。"
       },
       {
         "headline": "ノルウェー政府系ファンドが米国債の大幅な圧縮を計画と報じられる",
