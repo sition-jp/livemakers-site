@@ -39,7 +39,7 @@
 
 暗号資産（月曜朝・反発）: BTC $63,400 +4.4%｜ETH $1,691 +8.4%｜ADA $0.166 +5.9%｜NIGHT $0.030 -2.6%（いずれも24時間）
 米国市場（直近終値ベース）: S&P500 7,584 +0.4%｜ダウ 51,562 +1.7%｜VIX 15.4｜DXY 99.4｜ドル円 160.0｜金 $4,503 +1.5%｜WTI $92.8 -3.3%｜米10年金利 4.48%
-背景FRED（直近保存値）: DFF 3.62｜米2年金利 4.05｜米ハイイールドスプレッド 2.74
+背景FRED（直近保存値）: DFF 3.62｜米2年金利 4.05
 レジーム: 週明けは暗号資産が反発。強い雇用で金利は高止まり、関心は制度面、とりわけステーブルコインへ移っている。
 
 ⚡ 先行指標 Watch（48-72h）
@@ -74,5 +74,5 @@
   https://www.dlnews.com/articles/regulation/key-dates-for-us-crypto-regulation-in-2026/
 - 日本経済新聞: 日銀6月利上げ観測
   https://www.nikkei.com/article/DGXZQOUB023HG0S6A600C2000000/
-- FRED: Effective Federal Funds Rate / 2-Year Treasury / US High Yield Spread
+- FRED: Effective Federal Funds Rate / 2-Year Treasury
   https://fred.stlouisfed.org/series/DFF
