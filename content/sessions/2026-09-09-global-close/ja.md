@@ -17,7 +17,6 @@
 - [米財務省、イラン航空部門を支える36の対象を制裁](https://x.com/USTreasury/status/2097352094717993426) — 「Operation Economic Outcast」の一環。当該部門が武器・人員の移動に使われているとして指定した。
 - [米2年債・5年債の利回りが20カ月ぶり高水準に達したとされる](https://x.com/BullTheoryio/status/2097658339966820444) — 2年が4.419%、5年が4.590%。8月の強い雇用統計が利下げ期待を後退させたとの見方が示されている。
 - [ドルが7カ月ぶり安値圏、市場の関心は米国債の買い戻し規模とCPIへ](https://x.com/BloombergJapan/status/2097614973820117437)
-- [ハイイールド債スプレッドは9月8日時点で2.67%と低位のまま](https://fred.stlouisfed.org/series/BAMLH0A0HYM2) — 原油と地政学の見出しに対し、信用市場の側はまだ動揺を織り込んでいない。
 - [ペイパル、独自トークン発行プラットフォームでステーブルコイン基盤を拡張](https://www.coindesk.com/business/2026/09/09/paypal-expands-stablecoin-rails-with-launch-of-custom-token-issuance-platform)
 - [USバンク、自社ステーブルコインへ向けクロスボーダー決済の実証に進む](https://www.coindesk.com/business/2026/09/08/u-s-bank-takes-next-step-towards-launching-its-stablecoin-with-cross-border-payment-test)
 - [テザーとFasanara、ステーブルコイン活用のプライベートクレジットに4億ドルのファンド](https://www.theblock.co/news/deals/2026-09-09-tether-fasanara-launch-400-million-fund-for-stablecoin-enabled-private-credit-414011)

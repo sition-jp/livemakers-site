@@ -13,7 +13,6 @@
 - [ビットコインのLightningに、初の耐量子防御の実装が公開される](https://x.com/coinbureau/status/2102513266782040279) — 既存の暗号を置き換えず、格子ベースの方式を上に重ねる設計。
 - [Coinbase、保管資産向けの鍵管理を耐量子版へ作り替えていると説明](https://x.com/coinbureau/status/2102545982349307924)
 - [ルミス議員、市場構造法案が進まない理由を党派対立に帰す発言](https://www.coindesk.com/policy/2026/09/22/democrats-chose-visceral-hatred-for-donald-trump-over-crypto-clarity-act-lummis-says)
-- [米ハイイールド債スプレッドは2.66（9月21日時点）](https://fred.stlouisfed.org/series/BAMLH0A0HYM2) — 信用リスクの値付けは落ち着いた水準のまま。
 - [10年の期待インフレ率は2.33（9月22日時点）](https://fred.stlouisfed.org/series/T10YIE)
 - [ダイソンの新しいロボット掃除機、水拭きを外した機種が10万円を切る価格帯に](https://www.gizmodo.jp/article/dysons-latest-robovac-is-ideal-for-people-who-dont-care-about-mop-bots/) — 家事の自動化は、機能を足す方向と、削って価格を下げる方向の両方に分かれ始めている。
 

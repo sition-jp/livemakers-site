@@ -607,6 +607,7 @@
     "watchHeading": "次の見どころ",
     "crystallizeNote": "このページは次のセッション切替時に、そのまま読み返せる記事になります。",
     "noSnapshotNote": "この回は市場観測が取得できず、読み解きのみです。",
+    "noNumbersNote": "この回の数値は掲載していません。",
     "archiveTitle": "Intelligence Terminal — セッション記事(朝昼夕夜の全記録)",
     "archiveNote": "1日4回、ライブは時間が経つと記事になります",
     "archivePastLink": "過去のセッション記事を全て見る →",

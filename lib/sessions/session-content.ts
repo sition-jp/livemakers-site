@@ -328,42 +328,57 @@ export function toSessionRecord(
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "sessions");
 
+// 2026-10-02 (spec D13): 7/10 のレイアウト見本など、公開しないセッションをテストだけで
+// 読むためのフォルダ。本番 (Vercel) では設定しない。tests/setup.ts が設定する。
+export const SESSIONS_FIXTURE_DIR_ENV_KEY = "LIVEMAKERS_SESSIONS_FIXTURE_DIR";
+
 export function parseSessionMeta(raw: unknown): SessionRecordMeta {
   return SessionMetaSchema.parse(raw);
 }
 
-export function getAllSessionRecords(): SessionRecord[] {
-  if (!fs.existsSync(CONTENT_DIR)) {
-    return [];
-  }
+function sessionDirectories(): string[] {
+  const roots = [CONTENT_DIR, process.env[SESSIONS_FIXTURE_DIR_ENV_KEY]].filter(
+    (root): root is string =>
+      typeof root === "string" && root.length > 0 && fs.existsSync(root),
+  );
+  return roots.flatMap((root) =>
+    fs
+      .readdirSync(root)
+      .map((directory) => path.join(root, directory))
+      .filter((directoryPath) =>
+        fs.existsSync(path.join(directoryPath, "meta.json")),
+      ),
+  );
+}
 
-  return fs
-    .readdirSync(CONTENT_DIR)
-    .filter((directory) =>
-      fs.existsSync(path.join(CONTENT_DIR, directory, "meta.json")),
-    )
-    .map((directory) => {
-      const directoryPath = path.join(CONTENT_DIR, directory);
-      const meta = parseSessionMeta(
-        JSON.parse(
-          fs.readFileSync(path.join(directoryPath, "meta.json"), "utf8"),
-        ),
+export function getAllSessionRecords(): SessionRecord[] {
+  const records = sessionDirectories().map((directoryPath) => {
+    const meta = parseSessionMeta(
+      JSON.parse(fs.readFileSync(path.join(directoryPath, "meta.json"), "utf8")),
+    );
+    const bodyPath = path.join(directoryPath, "ja.md");
+    const bodyJa = fs.existsSync(bodyPath)
+      ? fs.readFileSync(bodyPath, "utf8")
+      : null;
+    if (meta.articleStatus === "published" && !bodyJa) {
+      throw new Error(
+        `published session requires ja.md body: ${meta.sessionId}`,
       );
-      const bodyPath = path.join(directoryPath, "ja.md");
-      const bodyJa = fs.existsSync(bodyPath)
-        ? fs.readFileSync(bodyPath, "utf8")
-        : null;
-      if (meta.articleStatus === "published" && !bodyJa) {
-        throw new Error(
-          `published session requires ja.md body: ${meta.sessionId}`,
-        );
-      }
-      return toSessionRecord(meta, {
-        bodyJa,
-        hasMaterializedRoute: true,
-      });
-    })
-    .sort((left, right) => right.asOfJst.localeCompare(left.asOfJst));
+    }
+    return toSessionRecord(meta, { bodyJa, hasMaterializedRoute: true });
+  });
+  const seen = new Set<string>();
+  for (const record of records) {
+    if (seen.has(record.sessionId)) {
+      throw new Error(
+        `duplicate session id across session dirs: ${record.sessionId}`,
+      );
+    }
+    seen.add(record.sessionId);
+  }
+  return records.sort((left, right) =>
+    right.asOfJst.localeCompare(left.asOfJst),
+  );
 }
 
 export function getSessionRecord(sessionId: string): SessionRecord {

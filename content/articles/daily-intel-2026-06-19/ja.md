@@ -38,7 +38,7 @@ stablecoinは「発行できるか」から「誰を確認し、どの銀行監�
 
 6/19 05:58 JSTのterminal liveでは、BTCは63,043ドルで-2.04%、ETHは1,709.32ドルで-2.05%、ADAは0.163344ドルで-2.02%。NIGHTはDexScreener pair未設定のためlive取得不可。
 
-Cardano networkはepoch 637、epoch progress 99.3%、latest block 13,567,243。FREDでは6/17時点でFF金利3.63%、2年債利回り4.20%、High Yield Bond Spread 2.63。地政学ヘッドラインが強くても、cryptoはまだ金利とドルの重さを消化している。
+Cardano networkはepoch 637、epoch progress 99.3%、latest block 13,567,243。FREDでは6/17時点でFF金利3.63%、2年債利回り4.20%。地政学ヘッドラインが強くても、cryptoはまだ金利とドルの重さを消化している。
 
 ⚡ 先行指標 Watch（48-72h）
 
@@ -74,6 +74,5 @@ Hormuz通航、原油安、stablecoin rulemaking、CLARITY協議が同時に進�
 - OpenInsider FISV: http://openinsider.com/screener?s=FISV
 - FRED DFF: https://fred.stlouisfed.org/series/DFF
 - FRED DGS2: https://fred.stlouisfed.org/series/DGS2
-- FRED High Yield Spread: https://fred.stlouisfed.org/series/BAMLH0A0HYM2
 
 🌐 https://sition.jp

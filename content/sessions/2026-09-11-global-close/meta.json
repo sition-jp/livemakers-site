@@ -56,16 +56,6 @@
         "note": "10月にもう一段あるかが論点になっている。"
       },
       {
-        "headline": "株の変動率指数は17.84（9月10日時点）",
-        "sourceUrl": "https://fred.stlouisfed.org/series/VIXCLS",
-        "note": "金利と原油が動いている割に、変動率そのものは落ち着いた位置にある。"
-      },
-      {
-        "headline": "高利回り債の上乗せ幅は2.7%（9月10日時点）",
-        "sourceUrl": "https://fred.stlouisfed.org/series/BAMLH0A0HYM2",
-        "note": "信用の側にはまだ強い緊張が出ていない。"
-      },
-      {
         "headline": "ピックアップトラックの電池が、家庭用蓄電池と組んで家に電気を回せるようになった",
         "sourceUrl": "https://x.com/Tesla/status/2098124882559353166",
         "note": "対象は据置型の第3世代のみで、旧型への対応は先の予定。停電時の持ち時間が延びる。"

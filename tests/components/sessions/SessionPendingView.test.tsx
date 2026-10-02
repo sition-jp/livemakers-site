@@ -120,3 +120,54 @@ describe("SessionPendingView digest-only (observationStatus=absent)", () => {
     expect(screen.getAllByText("一次情報で確認された主要な動き")).toHaveLength(1);
   });
 });
+
+// 2026-10-02 P3a: 箇条が空でも英語版の本文が空にならない (P3b で過去記事の箇条が空になる前に)。
+describe("SessionPendingView with empty bullets", () => {
+  const copy = {
+    snapshotHeading: "数値スナップショット",
+    highlightsHeading: "一次情報ハイライト",
+    watchHeading: "次の見どころ",
+    crystallizeNote: "このページは次のセッション切替時に記事になります。",
+    noSnapshotNote: "この回は市場観測が取得できず、読み解きのみです。",
+    noNumbersNote: "この回の数値は掲載していません。",
+  };
+
+  it("renders the no-numbers note (not the no-snapshot note) when bullets are empty and editorial is hidden by locale", () => {
+    const { container } = render(
+      <SessionPendingView
+        record={{ ...record, bullets: [] }}
+        locale="en"
+        copy={copy}
+      />,
+    );
+    expect(container.querySelector("ul")).toBeNull();
+    expect(container.textContent).toContain(copy.noNumbersNote);
+    expect(container.textContent).not.toContain(copy.noSnapshotNote);
+  });
+
+  it("renders the no-numbers note instead of an empty list when bullets are empty and no editorial is shown", () => {
+    const { container } = render(
+      <SessionPendingView
+        record={{ ...record, bullets: [], editorial: undefined }}
+        locale="en"
+        copy={copy}
+      />,
+    );
+    expect(container.querySelector("ul")).toBeNull();
+    expect(container.textContent).toContain(copy.noNumbersNote);
+    expect(container.textContent).not.toContain(copy.noSnapshotNote);
+  });
+
+  it("hides the snapshot section but keeps the editorial when bullets are empty (ja)", () => {
+    const { container } = render(
+      <SessionPendingView
+        record={{ ...record, bullets: [] }}
+        locale="ja"
+        copy={copy}
+      />,
+    );
+    expect(container.textContent).not.toContain(copy.snapshotHeading);
+    expect(container.textContent).toContain(record.editorial!.lead);
+    expect(container.textContent).not.toContain(copy.noSnapshotNote);
+  });
+});

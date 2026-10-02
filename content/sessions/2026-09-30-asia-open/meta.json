@@ -80,10 +80,6 @@
         "sourceUrl": "https://fred.stlouisfed.org/series/DGS2"
       },
       {
-        "headline": "VIX 16.07(9/28)、前日の 14.87 から上昇",
-        "sourceUrl": "https://fred.stlouisfed.org/series/VIXCLS"
-      },
-      {
         "headline": "クリーブランド連銀のナウキャスト、8 月 PCE 前年比を 3.78% と予測",
         "sourceUrl": "https://x.com/ClevelandFed/status/2104940034273022079",
         "note": "公式統計は 9/30 に発表予定。"

@@ -14,9 +14,6 @@
 - 米上院は7月13日15時（米東部時間）に本会議を再開した。同日の公式日程には委員会公聴会は掲載されず、CLARITY Actの本会議採決も確認できなかった。
   https://www.senate.gov/
 
-- 米ハイイールド債スプレッドの直近公表値は7月10日時点で2.69%、前回2.70%から0.01ポイント縮小した。信用市場は現時点で急激なストレス拡大を示していない。
-  https://fred.stlouisfed.org/series/BAMLH0A0HYM2
-
 🧭 今日の焦点 3件
 
 【1】IPO改革は、企業の「資本への入口」を変える
@@ -33,13 +30,11 @@ SECの既存整理では、トークン化証券は記録媒体がオンチェ�
 
 📊 数値スナップショット
 
-基準時刻: 2026-07-14朝JST。日程はSEC・米上院、信用指標はFREDの直近公表値。
+基準時刻: 2026-07-14朝JST。日程はSEC・米上院。
 
 SEC討議: 90分｜登壇実務家5人｜IPO・公開市場アクセスが主題。
 
 米上院: 7月13日15時ETに再開｜当日公式日程にCLARITY採決なし。
-
-米ハイイールド債スプレッド: 2.69%｜前回2.70%｜0.01ポイント縮小。
 
 ⚡ 先行指標 Watch（48-72h）
 
@@ -66,6 +61,5 @@ IPO改革、トークン化証券の実務整理、CLARITYの本会議工程が�
 - SEC 2026 Regulatory Agenda: https://www.sec.gov/newsroom/speeches-statements/atkins-statement-2026-regulatory-agenda-070726
 - SEC「Statement on Tokenized Securities」: https://www.sec.gov/newsroom/speeches-statements/corp-fin-statement-tokenized-securities-012826-statement-tokenized-securities
 - 米上院: https://www.senate.gov/
-- FRED High Yield Bond Spread: https://fred.stlouisfed.org/series/BAMLH0A0HYM2
 
 🌐 https://sition.jp

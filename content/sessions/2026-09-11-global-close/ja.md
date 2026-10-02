@@ -18,8 +18,6 @@
 - [ホルムズ危機から半年、湾岸からの原油の流れは細いままだと国際エネルギー機関が述べた](https://x.com/IEA/status/2098399930838605877) — 海峡が二か所同時に問題になる形になった。
 - [インドが輸入する原油の3割はホルムズを通る](https://www.washingtontimes.com/news/2026/sep/11/indias-30-oil-lifeline-strait-hormuz-hangs-brics-summit-iran-war/) — BRICS首脳会議の議題にその依存が重なる。
 - [ユーロ圏の政策金利は3%へ向かうという見方が出てきた](https://www.handelsblatt.com/finanzen/geldpolitik/ezb-leitzins-im-euro-raum-nimmt-wieder-kurs-auf-drei-prozent/100252835.html) — 10月にもう一段あるかが論点になっている。
-- [株の変動率指数は17.84（9月10日時点）](https://fred.stlouisfed.org/series/VIXCLS) — 金利と原油が動いている割に、変動率そのものは落ち着いた位置にある。
-- [高利回り債の上乗せ幅は2.7%（9月10日時点）](https://fred.stlouisfed.org/series/BAMLH0A0HYM2) — 信用の側にはまだ強い緊張が出ていない。
 - [ピックアップトラックの電池が、家庭用蓄電池と組んで家に電気を回せるようになった](https://x.com/Tesla/status/2098124882559353166) — 対象は据置型の第3世代のみで、旧型への対応は先の予定。停電時の持ち時間が延びる。
 - [金融庁が熊本地震を受けて金融機関等の報告提出期限に措置を出した](https://www.fsa.go.jp/news/r8/sonota/20260911/20260911.html)
 - [スイスの大手銀行が約80億ドル分の債券を買い戻した](https://www.handelsblatt.com/finanzen/banken-versicherungen/schweiz-ubs-kauft-anleihen-im-wert-von-fast-acht-milliarden-dollar-zurueck/100253913.html)

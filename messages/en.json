@@ -605,6 +605,7 @@
     "watchHeading": "What to watch next",
     "crystallizeNote": "This page becomes a permanent article when the next session begins.",
     "noSnapshotNote": "Market observation was unavailable for this session; digest only.",
+    "noNumbersNote": "Market figures are not shown for this session.",
     "archiveTitle": "Intelligence Terminal — Session Articles (Morning to Night)",
     "archiveNote": "Four live sessions each day become articles over time.",
     "archivePastLink": "View all past session articles →",

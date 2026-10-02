@@ -34,7 +34,6 @@ Iran / Hormuz: APとAxiosは、米国とIranが停戦延長、Hormuz再開、核
 BTC: $73,404付近｜ETH: $2,011付近｜ADA: $0.2329付近｜NIGHT: $0.0349付近
 S&P 500: 7,580.06｜VIX: 15.32｜米10年債利回り: 4.453%｜DXY: 98.942
 WTI: $87.76｜Brent: $91.70｜Gold: $4,569.90
-FRED VIX: 15.74（5/28）｜High Yield Spread: 2.72（5/28）
 Regime: 株式は強いが、暗号資産は制度待ち。地政学リスクは完全には消えていない。
 
 ⚡ 先行指標 Watch（48-72h）
@@ -64,5 +63,3 @@ Alt: 米国と日本で制度整備が同時に進み、ステーブルコイン
   https://apnews.com/article/cac5206df0f0c7b79fe9321c08d63096
 - Axios: Vance says U.S. and Iran are very close to a deal
   https://www.axios.com/2026/05/28/iran-war-us-peace-deal-close-vance
-- FRED VIX
-  https://fred.stlouisfed.org/series/VIXCLS
