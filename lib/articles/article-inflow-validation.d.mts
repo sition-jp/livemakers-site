@@ -98,3 +98,24 @@ export function parseArticleInflowBody(
   payload: unknown,
   expected: { slug: string; bodyChecksum: string },
 ): string | null;
+
+/** サイト内検索 第2段階: catalog トップレベルの search_index */
+export const ARTICLE_SEARCH_INDEX_SCHEMA_VERSION: "livemakers_article_search_index_v1";
+export const ARTICLE_SEARCH_SHARD_SCHEMA_VERSION: "livemakers_article_search_shard_v1";
+export const ARTICLE_SEARCH_TEXT_RULES_VERSION: 1;
+
+export interface ArticleSearchIndexRef {
+  schema_version: typeof ARTICLE_SEARCH_INDEX_SCHEMA_VERSION;
+  text_rules_version: typeof ARTICLE_SEARCH_TEXT_RULES_VERSION;
+  shards: { month: string; url: string; checksum: string; article_count: number }[];
+}
+
+export interface ArticleSearchShard {
+  schema_version: typeof ARTICLE_SEARCH_SHARD_SCHEMA_VERSION;
+  month: string;
+  text_rules_version: typeof ARTICLE_SEARCH_TEXT_RULES_VERSION;
+  articles: { slug: string; text: string; truncated: boolean }[];
+}
+
+export function parseArticleSearchIndexRef(payload: unknown): ArticleSearchIndexRef | null;
+export function parseArticleSearchShard(payload: unknown): ArticleSearchShard | null;

@@ -2,10 +2,12 @@ import {
   ArticleMetaSchema,
   type ArticleMeta,
 } from "@/lib/articles/article-model";
-import type {
-  ArticleInflowFeed,
-  ArticleInflowSource,
-  ArticleInflowSourceItem,
+import {
+  parseArticleSearchIndexRef,
+  type ArticleInflowFeed,
+  type ArticleInflowSource,
+  type ArticleInflowSourceItem,
+  type ArticleSearchIndexRef,
 } from "@/lib/articles/article-inflow-validation.mjs";
 
 export {
@@ -35,6 +37,12 @@ export type ArticleInflowPublicArticle = ArticleInflowPreviewArticle;
 export interface ArticleInflowPublicCatalog
   extends ArticleInflowPreviewCatalog {
   feedPresent: boolean;
+  /**
+   * サイト内検索 第2段階: catalog トップレベル search_index (月別 shard の
+   * 置き場所)。無い・壊れている時は null (記事一覧には影響しない)。
+   * テストの mock 等で省略されうるので optional。
+   */
+  searchIndex?: ArticleSearchIndexRef | null;
 }
 
 function toJstParts(value: string) {
@@ -123,5 +131,8 @@ export function buildArticleInflowPublicCatalog(
   return {
     ...buildArticleInflowCatalog(repositoryArticles, feed, "/articles"),
     feedPresent: feed !== null,
+    searchIndex: parseArticleSearchIndexRef(
+      (feed as { search_index?: unknown } | null)?.search_index,
+    ),
   };
 }
