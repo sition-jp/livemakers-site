@@ -10,6 +10,7 @@ import {
   type SeriesSlug,
 } from "@/lib/articles/article-model";
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
+import { formatDateHeading } from "@/lib/articles/date-heading";
 import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import {
   groupByJstDate,
@@ -20,21 +21,6 @@ import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 
 function isSeriesSlug(value: string): value is SeriesSlug {
   return SERIES_SLUGS.includes(value as SeriesSlug);
-}
-
-/**
- * 日付見出し (例: 10月2日(金) / Fri, Oct 2)。暦日は JST の YYYY-MM-DD なので
- * UTC 0 時として整形すれば日付がずれない。シリーズ最新記事と年が違う日だけ年を付ける。
- */
-function formatDateHeading(date: string, locale: string, latestYear: string) {
-  const withYear = date.slice(0, 4) !== latestYear;
-  return new Intl.DateTimeFormat(locale === "ja" ? "ja-JP" : "en-US", {
-    timeZone: "UTC",
-    ...(withYear ? { year: "numeric" } : {}),
-    month: locale === "ja" ? "long" : "short",
-    day: "numeric",
-    weekday: "short",
-  }).format(new Date(`${date}T00:00:00Z`));
 }
 
 /**
