@@ -91,10 +91,11 @@ export async function runProposer(args: RunProposerArgs): Promise<RunProposerRes
   // Step 4: slice top-N
   const topN = deduped.slice(0, PROPOSER_CONFIG.max_proposals_per_night);
 
-  // Step 5: read market prices
+  // Step 5: read market prices (実行時刻から 3 日より古い値は使わない — D16)
   const prices = await readMarketPrices({
     marketIndicatorsJsonlPath: args.marketPath,
     assets: PROPOSER_CONFIG.supported_assets,
+    nowIso: args.nowIso,
   });
 
   // Step 6: build drafts + persist
