@@ -95,6 +95,15 @@ describe("article inflow server boundary", () => {
     },
   );
 
+  it("accepts a landmark (節目シグナル) item without rejecting the feed (2026-10-03)", async () => {
+    process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/feed.json";
+    const feed = payload();
+    feed.articles.push({ ...feed.articles[0], slug: "landmark-20261005-feedtest", family: "landmark" });
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => feed }));
+    const parsed = await fetchArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(parsed?.articles.map((a) => a.family)).toEqual(["daily-intel", "landmark"]);
+  });
+
   it("returns a fully validated feed", async () => {
     process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/feed.json";
     const fetcher = vi.fn(async () => ({ ok: true, json: async () => payload() }));

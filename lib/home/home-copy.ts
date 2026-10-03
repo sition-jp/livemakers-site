@@ -118,6 +118,7 @@ export function buildHomeCopy(
       "event-risk-radar",
       "weekly-brief",
       "session",
+      "landmark",
     ].map((family) => [family, translate(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;
   const laneLabels = {

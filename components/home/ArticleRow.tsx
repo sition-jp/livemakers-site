@@ -17,6 +17,7 @@ export const FAMILY_COLORS: Record<ArticleFamily, string> = {
   session: "var(--lmk-family-session)",
   "future-atlas": "var(--lmk-family-future-map)",
   flash: "var(--lmk-family-flash)",
+  landmark: "var(--lmk-family-landmark)",
 };
 
 /**

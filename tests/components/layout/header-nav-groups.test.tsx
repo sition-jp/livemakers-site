@@ -54,6 +54,7 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     "/articles/series/flash",
     "/articles/series/daily-intel",
     "/articles/series/signal",
+    "/articles/series/landmark",
     "/articles/series/deep-dive",
     "/articles/series/mkt12-morning",
     "/articles/series/mkt12-weekend",

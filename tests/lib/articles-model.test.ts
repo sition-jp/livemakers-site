@@ -25,7 +25,7 @@ describe("article model + lane taxonomy", () => {
     expect(getAllArticles({ contentDir: missing })).toEqual([]);
   });
 
-  it("declares the eight G40 families plus session, future-atlas and flash", () => {
+  it("declares the eight G40 families plus session, future-atlas, flash and landmark", () => {
     expect(ARTICLE_FAMILIES).toEqual([
       "daily-intel",
       "signal",
@@ -38,6 +38,7 @@ describe("article model + lane taxonomy", () => {
       "session",
       "future-atlas",   // T4-2: site-first go_record 面 (P0-7)
       "flash",          // Task 13: 速報 (breaking full-auto lane G1)
+      "landmark",       // 2026-10-03: 節目シグナル
     ]);
     expect(SERIES_SLUGS).toEqual([
       "daily-intel",
@@ -49,6 +50,7 @@ describe("article model + lane taxonomy", () => {
       "event-risk-radar",
       "weekly-brief",
       "flash",
+      "landmark",
     ]);
   });
 
@@ -125,5 +127,16 @@ describe("article model + lane taxonomy", () => {
       publishedLabel: "09-11 09:00 速報",
     });
     expect(parsed.family).toBe("flash");
+  });
+
+  it("accepts family landmark (節目シグナル) as a valid ArticleMetaSchema family", () => {
+    const parsed = ArticleMetaSchema.parse({
+      articleId: "landmark-20261005-a1b2c3d4",
+      family: "landmark",
+      titleJa: "節目シグナルのテスト",
+      publishedAtJst: "2026-10-05T18:10:00+09:00",
+      publishedLabel: "10-05 18:10 節目シグナル",
+    });
+    expect(parsed.family).toBe("landmark");
   });
 });

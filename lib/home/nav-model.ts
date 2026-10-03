@@ -11,7 +11,7 @@ export interface NavItem {
 }
 
 export interface NavModel {
-  articlesGroup: NavItem[]; // flag OFF: 9 項目 / ON: 8 項目 (future-map 除去・2026-09-21 flash 追加)
+  articlesGroup: NavItem[]; // flag OFF: 10 項目 / ON: 9 項目 (future-map 除去・2026-09-21 flash 追加・2026-10-03 landmark 追加)
   topLevel: NavItem[]; // ON のとき futureAtlas を先頭に含む
 }
 
@@ -28,6 +28,8 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
     { key: "flash", href: seriesHref("flash") },
     { key: "dailyIntel", href: seriesHref("daily-intel") },
     { key: "signal", href: seriesHref("signal") },
+    // 2026-10-03 田平氏 GO: 節目シグナル (数年に一度の節目を検証つきで出す Signal の独立シリーズ)
+    { key: "landmark", href: seriesHref("landmark") },
     { key: "deepDive", href: seriesHref("deep-dive") },
     { key: "mkt12Morning", href: seriesHref("mkt12-morning") },
     { key: "mkt12Weekend", href: seriesHref("mkt12-weekend") },

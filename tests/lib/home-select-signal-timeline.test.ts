@@ -23,6 +23,18 @@ function mk(
 const ids = (list: ArticleMeta[]): string[] => list.map((a) => a.articleId);
 
 describe("selectSignalTimeline", () => {
+  it("places landmark (節目シグナル) articles in the same timeline as signal (2026-10-03)", () => {
+    const result = selectSignalTimeline({
+      articles: [
+        mk("sig", "2026-07-10T10:00:00+09:00"),
+        mk("lm", "2026-07-10T11:00:00+09:00", "landmark"),
+        mk("dd", "2026-07-10T09:00:00+09:00", "deep-dive"),
+      ],
+      now: NOW,
+    });
+    expect(ids(result)).toEqual(["lm", "sig"]);
+  });
+
   it("returns all signals within 24h when they exceed the floor", () => {
     // 11 signals, all inside the 24h window [07-09 12:00, 07-10 12:00], descending
     const within = [
