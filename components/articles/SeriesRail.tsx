@@ -27,14 +27,16 @@ export const RAIL_SECTIONS = [
   "mkt12-weekend",
   "weekly-brief",
 ] as const;
-// deep-dive は常設枠から外れたが current series の hoist 先としては残る
-export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive";
+// deep-dive は常設枠から外れたが current series の hoist 先としては残る。
+// landmark (節目シグナル・2026-10-03) も常設枠を持たず、閲覧中だけ current series として先頭に立つ
+export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive" | "landmark";
 
 const LATEST_ARTICLES_COUNT = 20;
 
 const SECTION_FAMILY: Partial<Record<RailSection, ArticleFamily>> = {
   "daily-intel": "daily-intel",
   signal: "signal",
+  landmark: "landmark",
   "deep-dive": "deep-dive",
   "mkt12-morning": "mkt12-morning",
   "event-risk-radar": "event-risk-radar",
@@ -227,6 +229,7 @@ export function buildTestSeriesRailCopy(): SeriesRailCopy {
       "future-atlas": "未来アトラス",
       session: "セッション記事",
       flash: "速報",
+      landmark: "節目シグナル",
     },
   };
 }

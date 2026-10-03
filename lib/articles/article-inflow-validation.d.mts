@@ -15,7 +15,8 @@ export type ArticleInflowFamily =
   | "weekly-brief"
   | "session"
   | "future-atlas"
-  | "flash";
+  | "flash"
+  | "landmark";
 
 export type ArticleInflowProvenance =
   | {

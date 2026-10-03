@@ -21,7 +21,8 @@
     "weeklyBrief": "WEEKLY BRIEF",
     "futureMap": "MAP OF THE NEXT ERA",
     "sessionTerminal": "INTELLIGENCE TERMINAL",
-    "flash": "FLASH"
+    "flash": "FLASH",
+    "landmark": "LANDMARK"
   },
   "assets": {
     "dashboard": {
@@ -465,7 +466,8 @@
       "weekly-brief": "Weekly Brief",
       "session": "Session Article",
       "future-atlas": "Future Atlas",
-      "flash": "Flash"
+      "flash": "Flash",
+      "landmark": "Landmark Signal"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
@@ -566,7 +568,8 @@
       "weekly-brief": "Weekly Brief",
       "session": "Session Article",
       "future-atlas": "Future Atlas",
-      "flash": "Flash"
+      "flash": "Flash",
+      "landmark": "Landmark Signal"
     },
     "todayTitle": "Today's articles",
     "todayEmpty": "Today's articles will be published shortly.",

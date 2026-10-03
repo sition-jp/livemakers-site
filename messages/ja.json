@@ -21,7 +21,8 @@
     "weeklyBrief": "Weekly Brief",
     "futureMap": "次の時代の地図",
     "sessionTerminal": "Intelligence Terminal",
-    "flash": "速報"
+    "flash": "速報",
+    "landmark": "節目シグナル"
   },
   "assets": {
     "dashboard": {
@@ -465,7 +466,8 @@
       "weekly-brief": "Weekly Brief",
       "session": "セッション記事",
       "future-atlas": "未来アトラス",
-      "flash": "速報"
+      "flash": "速報",
+      "landmark": "節目シグナル"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
@@ -566,7 +568,8 @@
       "weekly-brief": "Weekly Brief",
       "session": "セッション記事",
       "future-atlas": "未来アトラス",
-      "flash": "速報"
+      "flash": "速報",
+      "landmark": "節目シグナル"
     },
     "todayTitle": "本日の記事一覧",
     "todayEmpty": "本日の記事はこれから公開されます",

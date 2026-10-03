@@ -15,6 +15,7 @@ export const ARTICLE_FAMILIES = [
   "session",
   "future-atlas",
   "flash",
+  "landmark",
 ] as const;
 export type ArticleFamily = (typeof ARTICLE_FAMILIES)[number];
 
@@ -28,6 +29,7 @@ export const SERIES_SLUGS = [
   "event-risk-radar",
   "weekly-brief",
   "flash",
+  "landmark",
 ] as const;
 export type SeriesSlug = (typeof SERIES_SLUGS)[number];
 
