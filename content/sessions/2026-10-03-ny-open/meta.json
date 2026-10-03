@@ -1,0 +1,87 @@
+{
+  "sessionId": "2026-10-03-ny-open",
+  "date": "2026-10-03",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-03-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-03-ny-open",
+  "publishedAt": "2026-10-04T02:30:13+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261003_1803_992e0675",
+  "asOfJst": "2026-10-03T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月3日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,706.60 → 7,728.10（+0.28%）",
+    "変動幅上位: ETH/USD -2.6% / BTCボラティリティ（BVIV） -2.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261003_1840_1992ee4b",
+    "crawlAnchorJst": "2026-10-03T18:03:00+09:00",
+    "writtenAtJst": "2026-10-03T18:40:00+09:00",
+    "lead": "夕方の新着は、暗号資産の利用量の記録と金融インフラの防御の弱さが同時に表に出た。ソラナは7〜9月の取引件数で四半期の最高を更新し、件数の伸びが止まっていないことを示した。一方、韓国では大手行の職員向けサイトが相次いで破られたと報じられ、AI を使った侵入が銀行の防御を上回る局面が見え始めている。Cardano 周辺では Midnight の開放と RealFi の調整が並行して進む。",
+    "items": [
+      {
+        "headline": "ソラナ、7〜9月の非投票取引が142億件で四半期の過去最高",
+        "sourceUrl": "https://x.com/solana/status/2106244521831109112",
+        "note": "前期比45%増。7月・8月も月間の最高を更新しており、件数の伸びが続いている。"
+      },
+      {
+        "headline": "韓国の少なくとも6行で10月1〜2日に不正侵入、うち4行で個人情報が流出と朝鮮日報",
+        "sourceUrl": "https://x.com/chosunonline/status/2106190319310311661",
+        "note": "職員向けサイトの脆弱性を突いた手口で、AI エージェントを使った自律的な侵入の可能性が指摘されている。金融当局は2日に緊急会議を開いたと報じられた。"
+      },
+      {
+        "headline": "Cardano 財団の Cardano Academy、AI エージェントでアプリを作る講座を公開",
+        "sourceUrl": "https://x.com/Cardano_CF/status/2105931918873128963"
+      },
+      {
+        "headline": "Lace、モバイル版での RealFi 提供を一時停止。デスクトップ版は継続",
+        "sourceUrl": "https://x.com/lace_io/status/2106119985135284328",
+        "note": "改善作業のための停止と説明している。"
+      },
+      {
+        "headline": "Midnight、誰でも選択開示型のスマートコントラクトを公開できる段階に",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2106227238773391553"
+      },
+      {
+        "headline": "セントルイス連銀の経済ニュース指数、7〜9月期の実質GDP成長率を年率2.7%と推計",
+        "sourceUrl": "https://x.com/stlouisfed/status/2106243116558581824"
+      },
+      {
+        "headline": "ブラジル大統領選、ルラ氏とボルソナロ陣営が接戦のまま投票へ",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/03/brazil-election-lula-bolsonaro-trump",
+        "note": "中南米で広がる親トランプ勢力の試金石になると英ガーディアンが報じた。"
+      },
+      {
+        "headline": "スイス政府内でスイス国立銀行の強硬姿勢に失望の声とNZZ",
+        "sourceUrl": "https://www.nzz.ch/wirtschaft/enttaeuschung-in-bern-ueber-die-unnachgiebige-haltung-der-schweizerischen-nationalbank-ld.10026499"
+      },
+      {
+        "headline": "オランダの情報機関、スマートカーの車内で機密を話さないよう警告",
+        "sourceUrl": "https://x.com/Sankei_news/status/2106249344173367374"
+      },
+      {
+        "headline": "家庭の蓄電池を束ねて夏の電力不足を乗り切ったカリフォルニア、東京は約3億円で電力を調達",
+        "sourceUrl": "https://www.gizmodo.jp/article/sunrun-tesla-home-battery-power-plant/"
+      },
+      {
+        "headline": "テスラ、ロボタクシーの運行終了時刻を午後10時から11時に延長",
+        "sourceUrl": "https://x.com/elonmusk/status/2106239692866019479"
+      },
+      {
+        "headline": "ソラナ、Backpack でトークン化株を実際の株式に戻せる仕組みを紹介",
+        "sourceUrl": "https://x.com/solana/status/2106285623657017726"
+      }
+    ],
+    "watch": [
+      "韓国の金融当局が侵入の手口と被害範囲を正式に公表するか",
+      "ブラジル大統領選の第1回投票の結果と通貨レアルの反応",
+      "Lace モバイル版で RealFi の提供がいつ再開されるか"
+    ]
+  }
+}
