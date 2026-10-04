@@ -13,6 +13,8 @@ describe("extractTopicTweetId", () => {
       "https://x.com/SITIONjp/status/111",
       "https://x.com/SIPO_Tokyo/status/222",
       "https://x.com/LifeMakersCom/status/333",
+      // 2026-09-11 改名後の LiveMakers (旧 @SITIONjp)
+      "https://x.com/LiveMakersCom/status/334",
       "https://twitter.com/IntersectMBO/status/444",
     ].join("\n");
     expect(extractTopicTweetId(body)).toBe("444");

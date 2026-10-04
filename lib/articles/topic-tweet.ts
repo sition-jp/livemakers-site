@@ -1,8 +1,9 @@
 const STATUS_RE =
   /https?:\/\/(?:www\.)?(?:x|twitter)\.com\/([A-Za-z0-9_]{1,15})\/status(?:es)?\/(\d+)/g;
 
-// 自社アカウントのポストは「外部一次ソース」でない (SIPO Phase 1 と同判断)
-const OWN_HANDLES = new Set(["sitionjp", "sipo_tokyo", "lifemakerscom"]);
+// 自社アカウントのポストは「外部一次ソース」でない (SIPO Phase 1 と同判断)。
+// livemakerscom = 2026-09-11 改名後の LiveMakers (旧 @SITIONjp)
+const OWN_HANDLES = new Set(["sitionjp", "livemakerscom", "sipo_tokyo", "lifemakerscom"]);
 
 /**
  * 本文で最初に現れる外部アカウントの X status ID (無ければ null)。
