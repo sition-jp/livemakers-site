@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-10-04-asia-open",
+  "date": "2026-10-04",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-04-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-04-asia-open",
+  "publishedAt": "2026-10-05T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261004_0730_0b8a650f",
+  "asOfJst": "2026-10-04T07:30:11+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月4日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 69,776 → 69,755（-0.03%）",
+    "変動幅上位: ETH/USD +0.9% / 米10年金利 +0.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261004_0605_ff674858",
+    "crawlAnchorJst": "2026-10-04T05:03:00+09:00",
+    "writtenAtJst": "2026-10-04T06:05:00+09:00",
+    "lead": "週末の朝は、地政学の緊張が重なった。北朝鮮が中距離弾道ミサイルを発射し、中東ではサウジアラビアによるイエメンの首都への空爆がフーシ派から伝えられた。米国では家計への給付の約束が選挙戦の前面に出ている。暗号資産と AI の側では、上場や求人、開発の工程に動きが続き、Cardano では基盤の改良と DeFi の取引の伸びが並んだ。",
+    "items": [
+      {
+        "headline": "北朝鮮が中距離弾道ミサイルを試射したと発表",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/3/north-korea-says-test-fired-intermediate-range-missile/",
+        "note": "地雷の爆発をめぐる緊張が高まるなかでの発射で、日本の首相官邸も情報の収集と警戒を指示した。"
+      },
+      {
+        "headline": "サウジアラビアがイエメンの首都に数十回の空爆、とフーシ派",
+        "sourceUrl": "https://www.straitstimes.com/world/middle-east/saudi-arabia-launches-dozens-of-strikes-on-yemens-capital-say-houthis",
+        "note": "サウジ側の発表はなく、フーシ派の主張として伝えられている。"
+      },
+      {
+        "headline": "英国のシナゴーグを塩素爆弾の標的に下見、イラン人の男2人を検察が指摘",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/3/prosecutor-says-2-iranian-men-scouted-uk-synagogue-bomb-plot/"
+      },
+      {
+        "headline": "ロシアの攻撃でウクライナの6人が死亡、キーウの北部の橋が損傷",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/3/russian-attacks-damage-kyivs-northern-bridge-killing-least-6-people/"
+      },
+      {
+        "headline": "OpenAI の安全担当者が退社、AI 開発に原発並みの多重の対策を求める",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2106387583777329640"
+      },
+      {
+        "headline": "カプコンが、ゲームの開発を AI で速める計画",
+        "sourceUrl": "https://www.engadget.com/2276597/capcom-plans-to-use-ai-to-speed-up-the-game-development-process/"
+      },
+      {
+        "headline": "決済の OpenPayd、年末までのナスダック上場を目指す",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/03/openpayd-targets-year-end-nasdaq-listing-to-fund-u-s-expansion-and-acquisitions",
+        "note": "米国での拡大と買収の資金にあてる。"
+      },
+      {
+        "headline": "暗号資産の求人が9月に3倍の1,200件超、応募は減少",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/03/crypto-job-postings-triple-to-over-1-200-in-september-but-applications-fall"
+      },
+      {
+        "headline": "日銀が9月の短観の詳しいデータを公表",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2105991718399086767"
+      },
+      {
+        "headline": "Cardano の CIP、今週は新しい提案6件",
+        "sourceUrl": "https://x.com/Cardano/status/2106422042014667038",
+        "note": "テーマは「壊れにくく、観測しやすく、信頼しやすい Cardano」。"
+      },
+      {
+        "headline": "スマートコントラクトのソースとバイトコードを突き合わせて確かめる仕組みを紹介",
+        "sourceUrl": "https://x.com/Cardano/status/2106277318935334999"
+      },
+      {
+        "headline": "Minswap の7日間の出来高が前週比128%増の659万ドル、Cardano の DEX で2位",
+        "sourceUrl": "https://defillama.com/protocol/minswap-dex"
+      },
+      {
+        "headline": "Midnight 上の取引所 Ascend、メインネットの取引高が1,000万ドルを突破",
+        "sourceUrl": "https://x.com/AscendPerps/status/2106453877578985741"
+      }
+    ],
+    "watch": [
+      "北朝鮮の追加の発射と、日本と韓国の対応",
+      "週明けの米国債市場で、給付の約束が長期金利にどう響くか",
+      "Cardano の新しい CIP の議論と、Midnight 上の DeFi の取引の伸び"
+    ]
+  }
+}

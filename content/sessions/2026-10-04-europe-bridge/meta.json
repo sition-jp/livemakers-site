@@ -1,0 +1,72 @@
+{
+  "sessionId": "2026-10-04-europe-bridge",
+  "date": "2026-10-04",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-04-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-04-europe-bridge",
+  "publishedAt": "2026-10-05T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261004_1203_c22b538d",
+  "asOfJst": "2026-10-04T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月4日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1255 → 1.1255（0.00%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +0.9% / 米10年金利 +0.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261004_1245_0f6ad1d9",
+    "crawlAnchorJst": "2026-10-04T12:03:00+09:00",
+    "writtenAtJst": "2026-10-04T12:45:00+09:00",
+    "lead": "週末の昼は大きな発表が少ない。目立つのは、米大統領府のクラツィオス科学技術政策局長が京都の STS フォーラムで基調講演に立った場面と、ウクライナがロシアの製油所への攻撃を強めると表明したエネルギー面の動きだ。暗号資産では NEAR のアプリ刷新や Cardano の RealFi など、製品側の更新が中心になっている。",
+    "items": [
+      {
+        "headline": "米科学技術政策局のクラツィオス局長、京都の STS フォーラムで基調講演",
+        "sourceUrl": "https://x.com/WHOSTP47/status/2106546742296740008",
+        "note": "米国が科学技術の新たな黄金時代を主導しているとする講演を、科学技術政策局の公式アカウントが生中継で告知した。"
+      },
+      {
+        "headline": "ゼレンスキー氏、ロシアの冬の戦略に対抗し製油所への攻撃を強めると表明",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/04/ukraine-war-briefing-kyiv-to-increase-oil-refinery-attacks-because-of-moscows-winter-strategy-zelenskyy-says",
+        "note": "冬を前にした電力・燃料をめぐる攻防が続く。製油所への攻撃は燃料の供給と価格に影響しうる。"
+      },
+      {
+        "headline": "NEAR 共同創業者、自社アプリを暗号資産・株式・無期限先物・運用を一つにした形へ刷新",
+        "sourceUrl": "https://x.com/ilblackdragon/status/2106171153450520724",
+        "note": "取引画面に価格チャートを加えたと説明した。暗号資産と株式を同じアプリで扱う動きの一例になる。"
+      },
+      {
+        "headline": "ブテリン氏、自分の健康・移動データで個人向けの提案を出す自己実験を始める",
+        "sourceUrl": "https://x.com/VitalikButerin/status/2106537633056969024",
+        "note": "Ethereum の zkapi リポジトリへの変更とあわせて紹介した。"
+      },
+      {
+        "headline": "ホスキンソン氏、RealFi を始動済みで Pogun も控えていると説明",
+        "sourceUrl": "https://x.com/IOHK_Charles/status/2106571628482121772",
+        "note": "批判への返信の中で、Cardano 側で進む取り組みとして挙げた。"
+      },
+      {
+        "headline": "Claude のエージェント群が Minecraft の中で計画・作業する AgentCraft が披露される",
+        "sourceUrl": "https://x.com/BlendiByl/status/2106226258984264042",
+        "note": "複数のエージェントが計画を立てて実際の作業ツリーで作業し、人の判断が要る時には歩いて呼びに来る仕組みを動画で示した。"
+      },
+      {
+        "headline": "トランプ氏に「慈悲を」と求めた米聖公会の主教、ワシントンの職を辞任へ",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/oct/03/mariann-budde-episcopal-bishop-trump"
+      },
+      {
+        "headline": "クマの出没が増える10月、モンベルの熊スプレーのレンタルを紹介",
+        "sourceUrl": "https://www.bepal.net/archives/730803"
+      }
+    ],
+    "watch": [
+      "クラツィオス局長の講演が AI・半導体での日米協力にどこまで踏み込むか",
+      "ウクライナの製油所攻撃の強化が原油・燃料の価格に波及するか"
+    ]
+  }
+}
