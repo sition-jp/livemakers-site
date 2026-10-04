@@ -163,3 +163,32 @@ describe("topic tweet injection", () => {
     expect(container.querySelector("[data-topic-tweet]")).toBeNull();
   });
 });
+
+const VIDEO = "https://www.youtube.com/watch?v=WpGs7DKe8QY";
+
+describe("topic video injection (2026-10-04)", () => {
+  it("puts the tweet after the 1st real paragraph and the video after the 2nd", () => {
+    const { p: P } = createArticleMdxComponents(`${TWEET_BODY}\n\n${VIDEO}`);
+    const first = render(<P>リード文。</P>).container;
+    expect(first.querySelector("[data-topic-tweet='777']")).not.toBeNull();
+    expect(first.querySelector("[data-topic-video]")).toBeNull();
+    // マーカー見出しは段落として数えない
+    const marker = render(<P>■ 章</P>).container;
+    expect(marker.querySelector("[data-topic-video]")).toBeNull();
+    const second = render(<P>本文。</P>).container;
+    expect(second.querySelector("[data-topic-video='WpGs7DKe8QY']")).not.toBeNull();
+    const third = render(<P>続き。</P>).container;
+    expect(third.querySelector("[data-topic-tweet], [data-topic-video]")).toBeNull();
+  });
+
+  it("puts a lone video right after the first real paragraph", () => {
+    const { p: P } = createArticleMdxComponents(`リード文。 ${VIDEO}`);
+    const first = render(<P>リード文。</P>).container;
+    const iframe = first.querySelector("[data-topic-video='WpGs7DKe8QY'] iframe");
+    expect(iframe?.getAttribute("src")).toBe(
+      "https://www.youtube-nocookie.com/embed/WpGs7DKe8QY",
+    );
+    expect(iframe?.getAttribute("loading")).toBe("lazy");
+    expect(render(<P>本文。</P>).container.querySelector("[data-topic-video]")).toBeNull();
+  });
+});

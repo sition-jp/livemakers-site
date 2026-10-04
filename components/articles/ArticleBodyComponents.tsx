@@ -1,6 +1,7 @@
 import { Children, isValidElement, type ComponentProps, type ReactNode } from "react";
 
 import { TweetEmbed } from "@/components/articles/TweetEmbed";
+import { VideoEmbed } from "@/components/articles/VideoEmbed";
 import {
   classifyMarkerHeading,
   displayHeadingText,
@@ -8,6 +9,7 @@ import {
   slugifyHeading,
 } from "@/lib/articles/toc";
 import { extractTopicTweetId } from "@/lib/articles/topic-tweet";
+import { extractTopicVideoId } from "@/lib/articles/topic-video";
 
 /**
  * 記事本文 MDX の描画コンポーネント (G44 D10 の h2 anchor に加え、
@@ -28,10 +30,16 @@ export function createArticleMdxComponents(body: string): {
 } {
   const hasBlocks = hasDailyIntelBlockHeadings(body);
   const used = new Map<string, number>();
-  // 肝ツイート 1 本を「最初の実段落」の直後に一度だけ添える (2026-08-14
-  // 田平氏 GO — Phase 2)。single-pass 前提の closure 状態は上の `used` Map と
-  // 同じ既存パターン。body 文字列と checksum 契約には触れない
-  let pendingTweetId = extractTopicTweetId(body);
+  // 肝ツイート 1 本 (2026-08-14 Phase 2) と当事者動画 1 本 (2026-10-04
+  // 改善策 ④・いずれも田平氏 GO) を、ツイート → 動画の順に「最初の実段落」
+  // 「次の実段落」の直後へ 1 つずつ添える (片方だけなら最初の実段落の直後)。
+  // single-pass 前提の closure 状態は上の `used` Map と同じ既存パターン。
+  // body 文字列と checksum 契約には触れない
+  const tweetId = extractTopicTweetId(body);
+  const videoId = extractTopicVideoId(body);
+  const pendingMedia: ReactNode[] = [];
+  if (tweetId !== null) pendingMedia.push(<TweetEmbed id={tweetId} />);
+  if (videoId !== null) pendingMedia.push(<VideoEmbed id={videoId} />);
 
   const claimId = (text: string): string => {
     const base = slugifyHeading(text);
@@ -78,13 +86,12 @@ export function createArticleMdxComponents(body: string): {
         );
       }
     }
-    if (pendingTweetId !== null) {
-      const id = pendingTweetId;
-      pendingTweetId = null;
+    const media = pendingMedia.shift();
+    if (media !== undefined) {
       return (
         <>
           <p {...props}>{children}</p>
-          <TweetEmbed id={id} />
+          {media}
         </>
       );
     }
