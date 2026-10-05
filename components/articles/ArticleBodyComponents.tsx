@@ -1,5 +1,7 @@
 import { Children, isValidElement, type ComponentProps, type ReactNode } from "react";
 
+import { SourceCard } from "@/components/articles/SourceCard";
+import { SourceCardListItem } from "@/components/articles/SourceCardListItem";
 import { TweetEmbed } from "@/components/articles/TweetEmbed";
 import { VideoEmbed } from "@/components/articles/VideoEmbed";
 import {
@@ -8,6 +10,7 @@ import {
   hasDailyIntelBlockHeadings,
   slugifyHeading,
 } from "@/lib/articles/toc";
+import type { SourceLink } from "@/lib/articles/source-links";
 import { extractTopicTweetId } from "@/lib/articles/topic-tweet";
 import { extractTopicVideoId } from "@/lib/articles/topic-video";
 
@@ -23,10 +26,14 @@ import { extractTopicVideoId } from "@/lib/articles/topic-video";
  * id は lib/articles/toc.ts の抽出と同一規則・同一順序で採番し、
  * TOC のアンカーとクライアント JS なしで一致させる。
  */
-export function createArticleMdxComponents(body: string): {
+export function createArticleMdxComponents(
+  body: string,
+  sourceLinks: readonly SourceLink[] = [],
+): {
   h2: (props: ComponentProps<"h2">) => ReactNode;
   p: (props: ComponentProps<"p">) => ReactNode;
   blockquote: (props: ComponentProps<"blockquote">) => ReactNode;
+  li: (props: ComponentProps<"li">) => ReactNode;
 } {
   const hasBlocks = hasDailyIntelBlockHeadings(body);
   const used = new Map<string, number>();
@@ -40,6 +47,9 @@ export function createArticleMdxComponents(body: string): {
   const pendingMedia: ReactNode[] = [];
   if (tweetId !== null) pendingMedia.push(<TweetEmbed id={tweetId} />);
   if (videoId !== null) pendingMedia.push(<VideoEmbed id={videoId} />);
+  // ツイートも動画も無い記事は、筆頭の出典を最初の実段落の直後に大きいカードで
+  // (2026-10-05 設計書 source-link-cards §2-3)。sourceLinks は remark 段階で埋まる
+  let seenRealParagraph = false;
 
   const claimId = (text: string): string => {
     const base = slugifyHeading(text);
@@ -86,12 +96,23 @@ export function createArticleMdxComponents(body: string): {
         );
       }
     }
+    const isFirstRealParagraph = !seenRealParagraph;
+    seenRealParagraph = true;
     const media = pendingMedia.shift();
     if (media !== undefined) {
       return (
         <>
           <p {...props}>{children}</p>
           {media}
+        </>
+      );
+    }
+    const lead = sourceLinks[0];
+    if (isFirstRealParagraph && tweetId === null && videoId === null && lead) {
+      return (
+        <>
+          <p {...props}>{children}</p>
+          <SourceCard url={lead.url} label={lead.label} size="large" />
         </>
       );
     }
@@ -144,5 +165,5 @@ export function createArticleMdxComponents(body: string): {
     return <blockquote {...props}>{children}</blockquote>;
   }
 
-  return { h2: H2, p: P, blockquote: Blockquote };
+  return { h2: H2, p: P, blockquote: Blockquote, li: SourceCardListItem };
 }
