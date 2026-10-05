@@ -27,6 +27,7 @@ import { formatPublishedLabelWithYear } from "@/lib/articles/published-date";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
 import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
+import { createSourceCardCollector } from "@/lib/articles/source-links";
 import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
@@ -112,6 +113,10 @@ export default async function ArticleDetailPage({
     atlasUnpublishedHeading: t("detail.atlasUnpublishedHeading"),
     familyLabels,
   };
+
+  // 出典節のカード化 (2026-10-05 source-link-cards)。remark 段階で項目に目印を
+  // 付け、筆頭の出典を大きいカード用に集める
+  const sourceCardCollector = createSourceCardCollector();
 
   return (
     <div
@@ -224,11 +229,14 @@ export default async function ArticleDetailPage({
         >
           <MDXRemote
             source={display.displayBody}
-            components={createArticleMdxComponents(display.displayBody)}
+            components={createArticleMdxComponents(display.displayBody, sourceCardCollector.links)}
             options={{
               blockJS: true,
               blockDangerousJS: true,
-              mdxOptions: ARTICLE_MDX_OPTIONS,
+              mdxOptions: {
+                ...ARTICLE_MDX_OPTIONS,
+                remarkPlugins: [...ARTICLE_MDX_OPTIONS.remarkPlugins, sourceCardCollector.remarkPlugin],
+              },
             }}
           />
         </div>

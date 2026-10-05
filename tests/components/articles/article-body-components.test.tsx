@@ -10,6 +10,12 @@ vi.mock("@/components/articles/TweetEmbed", () => ({
   TweetEmbed: ({ id }: { id: string }) => <div data-topic-tweet={id} />,
 }));
 
+vi.mock("@/components/articles/SourceCard", () => ({
+  SourceCard: ({ url, size }: { url: string; size: string }) => (
+    <div data-source-card-stub={size} data-url={url} />
+  ),
+}));
+
 const SIGNAL_BODY = ["リード文。", "", "■ 発表されたこと", "", "本文。"].join("\n");
 const DAILY_INTEL_BODY = [
   "📋 Daily Intel 8/3｜タイトル",
@@ -190,5 +196,33 @@ describe("topic video injection (2026-10-04)", () => {
     );
     expect(iframe?.getAttribute("loading")).toBe("lazy");
     expect(render(<P>本文。</P>).container.querySelector("[data-topic-video]")).toBeNull();
+  });
+});
+
+const LEAD_SOURCE = { url: "https://research.glassnode.com/w38/", label: "glassnode Research" };
+
+describe("large source card (2026-10-05)", () => {
+  it("puts the lead source after the 1st real paragraph when there is no tweet or video", () => {
+    const { p: P } = createArticleMdxComponents("リード文。\n\n■ 章\n\n本文。", [LEAD_SOURCE]);
+    // マーカー見出しは段落として数えない
+    expect(render(<P>■ 章</P>).container.querySelector("[data-source-card-stub]")).toBeNull();
+    const lead = render(<P>リード文。</P>).container;
+    expect(lead.querySelector("[data-source-card-stub='large']")?.getAttribute("data-url")).toBe(LEAD_SOURCE.url);
+    expect(render(<P>本文。</P>).container.querySelector("[data-source-card-stub]")).toBeNull();
+  });
+
+  it("does not add a large card when a tweet exists", () => {
+    const { p: P } = createArticleMdxComponents(TWEET_BODY, [LEAD_SOURCE]);
+    expect(render(<P>リード文。</P>).container.querySelector("[data-source-card-stub]")).toBeNull();
+  });
+
+  it("exposes the li override", () => {
+    const { li: LI } = createArticleMdxComponents(SIGNAL_BODY);
+    const { container } = render(
+      <ul>
+        <LI data-source-url={LEAD_SOURCE.url} data-source-label={LEAD_SOURCE.label}>x</LI>
+      </ul>,
+    );
+    expect(container.querySelector("[data-source-card-stub='small']")).not.toBeNull();
   });
 });
