@@ -8,9 +8,11 @@ await vi.hoisted(async () => {
 });
 
 import {
+  decodeEntities,
   fetchLinkPreview,
   getLinkPreview,
   isFetchableUrl,
+  loadHtmlHead,
   loadLinkPreview,
   parseLinkPreview,
   TransientLinkPreviewError,
@@ -236,5 +238,24 @@ describe("getLinkPreview (unstable_cache wrapper)", () => {
     await expect(getLinkPreview(url)).resolves.toEqual({ image: null, siteName: "gone.example.com" });
     expect(store.size).toBe(1);
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("loadHtmlHead", () => {
+  it("returns decoded html and the final url", async () => {
+    const got = await loadHtmlHead(PAGE, async () => htmlResponse("<p>x</p>"));
+    expect(got).toEqual({ html: "<p>x</p>", finalUrl: PAGE });
+  });
+
+  it("returns null for deterministic failures and throws for transient ones", async () => {
+    await expect(loadHtmlHead("http://example.com/", async () => htmlResponse("x"))).resolves.toBeNull();
+    await expect(loadHtmlHead(PAGE, async () => htmlResponse("x", { status: 404 }))).resolves.toBeNull();
+    await expect(loadHtmlHead(PAGE, async () => htmlResponse("{}", { type: "application/json" }))).resolves.toBeNull();
+    await expect(loadHtmlHead(PAGE, async () => htmlResponse("x", { status: 503 }))).rejects.toBeInstanceOf(TransientLinkPreviewError);
+    await expect(
+      loadHtmlHead(PAGE, async () => {
+        throw new TypeError("network");
+      }),
+    ).rejects.toBeInstanceOf(TransientLinkPreviewError);
   });
 });

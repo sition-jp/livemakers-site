@@ -72,7 +72,7 @@ function fromCodePoint(code: number): string {
 }
 
 /** 1 回の走査で解く (`&amp;#38;` を二重に解かない)。数値参照も Python の html.unescape と同じく解く。 */
-function decodeEntities(value: string): string {
+export function decodeEntities(value: string): string {
   return value.replace(ENTITY_RE, (_, dec: string, hex: string, name: string) => {
     if (dec) return fromCodePoint(Number.parseInt(dec, 10));
     if (hex) return fromCodePoint(Number.parseInt(hex, 16));
@@ -144,14 +144,14 @@ function fallbackPreview(url: string): LinkPreview {
 }
 
 /**
- * キャッシュされる中身。決まった結果 (og:image なし・404・HTML でない) は返し、
- * 一時的な失敗は TransientLinkPreviewError を投げる。
+ * ページの先頭 MAX_BYTES を取って復号する (出典カードと PR TIMES 写真で共通)。
+ * 決まった失敗は null、一時的な失敗は TransientLinkPreviewError を投げる。
  */
-export async function loadLinkPreview(
+export async function loadHtmlHead(
   url: string,
   fetchImpl: FetchLike = fetch,
-): Promise<LinkPreview> {
-  if (!isFetchableUrl(url)) return fallbackPreview(url);
+): Promise<{ html: string; finalUrl: string } | null> {
+  if (!isFetchableUrl(url)) return null;
   let res: Response;
   try {
     res = await fetchImpl(url, {
@@ -165,16 +165,28 @@ export async function loadLinkPreview(
     await res.body?.cancel().catch(() => undefined);
     throw new TransientLinkPreviewError(`link preview HTTP ${res.status}: ${url}`);
   }
-  if (!res.ok) return fallbackPreview(url);
+  if (!res.ok) return null;
   const contentType = (res.headers.get("content-type") ?? "").toLowerCase();
-  if (!HTML_TYPES.some((type) => contentType.includes(type))) return fallbackPreview(url);
+  if (!HTML_TYPES.some((type) => contentType.includes(type))) return null;
   let bytes: Uint8Array;
   try {
     bytes = await readHead(res, MAX_BYTES);
   } catch (error) {
     throw new TransientLinkPreviewError(`link preview body failed: ${url}`, { cause: error });
   }
-  return parseLinkPreview(decode(bytes, charsetOf(contentType, bytes)), res.url || url);
+  return { html: decode(bytes, charsetOf(contentType, bytes)), finalUrl: res.url || url };
+}
+
+/**
+ * キャッシュされる中身。決まった結果 (og:image なし・404・HTML でない) は返し、
+ * 一時的な失敗は TransientLinkPreviewError を投げる。
+ */
+export async function loadLinkPreview(
+  url: string,
+  fetchImpl: FetchLike = fetch,
+): Promise<LinkPreview> {
+  const page = await loadHtmlHead(url, fetchImpl);
+  return page ? parseLinkPreview(page.html, page.finalUrl) : fallbackPreview(url);
 }
 
 /** 投げた失敗 (= キャッシュに入らなかった失敗) を代わりの表示に倒す。 */
