@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-10-05-global-close",
+  "date": "2026-10-05",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-05-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-05-global-close",
+  "publishedAt": "2026-10-06T02:30:05+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261005_2303_ce44b121",
+  "asOfJst": "2026-10-05T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月5日 23:03 JST",
+  "bullets": [
+    "BTC/USD $85,225 → $86,419（+1.40%）",
+    "変動幅上位: WTI（perp） -1.5% / BTC/USD +1.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261005_2345_6ddcf381",
+    "crawlAnchorJst": "2026-10-05T23:03:00+09:00",
+    "writtenAtJst": "2026-10-05T23:45:00+09:00",
+    "lead": "米国では財務省が、自己管理ウォレットとミキサーを対象にした 2 本の監視規則案を撤回する手続きに入った。暗号資産の規制は「取り締まりで縛る」方向から「ルールを整えて呼び込む」方向へ、また一歩進んだ。日本では外食チェーンや大学、証券会社で情報流出の公表が相次ぎ、ほぼ全会員分にあたる 1,000 万件超の流出も出た。市場では Hyperliquid の先物価格が Bloomberg 端末に載り、オンチェーンの価格が機関投資家の画面に入った。",
+    "items": [
+      {
+        "headline": "米財務省、自己管理ウォレットとミキサーを対象にした監視規則案 2 本の撤回へ",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2107100035179814947",
+        "note": "2020 年と 2023 年に出た規則案。報道によると、撤回の通知は 10/6 の官報掲載で発効する。"
+      },
+      {
+        "headline": "焼肉きんぐのアプリ会員管理システムに不正アクセス、約 1,079 万件の会員情報が流出",
+        "sourceUrl": "https://x.com/itmedia_news/status/2107044422726869124",
+        "note": "ほぼ全会員分にあたる。運営する物語コーポレーションは、パスワードは対象外としている。"
+      },
+      {
+        "headline": "大阪公立大、ランサムウェアによるサイバー攻撃と判断 8 日まで休講",
+        "sourceUrl": "https://x.com/livedoornews/status/2107041856844427661"
+      },
+      {
+        "headline": "大起水産、不正アクセスで約 17 万 5,000 人分の個人情報が流出した恐れ",
+        "sourceUrl": "https://x.com/nhk_news/status/2107059491389022314"
+      },
+      {
+        "headline": "韓国の銀行 6 行にサイバー攻撃、計 2 万 5,000 人超の個人情報が流出と現地報道",
+        "sourceUrl": "https://x.com/itmedia_news/status/2107039384189227069",
+        "note": "AI エージェントが使われた可能性も報じられているが、確定した情報ではない。"
+      },
+      {
+        "headline": "Hyperliquid の永久先物の価格、Bloomberg 端末で表示が始まる",
+        "sourceUrl": "https://x.com/coinbureau/status/2106988002387849689",
+        "note": "原油・金・株価指数などの 24 時間の価格を表示する。端末から発注はできない。"
+      },
+      {
+        "headline": "OKX、トークン化した米国株の取引基盤を SEC に申請",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2106940951763534213"
+      },
+      {
+        "headline": "Strategy、7〜9 月期にデジタル資産で 210 億ドルの評価益を計上",
+        "sourceUrl": "https://x.com/Strategy/status/2107079115786408380",
+        "note": "前週は 334 BTC を買い増した。"
+      },
+      {
+        "headline": "ドルが 1 年半ぶりの高値、ビットコインは 8 万 6,000 ドル前後で推移",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/05/u-s-dollar-climbs-to-18-month-high-as-bitcoin-holds-firm-around-usd86-000"
+      },
+      {
+        "headline": "フランス国債を大量に持つ日本勢、推計 23 兆円 売りが加速するきっかけになりうる",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2106999663467401583"
+      },
+      {
+        "headline": "Midnight、9 月のエコシステムレポートを公開 スマートコントラクトを誰でもデプロイできるように",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2106942463403516153"
+      },
+      {
+        "headline": "値動きの小さい相場で Cardano の ADA が上昇率の首位",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/05/cardano-s-ada-leads-gains-in-narrow-range-bound-market"
+      }
+    ],
+    "watch": [
+      "10/6 の官報に載る財務省の撤回通知 2 本の原文と、撤回の理由",
+      "10/7 から始まる TOKEN2049 シンガポールと、Cardano・Midnight の発表",
+      "情報流出の公表が続くか。被害を受けた企業の続報と、警察・行政の動き"
+    ]
+  }
+}

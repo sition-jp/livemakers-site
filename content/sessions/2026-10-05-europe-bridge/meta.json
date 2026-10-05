@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-10-05-europe-bridge",
+  "date": "2026-10-05",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-05-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-05-europe-bridge",
+  "publishedAt": "2026-10-06T02:30:05+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261005_1203_212249f5",
+  "asOfJst": "2026-10-05T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月5日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1253 → 1.1187（-0.59%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +3.6% / BTC/USD +2.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261005_1245_c069a06d",
+    "crawlAnchorJst": "2026-10-05T12:03:00+09:00",
+    "writtenAtJst": "2026-10-05T12:45:00+09:00",
+    "lead": "週明けの昼は、暗号資産の構造面に小さな前進が並んだ。ビットコインは日曜の週足終値で8万6千ドル台を付け、1月下旬以来の水準に戻った。Zcash はブロック間隔を縮める NU7 をテストネットで有効化し、Midnight は9月の月次報告で非許可制のコントラクト公開への移行を総括した。欧州では英国の中国製EV関税報道と独メルツ首相の対ウクライナ支援表明が、通商と安全保障の再編が続いていることを示している。",
+    "items": [
+      {
+        "headline": "ビットコイン、日曜の週足終値が8万6千ドル台 1月下旬以来の水準",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2106900077344068013",
+        "note": "CoinGecko の日次価格でも10月5日0時（UTC）時点は約8万6,490ドルで、2月以降の週足終値を上回る。"
+      },
+      {
+        "headline": "Zcash、NU7 をテストネットで有効化",
+        "sourceUrl": "https://x.com/Zcash/status/2106849419350204906"
+      },
+      {
+        "headline": "Canton Network、Litecoin のネイティブ資産 cLTC を告知",
+        "sourceUrl": "https://x.com/CantonNetwork/status/2106881801901981893"
+      },
+      {
+        "headline": "TRON、Canary のステーキング型 TRX 現物 ETF（TRXS）の上場記念で Cboe の取引終了の鐘",
+        "sourceUrl": "https://x.com/trondao/status/2106909572254556384"
+      },
+      {
+        "headline": "Midnight 日本、9月のエコシステム報告を公開 コントラクト公開の非許可制移行を総括",
+        "sourceUrl": "https://x.com/midnight_jpn/status/2106942463403516153"
+      },
+      {
+        "headline": "日銀・内田副総裁、AI とビッグデータと金融政策をテーマに挨拶",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2106905206483206192"
+      },
+      {
+        "headline": "金融庁、アジア地域ファンド・パスポートの2025年年次報告書を掲載",
+        "sourceUrl": "https://www.fsa.go.jp/inter/arfp/index.html"
+      },
+      {
+        "headline": "英国、中国製電気自動車に関税を課す方向と報道",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/britain-set-to-levy-tariffs-on-chinese-electric-cars-report"
+      },
+      {
+        "headline": "独メルツ首相、ウクライナに10億ユーロの軍事支援を表明",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/05/ukraine-war-briefing-germanys-merz-pledges-1bn-in-military-aid-to-kyiv-as-russia-ramps-up-attacks"
+      },
+      {
+        "headline": "AI での米国の対中リード、DeepSeek の進展で縮小と Bloomberg Intelligence",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-lead-in-ai-over-china-narrows-after-deepseek-gains-bloomberg-intelligence-says"
+      },
+      {
+        "headline": "イラン指導部は外交協議に軸足、米国は軍事態勢を増強",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/4/iranian-leaders-focus-diplomatic-talks-us-adds-military-muscle/"
+      },
+      {
+        "headline": "米司法省、台湾総統の子息を監視した中国のスパイとしてカリフォルニア州の女性を訴追",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-accuses-california-woman-of-spying-for-china-surveilling-taiwan-leaders-son"
+      },
+      {
+        "headline": "米国発の小型トレーラーハウス「Sora 20'」、手の届く小ささへの回帰",
+        "sourceUrl": "https://yadokari.net/magazine/96886/"
+      }
+    ],
+    "watch": [
+      "ビットコインが8万7千ドル台を週足で維持できるか、今週の現物 ETF の資金フロー",
+      "官邸の臨時閣議の中身（午後に冒頭発言を掲載予定）",
+      "10月7〜8日の TOKEN2049 シンガポールでの発表"
+    ]
+  }
+}
