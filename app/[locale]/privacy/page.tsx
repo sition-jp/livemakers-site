@@ -85,6 +85,15 @@ export default async function PrivacyPage({
         </p>
       </section>
 
+      <section className="mb-12">
+        <h2 className="mb-4 text-2xl font-light tracking-title">
+          {t("embedsTitle")}
+        </h2>
+        <p className="leading-relaxed text-text-secondary">
+          {t("embedsBody")}
+        </p>
+      </section>
+
       <SectionDivider />
 
       <section>
