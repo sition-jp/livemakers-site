@@ -1,0 +1,100 @@
+{
+  "sessionId": "2026-10-05-ny-open",
+  "date": "2026-10-05",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-05-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-05-ny-open",
+  "publishedAt": "2026-10-06T02:30:05+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261005_1803_9a63b0bd",
+  "asOfJst": "2026-10-05T18:03:01+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月5日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,728.50 → 7,716.80（-0.15%）",
+    "変動幅上位: BTC/USD +1.3% / BTCボラティリティ（BVIV） +1.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261005_1835_22c852b9",
+    "crawlAnchorJst": "2026-10-05T18:03:00+09:00",
+    "writtenAtJst": "2026-10-05T18:35:00+09:00",
+    "lead": "伝統的な取引所が暗号資産の取引基盤に乗り出す動きが一段進んだ。NYSE を傘下に持つ ICE と OKX の合弁が、24時間取引のトークン化米国株の取引所を米 SEC に申請した。国内では大和証券の外部委託先への不正アクセスが報じられ、翌日から金融庁の業界横断サイバー演習が始まる。ビットコインは8万7,000ドルに迫ってから押し戻された。",
+    "items": [
+      {
+        "headline": "OKX と ICE の合弁、24時間取引のトークン化米国株の取引所開設を SEC に申請",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-05-okx-ice-joint-venture-tokenized-stock-trading-417613",
+        "note": "NYSE の親会社 ICE と暗号資産取引所 OKX の合弁による申請。株式の取引時間を暗号資産市場と同じ常時取引へ広げる試みになる。"
+      },
+      {
+        "headline": "大和証券、外部委託先への不正アクセスで顧客情報が漏えいした可能性",
+        "sourceUrl": "https://x.com/ReutersJapan/status/2106954643288785313",
+        "note": "規模はロイターが「11万人分」、共同通信が「22万件」と報じており、単位が異なる。詳細は同社の発表で確認が要る。"
+      },
+      {
+        "headline": "金融庁、10月6日から業界横断のサイバーセキュリティ演習「Delta Wall 2026」を実施",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/sonota/20261005/deltawall2026.html",
+        "note": "今回で11回目。金融業界全体のインシデント対応能力の向上を狙う。"
+      },
+      {
+        "headline": "高市首相、第222回国会で所信表明演説",
+        "sourceUrl": "https://www.kantei.go.jp/jp/105/statement/2026/1005shoshinhyomei.html"
+      },
+      {
+        "headline": "ビットコイン、8万7,000ドル近くまで上昇し約8か月ぶりの高値に迫った後に反落",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/05/bitcoin-zooms-toward-usd87-000-nearly-setting-an-eight-month-high-then-reverses"
+      },
+      {
+        "headline": "Zcash の25秒ブロック、予定より早く公開テストネットで稼働",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/05/zcash-s-25-second-blocks-go-live-on-public-testnet-ahead-of-schedule"
+      },
+      {
+        "headline": "Injective の CEO、米国の INJ 現物 ETF は2027年より前に上場するとの見通し",
+        "sourceUrl": "https://www.theblock.co/news/defi/2026-10-05-injective-ceo-eric-inj-etf-417616"
+      },
+      {
+        "headline": "ユーロ、財政をめぐる混乱で約17か月ぶりの安値に下落",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/devisen-rohstoffe/anleihemarkt-euro-faellt-auf-17monats-tief-haushaltsunruhen-destabilisieren/100259684.html",
+        "note": "ドイツ経済紙ハンデルスブラットの報道。"
+      },
+      {
+        "headline": "スペインのサンチェス首相、住宅危機のなかで解散総選挙を表明",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/05/europe-spain-pedro-sanchez-election-housing-france-school-protests-ukraine-russia-latest-news-updates"
+      },
+      {
+        "headline": "米カリフォルニア州の女性、台湾総統の息子を中国のためにスパイした疑いで逮捕",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/05/california-woman-arrested-and-accused-of-spying-on-taiwan-presidents-son-for-china"
+      },
+      {
+        "headline": "日銀の内田副総裁、ECONDAT 2026 秋季会合で AI・ビッグデータと金融政策をテーマに開会挨拶",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2107019568287985945"
+      },
+      {
+        "headline": "au PAY アプリ内で Ponta ポイントを JPYC に交換できるように",
+        "sourceUrl": "https://x.com/jpyc_chan/status/2106990353119428702",
+        "note": "9月30日に始まった αU wallet のミニアプリ経由。"
+      },
+      {
+        "headline": "Blink Labs の Cardano ノード Dingo、v0.78.0 で AI ネイティブ対応",
+        "sourceUrl": "https://x.com/blinklabs_io/status/2106950253119172982"
+      },
+      {
+        "headline": "「Midnight City: Tokyo」、10月10日に東京・八芳園で開催",
+        "sourceUrl": "https://x.com/taichiyokoyama/status/2106915316219715855"
+      },
+      {
+        "headline": "COP 開催国トルコでメタンの大規模漏出、英ガーディアンが調査報道",
+        "sourceUrl": "https://www.theguardian.com/environment/2026/oct/05/methane-mega-leaks-from-un-climate-summit-host-turkey"
+      }
+    ],
+    "watch": [
+      "OKX と ICE の申請書類で、対象銘柄の数と清算の仕組みがどう書かれているか。",
+      "大和証券の公式発表で、漏えいの規模と項目がどこまで確定するか。",
+      "ビットコインが8万7,000ドルを終値で超えられるか。"
+    ]
+  }
+}
