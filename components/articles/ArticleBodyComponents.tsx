@@ -1,5 +1,6 @@
 import { Children, isValidElement, type ComponentProps, type ReactNode } from "react";
 
+import { PressPhotosBlock } from "@/components/articles/PressPhotos";
 import { SourceCard } from "@/components/articles/SourceCard";
 import { SourceCardListItem } from "@/components/articles/SourceCardListItem";
 import { TweetEmbed } from "@/components/articles/TweetEmbed";
@@ -10,6 +11,7 @@ import {
   hasDailyIntelBlockHeadings,
   slugifyHeading,
 } from "@/lib/articles/toc";
+import { parseMarkedRelease } from "@/lib/articles/prtimes-photos";
 import type { SourceLink } from "@/lib/articles/source-links";
 import { extractTopicTweetId } from "@/lib/articles/topic-tweet";
 import { extractTopicVideoId } from "@/lib/articles/topic-video";
@@ -49,7 +51,8 @@ export function createArticleMdxComponents(
   if (videoId !== null) pendingMedia.push(<VideoEmbed id={videoId} />);
   // ツイートも動画も無い記事は、筆頭の出典を最初の実段落の直後に大きいカードで
   // (2026-10-05 設計書 source-link-cards §2-3)。sourceLinks は remark 段階で埋まる
-  let seenRealParagraph = false;
+  const mediaCount = pendingMedia.length;
+  let realParagraphs = 0;
 
   const claimId = (text: string): string => {
     const base = slugifyHeading(text);
@@ -96,8 +99,8 @@ export function createArticleMdxComponents(
         );
       }
     }
-    const isFirstRealParagraph = !seenRealParagraph;
-    seenRealParagraph = true;
+    realParagraphs += 1;
+    const realIndex = realParagraphs;
     const media = pendingMedia.shift();
     if (media !== undefined) {
       return (
@@ -108,7 +111,22 @@ export function createArticleMdxComponents(
       );
     }
     const lead = sourceLinks[0];
-    if (isFirstRealParagraph && tweetId === null && videoId === null && lead) {
+    // 印付き PR TIMES リリースの写真 (2026-10-06 設計書 prtimes-press-photos §5):
+    // ツイート・動画の数 + 1 番目の実段落の直後。大きいカードの代わりに置く
+    const press = sourceLinks.find((link) => parseMarkedRelease(link.url) !== null);
+    if (press && realIndex === mediaCount + 1) {
+      return (
+        <>
+          <p {...props}>{children}</p>
+          <PressPhotosBlock
+            url={press.url}
+            fallbackLead={mediaCount === 0 ? lead : undefined}
+            eagerFirst={realIndex === 1}
+          />
+        </>
+      );
+    }
+    if (!press && realIndex === 1 && tweetId === null && videoId === null && lead) {
       return (
         <>
           <p {...props}>{children}</p>

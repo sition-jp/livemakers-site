@@ -16,6 +16,25 @@ vi.mock("@/components/articles/SourceCard", () => ({
   ),
 }));
 
+vi.mock("@/components/articles/PressPhotos", () => ({
+  PressPhotosBlock: ({
+    url,
+    fallbackLead,
+    eagerFirst,
+  }: {
+    url: string;
+    fallbackLead?: { url: string; label: string };
+    eagerFirst: boolean;
+  }) => (
+    <div
+      data-press-stub=""
+      data-url={url}
+      data-fallback={fallbackLead?.url ?? ""}
+      data-eager={String(eagerFirst)}
+    />
+  ),
+}));
+
 const SIGNAL_BODY = ["リード文。", "", "■ 発表されたこと", "", "本文。"].join("\n");
 const DAILY_INTEL_BODY = [
   "📋 Daily Intel 8/3｜タイトル",
@@ -224,5 +243,30 @@ describe("large source card (2026-10-05)", () => {
       </ul>,
     );
     expect(container.querySelector("[data-source-card-stub='small']")).not.toBeNull();
+  });
+});
+
+const MARKED = "https://prtimes.jp/main/html/rd/p/000000017.000148444.html#sition-photos";
+const PRESS_LINKS = [LEAD_SOURCE, { url: MARKED, label: "ウインテック プレスリリース (PR TIMES)" }];
+
+describe("PR TIMES photos (2026-10-06)", () => {
+  it("replaces the large card after the 1st real paragraph when there is no tweet or video", () => {
+    const { p: P } = createArticleMdxComponents("リード文。\n\n■ 章\n\n本文。", PRESS_LINKS);
+    expect(render(<P>■ 章</P>).container.querySelector("[data-press-stub]")).toBeNull();
+    const lead = render(<P>リード文。</P>).container;
+    const stub = lead.querySelector("[data-press-stub]");
+    expect(stub?.getAttribute("data-fallback")).toBe(LEAD_SOURCE.url);
+    expect(stub?.getAttribute("data-eager")).toBe("true");
+    expect(lead.querySelector("[data-source-card-stub]")).toBeNull();
+  });
+
+  it("goes after the paragraph following the tweet", () => {
+    const { p: P } = createArticleMdxComponents(TWEET_BODY, PRESS_LINKS);
+    const first = render(<P>リード文。</P>).container;
+    expect(first.querySelector("[data-topic-tweet]")).not.toBeNull();
+    expect(first.querySelector("[data-press-stub]")).toBeNull();
+    const second = render(<P>本文。</P>).container.querySelector("[data-press-stub]");
+    expect(second?.getAttribute("data-fallback")).toBe("");
+    expect(second?.getAttribute("data-eager")).toBe("false");
   });
 });
