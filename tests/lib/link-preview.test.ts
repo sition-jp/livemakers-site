@@ -1,9 +1,19 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+
+// Next の unstable_cache は globalThis.AsyncLocalStorage (Next の実行環境が置く)
+// を読み込み時に掴む。テストでは本物を先に置き、unstable_cache をそのまま通す。
+await vi.hoisted(async () => {
+  const { AsyncLocalStorage } = await import("node:async_hooks");
+  (globalThis as { AsyncLocalStorage?: unknown }).AsyncLocalStorage = AsyncLocalStorage;
+});
 
 import {
   fetchLinkPreview,
+  getLinkPreview,
   isFetchableUrl,
+  loadLinkPreview,
   parseLinkPreview,
+  TransientLinkPreviewError,
   type FetchLike,
 } from "@/lib/articles/link-preview";
 
@@ -22,6 +32,9 @@ describe("isFetchableUrl", () => {
     for (const url of [
       "http://example.com/",
       "https://127.0.0.1/",
+      "https://127.1/",
+      "https://2130706433/",
+      "https://0x7f000001/",
       "https://[::1]/",
       "https://localhost/",
       "https://app.localhost/",
@@ -54,6 +67,21 @@ describe("parseLinkPreview", () => {
     });
   });
 
+  it("decodes numeric character references like Python's html.unescape", () => {
+    const html =
+      '<meta property="og:image" content="https://i.example.com/a.jpg?w=1&#038;h=2&#x26;q=3">' +
+      '<meta property="og:site_name" content="A&#x27;s &#12354; &amp;#38;">';
+    expect(parseLinkPreview(html, PAGE)).toEqual({
+      image: "https://i.example.com/a.jpg?w=1&h=2&q=3",
+      siteName: "A's \u3042 &#38;",
+    });
+  });
+
+  it("caps og:site_name at 80 characters", () => {
+    const html = `<meta property="og:site_name" content="${"あ".repeat(100)}">`;
+    expect(parseLinkPreview(html, PAGE).siteName).toBe("あ".repeat(80));
+  });
+
   it("prefers og:image and drops http images", () => {
     const both =
       '<meta name="twitter:image" content="https://t.example.com/t.jpg">' +
@@ -66,7 +94,7 @@ describe("parseLinkPreview", () => {
 });
 
 describe("fetchLinkPreview", () => {
-  it("returns the parsed preview and passes the timeout and 1-day cache options", async () => {
+  it("returns the parsed preview, passes a timeout signal and no Next data-cache option", async () => {
     const fetchImpl = vi.fn<FetchLike>(async () =>
       htmlResponse('<meta property="og:image" content="https://img.example.com/a.jpg">'),
     );
@@ -74,9 +102,10 @@ describe("fetchLinkPreview", () => {
       image: "https://img.example.com/a.jpg",
       siteName: "bepal.net",
     });
-    const init = fetchImpl.mock.calls[0][1];
+    const init = fetchImpl.mock.calls[0][1] as (RequestInit & { next?: unknown }) | undefined;
     expect(init?.signal).toBeInstanceOf(AbortSignal);
-    expect(init?.next).toEqual({ revalidate: 86400 });
+    expect(init).not.toHaveProperty("next");
+    expect(init).not.toHaveProperty("cache");
   });
 
   it("never fetches urls that are not fetchable", async () => {
@@ -121,5 +150,91 @@ describe("fetchLinkPreview", () => {
       htmlResponse(body, { type: "text/html; charset=Shift_JIS" }),
     );
     expect(result.siteName).toBe("ビーパル");
+  });
+});
+
+describe("loadLinkPreview (the cached core)", () => {
+  it("throws on transient failures so they are not cached", async () => {
+    const og = '<meta property="og:image" content="https://i.example.com/a.jpg">';
+    const transient: FetchLike[] = [
+      async () => {
+        throw new TypeError("fetch failed");
+      },
+      async () => {
+        throw new DOMException("timeout", "TimeoutError");
+      },
+      async () => htmlResponse(og, { status: 503 }),
+      async () => htmlResponse(og, { status: 429 }),
+    ];
+    for (const fetchImpl of transient) {
+      await expect(loadLinkPreview(PAGE, fetchImpl)).rejects.toBeInstanceOf(
+        TransientLinkPreviewError,
+      );
+    }
+  });
+
+  it("returns (cacheable) fallbacks for deterministic outcomes", async () => {
+    const og = '<meta property="og:image" content="https://i.example.com/a.jpg">';
+    const fallback = { image: null, siteName: "bepal.net" };
+    await expect(loadLinkPreview(PAGE, async () => htmlResponse(og, { status: 404 }))).resolves.toEqual(fallback);
+    await expect(
+      loadLinkPreview(PAGE, async () => htmlResponse(og, { type: "application/json" })),
+    ).resolves.toEqual(fallback);
+    await expect(loadLinkPreview(PAGE, async () => htmlResponse("<p>no og</p>"))).resolves.toEqual(fallback);
+  });
+});
+
+describe("getLinkPreview (unstable_cache wrapper)", () => {
+  type Entry = { value: unknown };
+  const g = globalThis as { __incrementalCache?: unknown };
+
+  // unstable_cache は描画外では globalThis.__incrementalCache を使う — 最小の
+  // メモリ実装を差し込み、本物の unstable_cache を通して「何が残るか」を見る。
+  function installFakeIncrementalCache() {
+    const store = new Map<string, Entry>();
+    g.__incrementalCache = {
+      isOnDemandRevalidate: false,
+      generateCacheKey: async (key: string) => key,
+      get: async (key: string) => (store.has(key) ? { isStale: false, ...store.get(key) } : null),
+      set: async (key: string, value: unknown) => {
+        store.set(key, { value });
+      },
+    };
+    return store;
+  }
+
+  afterEach(() => {
+    delete g.__incrementalCache;
+    vi.unstubAllGlobals();
+  });
+
+  it("falls back without caching a transient failure, then caches the next success", async () => {
+    const store = installFakeIncrementalCache();
+    const url = "https://transient.example.com/a";
+    const fetchMock = vi
+      .fn<FetchLike>()
+      .mockRejectedValueOnce(new TypeError("fetch failed"))
+      .mockResolvedValue(htmlResponse('<meta property="og:image" content="https://i.example.com/a.jpg">'));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(getLinkPreview(url)).resolves.toEqual({ image: null, siteName: "transient.example.com" });
+    expect(store.size).toBe(0);
+
+    const ok = { image: "https://i.example.com/a.jpg", siteName: "transient.example.com" };
+    await expect(getLinkPreview(url)).resolves.toEqual(ok);
+    expect(store.size).toBe(1);
+    await expect(getLinkPreview(url)).resolves.toEqual(ok);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("caches deterministic outcomes such as a 404", async () => {
+    const store = installFakeIncrementalCache();
+    const fetchMock = vi.fn<FetchLike>(async () => htmlResponse("gone", { status: 404 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const url = "https://gone.example.com/a";
+    await expect(getLinkPreview(url)).resolves.toEqual({ image: null, siteName: "gone.example.com" });
+    await expect(getLinkPreview(url)).resolves.toEqual({ image: null, siteName: "gone.example.com" });
+    expect(store.size).toBe(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

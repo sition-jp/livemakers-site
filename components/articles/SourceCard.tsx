@@ -1,5 +1,5 @@
 import { SourceCardImage } from "@/components/articles/SourceCardImage";
-import { fetchLinkPreview, type LinkPreview } from "@/lib/articles/link-preview";
+import { getLinkPreview, type LinkPreview } from "@/lib/articles/link-preview";
 
 /**
  * 出典カード (2026-10-05 設計書 source-link-cards §2)。文字は書き手が付けた
@@ -41,6 +41,6 @@ export function SourceCardView({ url, label, size, preview }: Props & { preview:
 }
 
 export async function SourceCard(props: Props) {
-  const preview = await fetchLinkPreview(props.url);
+  const preview = await getLinkPreview(props.url);
   return <SourceCardView {...props} preview={preview} />;
 }

@@ -56,10 +56,14 @@ function sourceLinkOf(item: ListItem): SourceLink | null {
   const url = links[0].url ?? "";
   if (!/^https?:\/\//i.test(url) || isEmbeddedMediaUrl(url)) return null;
   const linkText = textOf(links[0]).trim();
+  // 項目の文字から作るときは `出典名: https://…` の区切り記号を落とす
   const label =
     linkText && linkText !== url
       ? linkText
-      : textOf(item as MdNode).replace(url, "").trim() || url;
+      : textOf(item as MdNode)
+          .replace(url, "")
+          .replace(/[\s:：\-–—|｜]+$/u, "")
+          .trim() || url;
   return { url, label };
 }
 

@@ -1,16 +1,30 @@
+import { unstable_cache } from "next/cache";
+
 /**
  * 出典ページの紹介画像とサイト名を取る (2026-10-05 設計書 source-link-cards §3)。
  * 相手サイトのタイトルは取らない — カードの文字は書き手が付けた出典名を使う。
  * 失敗はすべて「画像なし + ドメイン名」に倒す (記事表示を止めない)。
+ *
+ * キャッシュは unstable_cache で「解析後の { image, siteName }」だけを 1 日持つ。
+ * fetch の next.revalidate はページ本文ごと Next のデータキャッシュに入れ、
+ * 512KB 上限・3 秒の打ち切りも効かなくなるため使わない (unstable_cache の中の
+ * fetch は no-store)。一時的な失敗は投げてキャッシュに残さず、外側で受けて
+ * 代わりの表示に倒す。
  */
 export type LinkPreview = { image: string | null; siteName: string };
 
-export type FetchLike = (
-  input: string,
-  init?: RequestInit & { next?: { revalidate?: number } },
-) => Promise<Response>;
+export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
+
+/** 通信エラー・時間切れ・5xx / 429。キャッシュに残さないために投げる。 */
+export class TransientLinkPreviewError extends Error {
+  constructor(message: string, options?: { cause?: unknown }) {
+    super(message, options);
+    this.name = "TransientLinkPreviewError";
+  }
+}
 
 const MAX_BYTES = 512 * 1024;
+const MAX_SITE_NAME_CHARS = 80;
 const TIMEOUT_MS = 3000;
 const REVALIDATE_SECONDS = 86400;
 const USER_AGENT = "Mozilla/5.0 (compatible; SITIONLinkPreview/1.0; +https://sition.jp)";
@@ -43,13 +57,27 @@ export function siteNameFromUrl(raw: string): string {
 const META_RE = /<meta\b[^>]*>/gi;
 const ATTR_RE = /([^\s=/>]+)\s*=\s*(?:"([^"]*)"|'([^']*)')/g;
 
+const NAMED_ENTITIES: Record<string, string> = {
+  quot: '"',
+  apos: "'",
+  lt: "<",
+  gt: ">",
+  amp: "&",
+};
+const ENTITY_RE = /&(?:#(\d+)|#[xX]([0-9a-fA-F]+)|(quot|apos|lt|gt|amp));/g;
+
+function fromCodePoint(code: number): string {
+  const valid = code > 0 && code <= 0x10ffff && !(code >= 0xd800 && code <= 0xdfff);
+  return valid ? String.fromCodePoint(code) : "\uFFFD";
+}
+
+/** 1 回の走査で解く (`&amp;#38;` を二重に解かない)。数値参照も Python の html.unescape と同じく解く。 */
 function decodeEntities(value: string): string {
-  return value
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;|&#x27;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&amp;/g, "&");
+  return value.replace(ENTITY_RE, (_, dec: string, hex: string, name: string) => {
+    if (dec) return fromCodePoint(Number.parseInt(dec, 10));
+    if (hex) return fromCodePoint(Number.parseInt(hex, 16));
+    return NAMED_ENTITIES[name];
+  });
 }
 
 function absoluteHttpsUrl(value: string | undefined, base: string): string | null {
@@ -73,7 +101,10 @@ export function parseLinkPreview(html: string, pageUrl: string): LinkPreview {
   }
   return {
     image: absoluteHttpsUrl(meta.get("og:image") || meta.get("twitter:image"), pageUrl),
-    siteName: meta.get("og:site_name") || siteNameFromUrl(pageUrl),
+    siteName:
+      Array.from(meta.get("og:site_name") ?? "")
+        .slice(0, MAX_SITE_NAME_CHARS)
+        .join("") || siteNameFromUrl(pageUrl),
   };
 }
 
@@ -108,24 +139,68 @@ function decode(bytes: Uint8Array, charset: string): string {
   }
 }
 
+function fallbackPreview(url: string): LinkPreview {
+  return { image: null, siteName: siteNameFromUrl(url) };
+}
+
+/**
+ * キャッシュされる中身。決まった結果 (og:image なし・404・HTML でない) は返し、
+ * 一時的な失敗は TransientLinkPreviewError を投げる。
+ */
+export async function loadLinkPreview(
+  url: string,
+  fetchImpl: FetchLike = fetch,
+): Promise<LinkPreview> {
+  if (!isFetchableUrl(url)) return fallbackPreview(url);
+  let res: Response;
+  try {
+    res = await fetchImpl(url, {
+      headers: { "user-agent": USER_AGENT, accept: "text/html,application/xhtml+xml" },
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+  } catch (error) {
+    throw new TransientLinkPreviewError(`link preview fetch failed: ${url}`, { cause: error });
+  }
+  if (res.status >= 500 || res.status === 429) {
+    await res.body?.cancel().catch(() => undefined);
+    throw new TransientLinkPreviewError(`link preview HTTP ${res.status}: ${url}`);
+  }
+  if (!res.ok) return fallbackPreview(url);
+  const contentType = (res.headers.get("content-type") ?? "").toLowerCase();
+  if (!HTML_TYPES.some((type) => contentType.includes(type))) return fallbackPreview(url);
+  let bytes: Uint8Array;
+  try {
+    bytes = await readHead(res, MAX_BYTES);
+  } catch (error) {
+    throw new TransientLinkPreviewError(`link preview body failed: ${url}`, { cause: error });
+  }
+  return parseLinkPreview(decode(bytes, charsetOf(contentType, bytes)), res.url || url);
+}
+
+/** 投げた失敗 (= キャッシュに入らなかった失敗) を代わりの表示に倒す。 */
+export function withFallback(
+  load: (url: string) => Promise<LinkPreview>,
+): (url: string) => Promise<LinkPreview> {
+  return async (url) => {
+    try {
+      return await load(url);
+    } catch {
+      return fallbackPreview(url);
+    }
+  };
+}
+
+/** キャッシュなし・失敗は代わりの表示 (テストと単発の確認用)。 */
 export async function fetchLinkPreview(
   url: string,
   fetchImpl: FetchLike = fetch,
 ): Promise<LinkPreview> {
-  const fallback: LinkPreview = { image: null, siteName: siteNameFromUrl(url) };
-  if (!isFetchableUrl(url)) return fallback;
-  try {
-    const res = await fetchImpl(url, {
-      headers: { "user-agent": USER_AGENT, accept: "text/html,application/xhtml+xml" },
-      signal: AbortSignal.timeout(TIMEOUT_MS),
-      next: { revalidate: REVALIDATE_SECONDS },
-    });
-    if (!res.ok) return fallback;
-    const contentType = (res.headers.get("content-type") ?? "").toLowerCase();
-    if (!HTML_TYPES.some((type) => contentType.includes(type))) return fallback;
-    const bytes = await readHead(res, MAX_BYTES);
-    return parseLinkPreview(decode(bytes, charsetOf(contentType, bytes)), res.url || url);
-  } catch {
-    return fallback;
-  }
+  return withFallback((target) => loadLinkPreview(target, fetchImpl))(url);
 }
+
+/** 描画用: 解析後の結果だけを 1 日キャッシュする (SourceCard が使う)。 */
+export const getLinkPreview = withFallback(
+  unstable_cache(async (url: string) => loadLinkPreview(url), ["link-preview"], {
+    revalidate: REVALIDATE_SECONDS,
+  }),
+);

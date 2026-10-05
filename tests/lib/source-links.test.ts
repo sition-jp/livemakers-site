@@ -86,6 +86,25 @@ describe("createSourceCardCollector", () => {
     expect(links).toEqual([{ url: "https://digitalpr.jp/r/1", label: "アルペン発表" }]);
   });
 
+  it("drops the trailing colon/dash of a text-derived label (`- 出典名: https://…`)", async () => {
+    const { links } = await collect(
+      [
+        "## 参照",
+        "",
+        "- BEA release schedule: https://www.bea.gov/news/schedule",
+        "- 日銀 声明 ： https://www.boj.or.jp/a",
+        "- Fed — https://www.federalreserve.gov/a",
+        "- [Ratio: 1:1](https://r.example.com/)",
+      ].join("\n"),
+    );
+    expect(links.map((link) => link.label)).toEqual([
+      "BEA release schedule",
+      "日銀 声明",
+      "Fed",
+      "Ratio: 1:1",
+    ]);
+  });
+
   it(`caps the cards at ${MAX_SOURCE_CARDS}`, async () => {
     const items = Array.from({ length: 10 }, (_, i) => `- [S${i}](https://s${i}.example.com/)`);
     const { links, html } = await collect(["## 参照", "", ...items].join("\n"));

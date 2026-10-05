@@ -1,6 +1,6 @@
 /* @vitest-environment jsdom */
 import { fireEvent, render } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { SourceCardView } from "@/components/articles/SourceCard";
 import { SourceCardListItem } from "@/components/articles/SourceCardListItem";
@@ -38,6 +38,48 @@ describe("SourceCardView", () => {
     );
     fireEvent.error(container.querySelector("img")!);
     expect((container.querySelector("[data-source-card='large']") as HTMLElement).style.display).toBe("none");
+  });
+});
+
+describe("SourceCardView — an image that already failed before hydration (onError never fires)", () => {
+  const proto = HTMLImageElement.prototype;
+  const original = {
+    complete: Object.getOwnPropertyDescriptor(proto, "complete")!,
+    naturalWidth: Object.getOwnPropertyDescriptor(proto, "naturalWidth")!,
+  };
+  function stubImageState(complete: boolean, naturalWidth: number) {
+    Object.defineProperty(proto, "complete", { configurable: true, get: () => complete });
+    Object.defineProperty(proto, "naturalWidth", { configurable: true, get: () => naturalWidth });
+  }
+  afterEach(() => {
+    Object.defineProperty(proto, "complete", original.complete);
+    Object.defineProperty(proto, "naturalWidth", original.naturalWidth);
+  });
+
+  it("hides the large card / the small card's image when complete with naturalWidth 0", () => {
+    stubImageState(true, 0);
+    const large = render(
+      <SourceCardView url={URL} label="L" size="large" preview={{ image: IMAGE, siteName: "s" }} />,
+    ).container;
+    expect((large.querySelector("[data-source-card='large']") as HTMLElement).style.display).toBe("none");
+    const small = render(
+      <SourceCardView url={URL} label="S" size="small" preview={{ image: IMAGE, siteName: "s" }} />,
+    ).container;
+    expect((small.querySelector("img") as HTMLElement).style.display).toBe("none");
+    expect((small.querySelector("[data-source-card='small']") as HTMLElement).style.display).toBe("");
+  });
+
+  it("keeps an image that loaded (or is still loading)", () => {
+    stubImageState(true, 640);
+    const loaded = render(
+      <SourceCardView url={URL} label="L" size="large" preview={{ image: IMAGE, siteName: "s" }} />,
+    ).container;
+    expect((loaded.querySelector("[data-source-card='large']") as HTMLElement).style.display).toBe("");
+    stubImageState(false, 0);
+    const loading = render(
+      <SourceCardView url={URL} label="L" size="large" preview={{ image: IMAGE, siteName: "s" }} />,
+    ).container;
+    expect((loading.querySelector("[data-source-card='large']") as HTMLElement).style.display).toBe("");
   });
 });
 
