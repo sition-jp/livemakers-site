@@ -56,17 +56,32 @@ describe("SourceCardView — an image that already failed before hydration (onEr
     Object.defineProperty(proto, "naturalWidth", original.naturalWidth);
   });
 
-  it("hides the large card / the small card's image when complete with naturalWidth 0", () => {
+  it("hides the large card when its image already failed (complete, naturalWidth 0)", () => {
     stubImageState(true, 0);
     const large = render(
       <SourceCardView url={URL} label="L" size="large" preview={{ image: IMAGE, siteName: "s" }} />,
     ).container;
     expect((large.querySelector("[data-source-card='large']") as HTMLElement).style.display).toBe("none");
+  });
+
+  it("does not hide a small (lazy) card's image on mount — some browsers report unstarted lazy images as complete", () => {
+    stubImageState(true, 0);
     const small = render(
       <SourceCardView url={URL} label="S" size="small" preview={{ image: IMAGE, siteName: "s" }} />,
     ).container;
-    expect((small.querySelector("img") as HTMLElement).style.display).toBe("none");
+    expect((small.querySelector("img") as HTMLElement).style.display).toBe("");
     expect((small.querySelector("[data-source-card='small']") as HTMLElement).style.display).toBe("");
+  });
+
+  it("loads the large card's image eagerly and small cards' images lazily", () => {
+    const large = render(
+      <SourceCardView url={URL} label="L" size="large" preview={{ image: IMAGE, siteName: "s" }} />,
+    ).container;
+    expect(large.querySelector("img")?.getAttribute("loading")).toBe("eager");
+    const small = render(
+      <SourceCardView url={URL} label="S" size="small" preview={{ image: IMAGE, siteName: "s" }} />,
+    ).container;
+    expect(small.querySelector("img")?.getAttribute("loading")).toBe("lazy");
   });
 
   it("keeps an image that loaded (or is still loading)", () => {

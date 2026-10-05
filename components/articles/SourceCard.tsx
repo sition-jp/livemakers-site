@@ -31,7 +31,7 @@ export function SourceCardView({ url, label, size, preview }: Props & { preview:
   if (size === "large" && !preview.image) return null;
   return (
     <a href={url} target="_blank" rel="noopener noreferrer" data-source-card={size} className={FRAME[size]}>
-      {preview.image ? <SourceCardImage src={preview.image} className={IMAGE[size]} /> : null}
+      {preview.image ? <SourceCardImage src={preview.image} className={IMAGE[size]} eager={size === "large"} /> : null}
       <span className={TEXT[size]}>
         <span className="text-sm font-semibold text-text-primary">{label}</span>
         <span className="text-xs text-text-tertiary">{preview.siteName}</span>
