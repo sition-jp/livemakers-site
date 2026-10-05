@@ -949,6 +949,8 @@
     "localStorageBody": "Your dark/light display preference is stored only in your browser's local storage on your own device. This value is never sent to our servers and is not used to identify you.",
     "cookieTitle": "Cookies",
     "cookieBody": "This site does not set tracking cookies.",
+    "embedsTitle": "Embedded content from external services",
+    "embedsBody": "Articles may display posts from X, videos from YouTube, and preview images from source pages. Your browser loads these directly from each service (X, YouTube, or the source site), which sends information such as your IP address and user agent to that service. YouTube videos are embedded in privacy-enhanced mode (youtube-nocookie.com); if you play a video, YouTube's privacy policy applies. Please see each service's privacy policy for how it handles information.",
     "contactTitle": "Contact",
     "contactBody": "For questions about this policy, please reach us via the contact page."
   },

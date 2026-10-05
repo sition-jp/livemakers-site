@@ -79,6 +79,12 @@ describe("privacy page", () => {
     expect(screen.getByText(/追跡目的の Cookie を発行していません/)).toBeInTheDocument();
   });
 
+  it("discloses that embedded X posts, YouTube videos and source preview images load from external services (2026-10-06)", async () => {
+    render(await PrivacyPage({ params: Promise.resolve({ locale: "ja" }) }));
+    expect(screen.getByRole("heading", { level: 2, name: "外部サービスの埋め込み" })).toBeInTheDocument();
+    expect(screen.getByText(/youtube-nocookie\.com/)).toBeInTheDocument();
+  });
+
   it("has generateMetadata", async () => {
     const meta = await privacyMetadata({ params: Promise.resolve({ locale: "ja" }) });
     expect(meta.alternates?.canonical).toBe("/ja/privacy");
