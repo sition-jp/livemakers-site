@@ -74,6 +74,10 @@ describe("pressCompanyName", () => {
     expect(pressCompanyName("<html></html>")).toBe("発表企業");
     expect(Array.from(pressCompanyName(`<title>x | ${"あ".repeat(200)}のプレスリリース</title>`))).toHaveLength(80);
   });
+
+  it("takes the last | segment of the title", () => {
+    expect(pressCompanyName("<title>新商品 | ブランドA | 株式会社Xのプレスリリース</title>")).toBe("株式会社X");
+  });
 });
 
 describe("loadPressPhotos", () => {

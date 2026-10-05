@@ -107,7 +107,7 @@ export function pressCompanyName(html: string): string {
   const title = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html)?.[1];
   if (title) {
     // decodeEntities は &quot; &#39; &lt; &gt; &amp; と数値参照だけ (Python の html.unescape より狭い・許容済み)
-    const company = /\|\s*(.+?)のプレスリリース\s*$/.exec(decodeEntities(title.replace(/\s+/g, " ")).trim())?.[1];
+    const company = /^.*\|\s*(.+?)のプレスリリース\s*$/.exec(decodeEntities(title.replace(/\s+/g, " ")).trim())?.[1];
     if (company) return capChars(company.trim());
   }
   for (const [, block] of html.matchAll(/<script[^>]+application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi)) {

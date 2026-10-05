@@ -8,7 +8,6 @@ await vi.hoisted(async () => {
 });
 
 import {
-  decodeEntities,
   fetchLinkPreview,
   getLinkPreview,
   isFetchableUrl,
