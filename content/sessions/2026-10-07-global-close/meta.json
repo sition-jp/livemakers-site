@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-10-07-global-close",
+  "date": "2026-10-07",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-07-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-07-global-close",
+  "publishedAt": "2026-10-08T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261007_2303_498d6de6",
+  "asOfJst": "2026-10-07T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月7日 23:03 JST",
+  "bullets": [
+    "BTC/USD $86,302 → $83,120（-3.69%）",
+    "変動幅上位: ETH/USD -5.4% / BTC/USD -3.7%"
+  ]
+}
