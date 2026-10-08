@@ -1,0 +1,23 @@
+{
+  "sessionId": "2026-10-08-asia-open",
+  "date": "2026-10-08",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-08-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-08-asia-open",
+  "publishedAt": "2026-10-09T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261008_0730_f3739b0e",
+  "asOfJst": "2026-10-08T07:30:04+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月8日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 70,845 → 69,769（-1.52%）",
+    "変動幅上位: ETH/USD -4.7% / BTC/USD -2.6%"
+  ]
+}
