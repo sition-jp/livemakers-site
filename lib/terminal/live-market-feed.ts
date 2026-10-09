@@ -467,8 +467,20 @@ const reviewedHomeSchema = z
       });
     }
 
+    // 系列の起点は前日の同じアンカー (SDE home_history と同じ基準)。asOf は
+    // アンカー +7 分以内なので、前日同セッションの点は asOf − 24h より最大
+    // 7 分古くなりうる — asOf 基準で切ると完了時刻の秒ゆらぎで起点が落ちる。
     const endMs = new Date(home.asOfJst).getTime();
-    const startMs = endMs - 24 * 60 * 60 * 1000;
+    const marketSuffix = MARKET_PACKET_PATTERN.exec(home.marketPacketId)?.[2] as
+      | keyof typeof MARKET_ANCHORS
+      | undefined;
+    const anchorMs =
+      marketSuffix === undefined
+        ? Number.NaN
+        : Date.parse(
+            `${home.dataDate}T${MARKET_ANCHORS[marketSuffix]}:00+09:00`,
+          );
+    const startMs = anchorMs - 24 * 60 * 60 * 1000;
     for (const series of home.focusSession.series) {
       if (
         series.seriesPacketId !==
@@ -484,6 +496,7 @@ const reviewedHomeSchema = z
         const timestamp = new Date(point.atJst).getTime();
         if (
           !Number.isFinite(timestamp) ||
+          !Number.isFinite(startMs) ||
           timestamp <= previous ||
           timestamp < startMs ||
           timestamp > endMs

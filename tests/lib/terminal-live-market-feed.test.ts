@@ -372,6 +372,33 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
     expect(mapTerminalFeed(feed)?.home).not.toBeNull();
   });
 
+  // SDE の系列は「前日の同じアンカー」から始まる。asOf はアンカー +7 分以内
+  // なので、前日同セッションの点は asOf − 24h より古くなりうる
+  // (2026-10-09 europe-bridge で 0.2 秒差の取りこぼしを実測)。
+  it("accepts a previous-day same-anchor point older than asOf − 24h", () => {
+    const feed = sampleHomeV02();
+    feed.home.asOfJst = `${feed.home.dataDate}T07:37:00+09:00`;
+    feed.home.pagePacketId = "lmk_20260712_0737_a1";
+    for (const series of feed.home.focusSession.series) {
+      series.points[0].atJst = "2026-07-11T07:30:02+09:00";
+      series.points.at(-1).atJst = feed.home.asOfJst;
+    }
+
+    expect(mapTerminalFeed(feed)?.home).not.toBeNull();
+  });
+
+  it("rejects a point older than the previous-day same anchor", () => {
+    const feed = sampleHomeV02();
+    feed.home.asOfJst = `${feed.home.dataDate}T07:37:00+09:00`;
+    feed.home.pagePacketId = "lmk_20260712_0737_a1";
+    for (const series of feed.home.focusSession.series) {
+      series.points[0].atJst = "2026-07-11T07:29:59+09:00";
+      series.points.at(-1).atJst = feed.home.asOfJst;
+    }
+
+    expect(mapTerminalFeed(feed)?.home).toBeNull();
+  });
+
   it("rejects completion after the +7 minute boundary", () => {
     const feed = sampleHomeV02();
     feed.home.asOfJst = `${feed.home.dataDate}T07:37:01+09:00`;
@@ -515,7 +542,7 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
       },
     ],
     [
-      "point older than 24 hours",
+      "point older than the previous-day same anchor",
       (feed: Record<string, any>) => {
         feed.home.focusSession.series[0].points[0].atJst =
           "2026-07-11T07:29:59+09:00";
