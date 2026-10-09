@@ -2,7 +2,10 @@ import type { ArticleMeta } from "@/lib/articles/article-model";
 import { selectLatestArticles } from "@/lib/articles/latest-articles";
 import type { SessionRecord } from "@/lib/sessions/session-content";
 import type { RadarObservation } from "./radar-observations";
-import { selectSignalTimeline } from "./select-signal-timeline";
+import {
+  SIGNAL_TIMELINE_FLOOR,
+  selectSignalTimeline,
+} from "./select-signal-timeline";
 
 export interface HomeSlotInput {
   articles: ArticleMeta[];
@@ -210,7 +213,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const signalTimeline = selectSignalTimeline({
     articles: input.articles,
     now,
-    floor: 10,
+    floor: SIGNAL_TIMELINE_FLOOR,
     excludeIds: [],
   }).map((article) => take(article) as ArticleMeta);
   const signalTimelineSummary: HomeSlots["signalTimelineSummary"] = {

@@ -36,22 +36,17 @@ describe("selectSignalTimeline", () => {
   });
 
   it("returns all signals within 24h when they exceed the floor", () => {
-    // 11 signals, all inside the 24h window [07-09 12:00, 07-10 12:00], descending
-    const within = [
-      mk("w00", "2026-07-10T11:00:00+09:00"),
-      mk("w01", "2026-07-10T10:00:00+09:00"),
-      mk("w02", "2026-07-10T09:00:00+09:00"),
-      mk("w03", "2026-07-10T08:00:00+09:00"),
-      mk("w04", "2026-07-10T07:00:00+09:00"),
-      mk("w05", "2026-07-10T06:00:00+09:00"),
-      mk("w06", "2026-07-09T22:00:00+09:00"),
-      mk("w07", "2026-07-09T20:00:00+09:00"),
-      mk("w08", "2026-07-09T18:00:00+09:00"),
-      mk("w09", "2026-07-09T15:00:00+09:00"),
-      mk("w10", "2026-07-09T13:00:00+09:00"),
-    ];
+    // 21 signals (floor 20 + 1), hourly from 07-10 11:00 back to 07-09 14:00 —
+    // all inside the 24h window [07-09 12:00, 07-10 12:00], descending
+    const within = Array.from({ length: 21 }, (_, index) =>
+      mk(
+        `w${String(index).padStart(2, "0")}`,
+        new Date(Date.parse("2026-07-10T11:00:00+09:00") - index * 3_600_000)
+          .toISOString(),
+      ),
+    );
     const result = selectSignalTimeline({ articles: within, now: NOW });
-    expect(result).toHaveLength(11); // floor is a minimum, not a cap
+    expect(result).toHaveLength(21); // floor is a minimum, not a cap
     expect(result.every((a) => a.family === "signal")).toBe(true);
     // descending publishedAtJst order preserved
     const sorted = [...result].sort((a, b) =>
@@ -60,31 +55,25 @@ describe("selectSignalTimeline", () => {
     expect(ids(result)).toEqual(ids(sorted));
   });
 
-  it("pads with the newest older signals up to the floor when the 24h window is thin", () => {
+  it("pads with the newest older signals up to the floor (20) when the 24h window is thin", () => {
     const within = [
       mk("w1", "2026-07-10T10:00:00+09:00"),
       mk("w2", "2026-07-10T08:00:00+09:00"),
       mk("w3", "2026-07-09T14:00:00+09:00"),
     ];
-    const older = [
-      mk("o1", "2026-07-09T10:00:00+09:00"),
-      mk("o2", "2026-07-09T08:00:00+09:00"),
-      mk("o3", "2026-07-08T20:00:00+09:00"),
-      mk("o4", "2026-07-08T16:00:00+09:00"),
-      mk("o5", "2026-07-08T10:00:00+09:00"),
-      mk("o6", "2026-07-07T20:00:00+09:00"),
-      mk("o7", "2026-07-07T12:00:00+09:00"),
-      mk("o8", "2026-07-06T20:00:00+09:00"),
-      mk("o9", "2026-07-06T10:00:00+09:00"),
-      mk("o10", "2026-07-05T20:00:00+09:00"),
-      mk("o11", "2026-07-05T10:00:00+09:00"),
-      mk("o12", "2026-07-04T20:00:00+09:00"),
-    ];
+    // 19 older signals, every 6h back from 07-09 10:00 (outside the window), descending
+    const older = Array.from({ length: 19 }, (_, index) =>
+      mk(
+        `o${index + 1}`,
+        new Date(Date.parse("2026-07-09T10:00:00+09:00") - index * 6 * 3_600_000)
+          .toISOString(),
+      ),
+    );
     const result = selectSignalTimeline({ articles: [...within, ...older], now: NOW });
-    expect(result).toHaveLength(10); // 3 in-window + 7 newest older
+    expect(result).toHaveLength(20); // 3 in-window + 17 newest older
     expect(ids(result).slice(0, 3)).toEqual(["w1", "w2", "w3"]);
-    expect(ids(result).slice(3)).toEqual(["o1", "o2", "o3", "o4", "o5", "o6", "o7"]);
-    expect(ids(result)).not.toContain("o8"); // beyond the floor
+    expect(ids(result).slice(3)).toEqual(ids(older.slice(0, 17)));
+    expect(ids(result)).not.toContain("o18"); // beyond the floor
   });
 
   it("excludes promoted-pair ids before applying the floor", () => {
