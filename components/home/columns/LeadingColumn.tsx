@@ -19,10 +19,11 @@ const REGION = "leading" satisfies GradientRegion;
  * 左カラム = 先行 (G44 D5 / 2026-08-14 Phase 3 改訂)。モジュール順は勾配台帳
  * REGION_MODULES.leading。session-now は D8 の単一表現ルールで desktop 専用
  * (mobile は CompositeHero が担う)。event-risk = 最新 event-risk-radar 記事 1 本
- * (schedule 直下)・flash-list = 当日+前日の速報記事 (event-risk 直下) を描画する。
+ * (focus 直下)・flash-list = 当日+前日の速報記事 (event-risk 直下) を描画する。
  * 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) は撤去 — 公開以来一度も
  * ペアが成立しなかった空カード (spec 2026-08-23-terminal-switching-ux-design §D)。
  * 2026-10-09 田平氏 GO (案 A): 観測リスト (radar-observations) を速報リストへ置き換え。
+ * 2026-10-09 田平氏 GO: focus を schedule 直下へ (順序の正本は台帳)。
  * session-now は live → live card / recentClosed → closed card / なし → fallback。
  */
 export type LeadingColumnProps = Pick<
