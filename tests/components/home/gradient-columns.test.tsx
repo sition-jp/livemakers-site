@@ -104,7 +104,7 @@ describe("LeadingColumn (gradient leading, D5)", () => {
     ).toEqual([...REGION_MODULES.leading]);
   });
 
-  it("splits event-risk (latest article) and radar-observations (title-only) into two modules (Phase 3)", () => {
+  it("splits event-risk (latest article) and flash-list (速報一覧) into two modules", () => {
     const { container } = renderLeading();
     // event-risk = 最新記事 1 本のみ (schedule 直下)
     const eventRisk = container.querySelector(
@@ -116,12 +116,19 @@ describe("LeadingColumn (gradient leading, D5)", () => {
     expect(links[0]!.getAttribute("data-article-id")).toBe(
       "event-risk-radar-w29",
     );
-    // radar-observations = 観測 title-only (リンクなし・flash-promotion 直下)
-    const observations = container.querySelector(
-      '[data-column-module="radar-observations"]',
+    // flash-list = 当日+前日の速報記事 (2026-10-09 田平氏 GO 案 A で観測
+    // カードから置き換え)。fixture に該当速報は無いので速報一覧リンクのみ。
+    expect(
+      container.querySelector('[data-column-module="radar-observations"]'),
+    ).toBeNull();
+    const flashList = container.querySelector(
+      '[data-column-module="flash-list"]',
     )!;
-    expect(observations.querySelector("[data-radar]")).not.toBeNull();
-    expect(observations.querySelectorAll("a")).toHaveLength(0);
+    expect(flashList.querySelector("[data-flash-list]")).not.toBeNull();
+    expect(flashList.querySelector("[data-radar]")).toBeNull();
+    expect(
+      [...flashList.querySelectorAll("a")].map((anchor) => anchor.getAttribute("href")),
+    ).toEqual(["/articles/series/flash"]);
   });
 
   // 2026-08-23 田平氏 GO (spec §A): live が無く recentClosed がある → 終了カード。

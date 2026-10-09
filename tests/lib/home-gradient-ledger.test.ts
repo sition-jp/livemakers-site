@@ -15,8 +15,10 @@ describe("gradient ledger", () => {
     // radar-observations として独立・mkt12-reading を lead-article 直下へ。
     // 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) を撤去 — 公開以来一度も
     // ペアが成立しなかった空カード (spec 2026-08-23-terminal-switching-ux-design §D)。
+    // 2026-10-09 田平氏 GO (案 A): radar-observations (観測リスト) を flash-list
+    // (当日+前日の速報記事) へ置き換え — 同じ位置。
     expect(REGION_MODULES.leading).toEqual([
-      "session-now", "schedule", "event-risk", "radar-observations", "focus",
+      "session-now", "schedule", "event-risk", "flash-list", "focus",
     ]);
     // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
     // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。
@@ -31,6 +33,7 @@ describe("gradient ledger", () => {
   it("marks index-nav modules (dedup-exempt)", () => {
     expect(INDEX_NAV_MODULES).toEqual([
       "hero-session-line", "hero-lead-headline",
+      "flash-list",
       "atlas-entry", "mkt12-weekend", "weekly-brief", "latest-articles",
     ]);
   });

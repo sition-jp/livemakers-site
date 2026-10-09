@@ -530,16 +530,12 @@
         "subtitle": "同じ10銘柄データから"
       }
     },
+    "flashList": {
+      "title": "速報 — 最新の記事",
+      "empty": "直近の速報はありません。",
+      "seriesLink": "速報一覧 →"
+    },
     "radar": {
-      "lanes": {
-        "xNews": "X・報道で浮上",
-        "sde": "SDE検出",
-        "checking": "確認中"
-      },
-      "observations": {
-        "title": "速報レーダー — 観測中のタイトル",
-        "note": "観測は一次ソースへ。確認を経たものは Signal として記事になります。"
-      },
       "recent": {
         "title": "最近の Signal",
         "subtitle": "速報の確認から生まれた記事（別の話題）"

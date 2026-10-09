@@ -530,16 +530,12 @@
         "subtitle": "From the same 10 instruments"
       }
     },
+    "flashList": {
+      "title": "Flash — Latest stories",
+      "empty": "No recent flash stories.",
+      "seriesLink": "All flash →"
+    },
     "radar": {
-      "lanes": {
-        "xNews": "Surfaced on X / news",
-        "sde": "Detected by SDE",
-        "checking": "Checking"
-      },
-      "observations": {
-        "title": "Breaking Radar — Titles under observation",
-        "note": "Observations link to primary sources; confirmed items are published as Signals."
-      },
       "recent": {
         "title": "Recent Signals",
         "subtitle": "Articles born from verified observations (other topics)"

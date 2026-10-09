@@ -72,7 +72,6 @@ import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { buildFlatNav } from "@/lib/home/nav-model";
 import {
   RADAR_OBSERVATIONS,
-  RADAR_SOURCE_URL_ALLOWLIST,
   type RadarObservation,
 } from "@/lib/home/radar-observations";
 import { RADAR_PROMOTIONS } from "@/lib/home/radar-promotions";
@@ -299,35 +298,25 @@ afterAll(() => {
 });
 
 describe("G44 safety gates with validated Production feed overlay", () => {
-  it("gate 1: radar DOM carries primary-source links only, never article routing", () => {
+  it("gate 1: radar observations never reach the home DOM, even when a linked one is supplied", () => {
     expect(catalog.feedPresent).toBe(true);
     expect(
       catalog.articles.find(
         (article) => article.articleId === "signal-20260710-feed-safety",
       )?.source,
     ).toBe("inflow");
-    // 従来 fixture (href=null) は title-only のまま (2026-08-14 裁定で改訂)。
-    for (const observation of RADAR_OBSERVATIONS) {
-      expect(observation.href).toBeNull();
-      expect(observation.displayMode).toBe("title_only");
-      expect(observation.publishDecision).toBe("not_authorized");
-    }
+    // 2026-10-09 田平氏 GO (案 A): 観測カードを速報記事リスト (flash-list) へ
+    // 置き換え。観測は wire 契約として受理し続ける (slots.observing) が描画しない。
+    expect(props.slots.observing).toContainEqual(LINKED_RADAR_OBSERVATION);
     const { container } = renderFullPage(props);
-    const radarModules = container.querySelectorAll("[data-radar]");
-    expect(radarModules.length).toBeGreaterThanOrEqual(1);
-    const radarAnchors = [...container.querySelectorAll("[data-radar] a")];
-    // リンクを持つのは注入した LINKED_RADAR_OBSERVATION の 1 件のみ。
-    expect(radarAnchors).toHaveLength(1);
-    for (const anchor of radarAnchors) {
-      expect(anchor.hasAttribute("data-source-link")).toBe(true);
-      expect(anchor.hasAttribute("data-article-id")).toBe(false);
-      expect(anchor.hasAttribute("data-index-nav")).toBe(false);
-      expect(
-        RADAR_SOURCE_URL_ALLOWLIST.test(anchor.getAttribute("href")!),
-      ).toBe(true);
-      expect(anchor.getAttribute("target")).toBe("_blank");
-      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
+    expect(container.querySelectorAll("[data-radar]")).toHaveLength(0);
+    expect(container.querySelectorAll("[data-source-link]")).toHaveLength(0);
+    for (const observation of RADAR_WITH_SOURCE) {
+      expect(container.textContent).not.toContain(observation.titleJa);
     }
+    expect(
+      container.querySelector(`a[href="${LINKED_RADAR_OBSERVATION.href}"]`),
+    ).toBeNull();
   });
 
   it("gate 2: every link validates through exactly one public route", async () => {
@@ -384,25 +373,12 @@ describe("G44 safety gates with validated Production feed overlay", () => {
       await expectResolvesPublicDocument(href);
     }
 
-    // Primary-source links (2026-08-14 裁定): data-source-link は data-radar
-    // 内限定・X allowlist の外部 1 hop。第 4 のバケットとして明示会計する。
-    const sourceAnchors = gradientAnchors.filter((anchor) =>
-      anchor.hasAttribute("data-source-link"),
-    );
-    expect(sourceAnchors).toHaveLength(1);
-    for (const anchor of sourceAnchors) {
-      const href = anchor.getAttribute("href")!;
-      expect(RADAR_SOURCE_URL_ALLOWLIST.test(href), `source:${href}`).toBe(
-        true,
-      );
-      expect(anchor.closest("[data-radar]"), `source:${href}`).not.toBeNull();
-      expect(anchor.getAttribute("target")).toBe("_blank");
-      expect(anchor.getAttribute("rel")).toBe("noopener noreferrer nofollow");
-    }
+    // Primary-source links: 2026-10-09 の観測カード撤去 (案 A) で 0 本。
+    expect(
+      gradientAnchors.filter((anchor) => anchor.hasAttribute("data-source-link")),
+    ).toHaveLength(0);
 
-    const gradientBodyAnchors = gradientAnchors.filter(
-      (anchor) => !sourceAnchors.includes(anchor),
-    );
+    const gradientBodyAnchors = gradientAnchors;
     expect(gradientBodyAnchors.length).toBeGreaterThanOrEqual(40);
     for (const anchor of gradientBodyAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);

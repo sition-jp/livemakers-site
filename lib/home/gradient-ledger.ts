@@ -25,11 +25,15 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   ペアが成立しなかった空カード。観測リスト (radar-observations) は残す。
   //   spec: docs/superpowers/specs/2026-08-23-terminal-switching-ux-design.md §D
   //   (CP doctrine §4 は窓単位の台帳で「Live Radar」は観測カードとして存続 — 改訂不要)
+  // 2026-10-09 田平氏 GO (案 A): radar-observations (観測リスト・一次ソースへの
+  //   外部リンク) を flash-list (当日+前日の速報記事・自社記事リンク) へ置き換え。
+  //   速報レーン稼働で観測と速報記事が同じ件を二重に出していたため。観測データの
+  //   wire 契約 (slots.observing / radar-observations.ts) は受理を続け、描画だけ止める。
   leading: [
     "session-now",
     "schedule",
     "event-risk",
-    "radar-observations",
+    "flash-list",
     "focus",
   ],
   coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
@@ -49,13 +53,15 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
 
 /**
  * data-index-nav 扱いのモジュール (articleId 重複検査から除外 = gate 6)。
- * hero のリンク行 + 索引系 (未来アトラス入口 / 週末12指標 / Weekly Brief / 最新記事)。
+ * hero のリンク行 + 索引系 (速報リスト / 未来アトラス入口 / 週末12指標 /
+ * Weekly Brief / 最新記事)。速報リストは速報帯の 1 本を再掲し得るため索引扱い。
  * DeepDiveShelf の featured 1 本は本体扱いのため含めない (残り 4 本の title 行が
  * data-index-nav なのはコンポーネント側で付与する)。
  */
 export const INDEX_NAV_MODULES: readonly string[] = [
   "hero-session-line",
   "hero-lead-headline",
+  "flash-list",
   "atlas-entry",
   "mkt12-weekend",
   "weekly-brief",

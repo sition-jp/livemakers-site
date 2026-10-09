@@ -61,7 +61,7 @@ describe("home radar rail — production-equivalent honest empty (G43-d)", () =>
     expect(props.slots.observing).toEqual([]);
   });
 
-  it("renders the radar observations card (no flash-promotion) and EventRiskCard in their documented empty states", () => {
+  it("renders the flash list (not the radar card) in its documented empty state", () => {
     const props = productionEquivalentProps();
     const radarSource = resolveHomeRadarSource({});
     const { container } = render(
@@ -78,19 +78,20 @@ describe("home radar rail — production-equivalent honest empty (G43-d)", () =>
       "empty",
     );
 
-    // 2026-08-23: flash-promotion は撤去済み — 速報面は観測カードのみ。
+    // 2026-08-23: flash-promotion は撤去済み。2026-10-09 (案 A): 観測カードも
+    // 撤去し、同じ位置に速報記事リスト (flash-list) を置く。
     expect(container.textContent).not.toContain("観測から記事へ");
-    expect(container.textContent).toContain(copy.radar.observations.note);
+    expect(container.querySelectorAll("[data-radar]")).toHaveLength(0);
 
-    // EventRiskCard's RadarObservationsCard renders unconditionally, but
-    // with zero observation rows — exactly one [data-radar] section total
-    // (the promoted card never renders when radarPair is null).
-    const radarSections = [...container.querySelectorAll("[data-radar]")];
-    expect(radarSections).toHaveLength(1);
-    expect(radarSections[0].textContent).toContain(
-      copy.radar.observations.title,
-    );
-    expect(radarSections[0].querySelectorAll("time")).toHaveLength(0);
-    expect(radarSections[0].querySelectorAll("a")).toHaveLength(0);
+    // fixture catalog に当日/前日の速報は無い — 空表示 + 速報一覧リンクのみ。
+    const flashLists = [...container.querySelectorAll("[data-flash-list]")];
+    expect(flashLists).toHaveLength(1);
+    expect(flashLists[0].textContent).toContain(copy.flashList.title);
+    expect(flashLists[0].textContent).toContain(copy.flashList.empty);
+    expect(flashLists[0].querySelectorAll("[data-article-id]")).toHaveLength(0);
+    const anchors = [...flashLists[0].querySelectorAll("a")];
+    expect(anchors.map((anchor) => anchor.getAttribute("href"))).toEqual([
+      "/articles/series/flash",
+    ]);
   });
 });

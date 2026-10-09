@@ -3,7 +3,7 @@ import jaMessages from "@/messages/ja.json";
 import type { ArticleFamily } from "@/lib/articles/article-model";
 import type { IndicatorTileCopy } from "@/components/home/IndicatorTileCard";
 import type { LeadArticleLabels } from "@/components/home/LeadArticleCard";
-import type { RadarObservationsCopy } from "@/components/home/RadarObservationsCard";
+import type { FlashListCopy } from "@/components/home/FlashListCard";
 import type { SessionFocusCopy } from "@/components/home/SessionFocusChart";
 import type { SessionNowCopy } from "@/components/home/SessionNowCard";
 import type { SessionScheduleCopy } from "@/components/home/SessionScheduleCard";
@@ -88,9 +88,8 @@ export interface HomeCopy {
     movers: TopMoversCopy;
   };
   // 2026-08-23: sectionTitle / jointLabel / promoted (昇格ペア) は撤去 (spec §D)
-  radar: {
-    observations: RadarObservationsCopy;
-  };
+  // 2026-10-09 田平氏 GO (案 A): radar.observations (観測カード) → flashList
+  flashList: FlashListCopy;
   lanes: {
     titles: Record<LaneId, string>;
     subtitle: string;
@@ -121,11 +120,6 @@ export function buildHomeCopy(
       "landmark",
     ].map((family) => [family, translate(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;
-  const laneLabels = {
-    x_news_trends: translate("radar.lanes.xNews"),
-    sde_phase1_breaking_radar: translate("radar.lanes.sde"),
-    manual_operator_observation: translate("radar.lanes.checking"),
-  };
 
   return {
     provenance,
@@ -239,12 +233,10 @@ export function buildHomeCopy(
         provenance,
       },
     },
-    radar: {
-      observations: {
-        title: translate("radar.observations.title"),
-        note: translate("radar.observations.note"),
-        laneLabels,
-      },
+    flashList: {
+      title: translate("flashList.title"),
+      empty: translate("flashList.empty"),
+      seriesLink: translate("flashList.seriesLink"),
     },
     lanes: {
       titles: {
