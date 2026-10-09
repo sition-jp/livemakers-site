@@ -246,6 +246,16 @@ describe("getTodaySchedule previous (2026-08-23 closed-record rule)", () => {
     expect(europe.previous).toBeUndefined();
   });
 
+  // 2026-10-09 田平氏 GO: 現在行はいま配信中のレコードを current として持つ
+  it("exposes the live record as 'current' on the current row only", () => {
+    const schedule = getTodaySchedule("2026-08-23", todayLiveFeed, records);
+    const europe = schedule.find((item) => item.def.slug === "europe-bridge")!;
+    expect(europe.current?.sessionId).toBe("2026-08-23-europe-bridge");
+    const asia = schedule.find((item) => item.def.slug === "asia-open")!;
+    expect(asia.current).toBeUndefined();
+    expect(asia.previous?.sessionId).toBe("2026-08-23-asia-open");
+  });
+
   it("falls back to the crystallized article when no newer closed record exists", () => {
     const schedule = getTodaySchedule("2026-08-23", null, [yesterdayPublished]);
     const asia = schedule.find((item) => item.def.slug === "asia-open")!;
