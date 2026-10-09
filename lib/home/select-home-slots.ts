@@ -61,7 +61,7 @@ export interface HomeSlots {
   // 無ければ null で帯ごと非表示。索引意味論 (used に加えない)。
   flashLatest: ArticleMeta | null;
   // 2026-10-09 田平氏 GO (案 A): 左カラムの速報リスト (旧 観測カードの位置)。
-  // flashLatest と同じ 48h 窓・新しい順に最大 FLASH_RECENT_LIMIT 本。帯の 1 本も
+  // flashLatest と同じ 48h 窓・新しい順に最大 FLASH_RECENT_LIMIT (20) 本。帯の 1 本も
   // 含める (帯 = 告知・リスト = 一覧)。索引意味論 (used に加えない)。
   flashRecent: ArticleMeta[];
   eventRiskLatest: ArticleMeta | null;
@@ -88,8 +88,12 @@ const isWithinFlashWindow = (article: ArticleMeta, articleToday: string): boolea
   return day === articleToday || day === previousDateOf(articleToday);
 };
 
-/** 左カラム速報リストの上限本数 (2026-10-09 田平氏 GO 案 A)。 */
-export const FLASH_RECENT_LIMIT = 8;
+/**
+ * 左カラム速報リストの上限本数 (2026-10-09 田平氏 GO: 8 → 20)。速報は 1 日 20 本超
+ * 出るため、8 本では直近 2〜3 時間しか見えなかった。モバイルの表示本数は
+ * FlashListCard 側の FLASH_LIST_MOBILE_LIMIT で絞る。
+ */
+export const FLASH_RECENT_LIMIT = 20;
 
 /**
  * トップ速報帯の 1 本 (2026-09-21 田平氏 GO 案 1)。catalog は新着順前提。

@@ -5,7 +5,10 @@ import { render } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 
-import { FlashListCard } from "@/components/home/FlashListCard";
+import {
+  FLASH_LIST_MOBILE_LIMIT,
+  FlashListCard,
+} from "@/components/home/FlashListCard";
 import { getAllArticles, type ArticleMeta } from "@/lib/articles/article-model";
 import { buildTestHomeCopy } from "@/lib/home/home-copy";
 
@@ -79,6 +82,27 @@ describe("FlashListCard (2026-10-09 田平氏 GO 案 A)", () => {
       expect(anchor.hasAttribute("target")).toBe(false);
       expect(anchor.hasAttribute("data-source-link")).toBe(false);
     }
+  });
+
+  it("hides rows after the 8th below md (mobile 8 本・desktop は全件)", () => {
+    const ten = Array.from({ length: 10 }, (_, index) =>
+      flash(
+        `flash-row-${index}`,
+        `2026-10-09T${String(20 - index).padStart(2, "0")}:00:00+09:00`,
+        `速報 ${index}`,
+      ),
+    );
+    const { container } = render(
+      <FlashListCard articles={ten} copy={copy} locale="ja" />,
+    );
+    const items = [...container.querySelectorAll("[data-flash-list] li")];
+    expect(items).toHaveLength(10);
+    items.forEach((item, index) => {
+      const hiddenOnMobile =
+        item.classList.contains("hidden") && item.classList.contains("md:block");
+      expect(hiddenOnMobile, `row ${index}`).toBe(index >= FLASH_LIST_MOBILE_LIMIT);
+    });
+    expect(FLASH_LIST_MOBILE_LIMIT).toBe(8);
   });
 
   it("ends with an index-nav link to the flash series page", () => {

@@ -1,6 +1,13 @@
 import { Link } from "@/i18n/navigation";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 
+/**
+ * md 未満 (モバイル 1 列) で見せる本数 (2026-10-09 田平氏 GO)。モバイルでは本欄が
+ * Daily Intel / Signal より上に来るため、20 本並べると中央カラムを大きく押し下げる。
+ * 9 本目以降は CSS で隠し、続きは速報一覧リンクへ誘導する。
+ */
+export const FLASH_LIST_MOBILE_LIMIT = 8;
+
 export interface FlashListCopy {
   title: string;
   empty: string;
@@ -40,8 +47,13 @@ export function FlashListCard({
       </h3>
       {articles.length > 0 ? (
         <ul className="mt-3 divide-y divide-dashed divide-border-primary">
-          {articles.map((article) => (
-            <li key={article.articleId}>
+          {articles.map((article, index) => (
+            <li
+              key={article.articleId}
+              className={
+                index >= FLASH_LIST_MOBILE_LIMIT ? "hidden md:block" : undefined
+              }
+            >
               <Link
                 href={article.href}
                 data-article-id={article.articleId}

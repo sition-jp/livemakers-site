@@ -373,19 +373,19 @@ describe("home slot selection (B+)", () => {
       expect(slots.flashRecent[0]?.articleId).toBe("flash-b");
     });
 
-    it("caps the list at 8 items", () => {
-      const many = Array.from({ length: 11 }, (_, index) =>
+    it("caps the list at 20 items (2026-10-09 田平氏 GO: 8 → 20)", () => {
+      const many = Array.from({ length: 23 }, (_, index) =>
         flashAt(
           `flash-${String(index).padStart(2, "0")}`,
-          `2026-07-10T${String(index + 8).padStart(2, "0")}:00:00+09:00`,
+          `2026-07-10T${String(Math.floor(index / 2)).padStart(2, "0")}:${index % 2 ? "30" : "00"}:00+09:00`,
         ),
       );
       const slots = selectHomeSlots({
         ...input(),
         articles: [...many, ...input().articles],
       });
-      expect(slots.flashRecent).toHaveLength(8);
-      expect(slots.flashRecent[0]?.articleId).toBe("flash-10");
+      expect(slots.flashRecent).toHaveLength(20);
+      expect(slots.flashRecent[0]?.articleId).toBe("flash-22");
       expect(isDescending(slots.flashRecent)).toBe(true);
     });
 
