@@ -4,7 +4,10 @@ import type { getTodaySchedule } from "@/lib/sessions/session-content";
 
 export interface SessionScheduleCopy {
   title: string;
+  /** "{date}" を前回セッションの M/D に置き換えて使う (2026-10-09 GO) */
   previous: string;
+  /** いま配信中の行 (isCurrent) のリンク文言 (2026-10-09 GO) */
+  live: string;
   archive: string;
   compactBadge: string;
   compactPrevious: string;
@@ -12,6 +15,12 @@ export interface SessionScheduleCopy {
 }
 
 type Schedule = ReturnType<typeof getTodaySchedule>;
+
+/** "2026-10-08" → "10/8" (ゼロ埋めなし) */
+function monthDayLabel(date: string): string {
+  const [, month, day] = date.split("-");
+  return `${Number(month)}/${Number(day)}`;
+}
 
 export function SessionScheduleCard({
   schedule,
@@ -51,7 +60,7 @@ export function SessionScheduleCard({
     >
       <h3 className="text-sm font-bold text-text-primary">{copy.title}</h3>
       <div className="mt-2 divide-y divide-border-primary">
-        {schedule.map(({ def, isCurrent, previous }) => {
+        {schedule.map(({ def, isCurrent, current, previous }) => {
           const focusPreview = def.defaultFocusInstruments
             .map((instrumentId) => INSTRUMENT_DISPLAY_NAMES_JA[instrumentId])
             .join(" · ");
@@ -73,12 +82,22 @@ export function SessionScheduleCard({
                   {copy.focusPrefix} {focusPreview}
                 </span>
               </span>
-              {previous ? (
+              {current ? (
+                <Link
+                  href={current.currentUrl}
+                  className="font-bold text-accent"
+                >
+                  {copy.live}
+                </Link>
+              ) : previous ? (
                 <Link
                   href={previous.currentUrl}
                   className="font-bold text-accent"
                 >
-                  {copy.previous}
+                  {copy.previous.replace(
+                    "{date}",
+                    monthDayLabel(previous.date),
+                  )}
                 </Link>
               ) : null}
             </div>

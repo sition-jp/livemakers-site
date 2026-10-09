@@ -84,3 +84,10 @@ Status: `IMPLEMENTATION_GO` (2026-08-23 田平氏 GO — 相談 → 3 点セッ�
 
 - `npm test` 全 green + `tsc --noEmit` clean
 - dev 実測: (i) feed に live 無し + 当日 closed あり → closed カード + 時計ベースの次回更新 (ii) P0-1b degrade → 従来 fallback (iii) schedule の Asia Open 行が当日 closed へリンク (iv) leading に flash-promotion モジュール無し
+
+## 6. 追補 (2026-10-09 田平氏 GO) — §C の現在行
+
+- 起点: 10/9 09:03、「本日の更新予定」の 05:03 Asia Open 行 (= いま配信中・背景強調の行) の「前回を読む →」が 10/8 へ飛び、「今日のものに更新されていない」と見えた。§C の規則 (最新 closed) どおりの挙動で、データの遅延ではない
+- ① 現在行 (`isCurrent`) はリンク文言を「ライブを読む →」/ "Read live →" にし、いま配信中のレコード (`getTodaySchedule` の新フィールド `current` = live) へ飛ばす。現在行には前回リンクを出さない (1 行 1 リンク)
+- ② 他の行は「前回（M/D）を読む →」/ "Read previous (M/D) →" と飛び先の日付を出す (ゼロ埋めなし)。`{date}` は `home-copy.ts` で素通しし `SessionScheduleCard` が行ごとに埋める
+- 非対象: mobile compact の「前回セッションの記事を読む」(現在行以外の最初の前回) は不変

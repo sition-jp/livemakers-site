@@ -483,7 +483,8 @@
     },
     "schedule": {
       "title": "本日の更新予定",
-      "previous": "前回を読む →",
+      "previous": "前回（{date}）を読む →",
+      "live": "ライブを読む →",
       "archive": "セッション記事の一覧（時間が経つとライブは記事になります）→",
       "compactBadge": "本日あと{count}回更新",
       "compactPrevious": "前回セッションの記事を読む",

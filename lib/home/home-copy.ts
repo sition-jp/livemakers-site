@@ -188,7 +188,9 @@ export function buildHomeCopy(
     },
     schedule: {
       title: translate("schedule.title"),
-      previous: translate("schedule.previous"),
+      // {date} は行ごとに SessionScheduleCard が埋める (placeholder を素通しする)
+      previous: translate("schedule.previous", { date: "{date}" }),
+      live: translate("schedule.live"),
       archive: translate("schedule.archive"),
       compactBadge: translate("schedule.compactBadge", {
         count: context.remainingSessions,

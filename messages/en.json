@@ -484,7 +484,8 @@
     "schedule": {
       "title": "Today's update schedule",
       "focusPrefix": "Focus:",
-      "previous": "Read previous →",
+      "previous": "Read previous ({date}) →",
+      "live": "Read live →",
       "archive": "Session article index (sessions become articles over time) →",
       "compactBadge": "{count} more updates today",
       "compactPrevious": "Read the previous session article"
