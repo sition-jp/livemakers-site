@@ -29,12 +29,16 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   外部リンク) を flash-list (当日+前日の速報記事・自社記事リンク) へ置き換え。
   //   速報レーン稼働で観測と速報記事が同じ件を二重に出していたため。観測データの
   //   wire 契約 (slots.observing / radar-observations.ts) は受理を続け、描画だけ止める。
+  // 2026-10-09 田平氏 GO: focus (セッション・フォーカス) を末尾から schedule 直下へ。
+  //   セッション → 本日の更新予定 (注目銘柄) → その銘柄のチャートを連続させる。
+  //   速報リストは件数で伸びるため、末尾だとチャートが日によって沈んでいた。
+  //   CP doctrine §1「フォーカスはセッションカード直後」の意図にも近づく。
   leading: [
     "session-now",
     "schedule",
+    "focus",
     "event-risk",
     "flash-list",
-    "focus",
   ],
   coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
   // - lagging (2026-08-23 田平氏 GO A): 記事 4 枠 (deep-dive / atlas-entry /

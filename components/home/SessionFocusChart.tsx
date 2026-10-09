@@ -1,5 +1,8 @@
 import type { FocusSeries } from "@/lib/sessions/focus-series";
-import { INSTRUMENT_DISPLAY_NAMES_JA } from "@/lib/home/instruments";
+import {
+  INSTRUMENT_DISPLAY_NAMES_JA,
+  formatInstrumentValue,
+} from "@/lib/home/instruments";
 import {
   makeWindowProvenance,
   type WindowProvenance,
@@ -16,6 +19,15 @@ export interface SessionFocusCopy {
   basePrefix: string;
   description: string;
   provenance: ProvenanceLabels;
+}
+
+// 2026-10-09 田平氏 GO: 起点は「24h 内で最も古い観測」で、24h ちょうどとは
+// 限らない (前日の同セッションが秒差で窓外になると次のセッションが起点になる)。
+// 期間の語ではなく起点の時刻 (JST・"10/8 18:03") を書いて騰落率の基準を示す。
+function baseTimeLabel(atJst: string): string | null {
+  const match = /^\d{4}-(\d{2})-(\d{2})T(\d{2}:\d{2})/.exec(atJst);
+  if (!match) return null;
+  return `${Number(match[1])}/${Number(match[2])} ${match[3]}`;
 }
 
 function sparklinePoints(series: FocusSeries): string {
@@ -84,7 +96,9 @@ export function SessionFocusChart({
                   />
                 </svg>
                 <span className="text-right font-mono text-[11px] text-text-primary">
-                  <b>{item.lastValue.toLocaleString()}</b>
+                  <b data-focus-last-value>
+                    {formatInstrumentValue(item.instrumentId, item.lastValue)}
+                  </b>
                   <br />
                   <span
                     className={
@@ -98,9 +112,19 @@ export function SessionFocusChart({
                   </span>
                 </span>
               </div>
-              <div className="mt-1 font-mono text-[10px] text-text-tertiary">
-                {copy.basePrefix} {item.baseValue.toLocaleString()} →{" "}
-                {item.lastValue.toLocaleString()}
+              <div
+                data-focus-base-line
+                className="mt-1 font-mono text-[10px] text-text-tertiary"
+              >
+                {[
+                  copy.basePrefix,
+                  baseTimeLabel(item.points[0].atJst),
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+                {" · "}
+                {formatInstrumentValue(item.instrumentId, item.baseValue)} →{" "}
+                {formatInstrumentValue(item.instrumentId, item.lastValue)}
               </div>
               <WindowProvenanceRow
                 provenance={makeWindowProvenance({

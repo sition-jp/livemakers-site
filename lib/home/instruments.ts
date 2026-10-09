@@ -39,6 +39,48 @@ export const INSTRUMENT_DISPLAY_NAMES_JA = {
   rwa_tvl: "RWA TVL",
 } as const satisfies Record<InstrumentId, string>;
 
+interface InstrumentValueFormat {
+  decimals: number;
+  prefix?: string;
+  suffix?: string;
+}
+
+// 2026-10-09 田平氏 GO: セッションカードの見出し (SDE が整形した文字列) と
+// 同じ桁・記号で数値を出すための表。SDE livemakers_export/home_registry.py の
+// INSTRUMENTS (decimal_count / value_prefix / value_suffix) と同じ値にする。
+// rwa_tvl は SDE の表に無い (DefiLlama 由来の lane 値) ので載せない。
+const INSTRUMENT_VALUE_FORMATS: Partial<Record<InstrumentId, InstrumentValueFormat>> = {
+  btc_usd: { decimals: 0, prefix: "$" },
+  eth_usd: { decimals: 2, prefix: "$" },
+  spx: { decimals: 2 },
+  nikkei_futures: { decimals: 0 },
+  eur_usd: { decimals: 4 },
+  usd_jpy: { decimals: 3 },
+  gold: { decimals: 2, prefix: "$" },
+  wti: { decimals: 2, prefix: "$" },
+  us10y: { decimals: 2, suffix: "%" },
+  btc_vol: { decimals: 2 },
+  nasdaq: { decimals: 2 },
+  brent: { decimals: 2, prefix: "$" },
+  xrp_usd: { decimals: 3, prefix: "$" },
+  sol_usd: { decimals: 2, prefix: "$" },
+  coin_stock: { decimals: 2, prefix: "$" },
+};
+
+/** 銘柄ごとの桁数・記号で数値を整形する (表に無い銘柄は従来の toLocaleString)。 */
+export function formatInstrumentValue(
+  instrumentId: InstrumentId,
+  value: number,
+): string {
+  const format = INSTRUMENT_VALUE_FORMATS[instrumentId];
+  if (!format) return value.toLocaleString();
+  const rendered = value.toLocaleString("en-US", {
+    minimumFractionDigits: format.decimals,
+    maximumFractionDigits: format.decimals,
+  });
+  return `${format.prefix ?? ""}${rendered}${format.suffix ?? ""}`;
+}
+
 export const CORE_INSTRUMENTS = [
   "btc_usd",
   "eth_usd",

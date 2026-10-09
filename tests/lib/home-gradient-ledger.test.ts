@@ -17,8 +17,10 @@ describe("gradient ledger", () => {
     // ペアが成立しなかった空カード (spec 2026-08-23-terminal-switching-ux-design §D)。
     // 2026-10-09 田平氏 GO (案 A): radar-observations (観測リスト) を flash-list
     // (当日+前日の速報記事) へ置き換え — 同じ位置。
+    // 2026-10-09 田平氏 GO: focus を末尾から schedule 直下へ (セッション →
+    // 予定 → 注目銘柄チャートを連続させる)。
     expect(REGION_MODULES.leading).toEqual([
-      "session-now", "schedule", "event-risk", "flash-list", "focus",
+      "session-now", "schedule", "focus", "event-risk", "flash-list",
     ]);
     // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
     // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。
