@@ -87,6 +87,7 @@ export function HomeComposition({
           sessionProvenance={sessionProvenance}
           copy={copy}
           showSessionEditorial={showSessionEditorial}
+          locale={locale}
         />
         <CoincidentColumn
           slots={slots}

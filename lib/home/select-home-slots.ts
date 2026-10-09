@@ -60,6 +60,10 @@ export interface HomeSlots {
   // (D13 に従い now を持ち込まず articleCutoffToday の日付で近似する 48h 窓)。
   // 無ければ null で帯ごと非表示。索引意味論 (used に加えない)。
   flashLatest: ArticleMeta | null;
+  // 2026-10-09 田平氏 GO (案 A): 左カラムの速報リスト (旧 観測カードの位置)。
+  // flashLatest と同じ 48h 窓・新しい順に最大 FLASH_RECENT_LIMIT 本。帯の 1 本も
+  // 含める (帯 = 告知・リスト = 一覧)。索引意味論 (used に加えない)。
+  flashRecent: ArticleMeta[];
   eventRiskLatest: ArticleMeta | null;
   atlasLatest: ArticleMeta | null;
   mkt12WeekendLatest: ArticleMeta | null;
@@ -76,8 +80,19 @@ const previousDateOf = (isoDate: string): string => {
 };
 
 /**
- * トップ速報帯の 1 本 (2026-09-21 田平氏 GO 案 1)。catalog は新着順前提。
  * 「48 時間以内」を D13 (now 不使用) に合わせて「articleToday か前日の公開」で近似する。
+ * トップ速報帯と左カラムの速報リストで共有する。
+ */
+const isWithinFlashWindow = (article: ArticleMeta, articleToday: string): boolean => {
+  const day = dateOf(article);
+  return day === articleToday || day === previousDateOf(articleToday);
+};
+
+/** 左カラム速報リストの上限本数 (2026-10-09 田平氏 GO 案 A)。 */
+export const FLASH_RECENT_LIMIT = 8;
+
+/**
+ * トップ速報帯の 1 本 (2026-09-21 田平氏 GO 案 1)。catalog は新着順前提。
  */
 export function selectFlashLatest(
   catalog: readonly ArticleMeta[],
@@ -85,8 +100,22 @@ export function selectFlashLatest(
 ): ArticleMeta | null {
   const newest = catalog.find((article) => article.family === "flash");
   if (!newest) return null;
-  const day = dateOf(newest);
-  return day === articleToday || day === previousDateOf(articleToday) ? newest : null;
+  return isWithinFlashWindow(newest, articleToday) ? newest : null;
+}
+
+/**
+ * 左カラムの速報リスト (2026-10-09 田平氏 GO 案 A)。catalog は新着順前提。
+ */
+export function selectFlashRecent(
+  catalog: readonly ArticleMeta[],
+  articleToday: string,
+): ArticleMeta[] {
+  return catalog
+    .filter(
+      (article) =>
+        article.family === "flash" && isWithinFlashWindow(article, articleToday),
+    )
+    .slice(0, FLASH_RECENT_LIMIT);
 }
 
 export function normalizeHomeInput(
@@ -211,6 +240,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   // 選定は一覧ページ右レールと共有 (selectLatestArticles・2026-10-02)。
   const latestArticles = selectLatestArticles(catalog, articleToday);
   const flashLatest = selectFlashLatest(catalog, articleToday);
+  const flashRecent = selectFlashRecent(catalog, articleToday);
   const eventRiskLatest = take(latestOf("event-risk-radar") ?? undefined) ?? null;
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");
@@ -225,6 +255,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     deepDives,
     latestArticles,
     flashLatest,
+    flashRecent,
     eventRiskLatest,
     atlasLatest,
     mkt12WeekendLatest,

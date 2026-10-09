@@ -339,6 +339,69 @@ describe("home slot selection (B+)", () => {
     });
   });
 
+  describe("flashRecent (2026-10-09 田平氏 GO 案 A: 観測カード → 速報リスト)", () => {
+    const flashAt = (id: string, publishedAtJst: string) => ({
+      ...input().articles[0],
+      articleId: id,
+      family: "flash" as const,
+      publishedAtJst,
+      href: `/articles/${id}`,
+    });
+
+    it("lists today's and yesterday's flash newest first, dropping older ones", () => {
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [
+          flashAt("flash-yesterday", "2026-07-09T06:00:00+09:00"),
+          flashAt("flash-old", "2026-07-08T23:59:00+09:00"),
+          flashAt("flash-today", "2026-07-10T09:40:00+09:00"),
+          ...input().articles,
+        ],
+      });
+      expect(slots.flashRecent.map((article) => article.articleId)).toEqual([
+        "flash-today",
+        "flash-yesterday",
+      ]);
+    });
+
+    it("includes the flash shown in the top band (band = 告知・list = 一覧)", () => {
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [flashAt("flash-b", "2026-07-10T23:50:00+09:00"), ...input().articles],
+      });
+      expect(slots.flashLatest?.articleId).toBe("flash-b");
+      expect(slots.flashRecent[0]?.articleId).toBe("flash-b");
+    });
+
+    it("caps the list at 8 items", () => {
+      const many = Array.from({ length: 11 }, (_, index) =>
+        flashAt(
+          `flash-${String(index).padStart(2, "0")}`,
+          `2026-07-10T${String(index + 8).padStart(2, "0")}:00:00+09:00`,
+        ),
+      );
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [...many, ...input().articles],
+      });
+      expect(slots.flashRecent).toHaveLength(8);
+      expect(slots.flashRecent[0]?.articleId).toBe("flash-10");
+      expect(isDescending(slots.flashRecent)).toBe(true);
+    });
+
+    it("is empty when the catalog has no flash in the window", () => {
+      expect(selectHomeSlots(input()).flashRecent).toEqual([]);
+    });
+
+    it("does not consume flash from the dedupe set (index semantics)", () => {
+      const slots = selectHomeSlots({
+        ...input(),
+        articles: [flashAt("flash-c", "2026-07-10T10:00:00+09:00"), ...input().articles],
+      });
+      expect(collectSelectedArticleIds(slots)).not.toContain("flash-c");
+    });
+  });
+
   it("resolves the per-family latest slots for the index modules", () => {
     const slots = selectHomeSlots(input());
     expect(slots.eventRiskLatest?.articleId).toBe("event-risk-radar-w29");
