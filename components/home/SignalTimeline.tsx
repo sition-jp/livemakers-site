@@ -16,7 +16,7 @@ export interface SignalTimelineCopy {
 /**
  * 中央カラム Signal 時系列 (G44 D6 / 2026-08-14 Phase 3b 改訂 / 2026-08-23 GO B-1)。
  * slots.signalTimeline の全行を小サムネ付き行 (ArticleThumbRow) で描画する
- * (本体扱い・data-article-id・索引扱いにしない)。選定 (直近 24h・floor 10・
+ * (本体扱い・data-article-id・索引扱いにしない)。選定 (直近 24h・floor 20・
  * 昇格ペア除外) は selectSignalTimeline / selectHomeSlots が担い、本
  * コンポーネントは表示のみ。ヘッダ行 = 見出し + 鮮度 (今日 N 本 · 最新 MM-DD HH:MM・
  * null セグメントは描かない) + 右端にシリーズ一覧リンク (索引)。

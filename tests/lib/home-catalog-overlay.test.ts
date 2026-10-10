@@ -248,7 +248,7 @@ describe("article clock (articleToday) consistency", () => {
     const within = signalBatch(
       "within",
       Array.from(
-        { length: 10 },
+        { length: 20 },
         (_, index) =>
           `2026-08-03T${String(index).padStart(2, "0")}:30:00+09:00`,
       ),
@@ -257,7 +257,7 @@ describe("article clock (articleToday) consistency", () => {
 
     const slots = selectHomeSlots(slotInput([older, ...within]));
 
-    expect(slots.signalTimeline).toHaveLength(10);
+    expect(slots.signalTimeline).toHaveLength(20);
     expect(slots.signalTimeline.map((item) => item.articleId)).not.toContain(
       "older-25h",
     );
@@ -268,16 +268,16 @@ describe("article clock (articleToday) consistency", () => {
     const older = signalBatch(
       "older",
       Array.from(
-        { length: 9 },
+        { length: 20 },
         (_, index) =>
-          `2026-08-02T${String(9 - index).padStart(2, "0")}:00:00+09:00`,
+          `2026-08-02T${String(20 - index).padStart(2, "0")}:00:00+09:00`,
       ),
     );
 
     const slots = selectHomeSlots(slotInput([within, ...older]));
 
     expect(slots.signalTimeline[0]?.articleId).toBe("within-24h");
-    expect(slots.signalTimeline).toHaveLength(10);
+    expect(slots.signalTimeline).toHaveLength(20);
   });
 
   it("keeps floor completion by promoting only the newest older signals", () => {
@@ -288,9 +288,9 @@ describe("article clock (articleToday) consistency", () => {
     const older = signalBatch(
       "floor",
       Array.from(
-        { length: 9 },
+        { length: 19 },
         (_, index) =>
-          `2026-08-02T${String(9 - index).padStart(2, "0")}:00:00+09:00`,
+          `2026-08-02T${String(19 - index).padStart(2, "0")}:00:00+09:00`,
       ),
     );
 
@@ -300,9 +300,9 @@ describe("article clock (articleToday) consistency", () => {
     expect(ids).toEqual([
       "within-a",
       "within-b",
-      ...older.slice(0, 8).map((item) => item.articleId),
+      ...older.slice(0, 18).map((item) => item.articleId),
     ]);
-    expect(ids).not.toContain("floor-08");
+    expect(ids).not.toContain("floor-18");
   });
 
   it("excludes articles after articleToday from every slot", () => {

@@ -1,6 +1,8 @@
 import type { ArticleMeta } from "@/lib/articles/article-model";
 
 const WINDOW_MS = 24 * 60 * 60 * 1000;
+/** 最低表示本数 (2026-10-10 田平氏 GO: 10 → 20)。上限ではない。 */
+export const SIGNAL_TIMELINE_FLOOR = 20;
 const SIGNAL_TIMELINE_FAMILIES: ReadonlySet<string> = new Set(["signal", "landmark"]);
 
 /**
@@ -16,7 +18,7 @@ export function selectSignalTimeline(args: {
   floor?: number;
   excludeIds?: readonly string[];
 }): ArticleMeta[] {
-  const { articles, now, floor = 10, excludeIds = [] } = args;
+  const { articles, now, floor = SIGNAL_TIMELINE_FLOOR, excludeIds = [] } = args;
   const excluded = new Set(excludeIds);
   const signals = articles
     .filter((article) => SIGNAL_TIMELINE_FAMILIES.has(article.family) && !excluded.has(article.articleId))
