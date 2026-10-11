@@ -137,6 +137,7 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
     expect(props.focusSessionSlug).toBe("asia-open");
     expect(props.focusSeries.filter(Boolean)).toHaveLength(0);
     expect(Object.keys(props).sort()).toEqual([
+      "alt20",
       "asOfLabel",
       "coreCells",
       "focusSeries",

@@ -7,7 +7,9 @@
   "cells": [
     { "instrumentId": "btc_usd", "nameJa": "BTC/USD", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "eth_usd", "nameJa": "ETH/USD", "value": null, "changeLabel": null, "direction": null },
+    { "instrumentId": "coin_stock", "nameJa": "Coinbase（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "spx", "nameJa": "S&P 500（perp）", "value": null, "changeLabel": null, "direction": null },
+    { "instrumentId": "nasdaq", "nameJa": "米テック100（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "nikkei_futures", "nameJa": "日経225（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "eur_usd", "nameJa": "EUR/USD（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "usd_jpy", "nameJa": "USD/JPY（perp）", "value": null, "changeLabel": null, "direction": null },
@@ -15,11 +17,7 @@
     { "instrumentId": "wti", "nameJa": "WTI（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "us10y", "nameJa": "米10年金利", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "btc_vol", "nameJa": "BTCボラティリティ（BVIV）", "value": null, "changeLabel": null, "direction": null },
-    { "instrumentId": "nasdaq", "nameJa": "米テック100（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "brent", "nameJa": "Brent（perp）", "value": null, "changeLabel": null, "direction": null },
-    { "instrumentId": "xrp_usd", "nameJa": "XRP/USD", "value": null, "changeLabel": null, "direction": null },
-    { "instrumentId": "sol_usd", "nameJa": "SOL/USD", "value": null, "changeLabel": null, "direction": null },
-    { "instrumentId": "coin_stock", "nameJa": "COIN（perp）", "value": null, "changeLabel": null, "direction": null },
     { "instrumentId": "rwa_tvl", "nameJa": "RWA TVL", "value": null, "changeLabel": null, "direction": null }
   ]
 }

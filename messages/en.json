@@ -509,7 +509,7 @@
     "mkt12": {
       "groupTitle": "Two Faces of the Market",
       "groupSubtitle": "Current data and its interpretation",
-      "sectionTitle": "10 core indicators — today's numbers and reading",
+      "sectionTitle": "12 indicators — today's numbers and reading",
       "jointLabel": "Market numbers",
       "articleTitle": "This Morning's 12 Indicators",
       "awaiting": "Today's 12 Indicators article is being prepared.",
@@ -519,15 +519,15 @@
       "awaitingWeekend": "This weekend's edition is being prepared.",
       "previousWeekend": "Read the previous weekend's 12 Indicators →",
       "indicator": {
-        "title": "10 core indicators",
+        "title": "12 indicators",
         "dataDatePrefix": "Data date",
         "snapshotBadge": "SNAPSHOT",
-        "scrollHint": "← Scroll horizontally for all 10 indicators (key indicators appear first)",
+        "scrollHint": "← Scroll horizontally for all 12 indicators (key indicators appear first)",
         "regimeLabel": "Today's regime"
       },
       "movers": {
         "title": "Largest moves",
-        "subtitle": "From the same 10 instruments"
+        "subtitle": "From the same 12 instruments"
       }
     },
     "flashList": {
@@ -543,9 +543,13 @@
     },
     "lanes": {
       "macro": "MACRO",
-      "crypto": "CRYPTO",
+      "crypto": "Top altcoins (20)",
       "rwa": "RWA",
-      "subtitle": "Complementary data beyond the 10 core indicators"
+      "subtitle": "Complementary data beyond the 12 indicators"
+    },
+    "alt20": {
+      "summary": "{up} of {count} up, {down} down | median {median}",
+      "unavailable": "—"
     },
     "library": {
       "title": "Article Library — Cross-Series",

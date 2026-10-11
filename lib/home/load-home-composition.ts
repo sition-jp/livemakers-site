@@ -87,6 +87,7 @@ export const loadHomeCompositionProps = cache(async () => {
       feedRadar: feed?.radar ?? null,
       feedSessions: feed?.sessions ?? null,
       rwaLive: extractRwaLive(feed),
+      alt20: feed?.alt20 ?? null,
       articles: inflow.articles,
       sessionRecords,
       now,

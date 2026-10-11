@@ -64,8 +64,8 @@ describe("G43 reviewed home source resolution", () => {
 
     expect(props.today).toBe("2026-07-12");
     expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
-    // 2026-10-02: 新レジストリ 15 live + 1 RWA = 16
-    expect(props.snapshot.cells).toHaveLength(16);
+    // 2026-10-02: 新レジストリ 13 live + 1 RWA = 14
+    expect(props.snapshot.cells).toHaveLength(14);
     expect(
       props.snapshot.cells.find((cell) => cell.instrumentId === "spx"),
     ).toMatchObject({ nameJa: "S&P 500（perp）", direction: "down" });
@@ -175,9 +175,9 @@ describe("G43 reviewed home source resolution", () => {
       now: nowAt("2026-07-13T07:30:01+09:00"),
     });
 
-    expect(props.coreCells).toHaveLength(10);
+    expect(props.coreCells).toHaveLength(12);
     expect(props.laneCells.macro.length).toBeGreaterThan(0);
-    expect(props.laneCells.crypto.length).toBeGreaterThan(0);
+    expect(props.laneCells.crypto).toHaveLength(0);
     expect(props.laneCells.rwa.length).toBeGreaterThan(0);
     expect(props.mkt12Provenance).toMatchObject({
       sourceMode: "fixture_only",
@@ -297,5 +297,41 @@ describe("RWA live lane (2026-08-14 田平氏裁定 — TVL 1 行のみ live)", 
       (candidate) => candidate.instrumentId === "rwa_tvl",
     )!;
     expect(cell.value).toBeNull();
+  });
+});
+
+describe("alt20 crypto lane provenance", () => {
+  const alt20 = {
+    asOfJst: "2026-07-13T07:03:00+09:00",
+    listVersion: "2026-07-12",
+    items: [],
+    summary: { count: 0, up: 0, down: 0, flat: 0, medianChangeLabel: "—" },
+  };
+
+  it("uses alt20.asOfJst and a collected_live label when alt20 is present", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      alt20,
+    });
+    expect(props.laneProvenance.crypto).toMatchObject({
+      asOfJst: "07:03 JST",
+      sourceMode: "collected_live",
+      reviewStatus: "auto_collected",
+    });
+    expect(props.laneProvenance.crypto.packetId).toBe("alt20_2026071307");
+  });
+
+  it("keeps the page provenance when alt20 is null", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      alt20: null,
+    });
+    expect(props.laneProvenance.crypto.sourceMode).toBe("reviewed_live");
   });
 });

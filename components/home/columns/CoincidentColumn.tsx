@@ -30,6 +30,7 @@ export type CoincidentColumnProps = Pick<
   | "coreCells"
   | "laneCells"
   | "laneProvenance"
+  | "alt20"
   | "mkt12Provenance"
   | "copy"
 >;
@@ -43,6 +44,7 @@ export function CoincidentColumn({
   coreCells,
   laneCells,
   laneProvenance,
+  alt20,
   mkt12Provenance,
   copy,
 }: CoincidentColumnProps) {
@@ -173,10 +175,12 @@ export function CoincidentColumn({
           <LaneValuesCard
             laneCells={laneCells}
             laneProvenance={laneProvenance}
+            alt20={alt20}
             copy={{
               title: copy.gradient.laneValuesTitle,
               laneLabels: copy.lanes.titles,
               provenance: copy.provenance,
+              alt20: copy.lanes.alt20,
             }}
           />
         );

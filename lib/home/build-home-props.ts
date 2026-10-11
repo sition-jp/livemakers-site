@@ -21,6 +21,7 @@ import {
 } from "@/lib/provenance/window-provenance";
 import {
   formatAsOfLabel,
+  type Alt20Data,
   type RadarFeedData,
   type ReviewedHomeData,
   type SessionsFeedData,
@@ -71,6 +72,8 @@ export interface BuildHomeCompositionArgs {
     packetId: string;
     asOfLabel: string;
   } | null;
+  /** 配信の主要アルトコイン20 (Task 7 mapTerminalFeed)。無ければ null (UI は「—」)。 */
+  alt20?: Alt20Data | null;
   /** Test injection — highest priority when either is provided. */
   radar?: readonly RadarObservation[];
   promotions?: Readonly<Record<string, string>>;
@@ -590,7 +593,17 @@ export function buildHomeCompositionProps(
   });
   const laneProvenance: Record<LaneId, WindowProvenance> = {
     macro: reviewedPageProvenance ?? fixturePageProvenance,
-    crypto: reviewedPageProvenance ?? fixturePageProvenance,
+    // 主要アルトコイン20 は配信の自動収集値 (reviewed home packet ではない)。alt20 が
+    // あるときは自身の as-of でラベルし、reviewed/fixture packet を名乗らない。
+    // 無いときは従来どおりページ packet (CRYPTO 枠は「—」表示)。
+    crypto: args.alt20
+      ? makeWindowProvenance({
+          packetId: `alt20_${args.alt20.asOfJst.slice(0, 13).replace(/[-T]/g, "")}`,
+          sourceMode: "collected_live",
+          reviewStatus: "auto_collected",
+          asOfJst: `${args.alt20.asOfJst.slice(11, 16)} JST`,
+        })
+      : (reviewedPageProvenance ?? fixturePageProvenance),
     // 2026-08-14 田平氏裁定: RWA TVL live は「自動収集」ラベル (collected_live /
     // auto_collected)。reviewed_live (PF 検証済) と混同させない
     rwa: rwaLiveAdopted
@@ -706,6 +719,7 @@ export function buildHomeCompositionProps(
     laneCells,
     tickerItems,
     laneProvenance,
+    alt20: args.alt20 ?? null,
     pageProvenance,
     mkt12Provenance,
     sessionProvenance,
