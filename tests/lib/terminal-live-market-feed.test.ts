@@ -1527,6 +1527,16 @@ describe("alt20 section", () => {
     expect(feed?.home).not.toBeNull();
   });
 
+  it.each([
+    ["bad changeLabel format", { ...alt20, items: [{ ...alt20.items[0], changeLabel: "0.10" }, alt20.items[1]] }],
+    ["duplicate symbol", { ...alt20, items: [alt20.items[0], { ...alt20.items[1], symbol: "BNB" }] }],
+    ["summary.count differs from items.length", { ...alt20, summary: { ...alt20.summary, count: 3 } }],
+  ])("drops only alt20 on %s", (_name, bad) => {
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), alt20: bad });
+    expect(feed?.alt20).toBeNull();
+    expect(feed?.home).not.toBeNull();
+  });
+
   it("is null when absent", () => {
     expect(mapTerminalFeed(sampleHomeV03())?.alt20).toBeNull();
   });

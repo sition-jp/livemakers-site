@@ -601,7 +601,7 @@ export function buildHomeCompositionProps(
           packetId: `alt20_${args.alt20.asOfJst.slice(0, 13).replace(/[-T]/g, "")}`,
           sourceMode: "collected_live",
           reviewStatus: "auto_collected",
-          asOfJst: args.alt20.asOfJst,
+          asOfJst: `${args.alt20.asOfJst.slice(11, 16)} JST`,
         })
       : (reviewedPageProvenance ?? fixturePageProvenance),
     // 2026-08-14 田平氏裁定: RWA TVL live は「自動収集」ラベル (collected_live /

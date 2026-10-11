@@ -317,7 +317,7 @@ describe("alt20 crypto lane provenance", () => {
       alt20,
     });
     expect(props.laneProvenance.crypto).toMatchObject({
-      asOfJst: alt20.asOfJst,
+      asOfJst: "07:03 JST",
       sourceMode: "collected_live",
       reviewStatus: "auto_collected",
     });
