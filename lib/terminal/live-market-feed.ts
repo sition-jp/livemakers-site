@@ -627,6 +627,69 @@ function mapRadarBundle(section: unknown): RadarFeedData | null {
 }
 
 /**
+ * 2026-10-11: 主要アルトコイン20 (feed 最上位 alt20)。home (.strict) の外に置き、
+ * 不正でも alt20 だけ null にして home / 他の窓は巻き込まない（独立検査）。
+ */
+const alt20ItemSchema = z
+  .object({
+    rank: z.number().int().min(1).max(20),
+    symbol: z.string().regex(/^[A-Z0-9]{1,10}$/),
+    changeLabel: z.string().regex(/^(0\.00%|[+-]\d+\.\d{2}%)$/),
+    direction: z.enum(["up", "down", "flat"]),
+  })
+  .strict()
+  .superRefine((item, ctx) => {
+    const expected =
+      item.changeLabel === "0.00%" ? "flat" : item.changeLabel.startsWith("+") ? "up" : "down";
+    if (item.direction !== expected) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "direction must match changeLabel" });
+    }
+  });
+
+const alt20Schema = z
+  .object({
+    schemaVersion: z.literal("livemakers_alt20_v0.1"),
+    listVersion: z.string().min(1),
+    asOfJst: z.string().min(1),
+    source: z.literal("hyperliquid_perp"),
+    items: z.array(alt20ItemSchema).min(1).max(20),
+    summary: z
+      .object({
+        count: z.number().int(),
+        up: z.number().int(),
+        down: z.number().int(),
+        flat: z.number().int(),
+        medianChangeLabel: z.string(),
+      })
+      .strict(),
+  })
+  .strict()
+  .superRefine((section, ctx) => {
+    const ranks = new Set(section.items.map((i) => i.rank));
+    const symbols = new Set(section.items.map((i) => i.symbol));
+    if (ranks.size !== section.items.length || symbols.size !== section.items.length) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "duplicate rank or symbol" });
+    }
+    if (section.summary.count !== section.items.length) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "summary.count mismatch" });
+    }
+  });
+
+export interface Alt20Data {
+  asOfJst: string;
+  listVersion: string;
+  items: { rank: number; symbol: string; changeLabel: string; direction: "up" | "down" | "flat" }[];
+  summary: { count: number; up: number; down: number; flat: number; medianChangeLabel: string };
+}
+
+function mapAlt20(section: unknown): Alt20Data | null {
+  const parsed = alt20Schema.safeParse(section);
+  if (!parsed.success) return null;
+  const { asOfJst, listVersion, items, summary } = parsed.data;
+  return { asOfJst, listVersion, items, summary };
+}
+
+/**
  * G43-e (S2): the feed `sessions` bundle (site-first live-session consumer).
  * A top-level v0.3-only section, same independent-degradation posture as
  * radar/home/liveRadar/published: an invalid bundle nulls only `sessions`,
@@ -868,6 +931,7 @@ export interface LiveMarketData {
   home: ReviewedHomeData | null;
   radar: RadarFeedData | null;
   sessions: SessionsFeedData | null;
+  alt20: Alt20Data | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -1094,6 +1158,7 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
               schemaVersion === TERMINAL_FEED_SCHEMA_V04,
           })
         : null,
+    alt20: mapAlt20((parsed.data as Record<string, unknown>).alt20),
   };
 }
 

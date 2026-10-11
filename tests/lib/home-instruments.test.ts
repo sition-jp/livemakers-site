@@ -8,16 +8,15 @@ import {
 } from "@/lib/home/instruments";
 
 describe("home instrument registry (spec 2026-10-02 §4-1)", () => {
-  it("chartable registry is the 15 instruments in SDE order", () => {
+  it("chartable registry is the 12 core + brent in SDE order", () => {
     expect(CHARTABLE_INSTRUMENTS).toEqual([
-      "btc_usd", "eth_usd", "spx", "nikkei_futures", "eur_usd",
-      "usd_jpy", "gold", "wti", "us10y", "btc_vol",
-      "nasdaq", "brent", "xrp_usd", "sol_usd", "coin_stock",
+      "btc_usd", "eth_usd", "coin_stock", "spx", "nasdaq", "nikkei_futures",
+      "eur_usd", "usd_jpy", "gold", "wti", "us10y", "btc_vol", "brent",
     ]);
   });
 
-  it("core is the first ten and excludes ADA / NIGHT (D3)", () => {
-    expect(CORE_INSTRUMENTS).toEqual(CHARTABLE_INSTRUMENTS.slice(0, 10));
+  it("core is the first twelve and excludes ADA / NIGHT (D3)", () => {
+    expect(CORE_INSTRUMENTS).toEqual(CHARTABLE_INSTRUMENTS.slice(0, 12));
     expect(CORE_INSTRUMENTS as readonly string[]).not.toContain("ada_usd");
     expect(CORE_INSTRUMENTS as readonly string[]).not.toContain("night_usd");
   });
@@ -36,16 +35,14 @@ describe("home instrument registry (spec 2026-10-02 §4-1)", () => {
       btc_vol: "BTCボラティリティ（BVIV）",
       nasdaq: "米テック100（perp）",
       brent: "Brent（perp）",
-      xrp_usd: "XRP/USD",
-      sol_usd: "SOL/USD",
-      coin_stock: "COIN（perp）",
+      coin_stock: "Coinbase（perp）",
       rwa_tvl: "RWA TVL",
     });
   });
 
-  it("lanes: macro = nasdaq/brent, crypto = xrp/sol/coin, rwa = rwa_tvl", () => {
-    expect(LANE_ROWS.macro.map((row) => row.instrumentId)).toEqual(["nasdaq", "brent"]);
-    expect(LANE_ROWS.crypto.map((row) => row.instrumentId)).toEqual(["xrp_usd", "sol_usd", "coin_stock"]);
+  it("lanes: macro = brent, crypto = none (alt20 section), rwa = rwa_tvl", () => {
+    expect(LANE_ROWS.macro.map((row) => row.instrumentId)).toEqual(["brent"]);
+    expect(LANE_ROWS.crypto).toEqual([]);
     expect(LANE_ROWS.rwa.map((row) => row.instrumentId)).toEqual(["rwa_tvl"]);
     expect(() => assertLaneRowsExcludeCore(LANE_ROWS)).not.toThrow();
   });

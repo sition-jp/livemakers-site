@@ -64,8 +64,8 @@ describe("G43 reviewed home source resolution", () => {
 
     expect(props.today).toBe("2026-07-12");
     expect(props.snapshot.packetId).toBe("mkt12_20260712_am");
-    // 2026-10-02: 新レジストリ 15 live + 1 RWA = 16
-    expect(props.snapshot.cells).toHaveLength(16);
+    // 2026-10-02: 新レジストリ 13 live + 1 RWA = 14
+    expect(props.snapshot.cells).toHaveLength(14);
     expect(
       props.snapshot.cells.find((cell) => cell.instrumentId === "spx"),
     ).toMatchObject({ nameJa: "S&P 500（perp）", direction: "down" });
@@ -175,9 +175,9 @@ describe("G43 reviewed home source resolution", () => {
       now: nowAt("2026-07-13T07:30:01+09:00"),
     });
 
-    expect(props.coreCells).toHaveLength(10);
+    expect(props.coreCells).toHaveLength(12);
     expect(props.laneCells.macro.length).toBeGreaterThan(0);
-    expect(props.laneCells.crypto.length).toBeGreaterThan(0);
+    expect(props.laneCells.crypto).toHaveLength(0);
     expect(props.laneCells.rwa.length).toBeGreaterThan(0);
     expect(props.mkt12Provenance).toMatchObject({
       sourceMode: "fixture_only",

@@ -320,12 +320,12 @@ describe("fetchLiveMarketData — transient failure retry (2026-08-23)", () => {
 });
 
 describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
-  it("maps the exact 15 cells and focus-session series", () => {
+  it("maps the exact 13 cells and focus-session series", () => {
     const data = mapTerminalFeed(sampleHomeV02());
     expect(data).not.toBeNull();
     expect(data?.home?.pagePacketId).toBe("lmk_20260712_0730_a1");
     expect(data?.home?.marketPacketId).toBe("mkt12_20260712_am");
-    expect(data?.home?.cells).toHaveLength(15);
+    expect(data?.home?.cells).toHaveLength(13);
     expect(data?.home?.focusSession.focusInstruments).toEqual([
       "btc_usd",
       "usd_jpy",
@@ -467,8 +467,8 @@ describe("mapTerminalFeed — v0.2 reviewed home bundle (G43)", () => {
     [
       "RWA cell",
       (feed: Record<string, any>) => {
-        feed.home.cells[14].instrumentId = "rwa_tvl";
-        feed.home.cells[14].nameJa = "RWA TVL";
+        feed.home.cells[12].instrumentId = "rwa_tvl";
+        feed.home.cells[12].nameJa = "RWA TVL";
       },
     ],
     [
@@ -1490,9 +1490,8 @@ describe("home registry cutover (spec 2026-10-02 §5)", () => {
   it("adopts a home section built on the new Hyperliquid registry", () => {
     const mapped = mapTerminalFeed(newRegistryFeed);
     expect(mapped?.home?.cells.map((cell) => cell.instrumentId)).toEqual([
-      "btc_usd", "eth_usd", "spx", "nikkei_futures", "eur_usd",
-      "usd_jpy", "gold", "wti", "us10y", "btc_vol",
-      "nasdaq", "brent", "xrp_usd", "sol_usd", "coin_stock",
+      "btc_usd", "eth_usd", "coin_stock", "spx", "nasdaq", "nikkei_futures",
+      "eur_usd", "usd_jpy", "gold", "wti", "us10y", "btc_vol", "brent",
     ]);
   });
 
@@ -1501,5 +1500,34 @@ describe("home registry cutover (spec 2026-10-02 §5)", () => {
     expect(mapped).not.toBeNull();
     expect(mapped?.home ?? null).toBeNull();
     expect(mapped?.lanes.length).toBeGreaterThan(0);
+  });
+});
+
+describe("alt20 section", () => {
+  const alt20 = {
+    schemaVersion: "livemakers_alt20_v0.1", listVersion: "2026-10-11",
+    asOfJst: "2026-10-12T05:03:00+09:00", source: "hyperliquid_perp",
+    items: [
+      { rank: 1, symbol: "BNB", changeLabel: "+0.10%", direction: "up" },
+      { rank: 2, symbol: "XRP", changeLabel: "-0.20%", direction: "down" },
+    ],
+    summary: { count: 2, up: 1, down: 1, flat: 0, medianChangeLabel: "-0.05%" },
+  };
+
+  it("maps a valid top-level alt20 independently of home", () => {
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), alt20 });
+    expect(feed?.alt20?.items).toHaveLength(2);
+    expect(feed?.home).not.toBeNull();
+  });
+
+  it("drops only alt20 when it is malformed", () => {
+    const bad = { ...alt20, items: [{ ...alt20.items[0], direction: "down" }] };
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), alt20: bad });
+    expect(feed?.alt20).toBeNull();
+    expect(feed?.home).not.toBeNull();
+  });
+
+  it("is null when absent", () => {
+    expect(mapTerminalFeed(sampleHomeV03())?.alt20).toBeNull();
   });
 });
