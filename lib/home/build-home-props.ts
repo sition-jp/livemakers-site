@@ -21,6 +21,7 @@ import {
 } from "@/lib/provenance/window-provenance";
 import {
   formatAsOfLabel,
+  type Alt20Data,
   type RadarFeedData,
   type ReviewedHomeData,
   type SessionsFeedData,
@@ -71,6 +72,8 @@ export interface BuildHomeCompositionArgs {
     packetId: string;
     asOfLabel: string;
   } | null;
+  /** 配信の主要アルトコイン20 (Task 7 mapTerminalFeed)。無ければ null (UI は「—」)。 */
+  alt20?: Alt20Data | null;
   /** Test injection — highest priority when either is provided. */
   radar?: readonly RadarObservation[];
   promotions?: Readonly<Record<string, string>>;
@@ -706,6 +709,7 @@ export function buildHomeCompositionProps(
     laneCells,
     tickerItems,
     laneProvenance,
+    alt20: args.alt20 ?? null,
     pageProvenance,
     mkt12Provenance,
     sessionProvenance,

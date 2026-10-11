@@ -177,6 +177,7 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
         coreCells={props.coreCells}
         laneCells={props.laneCells}
         laneProvenance={props.laneProvenance}
+        alt20={props.alt20}
         mkt12Provenance={props.mkt12Provenance}
         copy={copy}
       />,
@@ -276,6 +277,32 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
         el.getAttribute("data-lane"),
       ),
     ).toEqual(["macro", "crypto", "rwa"]);
+  });
+
+  it("renders the alt20 grid in the crypto lane slot (— when alt20 is absent)", () => {
+    const { container } = renderCoincident();
+    const crypto = container.querySelector('[data-lane="crypto"]')!;
+    expect(crypto.querySelectorAll('[data-testid="alt20-tile"]')).toHaveLength(0);
+    expect(crypto.textContent).toContain("—");
+    const withAlt = render(
+      <CoincidentColumn
+        slots={props.slots}
+        snapshot={props.snapshot}
+        coreCells={props.coreCells}
+        laneCells={props.laneCells}
+        laneProvenance={props.laneProvenance}
+        alt20={{
+          asOfJst: "2026-10-12T05:03:00+09:00",
+          listVersion: "2026-10-11",
+          items: [{ rank: 1, symbol: "BNB", changeLabel: "+0.10%", direction: "up" }],
+          summary: { count: 1, up: 1, down: 0, flat: 0, medianChangeLabel: "+0.10%" },
+        }}
+        mkt12Provenance={props.mkt12Provenance}
+        copy={copy}
+      />,
+    );
+    const lane = withAlt.container.querySelector('[data-lane="crypto"]')!;
+    expect(lane.querySelectorAll('[data-testid="alt20-tile"]')).toHaveLength(1);
   });
 
   it("does not render the retired pair-section joint glyph", () => {

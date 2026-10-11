@@ -45,6 +45,7 @@ export function HomeComposition({
   coreCells,
   laneCells,
   laneProvenance,
+  alt20,
   mkt12Provenance,
   sessionProvenance,
   copy,
@@ -95,6 +96,7 @@ export function HomeComposition({
           coreCells={coreCells}
           laneCells={laneCells}
           laneProvenance={laneProvenance}
+          alt20={alt20}
           mkt12Provenance={mkt12Provenance}
           copy={copy}
         />

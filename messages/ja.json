@@ -509,7 +509,7 @@
     "mkt12": {
       "groupTitle": "マーケットの二つの顔",
       "groupSubtitle": "いまの数字と、その読み解き",
-      "sectionTitle": "10コア指標 — いまの数字と、今日の読み解き",
+      "sectionTitle": "12指標 — いまの数字と、今日の読み解き",
       "jointLabel": "マーケットの数字",
       "articleTitle": "今朝の12指標",
       "awaiting": "本日の12指標記事は公開準備中です",
@@ -519,15 +519,15 @@
       "awaitingWeekend": "本日の週末版は公開準備中です",
       "previousWeekend": "前回の週末の12指標を読む →",
       "indicator": {
-        "title": "10コア指標",
+        "title": "12指標",
         "dataDatePrefix": "データ日付",
         "snapshotBadge": "SNAPSHOT",
-        "scrollHint": "← 横スクロールで全10指標（第1画面には主要指標を先頭表示）",
+        "scrollHint": "← 横スクロールで全12指標（第1画面には主要指標を先頭表示）",
         "regimeLabel": "きょうの地合い"
       },
       "movers": {
         "title": "変動幅 上位",
-        "subtitle": "同じ10銘柄データから"
+        "subtitle": "同じ12銘柄データから"
       }
     },
     "flashList": {
@@ -543,9 +543,13 @@
     },
     "lanes": {
       "macro": "MACRO",
-      "crypto": "CRYPTO",
+      "crypto": "主要アルトコイン20",
       "rwa": "RWA",
-      "subtitle": "10コア指標の補完データ"
+      "subtitle": "12指標の補完データ"
+    },
+    "alt20": {
+      "summary": "{count}銘柄中 {up}上昇・{down}下落｜中央値 {median}",
+      "unavailable": "—"
     },
     "library": {
       "title": "記事ライブラリ — 横断・シリーズ",

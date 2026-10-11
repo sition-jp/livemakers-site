@@ -8,6 +8,7 @@ import type { SessionFocusCopy } from "@/components/home/SessionFocusChart";
 import type { SessionNowCopy } from "@/components/home/SessionNowCard";
 import type { SessionScheduleCopy } from "@/components/home/SessionScheduleCard";
 import type { TopMoversCopy } from "@/components/home/TopMoversCard";
+import type { Alt20GridCopy } from "@/components/home/Alt20Grid";
 import type { ProvenanceLabels } from "@/components/home/WindowProvenanceRow";
 import type { LaneId } from "./instruments";
 
@@ -93,6 +94,7 @@ export interface HomeCopy {
   lanes: {
     titles: Record<LaneId, string>;
     subtitle: string;
+    alt20: Alt20GridCopy;
   };
 }
 
@@ -245,6 +247,16 @@ export function buildHomeCopy(
         rwa: translate("lanes.rwa"),
       },
       subtitle: translate("lanes.subtitle"),
+      alt20: {
+        summary: (s) =>
+          translate("alt20.summary", {
+            count: s.count,
+            up: s.up,
+            down: s.down,
+            median: s.medianChangeLabel,
+          }),
+        unavailable: translate("alt20.unavailable"),
+      },
     },
   };
 }

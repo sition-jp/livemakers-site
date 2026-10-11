@@ -1,4 +1,6 @@
 import type { LaneId } from "@/lib/home/instruments";
+import { Alt20Grid, type Alt20GridCopy } from "./Alt20Grid";
+import type { Alt20Data } from "@/lib/terminal/live-market-feed";
 import { marketDirectionClass } from "@/lib/home/market-direction";
 import type { MarketSnapshotCell } from "@/lib/home/market-snapshot";
 import type { WindowProvenance } from "@/lib/provenance/window-provenance";
@@ -11,6 +13,7 @@ export interface LaneValuesCopy {
   title: string;
   laneLabels: Record<LaneId, string>;
   provenance: ProvenanceLabels;
+  alt20: Alt20GridCopy;
 }
 
 const LANES: readonly LaneId[] = ["macro", "crypto", "rwa"];
@@ -23,10 +26,12 @@ const LANES: readonly LaneId[] = ["macro", "crypto", "rwa"];
 export function LaneValuesCard({
   laneCells,
   laneProvenance,
+  alt20,
   copy,
 }: {
   laneCells: Record<LaneId, MarketSnapshotCell[]>;
   laneProvenance: Record<LaneId, WindowProvenance>;
+  alt20: Alt20Data | null;
   copy: LaneValuesCopy;
 }) {
   return (
@@ -38,6 +43,11 @@ export function LaneValuesCard({
             <h4 className="text-[11px] font-bold tracking-label text-text-secondary">
               {copy.laneLabels[lane]}
             </h4>
+            {lane === "crypto" ? (
+              <div className="mt-1">
+                <Alt20Grid alt20={alt20} copy={copy.alt20} />
+              </div>
+            ) : null}
             <div className="mt-1 divide-y divide-border-primary">
               {laneCells[lane].map((cell) => (
                 <div
