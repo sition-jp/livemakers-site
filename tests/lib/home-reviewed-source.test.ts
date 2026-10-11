@@ -299,3 +299,39 @@ describe("RWA live lane (2026-08-14 田平氏裁定 — TVL 1 行のみ live)", 
     expect(cell.value).toBeNull();
   });
 });
+
+describe("alt20 crypto lane provenance", () => {
+  const alt20 = {
+    asOfJst: "2026-07-13T07:03:00+09:00",
+    listVersion: "2026-07-12",
+    items: [],
+    summary: { count: 0, up: 0, down: 0, flat: 0, medianChangeLabel: "—" },
+  };
+
+  it("uses alt20.asOfJst and a collected_live label when alt20 is present", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      alt20,
+    });
+    expect(props.laneProvenance.crypto).toMatchObject({
+      asOfJst: alt20.asOfJst,
+      sourceMode: "collected_live",
+      reviewStatus: "auto_collected",
+    });
+    expect(props.laneProvenance.crypto.packetId).toBe("alt20_2026071307");
+  });
+
+  it("keeps the page provenance when alt20 is null", () => {
+    const props = buildHomeCompositionProps({
+      source: reviewedHomeSource(),
+      now: nowAt(REVIEWED_AS_OF),
+      contentDir: TEST_CONTENT_DIR,
+      sessionRecords: [],
+      alt20: null,
+    });
+    expect(props.laneProvenance.crypto.sourceMode).toBe("reviewed_live");
+  });
+});

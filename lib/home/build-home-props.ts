@@ -593,7 +593,17 @@ export function buildHomeCompositionProps(
   });
   const laneProvenance: Record<LaneId, WindowProvenance> = {
     macro: reviewedPageProvenance ?? fixturePageProvenance,
-    crypto: reviewedPageProvenance ?? fixturePageProvenance,
+    // 主要アルトコイン20 は配信の自動収集値 (reviewed home packet ではない)。alt20 が
+    // あるときは自身の as-of でラベルし、reviewed/fixture packet を名乗らない。
+    // 無いときは従来どおりページ packet (CRYPTO 枠は「—」表示)。
+    crypto: args.alt20
+      ? makeWindowProvenance({
+          packetId: `alt20_${args.alt20.asOfJst.slice(0, 13).replace(/[-T]/g, "")}`,
+          sourceMode: "collected_live",
+          reviewStatus: "auto_collected",
+          asOfJst: args.alt20.asOfJst,
+        })
+      : (reviewedPageProvenance ?? fixturePageProvenance),
     // 2026-08-14 田平氏裁定: RWA TVL live は「自動収集」ラベル (collected_live /
     // auto_collected)。reviewed_live (PF 検証済) と混同させない
     rwa: rwaLiveAdopted
