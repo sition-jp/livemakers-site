@@ -1,0 +1,126 @@
+{
+  "sessionId": "2026-10-11-europe-bridge",
+  "date": "2026-10-11",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-11-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-11-europe-bridge",
+  "publishedAt": "2026-10-12T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261011_1203_9a3e2095",
+  "asOfJst": "2026-10-11T12:40:00+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月11日 12:03 JST（読み解きのみ）",
+  "bullets": [
+    "XRP Ledger の決済エンジンの不具合、Akinyele 氏が「10年以上前からあった」と説明",
+    "フランス下院の財政委員会、暗号資産の出国税とステーブルコインへの交換への課税を可決",
+    "サウジ、ミサイル攻撃を受けてリヤドの国際空港を閉鎖"
+  ],
+  "editorial": {
+    "digestId": "dig_20261011_1240_cc3fe64b",
+    "crawlAnchorJst": "2026-10-11T12:03:00+09:00",
+    "writtenAtJst": "2026-10-11T12:40:00+09:00",
+    "lead": "米国の株は大型株が最高値で週を終え、小型株は5週続けて下げた。長期債には金利低下に賭ける資金が集まり、中東ではリヤドの空港閉鎖が重なった。暗号資産では XRP Ledger の古い不具合をめぐり、AI で脆弱性の発見が速まる前提で守りを組み直す動きが出ている。",
+    "items": [
+      {
+        "headline": "XRP Ledger の決済エンジンの不具合、Akinyele 氏が「10年以上前からあった」と説明",
+        "sourceUrl": "https://x.com/ja_akinyele/status/2109062336543686996",
+        "note": "固定供給を超えて XRP を生み得た不具合で、悪用前にバグ報奨金を通じて見つかったという。AI で脆弱性の発見が速まる前提で、検証と古い前提の洗い直しを強めるとした。"
+      },
+      {
+        "headline": "フランス下院の財政委員会、暗号資産の出国税とステーブルコインへの交換への課税を可決",
+        "sourceUrl": "https://x.com/coinbureau/status/2108956472550003156",
+        "note": "Coin Bureau によると、80万ユーロ超を持って国外へ移る居住者が対象。13日からの本会議で改めて提出が必要になる。"
+      },
+      {
+        "headline": "サウジ、ミサイル攻撃を受けてリヤドの国際空港を閉鎖",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2109036513182749144",
+        "note": "The Kobeissi Letter は、フーシ派の攻撃で少なくとも12人が死亡したと伝えた。トランプ大統領は米国がサウジの対フーシ攻撃に加わる可能性に触れたという。"
+      },
+      {
+        "headline": "トランプ大統領、イランは「すべてを差し出す」か「存在しなくなる」かだと発言",
+        "sourceUrl": "https://x.com/Kalshi/status/2109038893181919545"
+      },
+      {
+        "headline": "トランプ大統領、ウクライナは新しい大統領を選ぶ時だと発言",
+        "sourceUrl": "https://x.com/Kalshi/status/2108968300545724813"
+      },
+      {
+        "headline": "日銀の総資産、7〜9月に980億ドル減って3.95兆ドル",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2108991201378496677",
+        "note": "The Kobeissi Letter の集計では2020年1〜3月以来の低さ。国債の保有も3.19兆ドルまで減った。"
+      },
+      {
+        "headline": "米 MMF に1週間で1,660億ドルが流入、2020年4月以来の大きさ",
+        "sourceUrl": "https://x.com/Kalshi/status/2108945594668470296"
+      },
+      {
+        "headline": "米長期債 ETF「TLT」のコールの出来高が過去最高",
+        "sourceUrl": "https://x.com/Kalshi/status/2109048831182864430",
+        "note": "金利が下がる方向に賭ける動きと Kalshi は伝えている。"
+      },
+      {
+        "headline": "S&P 500、週足の終値で最高値",
+        "sourceUrl": "https://x.com/Kalshi/status/2109071480805789699"
+      },
+      {
+        "headline": "ラッセル2000は5週連続の下落",
+        "sourceUrl": "https://x.com/Kalshi/status/2109116779725246839",
+        "note": "大型株の最高値と小型株の続落が同じ週に並んだ。"
+      },
+      {
+        "headline": "米国のビットコインとイーサリアムの ETF、10月の流出が合計9億8,600万ドル",
+        "sourceUrl": "https://x.com/Kalshi/status/2108937635125207148"
+      },
+      {
+        "headline": "予測市場 Polymarket、BTC は年内に10万ドル回復より7万ドル割れの方が起こりやすいとの値付け",
+        "sourceUrl": "https://x.com/Polymarket/status/2109078523206119548"
+      },
+      {
+        "headline": "中国、経済戦略の一環として国家ブロックチェーン網の建設を打ち出す",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2108910679738462274"
+      },
+      {
+        "headline": "ルミス議員、CLARITY 法の投資家の訴権条項で民主党の反対票を批判",
+        "sourceUrl": "https://x.com/SenLummis/status/2108933068794802389"
+      },
+      {
+        "headline": "CFTC のセリグ委員長、暗号資産の法案が通らないことに「議会に失望している」",
+        "sourceUrl": "https://x.com/Kalshi/status/2108949426165416040"
+      },
+      {
+        "headline": "マスク氏、カードの写真を送れば Grok が最安を探して注文すると投稿",
+        "sourceUrl": "https://x.com/elonmusk/status/2109027407185277123",
+        "note": "提供範囲や手順は xAI の公式の告知での確認が要る。"
+      },
+      {
+        "headline": "テスラ、ロボタクシー用の Cybercab を新たに150台登録、合計319台",
+        "sourceUrl": "https://x.com/Kalshi/status/2108995984751493302"
+      },
+      {
+        "headline": "NEAR、アカウントはメインネットで量子耐性の署名に対応済みと表明",
+        "sourceUrl": "https://x.com/NEARProtocol/status/2109035052919373882"
+      },
+      {
+        "headline": "イーサリアムクラシック、Google BigQuery で再び検索可能に",
+        "sourceUrl": "https://x.com/eth_classic/status/2108648949967974537",
+        "note": "ブロック1からの取引やコントラクトを SQL で引ける。"
+      },
+      {
+        "headline": "Midnight のメインネットの取引が30万件を超えたとの集計",
+        "sourceUrl": "https://x.com/AngryCryptoUp/status/2109023908619862047",
+        "note": "Midnight Explorer の数値を引いた投稿で、24時間で14%増としている。"
+      }
+    ],
+    "watch": [
+      "フランス国民議会の予算審議（10月13日〜）で、暗号資産の出国税とステーブルコインへの交換への課税が残るか",
+      "Midnight の NIGHT、10月13日17時からの国内取扱いの開始",
+      "サウジの空港閉鎖を受けた米国の対フーシ対応と原油の反応"
+    ]
+  },
+  "observationStatus": "absent"
+}
