@@ -315,8 +315,9 @@ describe("Future Atlas article chrome", () => {
     expect(result.querySelector("[data-mdx-body]")?.textContent).toBe("本文");
     // INFLOW-G2 T1a: header 直後に 16:9 サムネ枠 (placeholder) が常設された。
     // 2026-09-09: atlas 以外の記事は header 直後に編集デスク署名 (P) が入る
+    // 2026-10-12: 本文の直後にフォロー枠 (ASIDE)
     const children = Array.from(result.querySelector("article")!.children);
-    expect(children.map((node) => node.tagName)).toEqual(["HEADER", "P", "DIV", "DIV"]);
+    expect(children.map((node) => node.tagName)).toEqual(["HEADER", "P", "DIV", "DIV", "ASIDE"]);
     const desk = children[1];
     expect(desk.getAttribute("data-article-desk")).toBe("");
     expect(desk.querySelector("a")?.getAttribute("href")).toContain("/about#editorial-desk");

@@ -84,6 +84,7 @@ import {
 } from "@/lib/home/reader-grammar";
 import { collectSelectedArticleIds } from "@/lib/home/select-home-slots";
 import {
+  isAllowedChromeExternalLink,
   isAllowedChromeRoute,
   isAllowedPublishedArticleRoute,
 } from "@/lib/livemakers-terminal-preview/public-topology";
@@ -332,12 +333,17 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     // G3 (2026-09-11): フッタに編集方針・連絡先・プライバシーの 3 本を追加
     // (buildFlatNav = header/footer 共用ナビの外・フッタ専用 2 段目)
     const FOOTER_LEGAL_LINK_COUNT = 3;
+    // 2026-10-12: 公式 X をヘッダー (アイコン) とフッターに 1 本ずつ
+    const SOCIAL_LINK_COUNT = 2;
     expect(chromeAnchors).toHaveLength(
-      1 + flat.length + flat.length + FOOTER_LEGAL_LINK_COUNT,
+      1 + flat.length + flat.length + FOOTER_LEGAL_LINK_COUNT + SOCIAL_LINK_COUNT,
     );
     for (const anchor of chromeAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
-      expect(isAllowedChromeRoute(href), `chrome:${href}`).toBe(true);
+      expect(
+        isAllowedChromeRoute(href) || isAllowedChromeExternalLink(href),
+        `chrome:${href}`,
+      ).toBe(true);
     }
     const stripAnchors = [
       ...container.querySelectorAll('[data-chrome="provenance-strip"] a[href]'),

@@ -1,10 +1,13 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { XIcon } from "@/components/brand/XIcon";
 import { buildFlatNav } from "@/lib/home/nav-model";
+import { X_HANDLE, X_PROFILE_URL } from "@/lib/site";
 
 export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("footer");
   const nav = useTranslations("nav");
+  const follow = useTranslations("follow");
   // 2026-08-14 田平氏指示: フッタもヘッダと同一のフラット順 (buildFlatNav)
   const items = buildFlatNav(futureAtlasNav);
   // Build metadata injected at build time via next.config.ts.
@@ -40,6 +43,18 @@ export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           <Link href="/contact">{t("contact")}</Link>
           <Link href="/privacy">{t("privacy")}</Link>
         </nav>
+        {/* 公式 X (2026-10-12 田平氏 GO) */}
+        <div className="mb-6 flex justify-center">
+          <a
+            href={X_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 tracking-label text-text-secondary hover:text-text-primary"
+          >
+            <XIcon className="h-3.5 w-3.5" />
+            {follow("xProfile", { handle: X_HANDLE })}
+          </a>
+        </div>
         <div className="italic tracking-label">{t("disclaimer")}</div>
         <div className="mt-6 text-text-tertiary/70">{t("copyright")}</div>
         <div className="mt-2 font-mono text-[10px] tracking-label text-text-tertiary/50">

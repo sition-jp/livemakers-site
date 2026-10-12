@@ -4,10 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { LogoMark } from "@/components/brand/LogoMark";
+import { XIcon } from "@/components/brand/XIcon";
 import { LogoColorBand } from "@/components/layout/LogoColorBand";
 import { SearchBar } from "@/components/search/SearchBar";
 import { SearchIcon } from "@/components/search/SearchIcon";
 import { buildFlatNav } from "@/lib/home/nav-model";
+import { X_HANDLE, X_PROFILE_URL } from "@/lib/site";
 
 /**
  * ヘッダ 1 段目 (2026-08-14 田平氏指示で再構成):
@@ -20,10 +22,12 @@ import { buildFlatNav } from "@/lib/home/nav-model";
  * ナビ順の正本 = buildFlatNav。
  * 検索 (2026-10-02 田平氏 GO): 🔍 ボタンは nav の外・右端 (スマホは ☰ の左)。
  * 押すか `/` キーでヘッダー直下に検索バーを開く。☰ パネルとは同時に開かない。
+ * 公式 X (2026-10-12 田平氏 GO): 🔍 の左にアイコン。全幅で表示する。
  */
 export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("nav");
   const tSearch = useTranslations("search");
+  const tFollow = useTranslations("follow");
   const nav = buildFlatNav(futureAtlasNav);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -88,6 +92,16 @@ export function Header({ futureAtlasNav }: { futureAtlasNav: boolean }) {
               </Link>
             ))}
           </nav>
+
+          <a
+            href={X_PROFILE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={tFollow("xProfile", { handle: X_HANDLE })}
+            className="shrink-0 text-text-secondary hover:text-text-primary"
+          >
+            <XIcon className="h-4 w-4" />
+          </a>
 
           <button
             ref={searchButtonRef}

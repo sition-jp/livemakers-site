@@ -5,6 +5,7 @@ import type {
 } from "./types";
 import { breakingRadarManualLinkNoteItems } from "./breaking-radar-manual-link-notes";
 import { validateBreakingRadarTitleWindow } from "./breaking-radar-title-window";
+import { X_PROFILE_URL } from "@/lib/site";
 
 const allowedPublishedArticleRoutes = [
   /^\/brief\/[A-Za-z0-9-]+$/,
@@ -42,6 +43,13 @@ export const PAGE_CHROME_ROUTES = [
   "/contact",
   "/privacy",
 ] as const;
+
+/**
+ * chrome (header / footer) に置いてよい外部リンク (2026-10-12 田平氏 GO)。
+ * 公式 X のプロフィールだけ。サイト内ルートの台帳 (PAGE_CHROME_ROUTES) とは
+ * 分けて持ち、外部 URL がサイト内導線の検査を素通りしないようにする。
+ */
+export const PAGE_CHROME_EXTERNAL_LINKS = [X_PROFILE_URL] as const;
 
 const forbiddenHrefText = [
   "terminal-preview",
@@ -82,6 +90,10 @@ export function isAllowedPublishedArticleRoute(href: string): boolean {
 
 export function isAllowedChromeRoute(href: string): boolean {
   return (PAGE_CHROME_ROUTES as readonly string[]).includes(href);
+}
+
+export function isAllowedChromeExternalLink(href: string): boolean {
+  return (PAGE_CHROME_EXTERNAL_LINKS as readonly string[]).includes(href);
 }
 
 function validateArticleFeedItem(
