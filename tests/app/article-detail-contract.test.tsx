@@ -202,6 +202,17 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     expect(edgeNav.querySelector("[data-next]")).toBeNull();
   });
 
+  it("places the follow box right after the body and before the prev/next nav (2026-10-12)", async () => {
+    const { container } = await renderDetail("sig-mid");
+    const body = container.querySelector('[data-testid="article-inflow-public-body"]')!;
+    const follow = container.querySelector("[data-follow-box]")!;
+    expect(follow).not.toBeNull();
+    expect(body.nextElementSibling).toBe(follow);
+    expect(follow.nextElementSibling).toBe(
+      container.querySelector("[data-article-prev-next]"),
+    );
+  });
+
   it("lists up to four related articles excluding the current one", async () => {
     const { container } = await renderDetail("sig-mid");
     const related = container.querySelectorAll("[data-article-related] [data-article-id]");

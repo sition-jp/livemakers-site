@@ -10,6 +10,7 @@ import { EditorialDeskLine } from "@/components/articles/EditorialDeskLine";
 import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { createArticleMdxComponents } from "@/components/articles/ArticleBodyComponents";
 import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
+import { FollowBox } from "@/components/articles/FollowBox";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { SeriesRail, type SeriesRailCopy } from "@/components/articles/SeriesRail";
@@ -31,6 +32,7 @@ import { createSourceCardCollector } from "@/lib/articles/source-links";
 import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
+import { X_HANDLE } from "@/lib/site";
 
 export const dynamicParams = true;
 // 2026-08-21 田平氏 GO (ISR コスト): 記事詳細 (~270 paths) が ISR Writes の
@@ -75,6 +77,7 @@ export default async function ArticleDetailPage({
   const { locale, slug } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("articles");
+  const tFollow = await getTranslations("follow");
 
   const language = locale === "en" ? "en" : "ja";
   const detail = await loadPublicArticleInflowDetail(slug, language);
@@ -240,6 +243,15 @@ export default async function ArticleDetailPage({
             }}
           />
         </div>
+        {/* 2026-10-12 田平氏 GO: 本文の直後・前後記事の前に X / Google のフォロー枠 */}
+        <FollowBox
+          copy={{
+            heading: tFollow("heading"),
+            body: tFollow("body"),
+            xButton: tFollow("xButton", { handle: X_HANDLE }),
+            googleButton: tFollow("googleButton"),
+          }}
+        />
         <ArticlePrevNext
           prev={neighbors.prev}
           next={neighbors.next}

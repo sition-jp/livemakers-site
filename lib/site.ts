@@ -16,3 +16,20 @@ export const SITE_LOGO_HEIGHT = 180;
 export const SITE_NAME = "LiveMakers";
 export const EDITORIAL_DESK_NAME = "LiveMakers 編集デスク";
 export const ABOUT_URL = `${SITE_URL}/ja/about`;
+
+/**
+ * 公式 X とフォロー導線 (2026-10-12 田平氏 GO)。ヘッダー・フッター・記事末の
+ * フォロー枠・連絡先ページが同じ値を参照する。
+ */
+export const X_HANDLE = "LiveMakersCom";
+export const X_PROFILE_URL = `https://x.com/${X_HANDLE}`;
+/** 押すとフォロー確認画面が開く (X の埋め込みスクリプトは読まない)。 */
+export const X_FOLLOW_URL = `https://x.com/intent/follow?screen_name=${X_HANDLE}`;
+
+/**
+ * Google 検索の「優先ソース」(トップニュースで優先表示)。Google ニュースの
+ * 媒体ページ (フォロー) は自動生成のみで、livemakers.com にはまだ無い
+ * (2026-10-12 実測) ため、こちらを使う。スクリプトが無くても開ける直リンク。
+ */
+export const GOOGLE_PREFERRED_SOURCE_URL =
+  "https://www.google.com/preferences/source?q=livemakers.com";

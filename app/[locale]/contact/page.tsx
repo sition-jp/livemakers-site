@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
-const X_PROFILE_URL = "https://x.com/LiveMakersCom";
+import { X_PROFILE_URL } from "@/lib/site";
+
 const SITION_URL = "https://sition.jp";
 
 /**

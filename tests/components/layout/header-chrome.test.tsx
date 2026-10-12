@@ -14,7 +14,10 @@ import {
   collectScannableText,
   findLiveTokenViolations,
 } from "@/lib/home/reader-grammar";
-import { isAllowedChromeRoute } from "@/lib/livemakers-terminal-preview/public-topology";
+import {
+  isAllowedChromeExternalLink,
+  isAllowedChromeRoute,
+} from "@/lib/livemakers-terminal-preview/public-topology";
 import en from "@/messages/en.json";
 import ja from "@/messages/ja.json";
 
@@ -77,12 +80,32 @@ describe("G41 page chrome", () => {
     )) {
       const href =
         anchor.getAttribute("href")!.replace(/^\/(ja|en)(?=\/|$)/, "") || "/";
-      expect(isAllowedChromeRoute(href), href).toBe(true);
+      expect(
+        isAllowedChromeRoute(href) || isAllowedChromeExternalLink(href),
+        href,
+      ).toBe(true);
     }
     expect(
       findLiveTokenViolations(collectScannableText(container)),
     ).toEqual([]);
     expect(screen.getByRole("link", { name: "LIVEMAKERS" })).toBeInTheDocument();
+  });
+
+  it("links the official X account from both header and footer (2026-10-12)", () => {
+    const { container } = renderChrome();
+    for (const region of ["header", "footer"]) {
+      const links = [
+        ...container.querySelectorAll(`${region} a[href="https://x.com/LiveMakersCom"]`),
+      ];
+      expect(links, region).toHaveLength(1);
+      expect(links[0]).toHaveAttribute("target", "_blank");
+      expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
+      expect(links[0]).toHaveAccessibleName("LiveMakers の X（@LiveMakersCom）");
+    }
+    // 外部リンクの許可は公式 X だけ (他の外部 URL は chrome に出さない)
+    expect(isAllowedChromeExternalLink("https://x.com/LiveMakersCom")).toBe(true);
+    expect(isAllowedChromeExternalLink("https://x.com/SITIONjp")).toBe(false);
+    expect(isAllowedChromeExternalLink("https://example.com")).toBe(false);
   });
 
   it("reads the snapshot chip time in the provenance strip (2026-08-14 移設)", () => {

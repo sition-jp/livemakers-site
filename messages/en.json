@@ -173,6 +173,13 @@
     "contact": "Contact",
     "privacy": "Privacy Policy"
   },
+  "follow": {
+    "heading": "Follow LiveMakers",
+    "body": "New articles are announced on X. Add LiveMakers as a preferred source on Google Search to see more of our stories in Top Stories.",
+    "xButton": "Follow @{handle}",
+    "googleButton": "Add as a preferred source on Google",
+    "xProfile": "LiveMakers on X (@{handle})"
+  },
   "overview": {
     "tagline": "The financial reboot: reading the next finance, rebuilt by crypto, AI, quantum, and synthetic biology.",
     "subtitle": "LiveMakers is an intelligence terminal powered by SDE, integrating crypto assets and blockchains, AI and robotics, quantum, synthetic biology, and macro and regulatory change into forecasts and actionable decisions.",

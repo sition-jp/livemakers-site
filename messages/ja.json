@@ -173,6 +173,13 @@
     "contact": "お問い合わせ",
     "privacy": "プライバシーポリシー"
   },
+  "follow": {
+    "heading": "LiveMakers をフォロー",
+    "body": "新しい記事は X でお知らせしています。Google 検索の優先ソースに追加すると、トップニュースで LiveMakers の記事が表示されやすくなります。",
+    "xButton": "@{handle} をフォロー",
+    "googleButton": "Google の優先ソースに追加",
+    "xProfile": "LiveMakers の X（@{handle}）"
+  },
   "overview": {
     "tagline": "金融再起動 — 暗号資産・AI・量子・合成生物が作り直す、次の金融を読む。",
     "subtitle": "LiveMakers は、SDE Intelligence Terminal によって、暗号資産・ブロックチェーン、AI・ロボティクス、量子、合成生物、そしてマクロ・規制の変化を統合し、未来予測と実践判断へ変換するインテリジェンス・ターミナルです。",
