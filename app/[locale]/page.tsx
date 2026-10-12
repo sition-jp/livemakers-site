@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Fragment } from "react";
 
 import { HomeComposition } from "@/components/home/HomeComposition";
 import { OrganizationJsonLd } from "@/components/seo/OrganizationJsonLd";
@@ -66,8 +67,24 @@ export default async function OverviewPage({
           外側・page 直下の全幅 header として描画する (G44 D8/P3-6)。 */}
       <header className="w-full">
         <div className="mx-auto max-w-[1760px] px-4 pt-6 md:px-8">
+          {/* 2026-10-12: 3 句 (見る・読む・描く) になり mobile で折り返すため、
+              句の途中では折らず区切り記号の直後だけで折る。split の奇数番は
+              区切り直後の空白 (ja は空・en は半角スペース)。 */}
           <h1 className="text-xl font-bold text-text-primary md:text-2xl">
-            {copy.masthead.title}
+            {copy.masthead.title
+              .split(/(?<=[・·])(\s*)/)
+              .map((part, index) =>
+                index % 2 === 0 ? (
+                  <span key={index} className="whitespace-nowrap">
+                    {part}
+                  </span>
+                ) : (
+                  <Fragment key={index}>
+                    {part}
+                    <wbr />
+                  </Fragment>
+                ),
+              )}
           </h1>
           <p className="mt-1 text-[11px] text-text-tertiary">
             {copy.masthead.subtitle}
