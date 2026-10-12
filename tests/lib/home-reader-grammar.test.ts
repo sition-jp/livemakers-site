@@ -15,7 +15,7 @@ describe("reader grammar guards (D8/D9)", () => {
       "対1",
     ]);
     expect(findForbiddenDesignTerms("SDE検出のタイトルです")).toEqual([]);
-    expect(findForbiddenDesignTerms("いまを見る ⇄ 今日を読む")).toEqual([]);
+    expect(findForbiddenDesignTerms("いまを見る・今日を読む・未来を描く")).toEqual([]);
   });
 
   it("flags internal ops terms in rendered copy", () => {
