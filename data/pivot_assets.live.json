@@ -1,30 +1,30 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-10-11T23:01:00Z",
+  "generated_at": "2026-10-12T23:00:16Z",
   "radar": [
     {
       "symbol": "BTC",
       "scores": {
         "7D": {
-          "overall": 25.0,
-          "price_pivot": 15.0,
+          "overall": 18.0,
+          "price_pivot": 0.0,
           "volatility_pivot": 20.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "volatility"
         },
         "30D": {
-          "overall": 25.0,
-          "price_pivot": 15.0,
+          "overall": 18.0,
+          "price_pivot": 0.0,
           "volatility_pivot": 20.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "volatility"
         },
         "90D": {
-          "overall": 25.0,
-          "price_pivot": 15.0,
+          "overall": 18.0,
+          "price_pivot": 0.0,
           "volatility_pivot": 20.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "volatility"
         }
       }
     },
@@ -39,18 +39,18 @@
           "main_signal": "price"
         },
         "30D": {
-          "overall": 16.0,
-          "price_pivot": 15.0,
+          "overall": 10.0,
+          "price_pivot": 0.0,
           "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "price"
+          "main_signal": "mixed"
         },
         "90D": {
-          "overall": 27.0,
-          "price_pivot": 15.0,
-          "volatility_pivot": 25.0,
+          "overall": 10.0,
+          "price_pivot": 0.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "volatility"
+          "main_signal": "mixed"
         }
       }
     }
@@ -62,40 +62,34 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-10-11T23:01:00Z",
+      "timestamp": "2026-10-12T23:00:16Z",
       "scores": {
-        "overall": 25.0,
-        "price_pivot": 15.0,
+        "overall": 18.0,
+        "price_pivot": 0.0,
         "volatility_pivot": 20.0,
         "confidence": {
           "grade": "A",
-          "score": 92.0
+          "score": 86.0
         }
       },
       "direction_bias": {
-        "bullish": 100.0,
+        "bullish": 0.0,
         "bearish": 0.0,
-        "neutral": 0.0
+        "neutral": 100.0
       },
       "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.056323925259535286
+          "raw_value": 0.05624625709249685
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 2."
+        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 1."
       }
     },
     "BTC__30D": {
@@ -104,40 +98,34 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-10-11T23:01:00Z",
+      "timestamp": "2026-10-12T23:00:16Z",
       "scores": {
-        "overall": 25.0,
-        "price_pivot": 15.0,
+        "overall": 18.0,
+        "price_pivot": 0.0,
         "volatility_pivot": 20.0,
         "confidence": {
           "grade": "A",
-          "score": 92.0
+          "score": 86.0
         }
       },
       "direction_bias": {
-        "bullish": 100.0,
+        "bullish": 0.0,
         "bearish": 0.0,
-        "neutral": 0.0
+        "neutral": 100.0
       },
       "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.056323925259535286
+          "raw_value": 0.05624625709249685
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 2."
+        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 1."
       }
     },
     "BTC__90D": {
@@ -146,40 +134,34 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-10-11T23:01:00Z",
+      "timestamp": "2026-10-12T23:00:16Z",
       "scores": {
-        "overall": 25.0,
-        "price_pivot": 15.0,
+        "overall": 18.0,
+        "price_pivot": 0.0,
         "volatility_pivot": 20.0,
         "confidence": {
           "grade": "A",
-          "score": 92.0
+          "score": 86.0
         }
       },
       "direction_bias": {
-        "bullish": 100.0,
+        "bullish": 0.0,
         "bearish": 0.0,
-        "neutral": 0.0
+        "neutral": 100.0
       },
       "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.056323925259535286
+          "raw_value": 0.05624625709249685
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 2."
+        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 1."
       }
     },
     "ETH__7D": {
@@ -188,7 +170,7 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-10-11T23:01:00Z",
+      "timestamp": "2026-10-12T23:00:16Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -199,36 +181,37 @@
         }
       },
       "direction_bias": {
-        "bullish": 100.0,
+        "bullish": 0.0,
         "bearish": 0.0,
-        "neutral": 0.0
+        "neutral": 100.0
       },
       "evidence": [
         {
           "category": "price",
-          "direction": "bullish",
+          "direction": "neutral",
           "weight": 0.15,
-          "message": "MACD momentum is improving"
+          "message": "Price is far from MA20 (top 20% of recent range)",
+          "raw_value": 0.06509779058757778
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 3.0032
+          "raw_value": 3.008
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5376654743149631
+          "raw_value": 0.6313342787950641
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 3."
+        "explanation": "Direction bias leans neutral; main driver appears to be price reversal. Evidence count: 3."
       }
     },
     "ETH__30D": {
@@ -237,47 +220,41 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-10-11T23:01:00Z",
+      "timestamp": "2026-10-12T23:00:16Z",
       "scores": {
-        "overall": 16.0,
-        "price_pivot": 15.0,
+        "overall": 10.0,
+        "price_pivot": 0.0,
         "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 90.0
+          "score": 96.0
         }
       },
       "direction_bias": {
-        "bullish": 100.0,
+        "bullish": 0.0,
         "bearish": 0.0,
-        "neutral": 0.0
+        "neutral": 100.0
       },
       "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 3.0032
+          "raw_value": 3.008
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5376654743149631
+          "raw_value": 0.6313342787950641
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 3."
+        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 2."
       }
     },
     "ETH__90D": {
@@ -286,69 +263,56 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-10-11T23:01:00Z",
+      "timestamp": "2026-10-12T23:00:16Z",
       "scores": {
-        "overall": 27.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 25.0,
+        "overall": 10.0,
+        "price_pivot": 0.0,
+        "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 92.0
+          "score": 96.0
         }
       },
       "direction_bias": {
-        "bullish": 100.0,
+        "bullish": 0.0,
         "bearish": 0.0,
-        "neutral": 0.0
+        "neutral": 100.0
       },
       "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.25,
-          "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.4359762730106106
-        },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 3.0032
+          "raw_value": 3.008
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5376654743149631
+          "raw_value": 0.6313342787950641
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 4."
+        "explanation": "Direction bias leans neutral; main driver appears to be volatility. Evidence count: 2."
       }
     }
   },
   "previous": {
-    "generated_at": "2026-10-10T23:00:24Z",
+    "generated_at": "2026-10-11T23:01:00Z",
     "radar": [
       {
         "symbol": "BTC",
         "scores": {
           "7D": {
-            "overall": 35.0,
+            "overall": 25.0,
             "price_pivot": 15.0,
-            "volatility_pivot": 45.0,
-            "confidence_grade": "B+",
-            "main_signal": "volatility"
+            "volatility_pivot": 20.0,
+            "confidence_grade": "A",
+            "main_signal": "mixed"
           },
           "30D": {
             "overall": 25.0,
@@ -370,25 +334,25 @@
         "symbol": "ETH",
         "scores": {
           "7D": {
-            "overall": 10.0,
-            "price_pivot": 0.0,
+            "overall": 16.0,
+            "price_pivot": 15.0,
             "volatility_pivot": 0.0,
             "confidence_grade": "A",
-            "main_signal": "mixed"
+            "main_signal": "price"
           },
           "30D": {
-            "overall": 10.0,
-            "price_pivot": 0.0,
+            "overall": 16.0,
+            "price_pivot": 15.0,
             "volatility_pivot": 0.0,
             "confidence_grade": "A",
-            "main_signal": "mixed"
+            "main_signal": "price"
           },
           "90D": {
-            "overall": 10.0,
-            "price_pivot": 0.0,
-            "volatility_pivot": 0.0,
+            "overall": 27.0,
+            "price_pivot": 15.0,
+            "volatility_pivot": 25.0,
             "confidence_grade": "A",
-            "main_signal": "mixed"
+            "main_signal": "volatility"
           }
         }
       }
@@ -1543,6 +1507,20 @@
           "30D": 100.0,
           "90D": 100.0
         }
+      },
+      {
+        "date": "2026-10-12",
+        "close": 82183.81,
+        "overall": {
+          "7D": 18.0,
+          "30D": 18.0,
+          "90D": 18.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
+        }
       }
     ],
     "ETH": [
@@ -2692,6 +2670,20 @@
           "7D": 100.0,
           "30D": 100.0,
           "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-10-12",
+        "close": 2463.73,
+        "overall": {
+          "7D": 16.0,
+          "30D": 10.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 0.0,
+          "30D": 0.0,
+          "90D": 0.0
         }
       }
     ]
