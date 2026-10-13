@@ -1,0 +1,35 @@
+夕方の焦点は国内の大型漏えいの連鎖だ。「銀のさら」の運営会社が最大約650万件の漏えいの可能性を公表し、ブックオフは対象を約638万人と確定させた。同じ日に NICT は、公開アプリの解析からサーバを狙う「A2B攻撃」を原因の一つとして特定した。市場ではアジアの半導体・AI株安が続くなか、ビットコインは8万3,000ドル台を回復し、株との連動がいったん外れた。
+
+## 数値スナップショット
+
+- S&P 500（perp） 7,816.70 → 7,806.20（-0.13%）
+- 変動幅上位: BTCボラティリティ（BVIV） -3.0% / ETH/USD -1.6%
+
+| 指標 | 起点 | 現値 | 変化率 |
+| --- | --- | --- | --- |
+| S&P 500（perp） | 7,816.70 | 7,806.20 | -0.13%（24h） |
+| 米10年金利 | 5.22% | 5.24% | +0.38% |
+
+## 一次情報ハイライト
+
+- [「銀のさら」運営のライドオンエクスプレス、最大約650万件の登録者情報に漏えいの可能性](https://x.com/piyokango/status/2109927697828954287) — 公式サイト・アプリの登録者が対象。件数は可能性ベースで確定値ではなく、クレジットカード情報は保有していないとしている。
+- [ブックオフ、漏えいの対象者を約638万人と確定 第2報で対象サービスも明示](https://x.com/piyokango/status/2109927813587587443) — 初報の最大約643万件から、会員データ約643万件・対象者約638万人に確定した。退会会員も含まれる。
+- [NICT、相次ぐ漏えいの一因として公開アプリ経由でサーバを狙う「A2B攻撃」を特定](https://x.com/piyokango/status/2109883577467068511) — 公開された Android アプリを解析し、接続先のサーバを狙い撃ちする手法。アプリを提供する事業者向けに3種の対策を示した。
+- [FSB、グローバル・ステーブルコインの国境をまたぐ脆弱性と監視の指標をまとめた報告書を公表](https://www.fsa.go.jp/inter/fsf/20261013_3/20261013_3.html) — 15日にバンコクで開かれる G20 財務相・中銀総裁会議を前に、議長レターと流動性バックストップのレビューも出そろった。
+- [FSB 議長、G20 財務相・中央銀行総裁会議に向けたレターを発出](https://www.fsa.go.jp/inter/fsf/20261013_2/20261013_2.html)
+- [ビットコインが8万3,000ドル台を回復、韓国株とナスダック先物の下落から切り離される](https://www.coindesk.com/markets/2026/10/13/bitcoin-rebounds-above-usd83-000-as-it-decouples-from-tumbling-korean-stocks-and-nasdaq-futures)
+- [アジアの半導体安でトークン化株の清算が膨らむ SanDisk の清算額が XRP を上回る](https://www.coindesk.com/markets/2026/10/13/tokenized-sandisk-bets-saw-more-liquidations-than-xrp-as-asia-s-chip-rout-wipes-out-usd800-million)
+- [IMF、AI ブームと政府債務の膨張を金融市場のリスクとして警告](https://www.handelsblatt.com/finanzen/geldpolitik/finanzmaerkte-iwf-warnt-vor-gefahren-durch-ki-boom-und-staatsschulden/100261708.html)
+- [英国の裁判所の判断で、押収ビットコイン約50億ドル分を政府が保持する可能性が高まる](https://www.coindesk.com/policy/2026/10/13/u-k-court-ruling-boosts-government-s-chances-of-keeping-gbp3-8-billion-seized-bitcoin)
+- [6年間動かなかったビットコインのクジラが3億7,800万ドル相当を移動](https://www.theblock.co/news/markets/2026-10-13-bitcoin-whale-moves-378-million-418383)
+- [かつて最大の NFT 市場だった Blur がサービス終了へ 取引量は99%減](https://www.coindesk.com/tech/2026/10/13/once-largest-ethereum-nft-marketplace-blur-is-shutting-down-after-volumes-collapse-99)
+- [Midnight の NIGHT、国内の OKJ で13日から取引可能に](https://x.com/midnight_jpn/status/2109889326683406590)
+- [IOG、Leios テストネットの負荷試験「Musashi Dojo」を Fire フェーズへ進める](https://x.com/IOGroup/status/2109615074163974342)
+- [日本年金機構、障害基礎年金と特別障害給付金の令和8年度の所得基準額を改正](https://x.com/Nenkin_Kikou/status/2109889369624461786)
+- [Ethereum の研究フォーラムで、独立したブロックを並行処理する合意方式「Rapidblocks」の改訂案](https://ethresear.ch/t/rapidblocks-take-two-a-pipelined-consensus-for-independent-blocks/26152)
+
+## 次の見どころ
+
+- 15日のバンコク G20 財務相・中銀総裁会議で、ステーブルコインの国境をまたぐ監視がどこまで議題に上るか。
+- 漏えい公表の続報（件数の確定・二次被害の有無）と、A2B 攻撃への事業者側の対応。
+- 米大手銀の決算とアジアの半導体安が、ビットコインと株の連動を再び強めるか。

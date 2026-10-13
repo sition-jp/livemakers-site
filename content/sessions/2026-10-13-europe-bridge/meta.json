@@ -1,0 +1,110 @@
+{
+  "sessionId": "2026-10-13-europe-bridge",
+  "date": "2026-10-13",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-13-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-13-europe-bridge",
+  "publishedAt": "2026-10-14T02:30:06+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261013_1203_aade2866",
+  "asOfJst": "2026-10-13T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月13日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1212 → 1.1180（-0.29%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -2.5% / 日経225（perp） -2.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261013_1240_5f0eee1c",
+    "crawlAnchorJst": "2026-10-13T12:03:00+09:00",
+    "writtenAtJst": "2026-10-13T12:40:00+09:00",
+    "lead": "東京の昼は、アジアのリスク資産が同じ方向に崩れた時間帯になった。韓国株の続落とビットコインの8万2,000ドル割れが重なり、先物の清算が膨らんだ。一方で制度側の動きは止まっていない。モスクワ取引所の暗号資産現物の開始予定、Anthropic の蒸留対策の公表、Cardano の開発基盤の整備と、市場の下げとは別の速度で土台づくりが進んでいる。",
+    "items": [
+      {
+        "headline": "韓国株の続落が加速、5日間で15%超の下落と米市場速報が伝える",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2109838176038629642",
+        "note": "数字は速報ベースで、取引所の確定値ではない。テック株の売りが広がったとされる。"
+      },
+      {
+        "headline": "ビットコインが8万2,000ドルを割り込み、暗号資産の清算は7億7,000万ドル超（The Block）",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-10-12-bitcoin-slides-crypto-liquidations-surge-418374"
+      },
+      {
+        "headline": "モスクワ取引所、12月1日にビットコイン・イーサ・USDTの取引を始める予定",
+        "sourceUrl": "https://x.com/Kalshi/status/2109773610537959581",
+        "note": "個人は3銘柄に限られ、年30万ルーブルの上限と知識テストが付く。開始日はあくまで予定とされる。"
+      },
+      {
+        "headline": "Anthropic、蒸留攻撃への防御を強化したと公表 抜き取れるデータは推定90〜99%減",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2109795898909950247",
+        "note": "中国の AI ラボによる能力の複製を名指しし、数万のアカウントを停止したとしている。"
+      },
+      {
+        "headline": "CFTC の新しい暗号資産の枠組み、2028年の大統領選が期限になりうるとTD Cowen",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-10-12-cftcs-new-crypto-framework-could-face-2028-election-deadline-td-cowen-418358"
+      },
+      {
+        "headline": "NFT マーケット Blur、来月フロントエンドを閉鎖へ 取引高の縮小で",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-10-12-blur-nft-marketplace-shutting-down-frontend-blend-418363"
+      },
+      {
+        "headline": "TRON、第3四半期のステーブルコイン決済額は2.21兆ドルと報告",
+        "sourceUrl": "https://x.com/BitcoinNews/status/2109716731497173425"
+      },
+      {
+        "headline": "片山財務大臣、世銀・IMF合同開発委員会の次期議長に指名",
+        "sourceUrl": "https://www.mof.go.jp/policy/international_policy/imf/dc/20261009183854.html"
+      },
+      {
+        "headline": "金融庁の Japan Weeks 2026 が開幕、中核週は10月26日〜30日",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2109841567812907390"
+      },
+      {
+        "headline": "米中小企業庁、国防総省と小規模製造業へ資金を振り向ける新たな合意",
+        "sourceUrl": "https://x.com/SBA_Kelly/status/2109736397837938692"
+      },
+      {
+        "headline": "トランプ大統領、アジア歴訪中に金正恩氏と会う可能性に言及",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/12/trump-says-may-see-north-koreas-kim-jong-un-asia-trip/"
+      },
+      {
+        "headline": "Cardano の開発雛形を1コマンドで作る cardano-init、PRAGMA が受け入れ",
+        "sourceUrl": "https://x.com/theroberm/status/2109725204163580332"
+      },
+      {
+        "headline": "Cardano のアグリゲーター SteelSwap、V2 を公開",
+        "sourceUrl": "https://x.com/SteelSwap/status/2109764604645589171"
+      },
+      {
+        "headline": "Liqwid の週次集計、総供給額は2,427万ドルで前週比2.16%増",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2109769468872372701"
+      },
+      {
+        "headline": "Reddit と Perplexity、データ収集をめぐる訴訟で法律事務所の役割をめぐり対立",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/reddit-and-perplexity-ai-clash-over-law-firms-role-in-data-scraping-case"
+      },
+      {
+        "headline": "Epic Games、ゲーム開発を「AI ファースト」へ転換と報道",
+        "sourceUrl": "https://arstechnica.com/gaming/2026/10/report-epic-games-goes-all-in-on-ai-for-disney-collaboration/"
+      },
+      {
+        "headline": "JPCERT/CC、国内組織への不正アクセスで注意喚起 API の悪用対策を推奨",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/13/56428.html"
+      },
+      {
+        "headline": "個人情報保護委員会、大規模な漏えい事案を踏まえた対応で注意喚起",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/13/56430.html"
+      }
+    ],
+    "watch": [
+      "韓国株の続落が日本株とビットコインにどこまで波及するか。今晩の欧州・米国の取引で確かめる。",
+      "モスクワ取引所の12月1日開始が、取引所とロシア中銀の正式な告知で確定するか。",
+      "Anthropic の蒸留対策に、他のフロンティア開発各社が足並みをそろえるか。"
+    ]
+  }
+}
