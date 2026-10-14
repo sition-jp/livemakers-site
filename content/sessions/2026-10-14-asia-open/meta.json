@@ -1,0 +1,119 @@
+{
+  "sessionId": "2026-10-14-asia-open",
+  "date": "2026-10-14",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-14-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-14-asia-open",
+  "publishedAt": "2026-10-15T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261014_0730_7b1f5f52",
+  "asOfJst": "2026-10-14T07:30:05+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月14日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 68,263 → 67,976（-0.42%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +2.4% / WTI（perp） +1.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261014_1058_604ba976",
+    "crawlAnchorJst": "2026-10-14T05:03:00+09:00",
+    "writtenAtJst": "2026-10-14T10:58:36+09:00",
+    "lead": "アジアで始まった AI と半導体の銘柄の売りが米国に渡り、米国の半導体株は5日続けて下げた。一方でマイクロソフトは最高値を更新し、NTT やオムロンの投資も続いており、市場は AI の期待に賭けた銘柄と、建設と買収を進める側を分け始めている。国内では大規模な漏えいの公表が重なり、政策側も AI によるサイバー防御の議論に入った。",
+    "items": [
+      {
+        "headline": "米半導体株が5日続落、AI 投資が続くかへの懸念が再燃",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2110049290533933559",
+        "note": "長期金利は低下した。"
+      },
+      {
+        "headline": "マイクロソフト株が約1年ぶりに最高値を更新",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2110124813884825856",
+        "note": "売られる AI 銘柄と、つくる側の評価が分かれた。"
+      },
+      {
+        "headline": "NTT、Anthropic 向けのデータセンターを大阪に開く計画と日経が報道",
+        "sourceUrl": "https://x.com/nikkei/status/2109827628442005890"
+      },
+      {
+        "headline": "オムロン、米 OnLogic を約1000億円で買収 フィジカル AI に備え",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2109941711795356052"
+      },
+      {
+        "headline": "Strive、3,311 BTC を買い増し 新しい永久優先株 SATS で追加購入へ",
+        "sourceUrl": "https://x.com/Strive/status/2110109682610172383",
+        "note": "15%の固定配当を毎営業日払う優先株。"
+      },
+      {
+        "headline": "米財務省、バンク・オブ・アメリカに12億1000万ドル超の制裁金",
+        "sourceUrl": "https://x.com/USTreasury/status/2110145093889896620",
+        "note": "マネーロンダリング対策と制裁法の違反。財務省史上3番目の規模。"
+      },
+      {
+        "headline": "金融安定理事会、グローバル・ステーブルコインの国境をまたぐ脆弱性を報告",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2109919198906655068",
+        "note": "10月15日のバンコクの G20 会合に合わせた公表。"
+      },
+      {
+        "headline": "自治体向けの防災情報の配信サービスに不正アクセス、メールアドレス最大313万件",
+        "sourceUrl": "https://x.com/nikkei/status/2109976612930306429"
+      },
+      {
+        "headline": "ブックオフ、退会会員を含む約642万件の会員データ漏えいを公表",
+        "sourceUrl": "https://x.com/nikkei/status/2109946413689774465"
+      },
+      {
+        "headline": "サウジ、イエメンの石油貯蔵施設を攻撃 アラムコ本社の方向へミサイル",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/13/saudi-arabia-strikes-strategic-oil-depots-near-yemen-capital"
+      },
+      {
+        "headline": "米中央軍、ホルムズ海峡の支配を主張するイラン革命防衛隊に反論",
+        "sourceUrl": "https://x.com/CENTCOM/status/2110108416077123910",
+        "note": "前日に原油1900万バレル超の輸送を支援したとした。"
+      },
+      {
+        "headline": "Solana の Alpenglow、10月21日にメインネットベータで稼働へ",
+        "sourceUrl": "https://x.com/anza_xyz/status/2110021831445156266",
+        "note": "確定までの時間は約150ミリ秒に。"
+      },
+      {
+        "headline": "Interactive Brokers、Zerohash 経由でイーサリアムのステーキングを開始",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-10-13-interactive-brokers-ethereum-staking-zerohash-418457"
+      },
+      {
+        "headline": "Ledger、販売店経由の端末に盗み取りの装置を確認 MediaMarkt は欧州で販売停止",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-13-ledger-confirms-hardware-implant-cryptobilis-reseller-units-mediamarkt-suspends-sales-europe-418442"
+      },
+      {
+        "headline": "DRW と Marex、トークン化した S&P の債券指数を参照する店頭スワップを Canton で実行",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-10-13-drw-marex-first-otc-swap-tokenized-sp-iboxx-index-canton-network-418440"
+      },
+      {
+        "headline": "BNY と Citadel Securities、トークン化した米国債を担保に資金調達を試行",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/13/bny-citadel-securities-test-tokenized-u-s-treasuries-to-speed-up-wall-street-financing"
+      },
+      {
+        "headline": "Google の Gemini 4 Argon、Gemini アプリと検索で有料プランの利用者に",
+        "sourceUrl": "https://x.com/demishassabis/status/2110041008100843835"
+      },
+      {
+        "headline": "Physical Intelligence、ロボット向けモデルの Pi API をベータ公開",
+        "sourceUrl": "https://x.com/physical_int/status/2110115571681690051"
+      },
+      {
+        "headline": "Agility Robotics、SEC が S-4 を有効と判断 人型ロボットの Nasdaq 上場へ",
+        "sourceUrl": "https://x.com/agilityrobotics/status/2110124714735849916"
+      }
+    ],
+    "watch": [
+      "10月後半からの米大手 IT の決算で、AI 向けの設備投資の計画が維持されるか",
+      "10月15日にバンコクで開く G20 財務大臣・中央銀行総裁会議と、ステーブルコインの扱い",
+      "10月21日の Solana の Alpenglow の稼働と、紅海・ホルムズ海峡の原油の通り道の緊張"
+    ]
+  }
+}
