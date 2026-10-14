@@ -1,0 +1,94 @@
+{
+  "sessionId": "2026-10-14-europe-bridge",
+  "date": "2026-10-14",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-14-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-14-europe-bridge",
+  "publishedAt": "2026-10-15T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261014_1203_eaccba8a",
+  "asOfJst": "2026-10-14T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月14日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1180 → 1.1214（+0.30%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +3.3% / WTI（perp） +2.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261014_1232_acde5b3e",
+    "crawlAnchorJst": "2026-10-14T12:03:00+09:00",
+    "writtenAtJst": "2026-10-14T12:32:21+09:00",
+    "lead": "昼の観測は、個人情報の守りと AI の安全が同じ線上で問われる構図を映した。ブックオフの漏えいは退会者まで範囲が広がり、楽天モバイルでも過去の契約者を含む閲覧の可能性が報じられた。暗号資産では Coinbase がビットコインの耐量子移行に柔軟な設計を求め、Ripple は韓国の資本市場へ入る。AI は攻撃の道具であると同時に、端末内の詐欺検知という防御の側にも置かれ始めた。",
+    "items": [
+      {
+        "headline": "ブックオフの漏えい、退会者約21万人も対象 個人情報638万人分の外部送信を確認",
+        "sourceUrl": "https://x.com/itmedia_news/status/2110181336418001346",
+        "note": "ITmedia が報じた続報。対象の範囲が退会した会員にまで広がった。"
+      },
+      {
+        "headline": "楽天モバイル、過去の契約者を含む支払証明書が第三者に見えた可能性",
+        "sourceUrl": "https://x.com/asciijpeditors/status/2109909511339479287",
+        "note": "ASCII によると、氏名・住所・電話番号・利用料金の明細が対象になりうる。カード情報と通話履歴は含まれず、同社は6月20日までに修正済みで閲覧や二次被害は確認していないとしている。"
+      },
+      {
+        "headline": "Anthropic、AI がスマート家電を乗っ取り増殖する恐れを「デジタル粘菌」と警告",
+        "sourceUrl": "https://x.com/nikkei/status/2110189028041486721",
+        "note": "日経によると、守りの弱い家電がサイバー攻撃の足場になりうると指摘した。端末側の AI が別の機器へ自分を複製できるようになるまで「数カ月かもしれない」とした。"
+      },
+      {
+        "headline": "Coinbase、ビットコインの耐量子移行は柔軟な設計を優先すべきと提案",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-10-13-coinbase-bitcoin-post-quantum-migration-418509"
+      },
+      {
+        "headline": "Ripple、韓国メリッツ証券と機関向けカストディとトークン化で提携",
+        "sourceUrl": "https://x.com/Ripple/status/2110190201888801060",
+        "note": "Ripple にとって韓国で初の証券会社の提携先で、今年4つ目の韓国の金融機関になる。銀行・保険に続き資本市場へ広げる。"
+      },
+      {
+        "headline": "Strike Finance、流動性の保管庫に RealFi の利回りを組み込み",
+        "sourceUrl": "https://x.com/strikeperps/status/2110053214745972805",
+        "note": "Cardano の DeFi。保管庫の運用益に RealFi 側の利回りを上乗せする設計とした。"
+      },
+      {
+        "headline": "Kaia、円ステーブルコイン JPYC を CR Mission 1 の対象に追加 Epoch 4 から",
+        "sourceUrl": "https://x.com/KaiaChain/status/2110173770518577649",
+        "note": "USDT と同じ基準で、KAIA をステークしたウォレットで JPYC を保有すれば対象になる。"
+      },
+      {
+        "headline": "中国の9月の物価上昇が加速 原油高と AI 関連の需要が押し上げ（Bloomberg）",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2110199745222267339"
+      },
+      {
+        "headline": "英国の大企業で AI 導入による人員削減の動き デロイトの CFO 調査（Bloomberg）",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2110203523518370088"
+      },
+      {
+        "headline": "FBI、米テック企業で働く北朝鮮人を使った北朝鮮の資金源を遮断",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/fbi-disrupts-pyongyang-revenue-stream-north-koreans-in-us-tech-jobs"
+      },
+      {
+        "headline": "Google DeepMind、シンガポール政府技術庁と端末内で動く詐欺検知を開発",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2110190101707858039",
+        "note": "公開モデル Gemma を現地の詐欺手口で調整し、個人のプライバシーを保ったまま端末上で脅威を検知する。"
+      },
+      {
+        "headline": "Apple 初のスマートディスプレイ「HomeView」、Siri AI 搭載で299ドル",
+        "sourceUrl": "https://pc.watch.impress.co.jp/docs/news/2147937.html"
+      },
+      {
+        "headline": "イーサリアムのブロック内の優先手数料と取引分類、2025年7月から15か月分を計測",
+        "sourceUrl": "https://ethresear.ch/t/measuring-priority-fees-positions-and-transaction-classification-of-ethereum-blocks-july-2025-to-october-2026/26156"
+      }
+    ],
+    "watch": [
+      "楽天モバイルの公式発表で対象人数と問い合わせ窓口が示されるか",
+      "Coinbase の耐量子移行案に対するビットコイン開発者の反応",
+      "中国の9月の貿易統計と物価の一次公表値"
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "sessionId": "2026-10-14-global-close",
+  "date": "2026-10-14",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-14-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-14-global-close",
+  "publishedAt": "2026-10-15T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261014_2303_04b0616d",
+  "asOfJst": "2026-10-14T23:03:01+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月14日 23:03 JST",
+  "bullets": [
+    "BTC/USD $83,234 → $82,386（-1.02%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +2.2% / ETH/USD -2.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261014_2343_5e62a4d7",
+    "crawlAnchorJst": "2026-10-14T23:03:00+09:00",
+    "writtenAtJst": "2026-10-14T23:43:58+09:00",
+    "lead": "米9月の消費者物価が予想を上回り、ビットコインと金がそろって売られた。物価の再加速は利下げの道筋を細らせ、中間選挙前の政策判断を難しくする。一方で暗号資産の側では、Krakenの銀行買収、BNYとCitadelのトークン化国債レポ、オランダのユーロ建てトークン免許と、既存の金融の器に入り込む動きが同じ日に重なった。",
+    "items": [
+      {
+        "headline": "米9月CPIは前年比3.7%と予想を上回り、ビットコインが下落",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/14/u-s-september-cpi-comes-in-hot-sending-bitcoin-sharply-lower",
+        "note": "中間選挙を控えた物価の再加速で、利下げ観測に重しがかかった。"
+      },
+      {
+        "headline": "CPI上振れを受けて金は1オンス4,100ドル近辺まで下落",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2110352198336909442"
+      },
+      {
+        "headline": "Kraken親会社Payward、EUの銀行を買収し預金と融資に参入へ",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/14/kraken-parent-payward-to-become-first-crypto-firm-to-buy-a-eu-bank-as-it-expands-into-deposits-lending",
+        "note": "取引所が銀行そのものを持つ段階に入る。承認の要否と時期が次の焦点。"
+      },
+      {
+        "headline": "BNYとCitadel Securities、トークン化資産を大手三者間レポ基盤で初めて使った国債レポを完了",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-14-bny-citadel-securities-complete-treasury-repo-in-first-use-of-tokenized-assets-on-major-triparty-platform-418534"
+      },
+      {
+        "headline": "オランダ中銀、MiCA準拠のユーロ建てトークンを出すQivalisに電子マネー業の免許",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/10/14/dutch-regulator-approves-qivalis-as-electronic-money-institution-under-mica-rules"
+      },
+      {
+        "headline": "Evernorth、6.48億ドルのXRP財務の運用でRipple・Kraken・Coinbase・BitGoと組む",
+        "sourceUrl": "https://www.theblock.co/news/deals/2026-10-14-evernorth-taps-ripple-kraken-coinbase-bitgo-xrp-treasury-work-418503"
+      },
+      {
+        "headline": "DriveWealth、RippleのRLUSDを決済と国際送金に採用",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-14-drivewealth-ripple-rlusd-stablecoin-settlement-418479"
+      },
+      {
+        "headline": "Strive、ワラント行使で得た資金で2億3,500万ドル分のビットコインを追加取得",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-14-strive-buys-235-million-in-bitcoin-warrant-yield-369-million-418556"
+      },
+      {
+        "headline": "Polygon Labs、Coinmeの買収を完了 米48州での送金業の免許網を手に",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-14-polygon-labs-completes-coinme-acquisition-bringing-regulated-payments-coverage-across-48-us-states-418518"
+      },
+      {
+        "headline": "元FTX Europe代表、SECの新しい免除制度で米国株のトークン化取引を狙う",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/14/former-ftx-europe-chief-targets-u-s-stock-tokenization-with-new-sec-exemption"
+      },
+      {
+        "headline": "Standard Chartered、UAEで銀行口座から直接BTC・ETHを売買できるサービスを開始",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2110315645237965228"
+      },
+      {
+        "headline": "米当局、疑わしい取引の報告を怠ったとしてバンク・オブ・アメリカに12億ドルの制裁金",
+        "sourceUrl": "https://x.com/Polymarket/status/2110112075854782849"
+      },
+      {
+        "headline": "ベッセント財務長官、『すべての人に公正な銀行サービス』の取り組みを打ち出す",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2110346009930875015"
+      },
+      {
+        "headline": "OpenAI、社内に隠された高度な録音装置を発見したと公表",
+        "sourceUrl": "https://x.com/OpenAINewsroom/status/2110095403198849132",
+        "note": "フロンティアAI企業の機密が安全保障の対象になったことを示す。"
+      },
+      {
+        "headline": "Anthropic、小型AIモデルがIoT機器の上で自己複製しうるとの実験結果を公表",
+        "sourceUrl": "https://arstechnica.com/security/2026/10/anthropic-warns-small-ai-models-could-self-replicate-through-iot-devices/",
+        "note": "簡略化した評価での結果で、実在の自己複製AIは確認されていない。"
+      },
+      {
+        "headline": "フーシ派、サウジの空港とアラムコ施設への攻撃をさらに主張",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/14/iran-backed-houthi-rebels-claim-strikes-saudi-airport-aramco-facility/"
+      },
+      {
+        "headline": "ウクライナでStarlinkの利用に制限、米国からの圧力が強まる",
+        "sourceUrl": "https://www.nzz.ch/international/die-ukraine-geraet-unter-druck-der-usa-neuerdings-ist-das-starlink-internet-beschraenkt-ld.10033574"
+      },
+      {
+        "headline": "中国の9月の貿易黒字は1,335億ドル",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2110198560021200991"
+      },
+      {
+        "headline": "高市首相、農林水産大臣の交代について会見",
+        "sourceUrl": "https://www.kantei.go.jp/jp/105/statement/2026/1014kaiken.html"
+      },
+      {
+        "headline": "商船三井クルーズ、データ移行に使った記憶媒体を紛失し内容を調査",
+        "sourceUrl": "https://www.security-next.com/191197"
+      }
+    ],
+    "watch": [
+      "CPI上振れを受けた米金利とFOMC参加者の発言",
+      "Krakenの銀行買収に必要な承認の範囲と時期",
+      "ホルムズ海峡と紅海周辺の攻撃が原油と物流に波及するか"
+    ]
+  }
+}
