@@ -1,0 +1,142 @@
+{
+  "sessionId": "2026-10-15-europe-bridge",
+  "date": "2026-10-15",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-15-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-15-europe-bridge",
+  "publishedAt": "2026-10-16T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261015_1203_9b3060dd",
+  "asOfJst": "2026-10-15T12:03:01+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月15日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1216 → 1.1239（+0.21%）",
+    "変動幅上位: Coinbase（perp） -6.7% / 日経225（perp） -6.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261015_1232_b43ca393",
+    "crawlAnchorJst": "2026-10-15T12:03:00+09:00",
+    "writtenAtJst": "2026-10-15T12:32:50+09:00",
+    "lead": "米CPIの再加速が、アジアの昼にも波及した。日経平均は一時3,000円を超えて下げ、韓国株も続落し、ビットコインは8.1万ドルを割り込んだ。その最中に日銀の小枝委員は利上げを続ける姿勢を示し、日米ともに金利が相場の主役に戻っている。一方で、XRPを財務に持つ企業のナスダック上場や、Stellarへのオラクル接続など、伝統金融と暗号資産をつなぐ配線は止まっていない。",
+    "items": [
+      {
+        "headline": "日銀の小枝委員が熊本で講演、利上げを続ける姿勢を示す",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2110543842927845738",
+        "note": "中立金利は1%を相応に上回るとの見方を示した。次の金融政策決定会合は10月29〜30日。"
+      },
+      {
+        "headline": "ビットコインが8.1万ドルを割り込み、イーサリアムも2,400ドル割れ",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2110558284142760023",
+        "note": "短時間で買い持ちの先物ポジションの清算が膨らんだと伝えられた。"
+      },
+      {
+        "headline": "S&P 500は7月29日以来の大きな下げ、米CPIの再加速を受けて",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2110461962194710974"
+      },
+      {
+        "headline": "韓国KOSPIが続落、6月の高値からの下落が4割に迫ると伝えられる",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2110538312154787969",
+        "note": "テック株の売りが続く。数値は取引所の公表値で確かめたい。"
+      },
+      {
+        "headline": "XRPを財務に持つEvernorthがナスダックで取引開始、Rippleが支援を表明",
+        "sourceUrl": "https://x.com/Ripple/status/2110483668124971087"
+      },
+      {
+        "headline": "SECがCboeに、上場企業のKPIに連動するバイナリーオプションの上場を承認したと報じられる",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2110482921807048971",
+        "note": "対象にはCoinbase、Robinhood、MARAが含まれる。"
+      },
+      {
+        "headline": "VanEckがLidoのステーク型イーサリアムETFの登録取り下げを申請",
+        "sourceUrl": "https://thedefiant.io/converge/tokens/vaneck-seeks-to-withdraw-lido-staked-ethereum-etf-filing",
+        "note": "登録は発効しないまま。SECへの取り下げ申請は10月14日付。"
+      },
+      {
+        "headline": "ChainlinkのData FeedsとData StreamsがStellarで稼働",
+        "sourceUrl": "https://x.com/StellarOrg/status/2110493313904062863",
+        "note": "Stellar上の40億ドル超のトークン化資産を、融資や先物取引に使う下地が整う。"
+      },
+      {
+        "headline": "TRONの累計取引額が30兆ドルを超えたとTRON DAOが発表",
+        "sourceUrl": "https://x.com/trondao/status/2110475563685347744"
+      },
+      {
+        "headline": "メキシコのBitsoが、Western UnionのステーブルコインUSDPTを上場",
+        "sourceUrl": "https://x.com/SolanaFloor/status/2110469258325200902"
+      },
+      {
+        "headline": "Solana上のトークン化株式の取引の65%は米国の市場時間外",
+        "sourceUrl": "https://x.com/tokens/status/2110466906453049788"
+      },
+      {
+        "headline": "AnthropicのQ3売上高が168億ドル、四半期で黒字だったとFTが報道",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2110497672381780034",
+        "note": "前四半期の115億ドルから約5割の増加とされる。"
+      },
+      {
+        "headline": "OpenAI、Appleから持ち出されたとされる企業秘密を使わないと表明",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/openai-vows-not-to-use-trade-secrets-allegedly-taken-from-apple"
+      },
+      {
+        "headline": "Googleが論文や技術文書の誤りをAIで確かめる「Deep Review」を一般公開",
+        "sourceUrl": "https://gigazine.net/news/20261015-google-deep-review/",
+        "note": "無料で週2回まで使える。"
+      },
+      {
+        "headline": "TypeSafeが判断AI「Jev 1.14」を公開、画像の入力を試験的に開放",
+        "sourceUrl": "https://x.com/typesafeai/status/2110536685805355064",
+        "note": "扱える文脈の長さは4倍に。"
+      },
+      {
+        "headline": "Rocket Lab、大型ロケットNeutronの初飛行を2027年に延期",
+        "sourceUrl": "https://x.com/RocketLab/status/2110471787180183817"
+      },
+      {
+        "headline": "ウクライナでStarlinkに条件付きの通信速度制限、一部の軍事作戦に影響",
+        "sourceUrl": "https://gigazine.net/news/20261015-starlink-access-restricted-in-ukraine/"
+      },
+      {
+        "headline": "サイバー攻撃の影響が福岡・佐賀の自治体に、災害情報の配信を止めた自治体も",
+        "sourceUrl": "https://x.com/livedoornews/status/2110520528280617375",
+        "note": "個人情報が漏えいした可能性があるのは福岡県の16市町と佐賀県の12市町。各自治体が不審なメールへの注意を呼びかけている。"
+      },
+      {
+        "headline": "産婦人科向けシステム「アットリンク」に不正アクセス、メドレーがサービスを一時停止",
+        "sourceUrl": "https://x.com/piyokango/status/2110545987538501931"
+      },
+      {
+        "headline": "IDCフロンティアが不正アクセスの調査の第5報を公表",
+        "sourceUrl": "https://x.com/piyokango/status/2110464735586251010"
+      },
+      {
+        "headline": "JPCERT/CCの週次レポート、国内組織への不正アクセスの相次ぐ注意喚起を掲載",
+        "sourceUrl": "https://x.com/jpcert/status/2110538555781267767"
+      },
+      {
+        "headline": "米財務省、長期国債を最大60億ドル買い戻す",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2110464441909461442"
+      },
+      {
+        "headline": "FRBのボウマン副議長が、SVB破綻後の監督の見直しについて講演",
+        "sourceUrl": "https://x.com/federalreserve/status/2110565611919052823"
+      },
+      {
+        "headline": "CardanoのGo実装ノードDingo、1週間で10回のリリース",
+        "sourceUrl": "https://x.com/blinklabs_io/status/2110490513233375320",
+        "note": "Plutus V4の評価と、1コマンドで立ち上がる開発用ネットワークを追加した。"
+      }
+    ],
+    "watch": [
+      "日銀の10月29〜30日の会合に向けて、追加利上げの観測がどこまで強まるか",
+      "アジア株の下げが、ニューヨーク時間の株と暗号資産の先物の持ち高にどう響くか",
+      "ステーク型ETFの申請の行方。VanEckの取り下げが他社の判断に波及するか"
+    ]
+  }
+}
