@@ -36,7 +36,8 @@ import PrivacyPage, { generateMetadata as privacyMetadata } from "@/app/[locale]
 describe("editorial policy page", () => {
   it("states the operator, AI+human verification, sourcing, corrections, and citation policy", async () => {
     render(await EditorialPolicyPage({ params: Promise.resolve({ locale: "ja" }) }));
-    expect(screen.getAllByText(/SITION Group.*田平茂樹/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/SITION \(代表: 田平茂樹\)/).length).toBeGreaterThan(0);
+    expect(document.body.textContent).not.toMatch(/SITION\s+Group/i);
     expect(screen.getByText(/AI.*使っています/)).toBeInTheDocument();
     expect(screen.getByText(/一次ソースで検証/)).toBeInTheDocument();
     expect(screen.getByText(/訂正した旨と更新日時/)).toBeInTheDocument();

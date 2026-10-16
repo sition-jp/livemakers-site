@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 
-import { X_PROFILE_URL } from "@/lib/site";
-
-const SITION_URL = "https://sition.jp";
+import { SITION_URL, X_PROFILE_URL } from "@/lib/site";
 
 /**
  * G3 (2026-09-11 田平氏 GO): 連絡先ページ。連絡手段は X の DM と SITION 公式

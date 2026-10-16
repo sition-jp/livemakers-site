@@ -86,7 +86,7 @@ export default async function AboutPage({
 
         <SectionDivider />
 
-        {/* Section 5 — SITION Group identity */}
+        {/* Section 5 — SITION identity */}
         <section className="mb-16">
           <h2 className="mb-6 text-2xl font-light tracking-title">
             {t("sipoTitle")}

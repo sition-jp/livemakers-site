@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { XIcon } from "@/components/brand/XIcon";
 import { buildFlatNav } from "@/lib/home/nav-model";
-import { X_HANDLE, X_PROFILE_URL } from "@/lib/site";
+import { SITION_URL, X_HANDLE, X_PROFILE_URL } from "@/lib/site";
 
 export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
   const t = useTranslations("footer");
@@ -42,6 +42,11 @@ export function Footer({ futureAtlasNav }: { futureAtlasNav: boolean }) {
           <Link href="/editorial-policy">{t("editorialPolicy")}</Link>
           <Link href="/contact">{t("contact")}</Link>
           <Link href="/privacy">{t("privacy")}</Link>
+          {/* 2026-10-16 田平氏決定: 事業者名は SITION。運営元 sition.jp への
+              戻り導線 (sipo.tokyo / lifemakers.com と同じく 1 本)。 */}
+          <a href={SITION_URL} target="_blank" rel="noopener noreferrer">
+            {t("operator")}
+          </a>
         </nav>
         {/* 公式 X (2026-10-12 田平氏 GO) */}
         <div className="mb-6 flex justify-center">

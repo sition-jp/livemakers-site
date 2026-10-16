@@ -332,7 +332,8 @@ describe("G44 safety gates with validated Production feed overlay", () => {
     // strip のどこにも EN 導線が出ないことを検証する。
     // G3 (2026-09-11): フッタに編集方針・連絡先・プライバシーの 3 本を追加
     // (buildFlatNav = header/footer 共用ナビの外・フッタ専用 2 段目)
-    const FOOTER_LEGAL_LINK_COUNT = 3;
+    // 2026-10-16 田平氏決定 (事業者名 SITION): 同じ段に運営元 sition.jp を 1 本
+    const FOOTER_LEGAL_LINK_COUNT = 4;
     // 2026-10-12: 公式 X をヘッダー (アイコン) とフッターに 1 本ずつ
     const SOCIAL_LINK_COUNT = 2;
     expect(chromeAnchors).toHaveLength(
