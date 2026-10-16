@@ -14,6 +14,7 @@ import type {
   TerminalLiveRadarItem,
 } from "@/lib/livemakers-terminal-preview/types";
 import { findLiveTokenViolations, matchesTerm } from "@/lib/home/matches-term";
+import { mapLandmarkMeter, type LandmarkMeterData } from "@/lib/landmark/meter-feed";
 import type { ProvenanceState } from "@/lib/provenance/window-provenance";
 import type { FocusSeries } from "@/lib/sessions/focus-series";
 import {
@@ -932,6 +933,7 @@ export interface LiveMarketData {
   radar: RadarFeedData | null;
   sessions: SessionsFeedData | null;
   alt20: Alt20Data | null;
+  landmark: LandmarkMeterData | null;
 }
 
 /** "2026-07-04T07:30:00+09:00" → "2026-07-04 07:30 JST"; bare dates pass through. */
@@ -1159,6 +1161,13 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
           })
         : null,
     alt20: mapAlt20((parsed.data as Record<string, unknown>).alt20),
+    // 2026-10-16: 節目の計器盤。home と同じく v0.2 以上だけ読む (lib/landmark/meter-feed.ts)
+    landmark:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V04
+        ? mapLandmarkMeter((parsed.data as Record<string, unknown>).landmark)
+        : null,
   };
 }
 

@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "livemakers_landmark_v0.1",
+  "generatedAtJst": "2026-10-16T19:45:00+09:00",
+  "items": [
+    {
+      "key": "btc_below_200wma",
+      "checkedAtJst": "2026-10-16T19:15:04+09:00",
+      "barDate": "2026-10-11",
+      "nextCheck": "2026-10-18",
+      "state": "cooldown",
+      "eligibleFrom": "2027-08-22",
+      "lastEvent": "2026-06-28",
+      "count": 4,
+      "sinceYear": 2014,
+      "values": {
+        "close": "83,637",
+        "ma": "66,506",
+        "gapPct": "+25.8%"
+      }
+    },
+    {
+      "key": "btc_macd_2w_golden_below_zero",
+      "checkedAtJst": "2026-10-16T19:15:04+09:00",
+      "barDate": "2026-10-04",
+      "nextCheck": "2026-10-18",
+      "state": "after_cross",
+      "eligibleFrom": null,
+      "lastEvent": "2026-08-23",
+      "count": 4,
+      "sinceYear": 2011,
+      "values": {
+        "macd": "-2,894",
+        "signal": "-5,246",
+        "diff": "+2,352"
+      }
+    },
+    {
+      "key": "btc_macd_1m_golden_cross",
+      "checkedAtJst": "2026-10-16T19:15:04+09:00",
+      "barDate": "2026-09-30",
+      "nextCheck": "2026-10-31",
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2023-07-31",
+      "count": 5,
+      "sinceYear": 2013,
+      "values": {
+        "macd": "719",
+        "signal": "4,129",
+        "diff": "-3,410"
+      }
+    },
+    {
+      "key": "btc_mvrv_1",
+      "checkedAtJst": "2026-10-16T19:15:04+09:00",
+      "barDate": "2026-10-15",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2022-06-13",
+      "count": 4,
+      "sinceYear": 2011,
+      "values": {
+        "mvrv": "1.52",
+        "realizedPrice": "53,853",
+        "gap": "+0.52"
+      },
+      "recover": {
+        "state": "waiting_premise",
+        "lastEvent": "2023-01-26",
+        "count": 5
+      }
+    },
+    {
+      "key": "btc_funding_30d_negative",
+      "checkedAtJst": "2026-10-16T19:15:04+09:00",
+      "barDate": "2026-10-15",
+      "nextCheck": null,
+      "state": "cooldown",
+      "eligibleFrom": "2026-11-19",
+      "lastEvent": "2026-02-27",
+      "count": 4,
+      "sinceYear": 2020,
+      "values": {
+        "avg30Pct": "+3.63%"
+      }
+    },
+    {
+      "key": "btc_etf_cum_high",
+      "checkedAtJst": "2026-10-16T19:15:04+09:00",
+      "barDate": "2026-10-02",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2025-05-08",
+      "count": 1,
+      "sinceYear": 2024,
+      "values": {
+        "cum": "576.7",
+        "peak": "627.4",
+        "toPeak": "50.7",
+        "peakDate": "2025-10-09"
+      }
+    }
+  ]
+}
