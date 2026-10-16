@@ -1,0 +1,135 @@
+{
+  "sessionId": "2026-10-16-europe-bridge",
+  "date": "2026-10-16",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-16-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-16-europe-bridge",
+  "publishedAt": "2026-10-17T02:30:09+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261016_1203_bd558153",
+  "asOfJst": "2026-10-16T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月16日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1242 → 1.1221（-0.19%）",
+    "変動幅上位: Coinbase（perp） +6.3% / WTI（perp） +3.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261016_1245_55042a16",
+    "crawlAnchorJst": "2026-10-16T12:03:00+09:00",
+    "writtenAtJst": "2026-10-16T12:45:00+09:00",
+    "lead": "昼の焦点は、指数と規則の側から暗号資産に引かれた線だ。MSCI が新規則を確定し、暗号資産を大量に持つ企業は株価指数から外れうる立場になった。AI では Google の新モデルが難関テストで高得点を出したが、評価の条件で数字は大きく割れる。国内では漏えいが止まらず、IPA が対策の公表に踏み切った。",
+    "items": [
+      {
+        "headline": "MSCI が指数の新規則を確定、Strategy など暗号資産を多く持つ企業が除外されうる立場に",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-15-msci-rules-could-exclude-strategy-mstr-from-indexes-418729",
+        "note": "指数に連動して運用される資金の動きに関わる。適用の時期と対象は今後の見直しで決まる。"
+      },
+      {
+        "headline": "Google の Gemini 4 Argon、ARC-AGI-3 で 97.5%",
+        "sourceUrl": "https://x.com/arcprize/status/2110768288523251762",
+        "note": "ARC Prize の検証値。ただし標準の評価環境では 49.8% で、環境によって数字が大きく割れる。"
+      },
+      {
+        "headline": "Gemini 4 Argon、Antigravity で Google AI Pro の有料利用者に提供開始",
+        "sourceUrl": "https://x.com/antigravity/status/2110866531932316011",
+        "note": "週ごとの専用枠を別に設けた。需要に合わせて提供能力を段階的に広げたとしている。"
+      },
+      {
+        "headline": "Anthropic、数学研究の支援に 500 万ドル Simons 財団が配分を担う",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2110846112152105136",
+        "note": "資金・計算資源・Claude の利用枠を、ワークショップや講演など数学界の取り組みに回す。"
+      },
+      {
+        "headline": "OpenAI、GPT-Rosalind を大学の研究向けに広げる学術プランを開始",
+        "sourceUrl": "https://x.com/OpenAI/status/2110841898076418336"
+      },
+      {
+        "headline": "Google の量子 AI チーム、誤り耐性に欠かせない「マジックステート」で前進",
+        "sourceUrl": "https://x.com/sundarpichai/status/2110804295352488143"
+      },
+      {
+        "headline": "NEAR、MPC 署名ネットワークの運営を報酬制度へ移行 17 社が本番で稼働",
+        "sourceUrl": "https://x.com/NEARProtocol/status/2110825732146713061",
+        "note": "保有者投票で承認され、運営費は裁量の助成ではなくプロトコルの発行から払う形になった。"
+      },
+      {
+        "headline": "NEAR 財団の評議会に Mert 氏、共同創業者が歓迎のコメント",
+        "sourceUrl": "https://x.com/NEARProtocol/status/2110866422348054824"
+      },
+      {
+        "headline": "Farcaster、Balaji 氏の Network School が Neynar から買収",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-10-15-network-school-acquires-farcaster-from-neynar-418720"
+      },
+      {
+        "headline": "米造幣局、2026 会計年度の売上が 10 億ドルを超える",
+        "sourceUrl": "https://x.com/USTreasury/status/2110828624202838273"
+      },
+      {
+        "headline": "テスラ、新しい Roadster を公開 冷ガス噴射で浮く上位構成も",
+        "sourceUrl": "https://x.com/Tesla/status/2110905588402295283",
+        "note": "3 つの構成で、最上位の Rocket は 1 人乗りで飛べると説明した。予約の受付を始めている。"
+      },
+      {
+        "headline": "SpaceX、米宇宙軍の USSF-481 を Falcon 9 で打ち上げ",
+        "sourceUrl": "https://x.com/SpaceX/status/2110880637418954999"
+      },
+      {
+        "headline": "IPA、相次ぐ漏えいを受けて速やかに実施すべき対策を公表",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/16/56474.html",
+        "note": "ソースネクストや防災メール配信などの事案が続いた直後の公表になる。"
+      },
+      {
+        "headline": "三井不動産への不正アクセス、攻撃者による資格情報の不正利用を確認",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/16/56479.html"
+      },
+      {
+        "headline": "Studio に不正アクセス、利用者の情報が流出した可能性",
+        "sourceUrl": "https://x.com/StudioDesign/status/2110901333821976681",
+        "note": "利用者にパスワードの変更と、発行したライブプレビュー URL の削除を求めている。"
+      },
+      {
+        "headline": "コミックシーモアがサービスを停止、不正アクセスの可能性が高いと説明",
+        "sourceUrl": "https://x.com/livedoornews/status/2110895345756721625"
+      },
+      {
+        "headline": "大分県、防災メールの配信システムで新規登録を停止",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/16/56482.html"
+      },
+      {
+        "headline": "京都銀行、アプリでの口座開設で運転免許証による本人確認を停止",
+        "sourceUrl": "https://x.com/nikkei/status/2110668293606441046"
+      },
+      {
+        "headline": "タイムズカーの情報流出で、信用情報機関への悪用防止の申告が殺到",
+        "sourceUrl": "https://x.com/nikkei/status/2110829721051177382"
+      },
+      {
+        "headline": "Nature のスマホ HEMS、太陽光の余りをテスラ車へ自動で充電する機能",
+        "sourceUrl": "https://kaden.watch.impress.co.jp/docs/news/2148271.html"
+      },
+      {
+        "headline": "Midnight の改善提案、メッセージ署名やカストディ口座の認可などに番号",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-improvement-proposals/commit/733d61506430b61467c16ca1d78685b5d929ee20"
+      },
+      {
+        "headline": "トランプ氏、ロシア・中国と非核化について協議していると発言",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-says-he-is-talking-to-russia-and-china-about-denuclearization"
+      },
+      {
+        "headline": "ルーマニア領海で船舶にドローン攻撃と火災、戦域拡大への懸念",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/15/drone-strike-fire-ship-romanian-waters-raising-fears-war-ukraine/"
+      }
+    ],
+    "watch": [
+      "MSCI の新規則が Strategy など個別企業にいつ適用されるか、パッシブ資金の流れの規模",
+      "Gemini 4 Argon のスコアを他の研究機関の評価がどこまで追認するか",
+      "国内の漏えい事案の続報と、IPA の対策を企業がどこまで実施するか"
+    ]
+  }
+}

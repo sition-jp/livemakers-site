@@ -1,0 +1,40 @@
+国内の大型漏えいは今夜も続き、Eストアーの最終報で対象は約2,336万人に確定した。ネット通販の裏側を支えるカート基盤が一社破られると、数千店の購入者が一度に巻き込まれる構造が見えた。海外ではインドネシア株が1998年以来の下げとなり、指数会社の判断ひとつで国ごと資金が逃げる局面になった。暗号資産側では Visa と Strategy が、ステーブルコインとビットコイン関連商品を既存金融の運用へさらに組み込んだ。
+
+## 数値スナップショット
+
+- BTC/USD $80,169 → $82,027（+2.32%）
+- 変動幅上位: Coinbase（perp） +8.4% / BTCボラティリティ（BVIV） -6.5%
+
+| 指標 | 起点 | 現値 | 変化率 |
+| --- | --- | --- | --- |
+| BTC/USD | $80,169 | $82,027 | +2.32%（24h） |
+| Gold（perp） | $4,157.50 | $4,190.50 | +0.79%（24h） |
+
+## 一次情報ハイライト
+
+- [Eストアー「ショップサーブ」の漏えい、最終報で約2,336万人・7,858店に](https://x.com/nhk_news/status/2111059800071237709) — カード情報の一部が含まれるのは約210万人。期間は5月21日〜8月1日で、8月の第2報（約885万件）から対象が広がった。
+- [ヤマト運輸の後払いサービスで約531万件が流出、うち約5万件は届け先の情報](https://x.com/livedoornews/status/2111059580608184327)
+- [日本経済新聞社、クラウドへの不正アクセスで約183万件の個人情報が漏えい](https://x.com/YahooNewsTopics/status/2111007739766006003)
+- [ドコモ端末に緊急地震速報が届かず、北海道〜東海の全利用者に影響](https://x.com/Sankei_news/status/2111045625903296924) — 原因は自社システムの不具合で、復旧は数日以内の見込み。気象庁の誤った速報（のちに取り消し）が対象だった。
+- [政府、トクリュウのスマホを遠隔解析する警職法改正案を閣議決定](https://x.com/polymarketjapan/status/2110876731662106789) — 裁判官の許可状を要件とし、範囲外の情報は消去、利用者には事後に通知する。臨時国会での成立を目指す。
+- [りそな、ネット口座の開設で運転免許証の写真による本人確認を廃止へ](https://x.com/47news_official/status/2111022596338983150)
+- [インドネシア株が急落、MSCI が新興国から外す方向の協議を表明](https://x.com/business/status/2110912053510635795) — 寄り付き直後に売買が一時停止し、下げ幅は1998年以来の大きさになった。
+- [ECB、UniCredit による Commerzbank 買収を承認](https://www.nzz.ch/wirtschaft/die-ezb-erlaubt-unicredit-die-uebernahme-der-commerzbank-jetzt-kann-es-ganz-schnell-gehen-ld.10035634)
+- [ホルムズ海峡でイランの船舶攻撃が増加、米国との再衝突の可能性が高まる](https://www.nzz.ch/international/iran-beschiesst-mehr-schiffe-in-hormuz-ein-neuer-krieg-wird-wahrscheinlicher-ld.10035596)
+- [ウクライナが Yandex のデータセンターを攻撃、ロシアのネット経済に打撃](https://www.nzz.ch/international/ukrainische-schlaege-gegen-rechenzentren-die-angriffe-auf-yandex-treffen-russlands-online-wirtschaft-ins-mark-ld.10035756)
+- [Visa Direct、USDC で送金原資を事前入金する仕組みを本番運用へ](https://www.theblock.co/news/business/2026-10-16-visa-direct-moves-usdc-prefunding-into-commercial-production-with-inyo-global-418802) — 最初の提供先は Inyo Global。2025年の試験運用から商用に移った。
+- [Strategy、優先株 STRC の11月分配当を日次で支払うと条件付きで宣言](https://x.com/Strategy/status/2111065457092337734) — 株主の承認が条件。
+- [Circle、ステーブルコインの需要拡大を受けて新たに40市場への展開を目指す](https://www.coindesk.com/business/2026/10/16/circle-targets-40-new-markets-as-stablecoin-demand-grows-globally)
+- [ビットコインは8万2,000ドル近辺で落ち着く、ETF からの資金流出は続く](https://www.coindesk.com/markets/2026/10/16/live-updates-bitcoin-back-above-usd82-000-zec-jumps-11-as-etf-outflows-continue)
+- [米連邦地裁、Gemini の500万ドルの和解の取り消し申し立てを却下 CFTC の支持も通らず](https://www.coindesk.com/policy/2026/10/16/u-s-judge-rejects-gemini-s-appeal-to-void-usd5-million-settlement-despite-cftc-backing)
+- [Ledger の改造チップを使った詐取で、詐欺師側が約500万ドル相当のビットコインを失う](https://www.coindesk.com/business/2026/10/16/scammer-gets-scammed-in-ledger-spy-chip-exploit-loses-almost-usd5-million-in-bitcoin)
+- [OpenAI、研究モデルがコーディング課題中に他のウォレットのテストネット ETH を無断で使ったと公表](https://www.theblock.co/news/business/2026-10-16-openai-says-research-model-spent-another-wallets-testnet-eth-without-authorization-on-coding-task-418798)
+- [Google の量子コンピューターの成果を受け、暗号の安全性への影響をめぐる議論が広がる](https://www.theblock.co/news/web3/2026-10-16-google-quantum-computing-breakthrough-418787)
+- [テスラが新型 Roadster を公開、生産開始は2028年](https://www.coindesk.com/business/2026/10/16/elon-musk-s-flying-roadster-reveal-sent-tesla-crypto-trading-into-overdrive-while-stock-markets-were-closed) — 株式市場の閉場中、トークン化されたテスラ株の取引が急増した。
+- [Mesh SDK に x402 を実装、Masumi とも互換に](https://x.com/meshsdk/status/2111074153633550701)
+
+## 次の見どころ
+
+- インドネシアについて MSCI の協議文書と、週明けのルピア・外国人の売買動向
+- Eストアーなど国内の漏えい公表が週末も続くか。続報で対象件数や二次被害が変わるか
+- ドコモの緊急地震速報の復旧時期と、気象庁の誤った速報についての原因説明
