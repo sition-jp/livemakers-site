@@ -55,10 +55,10 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     "/articles/series/daily-intel",
     "/articles/series/signal",
     "/articles/series/deep-dive",
-    // 2026-10-16 田平氏 GO: 節目シグナルは Deep Dive の後ろ
-    "/articles/series/landmark",
     "/articles/series/mkt12-morning",
     "/articles/series/mkt12-weekend",
+    // 2026-10-16 田平氏: 節目シグナルは週末の12指標の後ろ (更新が少ないので 12 指標より後に)
+    "/articles/series/landmark",
     "/articles/series/event-risk-radar",
     "/articles/series/weekly-brief",
     "/articles/series/future-map",
