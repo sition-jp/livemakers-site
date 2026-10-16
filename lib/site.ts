@@ -18,6 +18,12 @@ export const EDITORIAL_DESK_NAME = "LiveMakers 編集デスク";
 export const ABOUT_URL = `${SITE_URL}/ja/about`;
 
 /**
+ * 運営元 (事業者) の公式サイト。2026-10-16 田平氏決定で事業者名は「SITION」
+ * (「SITION Group」表記は使わない)。フッターと連絡先ページが同じ値を参照する。
+ */
+export const SITION_URL = "https://sition.jp";
+
+/**
  * 公式 X とフォロー導線 (2026-10-12 田平氏 GO)。ヘッダー・フッター・記事末の
  * フォロー枠・連絡先ページが同じ値を参照する。
  */

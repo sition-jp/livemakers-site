@@ -102,10 +102,26 @@ describe("G41 page chrome", () => {
       expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
       expect(links[0]).toHaveAccessibleName("LiveMakers の X（@LiveMakersCom）");
     }
-    // 外部リンクの許可は公式 X だけ (他の外部 URL は chrome に出さない)
+    // 外部リンクの許可は公式 X と運営元 sition.jp だけ (他の外部 URL は chrome に出さない)
     expect(isAllowedChromeExternalLink("https://x.com/LiveMakersCom")).toBe(true);
+    expect(isAllowedChromeExternalLink("https://sition.jp")).toBe(true);
     expect(isAllowedChromeExternalLink("https://x.com/SITIONjp")).toBe(false);
     expect(isAllowedChromeExternalLink("https://example.com")).toBe(false);
+  });
+
+  it("names the operator SITION and links sition.jp from the footer (2026-10-16 田平氏決定)", () => {
+    const { container } = renderChrome();
+    const links = [...container.querySelectorAll('footer a[href="https://sition.jp"]')];
+    expect(links).toHaveLength(1);
+    expect(links[0]).toHaveAttribute("target", "_blank");
+    expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
+    expect(links[0]).toHaveTextContent("運営: SITION");
+    expect(container.querySelectorAll('header a[href="https://sition.jp"]')).toHaveLength(0);
+    const footer = container.querySelector("footer")!;
+    expect(footer.textContent).toContain("LIVEMAKERS · SITION");
+    expect(footer.textContent).toContain("© 2026 SITION");
+    // 旧表記 (SITION Group / SITION GROUP) はフッターに残さない
+    expect(footer.textContent).not.toMatch(/SITION\s+GROUP/i);
   });
 
   it("reads the snapshot chip time in the provenance strip (2026-08-14 移設)", () => {

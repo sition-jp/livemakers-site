@@ -164,11 +164,12 @@
     "freshness_pre_launch": "SDE が初回データを生成中"
   },
   "footer": {
-    "brand": "LIVEMAKERS · SITION GROUP",
+    "brand": "LIVEMAKERS · SITION",
     "identity": "DRep #13 · SPO ×3 · Midnight Ambassador",
     "dataSources": "データ: Koios · DefiLlama · Hyperliquid · 米財務省 · GitHub",
     "disclaimer": "本レポートは投資助言ではありません。学習・リサーチ目的の情報提供です。",
-    "copyright": "© 2026 SITION Group",
+    "copyright": "© 2026 SITION",
+    "operator": "運営: SITION",
     "editorialPolicy": "編集方針",
     "contact": "お問い合わせ",
     "privacy": "プライバシーポリシー"
