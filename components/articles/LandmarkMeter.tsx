@@ -139,6 +139,10 @@ function LastCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
 
 export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMeterTranslate }) {
   const unavailable = t("unavailable");
+  // 注記の回数は表に出ている行から数える (固定の文字にしない)
+  const counts = rows.flatMap((row) =>
+    row.item ? [row.item.count, ...(row.item.recover ? [row.item.recover.count] : [])] : [],
+  );
   return (
     <section data-landmark-meter aria-labelledby="landmark-meter-title" className="mt-6">
       <h2 id="landmark-meter-title" className="text-lg font-bold text-text-primary">
@@ -176,7 +180,7 @@ export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMet
         ))}
       </ul>
       <ul className="mt-3 space-y-1 text-[11px] leading-5 text-text-tertiary">
-        <li>{t("notes.count")}</li>
+        <li>{t("notes.count", { min: Math.min(...counts), max: Math.max(...counts) })}</li>
         <li>{t("notes.fixed")}</li>
         <li>{t("notes.cooldown")}</li>
         <li>{t("notes.sources")}</li>

@@ -28,9 +28,9 @@ describe("buildLandmarkRows", () => {
   });
 
   it("marks a daily row as fired for 7 days after the event", () => {
-    const within = buildLandmarkRows(data((d) => { d.items[4].lastEvent = "2026-10-09"; }), NOW);
-    expect(within?.[4].badge).toBe("fired");
-    const after = buildLandmarkRows(data((d) => { d.items[4].lastEvent = "2026-10-08"; }), NOW);
+    const within = buildLandmarkRows(data((d) => { d.items[4].lastEvent = "2026-10-10"; }), NOW);
+    expect(within?.[4].badge).toBe("fired"); // 経過 6 日
+    const after = buildLandmarkRows(data((d) => { d.items[4].lastEvent = "2026-10-09"; }), NOW); // 経過 7 日
     expect(after?.[4].badge).toBe("cooldown");
     const recovered = buildLandmarkRows(data((d) => { d.items[3].recover!.lastEvent = "2026-10-15"; }), NOW);
     expect(recovered?.[3].recoverBadge).toBe("fired");

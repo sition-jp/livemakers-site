@@ -25,7 +25,7 @@ export const LANDMARK_BAR_MAX_AGE_DAYS: Record<Cadence, number> = {
   daily: 3,
   etf: 30,
 };
-/** 日次の指標と ETF は、点灯から 7 日間〔点灯〕を出す */
+/** 日次の指標と ETF は、点灯した日を含めて 7 日間〔点灯〕を出す (経過 0〜6 日) */
 export const LANDMARK_FIRED_DAYS = 7;
 /** ETF は Farside の保存が 7 日以上前なら日付を目立たせる */
 export const LANDMARK_ETF_STALE_DAYS = 7;
@@ -77,7 +77,7 @@ function isFresh(item: LandmarkItem, cadence: Cadence, now: Date, today: string)
 function recentlyFired(lastEvent: string | null, today: string): boolean {
   if (!lastEvent) return false;
   const age = daysBetween(lastEvent, today);
-  return age >= 0 && age <= LANDMARK_FIRED_DAYS;
+  return age >= 0 && age < LANDMARK_FIRED_DAYS;
 }
 
 function rowFor(key: LandmarkRowKey, data: LandmarkMeterData, now: Date, today: string): LandmarkRow {

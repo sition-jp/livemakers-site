@@ -617,7 +617,7 @@
         "last": "Last fired"
       },
       "unavailable": "— (awaiting data)",
-      "never": "Not yet fired",
+      "never": "None",
       "badges": {
         "fired": "Fired",
         "cooldown": "Cooling off",
@@ -635,7 +635,7 @@
           "gap": "Gap to average {gapPct}",
           "armed": "Next judged on the week of {date}",
           "cooldown": "Counted again from the week of {date}",
-          "fired": "Fired on the week of {date}",
+          "fired": "Week of {date}",
           "count": "{count} since {sinceYear}"
         },
         "macd2w": {
@@ -648,7 +648,7 @@
           "armed": "Next judged on the bar closing {date}",
           "afterCross": "Fires again only after MACD drops below the signal line",
           "aboveZero": "MACD is above the zero line, so a cross is not counted",
-          "fired": "Fired on the bar closing {date}",
+          "fired": "Bar closing {date}",
           "count": "{count} since {sinceYear}"
         },
         "macd1m": {
@@ -661,7 +661,7 @@
           "gap": "Gap to signal {diff}",
           "armed": "Next judged on the bar closing {date}",
           "afterCross": "Fires again only after MACD drops below the signal line",
-          "fired": "Fired on the bar closing {date}",
+          "fired": "Bar closing {date}",
           "count": "{count} since {sinceYear}"
         },
         "mvrv": {
@@ -704,7 +704,7 @@
         }
       },
       "notes": {
-        "count": "Each indicator has fired only 1 to 5 times. This does not show how prices moved after firing, and it is not a recommendation to buy or sell.",
+        "count": "Each indicator has fired only {min} to {max} times. This does not show how prices moved after firing, and it is not a recommendation to buy or sell.",
         "fixed": "Conditions are recorded and fixed. When one changes, the row shows the date of the change.",
         "cooldown": "Cooling off: soon after the previous signal, meeting the condition is not counted (200-week average 52 weeks, MVRV 365 days, funding 180 days, ETF 90 days). The end moves later if the indicator re-enters the condition.",
         "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / Farside Investors (ETF)"

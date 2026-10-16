@@ -51,6 +51,7 @@ describe("LandmarkMeter", () => {
     expect(text).toContain("最高（2025年10月9日・627.4 億ドル）まで 50.7 億ドル");
     expect(text).toContain("上場（2024 年）以降 1 回");
     expect(text).toContain("2014 年以降 4 回");
+    expect(text).toContain("点灯は指標ごとに過去 1〜5 回で");
     // ETF は Farside の保存が 14 日前なので日付を太字にする
     const etf = container.querySelector('[data-landmark-row="etf"]');
     expect(etf?.querySelector("strong")?.textContent).toBe("10/2 時点・Farside 集計");
@@ -72,7 +73,8 @@ describe("LandmarkMeter", () => {
       d.items[1].lastEvent = d.items[1].barDate;
     });
     const row = container.querySelector('[data-landmark-row="macd2w"]')!;
-    expect(row.textContent).toContain("点灯10/4 確定の足で点灯");
+    expect(row.textContent).toContain("点灯10/4 確定の足");
+    expect(row.textContent).not.toContain("確定の足で点灯");
     expect(row.textContent).not.toContain("上抜け後");
   });
 

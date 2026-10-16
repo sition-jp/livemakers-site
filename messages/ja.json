@@ -617,7 +617,7 @@
         "last": "前回の点灯"
       },
       "unavailable": "—（データ更新待ち）",
-      "never": "まだ点灯していない",
+      "never": "点灯なし",
       "badges": {
         "fired": "点灯",
         "cooldown": "休止期間",
@@ -635,7 +635,7 @@
           "gap": "平均との差 {gapPct}",
           "armed": "次の判定は {date} の週",
           "cooldown": "{date}の週から再び数える",
-          "fired": "{date}の週に点灯",
+          "fired": "{date}の週",
           "count": "{sinceYear} 年以降 {count} 回"
         },
         "macd2w": {
@@ -648,7 +648,7 @@
           "armed": "次の判定は {date} の確定足",
           "afterCross": "次の点灯は、一度シグナル線を下回ってから",
           "aboveZero": "MACD がゼロ線の上にあるため、上抜けても数えない",
-          "fired": "{date} 確定の足で点灯",
+          "fired": "{date} 確定の足",
           "count": "{sinceYear} 年以降 {count} 回"
         },
         "macd1m": {
@@ -661,7 +661,7 @@
           "gap": "シグナルとの差 {diff}",
           "armed": "次の判定は {date} の確定足",
           "afterCross": "次の点灯は、一度シグナル線を下回ってから",
-          "fired": "{date} 確定の足で点灯",
+          "fired": "{date} 確定の足",
           "count": "{sinceYear} 年以降 {count} 回"
         },
         "mvrv": {
@@ -704,7 +704,7 @@
         }
       },
       "notes": {
-        "count": "点灯は指標ごとに過去 1〜5 回で、回数はわずかです。点灯の後に価格がどう動いたかを示すものではなく、売買をすすめるものでもありません。",
+        "count": "点灯は指標ごとに過去 {min}〜{max} 回で、回数はわずかです。点灯の後に価格がどう動いたかを示すものではなく、売買をすすめるものでもありません。",
         "fixed": "条件は記録に残して固定しています。変えたときは、その指標の行に変更日を示します。",
         "cooldown": "休止期間: 前回から日が浅い間は、条件を満たしても節目として数えません（200 週平均は 52 週、MVRV は 365 日、ファンディングは 180 日、ETF は 90 日）。休止期間の終わりは、その後また条件の内側に入ると先へ延びます。",
         "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ Farside Investors（ETF）"
