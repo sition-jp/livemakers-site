@@ -606,6 +606,110 @@
       "atlasPublishedHeading": "未来アトラス",
       "atlasUnpublishedHeading": "次の時代の地図",
       "editorialDesk": "LiveMakers 編集デスク"
+    },
+    "landmarkMeter": {
+      "title": "節目の計器盤",
+      "lead": "節目シグナルの 6 つの指標が、いまどこにあるか。確定した足だけで判定し、毎日 10 時台と 19 時台に更新します。",
+      "columns": {
+        "indicator": "指標",
+        "now": "いま",
+        "condition": "点灯する条件",
+        "gap": "条件との差",
+        "last": "前回の点灯"
+      },
+      "unavailable": "—（データ更新待ち）",
+      "never": "まだ点灯していない",
+      "badges": {
+        "fired": "点灯",
+        "cooldown": "休止期間",
+        "afterCross": "上抜け後",
+        "aboveZero": "対象外",
+        "waitingPremise": "前提待ち"
+      },
+      "rows": {
+        "ma200w": {
+          "name": "200 週移動平均",
+          "unit": "週足",
+          "now": "終値 {close} ドル・200 週平均 {ma} ドル",
+          "asOf": "{date} の週",
+          "condition": "週足の終値が 200 週平均を下回る",
+          "gap": "平均との差 {gapPct}",
+          "armed": "次の判定は {date} の週",
+          "cooldown": "{date}の週から再び数える",
+          "fired": "{date}の週に点灯",
+          "count": "{sinceYear} 年以降 {count} 回"
+        },
+        "macd2w": {
+          "name": "2 週足 MACD",
+          "unit": "2 週足",
+          "now": "MACD {macd}・シグナル {signal}",
+          "asOf": "{date} 確定",
+          "condition": "MACD がゼロ線の下で、シグナル線を下から上に抜ける",
+          "gap": "シグナルとの差 {diff}",
+          "armed": "次の判定は {date} の確定足",
+          "afterCross": "次の点灯は、一度シグナル線を下回ってから",
+          "aboveZero": "MACD がゼロ線の上にあるため、上抜けても数えない",
+          "fired": "{date} 確定の足で点灯",
+          "count": "{sinceYear} 年以降 {count} 回"
+        },
+        "macd1m": {
+          "name": "月足 MACD",
+          "unit": "月足",
+          "now": "MACD {macd}・シグナル {signal}",
+          "asOf": "{date} 確定",
+          "condition": "月末の確定足で、MACD がシグナル線を下から上に抜ける（ゼロ線の上下を問わない）",
+          "changed": "2026年10月3日に、ゼロ線の下に限る形から上下を問わない形へ変更",
+          "gap": "シグナルとの差 {diff}",
+          "armed": "次の判定は {date} の確定足",
+          "afterCross": "次の点灯は、一度シグナル線を下回ってから",
+          "fired": "{date} 確定の足で点灯",
+          "count": "{sinceYear} 年以降 {count} 回"
+        },
+        "mvrv": {
+          "name": "MVRV",
+          "unit": "保有者全体の損益分岐",
+          "now": "MVRV {mvrv}・実現価格 {realizedPrice} ドル",
+          "asOf": "{date}",
+          "condition": "割れ: MVRV が 1.0 を下回る",
+          "conditionRecover": "回復: 30 日以上の割れの後、1.0 以上を 14 日続ける",
+          "gap": "1.0 との差 {gap}",
+          "cooldown": "{date}から再び数える",
+          "fired": "{date}に 1.0 を下回った",
+          "waitingPremise": "回復は、割れた後に判定",
+          "recoverFired": "{date}に回復",
+          "last": "割れ {date}（{count} 回）",
+          "lastRecover": "回復 {date}（{count} 回）",
+          "count": "{sinceYear} 年以降"
+        },
+        "funding": {
+          "name": "ファンディングレート",
+          "unit": "30 日平均",
+          "now": "年率 {avg30Pct}",
+          "asOf": "{date}・Binance BTCUSDT 永久先物",
+          "condition": "30 日平均がマイナスに転じる",
+          "gap": "0 との差 {avg30Pct}",
+          "cooldown": "{date}から再び数える",
+          "fired": "{date}にマイナスに転じた",
+          "count": "{sinceYear} 年以降 {count} 回"
+        },
+        "etf": {
+          "name": "米国 BTC 現物 ETF",
+          "unit": "累計純流入",
+          "now": "累計 {cum} 億ドル",
+          "asOf": "{date} 時点・Farside 集計",
+          "condition": "累計が過去最高を更新する",
+          "gap": "最高（{peakDate}・{peak} 億ドル）まで {toPeak} 億ドル",
+          "cooldown": "{date}から再び数える",
+          "fired": "{date}に最高を更新",
+          "count": "上場（{sinceYear} 年）以降 {count} 回"
+        }
+      },
+      "notes": {
+        "count": "点灯は指標ごとに過去 1〜5 回で、回数はわずかです。点灯の後に価格がどう動いたかを示すものではなく、売買をすすめるものでもありません。",
+        "fixed": "条件は記録に残して固定しています。変えたときは、その指標の行に変更日を示します。",
+        "cooldown": "休止期間: 前回から日が浅い間は、条件を満たしても節目として数えません（200 週平均は 52 週、MVRV は 365 日、ファンディングは 180 日、ETF は 90 日）。休止期間の終わりは、その後また条件の内側に入ると先へ延びます。",
+        "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ Farside Investors（ETF）"
+      }
     }
   },
   "sessions": {
