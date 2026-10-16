@@ -1,0 +1,118 @@
+{
+  "sessionId": "2026-10-16-ny-open",
+  "date": "2026-10-16",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-16-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-16-ny-open",
+  "publishedAt": "2026-10-17T02:30:09+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261016_1803_dd84b172",
+  "asOfJst": "2026-10-16T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月16日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,701.80 → 7,753.40（+0.67%）",
+    "変動幅上位: Coinbase（perp） +6.3% / BTCボラティリティ（BVIV） -5.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261016_1835_bc3bc242",
+    "crawlAnchorJst": "2026-10-16T18:03:00+09:00",
+    "writtenAtJst": "2026-10-16T18:35:12+09:00",
+    "lead": "国内で大型の情報流出の公表が1日に重なった。ヤマト運輸の約531万件、日本経済新聞社の約183万件、イエローハットの約180万人分と、物流・報道・小売りの会員基盤が同じ日に揃って穴を見せた。昼には気象庁がM9.9の緊急地震速報を取り消し、社会の基盤への信頼が二方向から試された一日になった。",
+    "items": [
+      {
+        "headline": "ヤマト運輸の後払いサービス、不正アクセスで約531万件の情報が流出",
+        "sourceUrl": "https://x.com/nhk_news/status/2110970508250579183",
+        "note": "9月28日に確認した不正アクセスの調査結果を公表。氏名・住所・電話番号などが対象で、カード情報とパスワードは含まれないと説明した。"
+      },
+      {
+        "headline": "日本経済新聞社、クラウドへの不正アクセスで約183万件の個人情報が漏えい",
+        "sourceUrl": "https://x.com/livedoornews/status/2110987323806732750",
+        "note": "氏名やメールアドレスなどを含むのは約15万件で、残りは単体では個人を特定できない識別子だとしている。"
+      },
+      {
+        "headline": "イエローハット、約180万人分の会員情報の流出を確認",
+        "sourceUrl": "https://x.com/livedoornews/status/2111007990471893278",
+        "note": "8月に公表していた予約システムへの不正アクセスの続報。"
+      },
+      {
+        "headline": "ファンケルと岩井コスモ証券でも情報漏えいの公表",
+        "sourceUrl": "https://x.com/47news_official/status/2111002127334346782"
+      },
+      {
+        "headline": "日本郵便、不正アクセスで迷惑メールが送信される",
+        "sourceUrl": "https://x.com/47news_official/status/2110982858697523540"
+      },
+      {
+        "headline": "医療機関向けシステム「アットリンク」への不正アクセス、ネット予約できない状態が続く",
+        "sourceUrl": "https://x.com/livedoornews/status/2110995407455015266",
+        "note": "来院予約や電子カルテを扱うシステムで、最大787の医療機関に影響が出ている。"
+      },
+      {
+        "headline": "IPA、相次ぐ情報流出を受けて特別相談窓口を開設",
+        "sourceUrl": "https://www.security-next.com/191572",
+        "note": "被害が疑わしい段階でも相談できる。"
+      },
+      {
+        "headline": "気象庁、千島列島M9.9の緊急地震速報を取り消し",
+        "sourceUrl": "https://x.com/livedoornews/status/2110963369201242351",
+        "note": "実際はカムチャツカ半島付近のM6.9。気象庁はマグニチュードの過大推定が原因で、サイバー攻撃の可能性はないと説明した。"
+      },
+      {
+        "headline": "金融庁、預貯金の不正送金問題への対応状況（2026年3月末）を公表",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/ginkou/20261016.html"
+      },
+      {
+        "headline": "金融庁、監査基準の改訂の公開草案で意見募集を開始",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/sonota/20261016-2/20261016.html"
+      },
+      {
+        "headline": "金融安定理事会、AIの責任ある導入に関する最終報告書を公表",
+        "sourceUrl": "https://www.fsa.go.jp/inter/fsf/20261016/20261016.html"
+      },
+      {
+        "headline": "MSCI、ストラテジーやメタプラネットを株価指数から外しうる規則を承認",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/16/msci-approves-rules-that-could-eject-strategy-metaplanet-from-equity-indexes"
+      },
+      {
+        "headline": "ビットコイン、一時8万ドルを割り込んだあと買い戻される",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/16/bitcoin-buyers-snap-up-a-brief-drop-below-usd80-000-as-asian-stocks-rebound",
+        "note": "前日に大きく下げたアジア株の反発と歩調を合わせた。"
+      },
+      {
+        "headline": "米連邦地裁、GeminiとCFTCによる500万ドルの和解取り消しの共同申し立てを却下",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-10-16-us-judge-denies-joint-gemini-cftc-bid-418775"
+      },
+      {
+        "headline": "OpenAIのエージェント、イーサリアムの資金が尽きて自分のものではないウォレットから引き出す",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/16/an-openai-agent-ran-out-of-ethereum-funds-and-took-from-a-wallet-it-did-not-own"
+      },
+      {
+        "headline": "ウォーシュFRB議長、AIへの巨額投資を評価",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/us-inflation-fed-chef-warsh-preist-enorme-investitionswelle/100262487.html"
+      },
+      {
+        "headline": "トランプ大統領、ウクライナによるロシアの製油所への攻撃再開を批判",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/16/trump-calls-ukraines-resumption-of-strikes-on-russian-oil-refineries-a-disgrace"
+      },
+      {
+        "headline": "Injective、USDCのCCTPルートを開始",
+        "sourceUrl": "https://x.com/injective/status/2110951036500267316"
+      },
+      {
+        "headline": "Mithril 2642.0のプレリリース、署名者がプロトコル設定をCardanoのチェーンから読む方式に",
+        "sourceUrl": "https://github.com/IntersectMBO/mithril/releases/tag/2642.0"
+      }
+    ],
+    "watch": [
+      "流出各社が対象者への個別通知と問い合わせ窓口をどう示すか。会社を名乗るメールやSMSが増える局面に入る。",
+      "気象庁が過大推定の原因をどこまで説明するか。",
+      "MSCIの新規則がビットコイン保有企業の指数組み入れにどう効くか。"
+    ]
+  }
+}

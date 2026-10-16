@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-10-16-asia-open",
+  "date": "2026-10-16",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-16-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-16-asia-open",
+  "publishedAt": "2026-10-17T02:30:09+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261016_0730_d7a48043",
+  "asOfJst": "2026-10-16T07:30:05+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月16日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 66,370 → 65,521（-1.28%）",
+    "変動幅上位: Coinbase（perp） +6.3% / WTI（perp） +2.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261016_0605_a2f053f2",
+    "crawlAnchorJst": "2026-10-16T05:03:00+09:00",
+    "writtenAtJst": "2026-10-16T06:05:36+09:00",
+    "lead": "米国のインフレ指標が2日続けて上に振れ、韓国と日本の株が急落した。米国債は買われ、ビットコインは8万ドルを境に往復している。規制の側では法案が止まったまま規則と制裁で枠が作られ、決済レールでは Mastercard や Ripple、Cross River が同じ日に動いた。日本では3,300万件超の漏えいが1日で公表された。",
+    "items": [
+      {
+        "headline": "半導体株の時価総額が10月6日から2兆ドル超減少",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2110793326190600267",
+        "note": "半導体 ETF は8営業日続落の瀬戸際。"
+      },
+      {
+        "headline": "UBS は FRB が12月と2027年3月に利上げすると予想",
+        "sourceUrl": "https://x.com/Kalshi/status/2110777730908528663",
+        "note": "9月の物価の上振れを受けた見方として伝えられた。"
+      },
+      {
+        "headline": "トランプ大統領、連邦ディーゼル税の停止を「支持するかもしれない」",
+        "sourceUrl": "https://x.com/RapidResponse47/status/2110744475253588019",
+        "note": "イランが敗れれば原油と軽油は急落すると発言。"
+      },
+      {
+        "headline": "米財務省、イランの代理勢力を支えるイラクの銀行を制裁",
+        "sourceUrl": "https://x.com/USTreasury/status/2110805296662614448",
+        "note": "「経済的追放作戦」の一環。FinCEN は宗教団体経由の資金の報告を要請。"
+      },
+      {
+        "headline": "通貨監督庁、GENIUS 法の最終規則を10月末までに出す見通しと伝えられた",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2110752387464106381",
+        "note": "ホワイトハウスの暗号資産担当は空席のまま。"
+      },
+      {
+        "headline": "Mastercard と BVNK が法定通貨とステーブルコインを一つの基盤で扱う仕組みを開始",
+        "sourceUrl": "https://decrypt.co/381057/mastercard-bvnk-global-money-platform-fiat-stablecoins"
+      },
+      {
+        "headline": "Cross River Bank が Ripple の RLUSD を銀行の中核の仕組みに組み込む",
+        "sourceUrl": "https://x.com/crossriverbank/status/2110737381074600182"
+      },
+      {
+        "headline": "Anthropic、METR のチームに社員に近い権限を与え安全の取り組みを外部評価",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2110784662071398807"
+      },
+      {
+        "headline": "Cardano の Plutus の保守が IO Labs から Midgard Labs へ",
+        "sourceUrl": "https://x.com/Cardano/status/2110769938755420374",
+        "note": "独立チームへの移管は5つ目。"
+      },
+      {
+        "headline": "OpenAI、日本語など新しい声を加えた GPT-Live-1.1 を全利用者に配信",
+        "sourceUrl": "https://x.com/OpenAI/status/2110797830361436604"
+      },
+      {
+        "headline": "Meta、8160億パラメーターの公開モデル Muse Spark Open を公開",
+        "sourceUrl": "https://x.com/AIatMeta/status/2110779754274292212",
+        "note": "重みは配布され、Mac Studio 2台でも動くという。"
+      },
+      {
+        "headline": "Google Quantum AI、「マジック状態の培養」を Willow で実証し誤りを40分の1に",
+        "sourceUrl": "https://x.com/GoogleQuantumAI/status/2110799626554998921",
+        "note": "Science に発表。"
+      }
+    ],
+    "watch": [
+      "FRB 高官の発言と10月会合の織り込み。米2年債の利回りの方向",
+      "通貨監督庁の GENIUS 法の最終規則が10月末までに出るか",
+      "ソースネクストとバーガーキングの対象者への連絡と、防災情報の配信の再開"
+    ]
+  }
+}
