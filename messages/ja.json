@@ -611,7 +611,6 @@
       "title": "節目の計器盤",
       "lead": "節目シグナルの 6 つの指標が、いまどこにあるか。確定した足だけで判定し、毎日 10 時台と 19 時台に更新します。",
       "columns": {
-        "indicator": "指標",
         "now": "いま",
         "condition": "点灯する条件",
         "gap": "条件との差",
@@ -687,7 +686,7 @@
           "now": "年率 {avg30Pct}",
           "asOf": "{date}・Binance BTCUSDT 永久先物",
           "condition": "30 日平均がマイナスに転じる",
-          "gap": "0 との差 {avg30Pct}",
+          "gap": "0% との差 {avg30Pct}",
           "cooldown": "{date}から再び数える",
           "fired": "{date}にマイナスに転じた",
           "count": "{sinceYear} 年以降 {count} 回"

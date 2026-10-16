@@ -611,7 +611,6 @@
       "title": "Landmark gauges",
       "lead": "Where each of the six landmark-signal indicators stands now. Judged on closed bars only; updated daily around 10:00 and 19:00 JST.",
       "columns": {
-        "indicator": "Indicator",
         "now": "Now",
         "condition": "Fires when",
         "gap": "Gap to condition",
@@ -687,7 +686,7 @@
           "now": "Annualized {avg30Pct}",
           "asOf": "{date} / Binance BTCUSDT perpetual",
           "condition": "The 30-day average turns negative",
-          "gap": "Gap to 0 {avg30Pct}",
+          "gap": "Gap to 0% {avg30Pct}",
           "cooldown": "Counted again from {date}",
           "fired": "Turned negative on {date}",
           "count": "{count} since {sinceYear}"
