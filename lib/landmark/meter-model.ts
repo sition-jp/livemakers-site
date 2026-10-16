@@ -27,7 +27,7 @@ export const LANDMARK_BAR_MAX_AGE_DAYS: Record<Cadence, number> = {
 };
 /** 日次の指標と ETF は、点灯した日を含めて 7 日間〔点灯〕を出す (経過 0〜6 日) */
 export const LANDMARK_FIRED_DAYS = 7;
-/** ETF は Farside の保存が 7 日以上前なら日付を目立たせる */
+/** ETF は値の日付が 7 日以上前なら日付を目立たせる (取得元 TFTC の更新が止まったとき) */
 export const LANDMARK_ETF_STALE_DAYS = 7;
 
 const ROW_META: Record<LandmarkRowKey, { copyKey: LandmarkCopyKey; cadence: Cadence }> = {

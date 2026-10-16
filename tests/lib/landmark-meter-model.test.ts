@@ -18,7 +18,7 @@ describe("buildLandmarkRows", () => {
     expect(rows?.map((row) => row.copyKey)).toEqual(["ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf"]);
     expect(rows?.map((row) => row.badge)).toEqual(["cooldown", "afterCross", null, null, "cooldown", null]);
     expect(rows?.[3].recoverBadge).toBe("waitingPremise");
-    expect(rows?.[5].staleEmphasis).toBe(true); // Farside の保存が 10/2 = 14 日前
+    expect(rows?.[5].staleEmphasis).toBe(true); // fixture の ETF は 10/2 = 14 日前
     expect(rows?.[0].staleEmphasis).toBe(false);
   });
 

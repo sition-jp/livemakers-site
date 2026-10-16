@@ -695,7 +695,7 @@
           "name": "US spot BTC ETFs",
           "unit": "Cumulative net inflow",
           "now": "Cumulative {cum} (units of $100M)",
-          "asOf": "as of {date} / Farside",
+          "asOf": "as of {date} / TFTC",
           "condition": "The cumulative total sets a new high",
           "gap": "{toPeak} below the high ({peakDate}, {peak}; units of $100M)",
           "cooldown": "Counted again from {date}",
@@ -707,7 +707,7 @@
         "count": "Each indicator has fired only {min} to {max} times. This does not show how prices moved after firing, and it is not a recommendation to buy or sell.",
         "fixed": "Conditions are recorded and fixed. When one changes, the row shows the date of the change.",
         "cooldown": "Cooling off: soon after the previous signal, meeting the condition is not counted (200-week average 52 weeks, MVRV 365 days, funding 180 days, ETF 90 days). The end moves later if the indicator re-enters the condition.",
-        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / Farside Investors (ETF)"
+        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / TFTC (tftc.io/bitcoin-etf-flows), CC BY 4.0 (ETF)"
       }
     }
   },

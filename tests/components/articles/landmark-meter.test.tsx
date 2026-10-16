@@ -52,9 +52,11 @@ describe("LandmarkMeter", () => {
     expect(text).toContain("上場（2024 年）以降 1 回");
     expect(text).toContain("2014 年以降 4 回");
     expect(text).toContain("点灯は指標ごとに過去 1〜5 回で");
-    // ETF は Farside の保存が 14 日前なので日付を太字にする
+    expect(text).toContain("TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0");
+    expect(text).not.toContain("Farside");
+    // fixture の ETF は値の日付が 14 日前なので日付を太字にする
     const etf = container.querySelector('[data-landmark-row="etf"]');
-    expect(etf?.querySelector("strong")?.textContent).toBe("10/2 時点・Farside 集計");
+    expect(etf?.querySelector("strong")?.textContent).toBe("10/2 時点・TFTC 集計");
     expect(container.querySelector('[data-landmark-row="ma200w"] strong')).toBeNull();
   });
 
