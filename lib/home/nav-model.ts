@@ -28,9 +28,11 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
     { key: "flash", href: seriesHref("flash") },
     { key: "dailyIntel", href: seriesHref("daily-intel") },
     { key: "signal", href: seriesHref("signal") },
-    // 2026-10-03 田平氏 GO: 節目シグナル (数年に一度の節目を検証つきで出す Signal の独立シリーズ)
-    { key: "landmark", href: seriesHref("landmark") },
     { key: "deepDive", href: seriesHref("deep-dive") },
+    // 2026-10-03 田平氏 GO: 節目シグナル (数年に一度の節目を検証つきで出す Signal の独立シリーズ)。
+    // 2026-10-16 田平氏 GO: Signal 直後 → Deep Dive の後ろへ (更新頻度の低いシリーズを
+    // Signal と Deep Dive の間に挟まない・12指標の手前で記事とデータの境目に置く)
+    { key: "landmark", href: seriesHref("landmark") },
     { key: "mkt12Morning", href: seriesHref("mkt12-morning") },
     { key: "mkt12Weekend", href: seriesHref("mkt12-weekend") },
     { key: "eventRiskRadar", href: seriesHref("event-risk-radar") },
@@ -57,7 +59,7 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
  * フラット 1 列ナビ (2026-08-14 田平氏指示 — dropdown 廃止・左揃え)。
  * ヘッダ 1 段目・モバイルパネル・フッタが同一順で共有する:
  * トップ → Intelligence Terminal → 速報 → Daily Intel → Signal → Deep Dive →
- * 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
+ * 節目シグナル → 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
  * 次の時代の地図 (published 時は 未来アトラス) → About
  */
 export function buildFlatNav(surfacePublished: boolean): NavItem[] {

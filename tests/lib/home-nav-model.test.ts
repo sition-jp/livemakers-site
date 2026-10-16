@@ -2,14 +2,14 @@ import { describe, expect, it } from "vitest";
 import { buildNavModel } from "@/lib/home/nav-model";
 
 describe("buildNavModel", () => {
-  it("keeps 10 dropdown items (flash first, landmark after signal) and no top-level atlas while unpublished (G46 §11.3)", () => {
+  it("keeps 10 dropdown items (flash first, landmark after deepDive) and no top-level atlas while unpublished (G46 §11.3)", () => {
     const nav = buildNavModel(false);
     expect(nav.articlesGroup.map((i) => i.key)).toEqual([
       "flash",
       "dailyIntel",
       "signal",
-      "landmark",
       "deepDive",
+      "landmark",
       "mkt12Morning",
       "mkt12Weekend",
       "eventRiskRadar",
