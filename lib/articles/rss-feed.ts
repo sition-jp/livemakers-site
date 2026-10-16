@@ -90,7 +90,7 @@ export function buildRssFeedXml(
   <channel>
     <title>LiveMakers</title>
     <link>${SITE_URL}/ja</link>
-    <description>LiveMakers — SITION Group の金融再起動インテリジェンス・ターミナル</description>
+    <description>LiveMakers — SITION の金融再起動インテリジェンス・ターミナル</description>
     <language>ja</language>
     <lastBuildDate>${lastBuildDate}</lastBuildDate>
     <atom:link href="${escapeXml(selfUrl)}" rel="self" type="application/rss+xml" />

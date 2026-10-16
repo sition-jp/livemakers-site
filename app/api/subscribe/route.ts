@@ -35,7 +35,7 @@ function welcomeText(locale: "en" | "ja"): string {
       "登録解除はいつでもこちらから:",
       "https://livemakers.com/ja/subscribe",
       "",
-      "— LiveMakers / SITION Group",
+      "— LiveMakers / SITION",
     ].join("\n");
   }
   return [
@@ -51,7 +51,7 @@ function welcomeText(locale: "en" | "ja"): string {
     "Unsubscribe at any time:",
     "https://livemakers.com/en/subscribe",
     "",
-    "— LiveMakers / SITION Group",
+    "— LiveMakers / SITION",
   ].join("\n");
 }
 
