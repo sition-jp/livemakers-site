@@ -56,6 +56,8 @@ vi.mock("@/lib/future-atlas/load", () => ({
 vi.mock("@/lib/home/market-snapshot", () => ({
   loadMarketSnapshot: vi.fn(() => ({ dataDate: "2026-07-19" })),
 }));
+// シリーズページは節目の計器盤のために feed を読む (landmark だけ)。このテストの対象外なので feed は無し
+vi.mock("@/lib/terminal/live-market-feed", () => ({ fetchLiveMarketData: vi.fn(async () => null) }));
 vi.mock("@/components/home/ArticleRow", () => ({
   FAMILY_COLORS: { "daily-intel": "#fff", signal: "#fff" },
   ArticleRow: ({ article }: { article: { articleId: string; titleJa: string; href: string } }) => (
