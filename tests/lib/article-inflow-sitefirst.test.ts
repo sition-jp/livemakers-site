@@ -127,7 +127,7 @@ describe("site-first provenance (T4-1 mirror of sub-repo contract)", () => {
   });
 
   // INFLOW-G2 (P0 承認 2026-08-07): mirror 記事もサムネ 3 項目を運べる。
-  // origin / bytes checksum の検証は thumbnail-verification.ts 側の責務
+  // origin / path checksum の検証は thumbnail-verification.ts 側の責務
   it("accepts a mirror article carrying the thumbnail atomic union", () => {
     const parsed = parseArticleInflowFeed(feedWith([
       {
