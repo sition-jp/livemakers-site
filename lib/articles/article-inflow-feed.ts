@@ -177,9 +177,10 @@ async function fetchValidatedArticleInflowFeed(
           console.warn("[article-inflow] feed contract rejected; using repository-only content");
           return null;
         }
-        // T1a (INFLOW-G2 D3): サムネは origin / atomic union / bytes checksum を
-        // 検証し、通らない記事はサムネのみ剥がす (記事と feed は生存)
-        return await stripUnverifiedThumbnails(feed, fetcher);
+        // T1a (INFLOW-G2 D3): サムネは origin / atomic union / path checksum を
+        // 検証し、通らない記事はサムネのみ剥がす (記事と feed は生存)。
+        // bytes は取りに行かない (2026-10-17・照合は書き込み側の readback)
+        return stripUnverifiedThumbnails(feed);
       }
     } catch (error) {
       lastFailure = describeFailure(error);
