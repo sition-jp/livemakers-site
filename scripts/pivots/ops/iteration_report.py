@@ -28,13 +28,13 @@ import argparse
 import json
 import sys
 from contextlib import contextmanager
-from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterator, Optional, Sequence
 
 from producer import horizon_inputs
 from producer.backtest import HIT_DEFINITIONS
+from producer import daily_series
 from producer.bulk_history import BulkHistory
 from producer.calibration import (
     BIN_EDGES,
@@ -47,15 +47,8 @@ from producer.calibration import (
     predict,
     to_json,
 )
-from producer.compose_backtest import (
-    _deriv_series,
-    _hit_context,
-    _historical_scores,
-    _precompute_asset_series,
-)
 from producer.horizon_inputs import IT_2026_10_RULES, LEGACY_RULES, RuleSet
-from producer.outcomes import TURN_MIN_STRENGTH, Outcome, move_outcome, turn_outcome
-from producer.turns import STRENGTH_REVERSAL, find_turns
+from producer.outcomes import Outcome
 from producer.types import ASSETS, HORIZONS, Horizon
 
 ITERATION = "it-2026-10"
@@ -256,64 +249,24 @@ def _verdict(judged: bool, holdout: dict) -> dict:
 # --------------------------------------------------------------------------
 
 
-@dataclass
-class AssetInput:
-    dates: list[str]
-    closes: list[float]
-    highs: list[float]
-    lows: list[float]
-    volumes: list[float]
-    history: BulkHistory
-
-
-@dataclass
-class _Prepared:
-    inp: AssetInput
-    series: object
-    deriv: list
-    has_deriv: list[bool]
+# 揃え方・スコア・判定は live の「毎日の確率の履歴」と共有する (Ruling R11)。
+AssetInput = daily_series.AssetInput
+_Prepared = daily_series.Prepared
 
 
 def _prepare(inp: AssetInput) -> _Prepared:
-    series = _precompute_asset_series(inp.closes, inp.highs, inp.lows)
-    open_times = [
-        int(datetime.strptime(d, "%Y-%m-%d").replace(tzinfo=timezone.utc).timestamp() * 1000)
-        for d in inp.dates
-    ]
-    deriv = _deriv_series(open_times, inp.history)
-    has = [
-        inp.history.oi_growth_pct(d) is not None and inp.history.abs_funding(d) is not None
-        for d in inp.dates
-    ]
-    return _Prepared(inp=inp, series=series, deriv=deriv, has_deriv=has)
+    return daily_series.prepare(inp)
 
 
 def _scores(
     p: _Prepared, horizon: Horizon, rules: RuleSet
 ) -> tuple[list[Optional[int]], list[Optional[int]]]:
     """(price_pivot, volatility_pivot)。スコアなしの日は None。"""
-    n = len(p.inp.dates)
-    pp: list[Optional[int]] = [None] * n
-    vp: list[Optional[int]] = [None] * n
-    for t in range(n):
-        if not p.has_deriv[t]:
-            continue
-        a, b, overall = _historical_scores(
-            p.inp.closes, p.inp.volumes, p.series, p.deriv, t, horizon, rules
-        )
-        if (a, b, overall) == (0, 0, 0):  # ウォームアップ中 (実スコアなら overall ≥ 6)
-            continue
-        pp[t], vp[t] = a, b
-    return pp, vp
+    return daily_series.scores(p, horizon, rules)
 
 
 def _outcomes(p: _Prepared, event: str, horizon: Horizon) -> list[Outcome]:
-    closes = p.inp.closes
-    n = len(closes)
-    if event == "turn":
-        turns = find_turns(closes, STRENGTH_REVERSAL[TURN_MIN_STRENGTH[horizon]])
-        return [turn_outcome(closes, t, horizon, turns=turns) for t in range(n)]
-    return [move_outcome(closes, t, horizon, _hit_context(p.series, t)) for t in range(n)]
+    return daily_series.outcomes(p, event, horizon)
 
 
 @contextmanager
@@ -665,8 +618,7 @@ def render_markdown(report: dict) -> str:
 # --------------------------------------------------------------------------
 
 
-def _day_ms(day: str) -> int:
-    return int(datetime.strptime(day, "%Y-%m-%d").replace(tzinfo=timezone.utc).timestamp() * 1000)
+_day_ms = daily_series.day_ms
 
 
 def _load_inputs(bulk_cache: Path, fetcher=None) -> dict[str, AssetInput]:
@@ -684,14 +636,7 @@ def _load_inputs(bulk_cache: Path, fetcher=None) -> dict[str, AssetInput]:
         hist = BulkHistory.load(bulk_cache, f"{a}USDT", DERIV_HISTORY_START_DAY, end_day)
         if hist.first_day() is None:
             raise SystemExit(f"{a}: bulk cache に派生データが無い: {bulk_cache}")
-        out[a] = AssetInput(
-            dates=[datetime.fromtimestamp(c.open_time / 1000, tz=timezone.utc).strftime("%Y-%m-%d") for c in klines],
-            closes=[c.close for c in klines],
-            highs=[c.high for c in klines],
-            lows=[c.low for c in klines],
-            volumes=[c.volume for c in klines],
-            history=hist,
-        )
+        out[a] = daily_series.input_from_candles(klines, hist)
     return out
 
 

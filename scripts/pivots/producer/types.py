@@ -88,12 +88,80 @@ class RadarAsset(TypedDict):
     scores: dict  # {"7D": RadarScores, "30D": RadarScores, "90D": RadarScores}
 
 
+class ForecastItem(TypedDict):
+    """Mirror of ForecastItemSchema. Percent 0-100, one decimal."""
+    event: Literal["turn", "move"]
+    horizon: Horizon
+    today_pct: float
+    usual_pct: float
+    prev_today_pct: NotRequired[float]
+
+
+class ForecastMeta(TypedDict):
+    iteration: str
+    train_end: str
+
+
+TurnStrength = Literal["small", "medium", "large", "cycle"]
+TurnKind = Literal["top", "bottom"]
+Outcome = Literal["hit", "miss", "pending"]
+
+
+class TrendBlock(TypedDict, total=False):
+    """Mirror of TrendSchema (per asset). % one decimal; a key is absent when history is too short."""
+    ret_30d_pct: float
+    ret_90d_pct: float
+
+
+class TurnPoint(TypedDict):
+    date: str
+    kind: TurnKind
+    close: float
+
+
+class LadderRowJson(TypedDict):
+    """Mirror of LadderRowSchema. decided=False -> candidate and confirm_at are None."""
+    strength: TurnStrength
+    decided: bool
+    last_confirmed: TurnPoint | None
+    candidate: TurnPoint | None
+    confirm_at: float | None
+
+
+class TurnEntry(TypedDict):
+    """Mirror of TurnEntrySchema (confirmed turns: last 120 days + every cycle turn)."""
+    date: str
+    kind: TurnKind
+    strength: TurnStrength
+    close: float
+
+
+class ForecastHistoryEntry(TypedDict):
+    """Mirror of ForecastHistoryEntrySchema. forecast/outcome are {event: {horizon: value}}.
+
+    backfilled=True => forecast is a backfill calculation; backfilled=False => the value shown
+    live; no forecast => a gap (always backfilled=False). Carried forward unchanged when the
+    block degrades (Ruling R12).
+    """
+    date: str
+    close: NotRequired[float]
+    forecast: NotRequired[dict]  # {"turn": {"7D": pct, ...}, "move": {...}} — omitted when no score
+    outcome: NotRequired[dict]   # {"turn": {"7D": Outcome, ...}, "move": {...}}
+    backfilled: bool
+
+
 class PivotAssetsSnapshot(TypedDict):
     schema_version: Literal["v0.1"]
     generated_at: str
     radar: list[RadarAsset]
     detail: dict  # Record<detailKey, PivotDetail>
     previous: NotRequired[dict]  # {"generated_at": str, "radar": list[RadarAsset]}
+    forecast: NotRequired[dict]  # {"BTC": [ForecastItem], "ETH": [...]} — it-2026-10 stage 2
+    forecast_meta: NotRequired[ForecastMeta]
+    trend: NotRequired[dict]  # {"BTC": TrendBlock, "ETH": ...} — it-2026-10 stage 2 Task 9
+    ladder: NotRequired[dict]  # {"BTC": [LadderRowJson x4], ...}
+    turns: NotRequired[dict]  # {"BTC": [TurnEntry], ...}
+    forecast_history: NotRequired[dict]  # {"BTC": [ForecastHistoryEntry x120], ...}
     history: NotRequired[dict]  # {"BTC": [HistoryEntry], "ETH": [...]} — spec §5.8 T-P1
 
 
@@ -122,11 +190,43 @@ class BacktestEntry(TypedDict):
     metrics: BacktestMetrics
 
 
+class CalibrationBinOut(TypedDict):
+    lo: int
+    hi: int
+    prob_pct: float  # 0-100, one decimal
+    n: int
+
+
+class HoldoutOut(TypedDict):
+    brier_skill: float | None
+    lift_pts: float | None
+    n_signal: int | None
+    # 状態ごとの当たり率 (%・小数 1 桁・出せなければ null)。旧スナップショットには無い
+    signal_rate_pct: NotRequired[float | None]
+    other_rate_pct: NotRequired[float | None]
+    holdout_rate_pct: NotRequired[float | None]
+    holdout_n: NotRequired[int | None]
+    judged: bool | None
+    primary: str | None  # "pass" | "fail" | "undecidable" | None
+    secondary: str | None
+
+
+class BacktestEvent(TypedDict):
+    asset: AssetSymbol
+    event: str  # "turn" | "move"
+    horizon: Horizon
+    usual_pct: float
+    long_run_usual_pct: float | None
+    calibration: list[CalibrationBinOut]
+    holdout: HoldoutOut
+
+
 class PivotBacktestSnapshot(TypedDict):
     schema_version: Literal["v0.1"]
     generated_at: str
     entries: list[BacktestEntry]
     data_provenance: NotRequired[dict]
+    events: NotRequired[list[BacktestEvent]]  # it-2026-10 stage 2 Task 10 (frozen copy)
 
 
 def detail_key(asset: AssetSymbol, horizon: Horizon) -> str:

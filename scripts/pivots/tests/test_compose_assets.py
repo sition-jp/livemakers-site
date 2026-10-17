@@ -333,3 +333,37 @@ def test_live_and_backtest_price_pivot_agree_on_final_day(horizon: str) -> None:
         data.closes, data.volumes, series, deriv, t, horizon
     )
     assert live_pp == bt_pp
+
+
+@pytest.mark.parametrize("horizon", ["7D", "30D", "90D"])
+def test_live_and_backtest_volatility_pivot_agree_on_final_day(horizon: str) -> None:
+    """live の `_build_volatility_context` と backtest の `_historical_scores` が最終日で同じ点数を出す。
+
+    価格・出来高・建玉・資金調達率は両方に同じ値を入れる (取得元の違い REST/bulk は
+    ここでは同じ入力にそろえる)。
+    """
+    import math
+    from dataclasses import replace
+
+    from producer.compose_assets import _build_volatility_context
+    from producer.compose_backtest import _DerivAtT, _historical_scores, _precompute_asset_series
+    from producer.score_volatility_pivot import score_volatility_pivot
+
+    n = 500
+    closes = [100.0 + 20 * math.sin(i / 17.0) + i * 0.05 + (i % 5) * 0.4 for i in range(n)]
+    highs = [c + 1 + (i % 7) * 0.3 for i, c in enumerate(closes)]
+    lows = [c - 1 - (i % 3) * 0.2 for i, c in enumerate(closes)]
+    volumes = [1.0 + (i % 11) * 0.2 + (3.0 if i == n - 1 else 0.0) for i in range(n)]
+    oi = [1000.0 + (i % 13) * 7 + i * 0.5 for i in range(168)]
+    funding = [0.0001 * ((i % 9) - 4) for i in range(200)]
+
+    data = replace(_price_series(), closes=closes, highs=highs, lows=lows, volumes=volumes, oi=oi, funding=funding)
+    half = 14 * 6
+    recent, prior = oi[-half:], oi[-2 * half:-half]
+    oi_growth = (sum(recent) - sum(prior)) / sum(prior)
+    deriv = [_DerivAtT(oi_growth, abs(funding[-1]), [abs(f) for f in funding[-180:]])] * n
+
+    live_vp, _ = score_volatility_pivot(_build_volatility_context(data, horizon))
+    series = _precompute_asset_series(closes, highs, lows)
+    _pp, bt_vp, _ov = _historical_scores(closes, volumes, series, deriv, n - 1, horizon)
+    assert live_vp == bt_vp

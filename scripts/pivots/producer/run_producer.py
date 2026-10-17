@@ -49,7 +49,9 @@ from producer.derivatives_sidecar import (
     compose_derivatives_history_sidecar,
     load_derivatives_history_sidecar,
 )
+from producer import daily_series, forecast, price_history_block
 from producer.fetch_binance import BinanceFetcher
+from producer.types import ASSETS, HORIZONS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
@@ -200,6 +202,219 @@ def _previous_radar_from(existing_raw: dict | None, new_generated_at: str) -> di
     ):
         return {"generated_at": older["generated_at"], "radar": older["radar"]}
     return {"generated_at": generated_at, "radar": radar}
+
+
+def _prev_forecast_items(items, same_day: bool):
+    """Previous-day items. A same-UTC-day rerun carries the older day forward
+    (each stored item's prev_today_pct) so the delta stays day-over-day."""
+    if not isinstance(items, list):
+        return None
+    if not same_day:
+        return items
+    return [
+        {"event": i.get("event"), "horizon": i.get("horizon"), "today_pct": i["prev_today_pct"]}
+        for i in items
+        if isinstance(i, dict) and isinstance(i.get("prev_today_pct"), (int, float))
+    ]
+
+
+def _build_forecast(
+    existing_raw: dict | None, assets_payload: dict
+) -> tuple[dict, dict]:
+    """Return (forecast, forecast_meta): today's probability per asset x event x horizon.
+
+    Reads the single frozen calibration file (never recomputed daily). The
+    previous day's items come from the pre-existing assets file. Raises on any
+    problem; the caller soft-degrades (forecast_degraded=).
+    """
+    frozen = forecast.load_frozen(forecast.FROZEN_PATH)
+    prev_block = existing_raw.get("forecast") if isinstance(existing_raw, dict) else None
+    old_at = existing_raw.get("generated_at") if isinstance(existing_raw, dict) else None
+    same_day = isinstance(old_at, str) and old_at[:10] == assets_payload["generated_at"][:10]
+    out: dict = {}
+    for asset in ("BTC", "ETH"):
+        scores = {}
+        for h in HORIZONS:
+            sc = assets_payload["detail"][f"{asset}__{h}"]["scores"]
+            scores[h] = (round(sc["price_pivot"]), round(sc["volatility_pivot"]))
+        prev_items = _prev_forecast_items(
+            prev_block.get(asset) if isinstance(prev_block, dict) else None, same_day
+        )
+        out[asset] = forecast.forecast_items(frozen, asset, scores, prev_items)
+    meta = {"iteration": frozen.iteration, "train_end": frozen.train_end}
+    return out, meta
+
+
+def _build_backtest_events() -> list[dict]:
+    """問いごとの評価 (it-2026-10 段 2 Task 10): 凍結ファイルの値をそのまま写す。
+
+    毎日は計算し直さない。読めない・形が違うときは raise (呼び出し側が events_degraded=)。
+    """
+    raw = forecast.load_frozen(forecast.FROZEN_PATH).raw
+    out: list[dict] = []
+    for asset in ("BTC", "ETH"):
+        for event in forecast.EVENTS:
+            for h in HORIZONS:
+                ev = raw["evaluation"][asset][event][h]
+                tab = raw["tables"][asset][event][h]
+                out.append({
+                    "asset": asset,
+                    "event": event,
+                    "horizon": h,
+                    "usual_pct": ev["usual_pct"],
+                    "long_run_usual_pct": ev["long_run_usual_pct"],
+                    "calibration": [
+                        {"lo": b["lo"], "hi": b["hi"], "prob_pct": round(b["prob"] * 100, 1), "n": b["n"]}
+                        for b in tab["bins"]
+                    ],
+                    "holdout": {
+                        "brier_skill": ev["holdout_brier_skill"],
+                        "lift_pts": ev["holdout_lift_pts"],
+                        "n_signal": ev["holdout_n_signal"],
+                        "signal_rate_pct": ev.get("signal_rate_pct"),
+                        "other_rate_pct": ev.get("other_rate_pct"),
+                        "holdout_rate_pct": ev.get("holdout_rate_pct"),
+                        "holdout_n": ev.get("holdout_n"),
+                        "judged": ev["judged"],
+                        "primary": ev["primary"],
+                        "secondary": ev["secondary"],
+                    },
+                })
+    return out
+
+
+PRICE_HISTORY_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
+
+
+def _forecast_history_degraded(
+    existing_raw: dict | None,
+    assets_payload: dict,
+    exc: Exception,
+    failed: Iterable[str],
+    today: str | None = None,
+    closes: dict[str, float] | None = None,
+) -> None:
+    """forecast_history だけは失敗しても省かず、前回の記録を引き継ぐ (Ruling R12 a)。
+
+    省くと翌日の run が existing=None で読み、実際に画面に出した値が全部さかのぼり計算で
+    上書きされてしまう。失敗した資産だけ前回の分で埋める (前回の分が無ければその資産は無し)。
+    今日サイトに出した確率 (`forecast`) があれば、引き継いだ履歴の末尾に今日の分として足す。
+    """
+    forecast_block = assets_payload.get("forecast")
+    prev = price_history_block.carryable_history(existing_raw)
+    block = dict(assets_payload.get("forecast_history") or {})
+    carried = False
+    for a in failed:
+        if a in prev:
+            block[a] = prev[a]
+            carried = True
+        else:
+            block.pop(a, None)
+        items = forecast_block.get(a) if isinstance(forecast_block, dict) else None
+        if today and items and a in block:  # 引き継ぐ履歴が無い資産は、1 件だけの履歴を作らない
+            added = price_history_block.with_todays_forecast(
+                block.get(a, []), today, items, (closes or {}).get(a)
+            )
+            if added:
+                block[a] = added
+    if block:
+        assets_payload["forecast_history"] = {a: block[a] for a in ASSETS if a in block}
+    else:
+        assets_payload.pop("forecast_history", None)
+    suffix = " carried_forward" if carried else ""
+    print(f"[pivots-producer] forecast_history_degraded={type(exc).__name__}: {exc}{suffix}")
+
+
+def _build_price_history_blocks(
+    fetcher: BinanceFetcher,
+    existing_raw: dict | None,
+    assets_payload: dict,
+    bulk: dict,
+    generated_at: str,
+) -> None:
+    """trend / ladder / turns / forecast_history (資産ごと) を assets_payload に足す。
+
+    長期の終値 (2017-08-17〜) を 1 回だけ取り、ブロックごとに soft-degrade する
+    (`<block>_degraded=` を出してそのブロックだけ省く)。長期の終値が取れなければ 4 つとも省く。
+    """
+    today = generated_at[:10]
+    start_ms = daily_series.day_ms(price_history_block.LONG_HISTORY_START)
+    stale_assets: dict[str, str] = {}
+    try:
+        live: dict = {}
+        for a in ASSETS:
+            candles = fetcher.fetch_klines_range(a, start_ms=start_ms)
+            closed, today_candle = price_history_block.closed_and_today(candles, today)
+            if not closed:
+                raise ValueError(f"{a}: no closed daily candles")
+            inp = daily_series.input_from_candles(closed, bulk[a])
+            live[a] = (inp, today_candle)
+            stale = price_history_block.stale_reason(closed, a, today)
+            if stale:
+                stale_assets[a] = stale
+    except Exception as exc:  # noqa: BLE001
+        for name in PRICE_HISTORY_BLOCKS[:-1]:
+            print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+        _forecast_history_degraded(existing_raw, assets_payload, exc, ASSETS, today)
+        return
+
+    def with_today(a: str) -> tuple[list[str], list[float]]:
+        inp, today_candle = live[a]
+        if today_candle is None:
+            return list(inp.dates), list(inp.closes)
+        return [*inp.dates, today], [*inp.closes, today_candle.close]
+
+    def build_forecast_history(a: str) -> list:
+        inp, _ = live[a]
+        frozen = forecast.load_frozen(forecast.FROZEN_PATH)
+        prepared = daily_series.prepare(
+            inp, series_start=price_history_block.series_start_for(len(inp.dates))
+        )
+        prev = existing_raw.get("forecast_history") if isinstance(existing_raw, dict) else None
+        prev_items = prev.get(a) if isinstance(prev, dict) else None
+        today_block = assets_payload.get("forecast")
+        dates, closes = with_today(a)
+        return price_history_block.forecast_history(
+            dates,
+            closes,
+            frozen,
+            a,
+            today_block.get(a) if isinstance(today_block, dict) else None,
+            prev_items if isinstance(prev_items, list) else None,
+            lambda t, h: daily_series.score_at(prepared, t, h),
+            today=today,
+            hit_context=lambda t: daily_series.hit_context(prepared, t),
+        )
+
+    builders = {
+        "trend": lambda a: price_history_block.trend(with_today(a)[1]),
+        "ladder": lambda a: price_history_block.ladder_json(live[a][0].dates, live[a][0].closes),
+        "turns": lambda a: price_history_block.turns_json(live[a][0].dates, live[a][0].closes, today),
+        "forecast_history": build_forecast_history,
+    }
+    for name in PRICE_HISTORY_BLOCKS[:-1]:
+        try:
+            fresh = {a: builders[name](a) for a in ASSETS if a not in stale_assets}
+            for reason in stale_assets.values():
+                print(f"[pivots-producer] {name}_degraded={reason}")
+            if fresh:
+                assets_payload[name] = fresh
+        except Exception as exc:  # noqa: BLE001
+            print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+    # forecast_history は資産ごとに作り、失敗した資産は前回の記録を引き継ぐ (R12 a)
+    built: dict = {}
+    for a in ASSETS:
+        try:
+            built[a] = build_forecast_history(a)
+        except Exception as exc:  # noqa: BLE001
+            assets_payload["forecast_history"] = built
+            _forecast_history_degraded(
+                existing_raw, assets_payload, exc, [a], today,
+                {a: with_today(a)[1][-1]},
+            )
+            built = dict(assets_payload.get("forecast_history") or {})
+    if built:
+        assets_payload["forecast_history"] = {a: built[a] for a in ASSETS if a in built}
 
 
 def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
@@ -364,6 +579,12 @@ def run_producer(
             fetcher, generated_at, history=history
         )
         backtest_quality = build_backtest_quality_map(backtest_payload["entries"])
+        try:
+            backtest_payload["events"] = _build_backtest_events()
+        except Exception as exc:  # noqa: BLE001
+            # Soft-degrade: events is an add-on; entries stay untouched.
+            backtest_payload.pop("events", None)
+            print(f"[pivots-producer] events_degraded={type(exc).__name__}: {exc}")
         assets_payload = compose_pivot_assets_snapshot(
             fetcher,
             generated_at,
@@ -389,6 +610,27 @@ def run_producer(
         # radar/detail contract, so a fetch/shape problem here must not block
         # an otherwise-good run (same posture as sidecar/bulk-history above).
         print(f"[pivots-producer] history_degraded={type(exc).__name__}: {exc}")
+
+    try:
+        fc, fc_meta = _build_forecast(existing_assets_raw, assets_payload)
+        assets_payload["forecast"] = fc
+        assets_payload["forecast_meta"] = fc_meta
+    except Exception as exc:  # noqa: BLE001
+        # Soft-degrade like history: the forecast block is an add-on, never a
+        # reason to fail an otherwise-good run. The block is simply omitted.
+        print(f"[pivots-producer] forecast_degraded={type(exc).__name__}: {exc}")
+
+    # 長期の終値から作るブロック (it-2026-10 段 2)。各ブロックが自分で soft-degrade する。
+    try:
+        _build_price_history_blocks(
+            fetcher, existing_assets_raw, assets_payload, history, generated_at
+        )
+    except Exception as exc:  # noqa: BLE001 — belt-and-braces: never fail the run
+        for name in PRICE_HISTORY_BLOCKS[:-1]:
+            assets_payload.pop(name, None)
+            print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+        assets_payload.pop("forecast_history", None)
+        _forecast_history_degraded(existing_assets_raw, assets_payload, exc, ASSETS)
 
     sidecar_payload = None
     sidecar_warning: str | None = None

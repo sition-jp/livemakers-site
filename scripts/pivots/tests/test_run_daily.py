@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import pytest
 
-from ops.run_daily import ProducerInvocation, _parse_bulk_warnings, run_daily
+from ops.run_daily import ProducerInvocation, _parse_bulk_warnings, _parse_other_warnings, run_daily
 
 OK = ProducerInvocation(returncode=0, sidecar_warnings=[], output="")
 DRY_FAIL = ProducerInvocation(returncode=1, sidecar_warnings=[], output="dry failed")
@@ -26,6 +26,49 @@ def test_parse_bulk_warnings() -> None:
         "[pivots-producer] OK generated_at=..."
     )
     assert _parse_bulk_warnings(out) == ["RuntimeError: HTTP 503"]
+
+
+_PRODUCER_OUTPUT = """[pivots-producer] sidecar_degraded=RuntimeError: sidecar down
+[pivots-producer] bulk_history_degraded=RuntimeError: HTTP 503
+[pivots-producer] forecast_degraded=ValueError: frozen unreadable
+[pivots-producer] trend_degraded=OSError: network down
+[pivots-producer] ladder_degraded=OSError: network down
+[pivots-producer] turns_degraded=OSError: network down
+[pivots-producer] forecast_history_degraded=OSError: network down carried_forward
+[pivots-producer] events_degraded=KeyError: x
+[pivots-producer] history_degraded=RuntimeError: h
+[pivots-producer] OK generated_at=2026-10-17T00:00:00Z
+"""
+
+
+def test_parse_other_warnings_picks_up_every_new_marker() -> None:
+    got = _parse_other_warnings(_PRODUCER_OUTPUT)
+    assert got == [
+        "forecast: ValueError: frozen unreadable",
+        "trend: OSError: network down",
+        "ladder: OSError: network down",
+        "turns: OSError: network down",
+        "forecast_history: OSError: network down carried_forward",
+        "events: KeyError: x",
+        "history: RuntimeError: h",
+    ]
+
+
+def test_ok_notification_lists_producer_degraded_blocks(fake_env: dict) -> None:
+    fake_env["assets_path"].parent.mkdir(parents=True, exist_ok=True)
+    fake_env["assets_path"].write_text('{"schema_version": "v0.1"}')
+    fake_env["backtest_path"].write_text('{"schema_version": "v0.1"}')
+    live = ProducerInvocation(
+        returncode=0, sidecar_warnings=[], output=_PRODUCER_OUTPUT,
+        other_warnings=_parse_other_warnings(_PRODUCER_OUTPUT),
+    )
+    with patch("ops.run_daily._invoke_producer", side_effect=[OK, live]):
+        rc = run_daily(**{**fake_env, "keep_history": 7})
+    assert rc == 0
+    entry = json.loads(fake_env["log_file"].read_text().splitlines()[-1])
+    assert entry["status"] == "OK"
+    assert "trend: OSError: network down" in entry["details"]
+    assert "forecast_history: OSError" in entry["details"]
 
 
 @pytest.fixture
