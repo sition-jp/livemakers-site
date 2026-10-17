@@ -47,7 +47,9 @@ describe("buildSparkline", () => {
     expect(g.refY).toBeGreaterThan(xy[2][1]);
     expect(g.refY).toBeLessThan(xy[1][1]);
     expect(g.events).toEqual([expect.closeTo(150, 1)]);
-    expect(g.now).toEqual({ leftPct: 100, top: xy[2][1] });
+    // いまの点は % で置く (グラフの高さは rem なので、文字の大きさの設定で px がずれる・review 指摘)
+    expect(g.now!.leftPct).toBe(100);
+    expect(g.now!.topPct).toBeCloseTo((xy[2][1] / SPARK_HEIGHT) * 100, 1);
     expect(g.bars).toEqual([]);
     expect(g.peak).toBeNull();
   });
@@ -67,6 +69,30 @@ describe("buildSparkline", () => {
     const g = buildSparkline("btc_mvrv_1", { ...base, points: [["2026-10-16", 1], ["2026-10-17", 1]], events: [] });
     expect(g.line).not.toMatch(/NaN|Infinity/);
     expect(g.refY).not.toBeNaN();
+  });
+
+  it("skips a year label too close to either edge to fit", () => {
+    const g = buildSparkline("btc_mvrv_1", {
+      ...base,
+      from: "2024-12-25",
+      to: "2026-12-25",
+      points: [["2025-06-01", 1], ["2026-12-25", 2]],
+      events: [],
+    });
+    expect(g.ticks.map((tick) => tick.label)).toEqual(["2026"]);
+  });
+
+  it("draws a single-point series without breaking", () => {
+    const line = buildSparkline("btc_mvrv_1", { ...base, points: [["2026-10-17", 1.5]], events: [] });
+    const [x, y] = line.line!.split(",").map(Number);
+    expect(x).toBe(SPARK_WIDTH);
+    expect(y).toBeGreaterThan(0);
+    expect(y).toBeLessThan(SPARK_HEIGHT);
+    expect(line.now!.leftPct).toBe(100);
+    const bars = buildSparkline("btc_macd_1m_golden_cross", { ...base, points: [["2026-10-17", -5]], events: [], ref: 0 });
+    expect(bars.bars).toHaveLength(1);
+    expect(bars.bars[0].tone).toBe("now");
+    expect(bars.bars[0].width).toBeGreaterThan(0);
   });
 
   it("marks the year boundaries inside the window", () => {

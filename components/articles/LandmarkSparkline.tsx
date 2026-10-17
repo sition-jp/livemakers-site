@@ -107,7 +107,7 @@ export function LandmarkSparkline({ rowKey, series }: { rowKey: LandmarkRowKey; 
           <span
             data-landmark-now
             className="absolute h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent ring-2 ring-bg-primary"
-            style={{ left: `${g.now.leftPct}%`, top: `${g.now.top}px` }}
+            style={{ left: `${g.now.leftPct}%`, top: `${g.now.topPct}%` }}
           />
         ) : null}
       </div>

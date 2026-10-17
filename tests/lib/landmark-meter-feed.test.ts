@@ -200,6 +200,9 @@ describe("mapLandmarkMeter — sparkline series", () => {
     ["a peak below the value", "btc_etf_cum_high", (s) => { s.peak.at(-1)[1] = 0; }],
     ["a falling peak", "stablecoin_supply_ath", (s) => { s.peak[0][1] = 99999; }],
     ["aboveZero dates that are not bars", "btc_macd_2w_golden_below_zero", (s) => { s.aboveZero = ["2019-01-01"]; }],
+    ["a MACD reference other than zero", "btc_macd_1m_golden_cross", (s) => { s.ref = 1; }],
+    ["a non-ISO window start", "btc_below_200wma", (s) => { s.from = "2024/10/17"; }],
+    ["events that are not a list", "btc_below_200wma", (s) => { s.events = "2026-06-28"; }],
   ];
 
   it.each(broken)("drops only the series on %s", (_, key, mutate) => {

@@ -15,6 +15,8 @@ const MARGIN = 0.08;
 const BAR_MAX_WIDTH = 10;
 const BAR_MIN_WIDTH = 2;
 const DAY_MS = 86_400_000;
+/** 年の数字 (幅 ≒ 24px) が端からはみ出さないよう、端から 4% 以内の目盛りは出さない */
+const TICK_EDGE_PCT = 4;
 
 export type SparkKind = "line" | "bars" | "peak";
 export type SparkBarTone = "past" | "outside" | "now";
@@ -44,8 +46,8 @@ export interface SparkGeometry {
   bars: SparkBar[];
   /** 過去の点灯の x */
   events: number[];
-  /** いまの点 (折れ線の行)。幅が変わっても丸のままにするため、SVG の外に % で置く */
-  now: { leftPct: number; top: number } | null;
+  /** いまの点 (折れ線の行)。幅が変わっても丸のままにするため、SVG の外に % で置く (高さも % — グラフの高さは rem) */
+  now: { leftPct: number; topPct: number } | null;
   /** 窓の中の 1 月 1 日 */
   ticks: { x: number; leftPct: number; label: string }[];
 }
@@ -86,7 +88,9 @@ export function buildSparkline(key: LandmarkRowKey, series: LandmarkSeries): Spa
   const ticks: SparkGeometry["ticks"] = [];
   for (let year = Number(series.from.slice(0, 4)) + 1; year <= Number(series.to.slice(0, 4)); year += 1) {
     const x = xOf(`${year}-01-01`);
-    ticks.push({ x, leftPct: round((x / SPARK_WIDTH) * 100), label: String(year) });
+    const leftPct = round((x / SPARK_WIDTH) * 100);
+    if (leftPct < TICK_EDGE_PCT || leftPct > 100 - TICK_EDGE_PCT) continue;
+    ticks.push({ x, leftPct, label: String(year) });
   }
 
   if (kind === "bars") {
@@ -129,7 +133,7 @@ export function buildSparkline(key: LandmarkRowKey, series: LandmarkSeries): Spa
     refY,
     bars: [],
     events,
-    now: { leftPct: round((xOf(lastDay) / SPARK_WIDTH) * 100), top: yOf(lastValue) },
+    now: { leftPct: round((xOf(lastDay) / SPARK_WIDTH) * 100), topPct: round((yOf(lastValue) / SPARK_HEIGHT) * 100) },
     ticks,
   };
 }

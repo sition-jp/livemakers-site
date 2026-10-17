@@ -296,6 +296,9 @@ describe("LandmarkMeter — sparklines (2026-10-18・core spec 2026-10-17-lvm-la
     expect(row("etf").querySelector("[data-landmark-ref]")).toBeNull();
     expect(row("etf").querySelector("[data-landmark-peak]")).not.toBeNull();
     expect(row("ma200w").querySelectorAll("[data-landmark-now]")).toHaveLength(1);
+    const dot = row("ma200w").querySelector<HTMLElement>("[data-landmark-now]")!;
+    expect(dot.style.left).toMatch(/%$/);
+    expect(dot.style.top).toMatch(/%$/);
     expect(row("macd2w").querySelectorAll('[data-landmark-bar="now"]')).toHaveLength(1);
     expect(row("macd2w").querySelectorAll('[data-landmark-bar="outside"]').length).toBeGreaterThan(0);
     expect(row("macd1m").querySelectorAll('[data-landmark-bar="outside"]')).toHaveLength(0);

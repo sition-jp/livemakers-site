@@ -70,6 +70,11 @@ export const LANDMARK_SERIES_PEAK_ROWS: ReadonlySet<LandmarkRowKey> = new Set([
   "stablecoin_supply_ath",
 ]);
 const ABOVE_ZERO_ROW: LandmarkRowKey = "btc_macd_2w_golden_below_zero";
+/** MACD の行は棒を 0 の線から伸ばすので、点灯の線は 0 だけ */
+const ZERO_REF_ROWS: ReadonlySet<LandmarkRowKey> = new Set([
+  "btc_macd_2w_golden_below_zero",
+  "btc_macd_1m_golden_cross",
+]);
 const SERIES_WINDOW_DAYS = 730;
 const SERIES_MAX_POINTS = 140;
 const SERIES_MAX_EVENTS = 12;
@@ -113,6 +118,7 @@ function seriesFitsRow(key: LandmarkRowKey, barDate: string, series: z.infer<typ
   if (peakRow ? series.peak === undefined || series.ref !== undefined : series.ref === undefined || series.peak !== undefined) {
     return false;
   }
+  if (ZERO_REF_ROWS.has(key) && series.ref !== 0) return false;
   if (series.aboveZero !== undefined && key !== ABOVE_ZERO_ROW) return false;
   const span = (Date.parse(`${series.to}T00:00:00Z`) - Date.parse(`${series.from}T00:00:00Z`)) / DAY_MS;
   if (span !== SERIES_WINDOW_DAYS) return false;
