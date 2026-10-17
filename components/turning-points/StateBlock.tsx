@@ -30,7 +30,7 @@ export function StateBlock({ scores, directionBias, mainSignal, previous, eviden
   const s = describeState({ ...scores, direction_bias: directionBias ?? null, main_signal: mainSignal ?? null });
   const level = t(`level.${s.level}.label`);
   const driver = t(`driver.${s.driver}`);
-  const direction = s.showDirection ? t(`direction.${s.direction}`) : t("direction_weak");
+  // The direction lean is not shown (10/17: it was right less than half the time); it stays in the data.
   const delta = formatDelta(scoreDelta(scores.overall, previous?.overall));
 
   return (
@@ -49,7 +49,7 @@ export function StateBlock({ scores, directionBias, mainSignal, previous, eviden
       <p className="text-sm text-text-primary">{t(`level.${s.level}.action`)}</p>
       {typeof evidenceCount === "number" ? (
         <p className="text-sm text-text-secondary" data-testid="state-summary">
-          {t("summary", { label: level, driver, direction, count: evidenceCount })}
+          {t("summary", { label: level, driver, count: evidenceCount })}
         </p>
       ) : null}
     </section>

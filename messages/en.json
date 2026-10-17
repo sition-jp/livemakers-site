@@ -711,9 +711,9 @@
       "heading": "Current state",
       "level": {
         "Low": {
-          "label": "Quiet",
-          "meaning": "Few turning-point conditions are present. Ordinary price behaviour.",
-          "action": "Nothing special to prepare. Read it as \"a calm regime\" in the background of articles."
+          "label": "No turn signs",
+          "meaning": "Few turning-point conditions are present. Up- or down-trends are not part of this reading.",
+          "action": "Check the trend separately on the price chart. It changes to Early signs once conditions start to light up."
         },
         "Medium": {
           "label": "Early signs",
@@ -749,7 +749,7 @@
       "direction_weak": "Directional evidence is weak",
       "delta_label": "vs. yesterday",
       "delta_none": "No previous day",
-      "summary": "{label}. {driver}. {direction}. {count} evidence items.",
+      "summary": "{label}. {driver}. {count} evidence items.",
       "score_hint": "Score {score} / 100"
     },
     "integrity": {
@@ -830,30 +830,37 @@
       "title": "How to read this page",
       "what": "What it measures: for BTC and ETH, how likely the market is to move into its next state, scored 0–100 from price-reversal and volatility-expansion conditions.",
       "not": "What it does not measure: price targets, trade timing, or whether price goes up or down. A high score means \"more likely to move\", not a direction or a size.",
-      "levels": "Four levels: Quiet (0–39), Early signs (40–69), Conditions aligning (70–84), Conditions strong (85–100). Read the level before the number.",
+      "levels": "Four levels: No turn signs (0–39), Early signs (40–69), Conditions aligning (70–84), Conditions strong (85–100). Read the level before the number.",
       "pivots": "Price pivot = reversal conditions (RSI, distance from moving averages, MACD, range edges). Volatility pivot = expansion conditions (realized vol, band width, ATR, open interest, funding, volume).",
-      "bias": "Lean = which way the evidence tilts. Small differences show as neutral. Hidden while the state is Quiet.",
+      "bias": "The lean (which way the evidence tilts) is not shown: in past checks it was right less than half the time. The results are on the backtest page.",
       "integrity": "Data integrity = completeness of inputs and agreement between indicators. Not a hit rate; an A does not mean it will be right.",
       "freshness": "Updated every morning at 08:00 JST with data through the previous day. If it says stale, do not use it for that day's reading.",
-      "use": "How to use it: as background when reading articles. A ten-second check of \"quiet or aligning?\" and \"price or volatility?\".",
+      "use": "How to use it: as background when reading articles. A ten-second check of \"any turn signs, or conditions aligning?\" and \"price or volatility?\".",
       "backtest_title": "How to read this table",
       "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only. OI and funding history come from Binance public data."
     },
     "timeline": {
       "heading": "Turning-point timeline",
-      "past": "Last 120 days",
+      "past": "Last {days} days · {h} score",
       "future": "Windows ahead",
       "window": "{h} window",
       "lead": "Past signals of this kind moved after {days} days on average (n={n})",
       "lead_weak": "indicative",
-      "lean_up": "Lean: up",
-      "lean_down": "Lean: down",
       "example": "{date} score {score} → {move} within {days} days",
-      "note": "Windows show how likely a move is, not its direction; the lean can be wrong",
+      "note": "Windows show how likely a move is, not its direction",
       "no_history": "History is still accumulating",
       "legend_marker": "Days with score ≥ 40",
       "legend_strong": "Days ≥ 70",
-      "legend_strip": "Score intensity"
+      "legend_strip": "Score intensity",
+      "lead_none": "No past cases",
+      "lead_item": "{type} avg {days} days (n={n})",
+      "lead_item_weak": "{type} avg {days} days (n={n}, indicative)",
+      "lead_type_price": "Price",
+      "lead_type_volatility": "Vol",
+      "lead_caption": "Ticks = days from a past score ≥ 70 to the move",
+      "gap": "No records",
+      "mini_heading": "{asset} history ({h} score)",
+      "mini_link": "See details"
     }
   },
   "futureAtlas": {

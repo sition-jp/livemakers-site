@@ -80,7 +80,8 @@ const detail: PivotDetail = {
 describe("RadarTable readability", () => {
   it("shows the Japanese state label and hides direction while quiet", () => {
     wrap(<RadarTable assets={[btc]} previous={null} />);
-    expect(screen.getByTestId("radar-state-BTC")).toHaveTextContent("静か");
+    expect(screen.getByTestId("radar-state-BTC")).toHaveTextContent("転換の兆しなし");
+    expect(screen.getByTestId("radar-state-BTC")).not.toHaveTextContent("静か");
     expect(screen.getByTestId("radar-state-BTC")).toHaveTextContent("価格");
     expect(screen.queryByText("傾き: 下方向")).toBeNull();
     expect(screen.getByText("データ整合度")).toBeTruthy();
@@ -99,7 +100,8 @@ describe("RadarTable readability", () => {
 describe("AssetDetail readability", () => {
   it("renders state block, Japanese summary, translated evidence with meaning, and falls back for unknown text", () => {
     wrap(<AssetDetail detail={detail} asset="BTC" selectedHorizon="30D" previous={null} />);
-    expect(screen.getByTestId("state-block")).toHaveTextContent("静か");
+    expect(screen.getByTestId("state-block")).toHaveTextContent("転換の兆しなし");
+    expect(screen.getByTestId("state-block")).not.toHaveTextContent("いつもの値動きの範囲");
     expect(screen.getByTestId("state-summary")).toHaveTextContent("根拠 3 件");
     expect(screen.queryByText("Low turning point conditions in BTC 30D")).toBeNull();
     expect(screen.getByText("MACD の勢いが減速")).toBeTruthy();
@@ -109,6 +111,14 @@ describe("AssetDetail readability", () => {
     expect(screen.getByText("データ整合度")).toBeTruthy();
     expect(screen.getByText(/的中率ではありません/)).toBeTruthy();
     expect(screen.queryByTestId("score-level")).toBeNull();
+  });
+  it("never shows a direction lean on the asset page (10/17 item 4)", () => {
+    // Medium state with a wide bearish gap: before 10/17 this showed "傾き: 下方向" and a bias bar.
+    const medium: PivotDetail = { ...detail, scores: { ...detail.scores, overall: 55 } };
+    wrap(<AssetDetail detail={medium} asset="BTC" selectedHorizon="30D" previous={null} />);
+    expect(screen.queryByTestId("direction-bias")).toBeNull();
+    expect(screen.getByTestId("state-summary")).not.toHaveTextContent("傾き");
+    expect(screen.getByTestId("state-summary")).not.toHaveTextContent("方向");
   });
   it("shows deltas on the three scores when previous is supplied", () => {
     wrap(

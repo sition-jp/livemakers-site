@@ -6,6 +6,7 @@ import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
+import { TimelineMini } from "@/components/turning-points/TimelineMini";
 
 /**
  * /turning-points — Market Timing Radar (PRD §22 Screen 1).
@@ -29,6 +30,8 @@ export default async function TurningPointsRadarPage({
   const t = await getTranslations("turningPoints");
   const tBacktest = await getTranslations("turningPoints.backtest");
   const result = await readAssetsSnapshot();
+  const snapshot = result.parseError === null ? result.snapshot : null;
+  const todayIso = (snapshot?.generated_at ?? new Date().toISOString()).slice(0, 10);
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 space-y-8">
@@ -64,6 +67,27 @@ export default async function TurningPointsRadarPage({
           <RadarTable assets={result.snapshot?.radar ?? []} previous={result.snapshot?.previous ?? null} />
         )}
       </section>
+
+      {snapshot && snapshot.radar.length > 0 ? (
+        <section aria-labelledby="timeline-mini-heading" className="space-y-4">
+          <h2
+            id="timeline-mini-heading"
+            className="text-sm uppercase tracking-label text-text-secondary"
+          >
+            {t("timeline.heading")}
+          </h2>
+          <div className="grid gap-8 md:grid-cols-2">
+            {snapshot.radar.map((asset) => (
+              <TimelineMini
+                key={asset.symbol}
+                asset={asset.symbol}
+                today={todayIso}
+                history={snapshot.history?.[asset.symbol] ?? null}
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <nav className="text-sm">
         <Link

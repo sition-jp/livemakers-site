@@ -161,6 +161,56 @@ describe("buildTimelineModel — past strip and markers", () => {
   });
 });
 
+describe("buildTimelineModel — date-proportional axis with gaps (10/17 item 8)", () => {
+  // 9/1, 9/2, 9/3 (9/4 missing — a single missing day), 9/5, then nothing until 9/12, 9/13.
+  const gappy: HistoryEntry[] = [
+    entry("2026-09-01", 60000, 10),
+    entry("2026-09-02", 60100, 10),
+    entry("2026-09-03", 60200, 10),
+    entry("2026-09-05", 60300, 10),
+    entry("2026-09-12", 61000, 10),
+    entry("2026-09-13", 61100, 10),
+  ];
+
+  function gappyModel() {
+    return buildTimelineModel({
+      asset: "BTC",
+      today: "2026-09-13",
+      horizon: "30D",
+      currentByHorizon: uniformCurrent(10),
+      biasByHorizon: uniformBias(null),
+      history: gappy,
+      backtest: [],
+    });
+  }
+
+  it("places each day by its date, not by its index", () => {
+    const model = gappyModel();
+    const span = TIMELINE_LAYOUT.todayX - TIMELINE_LAYOUT.pastXStart;
+    const dayWidth = span / 12; // 9/1 → 9/13
+    expect(model.xOfDate("2026-09-01")).toBeCloseTo(TIMELINE_LAYOUT.pastXStart, 5);
+    expect(model.xOfDate("2026-09-13")).toBeCloseTo(TIMELINE_LAYOUT.todayX, 5);
+    expect(model.xOfDate("2026-09-12") - model.xOfDate("2026-09-05")).toBeCloseTo(7 * dayWidth, 5);
+    expect(model.past!.dayWidth).toBeCloseTo(dayWidth, 5);
+    expect(model.past!.strip.map((c) => c.x)).toEqual(gappy.map((e) => model.xOfDate(e.date)));
+  });
+
+  it("breaks the price line at gaps of 2+ missing days and reports each gap", () => {
+    const model = gappyModel();
+    expect(model.past!.segments.map((seg) => seg.length)).toEqual([4, 2]);
+    expect(model.past!.gaps).toHaveLength(1);
+    expect(model.past!.gaps[0]).toMatchObject({ from: "2026-09-05", to: "2026-09-12", missingDays: 6 });
+    expect(model.past!.gaps[0].x1).toBeCloseTo(model.xOfDate("2026-09-05"), 5);
+    expect(model.past!.gaps[0].x2).toBeCloseTo(model.xOfDate("2026-09-12"), 5);
+  });
+
+  it("reports the real span of the past panel (first record → today)", () => {
+    const model = gappyModel();
+    expect(model.past!.fromDate).toBe("2026-09-01");
+    expect(model.past!.spanDays).toBe(12);
+  });
+});
+
 describe("buildTimelineModel — lean and opacity are per-horizon (T2)", () => {
   it("shades and leans each window by ITS OWN horizon: 7D quiet/no-lean, 30D up, 90D down", () => {
     const model = buildTimelineModel({
