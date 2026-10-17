@@ -15,7 +15,7 @@ Real-history design (spec 2026-09-26 §5.4, Task 21 — no proxy, fail closed):
   events. There is no proxy and no synthesis: a candle day without full
   derivatives history simply contributes "no evidence available" (growth
   0.0, funding 0.0, a flat [0.0, 0.0] funding history) rather than a
-  manufactured signal. Range compression uses the same < 0.05 threshold as
+  manufactured signal. Range compression (relative, bottom 20% of the past year) is shared with
   the live producer.
 - The walk itself starts at `walk_start = max(60, len(klines) -
   BACKTEST_LOOKBACK_DAYS)`. Before walking, `compose_pivot_backtest_snapshot`
@@ -54,6 +54,13 @@ from producer.indicators import (
     macd,
     realized_volatility,
     rsi,
+)
+from producer.horizon_inputs import (
+    IT_2026_10_RULES,
+    RuleSet,
+    boundary_flag,
+    compression_flag,
+    ma_windows,
 )
 from producer.percentiles import LOOKBACK_DAYS
 from producer.score_direction_bias import score_direction_bias
@@ -106,8 +113,10 @@ class _AssetSeries:
     """
     rsi: list[Optional[float]]
     macd_hist_recent: list[Optional[list[float]]]
+    dist10: list[Optional[float]]
     dist20: list[Optional[float]]
     dist50: list[Optional[float]]
+    dist100: list[Optional[float]]
     rv30: list[Optional[float]]
     bb: list[Optional[float]]
     atr14: list[Optional[float]]
@@ -152,8 +161,10 @@ def _precompute_asset_series(
     n = len(closes)
     rsi_s: list[Optional[float]] = [None] * n
     macd_s: list[Optional[list[float]]] = [None] * n
+    dist10_s: list[Optional[float]] = [None] * n
     dist20_s: list[Optional[float]] = [None] * n
     dist50_s: list[Optional[float]] = [None] * n
+    dist100_s: list[Optional[float]] = [None] * n
     rv_s: list[Optional[float]] = [None] * n
     bb_s: list[Optional[float]] = [None] * n
     atr_s: list[Optional[float]] = [None] * n
@@ -171,6 +182,16 @@ def _precompute_asset_series(
             try:
                 _, _, hist = macd(sub_closes)
                 macd_s[t] = hist[-5:]
+            except ValueError:
+                pass
+        if len(sub_closes) >= 10:
+            try:
+                dist10_s[t] = distance_from_ma(sub_closes, 10)
+            except ValueError:
+                pass
+        if len(sub_closes) >= 100:
+            try:
+                dist100_s[t] = distance_from_ma(sub_closes, 100)
             except ValueError:
                 pass
         if len(sub_closes) >= 20:
@@ -202,8 +223,10 @@ def _precompute_asset_series(
     return _AssetSeries(
         rsi=rsi_s,
         macd_hist_recent=macd_s,
+        dist10=dist10_s,
         dist20=dist20_s,
         dist50=dist50_s,
+        dist100=dist100_s,
         rv30=rv_s,
         bb=bb_s,
         atr14=atr_s,
@@ -231,6 +254,7 @@ def _historical_scores(
     deriv: list[_DerivAtT],
     t: int,
     horizon: Horizon,
+    rules: RuleSet = IT_2026_10_RULES,
 ) -> tuple[int, int, int]:
     """Compute (price_pivot, volatility_pivot, overall) using only data
     available at time t (no look-ahead).
@@ -248,37 +272,31 @@ def _historical_scores(
         return 0, 0, 0
 
     lookback = LOOKBACK_DAYS[horizon]
-    dist20_history = _slice_history(series.dist20, t, lookback)
-    dist50_history = _slice_history(series.dist50, t, lookback)
+    short_w, long_w = ma_windows(horizon, rules)
+    by_window = {10: series.dist10, 20: series.dist20, 50: series.dist50, 100: series.dist100}
+    short_series, long_series = by_window[short_w], by_window[long_w]
+    # "dist20"/"dist50" below are the short/long MA distances of this horizon
+    # (MA20/MA50 only under LEGACY_RULES); context keys keep their old names.
+    dist20_history = _slice_history(short_series, t, lookback)
+    dist50_history = _slice_history(long_series, t, lookback)
     rv_history = _slice_history(series.rv30, t, lookback)
     bb_history = _slice_history(series.bb, t, lookback)
     atr_history = _slice_history(series.atr14, t, lookback)
 
     # Need at least minimum history for percentile rules to be meaningful.
-    if len(dist20_history) < 5 or len(rv_history) < 5:
+    # The long MA series warms up last (100 days for 90D), so it needs the same
+    # minimum as the short one before pct_rank can rank against it.
+    if len(dist20_history) < 5 or len(dist50_history) < 5 or len(rv_history) < 5:
         return 0, 0, 0
 
-    dist20_t = series.dist20[t] or 0.0
-    dist50_t = series.dist50[t] or 0.0
+    dist20_t = short_series[t] or 0.0
+    dist50_t = long_series[t] or 0.0
     rv_t = series.rv30[t] or 0.5
     bb_t = series.bb[t] or 0.05
     atr_t = series.atr14[t] or 100.0
 
-    # Range boundary: within 2% of recent 30D high or low.
-    if t >= 30:
-        recent = closes[t - 29 : t + 1]
-        near_boundary = closes[t] >= max(recent) * 0.98 or closes[t] <= min(recent) * 1.02
-    else:
-        near_boundary = False
-
-    # 30D range compression: range / mean < 0.05 (matches live compose_assets.py).
-    if t >= 30:
-        recent = closes[t - 29 : t + 1]
-        rng = max(recent) - min(recent)
-        avg = sum(recent) / 30
-        compression = (rng / avg) < 0.05 if avg > 0 else False
-    else:
-        compression = False
+    near_boundary = boundary_flag(closes, t, horizon, rules)
+    compression = compression_flag(closes, t, rules)
 
     # Volume ratio: today vs 30D average.
     if t >= 31:
@@ -331,10 +349,11 @@ def _historical_score(
     t: int,
     score_type: ScoreType,
     horizon: Horizon,
+    rules: RuleSet = IT_2026_10_RULES,
 ) -> int:
     """Thin wrapper over _historical_scores, kept for callers/tests that only
     need a single score_type's score."""
-    pp, vp, overall = _historical_scores(closes, volumes, series, deriv, t, horizon)
+    pp, vp, overall = _historical_scores(closes, volumes, series, deriv, t, horizon, rules)
     return _select_score(pp, vp, overall, score_type)
 
 
