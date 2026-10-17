@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { LandmarkMeter } from "@/components/articles/LandmarkMeter";
 import { LatestArticlesRailLayout } from "@/components/articles/LatestArticlesRailLayout";
 import { SeriesPagination } from "@/components/articles/SeriesPagination";
 import { ArticleRow } from "@/components/home/ArticleRow";
@@ -18,6 +19,8 @@ import {
 } from "@/lib/articles/series-pagination";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
+import { buildLandmarkRows } from "@/lib/landmark/meter-model";
+import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
 
 function isSeriesSlug(value: string): value is SeriesSlug {
   return SERIES_SLUGS.includes(value as SeriesSlug);
@@ -58,6 +61,13 @@ export async function renderSeriesListPage({
     articles: catalog.articles,
   });
   const latestYear = articles[0]?.publishedAtJst.slice(0, 4) ?? "";
+  // 節目の計器盤 (core spec 2026-10-16-lvm-landmark-meter-design): 日本語の 1 ページ目だけ。
+  // feed に landmark が無い・全行が古いときは出さない (いまのページのまま)
+  const landmarkRows =
+    series === "landmark" && locale === "ja" && current.page === 1
+      ? buildLandmarkRows((await fetchLiveMarketData())?.landmark ?? null, new Date())
+      : null;
+  const meterT = landmarkRows ? await getTranslations("articles.landmarkMeter") : null;
 
   return (
     <LatestArticlesRailLayout rail={rail}>
@@ -86,6 +96,7 @@ export async function renderSeriesListPage({
             </Link>
           </p>
         )}
+        {landmarkRows && meterT && <LandmarkMeter rows={landmarkRows} t={meterT} />}
         {series === "weekly-brief" && (
           <p className="mt-4 text-sm text-text-secondary">
             <Link href="/brief" className="underline underline-offset-4">

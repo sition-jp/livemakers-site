@@ -606,6 +606,109 @@
       "atlasPublishedHeading": "Future Atlas",
       "atlasUnpublishedHeading": "Future Map",
       "editorialDesk": "LiveMakers Editorial Desk"
+    },
+    "landmarkMeter": {
+      "title": "Landmark gauges",
+      "lead": "Where each of the six landmark-signal indicators stands now. Judged on closed bars only; updated daily around 10:00 and 19:00 JST.",
+      "columns": {
+        "now": "Now",
+        "condition": "Fires when",
+        "gap": "Gap to condition",
+        "last": "Last fired"
+      },
+      "unavailable": "— (awaiting data)",
+      "never": "None",
+      "badges": {
+        "fired": "Fired",
+        "cooldown": "Cooling off",
+        "afterCross": "After cross",
+        "aboveZero": "Not counted",
+        "waitingPremise": "Awaiting premise"
+      },
+      "rows": {
+        "ma200w": {
+          "name": "200-week moving average",
+          "unit": "Weekly",
+          "now": "Close ${close} / 200-week average ${ma}",
+          "asOf": "week of {date}",
+          "condition": "The weekly close falls below the 200-week average",
+          "gap": "Gap to average {gapPct}",
+          "armed": "Next judged on the week of {date}",
+          "cooldown": "Counted again from the week of {date}",
+          "fired": "Week of {date}",
+          "count": "{count} since {sinceYear}"
+        },
+        "macd2w": {
+          "name": "2-week MACD",
+          "unit": "2-week bars",
+          "now": "MACD {macd} / signal {signal}",
+          "asOf": "closed {date}",
+          "condition": "Below the zero line, MACD crosses above its signal line",
+          "gap": "Gap to signal {diff}",
+          "armed": "Next judged on the bar closing {date}",
+          "afterCross": "Fires again only after MACD drops below the signal line",
+          "aboveZero": "MACD is above the zero line, so a cross is not counted",
+          "fired": "Bar closing {date}",
+          "count": "{count} since {sinceYear}"
+        },
+        "macd1m": {
+          "name": "Monthly MACD",
+          "unit": "Monthly bars",
+          "now": "MACD {macd} / signal {signal}",
+          "asOf": "closed {date}",
+          "condition": "On a closed monthly bar, MACD crosses above its signal line (either side of zero)",
+          "changed": "Changed on 2026-10-03 from below-zero only to either side of zero",
+          "gap": "Gap to signal {diff}",
+          "armed": "Next judged on the bar closing {date}",
+          "afterCross": "Fires again only after MACD drops below the signal line",
+          "fired": "Bar closing {date}",
+          "count": "{count} since {sinceYear}"
+        },
+        "mvrv": {
+          "name": "MVRV",
+          "unit": "Holders' break-even",
+          "now": "MVRV {mvrv} / realized price ${realizedPrice}",
+          "asOf": "{date}",
+          "condition": "Break: MVRV falls below 1.0",
+          "conditionRecover": "Recovery: after 30+ days below, stays at 1.0 or above for 14 days",
+          "gap": "Gap to 1.0 {gap}",
+          "cooldown": "Counted again from {date}",
+          "fired": "Fell below 1.0 on {date}",
+          "waitingPremise": "Recovery is judged only after a break",
+          "recoverFired": "Recovered on {date}",
+          "last": "Break {date} ({count})",
+          "lastRecover": "Recovery {date} ({count})",
+          "count": "Since {sinceYear}"
+        },
+        "funding": {
+          "name": "Funding rate",
+          "unit": "30-day average",
+          "now": "Annualized {avg30Pct}",
+          "asOf": "{date} / Binance BTCUSDT perpetual",
+          "condition": "The 30-day average turns negative",
+          "gap": "Gap to 0% {avg30Pct}",
+          "cooldown": "Counted again from {date}",
+          "fired": "Turned negative on {date}",
+          "count": "{count} since {sinceYear}"
+        },
+        "etf": {
+          "name": "US spot BTC ETFs",
+          "unit": "Cumulative net inflow",
+          "now": "Cumulative {cum} (units of $100M)",
+          "asOf": "as of {date} / TFTC",
+          "condition": "The cumulative total sets a new high",
+          "gap": "{toPeak} below the high ({peakDate}, {peak}; units of $100M)",
+          "cooldown": "Counted again from {date}",
+          "fired": "New high on {date}",
+          "count": "{count} since listing ({sinceYear})"
+        }
+      },
+      "notes": {
+        "count": "Each indicator has fired only {min} to {max} times. This does not show how prices moved after firing, and it is not a recommendation to buy or sell.",
+        "fixed": "Conditions are recorded and fixed. When one changes, the row shows the date of the change.",
+        "cooldown": "Cooling off: soon after the previous signal, meeting the condition is not counted (200-week average 52 weeks, MVRV 365 days, funding 180 days, ETF 90 days). The end moves later if the indicator re-enters the condition.",
+        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / TFTC (tftc.io/bitcoin-etf-flows), CC BY 4.0 (ETF)"
+      }
     }
   },
   "sessions": {

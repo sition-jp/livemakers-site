@@ -1541,3 +1541,34 @@ describe("alt20 section", () => {
     expect(mapTerminalFeed(sampleHomeV03())?.alt20).toBeNull();
   });
 });
+
+describe("landmark section", () => {
+  const landmark = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "tests/fixtures/landmark/section.json"), "utf8"),
+  ) as Record<string, any>;
+
+  it("maps a valid top-level landmark independently of home and alt20", () => {
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), landmark });
+    expect(feed?.landmark?.items).toHaveLength(6);
+    expect(feed?.home).not.toBeNull();
+  });
+
+  it("drops only landmark when it is malformed", () => {
+    const bad = structuredClone(landmark);
+    bad.items[0].values.close = "83,637 ドル";
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), landmark: bad });
+    expect(feed?.landmark).toBeNull();
+    expect(feed?.home).not.toBeNull();
+    expect(feed?.lanes.length).toBeGreaterThan(0);
+  });
+
+  it("is null when absent", () => {
+    expect(mapTerminalFeed(sampleHomeV03())?.landmark).toBeNull();
+  });
+
+  it("is never read from a v0.1 feed", () => {
+    const v01 = { ...sampleHomeV03(), schema_version: TERMINAL_FEED_SCHEMA_V01, landmark };
+    delete (v01 as Record<string, unknown>).home;
+    expect(mapTerminalFeed(v01)?.landmark ?? null).toBeNull();
+  });
+});
