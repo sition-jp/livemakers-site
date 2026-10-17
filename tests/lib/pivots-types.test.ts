@@ -372,3 +372,67 @@ describe("forecast / forecast_meta (it-2026-10 stage 2)", () => {
     expect(PivotAssetsSnapshotSchema.safeParse({ ...example, forecast_meta: { iteration: "x", train_end: "bad" } }).success).toBe(false);
   });
 });
+
+describe("trend / ladder / turns / forecast_history (it-2026-10 stage 2 Task 9)", () => {
+  const sc = { overall: 16, price_pivot: 16, volatility_pivot: 0, confidence_grade: "A", main_signal: "price" } as const;
+  const base = {
+    schema_version: "v0.1",
+    generated_at: "2026-10-17T23:00:00Z",
+    radar: [{ symbol: "BTC", scores: { "7D": sc, "30D": sc, "90D": sc } }],
+    detail: {},
+  };
+  const decided = {
+    strength: "cycle",
+    decided: true,
+    last_confirmed: { date: "2025-10-06", kind: "top", close: 124659 },
+    candidate: { date: "2026-02-05", kind: "bottom", close: 62700 },
+    confirm_at: 94050,
+  };
+  const undecided = { strength: "small", decided: false, last_confirmed: null, candidate: null, confirm_at: null };
+  const example = {
+    ...base,
+    trend: { BTC: { ret_30d_pct: -4.2, ret_90d_pct: 12.5 }, ETH: {} },
+    ladder: { BTC: [decided, undecided] },
+    turns: { BTC: [{ date: "2025-10-06", kind: "top", strength: "cycle", close: 124659 }] },
+    forecast_history: {
+      BTC: [
+        {
+          date: "2026-10-16",
+          close: 67000,
+          forecast: { turn: { "7D": 47.3, "30D": 50 }, move: { "90D": 61.2 } },
+          outcome: { turn: { "7D": "pending" }, move: { "90D": "hit" } },
+          backfilled: true,
+        },
+        { date: "2026-10-17", close: 67100, outcome: { turn: { "7D": "pending" } }, backfilled: false },
+        { date: "2026-10-15", backfilled: false },
+      ],
+    },
+  };
+
+  it("is optional (old snapshots stay valid)", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse(base).success).toBe(true);
+  });
+  it("accepts a well-formed example", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse(example).success).toBe(true);
+  });
+  it("undecided ladder rows must not carry a candidate or trigger price", () => {
+    const bad1 = { ...undecided, confirm_at: 100 };
+    const bad2 = { ...undecided, candidate: decided.candidate };
+    const bad3 = { ...decided, confirm_at: null };
+    for (const row of [bad1, bad2, bad3]) {
+      expect(PivotAssetsSnapshotSchema.safeParse({ ...example, ladder: { BTC: [row] } }).success).toBe(false);
+    }
+  });
+  it("rejects unknown strength / outcome / out-of-range percent / bad date", () => {
+    const fh = example.forecast_history.BTC[0];
+    const cases = [
+      { ...example, turns: { BTC: [{ date: "2025-10-06", kind: "top", strength: "huge", close: 1 }] } },
+      { ...example, forecast_history: { BTC: [{ ...fh, outcome: { turn: { "7D": "maybe" } } }] } },
+      { ...example, forecast_history: { BTC: [{ ...fh, forecast: { turn: { "7D": 101 } } }] } },
+      { ...example, forecast_history: { BTC: [{ ...fh, date: "bad" }] } },
+      { ...example, forecast_history: { BTC: [{ ...fh, backfilled: undefined }] } },
+      { ...example, ladder: { BTC: [decided, decided, decided, decided, decided] } },
+    ];
+    for (const c of cases) expect(PivotAssetsSnapshotSchema.safeParse(c).success).toBe(false);
+  });
+});

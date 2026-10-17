@@ -173,6 +173,70 @@ export const ForecastMetaSchema = z.object({
   train_end: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
 });
 
+// 長期の終値から作るブロック (it-2026-10 段 2 Task 9)。どれも資産ごと・optional。
+const IsoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
+const Pct0to100 = z.number().min(0).max(100);
+
+// 30 日前・90 日前の終値との比 (%・小数 1 桁)。履歴が足りなければそのキーが無い。
+export const TrendSchema = z.record(
+  AssetSymbolSchema,
+  z.object({ ret_30d_pct: z.number().optional(), ret_90d_pct: z.number().optional() }),
+);
+
+export const TurnStrengthSchema = z.enum(["small", "medium", "large", "cycle"]);
+export const TurnKindSchema = z.enum(["top", "bottom"]);
+const TurnPointSchema = z.object({
+  date: IsoDate,
+  kind: TurnKindSchema,
+  close: z.number().positive(),
+});
+
+// 強さのはしご: 4 行 (cycle → small)。decided=false (向きがまだ決まっていない) の行は
+// candidate と confirm_at が null — 画面は「まだ確定なし」を出し、確定条件の価格を出さない。
+export const LadderRowSchema = z
+  .object({
+    strength: TurnStrengthSchema,
+    decided: z.boolean(),
+    last_confirmed: TurnPointSchema.nullable(),
+    candidate: TurnPointSchema.nullable(),
+    confirm_at: z.number().positive().nullable(),
+  })
+  .refine(
+    (r) =>
+      r.decided
+        ? r.candidate !== null && r.confirm_at !== null
+        : r.candidate === null && r.confirm_at === null,
+    { message: "decided=false rows must have null candidate/confirm_at (and decided rows both set)" },
+  );
+export type LadderRow = z.infer<typeof LadderRowSchema>;
+export const LadderSchema = z.record(AssetSymbolSchema, z.array(LadderRowSchema).max(4));
+
+// 確定した天井・底: 直近 120 日以内 + サイクル級すべて。strength = その日が確定した一番大きい強さ。
+export const TurnEntrySchema = TurnPointSchema.extend({ strength: TurnStrengthSchema });
+export type TurnEntry = z.infer<typeof TurnEntrySchema>;
+export const TurnsSchema = z.record(AssetSymbolSchema, z.array(TurnEntrySchema));
+
+const PerHorizon = <T extends z.ZodTypeAny>(v: T) =>
+  z.object({ "7D": v.optional(), "30D": v.optional(), "90D": v.optional() });
+const PerEvent = <T extends z.ZodTypeAny>(v: T) =>
+  z.object({ turn: PerHorizon(v).optional(), move: PerHorizon(v).optional() });
+export const OutcomeSchema = z.enum(["hit", "miss", "pending"]);
+
+// 毎日の確率の履歴: 今日を含む直近 120 暦日 (1 日 1 件)。forecast はスコアが出せない日は無い
+// (0 と書かない)。backfilled=true = さかのぼり計算 (当時の画面ではない)。
+export const ForecastHistoryEntrySchema = z.object({
+  date: IsoDate,
+  close: z.number().positive().optional(),
+  forecast: PerEvent(Pct0to100).optional(),
+  outcome: PerEvent(OutcomeSchema).optional(),
+  backfilled: z.boolean(),
+});
+export type ForecastHistoryEntry = z.infer<typeof ForecastHistoryEntrySchema>;
+export const ForecastHistorySchema = z.record(
+  AssetSymbolSchema,
+  z.array(ForecastHistoryEntrySchema).max(120),
+);
+
 /**
  * The materialised file `data/pivot_assets.live.json` shape.
  *
@@ -190,6 +254,10 @@ export const PivotAssetsSnapshotSchema = z.object({
   history: ScoreHistorySchema.optional(),
   forecast: ForecastSchema.optional(),
   forecast_meta: ForecastMetaSchema.optional(),
+  trend: TrendSchema.optional(),
+  ladder: LadderSchema.optional(),
+  turns: TurnsSchema.optional(),
+  forecast_history: ForecastHistorySchema.optional(),
 });
 export type PivotAssetsSnapshot = z.infer<typeof PivotAssetsSnapshotSchema>;
 

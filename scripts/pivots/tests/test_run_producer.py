@@ -15,6 +15,7 @@ from tests._bulk_fixture import write_synthetic_bulk_cache
 
 FIXTURE_DIR = Path(__file__).parent / "fixtures" / "binance"
 _KLINES_START_MS = 1_638_316_800_000   # 2021-12-01 = BACKTEST_HISTORY_START_DAY
+_LONG_START_MS = 1_502_928_000_000     # 2017-08-17 = price_history_block.LONG_HISTORY_START
 
 
 @pytest.fixture(autouse=True)
@@ -49,6 +50,13 @@ def canned_fetcher() -> BinanceFetcher:
             FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
         ).read_bytes(),
         f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_KLINES_START_MS}&limit=1000": (
+            FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
+        ).read_bytes(),
+        # 長期の終値 (it-2026-10 段 2 Task 9): 2017-08-17 から。fixture は 400 本 (< 1000 で 1 ページ)。
+        f"https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&startTime={_LONG_START_MS}&limit=1000": (
+            FIXTURE_DIR / "btcusdt_klines_1d_1500.json"
+        ).read_bytes(),
+        f"https://api.binance.com/api/v3/klines?symbol=ETHUSDT&interval=1d&startTime={_LONG_START_MS}&limit=1000": (
             FIXTURE_DIR / "ethusdt_klines_1d_1500.json"
         ).read_bytes(),
         "https://fapi.binance.com/futures/data/openInterestHist?symbol=BTCUSDT&period=4h&limit=180": (
@@ -1032,3 +1040,113 @@ def test_forecast_same_day_rerun_keeps_day_over_day_prev(tmp_path, canned_fetche
     pinned = {(i["event"], i["horizon"]): i["prev_today_pct"] for i in second["forecast"]["BTC"]}
     rc, third = _run_fc(tmp_path, canned_fetcher, bulk_cache, tmp_path / "pivot_assets.live.json")
     assert {(i["event"], i["horizon"]): i["prev_today_pct"] for i in third["forecast"]["BTC"]} == pinned
+
+
+# --- 長期の終値から作るブロック (it-2026-10 段 2 Task 9) ---
+_PRICE_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
+
+
+def test_run_producer_writes_price_history_blocks(tmp_path, canned_fetcher, bulk_cache) -> None:
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    for name in _PRICE_BLOCKS:
+        assert list(written[name]) == ["BTC", "ETH"], name
+    assert written["ladder"]["BTC"][0]["strength"] == "cycle" and len(written["ladder"]["BTC"]) == 4
+    fh = written["forecast_history"]["BTC"]
+    assert len(fh) == 120
+    assert fh[-1]["date"] == "2026-05-04" and fh[-1]["backfilled"] is False   # pinned clock
+    # 今日の分は「今日の確率」と同じ値
+    for item in written["forecast"]["BTC"]:
+        assert fh[-1]["forecast"][item["event"]][item["horizon"]] == item["today_pct"]
+    # 今日の終値 = いまの (未確定の) 日足 = history と同じ
+    assert fh[-1]["close"] == written["history"]["BTC"][-1]["close"]
+    past = fh[:-1]
+    assert all(e["backfilled"] is True for e in past)
+    assert any("forecast" in e for e in past)
+    assert "ret_30d_pct" in written["trend"]["BTC"] and "ret_90d_pct" in written["trend"]["BTC"]
+    assert written["history"]["BTC"][0]["date"] == "2026-05-04"   # 既存の history は変えない
+
+
+def test_run_producer_backfilled_scores_match_iteration_logic(tmp_path, canned_fetcher, bulk_cache) -> None:
+    """さかのぼりのスコア・答え合わせは daily_series (オフライン評価と同じ揃え方) と一致する (R11)。"""
+    from producer import daily_series
+    from producer.bulk_history import BulkHistory
+    from producer.forecast import load_frozen, today_pct
+
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    candles = [c for c in canned_fetcher.fetch_klines_range("BTC", start_ms=_LONG_START_MS)
+               if daily_series.ms_day(c.open_time) < "2026-05-04"]
+    hist = BulkHistory.load(bulk_cache, "BTCUSDT", "2021-12-01", "2026-05-03")
+    p = daily_series.prepare(daily_series.input_from_candles(candles, hist))
+    frozen = load_frozen()
+    turns = daily_series.turns_by_horizon(p.inp.closes)
+    checked = 0
+    for e in written["forecast_history"]["BTC"][:-1]:
+        t = p.inp.dates.index(e["date"])
+        for h in ("7D", "30D", "90D"):
+            s = daily_series.score_at(p, t, h)
+            if s is None:
+                assert h not in e.get("forecast", {}).get("turn", {})
+                continue
+            assert e["forecast"]["turn"][h] == today_pct(frozen, "BTC", "turn", h, s[0])
+            assert e["forecast"]["move"][h] == today_pct(frozen, "BTC", "move", h, s[1])
+            checked += 1
+            for ev in ("turn", "move"):
+                ctx = daily_series.hit_context(p, t) if ev == "move" else None
+                assert e["outcome"][ev][h] == daily_series.outcome_at(
+                    p.inp.closes, t, ev, h, turns=turns, ctx=ctx)
+    assert checked > 0
+
+
+def test_run_producer_keeps_recorded_forecast_history(tmp_path, canned_fetcher, bulk_cache) -> None:
+    rc, first = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    first["generated_at"] = "2026-05-03T00:00:00Z"
+    yday = first["forecast_history"]["BTC"][-2]
+    yday["backfilled"] = False
+    yday["forecast"] = {"turn": {"7D": 12.3}}
+    (tmp_path / "pivot_assets.live.json").write_text(json.dumps(first), encoding="utf-8")
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, tmp_path / "pivot_assets.live.json")
+    assert rc == 0
+    kept = second["forecast_history"]["BTC"][-2]
+    assert kept["date"] == yday["date"] and kept["backfilled"] is False
+    assert kept["forecast"] == {"turn": {"7D": 12.3}}
+
+
+@pytest.mark.parametrize("block,target", [
+    ("trend", "trend"),
+    ("ladder", "ladder_json"),
+    ("turns", "turns_json"),
+    ("forecast_history", "forecast_history"),
+])
+def test_one_price_block_failing_keeps_the_others(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys, block, target) -> None:
+    def boom(*_a, **_k):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr(f"producer.price_history_block.{target}", boom)
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    assert block not in written
+    for other in _PRICE_BLOCKS:
+        if other != block:
+            assert other in written, other
+    assert "forecast" in written and "history" in written
+    assert f"{block}_degraded=RuntimeError: boom" in capsys.readouterr().out
+
+
+def test_long_klines_failure_degrades_price_blocks_only(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    real = canned_fetcher.fetch_klines_range
+
+    def fail_long(asset, *, start_ms, **kw):
+        if start_ms == _LONG_START_MS:
+            raise OSError("network down")
+        return real(asset, start_ms=start_ms, **kw)
+
+    monkeypatch.setattr(canned_fetcher, "fetch_klines_range", fail_long)
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    out = capsys.readouterr().out
+    for name in _PRICE_BLOCKS:
+        assert name not in written
+        assert f"{name}_degraded=OSError: network down" in out
+    assert "forecast" in written and "history" in written

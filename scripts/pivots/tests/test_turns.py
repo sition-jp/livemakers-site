@@ -48,6 +48,7 @@ def test_ladder_reports_candidate_and_confirm_price():
     rows = ladder([60, 124.659, 58.625, 81.537])
     assert [r.strength for r in rows] == ["cycle", "large", "medium", "small"]
     cycle = rows[0]
+    assert cycle.decided is True
     assert cycle.last_confirmed is not None
     assert cycle.last_confirmed.kind == "top"
     assert cycle.last_confirmed.close == 124.659
@@ -62,7 +63,40 @@ def test_ladder_without_any_confirmed_turn():
     cycle = rows[0]
     assert cycle.strength == "cycle"
     assert cycle.last_confirmed is None
-    # 向き未定: 起点から最も離れた終値 (103, index 4) が候補の天井
-    assert cycle.candidate_kind == "top"
-    assert cycle.candidate_index == 4
-    assert cycle.confirm_at == pytest.approx(103 * (1 - STRENGTH_REVERSAL["cycle"]))
+    # 向き未定 (起点から ±50% の動きがまだ無い): 候補も確定条件の価格も出さない
+    assert cycle.decided is False
+    assert cycle.candidate_kind is None
+    assert cycle.candidate_index is None
+    assert cycle.candidate_close is None
+    assert cycle.confirm_at is None
+
+
+def test_ladder_decided_without_confirmed_turn_has_candidate():
+    # 起点 100 から +6% で small の向き (上昇中) は決まったが、まだ何も確定していない
+    rows = {r.strength: r for r in ladder([100, 103, 106, 104])}
+    small = rows["small"]
+    assert small.decided is True
+    assert small.last_confirmed is None
+    assert small.candidate_kind == "top"
+    assert small.candidate_index == 2
+    assert small.confirm_at == pytest.approx(106 * (1 - STRENGTH_REVERSAL["small"]))
+    assert rows["medium"].decided is False and rows["medium"].confirm_at is None
+
+
+def test_ladder_empty_input():
+    rows = ladder([])
+    assert [r.strength for r in rows] == ["cycle", "large", "medium", "small"]
+    for r in rows:
+        assert r.decided is False
+        assert r.last_confirmed is None
+        assert r.candidate_index is None and r.candidate_kind is None
+        assert r.candidate_close is None and r.confirm_at is None
+
+
+def test_ladder_single_close():
+    rows = ladder([100.0])
+    assert len(rows) == 4
+    for r in rows:
+        assert r.decided is False
+        assert r.last_confirmed is None
+        assert r.candidate_index is None and r.confirm_at is None

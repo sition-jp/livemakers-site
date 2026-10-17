@@ -49,9 +49,9 @@ from producer.derivatives_sidecar import (
     compose_derivatives_history_sidecar,
     load_derivatives_history_sidecar,
 )
-from producer import forecast
+from producer import daily_series, forecast, price_history_block
 from producer.fetch_binance import BinanceFetcher
-from producer.types import HORIZONS
+from producer.types import ASSETS, HORIZONS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
@@ -243,6 +243,78 @@ def _build_forecast(
         out[asset] = forecast.forecast_items(frozen, asset, scores, prev_items)
     meta = {"iteration": frozen.iteration, "train_end": frozen.train_end}
     return out, meta
+
+
+PRICE_HISTORY_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
+
+
+def _build_price_history_blocks(
+    fetcher: BinanceFetcher,
+    existing_raw: dict | None,
+    assets_payload: dict,
+    bulk: dict,
+    generated_at: str,
+) -> None:
+    """trend / ladder / turns / forecast_history (資産ごと) を assets_payload に足す。
+
+    長期の終値 (2017-08-17〜) を 1 回だけ取り、ブロックごとに soft-degrade する
+    (`<block>_degraded=` を出してそのブロックだけ省く)。長期の終値が取れなければ 4 つとも省く。
+    """
+    today = generated_at[:10]
+    start_ms = daily_series.day_ms(price_history_block.LONG_HISTORY_START)
+    try:
+        live: dict = {}
+        for a in ASSETS:
+            candles = fetcher.fetch_klines_range(a, start_ms=start_ms)
+            closed, today_candle = price_history_block.closed_and_today(candles, today)
+            if not closed:
+                raise ValueError(f"{a}: no closed daily candles")
+            inp = daily_series.input_from_candles(closed, bulk[a])
+            live[a] = (inp, today_candle)
+    except Exception as exc:  # noqa: BLE001
+        for name in PRICE_HISTORY_BLOCKS:
+            print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+        return
+
+    def with_today(a: str) -> tuple[list[str], list[float]]:
+        inp, today_candle = live[a]
+        if today_candle is None:
+            return list(inp.dates), list(inp.closes)
+        return [*inp.dates, today], [*inp.closes, today_candle.close]
+
+    def build_forecast_history(a: str) -> list:
+        inp, _ = live[a]
+        frozen = forecast.load_frozen(forecast.FROZEN_PATH)
+        prepared = daily_series.prepare(
+            inp, series_start=price_history_block.series_start_for(len(inp.dates))
+        )
+        prev = existing_raw.get("forecast_history") if isinstance(existing_raw, dict) else None
+        prev_items = prev.get(a) if isinstance(prev, dict) else None
+        today_block = assets_payload.get("forecast")
+        dates, closes = with_today(a)
+        return price_history_block.forecast_history(
+            dates,
+            closes,
+            frozen,
+            a,
+            today_block.get(a) if isinstance(today_block, dict) else None,
+            prev_items if isinstance(prev_items, list) else None,
+            lambda t, h: daily_series.score_at(prepared, t, h),
+            today=today,
+            hit_context=lambda t: daily_series.hit_context(prepared, t),
+        )
+
+    builders = {
+        "trend": lambda a: price_history_block.trend(with_today(a)[1]),
+        "ladder": lambda a: price_history_block.ladder_json(live[a][0].dates, live[a][0].closes),
+        "turns": lambda a: price_history_block.turns_json(live[a][0].dates, live[a][0].closes, today),
+        "forecast_history": build_forecast_history,
+    }
+    for name in PRICE_HISTORY_BLOCKS:
+        try:
+            assets_payload[name] = {a: builders[name](a) for a in ASSETS}
+        except Exception as exc:  # noqa: BLE001
+            print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
 
 
 def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
@@ -441,6 +513,16 @@ def run_producer(
         # Soft-degrade like history: the forecast block is an add-on, never a
         # reason to fail an otherwise-good run. The block is simply omitted.
         print(f"[pivots-producer] forecast_degraded={type(exc).__name__}: {exc}")
+
+    # 長期の終値から作るブロック (it-2026-10 段 2)。各ブロックが自分で soft-degrade する。
+    try:
+        _build_price_history_blocks(
+            fetcher, existing_assets_raw, assets_payload, history, generated_at
+        )
+    except Exception as exc:  # noqa: BLE001 — belt-and-braces: never fail the run
+        for name in PRICE_HISTORY_BLOCKS:
+            assets_payload.pop(name, None)
+            print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
 
     sidecar_payload = None
     sidecar_warning: str | None = None

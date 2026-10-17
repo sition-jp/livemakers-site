@@ -39,18 +39,24 @@ class Turn:
 
 @dataclass(frozen=True)
 class LadderRow:
+    """強さのはしごの 1 行。
+
+    `decided=False` = 向きがまだ決まっていない (起点から ±R の動きがまだ無い)。
+    そのとき候補と確定条件の価格は None (画面は「まだ確定なし」を出し、価格を出さない)。
+    """
     strength: Strength
+    decided: bool
     last_confirmed: Turn | None
-    candidate_index: int
-    candidate_kind: Kind
-    candidate_close: float
-    confirm_at: float
+    candidate_index: int | None
+    candidate_kind: Kind | None
+    candidate_close: float | None
+    confirm_at: float | None
 
 
 def _scan(
     closes: Sequence[float], reversal: float
-) -> tuple[list[Turn], int, Kind, float]:
-    """確定した Turn と、現在追跡中の候補 (index, kind, close) を返す。
+) -> tuple[list[Turn], int, Kind, float, bool]:
+    """確定した Turn と、現在追跡中の候補 (index, kind, close)、向きが決まったか を返す。
 
     向き未定 (±R の動きがまだ無い) の間の候補は、起点の終値から最も離れた
     (相対変化が最大の) 終値とする。同距離なら天井側。
@@ -92,9 +98,9 @@ def _scan(
         up = closes[hi_i] / first - 1.0
         down = 1.0 - closes[lo_i] / first
         if up >= down:
-            return turns, hi_i, "top", closes[hi_i]
-        return turns, lo_i, "bottom", closes[lo_i]
-    return turns, ext_i, direction, closes[ext_i]
+            return turns, hi_i, "top", closes[hi_i], False
+        return turns, lo_i, "bottom", closes[lo_i], False
+    return turns, ext_i, direction, closes[ext_i], True
 
 
 def find_turns(closes: Sequence[float], reversal: float) -> list[Turn]:
@@ -119,18 +125,26 @@ def ladder(closes: Sequence[float]) -> list[LadderRow]:
     """強さのはしご。4 行 (cycle → small)。
 
     各行は直近に確定した転換点 (無ければ None)、いま追跡中の候補、
-    候補が確定する価格 (`confirm_at`) を持つ。向き未定の間の候補は
-    起点から最も離れた終値 (`_scan` 参照)。
+    候補が確定する価格 (`confirm_at`) を持つ。向きがまだ決まっていない行
+    (空・1 本だけの入力を含む) は `decided=False` で、候補と `confirm_at` は None。
     """
     rows: list[LadderRow] = []
     for strength in _LADDER_ORDER:
         r = STRENGTH_REVERSAL[strength]
-        turns, idx, kind, close = _scan(closes, r)
+        if not closes:
+            rows.append(LadderRow(strength, False, None, None, None, None, None))
+            continue
+        turns, idx, kind, close, decided = _scan(closes, r)
+        last = turns[-1] if turns else None
+        if not decided:
+            rows.append(LadderRow(strength, False, last, None, None, None, None))
+            continue
         confirm_at = close * (1 - r) if kind == "top" else close * (1 + r)
         rows.append(
             LadderRow(
                 strength=strength,
-                last_confirmed=turns[-1] if turns else None,
+                decided=True,
+                last_confirmed=last,
                 candidate_index=idx,
                 candidate_kind=kind,
                 candidate_close=close,

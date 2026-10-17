@@ -102,6 +102,49 @@ class ForecastMeta(TypedDict):
     train_end: str
 
 
+TurnStrength = Literal["small", "medium", "large", "cycle"]
+TurnKind = Literal["top", "bottom"]
+Outcome = Literal["hit", "miss", "pending"]
+
+
+class TrendBlock(TypedDict, total=False):
+    """Mirror of TrendSchema (per asset). % one decimal; a key is absent when history is too short."""
+    ret_30d_pct: float
+    ret_90d_pct: float
+
+
+class TurnPoint(TypedDict):
+    date: str
+    kind: TurnKind
+    close: float
+
+
+class LadderRowJson(TypedDict):
+    """Mirror of LadderRowSchema. decided=False -> candidate and confirm_at are None."""
+    strength: TurnStrength
+    decided: bool
+    last_confirmed: TurnPoint | None
+    candidate: TurnPoint | None
+    confirm_at: float | None
+
+
+class TurnEntry(TypedDict):
+    """Mirror of TurnEntrySchema (confirmed turns: last 120 days + every cycle turn)."""
+    date: str
+    kind: TurnKind
+    strength: TurnStrength
+    close: float
+
+
+class ForecastHistoryEntry(TypedDict):
+    """Mirror of ForecastHistoryEntrySchema. forecast/outcome are {event: {horizon: value}}."""
+    date: str
+    close: NotRequired[float]
+    forecast: NotRequired[dict]  # {"turn": {"7D": pct, ...}, "move": {...}} — omitted when no score
+    outcome: NotRequired[dict]   # {"turn": {"7D": Outcome, ...}, "move": {...}}
+    backfilled: bool
+
+
 class PivotAssetsSnapshot(TypedDict):
     schema_version: Literal["v0.1"]
     generated_at: str
@@ -110,6 +153,10 @@ class PivotAssetsSnapshot(TypedDict):
     previous: NotRequired[dict]  # {"generated_at": str, "radar": list[RadarAsset]}
     forecast: NotRequired[dict]  # {"BTC": [ForecastItem], "ETH": [...]} — it-2026-10 stage 2
     forecast_meta: NotRequired[ForecastMeta]
+    trend: NotRequired[dict]  # {"BTC": TrendBlock, "ETH": ...} — it-2026-10 stage 2 Task 9
+    ladder: NotRequired[dict]  # {"BTC": [LadderRowJson x4], ...}
+    turns: NotRequired[dict]  # {"BTC": [TurnEntry], ...}
+    forecast_history: NotRequired[dict]  # {"BTC": [ForecastHistoryEntry x120], ...}
     history: NotRequired[dict]  # {"BTC": [HistoryEntry], "ETH": [...]} — spec §5.8 T-P1
 
 
