@@ -1307,6 +1307,8 @@ def test_backtest_carries_frozen_events(tmp_path, canned_fetcher, bulk_cache) ->
         "brier_skill": src_ev["holdout_brier_skill"], "lift_pts": src_ev["holdout_lift_pts"],
         "n_signal": src_ev["holdout_n_signal"], "judged": src_ev["judged"],
         "primary": src_ev["primary"], "secondary": src_ev["secondary"],
+        "signal_rate_pct": src_ev["signal_rate_pct"], "other_rate_pct": src_ev["other_rate_pct"],
+        "holdout_rate_pct": src_ev["holdout_rate_pct"], "holdout_n": src_ev["holdout_n"],
     }
     assert [(c["lo"], c["hi"], c["n"]) for c in e0["calibration"]] == [(b["lo"], b["hi"], b["n"]) for b in src_tab["bins"]]
     for c, b in zip(e0["calibration"], src_tab["bins"]):

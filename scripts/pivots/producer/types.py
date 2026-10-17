@@ -201,6 +201,11 @@ class HoldoutOut(TypedDict):
     brier_skill: float | None
     lift_pts: float | None
     n_signal: int | None
+    # 状態ごとの当たり率 (%・小数 1 桁・出せなければ null)。旧スナップショットには無い
+    signal_rate_pct: NotRequired[float | None]
+    other_rate_pct: NotRequired[float | None]
+    holdout_rate_pct: NotRequired[float | None]
+    holdout_n: NotRequired[int | None]
     judged: bool | None
     primary: str | None  # "pass" | "fail" | "undecidable" | None
     secondary: str | None

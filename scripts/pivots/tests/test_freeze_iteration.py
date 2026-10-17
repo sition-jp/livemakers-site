@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 import pytest
@@ -6,7 +7,10 @@ import pytest
 from ops.freeze_iteration import build_evaluation, freeze, main
 from producer.forecast import load_frozen
 
-SRC = Path("/Users/sition/Documents/SITION/.claude/worktrees/phase3-cp0-verification-381a34/08_DOCS/reports/turning_point/it-2026-10")
+SRC = Path(os.environ.get(
+    "IT_2026_10_SOURCE_DIR",
+    "/Users/sition/Documents/SITION/08_DOCS/reports/turning_point/it-2026-10",
+))
 
 
 def _cal() -> dict:
@@ -26,7 +30,8 @@ def _q(asset, event, horizon, judged, primary, secondary, lift=0.125, n_signal=4
     return {"asset": asset, "event": event, "horizon": horizon, "judged": judged,
             "long_run": {"usual": 0.5429437521050859},
             "calibration": {"usual": 0.4727272727272727},
-            "holdout": {"brier_skill": 0.0023617725248287202, "lift": lift, "n_signal": n_signal},
+            "holdout": {"brier_skill": 0.0023617725248287202, "lift": lift, "n_signal": n_signal,
+                        "signal_rate": 0.5, "other_rate": 0.3746397694524496, "rate": 0.37606837606837606, "n": 351},
             "verdict": {"primary_pass": primary, "secondary_pass": secondary}}
 
 
@@ -39,6 +44,7 @@ def test_build_evaluation_maps_fields_and_verdicts():
     a = ev["BTC"]["turn"]["7D"]
     assert a == {"usual_pct": 47.3, "long_run_usual_pct": 54.3, "holdout_brier_skill": 0.0023617725248287202,
                  "holdout_lift_pts": 12.5, "holdout_n_signal": 4, "judged": True,
+                 "signal_rate_pct": 50.0, "other_rate_pct": 37.5, "holdout_rate_pct": 37.6, "holdout_n": 351,
                  "primary": "pass", "secondary": "pass"}
     b = ev["BTC"]["turn"]["30D"]
     assert (b["primary"], b["secondary"], b["holdout_lift_pts"]) == ("fail", "undecidable", None)
@@ -66,7 +72,18 @@ def test_freeze_refuses_incomplete_calibration(tmp_path):
         freeze(c, e, tmp_path / "o.json")
 
 
-@pytest.mark.skipif(not SRC.exists(), reason="sition-core reports not mounted")
+def test_state_rates_keep_null():
+    q = _q("BTC", "turn", "7D", True, True, True)
+    q["holdout"].update({"signal_rate": None, "other_rate": None})
+    a = build_evaluation({"questions": [q]})["BTC"]["turn"]["7D"]
+    assert a["signal_rate_pct"] is None and a["other_rate_pct"] is None
+    assert a["holdout_rate_pct"] == 37.6 and a["holdout_n"] == 351
+
+
+@pytest.mark.skipif(
+    not SRC.exists(),
+    reason=f"it-2026-10 source reports not found at {SRC} (set IT_2026_10_SOURCE_DIR)",
+)
 def test_shipped_frozen_file_matches_it_2026_10_sources():
     from producer.forecast import FROZEN_PATH
     cal = json.loads((SRC / "calibration_it_2026_10.json").read_text())

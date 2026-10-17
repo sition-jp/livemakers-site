@@ -467,6 +467,10 @@ describe("PivotBacktestSnapshotSchema.events (it-2026-10 stage 2)", () => {
       brier_skill: 0.002,
       lift_pts: 12.5,
       n_signal: 4,
+      signal_rate_pct: 50,
+      other_rate_pct: 37.5,
+      holdout_rate_pct: 37.6,
+      holdout_n: 351,
       judged: true,
       primary: "pass",
       secondary: null,
@@ -489,6 +493,10 @@ describe("PivotBacktestSnapshotSchema.events (it-2026-10 stage 2)", () => {
   });
 
   it("rejects an unknown verdict", () => {
+    const nullRates = { ...event, holdout: { ...event.holdout, signal_rate_pct: null, other_rate_pct: null } };
+    expect(PivotBacktestSnapshotSchema.safeParse({ ...base, events: [nullRates] }).success).toBe(true);
+    const { signal_rate_pct: _a, other_rate_pct: _b, holdout_rate_pct: _c, holdout_n: _d, ...legacy } = event.holdout;
+    expect(PivotBacktestSnapshotSchema.safeParse({ ...base, events: [{ ...event, holdout: legacy }] }).success).toBe(true);
     const bad = { ...event, holdout: { ...event.holdout, primary: "maybe" } };
     expect(
       PivotBacktestSnapshotSchema.safeParse({ ...base, events: [bad] }).success,

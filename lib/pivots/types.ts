@@ -339,6 +339,11 @@ export const BacktestEventSchema = z.object({
     brier_skill: z.number().nullable(),
     lift_pts: z.number().nullable(),
     n_signal: z.number().int().nullable(),
+    // 状態ごとの当たり率 (%)。旧スナップショットには無い
+    signal_rate_pct: z.number().min(0).max(100).nullable().optional(),
+    other_rate_pct: z.number().min(0).max(100).nullable().optional(),
+    holdout_rate_pct: z.number().min(0).max(100).nullable().optional(),
+    holdout_n: z.number().int().min(0).nullable().optional(),
     judged: z.boolean().nullable(),
     primary: VerdictSchema,
     secondary: VerdictSchema,
