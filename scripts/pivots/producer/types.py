@@ -137,7 +137,12 @@ class TurnEntry(TypedDict):
 
 
 class ForecastHistoryEntry(TypedDict):
-    """Mirror of ForecastHistoryEntrySchema. forecast/outcome are {event: {horizon: value}}."""
+    """Mirror of ForecastHistoryEntrySchema. forecast/outcome are {event: {horizon: value}}.
+
+    backfilled=True => forecast is a backfill calculation; backfilled=False => the value shown
+    live; no forecast => a gap (always backfilled=False). Carried forward unchanged when the
+    block degrades (Ruling R12).
+    """
     date: str
     close: NotRequired[float]
     forecast: NotRequired[dict]  # {"turn": {"7D": pct, ...}, "move": {...}} — omitted when no score

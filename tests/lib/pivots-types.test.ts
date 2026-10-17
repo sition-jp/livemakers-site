@@ -431,6 +431,7 @@ describe("trend / ladder / turns / forecast_history (it-2026-10 stage 2 Task 9)"
       { ...example, forecast_history: { BTC: [{ ...fh, forecast: { turn: { "7D": 101 } } }] } },
       { ...example, forecast_history: { BTC: [{ ...fh, date: "bad" }] } },
       { ...example, forecast_history: { BTC: [{ ...fh, backfilled: undefined }] } },
+      { ...example, forecast_history: { BTC: [{ date: "2026-10-16", backfilled: true }] } },
       { ...example, ladder: { BTC: [decided, decided, decided, decided, decided] } },
     ];
     for (const c of cases) expect(PivotAssetsSnapshotSchema.safeParse(c).success).toBe(false);

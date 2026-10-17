@@ -14,6 +14,7 @@
 """
 from __future__ import annotations
 
+import re
 from datetime import date, timedelta
 from typing import Callable, Optional, Sequence
 
@@ -34,6 +35,8 @@ FORECAST_HISTORY_DAYS = 120
 TURNS_RECENT_DAYS = 120
 
 ScoreAt = Callable[[int, Horizon], Optional[tuple[int, int]]]
+_ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_OUTCOMES = ("hit", "miss", "pending")
 
 
 def _ret_pct(now: float, then: float) -> float:
@@ -162,12 +165,14 @@ def forecast_history(
 
     * `dates`/`closes` は日付順の日足。`today` (既定 = `dates[-1]`) の足はまだ確定して
       いないものとして扱い、答え合わせには使わない (今日の `close` にだけ使う)。
+    * `backfilled=True` ⇔ `forecast` がさかのぼり計算。`forecast` が無い日は「空き」で
+      `backfilled=False` (何もさかのぼっていない・R12 c)。
     * 今日の `forecast` は `today_items` (= その run の「今日の確率」) の値そのもので
-      `backfilled=False`。`today_items` が無ければ今日の `forecast` は省き `backfilled=True`
-      (画面に出した値が無い・次の run でさかのぼり計算する)。
-    * 過去の日: `existing` に `backfilled=False` の記録があればその `forecast` を残す
-      (実際に画面に出した値)。無い・`backfilled=True` なら `score_at(t, h)` で計算し
-      `backfilled=True`。スコアが出せない期間は省き、全部出せなければ `forecast` ごと省く。
+      `backfilled=False`。`today_items` が無ければ、`existing` の同じ日の記録
+      (`backfilled=False` で forecast あり) を残す (R12 b)。それも無ければ空き。
+    * 過去の日: `existing` に `backfilled=False` で forecast のある記録があればそれを残す
+      (実際に画面に出した値)。無い・空き・`backfilled=True` なら `score_at(t, h)` で計算し
+      `backfilled=True`。スコアが出せない期間は省き、全部出せなければ `forecast` ごと省く (空き)。
     * `outcome` は毎回、確定した足で計算し直す (結果待ちが確定に変わるため)。今日は全部
       `pending`。日足の無い日は `close` と `outcome` を省く。
     * `hit_context(t)` は「大きく動く」の閾値に使う指標 (backtest と同じ。省くと固定の閾値)。
@@ -183,10 +188,14 @@ def forecast_history(
     closed = list(closes[:closed_n])
     turns = daily_series.turns_by_horizon(closed) if closed else {h: [] for h in HORIZONS}
 
+    # 実際に画面に出した値 = backfilled=False で forecast があるもの。forecast の無い記録は
+    # 「空き」なので守らない (さかのぼり計算で埋めてよい)。
     recorded: dict[str, dict] = {}
     for e in existing or []:
         if isinstance(e, dict) and isinstance(e.get("date"), str) and e.get("backfilled") is False:
-            recorded[e["date"]] = e
+            fc = _recorded_forecast(e.get("forecast"))
+            if fc:
+                recorded[e["date"]] = fc
 
     pending = {ev: {h: "pending" for h in HORIZONS} for ev in EVENTS}
     out: list[dict] = []
@@ -198,14 +207,15 @@ def forecast_history(
             entry["close"] = float(closes[t])
 
         if d == today:
-            fc = _today_forecast(today_items)
-            backfilled = not fc
+            # 今日の確率が無い (その run で失敗) ときは、同じ日に先に出した値を残す (R12 b)
+            fc = _today_forecast(today_items) or recorded.get(d, {})
+            backfilled = False
         elif d in recorded:
-            fc = _recorded_forecast(recorded[d].get("forecast"))
+            fc = recorded[d]
             backfilled = False
         else:
             fc = _backfill_forecast(frozen, asset, t, score_at) if t is not None else {}
-            backfilled = True
+            backfilled = bool(fc)  # forecast なし = 空き (何もさかのぼっていない・R12 c)
         if fc:
             entry["forecast"] = fc
 
@@ -239,3 +249,56 @@ def closed_and_today(
 def series_start_for(n_closed: int) -> int:
     """直近 120 日のスコアが全期間で計算したときと同じになる、指標の計算開始位置。"""
     return max(0, n_closed - FORECAST_HISTORY_DAYS - daily_series.MAX_LOOKBACK_DAYS)
+
+
+def _sanitize_outcome(raw) -> dict:
+    out: dict = {}
+    if not isinstance(raw, dict):
+        return out
+    for ev in EVENTS:
+        hs = raw.get(ev)
+        if not isinstance(hs, dict):
+            continue
+        for h in HORIZONS:
+            if hs.get(h) in _OUTCOMES:
+                out.setdefault(ev, {})[h] = hs[h]
+    return out
+
+
+def carryable_history(existing_raw) -> dict[str, list]:
+    """前回のスナップショットの `forecast_history` を、そのまま引き継げる形で返す (R12 a)。
+
+    スキーマ (zod) に通る記録は変えずに残す。形の崩れた件・値は落とし、forecast の無い件は
+    `backfilled=False` にする (引き継いだ block が検証で run を止めないため)。
+    """
+    if not isinstance(existing_raw, dict):
+        return {}
+    block = existing_raw.get("forecast_history")
+    if not isinstance(block, dict):
+        return {}
+    out: dict[str, list] = {}
+    for asset in ("BTC", "ETH"):
+        entries = block.get(asset)
+        if not isinstance(entries, list):
+            continue
+        kept: list = []
+        for e in entries:
+            if not isinstance(e, dict) or not isinstance(e.get("date"), str) or not _ISO_DATE.match(e["date"]):
+                continue
+            if not isinstance(e.get("backfilled"), bool):
+                continue
+            entry: dict = {"date": e["date"]}
+            c = e.get("close")
+            if isinstance(c, (int, float)) and not isinstance(c, bool) and c > 0:
+                entry["close"] = c
+            fc = _recorded_forecast(e.get("forecast"))
+            if fc:
+                entry["forecast"] = fc
+            oc = _sanitize_outcome(e.get("outcome"))
+            if oc:
+                entry["outcome"] = oc
+            entry["backfilled"] = bool(e["backfilled"]) and bool(fc)
+            kept.append(entry)
+        if kept:
+            out[asset] = kept[-FORECAST_HISTORY_DAYS:]
+    return out

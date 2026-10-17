@@ -248,6 +248,31 @@ def _build_forecast(
 PRICE_HISTORY_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
 
 
+def _forecast_history_degraded(
+    existing_raw: dict | None, assets_payload: dict, exc: Exception, failed: Iterable[str]
+) -> None:
+    """forecast_history だけは失敗しても省かず、前回の記録を引き継ぐ (Ruling R12 a)。
+
+    省くと翌日の run が existing=None で読み、実際に画面に出した値が全部さかのぼり計算で
+    上書きされてしまう。失敗した資産だけ前回の分で埋める (前回の分が無ければその資産は無し)。
+    """
+    prev = price_history_block.carryable_history(existing_raw)
+    block = dict(assets_payload.get("forecast_history") or {})
+    carried = False
+    for a in failed:
+        if a in prev:
+            block[a] = prev[a]
+            carried = True
+        else:
+            block.pop(a, None)
+    if block:
+        assets_payload["forecast_history"] = {a: block[a] for a in ASSETS if a in block}
+    else:
+        assets_payload.pop("forecast_history", None)
+    suffix = " carried_forward" if carried else ""
+    print(f"[pivots-producer] forecast_history_degraded={type(exc).__name__}: {exc}{suffix}")
+
+
 def _build_price_history_blocks(
     fetcher: BinanceFetcher,
     existing_raw: dict | None,
@@ -272,8 +297,9 @@ def _build_price_history_blocks(
             inp = daily_series.input_from_candles(closed, bulk[a])
             live[a] = (inp, today_candle)
     except Exception as exc:  # noqa: BLE001
-        for name in PRICE_HISTORY_BLOCKS:
+        for name in PRICE_HISTORY_BLOCKS[:-1]:
             print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+        _forecast_history_degraded(existing_raw, assets_payload, exc, ASSETS)
         return
 
     def with_today(a: str) -> tuple[list[str], list[float]]:
@@ -310,11 +336,22 @@ def _build_price_history_blocks(
         "turns": lambda a: price_history_block.turns_json(live[a][0].dates, live[a][0].closes, today),
         "forecast_history": build_forecast_history,
     }
-    for name in PRICE_HISTORY_BLOCKS:
+    for name in PRICE_HISTORY_BLOCKS[:-1]:
         try:
             assets_payload[name] = {a: builders[name](a) for a in ASSETS}
         except Exception as exc:  # noqa: BLE001
             print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+    # forecast_history は資産ごとに作り、失敗した資産は前回の記録を引き継ぐ (R12 a)
+    built: dict = {}
+    for a in ASSETS:
+        try:
+            built[a] = build_forecast_history(a)
+        except Exception as exc:  # noqa: BLE001
+            assets_payload["forecast_history"] = built
+            _forecast_history_degraded(existing_raw, assets_payload, exc, [a])
+            built = dict(assets_payload.get("forecast_history") or {})
+    if built:
+        assets_payload["forecast_history"] = {a: built[a] for a in ASSETS if a in built}
 
 
 def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
@@ -520,9 +557,11 @@ def run_producer(
             fetcher, existing_assets_raw, assets_payload, history, generated_at
         )
     except Exception as exc:  # noqa: BLE001 — belt-and-braces: never fail the run
-        for name in PRICE_HISTORY_BLOCKS:
+        for name in PRICE_HISTORY_BLOCKS[:-1]:
             assets_payload.pop(name, None)
             print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
+        assets_payload.pop("forecast_history", None)
+        _forecast_history_degraded(existing_assets_raw, assets_payload, exc, ASSETS)
 
     sidecar_payload = None
     sidecar_warning: str | None = None

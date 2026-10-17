@@ -13,6 +13,7 @@ from producer.backtest import BacktestHitContext
 from producer.forecast import forecast_items, load_frozen, today_pct
 from producer.price_history_block import (
     FORECAST_HISTORY_DAYS,
+    carryable_history,
     LONG_HISTORY_START,
     forecast_history,
     ladder_json,
@@ -187,6 +188,8 @@ def test_forecast_history_is_120_continuous_days_ending_today(frozen):
     out, _ = _run_fh(frozen, dates, closes, hit_context=_ctx(closes))
     assert len(out) == FORECAST_HISTORY_DAYS
     assert [e["date"] for e in out] == dates[-FORECAST_HISTORY_DAYS:]
+    # backfilled=True ⇒ forecast はさかのぼり計算 / forecast なし ⇒ 空き (backfilled=False)
+    assert all(e["backfilled"] is False for e in out if "forecast" not in e)
     json.dumps(out)
 
 
@@ -207,11 +210,12 @@ def test_forecast_history_backfills_past_days_with_score_at(frozen):
     out, _ = _run_fh(frozen, dates, closes, hit_context=_ctx(closes))
     for e in out[:-1]:
         t = dates.index(e["date"])
-        assert e["backfilled"] is True
         assert e["close"] == closes[t]
         if t % 7 == 0:
             assert "forecast" not in e  # スコアなし: 0 と書かない
+            assert e["backfilled"] is False  # 何もさかのぼっていない (空き) — R12 (c)
             continue
+        assert e["backfilled"] is True
         pp, vp = 40 + t % 50, 10 + t % 30
         for h in HORIZONS:
             assert e["forecast"]["turn"][h] == today_pct(frozen, "BTC", "turn", h, pp)
@@ -278,11 +282,63 @@ def test_forecast_history_ignores_in_progress_candle_for_outcomes(frozen):
     assert out[-1]["close"] == 200.0
 
 
-def test_forecast_history_without_today_items_marks_today_not_live(frozen):
+def test_forecast_history_without_today_items_is_a_gap(frozen):
     dates, closes = _dates(200), _walk(200)
     out, _ = _run_fh(frozen, dates, closes, today_items=None)
     assert "forecast" not in out[-1]
-    assert out[-1]["backfilled"] is True
+    assert out[-1]["backfilled"] is False  # 空き: 何もさかのぼっていない — R12 (c)
+
+
+def test_forecast_history_same_day_rerun_without_today_items_keeps_recorded(frozen):
+    # R12 (b): 同じ日の再実行で「今日の確率」が失敗しても、先に出した今日の値を残す
+    dates, closes = _dates(200), _walk(200)
+    shown = {"turn": {"7D": 44.6}, "move": {"30D": 77.2}}
+    existing = [{"date": dates[-1], "close": 1.0, "forecast": shown, "backfilled": False}]
+    out, _ = _run_fh(frozen, dates, closes, existing=existing, today_items=None)
+    assert out[-1]["forecast"] == shown and out[-1]["backfilled"] is False
+    assert out[-1]["close"] == closes[-1]
+
+
+def test_forecast_history_gap_entries_are_recomputed(frozen):
+    # forecast の無い記録 (空き) は守る値ではない: 次の run で score_at から埋める
+    dates, closes = _dates(300), _walk(300)
+    gap = dates[-21]  # t = 279 (スコアあり)
+    existing = [{"date": gap, "close": 1.0, "backfilled": False}]
+    out, sc = _run_fh(frozen, dates, closes, existing=existing)
+    e = next(x for x in out if x["date"] == gap)
+    assert e["backfilled"] is True and "forecast" in e
+    assert (279, "7D") in sc.calls
+
+
+def test_carryable_history_keeps_valid_entries_unchanged():
+    good = [
+        {"date": "2026-10-16", "close": 67000.0, "forecast": {"turn": {"7D": 47.3}},
+         "outcome": {"turn": {"7D": "pending"}}, "backfilled": False},
+        {"date": "2026-10-17", "backfilled": False},
+    ]
+    raw = {"forecast_history": {"BTC": good, "ETH": "nope"}}
+    got = carryable_history(raw)
+    assert got == {"BTC": good}
+    assert carryable_history(None) == {}
+    assert carryable_history({"forecast_history": []}) == {}
+
+
+def test_carryable_history_drops_entries_that_would_fail_the_schema():
+    raw = {"forecast_history": {"BTC": [
+        {"date": "bad", "backfilled": False},
+        {"date": "2026-10-15", "forecast": {"turn": {"7D": 101}}, "backfilled": True},
+        {"date": "2026-10-16", "backfilled": True},  # forecast なしで backfilled=True は矛盾
+        {"date": "2026-10-17", "outcome": {"turn": {"7D": "maybe"}}, "backfilled": False},
+        {"date": "2026-10-18", "close": -1, "backfilled": False},
+        "garbage",
+    ]}}
+    got = carryable_history(raw)["BTC"]
+    assert got == [
+        {"date": "2026-10-15", "backfilled": False},
+        {"date": "2026-10-16", "backfilled": False},
+        {"date": "2026-10-17", "backfilled": False},
+        {"date": "2026-10-18", "backfilled": False},
+    ]
 
 
 def test_forecast_history_missing_kline_day(frozen):

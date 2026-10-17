@@ -1150,3 +1150,105 @@ def test_long_klines_failure_degrades_price_blocks_only(tmp_path, canned_fetcher
         assert name not in written
         assert f"{name}_degraded=OSError: network down" in out
     assert "forecast" in written and "history" in written
+
+
+# --- R12: forecast_history は失敗しても前回の記録を引き継ぐ (省くと実際に出した値が消える) ---
+def _seed_previous(tmp_path, canned_fetcher, bulk_cache):
+    rc, first = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    first["generated_at"] = "2026-05-03T00:00:00Z"
+    for a in ("BTC", "ETH"):
+        first["forecast_history"][a][0]["forecast"] = {"turn": {"7D": 11.1}}
+        first["forecast_history"][a][0]["backfilled"] = False
+    path = tmp_path / "pivot_assets.live.json"
+    path.write_text(json.dumps(first), encoding="utf-8")
+    return first, path
+
+
+def test_forecast_history_failure_carries_previous_block(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    first, path = _seed_previous(tmp_path, canned_fetcher, bulk_cache)
+    capsys.readouterr()
+
+    def boom(*_a, **_k):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr("producer.price_history_block.forecast_history", boom)
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    assert rc == 0
+    assert second["forecast_history"] == first["forecast_history"]
+    assert "forecast_history_degraded=RuntimeError: boom carried_forward" in capsys.readouterr().out
+    assert "ladder" in second and "trend" in second
+
+
+def test_forecast_history_failure_for_one_asset_carries_only_that_asset(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    import producer.price_history_block as phb
+
+    first, path = _seed_previous(tmp_path, canned_fetcher, bulk_cache)
+    capsys.readouterr()
+    real = phb.forecast_history
+
+    def eth_fails(dates, closes, frozen, asset, *a, **k):
+        if asset == "ETH":
+            raise ValueError("eth broke")
+        return real(dates, closes, frozen, asset, *a, **k)
+
+    monkeypatch.setattr("producer.price_history_block.forecast_history", eth_fails)
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    assert rc == 0
+    assert second["forecast_history"]["ETH"] == first["forecast_history"]["ETH"]
+    btc = second["forecast_history"]["BTC"]
+    assert btc[-1]["date"] == "2026-05-04"          # BTC は今日の分まで作り直した
+    assert btc[0]["forecast"] == {"turn": {"7D": 11.1}} and btc[0]["backfilled"] is False
+    assert "forecast_history_degraded=ValueError: eth broke carried_forward" in capsys.readouterr().out
+
+
+def test_long_klines_failure_carries_previous_forecast_history(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    first, path = _seed_previous(tmp_path, canned_fetcher, bulk_cache)
+    capsys.readouterr()
+    real = canned_fetcher.fetch_klines_range
+
+    def fail_long(asset, *, start_ms, **kw):
+        if start_ms == _LONG_START_MS:
+            raise OSError("network down")
+        return real(asset, start_ms=start_ms, **kw)
+
+    monkeypatch.setattr(canned_fetcher, "fetch_klines_range", fail_long)
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    assert rc == 0
+    assert second["forecast_history"] == first["forecast_history"]
+    for name in ("trend", "ladder", "turns"):
+        assert name not in second
+    assert "forecast_history_degraded=OSError: network down carried_forward" in capsys.readouterr().out
+
+
+def test_frozen_unreadable_carries_previous_forecast_history(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    first, path = _seed_previous(tmp_path, canned_fetcher, bulk_cache)
+    bad = tmp_path / "bad.json"; bad.write_text("{broken")
+    monkeypatch.setattr("producer.forecast.FROZEN_PATH", bad)
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    assert rc == 0
+    assert "forecast" not in second
+    assert second["forecast_history"] == first["forecast_history"]
+    assert "carried_forward" in capsys.readouterr().out
+
+
+def test_recorded_entries_survive_a_degraded_run(tmp_path, canned_fetcher, bulk_cache, monkeypatch) -> None:
+    """失敗した run の翌日も、実際に出した値は backfilled=False のまま残る。"""
+    first, path = _seed_previous(tmp_path, canned_fetcher, bulk_cache)
+    seeded = first["forecast_history"]["BTC"][1]
+    seeded["forecast"] = {"move": {"7D": 22.2}}; seeded["backfilled"] = False
+    path.write_text(json.dumps(first), encoding="utf-8")
+
+    def boom(*_a, **_k):
+        raise RuntimeError("boom")
+
+    with monkeypatch.context() as m:
+        m.setattr("producer.price_history_block.forecast_history", boom)
+        rc, degraded = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    degraded["generated_at"] = "2026-05-03T00:00:00Z"   # 前日の run として読ませる
+    path.write_text(json.dumps(degraded), encoding="utf-8")
+    rc, after = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    assert rc == 0
+    by = {e["date"]: e for e in after["forecast_history"]["BTC"]}
+    e = by[seeded["date"]]
+    assert e["forecast"] == {"move": {"7D": 22.2}} and e["backfilled"] is False

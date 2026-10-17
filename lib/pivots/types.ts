@@ -222,15 +222,22 @@ const PerEvent = <T extends z.ZodTypeAny>(v: T) =>
   z.object({ turn: PerHorizon(v).optional(), move: PerHorizon(v).optional() });
 export const OutcomeSchema = z.enum(["hit", "miss", "pending"]);
 
-// 毎日の確率の履歴: 今日を含む直近 120 暦日 (1 日 1 件)。forecast はスコアが出せない日は無い
-// (0 と書かない)。backfilled=true = さかのぼり計算 (当時の画面ではない)。
-export const ForecastHistoryEntrySchema = z.object({
-  date: IsoDate,
-  close: z.number().positive().optional(),
-  forecast: PerEvent(Pct0to100).optional(),
-  outcome: PerEvent(OutcomeSchema).optional(),
-  backfilled: z.boolean(),
-});
+// 毎日の確率の履歴: 今日を含む直近 120 暦日 (1 日 1 件)。
+//   backfilled=true  ⇒ forecast はさかのぼり計算 (当時の画面ではない)
+//   backfilled=false ⇒ forecast は実際に画面に出した値
+//   forecast なし    ⇒ 空き (スコアが出せない・値が無い日。0 と書かない)。必ず backfilled=false
+// producer の forecast_history が失敗した日は前回の記録をそのまま引き継ぐ (Ruling R12)。
+export const ForecastHistoryEntrySchema = z
+  .object({
+    date: IsoDate,
+    close: z.number().positive().optional(),
+    forecast: PerEvent(Pct0to100).optional(),
+    outcome: PerEvent(OutcomeSchema).optional(),
+    backfilled: z.boolean(),
+  })
+  .refine((e) => !e.backfilled || e.forecast !== undefined, {
+    message: "backfilled=true requires a forecast (an entry without forecast is a gap: backfilled=false)",
+  });
 export type ForecastHistoryEntry = z.infer<typeof ForecastHistoryEntrySchema>;
 export const ForecastHistorySchema = z.record(
   AssetSymbolSchema,
