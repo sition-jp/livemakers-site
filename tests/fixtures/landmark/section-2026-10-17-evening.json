@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "livemakers_landmark_v0.1",
+  "generatedAtJst": "2026-10-17T19:45:00+09:00",
+  "items": [
+    {
+      "key": "btc_below_200wma",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-11",
+      "nextCheck": "2026-10-18",
+      "state": "cooldown",
+      "eligibleFrom": "2027-08-22",
+      "lastEvent": "2026-06-28",
+      "count": 4,
+      "sinceYear": 2014,
+      "values": {
+        "close": "83,637",
+        "ma": "66,506",
+        "gapPct": "+25.8%"
+      }
+    },
+    {
+      "key": "btc_macd_2w_golden_below_zero",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-04",
+      "nextCheck": "2026-10-18",
+      "state": "after_cross",
+      "eligibleFrom": null,
+      "lastEvent": "2026-08-23",
+      "count": 4,
+      "sinceYear": 2011,
+      "values": {
+        "macd": "-2,894",
+        "signal": "-5,246",
+        "diff": "+2,352"
+      }
+    },
+    {
+      "key": "btc_macd_1m_golden_cross",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-09-30",
+      "nextCheck": "2026-10-31",
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2023-07-31",
+      "count": 5,
+      "sinceYear": 2013,
+      "values": {
+        "macd": "719",
+        "signal": "4,129",
+        "diff": "-3,410"
+      },
+      "dead": {
+        "state": "after_cross",
+        "lastEvent": "2025-11-30",
+        "count": 6
+      }
+    },
+    {
+      "key": "btc_mvrv_1",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-16",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2022-06-13",
+      "count": 4,
+      "sinceYear": 2011,
+      "values": {
+        "mvrv": "1.51",
+        "realizedPrice": "53,863",
+        "gap": "+0.51"
+      },
+      "recover": {
+        "state": "waiting_premise",
+        "lastEvent": "2023-01-26",
+        "count": 5
+      }
+    },
+    {
+      "key": "btc_funding_30d_negative",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-16",
+      "nextCheck": null,
+      "state": "cooldown",
+      "eligibleFrom": "2026-11-19",
+      "lastEvent": "2026-02-27",
+      "count": 4,
+      "sinceYear": 2020,
+      "values": {
+        "avg30Pct": "+3.69%"
+      }
+    },
+    {
+      "key": "btc_etf_cum_high",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-15",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2025-05-08",
+      "count": 1,
+      "sinceYear": 2024,
+      "values": {
+        "cum": "569.3",
+        "peak": "627.4",
+        "toPeak": "58.1",
+        "peakDate": "2025-10-09"
+      }
+    },
+    {
+      "key": "eth_etf_cum_high",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-16",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2025-06-03",
+      "count": 2,
+      "sinceYear": 2024,
+      "values": {
+        "cum": "129.7",
+        "peak": "151.1",
+        "toPeak": "21.4",
+        "peakDate": "2025-10-08"
+      }
+    },
+    {
+      "key": "stablecoin_supply_yoy_flip",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-16",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2024-02-11",
+      "lastDirection": "positive",
+      "count": 2,
+      "sinceYear": 2022,
+      "values": {
+        "yoyPct": "+0.30%",
+        "supply": "3,052"
+      }
+    },
+    {
+      "key": "stablecoin_supply_ath",
+      "checkedAtJst": "2026-10-17T19:15:08+09:00",
+      "barDate": "2026-10-16",
+      "nextCheck": null,
+      "state": "armed",
+      "eligibleFrom": null,
+      "lastEvent": "2024-11-22",
+      "count": 1,
+      "sinceYear": 2021,
+      "values": {
+        "supply": "3,052",
+        "peak": "3,155",
+        "toPeak": "103",
+        "peakDate": "2026-05-17"
+      }
+    }
+  ]
+}

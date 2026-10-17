@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import section from "../fixtures/landmark/section.json";
 import section17 from "../fixtures/landmark/section-2026-10-17.json";
+import sectionEve from "../fixtures/landmark/section-2026-10-17-evening.json";
 import { LANDMARK_ROW_KEYS, mapLandmarkMeter } from "@/lib/landmark/meter-feed";
 
 // SDE livemakers_export.landmark_meter.project の 2026-10-16 19:45 JST の出力 (core spec 2026-10-16-lvm-landmark-meter-design)
@@ -8,6 +9,9 @@ import { LANDMARK_ROW_KEYS, mapLandmarkMeter } from "@/lib/landmark/meter-feed";
 const clone = (): any => structuredClone(section);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const clone17 = (): any => structuredClone(section17);
+// SDE の 2026-10-17 19:45 JST の出力 (ETH 現物 ETF の行が初めて入った回・core spec 2026-10-17-lvm-landmark-meter-eth-etf-row-design)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const cloneEve = (): any => structuredClone(sectionEve);
 
 describe("mapLandmarkMeter", () => {
   it("maps the six rows of the real 2026-10-16 section (the feed before the stablecoin rows)", () => {
@@ -48,8 +52,8 @@ describe("mapLandmarkMeter", () => {
 
   it("maps the eight rows of the real 2026-10-17 section (core spec 2026-10-17 stablecoin rows)", () => {
     const data = mapLandmarkMeter(clone17());
-    expect(LANDMARK_ROW_KEYS).toHaveLength(8);
-    expect(data?.items.map((item) => item.key)).toEqual([...LANDMARK_ROW_KEYS]);
+    // 10/17 朝の feed には ETH 現物 ETF の行がまだ無い
+    expect(data?.items.map((item) => item.key)).toEqual(LANDMARK_ROW_KEYS.filter((key) => key !== "eth_etf_cum_high"));
     expect(data?.items[2].dead).toEqual({ state: "after_cross", lastEvent: "2025-11-30", count: 6 });
     expect(data?.items[6]).toMatchObject({
       key: "stablecoin_supply_yoy_flip",
@@ -95,5 +99,43 @@ describe("mapLandmarkMeter", () => {
   it("returns null for non-objects", () => {
     expect(mapLandmarkMeter(undefined)).toBeNull();
     expect(mapLandmarkMeter("x")).toBeNull();
+  });
+});
+
+describe("mapLandmarkMeter — ETH spot ETF row (2026-10-17 evening)", () => {
+  it("maps the nine rows of the real 2026-10-17 evening section", () => {
+    const data = mapLandmarkMeter(cloneEve());
+    expect(LANDMARK_ROW_KEYS).toHaveLength(9);
+    expect(LANDMARK_ROW_KEYS.slice(5, 7)).toEqual(["btc_etf_cum_high", "eth_etf_cum_high"]);
+    expect(data?.items.map((item) => item.key)).toEqual([...LANDMARK_ROW_KEYS]);
+    expect(data?.items[6]).toEqual({
+      key: "eth_etf_cum_high",
+      checkedAtJst: "2026-10-17T19:15:08+09:00",
+      barDate: "2026-10-16",
+      nextCheck: null,
+      state: "armed",
+      eligibleFrom: null,
+      lastEvent: "2025-06-03",
+      count: 2,
+      sinceYear: 2024,
+      values: { cum: "129.7", peak: "151.1", toPeak: "21.4", peakDate: "2025-10-08" },
+    });
+    expect(data?.items[5].values.toPeak).toBe("58.1");
+  });
+
+  const casesEve: [string, (s: ReturnType<typeof cloneEve>) => void][] = [
+    ["a unit word in the ETH total", (s) => { s.items[6].values.cum = "129.7 億"; }],
+    ["a missing ETH value", (s) => { delete s.items[6].values.toPeak; }],
+    ["stablecoin values on the ETH row", (s) => { s.items[6].values = { supply: "129.7", peak: "151.1", toPeak: "21.4", peakDate: "2025-10-08" }; }],
+    ["a state the ETH row cannot take", (s) => { s.items[6].state = "after_cross"; }],
+    ["lastDirection on the ETH row", (s) => { s.items[6].lastDirection = "positive"; }],
+    ["dead on the ETH row", (s) => { s.items[6].dead = { state: "armed", lastEvent: null, count: 0 }; }],
+    ["a duplicate ETH row", (s) => { s.items.push(structuredClone(s.items[6])); }],
+  ];
+
+  it.each(casesEve)("returns null on %s", (_name, mutate) => {
+    const bad = cloneEve();
+    mutate(bad);
+    expect(mapLandmarkMeter(bad)).toBeNull();
   });
 });

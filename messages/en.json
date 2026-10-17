@@ -710,6 +710,18 @@
           "count": "{count} since listing ({sinceYear})",
           "gapAtPeak": "The current value is the high ({peakDate})"
         },
+        "ethEtf": {
+          "name": "US spot ETH ETFs",
+          "unit": "Cumulative net inflow",
+          "now": "Cumulative {cum} (units of $100M)",
+          "asOf": "as of {date} / Farside, SoSoValue",
+          "condition": "The cumulative total sets a new high",
+          "gap": "{toPeak} below the high ({peakDate}, {peak}; units of $100M)",
+          "cooldown": "Counted again from {date}",
+          "fired": "New high on {date}",
+          "count": "{count} since listing ({sinceYear})",
+          "gapAtPeak": "The current value is the high ({peakDate})"
+        },
         "stableYoy": {
           "name": "Stablecoin supply",
           "unit": "Year over year",
@@ -743,7 +755,7 @@
         "count": "Each indicator has fired only {min} to {max} times. This does not show how prices moved after firing, and it is not a recommendation to buy or sell.",
         "fixed": "Conditions are recorded and fixed. When one changes, the row shows the date of the change.",
         "cooldown": "Cooling off: soon after the previous signal, meeting the condition is not counted (200-week average 52 weeks, MVRV 365 days, funding 180 days, ETF 90 days, stablecoin YoY 180 days, stablecoin high 90 days). The end moves later if the indicator re-enters the condition.",
-        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / TFTC (tftc.io/bitcoin-etf-flows), CC BY 4.0 (ETF) / DefiLlama (USD-pegged stablecoin supply, judged from 2021)"
+        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / TFTC (tftc.io/bitcoin-etf-flows), CC BY 4.0 (BTC ETFs) / Farside Investors (from listing to 2026-10-16) joined with SoSoValue (settled days after that) (ETH ETFs) / DefiLlama (USD-pegged stablecoin supply, judged from 2021)"
       }
     }
   },

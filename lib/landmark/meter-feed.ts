@@ -8,6 +8,9 @@ import { z } from "zod";
  * 2026-10-17: 7・8 行目 (ステーブルコイン総供給の前年比の反転 / 最高更新) と月足 MACD の下抜け (`dead`)
  * (core spec 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。知らないキーの行は捨てて、知っている行で組む —
  * SDE が行を足しても、サイトが知るまでその行が出ないだけで計器盤は消えない。知っている行の検査は緩めない。
+ *
+ * 2026-10-17 夜: 7 行目に ETH 現物 ETF の累計純流入の最高更新 (`eth_etf_cum_high`・BTC の ETF と同じ形)
+ * (core spec 2026-10-17-lvm-landmark-meter-eth-etf-row-design)。ステーブルコインの 2 行は 8・9 行目へ。
  */
 export const LANDMARK_ROW_KEYS = [
   "btc_below_200wma",
@@ -16,6 +19,7 @@ export const LANDMARK_ROW_KEYS = [
   "btc_mvrv_1",
   "btc_funding_30d_negative",
   "btc_etf_cum_high",
+  "eth_etf_cum_high",
   "stablecoin_supply_yoy_flip",
   "stablecoin_supply_ath",
 ] as const;
@@ -30,6 +34,7 @@ const ROW_STATES: Record<LandmarkRowKey, readonly LandmarkState[]> = {
   btc_mvrv_1: ["armed", "cooldown"],
   btc_funding_30d_negative: ["armed", "cooldown"],
   btc_etf_cum_high: ["armed", "cooldown"],
+  eth_etf_cum_high: ["armed", "cooldown"],
   stablecoin_supply_yoy_flip: ["armed", "cooldown"],
   stablecoin_supply_ath: ["armed", "cooldown"],
 };
@@ -41,6 +46,7 @@ const VALUE_KEYS: Record<LandmarkRowKey, readonly string[]> = {
   btc_mvrv_1: ["mvrv", "realizedPrice", "gap"],
   btc_funding_30d_negative: ["avg30Pct"],
   btc_etf_cum_high: ["cum", "peak", "toPeak", "peakDate"],
+  eth_etf_cum_high: ["cum", "peak", "toPeak", "peakDate"],
   stablecoin_supply_yoy_flip: ["yoyPct", "supply"],
   stablecoin_supply_ath: ["supply", "peak", "toPeak", "peakDate"],
 };

@@ -10,7 +10,8 @@ import {
  * 節目の計器盤 (core spec 2026-10-16-lvm-landmark-meter-design §5)。サーバー部品・状態なし。
  * 色で良い・悪い・近い・遠いを表さない (札は灰色 1 色)。バーや針のような「近づいている」絵も使わない。
  * 言葉は messages の articles.landmarkMeter、数字は feed (SDE が整形した文字列) から。
- * 2026-10-17: 7・8 行目 (ステーブルコイン) と月足 MACD の下抜け (core spec 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。
+ * 2026-10-17: ステーブルコインの 2 行と月足 MACD の下抜け (core spec 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。
+ * 2026-10-17 夜: ETH 現物 ETF の行 (core spec 2026-10-17-lvm-landmark-meter-eth-etf-row-design・BTC の ETF と同じ組み立て)。
  */
 export type LandmarkMeterTranslate = (
   key: string,
@@ -131,8 +132,8 @@ function deadLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
   return null;
 }
 
-/** 最高を持つ行 (ETF・ステーブルコイン総供給): いまの値が最高なら「まで 0」ではなく「いまの値が最高」 */
-const PEAK_ROWS = new Set(["etf", "stableAth"]);
+/** 最高を持つ行 (BTC・ETH の ETF・ステーブルコイン総供給): いまの値が最高なら「まで 0」ではなく「いまの値が最高」 */
+const PEAK_ROWS = new Set(["etf", "ethEtf", "stableAth"]);
 
 function gapText(row: LandmarkRow, t: LandmarkMeterTranslate): string {
   const item = row.item!;

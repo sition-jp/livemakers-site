@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
 import section from "../fixtures/landmark/section.json";
 import section17 from "../fixtures/landmark/section-2026-10-17.json";
+import sectionEve from "../fixtures/landmark/section-2026-10-17-evening.json";
 import { mapLandmarkMeter, type LandmarkMeterData } from "@/lib/landmark/meter-feed";
 import { buildLandmarkRows, formatLongDate, formatShortDate } from "@/lib/landmark/meter-model";
 
 const NOW = new Date("2026-10-16T10:45:00Z"); // 19:45 JST
 const NOW17 = new Date("2026-10-17T01:45:00Z"); // 10:45 JST
+const NOW_EVE = new Date("2026-10-17T10:45:00Z"); // 19:45 JST
 
 function data(mutate?: (d: LandmarkMeterData) => void): LandmarkMeterData {
   const mapped = mapLandmarkMeter(structuredClone(section));
@@ -21,15 +23,23 @@ function data17(mutate?: (d: LandmarkMeterData) => void): LandmarkMeterData {
   return mapped;
 }
 
+function dataEve(mutate?: (d: LandmarkMeterData) => void): LandmarkMeterData {
+  const mapped = mapLandmarkMeter(structuredClone(sectionEve));
+  if (!mapped) throw new Error("fixture must be valid");
+  mutate?.(mapped);
+  return mapped;
+}
+
 describe("buildLandmarkRows", () => {
-  it("builds the eight fixed rows from the six-row 2026-10-16 section, leaving the stablecoin rows empty", () => {
+  it("builds the nine fixed rows from the six-row 2026-10-16 section, leaving the ETH and stablecoin rows empty", () => {
     const rows = buildLandmarkRows(data(), NOW);
     expect(rows?.map((row) => row.copyKey)).toEqual([
-      "ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf", "stableYoy", "stableAth",
+      "ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf", "ethEtf", "stableYoy", "stableAth",
     ]);
-    expect(rows?.map((row) => row.badge)).toEqual(["cooldown", "afterCross", null, null, "cooldown", null, null, null]);
+    expect(rows?.map((row) => row.badge)).toEqual(["cooldown", "afterCross", null, null, "cooldown", null, null, null, null]);
     expect(rows?.[6].item).toBeNull();
     expect(rows?.[7].item).toBeNull();
+    expect(rows?.[8].item).toBeNull();
     expect(rows?.[2].deadBadge).toBeNull();
     expect(rows?.[3].recoverBadge).toBe("waitingPremise");
     expect(rows?.[5].staleEmphasis).toBe(true); // fixture の ETF は 10/2 = 14 日前
@@ -61,10 +71,10 @@ describe("buildLandmarkRows", () => {
     expect(dailyOld?.[4].item).toBeNull(); // 4 日前
   });
 
-  it("builds the eight rows of the real 2026-10-17 section with the dead-cross badge", () => {
+  it("builds the rows of the real 2026-10-17 section with the dead-cross badge (no ETH row yet)", () => {
     const rows = buildLandmarkRows(data17(), NOW17);
-    expect(rows?.every((row) => row.item !== null)).toBe(true);
-    expect(rows?.map((row) => row.badge)).toEqual(["cooldown", "afterCross", null, null, "cooldown", null, null, null]);
+    expect(rows?.filter((row) => row.item === null).map((row) => row.copyKey)).toEqual(["ethEtf"]);
+    expect(rows?.map((row) => row.badge)).toEqual(["cooldown", "afterCross", null, null, "cooldown", null, null, null, null]);
     expect(rows?.[2].deadBadge).toBe("afterCross");
   });
 
@@ -75,29 +85,51 @@ describe("buildLandmarkRows", () => {
   });
 
   it("marks the stablecoin rows as fired for 7 days after the event", () => {
+    // feed の items[6・7] = 前年比・総供給の最高。表の行は ETH の後ろの 7・8 番 (0 始まり)
     const within = buildLandmarkRows(data17((d) => { d.items[6].lastEvent = "2026-10-11"; }), NOW17); // 経過 6 日
-    expect(within?.[6].badge).toBe("fired");
+    expect(within?.[7].badge).toBe("fired");
     const after = buildLandmarkRows(data17((d) => { d.items[6].lastEvent = "2026-10-10"; }), NOW17); // 経過 7 日
-    expect(after?.[6].badge).toBeNull();
+    expect(after?.[7].badge).toBeNull();
     const ath = buildLandmarkRows(data17((d) => { d.items[7].lastEvent = "2026-10-16"; }), NOW17);
-    expect(ath?.[7].badge).toBe("fired");
+    expect(ath?.[8].badge).toBe("fired");
   });
 
   it("blanks a stablecoin row whose daily bar is more than 3 days old", () => {
     const rows = buildLandmarkRows(data17((d) => { d.items[7].barDate = "2026-10-13"; }), NOW17); // 4 日前
-    expect(rows?.[7].item).toBeNull();
-    expect(rows?.[6].item).not.toBeNull();
+    expect(rows?.[8].item).toBeNull();
+    expect(rows?.[7].item).not.toBeNull();
   });
 
   it("keeps a row the feed does not carry as an empty row", () => {
     const rows = buildLandmarkRows(data((d) => { d.items = d.items.filter((i) => i.key !== "btc_etf_cum_high"); }), NOW);
-    expect(rows).toHaveLength(8);
+    expect(rows).toHaveLength(9);
     expect(rows?.[5].item).toBeNull();
   });
 
   it("hides the meter when every item is stale at render time", () => {
     expect(buildLandmarkRows(data(), new Date("2026-10-18T12:00:00Z"))).toBeNull();
     expect(buildLandmarkRows(null, NOW)).toBeNull();
+  });
+});
+
+describe("buildLandmarkRows — ETH spot ETF row (2026-10-17 evening)", () => {
+  it("builds all nine rows of the real 2026-10-17 evening section", () => {
+    const rows = buildLandmarkRows(dataEve(), NOW_EVE);
+    expect(rows?.every((row) => row.item !== null)).toBe(true);
+    expect(rows?.[6]).toMatchObject({ key: "eth_etf_cum_high", copyKey: "ethEtf", badge: null, staleEmphasis: false });
+  });
+
+  it("treats the ETH row like the BTC ETF row (fired 7 days, bold after 7 days, blank after 30 days)", () => {
+    const within = buildLandmarkRows(dataEve((d) => { d.items[6].lastEvent = "2026-10-11"; }), NOW_EVE); // 経過 6 日
+    expect(within?.[6].badge).toBe("fired");
+    const after = buildLandmarkRows(dataEve((d) => { d.items[6].lastEvent = "2026-10-10"; }), NOW_EVE); // 経過 7 日
+    expect(after?.[6].badge).toBeNull();
+    const old = buildLandmarkRows(dataEve((d) => { d.items[6].barDate = "2026-10-10"; }), NOW_EVE); // 7 日前
+    expect(old?.[6].staleEmphasis).toBe(true);
+    expect(old?.[5].staleEmphasis).toBe(false);
+    const gone = buildLandmarkRows(dataEve((d) => { d.items[6].barDate = "2026-09-16"; }), NOW_EVE); // 31 日前
+    expect(gone?.[6].item).toBeNull();
+    expect(gone?.[5].item).not.toBeNull();
   });
 });
 

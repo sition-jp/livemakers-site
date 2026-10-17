@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import section from "../fixtures/landmark/section.json";
 import section17 from "../fixtures/landmark/section-2026-10-17.json";
+import sectionEve from "../fixtures/landmark/section-2026-10-17-evening.json";
 
 const mocks = vi.hoisted(() => ({
   landmark: undefined as unknown,
@@ -101,18 +102,27 @@ describe("landmark series page meter", () => {
   it("shows the meter once on the Japanese landmark page", async () => {
     const { container } = await renderSeries("ja", "landmark");
     expect(container.querySelectorAll("[data-landmark-meter]")).toHaveLength(1);
-    // 6 行の feed (ステーブルコインの行を足す前の配信) でも 8 行を出し、7・8 行目はデータ更新待ち
-    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(8);
+    // 6 行の feed (ステーブルコインの行を足す前の配信) でも 9 行を出し、7〜9 行目はデータ更新待ち
+    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(9);
     // 翻訳は key をそのまま返す mock なので、データ更新待ちの行は "unavailable" を含む
     expect(container.querySelector('[data-landmark-row="stableYoy"]')?.textContent).toContain("unavailable");
   });
 
-  it("shows all eight rows with the 2026-10-17 feed", async () => {
+  it("shows the 2026-10-17 morning feed (no ETH row yet) with only the ETH row awaiting data", async () => {
     vi.setSystemTime(new Date("2026-10-17T01:45:00Z"));
     mocks.landmark = structuredClone(section17);
     const { container } = await renderSeries("ja", "landmark");
-    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(8);
+    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(9);
     expect(container.querySelector('[data-landmark-row="stableAth"]')?.textContent).not.toContain("unavailable");
+    expect(container.querySelector('[data-landmark-row="ethEtf"]')?.textContent).toContain("unavailable");
+  });
+
+  it("shows all nine rows with the 2026-10-17 evening feed", async () => {
+    vi.setSystemTime(new Date("2026-10-17T10:45:00Z"));
+    mocks.landmark = structuredClone(sectionEve);
+    const { container } = await renderSeries("ja", "landmark");
+    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(9);
+    expect(container.textContent).not.toContain("unavailable");
   });
 
   it("does not show the meter on the English page or other series", async () => {

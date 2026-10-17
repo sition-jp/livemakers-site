@@ -710,6 +710,18 @@
           "count": "上場（{sinceYear} 年）以降 {count} 回",
           "gapAtPeak": "いまの値が最高（{peakDate}）"
         },
+        "ethEtf": {
+          "name": "米国 ETH 現物 ETF",
+          "unit": "累計純流入",
+          "now": "累計 {cum} 億ドル",
+          "asOf": "{date} 時点・Farside / SoSoValue 集計",
+          "condition": "累計が過去最高を更新する",
+          "gap": "最高（{peakDate}・{peak} 億ドル）まで {toPeak} 億ドル",
+          "cooldown": "{date}から再び数える",
+          "fired": "{date}に最高を更新",
+          "count": "上場（{sinceYear} 年）以降 {count} 回",
+          "gapAtPeak": "いまの値が最高（{peakDate}）"
+        },
         "stableYoy": {
           "name": "ステーブルコイン総供給",
           "unit": "前年比",
@@ -743,7 +755,7 @@
         "count": "点灯は指標ごとに過去 {min}〜{max} 回で、回数はわずかです。点灯の後に価格がどう動いたかを示すものではなく、売買をすすめるものでもありません。",
         "fixed": "条件は記録に残して固定しています。変えたときは、その指標の行に変更日を示します。",
         "cooldown": "休止期間: 前回から日が浅い間は、条件を満たしても節目として数えません（200 週平均は 52 週、MVRV は 365 日、ファンディングは 180 日、ETF は 90 日、ステーブルコインの前年比は 180 日、総供給の最高は 90 日）。休止期間の終わりは、その後また条件の内側に入ると先へ延びます。",
-        "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0（ETF） / DefiLlama（ステーブルコイン総供給・USD ペッグ・2021 年以降の値で判定）"
+        "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0（BTC 現物 ETF） / Farside Investors（上場〜2026年10月16日）と SoSoValue（それ以降の確定日）の日次をつないだ値（ETH 現物 ETF） / DefiLlama（ステーブルコイン総供給・USD ペッグ・2021 年以降の値で判定）"
       }
     }
   },
