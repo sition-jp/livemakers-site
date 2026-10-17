@@ -876,6 +876,14 @@
         "text": "Price far from the 50-day average (top 20% of recent range)",
         "meaning": "Detached from the medium-term trend"
       },
+      "ma_short_far": {
+        "text": "Price far from its short-term average (top 20% of recent range)",
+        "meaning": "Stretched; snap-backs become likely"
+      },
+      "ma_long_far": {
+        "text": "Price far from its long-term average (top 20% of recent range)",
+        "meaning": "Detached from the longer-term trend"
+      },
       "macd_improving": {
         "text": "MACD momentum improving",
         "meaning": "Downside momentum is fading"

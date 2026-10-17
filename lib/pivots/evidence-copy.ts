@@ -6,6 +6,8 @@
 const EXACT: Record<string, string> = {
   "Price is far from MA20 (top 20% of recent range)": "ma20_far",
   "Price is far from MA50 (top 20% of recent range)": "ma50_far",
+  "Price is far from its short moving average (top 20% of recent range)": "ma_short_far",
+  "Price is far from its long moving average (top 20% of recent range)": "ma_long_far",
   "MACD momentum is improving": "macd_improving",
   "MACD momentum is weakening": "macd_weakening",
   "Price is near a recent range boundary": "range_boundary",

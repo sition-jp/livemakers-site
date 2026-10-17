@@ -18,6 +18,14 @@ _MESSAGE_RE = re.compile(r'"message":\s*f?"([^"]+)"')
 _RSI_FSTRING_RE = re.compile(r"\(\{ctx\['rsi_14'\]:\.1f\}\)")
 
 
+# Messages older runner deployments still emit (live data keeps them until the
+# runner is redeployed); the catalogue must keep them alongside the current ones.
+LEGACY_MESSAGES = {
+    "Price is far from MA20 (top 20% of recent range)",
+    "Price is far from MA50 (top 20% of recent range)",
+}
+
+
 def _producer_messages() -> set[str]:
     found: set[str] = set()
     for path in SCORERS:
@@ -30,6 +38,7 @@ def test_catalog_matches_producer_messages() -> None:
     catalog = set(json.loads(CATALOG.read_text(encoding="utf-8"))["messages"])
     produced = _producer_messages()
     assert produced, "no evidence messages found in scorers (regex drift?)"
-    assert catalog == produced, (
-        f"missing in catalog: {sorted(produced - catalog)}; stale in catalog: {sorted(catalog - produced)}"
+    expected = produced | LEGACY_MESSAGES
+    assert catalog == expected, (
+        f"missing in catalog: {sorted(expected - catalog)}; stale in catalog: {sorted(catalog - expected)}"
     )
