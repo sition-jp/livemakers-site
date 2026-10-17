@@ -339,6 +339,7 @@ def _build_price_history_blocks(
     """
     today = generated_at[:10]
     start_ms = daily_series.day_ms(price_history_block.LONG_HISTORY_START)
+    stale_assets: dict[str, str] = {}
     try:
         live: dict = {}
         for a in ASSETS:
@@ -348,6 +349,9 @@ def _build_price_history_blocks(
                 raise ValueError(f"{a}: no closed daily candles")
             inp = daily_series.input_from_candles(closed, bulk[a])
             live[a] = (inp, today_candle)
+            stale = price_history_block.stale_reason(closed, a, today)
+            if stale:
+                stale_assets[a] = stale
     except Exception as exc:  # noqa: BLE001
         for name in PRICE_HISTORY_BLOCKS[:-1]:
             print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
@@ -390,7 +394,11 @@ def _build_price_history_blocks(
     }
     for name in PRICE_HISTORY_BLOCKS[:-1]:
         try:
-            assets_payload[name] = {a: builders[name](a) for a in ASSETS}
+            fresh = {a: builders[name](a) for a in ASSETS if a not in stale_assets}
+            for reason in stale_assets.values():
+                print(f"[pivots-producer] {name}_degraded={reason}")
+            if fresh:
+                assets_payload[name] = fresh
         except Exception as exc:  # noqa: BLE001
             print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
     # forecast_history は資産ごとに作り、失敗した資産は前回の記録を引き継ぐ (R12 a)

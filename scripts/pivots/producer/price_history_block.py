@@ -270,6 +270,15 @@ def closed_and_today(
     return closed, (todays[-1] if todays else None)
 
 
+def stale_reason(closed: Sequence, asset: str, today: str) -> Optional[str]:
+    """直近の確定足が昨日 (UTC) でなければ理由を返す (古い値を今日の値として出さないため)。"""
+    expected = _days_before(today, 1)
+    last = daily_series.ms_day(closed[-1].open_time) if closed else None
+    if last == expected:
+        return None
+    return f"stale_klines {asset} last_closed={last} expected={expected}"
+
+
 def series_start_for(n_closed: int) -> int:
     """直近 120 日のスコアが全期間で計算したときと同じになる、指標の計算開始位置。"""
     return max(0, n_closed - FORECAST_HISTORY_DAYS - daily_series.MAX_LOOKBACK_DAYS)

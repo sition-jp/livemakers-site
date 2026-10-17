@@ -1134,6 +1134,29 @@ def test_one_price_block_failing_keeps_the_others(tmp_path, canned_fetcher, bulk
     assert f"{block}_degraded=RuntimeError: boom" in capsys.readouterr().out
 
 
+def test_stale_long_klines_omit_trend_ladder_turns_for_that_asset(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    """M2: 直近の確定足が昨日でない資産には、古い値を今日の値として出さない。"""
+    from producer import daily_series
+
+    real = canned_fetcher.fetch_klines_range
+
+    def drop_yesterday_for_btc(asset, *, start_ms, **kw):
+        candles = real(asset, start_ms=start_ms, **kw)
+        if asset == "BTC" and start_ms == _LONG_START_MS:
+            return [c for c in candles if daily_series.ms_day(c.open_time) != "2026-05-03"]
+        return candles
+
+    monkeypatch.setattr(canned_fetcher, "fetch_klines_range", drop_yesterday_for_btc)
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    for name in ("trend", "ladder", "turns"):
+        assert "BTC" not in written.get(name, {}), name
+        assert "ETH" in written[name], name
+    out = capsys.readouterr().out
+    for name in ("trend", "ladder", "turns"):
+        assert f"{name}_degraded=stale_klines BTC last_closed=2026-05-02" in out
+
+
 def test_long_klines_failure_degrades_price_blocks_only(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
     real = canned_fetcher.fetch_klines_range
 
