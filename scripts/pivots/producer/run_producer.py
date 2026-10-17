@@ -283,13 +283,20 @@ PRICE_HISTORY_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
 
 
 def _forecast_history_degraded(
-    existing_raw: dict | None, assets_payload: dict, exc: Exception, failed: Iterable[str]
+    existing_raw: dict | None,
+    assets_payload: dict,
+    exc: Exception,
+    failed: Iterable[str],
+    today: str | None = None,
+    closes: dict[str, float] | None = None,
 ) -> None:
     """forecast_history だけは失敗しても省かず、前回の記録を引き継ぐ (Ruling R12 a)。
 
     省くと翌日の run が existing=None で読み、実際に画面に出した値が全部さかのぼり計算で
     上書きされてしまう。失敗した資産だけ前回の分で埋める (前回の分が無ければその資産は無し)。
+    今日サイトに出した確率 (`forecast`) があれば、引き継いだ履歴の末尾に今日の分として足す。
     """
+    forecast_block = assets_payload.get("forecast")
     prev = price_history_block.carryable_history(existing_raw)
     block = dict(assets_payload.get("forecast_history") or {})
     carried = False
@@ -299,6 +306,13 @@ def _forecast_history_degraded(
             carried = True
         else:
             block.pop(a, None)
+        items = forecast_block.get(a) if isinstance(forecast_block, dict) else None
+        if today and items and a in block:  # 引き継ぐ履歴が無い資産は、1 件だけの履歴を作らない
+            added = price_history_block.with_todays_forecast(
+                block.get(a, []), today, items, (closes or {}).get(a)
+            )
+            if added:
+                block[a] = added
     if block:
         assets_payload["forecast_history"] = {a: block[a] for a in ASSETS if a in block}
     else:
@@ -333,7 +347,7 @@ def _build_price_history_blocks(
     except Exception as exc:  # noqa: BLE001
         for name in PRICE_HISTORY_BLOCKS[:-1]:
             print(f"[pivots-producer] {name}_degraded={type(exc).__name__}: {exc}")
-        _forecast_history_degraded(existing_raw, assets_payload, exc, ASSETS)
+        _forecast_history_degraded(existing_raw, assets_payload, exc, ASSETS, today)
         return
 
     def with_today(a: str) -> tuple[list[str], list[float]]:
@@ -382,7 +396,10 @@ def _build_price_history_blocks(
             built[a] = build_forecast_history(a)
         except Exception as exc:  # noqa: BLE001
             assets_payload["forecast_history"] = built
-            _forecast_history_degraded(existing_raw, assets_payload, exc, [a])
+            _forecast_history_degraded(
+                existing_raw, assets_payload, exc, [a], today,
+                {a: with_today(a)[1][-1]},
+            )
             built = dict(assets_payload.get("forecast_history") or {})
     if built:
         assets_payload["forecast_history"] = {a: built[a] for a in ASSETS if a in built}

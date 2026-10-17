@@ -237,6 +237,30 @@ def forecast_history(
     return out
 
 
+def with_todays_forecast(
+    entries: Sequence[dict], today: str, forecast_items: Optional[list], close: Optional[float]
+) -> list[dict]:
+    """引き継いだ履歴に、今日サイトに出した確率の記録を足す (同じ日があれば置き換え・直近 120 件)。
+
+    確率が無ければ (今日は何も出していない) 何も足さない。結果は今日の分だけ全問 `pending`。
+    """
+    fc = _today_forecast(forecast_items)
+    out = [dict(e) for e in entries]
+    if not fc:
+        return out
+    entry: dict = {"date": today}
+    if close is None:  # 同じ日の記録に終値があれば残す
+        close = next((e.get("close") for e in out if e.get("date") == today), None)
+    if isinstance(close, (int, float)) and not isinstance(close, bool) and close > 0:
+        entry["close"] = float(close)
+    entry["forecast"] = fc
+    entry["outcome"] = {ev: {h: "pending" for h in HORIZONS} for ev in EVENTS}
+    entry["backfilled"] = False
+    out = [e for e in out if e.get("date") != today] + [entry]
+    out.sort(key=lambda e: e["date"])
+    return out[-FORECAST_HISTORY_DAYS:]
+
+
 def closed_and_today(
     candles: Sequence, today: str
 ) -> tuple[list, Optional[object]]:

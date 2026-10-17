@@ -1180,6 +1180,33 @@ def test_forecast_history_failure_carries_previous_block(tmp_path, canned_fetche
     assert "ladder" in second and "trend" in second
 
 
+def test_carry_forward_appends_todays_shown_forecast(tmp_path, canned_fetcher, bulk_cache, monkeypatch) -> None:
+    """I2: 引き継いだ日でも、今日サイトに出した確率は履歴から消えない。"""
+    import producer.price_history_block as phb
+
+    first, path = _seed_previous(tmp_path, canned_fetcher, bulk_cache)
+    for a in ("BTC", "ETH"):  # 前回の run は今日の分をまだ持っていない
+        first["forecast_history"][a] = first["forecast_history"][a][:-1]
+    path.write_text(json.dumps(first), encoding="utf-8")
+
+    def boom(*_a, **_k):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr("producer.price_history_block.forecast_history", boom)
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, path)
+    assert rc == 0
+    for a in ("BTC", "ETH"):
+        hist = second["forecast_history"][a]
+        last = hist[-1]
+        assert last["date"] == second["generated_at"][:10]
+        assert last["forecast"] == phb._today_forecast(second["forecast"][a])
+        assert last["forecast"] and last["backfilled"] is False
+        assert all(v == "pending" for hs in last["outcome"].values() for v in hs.values())
+        assert hist[:len(first["forecast_history"][a])] == first["forecast_history"][a]
+        assert len(hist) <= 120
+        assert len({e["date"] for e in hist}) == len(hist)
+
+
 def test_forecast_history_failure_for_one_asset_carries_only_that_asset(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
     import producer.price_history_block as phb
 
