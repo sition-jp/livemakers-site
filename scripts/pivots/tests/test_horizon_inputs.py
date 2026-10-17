@@ -134,10 +134,11 @@ def test_ma_windows_differ_by_horizon() -> None:
 
 
 def test_range_window_differs_by_horizon() -> None:
-    assert RANGE_WINDOW_DAYS == {"7D": 14, "30D": 30, "90D": 90}
-    # 100 days: high 200 long ago, then a rise from 100 to 150 over the last 20 days.
-    closes = [100.0] * 40 + [200.0] + [100.0] * 39 + [100.0 + 2.5 * i for i in range(1, 21)]
-    t = len(closes) - 1  # 150: top of the 14D/30D window, far below the 90D high of 200 (day 40)
+    assert RANGE_WINDOW_DAYS == {"7D": 14, "30D": 60, "90D": 120}  # it-2026-10 Task 6
+    # 130 days: high 200 long ago, then a rise from 100 to 150 over the last 20 days.
+    closes = [100.0] * 70 + [200.0] + [100.0] * 39 + [100.0 + 2.5 * i for i in range(1, 21)]
+    t = len(closes) - 1  # 150: top of the 14D window, far below the 120D high of 200 (day 70)
+    assert t >= RANGE_WINDOW_DAYS["90D"]  # False below comes from the high, not from t < window
     assert near_range_boundary(closes, t, "7D") is True
     assert near_range_boundary(closes, t, "90D") is False
 

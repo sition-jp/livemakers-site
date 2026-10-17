@@ -18,8 +18,10 @@ from producer.percentiles import is_in_bottom_pct
 from producer.types import Horizon
 
 # Window for the "near range boundary" test (within 2% of the window high/low).
-# Alternatives to compare in Task 6: 7D (10, 14, 20) / 30D (30, 45, 60) / 90D (60, 90, 120).
-RANGE_WINDOW_DAYS: dict[Horizon, int] = {"7D": 14, "30D": 30, "90D": 90}
+# it-2026-10 Task 6 chose these from the candidates 7D (10, 14, 20) / 30D (30, 45, 60) /
+# 90D (60, 90, 120) by training-period Brier score only (train end 2025-10-16; holdout
+# not consulted). Initial values were 14 / 30 / 90 (see ops/iteration_report.py).
+RANGE_WINDOW_DAYS: dict[Horizon, int] = {"7D": 14, "30D": 60, "90D": 120}
 LEGACY_RANGE_WINDOW_DAYS = 30
 
 # (short, long) moving-average windows for the price-vs-MA distance rules.
