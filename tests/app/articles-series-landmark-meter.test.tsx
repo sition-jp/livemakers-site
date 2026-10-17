@@ -4,6 +4,7 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import section from "../fixtures/landmark/section.json";
+import section17 from "../fixtures/landmark/section-2026-10-17.json";
 
 const mocks = vi.hoisted(() => ({
   landmark: undefined as unknown,
@@ -100,7 +101,18 @@ describe("landmark series page meter", () => {
   it("shows the meter once on the Japanese landmark page", async () => {
     const { container } = await renderSeries("ja", "landmark");
     expect(container.querySelectorAll("[data-landmark-meter]")).toHaveLength(1);
-    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(6);
+    // 6 行の feed (ステーブルコインの行を足す前の配信) でも 8 行を出し、7・8 行目はデータ更新待ち
+    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(8);
+    // 翻訳は key をそのまま返す mock なので、データ更新待ちの行は "unavailable" を含む
+    expect(container.querySelector('[data-landmark-row="stableYoy"]')?.textContent).toContain("unavailable");
+  });
+
+  it("shows all eight rows with the 2026-10-17 feed", async () => {
+    vi.setSystemTime(new Date("2026-10-17T01:45:00Z"));
+    mocks.landmark = structuredClone(section17);
+    const { container } = await renderSeries("ja", "landmark");
+    expect(container.querySelectorAll("[data-landmark-row]")).toHaveLength(8);
+    expect(container.querySelector('[data-landmark-row="stableAth"]')?.textContent).not.toContain("unavailable");
   });
 
   it("does not show the meter on the English page or other series", async () => {

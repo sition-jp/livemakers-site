@@ -13,31 +13,40 @@ import {
 } from "@/lib/home/reader-grammar";
 import ja from "@/messages/ja.json";
 import section from "../../fixtures/landmark/section.json";
+import section17 from "../../fixtures/landmark/section-2026-10-17.json";
 
 const NOW = new Date("2026-10-16T10:45:00Z"); // 19:45 JST
+const NOW17 = new Date("2026-10-17T01:45:00Z"); // 10:45 JST
 const t = createTranslator({
   locale: "ja",
   messages: ja,
   namespace: "articles.landmarkMeter",
 }) as unknown as LandmarkMeterTranslate;
 
-function renderMeter(mutate?: (d: LandmarkMeterData) => void) {
-  const data = mapLandmarkMeter(structuredClone(section));
+function renderMeter(mutate?: (d: LandmarkMeterData) => void, fixture: unknown = section, now: Date = NOW) {
+  const data = mapLandmarkMeter(structuredClone(fixture));
   if (!data) throw new Error("fixture must be valid");
   mutate?.(data);
-  const rows = buildLandmarkRows(data, NOW);
+  const rows = buildLandmarkRows(data, now);
   if (!rows) throw new Error("rows must exist");
   return render(<LandmarkMeter rows={rows} t={t} />);
 }
 
 describe("LandmarkMeter", () => {
-  it("renders the six rows of the 2026-10-16 section in Japanese", () => {
+  it("renders the 2026-10-16 section (six rows in the feed) in Japanese", () => {
     const { container } = renderMeter();
     expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("節目の計器盤");
     const rows = container.querySelectorAll("[data-landmark-row]");
     expect([...rows].map((row) => row.getAttribute("data-landmark-row"))).toEqual([
-      "ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf",
+      "ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf", "stableYoy", "stableAth",
     ]);
+    // feed に無い 7・8 行目は条件を残して値を「—」にする。月足は下抜けが無いので上抜けだけ
+    const yoy = container.querySelector('[data-landmark-row="stableYoy"]')!;
+    expect(yoy.textContent).toContain("365 日前と比べた増減の符号が変わる");
+    expect(yoy.textContent).toContain("—（データ更新待ち）");
+    const m1m = container.querySelector('[data-landmark-row="macd1m"]')!;
+    expect(m1m.textContent).toContain("上抜け 2023年7月31日（5 回）");
+    expect(m1m.textContent).not.toContain("下抜け");
     const text = container.textContent ?? "";
     expect(text).toContain("終値 83,637 ドル・200 週平均 66,506 ドル（10/11 の週）");
     expect(text).toContain("平均との差 +25.8%");
@@ -45,7 +54,7 @@ describe("LandmarkMeter", () => {
     expect(text).toContain("シグナルとの差 +2,352");
     expect(text).toContain("次の点灯は、一度シグナル線を下回ってから");
     expect(text).toContain("次の判定は 10/31 の確定足");
-    expect(text).toContain("2026年10月3日に、ゼロ線の下に限る形から上下を問わない形へ変更");
+    expect(text).toContain("2026年10月3日に、上抜けをゼロ線の下に限る形から上下を問わない形へ変更");
     expect(text).toContain("回復は、割れた後に判定");
     expect(text).toContain("2026年11月19日から再び数える");
     expect(text).toContain("最高（2025年10月9日・627.4 億ドル）まで 50.7 億ドル");
@@ -85,6 +94,98 @@ describe("LandmarkMeter", () => {
     const badges = [...container.querySelectorAll("[data-landmark-badge]")].map((b) => b.textContent);
     expect(badges).toEqual(["休止期間", "上抜け後", "前提待ち", "休止期間"]);
     expect(container.innerHTML).not.toMatch(/status-up|status-down|staleness-|<progress|role="meter"/);
+  });
+});
+
+describe("LandmarkMeter — stablecoin rows and the monthly dead cross (2026-10-17)", () => {
+  it("renders the eight rows of the 2026-10-17 section", () => {
+    const { container } = renderMeter(undefined, section17, NOW17);
+    const text = container.textContent ?? "";
+    expect(text).toContain("節目シグナルの各指標が、いまどこにあるか");
+    expect(text).not.toContain("6 つ");
+    const yoy = container.querySelector('[data-landmark-row="stableYoy"]')!.textContent ?? "";
+    expect(yoy).toContain("ステーブルコイン総供給");
+    expect(yoy).toContain("前年比 +0.30%・総供給 3,052 億ドル（10/16・DefiLlama 集計）");
+    expect(yoy).toContain("0% との差 +0.30%");
+    expect(yoy).toContain("2024年2月11日（プラスへ）");
+    expect(yoy).toContain("2022 年以降 2 回");
+    expect(yoy).toContain("2026年10月17日に、判定の起点を 2021年1月1日に変更");
+    const ath = container.querySelector('[data-landmark-row="stableAth"]')!.textContent ?? "";
+    expect(ath).toContain("総供給 3,052 億ドル（10/16・DefiLlama 集計）");
+    expect(ath).toContain("最高（2026年5月17日・3,155 億ドル）まで 103 億ドル");
+    expect(ath).toContain("2024年11月22日");
+    expect(ath).toContain("2021 年以降 1 回");
+    expect(ath).toContain("2026年10月17日に、判定の起点を 2021年1月1日に変更");
+    const m1m = container.querySelector('[data-landmark-row="macd1m"]')!.textContent ?? "";
+    expect(m1m).toContain("下抜け: 月末の確定足で、MACD がシグナル線を上から下に抜ける");
+    expect(m1m).toContain("次の判定は 10/31 の確定足");
+    expect(m1m).toContain("下抜け後次の下抜けは、一度シグナル線を上回ってから");
+    expect(m1m).toContain("上抜け 2023年7月31日（5 回）");
+    expect(m1m).toContain("下抜け 2025年11月30日（6 回）");
+    expect(m1m).toContain("2013 年以降");
+    expect(text).toContain("点灯は指標ごとに過去 1〜6 回で");
+    expect(text).toContain("ステーブルコインの前年比は 180 日、総供給の最高は 90 日");
+    expect(text).toContain("DefiLlama（ステーブルコイン総供給・USD ペッグ・2021 年以降の値で判定）");
+    const badges = [...container.querySelectorAll("[data-landmark-badge]")].map((b) => b.textContent);
+    expect(badges).toEqual(["休止期間", "上抜け後", "下抜け後", "前提待ち", "休止期間"]);
+  });
+
+  it("shows the direction when the yoy sign flips", () => {
+    const { container } = renderMeter((d) => {
+      d.items[6].lastEvent = "2026-10-16";
+      d.items[6].lastDirection = "negative";
+      d.items[6].count = 3;
+    }, section17, NOW17);
+    const yoy = container.querySelector('[data-landmark-row="stableYoy"]')!.textContent ?? "";
+    expect(yoy).toContain("点灯2026年10月16日にマイナスに転じた");
+    expect(yoy).toContain("2026年10月16日（マイナスへ）");
+  });
+
+  it("says the current value is the high instead of a zero gap", () => {
+    const { container } = renderMeter((d) => {
+      d.items[7].values = { supply: "3,160", peak: "3,160", toPeak: "0", peakDate: "2026-10-16" };
+      d.items[5].values = { ...d.items[5].values, peakDate: d.items[5].barDate, toPeak: "0.0" };
+    }, section17, NOW17);
+    const ath = container.querySelector('[data-landmark-row="stableAth"]')!.textContent ?? "";
+    expect(ath).toContain("いまの値が最高（2026年10月16日）");
+    expect(ath).not.toContain("まで 0 億ドル");
+    const etf = container.querySelector('[data-landmark-row="etf"]')!.textContent ?? "";
+    expect(etf).toContain("いまの値が最高（2026年10月14日）");
+    expect(etf).not.toContain("まで 0.0 億ドル");
+  });
+
+  it("names the downward cross as the next judged one after an upward cross", () => {
+    const { container } = renderMeter((d) => {
+      d.items[2].state = "after_cross";
+      d.items[2].values = { ...d.items[2].values, diff: "+1,200" };
+      d.items[2].dead = { state: "armed", lastEvent: "2025-11-30", count: 6 };
+    }, section17, NOW17);
+    const m1m = container.querySelector('[data-landmark-row="macd1m"]')!.textContent ?? "";
+    expect(m1m).toContain("上抜け後次の上抜けは、一度シグナル線を下回ってから");
+    expect(m1m).toContain("次の下抜けの判定は 10/31 の確定足");
+    expect(m1m).not.toContain("次の判定は 10/31");
+  });
+
+  it("shows 点灯なし for a yoy row that has never fired", () => {
+    const { container } = renderMeter((d) => {
+      d.items[6].lastEvent = null;
+      d.items[6].lastDirection = null;
+      d.items[6].count = 0;
+    }, section17, NOW17);
+    const yoy = container.querySelector('[data-landmark-row="stableYoy"]')!.textContent ?? "";
+    expect(yoy).toContain("点灯なし");
+    expect(yoy).toContain("2022 年以降 0 回");
+    expect(yoy).not.toContain("プラスへ");
+  });
+
+  it("shows the fired dead cross on its bar", () => {
+    const { container } = renderMeter((d) => {
+      d.items[2].dead = { state: "after_cross", lastEvent: d.items[2].barDate, count: 7 };
+    }, section17, NOW17);
+    const m1m = container.querySelector('[data-landmark-row="macd1m"]')!.textContent ?? "";
+    expect(m1m).toContain("点灯9/30 確定の足で下抜け");
+    expect(m1m).not.toContain("下抜け後");
+    expect(m1m).not.toContain("次の判定は");
   });
 });
 

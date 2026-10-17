@@ -609,7 +609,7 @@
     },
     "landmarkMeter": {
       "title": "節目の計器盤",
-      "lead": "節目シグナルの 6 つの指標が、いまどこにあるか。確定した足だけで判定し、毎日 10 時台と 19 時台に更新します。",
+      "lead": "節目シグナルの各指標が、いまどこにあるか。確定した足だけで判定し、毎日 10 時台と 19 時台に更新します。",
       "columns": {
         "now": "いま",
         "condition": "点灯する条件",
@@ -623,7 +623,8 @@
         "cooldown": "休止期間",
         "afterCross": "上抜け後",
         "aboveZero": "対象外",
-        "waitingPremise": "前提待ち"
+        "waitingPremise": "前提待ち",
+        "afterDeadCross": "下抜け後"
       },
       "rows": {
         "ma200w": {
@@ -656,13 +657,19 @@
           "unit": "月足",
           "now": "MACD {macd}・シグナル {signal}",
           "asOf": "{date} 確定",
-          "condition": "月末の確定足で、MACD がシグナル線を下から上に抜ける（ゼロ線の上下を問わない）",
-          "changed": "2026年10月3日に、ゼロ線の下に限る形から上下を問わない形へ変更",
+          "condition": "上抜け: 月末の確定足で、MACD がシグナル線を下から上に抜ける（ゼロ線の上下を問わない）",
+          "conditionDead": "下抜け: 月末の確定足で、MACD がシグナル線を上から下に抜ける（ゼロ線の上下を問わない）",
+          "changed": "2026年10月3日に、上抜けをゼロ線の下に限る形から上下を問わない形へ変更",
           "gap": "シグナルとの差 {diff}",
           "armed": "次の判定は {date} の確定足",
-          "afterCross": "次の点灯は、一度シグナル線を下回ってから",
-          "fired": "{date} 確定の足",
-          "count": "{sinceYear} 年以降 {count} 回"
+          "armedDead": "次の下抜けの判定は {date} の確定足",
+          "afterCross": "次の上抜けは、一度シグナル線を下回ってから",
+          "afterDeadCross": "次の下抜けは、一度シグナル線を上回ってから",
+          "fired": "{date} 確定の足で上抜け",
+          "firedDead": "{date} 確定の足で下抜け",
+          "last": "上抜け {date}（{count} 回）",
+          "lastDead": "下抜け {date}（{count} 回）",
+          "count": "{sinceYear} 年以降"
         },
         "mvrv": {
           "name": "MVRV",
@@ -700,14 +707,43 @@
           "gap": "最高（{peakDate}・{peak} 億ドル）まで {toPeak} 億ドル",
           "cooldown": "{date}から再び数える",
           "fired": "{date}に最高を更新",
-          "count": "上場（{sinceYear} 年）以降 {count} 回"
+          "count": "上場（{sinceYear} 年）以降 {count} 回",
+          "gapAtPeak": "いまの値が最高（{peakDate}）"
+        },
+        "stableYoy": {
+          "name": "ステーブルコイン総供給",
+          "unit": "前年比",
+          "now": "前年比 {yoyPct}・総供給 {supply} 億ドル",
+          "asOf": "{date}・DefiLlama 集計",
+          "condition": "365 日前と比べた増減の符号が変わる（プラスからマイナス、マイナスからプラスのどちらも数える）",
+          "changed": "2026年10月17日に、判定の起点を 2021年1月1日に変更（2020 年以前は集計対象が足りないため）",
+          "gap": "0% との差 {yoyPct}",
+          "cooldown": "{date}から再び数える",
+          "firedNegative": "{date}にマイナスに転じた",
+          "firedPositive": "{date}にプラスに転じた",
+          "lastNegative": "{date}（マイナスへ）",
+          "lastPositive": "{date}（プラスへ）",
+          "count": "{sinceYear} 年以降 {count} 回"
+        },
+        "stableAth": {
+          "name": "ステーブルコイン総供給",
+          "unit": "過去最高",
+          "now": "総供給 {supply} 億ドル",
+          "asOf": "{date}・DefiLlama 集計",
+          "condition": "総供給が過去最高を更新する",
+          "changed": "2026年10月17日に、判定の起点を 2021年1月1日に変更（2020 年以前は集計対象が足りないため）",
+          "gap": "最高（{peakDate}・{peak} 億ドル）まで {toPeak} 億ドル",
+          "gapAtPeak": "いまの値が最高（{peakDate}）",
+          "cooldown": "{date}から再び数える",
+          "fired": "{date}に最高を更新",
+          "count": "{sinceYear} 年以降 {count} 回"
         }
       },
       "notes": {
         "count": "点灯は指標ごとに過去 {min}〜{max} 回で、回数はわずかです。点灯の後に価格がどう動いたかを示すものではなく、売買をすすめるものでもありません。",
         "fixed": "条件は記録に残して固定しています。変えたときは、その指標の行に変更日を示します。",
-        "cooldown": "休止期間: 前回から日が浅い間は、条件を満たしても節目として数えません（200 週平均は 52 週、MVRV は 365 日、ファンディングは 180 日、ETF は 90 日）。休止期間の終わりは、その後また条件の内側に入ると先へ延びます。",
-        "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0（ETF）"
+        "cooldown": "休止期間: 前回から日が浅い間は、条件を満たしても節目として数えません（200 週平均は 52 週、MVRV は 365 日、ファンディングは 180 日、ETF は 90 日、ステーブルコインの前年比は 180 日、総供給の最高は 90 日）。休止期間の終わりは、その後また条件の内側に入ると先へ延びます。",
+        "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0（ETF） / DefiLlama（ステーブルコイン総供給・USD ペッグ・2021 年以降の値で判定）"
       }
     }
   },
