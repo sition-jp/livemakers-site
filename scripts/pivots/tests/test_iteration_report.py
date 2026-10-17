@@ -258,3 +258,63 @@ def test_markdown_avoids_forbidden_words(small_report):
         assert word not in md
     assert "Brier skill" in md
     assert "判定材料不足" in md
+
+
+# main の安全策・まとめの数え方 (it-2026-10 最終レビュー A2) ------------------------------
+
+
+def _run_main(monkeypatch, tmp_path, report):
+    from ops import iteration_report as ir
+
+    monkeypatch.setattr(ir, "_load_inputs", lambda *_a, **_k: {})
+    monkeypatch.setattr(ir, "build_report", lambda *_a, **_k: report)
+    out = tmp_path / "out"
+    rc = ir.main(["--out-dir", str(out), "--bulk-cache", str(tmp_path / "cache")])
+    return rc, out
+
+
+def test_main_refuses_calibration_when_range_window_mismatches(small_report, monkeypatch, tmp_path, capsys):
+    import copy
+
+    rep = copy.deepcopy(small_report)
+    rep["range_window_selection"]["matches_current"] = False
+    rc, out = _run_main(monkeypatch, tmp_path, rep)
+    assert rc == 1
+    assert not (out / "calibration_it_2026_10.json").exists()
+    assert "RANGE_WINDOW_DAYS" in capsys.readouterr().out
+
+
+def test_main_writes_calibration_when_range_window_matches(small_report, monkeypatch, tmp_path):
+    import copy
+
+    rep = copy.deepcopy(small_report)
+    rep["range_window_selection"]["matches_current"] = True
+    rc, out = _run_main(monkeypatch, tmp_path, rep)
+    assert rc == 0
+    assert (out / "calibration_it_2026_10.json").exists()
+
+
+def test_bulk_cache_is_required(tmp_path):
+    from ops import iteration_report as ir
+
+    with pytest.raises(SystemExit):
+        ir.main(["--out-dir", str(tmp_path)])
+
+
+def test_summary_counts_pass_fail_and_undetermined_separately(small_report):
+    import copy
+
+    rep = copy.deepcopy(small_report)
+    graded = [q for q in rep["questions"] if q["judged"]]
+    assert len(graded) >= 3
+    graded[0]["verdict"] = {"primary_pass": True, "secondary_pass": True}
+    graded[1]["verdict"] = {"primary_pass": False, "secondary_pass": False}
+    graded[2]["verdict"] = {"primary_pass": None, "secondary_pass": None}
+    for q in graded[3:]:
+        q["verdict"] = {"primary_pass": True, "secondary_pass": True}
+    n = len(graded)
+    md = render_markdown(rep)
+    assert f"主指標は 合格 {n - 2} 問・不合格 1 問・判定不能 1 問" in md
+    assert f"副指標は 合格 {n - 2} 問・不合格 1 問・判定不能 1 問" in md
+    weak_line = [ln for ln in md.splitlines() if ln.startswith("- 主指標を満たさなかった問い")]
+    assert len(weak_line) == 1 and weak_line[0].count(" / ") == 0

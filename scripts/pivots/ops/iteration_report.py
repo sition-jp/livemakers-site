@@ -62,7 +62,6 @@ ITERATION = "it-2026-10"
 TRAIN_END_DEFAULT = "2025-10-16"
 PRICE_HISTORY_START_DAY = "2017-08-17"
 DERIV_HISTORY_START_DAY = "2021-12-01"
-DEFAULT_BULK_CACHE = Path(__file__).resolve().parents[1] / ".bulk_cache"
 
 EVENTS = ("turn", "move")
 EVENT_SCORE_TYPE = {"turn": "price_pivot", "move": "volatility_pivot"}
@@ -558,12 +557,19 @@ def render_markdown(report: dict) -> str:
 
     qs = report["questions"]
     graded = [q for q in qs if q["judged"]]
-    n_primary = sum(1 for q in graded if q["verdict"]["primary_pass"])
-    n_secondary = sum(1 for q in graded if q["verdict"]["secondary_pass"])
+    def _tally(key: str) -> tuple[int, int, int]:
+        flags = [q["verdict"][key] for q in graded]
+        return (sum(1 for f in flags if f is True), sum(1 for f in flags if f is False),
+                sum(1 for f in flags if f is None))
+
+    p_ok, p_ng, p_na = _tally("primary_pass")
+    s_ok, s_ng, s_na = _tally("secondary_pass")
     L.append("## まとめ")
     L.append("")
-    L.append(f"- 合否を付ける {len(graded)} 問のうち、主指標を満たしたのは {n_primary} 問、副指標を満たしたのは {n_secondary} 問")
-    weak = [f"{q['asset']} {_QUESTION_JA[(q['event'], q['horizon'])]}" for q in graded if not q["verdict"]["primary_pass"]]
+    L.append(f"- 合否を付ける {len(graded)} 問のうち、主指標は 合格 {p_ok} 問・不合格 {p_ng} 問・判定不能 {p_na} 問、"
+             f"副指標は 合格 {s_ok} 問・不合格 {s_ng} 問・判定不能 {s_na} 問")
+    weak = [f"{q['asset']} {_QUESTION_JA[(q['event'], q['horizon'])]}" for q in graded
+            if q["verdict"]["primary_pass"] is False]
     if weak:
         L.append(f"- 主指標を満たさなかった問い: {' / '.join(weak)}")
     L.append("")
@@ -693,8 +699,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     p = argparse.ArgumentParser(description="it-2026-10 のオフライン評価 (学習・holdout)")
     p.add_argument("--out-dir", type=Path, required=True)
     p.add_argument("--train-end", default=TRAIN_END_DEFAULT)
-    p.add_argument("--bulk-cache", type=Path, default=DEFAULT_BULK_CACHE,
-                   help="派生データの bulk cache (読むだけ)")
+    p.add_argument("--bulk-cache", type=Path, required=True,
+                   help="派生データの bulk cache (読むだけ・既定なし: runner の checkout を誤って指さないため)")
     p.add_argument("--compare-baseline", action="store_true",
                    help="修正前の規則 (LEGACY_RULES) でのスコアの指標も並べる")
     a = p.parse_args(argv)
@@ -708,13 +714,18 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     (a.out_dir / "it-2026-10.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     (a.out_dir / "it-2026-10.md").write_text(render_markdown(report), encoding="utf-8")
+    sel = report["range_window_selection"]
+    if not sel["matches_current"]:
+        # 段 2 でそのまま配信する較正表は、いまの定数と同じ設定で作ったものだけ。
+        # 報告 (json / md) は診断のために残すが、較正表は書かない。
+        sys.stdout.write(
+            f"wrote {a.out_dir}/it-2026-10.json, it-2026-10.md (calibration_it_2026_10.json は書かない)\n"
+            f"RANGE_WINDOW_DAYS: selected {sel['selected']} != current {sel['current']} — "
+            "horizon_inputs.RANGE_WINDOW_DAYS を直して再実行すること\n")
+        return 1
     (a.out_dir / "calibration_it_2026_10.json").write_text(
         json.dumps(report["calibration_file"], ensure_ascii=False, indent=2), encoding="utf-8")
-    sel = report["range_window_selection"]
     sys.stdout.write(f"wrote {a.out_dir}/it-2026-10.json, it-2026-10.md, calibration_it_2026_10.json\n")
-    if not sel["matches_current"]:
-        sys.stdout.write(
-            f"RANGE_WINDOW_DAYS: selected {sel['selected']} != current {sel['current']} — update and re-run\n")
     return 0
 
 

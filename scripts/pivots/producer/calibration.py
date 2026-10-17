@@ -13,6 +13,8 @@ from typing import Sequence
 from .outcomes import Outcome
 
 BIN_EDGES: tuple[int, ...] = (0, 20, 40, 60, 80, 101)
+# 各区間の `hi` は「その値は含まない上端」(例: 20-40 は 20 以上 40 未満)。
+# ただし最後の区間だけは上端を含み、100 として保存する (80 以上 100 以下)。
 SHRINK_K: float = 20.0
 _EPS = 1e-9  # 0.5 - 0.4 >= 0.10 のような境界を浮動小数の誤差で落とさない
 
