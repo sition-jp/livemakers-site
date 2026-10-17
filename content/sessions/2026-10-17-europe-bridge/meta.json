@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-10-17-europe-bridge",
+  "date": "2026-10-17",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-17-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-17-europe-bridge",
+  "publishedAt": "2026-10-18T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261017_1203_555447c9",
+  "asOfJst": "2026-10-17T12:03:05+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月17日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1221 → 1.1245（+0.21%）",
+    "変動幅上位: Coinbase（perp） -4.9% / WTI（perp） +3.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261017_1250_6842c73d",
+    "crawlAnchorJst": "2026-10-17T12:03:00+09:00",
+    "writtenAtJst": "2026-10-17T12:50:00+09:00",
+    "lead": "昼の観測は、政策と財政の重さが市場にのしかかる構図を映した。トランプ氏は議会が可決した対ロシアの新制裁を発効前に保留し、米国の2026会計年度の財政赤字は2兆ドル近くで締まった。暗号資産では Solana の開発元が全バリデータに更新を促し、量子と暗号をめぐる議論は Google と Anthropic の成果を軸に広がった。国内では skyticket がカード情報の流出を新たに認め、漏えいの続報が続く。",
+    "items": [
+      {
+        "headline": "トランプ氏、議会が可決した対ロシアの新制裁を保留。ウクライナとの溝が深まるなかでの判断",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/oct/17/trump-puts-new-russia-sanctions-passed-by-congress-on-hold-amid-deepening-row-with-ukraine",
+        "note": "Straits Times は、新法で発効するはずだった制裁と関税の多くが発効前に免除されたと報じた。"
+      },
+      {
+        "headline": "米国の2026会計年度（9月末締め）の財政赤字、2兆ドル近くに",
+        "sourceUrl": "https://x.com/CNN/status/2111261164529242323"
+      },
+      {
+        "headline": "skyticket、クレジットカード情報も最大6,140人分が流出。「流出なし」とした初報を訂正",
+        "sourceUrl": "https://x.com/itmedia_news/status/2111272259575067042"
+      },
+      {
+        "headline": "Anza、Agave v4.3.2 を Solana メインネットの全バリデータの推奨版に指定",
+        "sourceUrl": "https://x.com/anza_xyz/status/2111124479908970527"
+      },
+      {
+        "headline": "ChatGPT の GPT-6 Astra Pro が更新。応答が速くなり、プラグインとツールの扱いを改善",
+        "sourceUrl": "https://x.com/OpenAI/status/2111192259073094035"
+      },
+      {
+        "headline": "Google の Willow の新しい成果を受け、初期のビットコインが受ける量子の脅威が大きくなった",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/16/satoshi-era-bitcoin-faces-a-bigger-quantum-threat-after-google-s-new-willow-breakthrough"
+      },
+      {
+        "headline": "Anthropic、Claude が NIST の楕円曲線のシード値を1990年代のタイムスタンプまでたどったと説明",
+        "sourceUrl": "https://thedefiant.io/news/security/anthropic-says-claude-traced-nist-curve-seeds-to-1990s-timestamps"
+      },
+      {
+        "headline": "エヌビディアの CEO、AI 株安は「いずれ過ぎ去る」と述べ、成長への強気を崩さず",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2111234517096644654"
+      },
+      {
+        "headline": "米国の10年期待インフレ率（BEI）は10月16日時点で2.35%",
+        "sourceUrl": "https://fred.stlouisfed.org/series/T10YIE"
+      },
+      {
+        "headline": "米国株 ETF への資金流入、過去12か月で1.4兆ドル",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2111215937391112571"
+      },
+      {
+        "headline": "トークン化株式の時価総額が過去最高の40億ドル、前年比831.8%増（Token Terminal 集計）",
+        "sourceUrl": "https://x.com/Kalshi/status/2111215614627086353"
+      },
+      {
+        "headline": "エルサルバドル、戦略的ビットコイン準備に BTC を追加",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2111203818214211855"
+      },
+      {
+        "headline": "EtherFi、Blast 上の weETH は10月26日までに移すよう利用者に案内",
+        "sourceUrl": "https://x.com/ether_fi/status/2111198009119932653"
+      },
+      {
+        "headline": "Cardano の Hydra、性能改善でスナップショットの取引上限を引き上げ",
+        "sourceUrl": "https://x.com/angrycryptoshow/status/2111120784244506904"
+      }
+    ],
+    "watch": [
+      "財務省の月次財政報告で、歳入と歳出の内訳、関税収入の確定値がどう出るか",
+      "対ロシア制裁の保留に、議会と欧州がどう応じるか",
+      "Solana のバリデータが Agave v4.3.2 へどこまで移るか"
+    ]
+  }
+}
