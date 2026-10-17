@@ -145,10 +145,13 @@ def _build_market_context(data: _AssetData, horizon: Horizon) -> MarketContext:
     dist50 = distance_from_ma(closes, long_w)
 
     def _dist_history(w: int) -> list[float]:
+        # Excludes the current bar (same window as compose_backtest
+        # _slice_history: series[t-lb:t]) so live and backtest rank "now"
+        # against the same history.
         return [
             (closes[i] - sum(closes[i - w + 1 : i + 1]) / w)
             / (sum(closes[i - w + 1 : i + 1]) / w)
-            for i in range(len(closes) - lb, len(closes))
+            for i in range(len(closes) - lb - 1, len(closes) - 1)
             if i >= w - 1
         ]
 

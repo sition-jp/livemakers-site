@@ -279,3 +279,57 @@ def test_atr_rising_rule_can_fire_live() -> None:
     _score, evidence = score_volatility_pivot(ctx)
     messages = [e["message"] for e in evidence]
     assert "ATR is rising from a low-volatility area" in messages
+
+
+# --- it-2026-10 final review A1: live MA-distance history excludes current bar ---
+
+def _price_series():
+    import math
+
+    from producer.compose_assets import _AssetData
+
+    n = 500
+    closes = [100.0 + 20 * math.sin(i / 17.0) + i * 0.05 + (i % 5) * 0.4 for i in range(n)]
+    return _AssetData(
+        closes=closes, highs=[c + 1 for c in closes], lows=[c - 1 for c in closes],
+        volumes=[1.0] * n, oi=[], funding=[], global_long_short_ratio=[],
+        top_trader_position_ratio=[], last_close_time=0,
+    )
+
+
+@pytest.mark.parametrize("horizon", ["7D", "30D", "90D"])
+def test_ma_distance_history_matches_backtest_slice(horizon: str) -> None:
+    from producer.compose_assets import _build_market_context
+    from producer.compose_backtest import _precompute_asset_series, _slice_history
+    from producer.percentiles import LOOKBACK_DAYS
+    from producer.horizon_inputs import IT_2026_10_RULES, ma_windows
+
+    data = _price_series()
+    ctx = _build_market_context(data, horizon)
+    series = _precompute_asset_series(data.closes, data.highs, data.lows)
+    by_window = {10: series.dist10, 20: series.dist20, 50: series.dist50, 100: series.dist100}
+    short_w, long_w = ma_windows(horizon, IT_2026_10_RULES)
+    t = len(data.closes) - 1
+    lb = LOOKBACK_DAYS[horizon]
+    for key, w in (("distance_from_ma_20_history", short_w), ("distance_from_ma_50_history", long_w)):
+        expected = _slice_history(by_window[w], t, lb)
+        assert len(ctx[key]) == lb
+        assert ctx[key][-1] == pytest.approx(expected[-1])
+        assert ctx[key] == pytest.approx(expected)
+
+
+@pytest.mark.parametrize("horizon", ["7D", "30D", "90D"])
+def test_live_and_backtest_price_pivot_agree_on_final_day(horizon: str) -> None:
+    from producer.compose_assets import _build_market_context
+    from producer.compose_backtest import _DerivAtT, _historical_scores, _precompute_asset_series
+    from producer.score_price_pivot import score_price_pivot
+
+    data = _price_series()
+    live_pp, _ = score_price_pivot(_build_market_context(data, horizon))
+    series = _precompute_asset_series(data.closes, data.highs, data.lows)
+    deriv = [_DerivAtT(0.0, 0.0, [0.0, 0.1, 0.2])] * len(data.closes)
+    t = len(data.closes) - 1
+    bt_pp, _vp, _ov = _historical_scores(
+        data.closes, data.volumes, series, deriv, t, horizon
+    )
+    assert live_pp == bt_pp
