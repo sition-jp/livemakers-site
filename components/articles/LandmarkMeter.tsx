@@ -10,6 +10,7 @@ import {
  * 節目の計器盤 (core spec 2026-10-16-lvm-landmark-meter-design §5)。サーバー部品・状態なし。
  * 色で良い・悪い・近い・遠いを表さない (札は灰色 1 色)。バーや針のような「近づいている」絵も使わない。
  * 言葉は messages の articles.landmarkMeter、数字は feed (SDE が整形した文字列) から。
+ * 2026-10-17: 7・8 行目 (ステーブルコイン) と月足 MACD の下抜け (core spec 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。
  */
 export type LandmarkMeterTranslate = (
   key: string,
@@ -47,17 +48,31 @@ function NowCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
   );
 }
 
+const BAR_ROWS = new Set(["ma200w", "macd2w", "macd1m"]);
+
+function nextCheckLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
+  const item = row.item!;
+  return item.nextCheck && BAR_ROWS.has(row.copyKey) ? (
+    <p>{t(`rows.${row.copyKey}.armed`, { date: formatShortDate(item.nextCheck) })}</p>
+  ) : null;
+}
+
+function firedCopyKey(row: LandmarkRow): string {
+  if (row.copyKey !== "stableYoy") return `rows.${row.copyKey}.fired`;
+  return row.item!.lastDirection === "negative" ? "rows.stableYoy.firedNegative" : "rows.stableYoy.firedPositive";
+}
+
 function stateLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
   const item = row.item!;
   const k = row.copyKey;
   switch (row.badge) {
     case "fired": {
       const date = item.lastEvent ?? item.barDate;
-      const label = k === "ma200w" || k === "macd2w" || k === "macd1m" ? formatShortDate(date) : formatLongDate(date);
+      const label = BAR_ROWS.has(k) ? formatShortDate(date) : formatLongDate(date);
       return (
         <p>
           <Badge>{t("badges.fired")}</Badge>
-          {t(`rows.${k}.fired`, { date: label })}
+          {t(firedCopyKey(row), { date: label })}
         </p>
       );
     }
@@ -70,10 +85,14 @@ function stateLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
       );
     case "afterCross":
       return (
-        <p>
-          <Badge>{t("badges.afterCross")}</Badge>
-          {t(`rows.${k}.afterCross`)}
-        </p>
+        <>
+          <p>
+            <Badge>{t("badges.afterCross")}</Badge>
+            {t(`rows.${k}.afterCross`)}
+          </p>
+          {/* 月足: 上抜けの後でも、下抜けは次の確定足で判定される */}
+          {item.dead && row.deadBadge === null ? nextCheckLine(row, t) : null}
+        </>
       );
     case "aboveZero":
       return (
@@ -83,20 +102,51 @@ function stateLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
         </p>
       );
     default:
-      return item.nextCheck && (k === "ma200w" || k === "macd2w" || k === "macd1m") ? (
-        <p>{t(`rows.${k}.armed`, { date: formatShortDate(item.nextCheck) })}</p>
-      ) : null;
+      return row.deadBadge === "fired" ? null : nextCheckLine(row, t);
   }
+}
+
+/** 月足 MACD の下抜け (feed に `dead` があるときだけ) */
+function deadLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
+  const dead = row.item!.dead;
+  if (!dead) return null;
+  if (row.deadBadge === "fired" && dead.lastEvent) {
+    return (
+      <p>
+        <Badge>{t("badges.fired")}</Badge>
+        {t("rows.macd1m.firedDead", { date: formatShortDate(dead.lastEvent) })}
+      </p>
+    );
+  }
+  if (row.deadBadge === "afterCross") {
+    return (
+      <p>
+        <Badge>{t("badges.afterDeadCross")}</Badge>
+        {t("rows.macd1m.afterDeadCross")}
+      </p>
+    );
+  }
+  return null;
+}
+
+/** 最高を持つ行 (ETF・ステーブルコイン総供給): いまの値が最高なら「まで 0」ではなく「いまの値が最高」 */
+const PEAK_ROWS = new Set(["etf", "stableAth"]);
+
+function gapText(row: LandmarkRow, t: LandmarkMeterTranslate): string {
+  const item = row.item!;
+  if (!PEAK_ROWS.has(row.copyKey)) return t(`rows.${row.copyKey}.gap`, item.values);
+  const peakDate = formatLongDate(item.values.peakDate);
+  if (item.values.peakDate === item.barDate) return t(`rows.${row.copyKey}.gapAtPeak`, { peakDate });
+  return t(`rows.${row.copyKey}.gap`, { ...item.values, peakDate });
 }
 
 function GapCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
   const item = row.item!;
-  const values =
-    row.copyKey === "etf" ? { ...item.values, peakDate: formatLongDate(item.values.peakDate) } : item.values;
   return (
     <>
-      <p className="text-text-primary">{t(`rows.${row.copyKey}.gap`, values)}</p>
+      <p className="text-text-primary">{gapText(row, t)}</p>
       {stateLine(row, t)}
+      {deadLine(row, t)}
       {row.recoverBadge === "waitingPremise" ? (
         <p>
           <Badge>{t("badges.waitingPremise")}</Badge>
@@ -116,6 +166,28 @@ function GapCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
 function LastCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
   const item = row.item!;
   const date = (iso: string | null) => (iso ? formatLongDate(iso) : t("never"));
+  if (row.copyKey === "macd1m") {
+    return (
+      <>
+        <p>{t("rows.macd1m.last", { date: date(item.lastEvent), count: item.count })}</p>
+        {item.dead ? (
+          <p>{t("rows.macd1m.lastDead", { date: date(item.dead.lastEvent), count: item.dead.count })}</p>
+        ) : null}
+        <p className="text-text-tertiary">{t("rows.macd1m.count", { sinceYear: item.sinceYear })}</p>
+      </>
+    );
+  }
+  if (row.copyKey === "stableYoy" && item.lastEvent && item.lastDirection) {
+    const key = item.lastDirection === "negative" ? "rows.stableYoy.lastNegative" : "rows.stableYoy.lastPositive";
+    return (
+      <>
+        <p>{t(key, { date: formatLongDate(item.lastEvent) })}</p>
+        <p className="text-text-tertiary">
+          {t("rows.stableYoy.count", { sinceYear: item.sinceYear, count: item.count })}
+        </p>
+      </>
+    );
+  }
   if (row.copyKey === "mvrv") {
     return (
       <>
@@ -137,11 +209,20 @@ function LastCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
   );
 }
 
+/** 条件を変えた指標 (registry.json の changes・v1 spec §6「条件の変更を隠さない」) */
+const CHANGED_ROWS = new Set(["macd1m", "stableYoy", "stableAth"]);
+
 export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMeterTranslate }) {
   const unavailable = t("unavailable");
   // 注記の回数は表に出ている行から数える (固定の文字にしない)
   const counts = rows.flatMap((row) =>
-    row.item ? [row.item.count, ...(row.item.recover ? [row.item.recover.count] : [])] : [],
+    row.item
+      ? [
+          row.item.count,
+          ...(row.item.recover ? [row.item.recover.count] : []),
+          ...(row.item.dead ? [row.item.dead.count] : []),
+        ]
+      : [],
   );
   return (
     <section data-landmark-meter aria-labelledby="landmark-meter-title" className="mt-6">
@@ -167,7 +248,10 @@ export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMet
               <Cell label={t("columns.condition")}>
                 <p>{t(`rows.${row.copyKey}.condition`)}</p>
                 {row.copyKey === "mvrv" ? <p>{t("rows.mvrv.conditionRecover")}</p> : null}
-                {row.copyKey === "macd1m" ? <p className="text-text-tertiary">{t("rows.macd1m.changed")}</p> : null}
+                {row.copyKey === "macd1m" && row.item?.dead ? <p>{t("rows.macd1m.conditionDead")}</p> : null}
+                {CHANGED_ROWS.has(row.copyKey) ? (
+                  <p className="text-text-tertiary">{t(`rows.${row.copyKey}.changed`)}</p>
+                ) : null}
               </Cell>
               <Cell label={t("columns.gap")}>
                 {row.item ? <GapCell row={row} t={t} /> : <p>{unavailable}</p>}

@@ -7,13 +7,24 @@ import {
 } from "@/lib/landmark/meter-feed";
 
 /**
- * 節目の計器盤の 6 行 (core spec 2026-10-16-lvm-landmark-meter-design §5)。並びは固定で、
+ * 節目の計器盤の 8 行 (core spec 2026-10-16-lvm-landmark-meter-design §5・7・8 行目は
+ * 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。並びは固定で、
  * 近い順に並べ替えない。鮮度は SDE (livemakers_export/landmark_meter.py) と同じ物差しで描画時にも見直す —
  * 配信が止まって古い feed が残っても、古い値を新しいように見せない。
  */
-export type LandmarkCopyKey = "ma200w" | "macd2w" | "macd1m" | "mvrv" | "funding" | "etf";
+export type LandmarkCopyKey =
+  | "ma200w"
+  | "macd2w"
+  | "macd1m"
+  | "mvrv"
+  | "funding"
+  | "etf"
+  | "stableYoy"
+  | "stableAth";
 export type LandmarkBadge = "fired" | "cooldown" | "afterCross" | "aboveZero";
 export type LandmarkRecoverBadge = "fired" | "waitingPremise";
+/** 月足 MACD の下抜け (`dead`) の札。armed は札なし */
+export type LandmarkDeadBadge = "fired" | "afterCross";
 
 type Cadence = "weekly" | "2w" | "monthly" | "daily" | "etf";
 
@@ -37,6 +48,8 @@ const ROW_META: Record<LandmarkRowKey, { copyKey: LandmarkCopyKey; cadence: Cade
   btc_mvrv_1: { copyKey: "mvrv", cadence: "daily" },
   btc_funding_30d_negative: { copyKey: "funding", cadence: "daily" },
   btc_etf_cum_high: { copyKey: "etf", cadence: "etf" },
+  stablecoin_supply_yoy_flip: { copyKey: "stableYoy", cadence: "daily" },
+  stablecoin_supply_ath: { copyKey: "stableAth", cadence: "daily" },
 };
 
 const STATE_BADGE: Record<LandmarkState, LandmarkBadge | null> = {
@@ -53,6 +66,8 @@ export interface LandmarkRow {
   item: LandmarkItem | null;
   badge: LandmarkBadge | null;
   recoverBadge: LandmarkRecoverBadge | null;
+  /** 月足 MACD の行だけ。feed に `dead` が無ければ null (下抜けは出さない) */
+  deadBadge: LandmarkDeadBadge | null;
   staleEmphasis: boolean;
 }
 
@@ -85,7 +100,7 @@ function rowFor(key: LandmarkRowKey, data: LandmarkMeterData, now: Date, today: 
   const found = data.items.find((candidate) => candidate.key === key);
   const item = found && isFresh(found, cadence, now, today) ? found : null;
   if (!item) {
-    return { key, copyKey, item: null, badge: null, recoverBadge: null, staleEmphasis: false };
+    return { key, copyKey, item: null, badge: null, recoverBadge: null, deadBadge: null, staleEmphasis: false };
   }
   // 足の指標は点灯した足が最新の足である間、日次の指標と ETF は点灯から 7 日間
   const fired =
@@ -97,17 +112,23 @@ function rowFor(key: LandmarkRowKey, data: LandmarkMeterData, now: Date, today: 
     if (recentlyFired(item.recover.lastEvent, today)) recoverBadge = "fired";
     else if (item.recover.state === "waiting_premise") recoverBadge = "waitingPremise";
   }
+  let deadBadge: LandmarkDeadBadge | null = null;
+  if (item.dead) {
+    if (item.dead.lastEvent !== null && item.dead.lastEvent === item.barDate) deadBadge = "fired";
+    else if (item.dead.state === "after_cross") deadBadge = "afterCross";
+  }
   return {
     key,
     copyKey,
     item,
     badge: fired ? "fired" : STATE_BADGE[item.state],
     recoverBadge,
+    deadBadge,
     staleEmphasis: cadence === "etf" && daysBetween(item.barDate, today) >= LANDMARK_ETF_STALE_DAYS,
   };
 }
 
-/** 6 行固定。data が無い・新鮮な行が 1 つも無いときは null (計器盤ごと出さない)。 */
+/** 8 行固定。data が無い・新鮮な行が 1 つも無いときは null (計器盤ごと出さない)。 */
 export function buildLandmarkRows(data: LandmarkMeterData | null, now: Date): LandmarkRow[] | null {
   if (!data) return null;
   const today = jstToday(now);

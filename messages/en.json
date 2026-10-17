@@ -609,7 +609,7 @@
     },
     "landmarkMeter": {
       "title": "Landmark gauges",
-      "lead": "Where each of the six landmark-signal indicators stands now. Judged on closed bars only; updated daily around 10:00 and 19:00 JST.",
+      "lead": "Where each landmark-signal indicator stands now. Judged on closed bars only; updated daily around 10:00 and 19:00 JST.",
       "columns": {
         "now": "Now",
         "condition": "Fires when",
@@ -623,7 +623,8 @@
         "cooldown": "Cooling off",
         "afterCross": "After cross",
         "aboveZero": "Not counted",
-        "waitingPremise": "Awaiting premise"
+        "waitingPremise": "Awaiting premise",
+        "afterDeadCross": "After downward cross"
       },
       "rows": {
         "ma200w": {
@@ -656,13 +657,18 @@
           "unit": "Monthly bars",
           "now": "MACD {macd} / signal {signal}",
           "asOf": "closed {date}",
-          "condition": "On a closed monthly bar, MACD crosses above its signal line (either side of zero)",
-          "changed": "Changed on 2026-10-03 from below-zero only to either side of zero",
+          "condition": "Upward: on a closed monthly bar, MACD crosses above its signal line (either side of zero)",
+          "conditionDead": "Downward: on a closed monthly bar, MACD crosses below its signal line (either side of zero)",
+          "changed": "On 2026-10-03 the upward cross changed from below-zero only to either side of zero",
           "gap": "Gap to signal {diff}",
           "armed": "Next judged on the bar closing {date}",
-          "afterCross": "Fires again only after MACD drops below the signal line",
-          "fired": "Bar closing {date}",
-          "count": "{count} since {sinceYear}"
+          "afterCross": "The next upward cross needs MACD to drop below the signal line first",
+          "afterDeadCross": "The next downward cross needs MACD to rise above the signal line first",
+          "fired": "Upward cross on the bar closing {date}",
+          "firedDead": "Downward cross on the bar closing {date}",
+          "last": "Upward {date} ({count})",
+          "lastDead": "Downward {date} ({count})",
+          "count": "Since {sinceYear}"
         },
         "mvrv": {
           "name": "MVRV",
@@ -700,14 +706,43 @@
           "gap": "{toPeak} below the high ({peakDate}, {peak}; units of $100M)",
           "cooldown": "Counted again from {date}",
           "fired": "New high on {date}",
-          "count": "{count} since listing ({sinceYear})"
+          "count": "{count} since listing ({sinceYear})",
+          "gapAtPeak": "The current value is the high ({peakDate})"
+        },
+        "stableYoy": {
+          "name": "Stablecoin supply",
+          "unit": "Year over year",
+          "now": "YoY {yoyPct} / supply {supply} (units of $100M)",
+          "asOf": "{date} / DefiLlama",
+          "condition": "The sign of the 365-day change flips (either direction counts)",
+          "changed": "On 2026-10-17 the judging start was set to 2021-01-01 (the data before 2021 is incomplete)",
+          "gap": "Gap to 0% {yoyPct}",
+          "cooldown": "Counted again from {date}",
+          "firedNegative": "Turned negative on {date}",
+          "firedPositive": "Turned positive on {date}",
+          "lastNegative": "{date} (to negative)",
+          "lastPositive": "{date} (to positive)",
+          "count": "{count} since {sinceYear}"
+        },
+        "stableAth": {
+          "name": "Stablecoin supply",
+          "unit": "All-time high",
+          "now": "Supply {supply} (units of $100M)",
+          "asOf": "{date} / DefiLlama",
+          "condition": "Total supply sets a new high",
+          "changed": "On 2026-10-17 the judging start was set to 2021-01-01 (the data before 2021 is incomplete)",
+          "gap": "{toPeak} below the high ({peakDate}, {peak}; units of $100M)",
+          "gapAtPeak": "The current value is the high ({peakDate})",
+          "cooldown": "Counted again from {date}",
+          "fired": "New high on {date}",
+          "count": "{count} since {sinceYear}"
         }
       },
       "notes": {
         "count": "Each indicator has fired only {min} to {max} times. This does not show how prices moved after firing, and it is not a recommendation to buy or sell.",
         "fixed": "Conditions are recorded and fixed. When one changes, the row shows the date of the change.",
-        "cooldown": "Cooling off: soon after the previous signal, meeting the condition is not counted (200-week average 52 weeks, MVRV 365 days, funding 180 days, ETF 90 days). The end moves later if the indicator re-enters the condition.",
-        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / TFTC (tftc.io/bitcoin-etf-flows), CC BY 4.0 (ETF)"
+        "cooldown": "Cooling off: soon after the previous signal, meeting the condition is not counted (200-week average 52 weeks, MVRV 365 days, funding 180 days, ETF 90 days, stablecoin YoY 180 days, stablecoin high 90 days). The end moves later if the indicator re-enters the condition.",
+        "sources": "Data: Coin Metrics Community (price, MVRV) / Binance (funding rate) / TFTC (tftc.io/bitcoin-etf-flows), CC BY 4.0 (ETF) / DefiLlama (USD-pegged stablecoin supply, judged from 2021)"
       }
     }
   },
