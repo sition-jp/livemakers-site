@@ -90,8 +90,10 @@ function stateLine(row: LandmarkRow, t: LandmarkMeterTranslate): ReactNode {
             <Badge>{t("badges.afterCross")}</Badge>
             {t(`rows.${k}.afterCross`)}
           </p>
-          {/* 月足: 上抜けの後でも、下抜けは次の確定足で判定される */}
-          {item.dead && row.deadBadge === null ? nextCheckLine(row, t) : null}
+          {/* 月足: 上抜けの後は上抜けは数えられないが、下抜けは次の確定足で判定される */}
+          {item.dead && row.deadBadge === null && item.nextCheck ? (
+            <p>{t("rows.macd1m.armedDead", { date: formatShortDate(item.nextCheck) })}</p>
+          ) : null}
         </>
       );
     case "aboveZero":

@@ -154,6 +154,30 @@ describe("LandmarkMeter — stablecoin rows and the monthly dead cross (2026-10-
     expect(etf).not.toContain("まで 0.0 億ドル");
   });
 
+  it("names the downward cross as the next judged one after an upward cross", () => {
+    const { container } = renderMeter((d) => {
+      d.items[2].state = "after_cross";
+      d.items[2].values = { ...d.items[2].values, diff: "+1,200" };
+      d.items[2].dead = { state: "armed", lastEvent: "2025-11-30", count: 6 };
+    }, section17, NOW17);
+    const m1m = container.querySelector('[data-landmark-row="macd1m"]')!.textContent ?? "";
+    expect(m1m).toContain("上抜け後次の上抜けは、一度シグナル線を下回ってから");
+    expect(m1m).toContain("次の下抜けの判定は 10/31 の確定足");
+    expect(m1m).not.toContain("次の判定は 10/31");
+  });
+
+  it("shows 点灯なし for a yoy row that has never fired", () => {
+    const { container } = renderMeter((d) => {
+      d.items[6].lastEvent = null;
+      d.items[6].lastDirection = null;
+      d.items[6].count = 0;
+    }, section17, NOW17);
+    const yoy = container.querySelector('[data-landmark-row="stableYoy"]')!.textContent ?? "";
+    expect(yoy).toContain("点灯なし");
+    expect(yoy).toContain("2022 年以降 0 回");
+    expect(yoy).not.toContain("プラスへ");
+  });
+
   it("shows the fired dead cross on its bar", () => {
     const { container } = renderMeter((d) => {
       d.items[2].dead = { state: "after_cross", lastEvent: d.items[2].barDate, count: 7 };

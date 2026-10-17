@@ -662,6 +662,7 @@
           "changed": "On 2026-10-03 the upward cross changed from below-zero only to either side of zero",
           "gap": "Gap to signal {diff}",
           "armed": "Next judged on the bar closing {date}",
+          "armedDead": "The downward cross is next judged on the bar closing {date}",
           "afterCross": "The next upward cross needs MACD to drop below the signal line first",
           "afterDeadCross": "The next downward cross needs MACD to rise above the signal line first",
           "fired": "Upward cross on the bar closing {date}",
