@@ -437,3 +437,61 @@ describe("trend / ladder / turns / forecast_history (it-2026-10 stage 2 Task 9)"
     for (const c of cases) expect(PivotAssetsSnapshotSchema.safeParse(c).success).toBe(false);
   });
 });
+
+describe("PivotBacktestSnapshotSchema.events (it-2026-10 stage 2)", () => {
+  const entry = {
+    asset: "BTC",
+    horizon: "7D",
+    score_type: "overall",
+    threshold: 70,
+    period: { start: "2022-01-01", end: "2026-10-01" },
+    metrics: {
+      precision: 0,
+      recall: 0,
+      avg_lead_time_days: 0,
+      false_positive_rate: 0,
+      false_negative_rate: 0,
+      average_move: 0,
+      worst_forward_return: 0,
+      sample_size: 0,
+    },
+  };
+  const event = {
+    asset: "BTC",
+    event: "turn",
+    horizon: "7D",
+    usual_pct: 47.3,
+    long_run_usual_pct: 54.3,
+    calibration: [{ lo: 0, hi: 20, prob_pct: 53.3, n: 437 }],
+    holdout: {
+      brier_skill: 0.002,
+      lift_pts: 12.5,
+      n_signal: 4,
+      judged: true,
+      primary: "pass",
+      secondary: null,
+    },
+  };
+  const base = { schema_version: "v0.1", generated_at: "x", entries: [entry] };
+
+  it("accepts a valid events block and its absence", () => {
+    expect(PivotBacktestSnapshotSchema.safeParse(base).success).toBe(true);
+    expect(
+      PivotBacktestSnapshotSchema.safeParse({ ...base, events: [event] }).success,
+    ).toBe(true);
+  });
+
+  it("rejects prob_pct > 100", () => {
+    const bad = { ...event, calibration: [{ lo: 0, hi: 20, prob_pct: 100.1, n: 1 }] };
+    expect(
+      PivotBacktestSnapshotSchema.safeParse({ ...base, events: [bad] }).success,
+    ).toBe(false);
+  });
+
+  it("rejects an unknown verdict", () => {
+    const bad = { ...event, holdout: { ...event.holdout, primary: "maybe" } };
+    expect(
+      PivotBacktestSnapshotSchema.safeParse({ ...base, events: [bad] }).success,
+    ).toBe(false);
+  });
+});

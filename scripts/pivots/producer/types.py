@@ -190,11 +190,38 @@ class BacktestEntry(TypedDict):
     metrics: BacktestMetrics
 
 
+class CalibrationBinOut(TypedDict):
+    lo: int
+    hi: int
+    prob_pct: float  # 0-100, one decimal
+    n: int
+
+
+class HoldoutOut(TypedDict):
+    brier_skill: float | None
+    lift_pts: float | None
+    n_signal: int | None
+    judged: bool | None
+    primary: str | None  # "pass" | "fail" | "undecidable" | None
+    secondary: str | None
+
+
+class BacktestEvent(TypedDict):
+    asset: AssetSymbol
+    event: str  # "turn" | "move"
+    horizon: Horizon
+    usual_pct: float
+    long_run_usual_pct: float | None
+    calibration: list[CalibrationBinOut]
+    holdout: HoldoutOut
+
+
 class PivotBacktestSnapshot(TypedDict):
     schema_version: Literal["v0.1"]
     generated_at: str
     entries: list[BacktestEntry]
     data_provenance: NotRequired[dict]
+    events: NotRequired[list[BacktestEvent]]  # it-2026-10 stage 2 Task 10 (frozen copy)
 
 
 def detail_key(asset: AssetSymbol, horizon: Horizon) -> str:

@@ -319,11 +319,39 @@ export const DataProvenanceSchema = z.object({
 });
 export type DataProvenance = z.infer<typeof DataProvenanceSchema>;
 
+const VerdictSchema = z.enum(["pass", "fail", "undecidable"]).nullable();
+
+export const BacktestEventSchema = z.object({
+  asset: z.enum(["BTC", "ETH"]),
+  event: z.enum(["turn", "move"]),
+  horizon: z.enum(["7D", "30D", "90D"]),
+  usual_pct: z.number().min(0).max(100),
+  long_run_usual_pct: z.number().min(0).max(100).nullable(),
+  calibration: z.array(
+    z.object({
+      lo: z.number(),
+      hi: z.number(),
+      prob_pct: z.number().min(0).max(100),
+      n: z.number().int().min(0),
+    }),
+  ),
+  holdout: z.object({
+    brier_skill: z.number().nullable(),
+    lift_pts: z.number().nullable(),
+    n_signal: z.number().int().nullable(),
+    judged: z.boolean().nullable(),
+    primary: VerdictSchema,
+    secondary: VerdictSchema,
+  }),
+});
+export type BacktestEvent = z.infer<typeof BacktestEventSchema>;
+
 export const PivotBacktestSnapshotSchema = z.object({
   schema_version: z.literal("v0.1"),
   generated_at: z.string().min(1),
   entries: z.array(BacktestEntrySchema).min(1),
   data_provenance: DataProvenanceSchema.optional(),
+  events: z.array(BacktestEventSchema).optional(),
 });
 export type PivotBacktestSnapshot = z.infer<
   typeof PivotBacktestSnapshotSchema

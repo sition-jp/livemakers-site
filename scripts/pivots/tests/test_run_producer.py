@@ -1252,3 +1252,45 @@ def test_recorded_entries_survive_a_degraded_run(tmp_path, canned_fetcher, bulk_
     by = {e["date"]: e for e in after["forecast_history"]["BTC"]}
     e = by[seeded["date"]]
     assert e["forecast"] == {"move": {"7D": 22.2}} and e["backfilled"] is False
+
+
+# --- backtest に問いごとの評価 (it-2026-10 段 2 Task 10) ---
+def _run_bt(tmp_path, canned_fetcher, bulk_cache):
+    bt = tmp_path / "b.json"
+    rc = run_producer(fetcher=canned_fetcher, assets_path=tmp_path / "pivot_assets.live.json", backtest_path=bt,
+                      derivatives_history_path=tmp_path / "s.json", dry_run=False, skip_zod_validate=True,
+                      bulk_cache_dir=bulk_cache, bulk_http_get=lambda url: (404, b""))
+    return rc, json.loads(bt.read_text(encoding="utf-8"))
+
+
+def test_backtest_carries_frozen_events(tmp_path, canned_fetcher, bulk_cache) -> None:
+    rc, bt = _run_bt(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    ev = bt["events"]
+    assert len(ev) == 12
+    assert {(e["asset"], e["event"], e["horizon"]) for e in ev} == {
+        (a, e, h) for a in ("BTC", "ETH") for e in ("turn", "move") for h in ("7D", "30D", "90D")
+    }
+    frozen = json.loads(run_producer_module.forecast.FROZEN_PATH.read_text(encoding="utf-8"))
+    e0 = next(e for e in ev if (e["asset"], e["event"], e["horizon"]) == ("BTC", "turn", "7D"))
+    src_ev = frozen["evaluation"]["BTC"]["turn"]["7D"]
+    src_tab = frozen["tables"]["BTC"]["turn"]["7D"]
+    assert e0["usual_pct"] == src_ev["usual_pct"] and e0["long_run_usual_pct"] == src_ev["long_run_usual_pct"]
+    assert e0["holdout"] == {
+        "brier_skill": src_ev["holdout_brier_skill"], "lift_pts": src_ev["holdout_lift_pts"],
+        "n_signal": src_ev["holdout_n_signal"], "judged": src_ev["judged"],
+        "primary": src_ev["primary"], "secondary": src_ev["secondary"],
+    }
+    assert [(c["lo"], c["hi"], c["n"]) for c in e0["calibration"]] == [(b["lo"], b["hi"], b["n"]) for b in src_tab["bins"]]
+    for c, b in zip(e0["calibration"], src_tab["bins"]):
+        assert c["prob_pct"] == round(b["prob"] * 100, 1) and 0 <= c["prob_pct"] <= 100
+    assert bt["entries"]
+
+
+def test_backtest_events_degrade_when_frozen_broken(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    bad = tmp_path / "bad.json"; bad.write_text("{broken")
+    monkeypatch.setattr("producer.forecast.FROZEN_PATH", bad)
+    rc, bt = _run_bt(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    assert "events" not in bt and bt["entries"]
+    assert "events_degraded=" in capsys.readouterr().out

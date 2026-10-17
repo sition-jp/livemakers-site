@@ -245,6 +245,40 @@ def _build_forecast(
     return out, meta
 
 
+def _build_backtest_events() -> list[dict]:
+    """問いごとの評価 (it-2026-10 段 2 Task 10): 凍結ファイルの値をそのまま写す。
+
+    毎日は計算し直さない。読めない・形が違うときは raise (呼び出し側が events_degraded=)。
+    """
+    raw = forecast.load_frozen(forecast.FROZEN_PATH).raw
+    out: list[dict] = []
+    for asset in ("BTC", "ETH"):
+        for event in forecast.EVENTS:
+            for h in HORIZONS:
+                ev = raw["evaluation"][asset][event][h]
+                tab = raw["tables"][asset][event][h]
+                out.append({
+                    "asset": asset,
+                    "event": event,
+                    "horizon": h,
+                    "usual_pct": ev["usual_pct"],
+                    "long_run_usual_pct": ev["long_run_usual_pct"],
+                    "calibration": [
+                        {"lo": b["lo"], "hi": b["hi"], "prob_pct": round(b["prob"] * 100, 1), "n": b["n"]}
+                        for b in tab["bins"]
+                    ],
+                    "holdout": {
+                        "brier_skill": ev["holdout_brier_skill"],
+                        "lift_pts": ev["holdout_lift_pts"],
+                        "n_signal": ev["holdout_n_signal"],
+                        "judged": ev["judged"],
+                        "primary": ev["primary"],
+                        "secondary": ev["secondary"],
+                    },
+                })
+    return out
+
+
 PRICE_HISTORY_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
 
 
@@ -516,6 +550,12 @@ def run_producer(
             fetcher, generated_at, history=history
         )
         backtest_quality = build_backtest_quality_map(backtest_payload["entries"])
+        try:
+            backtest_payload["events"] = _build_backtest_events()
+        except Exception as exc:  # noqa: BLE001
+            # Soft-degrade: events is an add-on; entries stay untouched.
+            backtest_payload.pop("events", None)
+            print(f"[pivots-producer] events_degraded={type(exc).__name__}: {exc}")
         assets_payload = compose_pivot_assets_snapshot(
             fetcher,
             generated_at,
