@@ -14,9 +14,11 @@ import {
 import ja from "@/messages/ja.json";
 import section from "../../fixtures/landmark/section.json";
 import section17 from "../../fixtures/landmark/section-2026-10-17.json";
+import sectionEve from "../../fixtures/landmark/section-2026-10-17-evening.json";
 
 const NOW = new Date("2026-10-16T10:45:00Z"); // 19:45 JST
 const NOW17 = new Date("2026-10-17T01:45:00Z"); // 10:45 JST
+const NOW_EVE = new Date("2026-10-17T10:45:00Z"); // 19:45 JST
 const t = createTranslator({
   locale: "ja",
   messages: ja,
@@ -38,9 +40,9 @@ describe("LandmarkMeter", () => {
     expect(screen.getByRole("heading", { level: 2 }).textContent).toBe("節目の計器盤");
     const rows = container.querySelectorAll("[data-landmark-row]");
     expect([...rows].map((row) => row.getAttribute("data-landmark-row"))).toEqual([
-      "ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf", "stableYoy", "stableAth",
+      "ma200w", "macd2w", "macd1m", "mvrv", "funding", "etf", "ethEtf", "stableYoy", "stableAth",
     ]);
-    // feed に無い 7・8 行目は条件を残して値を「—」にする。月足は下抜けが無いので上抜けだけ
+    // feed に無い 7〜9 行目は条件を残して値を「—」にする。月足は下抜けが無いので上抜けだけ
     const yoy = container.querySelector('[data-landmark-row="stableYoy"]')!;
     expect(yoy.textContent).toContain("365 日前と比べた増減の符号が変わる");
     expect(yoy.textContent).toContain("—（データ更新待ち）");
@@ -61,8 +63,12 @@ describe("LandmarkMeter", () => {
     expect(text).toContain("上場（2024 年）以降 1 回");
     expect(text).toContain("2014 年以降 4 回");
     expect(text).toContain("点灯は指標ごとに過去 1〜5 回で");
-    expect(text).toContain("TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0");
-    expect(text).not.toContain("Farside");
+    expect(text).toContain("TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0（BTC 現物 ETF）");
+    // BTC の ETF の行は TFTC の値 (Farside の保存ページから切り替えた)。Farside は ETH の出典として注記にだけ出る
+    expect(container.querySelector('[data-landmark-row="etf"]')!.textContent).not.toContain("Farside");
+    const eth = container.querySelector('[data-landmark-row="ethEtf"]')!.textContent ?? "";
+    expect(eth).toContain("累計が過去最高を更新する");
+    expect(eth).toContain("—（データ更新待ち）");
     // fixture の ETF は値の日付が 14 日前なので日付を太字にする
     const etf = container.querySelector('[data-landmark-row="etf"]');
     expect(etf?.querySelector("strong")?.textContent).toBe("10/2 時点・TFTC 集計");
@@ -202,5 +208,60 @@ describe("landmark meter copy", () => {
     expect(findForbiddenOpsTerms(copy)).toEqual([]);
     expect(findForbiddenDesignTerms(copy)).toEqual([]);
     expect(findLiveTokenViolations(copy)).toEqual([]);
+  });
+});
+
+describe("LandmarkMeter — ETH spot ETF row (2026-10-17 evening)", () => {
+  it("renders the ETH row next to the BTC ETF row", () => {
+    const { container } = renderMeter(undefined, sectionEve, NOW_EVE);
+    const rows = [...container.querySelectorAll("[data-landmark-row]")].map((row) => row.getAttribute("data-landmark-row"));
+    expect(rows.slice(5, 7)).toEqual(["etf", "ethEtf"]);
+    const eth = container.querySelector('[data-landmark-row="ethEtf"]')!.textContent ?? "";
+    expect(eth).toContain("米国 ETH 現物 ETF");
+    expect(eth).toContain("累計純流入");
+    expect(eth).toContain("累計 129.7 億ドル（10/16 時点・Farside / SoSoValue 集計）");
+    expect(eth).toContain("累計が過去最高を更新する");
+    expect(eth).toContain("最高（2025年10月8日・151.1 億ドル）まで 21.4 億ドル");
+    expect(eth).toContain("2025年6月3日");
+    expect(eth).toContain("上場（2024 年）以降 2 回");
+    expect(eth).not.toContain("—");
+    expect(eth).not.toContain("変更");
+    const btc = container.querySelector('[data-landmark-row="etf"]')!.textContent ?? "";
+    expect(btc).toContain("最高（2025年10月9日・627.4 億ドル）まで 58.1 億ドル");
+    expect(btc).not.toContain("Farside");
+    const text = container.textContent ?? "";
+    expect(text).toContain(
+      "Farside Investors（上場〜2026年10月16日）と SoSoValue（それ以降の確定日）の日次をつないだ値（ETH 現物 ETF）",
+    );
+    expect(text).toContain("点灯は指標ごとに過去 1〜6 回で");
+    expect(container.querySelector('[data-landmark-row="ethEtf"] strong')).toBeNull();
+  });
+
+  it("shows the ETH fired badge, cooldown and the current-high wording", () => {
+    const fired = renderMeter((d) => {
+      d.items[6].lastEvent = "2026-10-16";
+      d.items[6].count = 3;
+      d.items[6].values = { cum: "152.0", peak: "152.0", toPeak: "0.0", peakDate: "2026-10-16" };
+    }, sectionEve, NOW_EVE);
+    const eth = fired.container.querySelector('[data-landmark-row="ethEtf"]')!.textContent ?? "";
+    expect(eth).toContain("点灯2026年10月16日に最高を更新");
+    expect(eth).toContain("いまの値が最高（2026年10月16日）");
+    expect(eth).not.toContain("まで 0.0 億ドル");
+    fired.unmount();
+    const cooling = renderMeter((d) => {
+      d.items[6].state = "cooldown";
+      d.items[6].eligibleFrom = "2027-01-14";
+    }, sectionEve, NOW_EVE);
+    const ethCool = cooling.container.querySelector('[data-landmark-row="ethEtf"]')!.textContent ?? "";
+    expect(ethCool).toContain("休止期間2027年1月14日から再び数える");
+  });
+
+  it("bolds the ETH date when its value is 7 or more days old", () => {
+    const { container } = renderMeter((d) => {
+      d.items[6].barDate = "2026-10-09";
+    }, sectionEve, NOW_EVE);
+    expect(container.querySelector('[data-landmark-row="ethEtf"] strong')?.textContent).toBe(
+      "10/9 時点・Farside / SoSoValue 集計",
+    );
   });
 });

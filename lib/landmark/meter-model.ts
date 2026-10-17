@@ -7,7 +7,8 @@ import {
 } from "@/lib/landmark/meter-feed";
 
 /**
- * 節目の計器盤の 8 行 (core spec 2026-10-16-lvm-landmark-meter-design §5・7・8 行目は
+ * 節目の計器盤の 9 行 (core spec 2026-10-16-lvm-landmark-meter-design §5・7 行目 (ETH 現物 ETF) は
+ * 2026-10-17-lvm-landmark-meter-eth-etf-row-design・8・9 行目 (ステーブルコイン) は
  * 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。並びは固定で、
  * 近い順に並べ替えない。鮮度は SDE (livemakers_export/landmark_meter.py) と同じ物差しで描画時にも見直す —
  * 配信が止まって古い feed が残っても、古い値を新しいように見せない。
@@ -19,6 +20,7 @@ export type LandmarkCopyKey =
   | "mvrv"
   | "funding"
   | "etf"
+  | "ethEtf"
   | "stableYoy"
   | "stableAth";
 export type LandmarkBadge = "fired" | "cooldown" | "afterCross" | "aboveZero";
@@ -38,7 +40,7 @@ export const LANDMARK_BAR_MAX_AGE_DAYS: Record<Cadence, number> = {
 };
 /** 日次の指標と ETF は、点灯した日を含めて 7 日間〔点灯〕を出す (経過 0〜6 日) */
 export const LANDMARK_FIRED_DAYS = 7;
-/** ETF は値の日付が 7 日以上前なら日付を目立たせる (取得元 TFTC の更新が止まったとき) */
+/** ETF は値の日付が 7 日以上前なら日付を目立たせる (取得元 = BTC は TFTC・ETH は SoSoValue の更新が止まったとき) */
 export const LANDMARK_ETF_STALE_DAYS = 7;
 
 const ROW_META: Record<LandmarkRowKey, { copyKey: LandmarkCopyKey; cadence: Cadence }> = {
@@ -48,6 +50,7 @@ const ROW_META: Record<LandmarkRowKey, { copyKey: LandmarkCopyKey; cadence: Cade
   btc_mvrv_1: { copyKey: "mvrv", cadence: "daily" },
   btc_funding_30d_negative: { copyKey: "funding", cadence: "daily" },
   btc_etf_cum_high: { copyKey: "etf", cadence: "etf" },
+  eth_etf_cum_high: { copyKey: "ethEtf", cadence: "etf" },
   stablecoin_supply_yoy_flip: { copyKey: "stableYoy", cadence: "daily" },
   stablecoin_supply_ath: { copyKey: "stableAth", cadence: "daily" },
 };
@@ -128,7 +131,7 @@ function rowFor(key: LandmarkRowKey, data: LandmarkMeterData, now: Date, today: 
   };
 }
 
-/** 8 行固定。data が無い・新鮮な行が 1 つも無いときは null (計器盤ごと出さない)。 */
+/** 9 行固定。data が無い・新鮮な行が 1 つも無いときは null (計器盤ごと出さない)。 */
 export function buildLandmarkRows(data: LandmarkMeterData | null, now: Date): LandmarkRow[] | null {
   if (!data) return null;
   const today = jstToday(now);
