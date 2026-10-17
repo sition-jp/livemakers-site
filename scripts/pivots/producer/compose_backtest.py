@@ -156,8 +156,9 @@ def _deriv_series(klines_open_times: list[int], hist: BulkHistory) -> list[_Deri
 
 
 def _precompute_asset_series(
-    closes: list[float], highs: list[float], lows: list[float]
+    closes: list[float], highs: list[float], lows: list[float], start: int = 0
 ) -> _AssetSeries:
+    """`start` より前の位置は None のまま (各位置の値は start に依らない・計算量を減らすだけ)。"""
     n = len(closes)
     rsi_s: list[Optional[float]] = [None] * n
     macd_s: list[Optional[list[float]]] = [None] * n
@@ -169,7 +170,7 @@ def _precompute_asset_series(
     bb_s: list[Optional[float]] = [None] * n
     atr_s: list[Optional[float]] = [None] * n
 
-    for t in range(n):
+    for t in range(max(0, start), n):
         sub_closes = closes[: t + 1]
         sub_highs = highs[: t + 1]
         sub_lows = lows[: t + 1]
