@@ -341,3 +341,34 @@ describe("HistoryEntrySchema / ScoreHistorySchema (spec §5.8 T-P1)", () => {
     ).toBe(false);
   });
 });
+
+describe("forecast / forecast_meta (it-2026-10 stage 2)", () => {
+  const sc = { overall: 16, price_pivot: 16, volatility_pivot: 0, confidence_grade: "A", main_signal: "price" } as const;
+  const base = {
+    schema_version: "v0.1",
+    generated_at: "2026-10-17T23:00:00Z",
+    radar: [{ symbol: "BTC", scores: { "7D": sc, "30D": sc, "90D": sc } }],
+    detail: {},
+  };
+  const item = { event: "turn", horizon: "7D", today_pct: 47.3, usual_pct: 54.3 };
+  const example = {
+    ...base,
+    forecast: {
+      BTC: [item, { ...item, event: "move", horizon: "30D", prev_today_pct: 50.1 }],
+      ETH: [],
+    },
+    forecast_meta: { iteration: "it-2026-10", train_end: "2025-10-16" },
+  };
+
+  it("is optional (old snapshots stay valid)", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse(base).success).toBe(true);
+  });
+  it("accepts a well-formed example with prev_today_pct", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse(example).success).toBe(true);
+  });
+  it("rejects percent outside 0-100, unknown event, bad train_end", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse({ ...example, forecast: { BTC: [{ ...item, today_pct: 101 }] } }).success).toBe(false);
+    expect(PivotAssetsSnapshotSchema.safeParse({ ...example, forecast: { BTC: [{ ...item, event: "bounce" }] } }).success).toBe(false);
+    expect(PivotAssetsSnapshotSchema.safeParse({ ...example, forecast_meta: { iteration: "x", train_end: "bad" } }).success).toBe(false);
+  });
+});

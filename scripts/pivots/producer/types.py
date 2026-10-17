@@ -88,12 +88,28 @@ class RadarAsset(TypedDict):
     scores: dict  # {"7D": RadarScores, "30D": RadarScores, "90D": RadarScores}
 
 
+class ForecastItem(TypedDict):
+    """Mirror of ForecastItemSchema. Percent 0-100, one decimal."""
+    event: Literal["turn", "move"]
+    horizon: Horizon
+    today_pct: float
+    usual_pct: float
+    prev_today_pct: NotRequired[float]
+
+
+class ForecastMeta(TypedDict):
+    iteration: str
+    train_end: str
+
+
 class PivotAssetsSnapshot(TypedDict):
     schema_version: Literal["v0.1"]
     generated_at: str
     radar: list[RadarAsset]
     detail: dict  # Record<detailKey, PivotDetail>
     previous: NotRequired[dict]  # {"generated_at": str, "radar": list[RadarAsset]}
+    forecast: NotRequired[dict]  # {"BTC": [ForecastItem], "ETH": [...]} — it-2026-10 stage 2
+    forecast_meta: NotRequired[ForecastMeta]
     history: NotRequired[dict]  # {"BTC": [HistoryEntry], "ETH": [...]} — spec §5.8 T-P1
 
 

@@ -156,6 +156,23 @@ export const ScoreHistorySchema = z.record(
   z.array(HistoryEntrySchema).max(120),
 );
 
+// 「今日の確率」(it-2026-10 段 2): 資産 x 出来事 x 期間の、今日の確率とふだんの確率。
+// 単位は % (0-100・小数 1 桁)。凍結した較正表から作る。
+export const ForecastItemSchema = z.object({
+  event: z.enum(["turn", "move"]),
+  horizon: HorizonSchema,
+  today_pct: z.number().min(0).max(100),
+  usual_pct: z.number().min(0).max(100),
+  prev_today_pct: z.number().min(0).max(100).optional(),
+});
+export type ForecastItem = z.infer<typeof ForecastItemSchema>;
+
+export const ForecastSchema = z.record(AssetSymbolSchema, z.array(ForecastItemSchema).max(6));
+export const ForecastMetaSchema = z.object({
+  iteration: z.string().min(1),
+  train_end: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+});
+
 /**
  * The materialised file `data/pivot_assets.live.json` shape.
  *
@@ -171,6 +188,8 @@ export const PivotAssetsSnapshotSchema = z.object({
   detail: z.record(z.string(), PivotDetailSchema),
   previous: PreviousRadarSchema.optional(),
   history: ScoreHistorySchema.optional(),
+  forecast: ForecastSchema.optional(),
+  forecast_meta: ForecastMetaSchema.optional(),
 });
 export type PivotAssetsSnapshot = z.infer<typeof PivotAssetsSnapshotSchema>;
 

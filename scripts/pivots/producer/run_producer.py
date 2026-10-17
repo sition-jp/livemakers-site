@@ -49,7 +49,9 @@ from producer.derivatives_sidecar import (
     compose_derivatives_history_sidecar,
     load_derivatives_history_sidecar,
 )
+from producer import forecast
 from producer.fetch_binance import BinanceFetcher
+from producer.types import HORIZONS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
@@ -200,6 +202,47 @@ def _previous_radar_from(existing_raw: dict | None, new_generated_at: str) -> di
     ):
         return {"generated_at": older["generated_at"], "radar": older["radar"]}
     return {"generated_at": generated_at, "radar": radar}
+
+
+def _prev_forecast_items(items, same_day: bool):
+    """Previous-day items. A same-UTC-day rerun carries the older day forward
+    (each stored item's prev_today_pct) so the delta stays day-over-day."""
+    if not isinstance(items, list):
+        return None
+    if not same_day:
+        return items
+    return [
+        {"event": i.get("event"), "horizon": i.get("horizon"), "today_pct": i["prev_today_pct"]}
+        for i in items
+        if isinstance(i, dict) and isinstance(i.get("prev_today_pct"), (int, float))
+    ]
+
+
+def _build_forecast(
+    existing_raw: dict | None, assets_payload: dict
+) -> tuple[dict, dict]:
+    """Return (forecast, forecast_meta): today's probability per asset x event x horizon.
+
+    Reads the single frozen calibration file (never recomputed daily). The
+    previous day's items come from the pre-existing assets file. Raises on any
+    problem; the caller soft-degrades (forecast_degraded=).
+    """
+    frozen = forecast.load_frozen(forecast.FROZEN_PATH)
+    prev_block = existing_raw.get("forecast") if isinstance(existing_raw, dict) else None
+    old_at = existing_raw.get("generated_at") if isinstance(existing_raw, dict) else None
+    same_day = isinstance(old_at, str) and old_at[:10] == assets_payload["generated_at"][:10]
+    out: dict = {}
+    for asset in ("BTC", "ETH"):
+        scores = {}
+        for h in HORIZONS:
+            sc = assets_payload["detail"][f"{asset}__{h}"]["scores"]
+            scores[h] = (round(sc["price_pivot"]), round(sc["volatility_pivot"]))
+        prev_items = _prev_forecast_items(
+            prev_block.get(asset) if isinstance(prev_block, dict) else None, same_day
+        )
+        out[asset] = forecast.forecast_items(frozen, asset, scores, prev_items)
+    meta = {"iteration": frozen.iteration, "train_end": frozen.train_end}
+    return out, meta
 
 
 def _load_previous_radar(assets_path: Path, new_generated_at: str) -> dict | None:
@@ -389,6 +432,15 @@ def run_producer(
         # radar/detail contract, so a fetch/shape problem here must not block
         # an otherwise-good run (same posture as sidecar/bulk-history above).
         print(f"[pivots-producer] history_degraded={type(exc).__name__}: {exc}")
+
+    try:
+        fc, fc_meta = _build_forecast(existing_assets_raw, assets_payload)
+        assets_payload["forecast"] = fc
+        assets_payload["forecast_meta"] = fc_meta
+    except Exception as exc:  # noqa: BLE001
+        # Soft-degrade like history: the forecast block is an add-on, never a
+        # reason to fail an otherwise-good run. The block is simply omitted.
+        print(f"[pivots-producer] forecast_degraded={type(exc).__name__}: {exc}")
 
     sidecar_payload = None
     sidecar_warning: str | None = None

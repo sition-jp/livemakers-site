@@ -1,0 +1,617 @@
+{
+  "iteration": "it-2026-10",
+  "train_start": "2021-12-28",
+  "train_end": "2025-10-16",
+  "bin_edges": [
+    0,
+    20,
+    40,
+    60,
+    80,
+    101
+  ],
+  "shrink_k": 20.0,
+  "event_score_type": {
+    "turn": "price_pivot",
+    "move": "volatility_pivot"
+  },
+  "range_window_days": {
+    "7D": 14,
+    "30D": 60,
+    "90D": 120
+  },
+  "ma_distance_windows": {
+    "7D": [
+      10,
+      20
+    ],
+    "30D": [
+      20,
+      50
+    ],
+    "90D": [
+      50,
+      100
+    ]
+  },
+  "tables": {
+    "BTC": {
+      "turn": {
+        "7D": {
+          "usual": 0.4727272727272727,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.5327232942112592,
+              "n": 437
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.44593778314708543,
+              "n": 582
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.4426040061633282,
+              "n": 216
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.404777704047777,
+              "n": 117
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.5919661733615221,
+              "n": 23
+            }
+          ],
+          "n": 1375
+        },
+        "30D": {
+          "usual": 0.48306997742663654,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.5092637906339759,
+              "n": 861
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.5249449374434524,
+              "n": 227
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.3660770454797765,
+              "n": 102
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.29869244857106353,
+              "n": 86
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.4885123225826401,
+              "n": 53
+            }
+          ],
+          "n": 1329
+        },
+        "90D": {
+          "usual": 0.14971050454921422,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.1926539106547985,
+              "n": 852
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.08820123582931931,
+              "n": 150
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.04756390562842175,
+              "n": 85
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.05370118377402456,
+              "n": 73
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.04339434914469977,
+              "n": 49
+            }
+          ],
+          "n": 1209
+        }
+      },
+      "move": {
+        "7D": {
+          "usual": 0.58972503617945,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.568801448108664,
+              "n": 602
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.6427343151442921,
+              "n": 490
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.5578724725651377,
+              "n": 227
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.5297987106959611,
+              "n": 57
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.5305577201380385,
+              "n": 6
+            }
+          ],
+          "n": 1382
+        },
+        "30D": {
+          "usual": 0.7078734363502576,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.6791545641144805,
+              "n": 740
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.6971695757567722,
+              "n": 313
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.7722734989252171,
+              "n": 234
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.8064076865173007,
+              "n": 67
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.7262987490802061,
+              "n": 5
+            }
+          ],
+          "n": 1359
+        },
+        "90D": {
+          "usual": 0.6843725943033102,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.6538394654078047,
+              "n": 706
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.7069442917017975,
+              "n": 295
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.713604224442033,
+              "n": 229
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.7845582574831318,
+              "n": 65
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.6536438285860918,
+              "n": 4
+            }
+          ],
+          "n": 1299
+        }
+      }
+    },
+    "ETH": {
+      "turn": {
+        "7D": {
+          "usual": 0.5738181818181818,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.5579935064935065,
+              "n": 540
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.5575025728987993,
+              "n": 510
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.6014028610982926,
+              "n": 177
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.6298424242424242,
+              "n": 130
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.6704306220095694,
+              "n": 18
+            }
+          ],
+          "n": 1375
+        },
+        "30D": {
+          "usual": 0.6012039127163281,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.5766036917278452,
+              "n": 868
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.6991855474737341,
+              "n": 196
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.6507192063526851,
+              "n": 83
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.5856847253574117,
+              "n": 132
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.5717725464903795,
+              "n": 50
+            }
+          ],
+          "n": 1329
+        },
+        "90D": {
+          "usual": 0.5128205128205128,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.5252204255849456,
+              "n": 803
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.343229869545659,
+              "n": 208
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.5723670269124814,
+              "n": 101
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.6801764543700027,
+              "n": 73
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.6421911421911422,
+              "n": 24
+            }
+          ],
+          "n": 1209
+        }
+      },
+      "move": {
+        "7D": {
+          "usual": 0.7279305354558611,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.6885001782755511,
+              "n": 601
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.7566391990841739,
+              "n": 516
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.7664750495792464,
+              "n": 196
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.7274257059199677,
+              "n": 66
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.7634178569181401,
+              "n": 3
+            }
+          ],
+          "n": 1382
+        },
+        "30D": {
+          "usual": 0.8594554819720382,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.8788671057636415,
+              "n": 837
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.7890413298274429,
+              "n": 273
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.8595409577749534,
+              "n": 178
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.8925501175541558,
+              "n": 62
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.9030727461876126,
+              "n": 9
+            }
+          ],
+          "n": 1359
+        },
+        "90D": {
+          "usual": 0.8745188606620478,
+          "bins": [
+            {
+              "lo": 0,
+              "hi": 20,
+              "prob": 0.9213431933673158,
+              "n": 762
+            },
+            {
+              "lo": 20,
+              "hi": 40,
+              "prob": 0.8309769240879475,
+              "n": 267
+            },
+            {
+              "lo": 40,
+              "hi": 60,
+              "prob": 0.7779837543194661,
+              "n": 203
+            },
+            {
+              "lo": 60,
+              "hi": 80,
+              "prob": 0.8332145334968019,
+              "n": 61
+            },
+            {
+              "lo": 80,
+              "hi": 100,
+              "prob": 0.9034760466631137,
+              "n": 6
+            }
+          ],
+          "n": 1299
+        }
+      }
+    }
+  },
+  "evaluation": {
+    "BTC": {
+      "turn": {
+        "7D": {
+          "usual_pct": 47.3,
+          "long_run_usual_pct": 54.3,
+          "holdout_brier_skill": 0.0023617725248287202,
+          "holdout_lift_pts": 12.5,
+          "holdout_n_signal": 4,
+          "judged": true,
+          "primary": "pass",
+          "secondary": "pass"
+        },
+        "30D": {
+          "usual_pct": 48.3,
+          "long_run_usual_pct": 53.9,
+          "holdout_brier_skill": 0.00913334460470927,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "pass",
+          "secondary": "undecidable"
+        },
+        "90D": {
+          "usual_pct": 15.0,
+          "long_run_usual_pct": 41.0,
+          "holdout_brier_skill": -0.031662065179375976,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": false,
+          "primary": null,
+          "secondary": null
+        }
+      },
+      "move": {
+        "7D": {
+          "usual_pct": 59.0,
+          "long_run_usual_pct": 68.5,
+          "holdout_brier_skill": 0.022403654329943512,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "pass",
+          "secondary": "undecidable"
+        },
+        "30D": {
+          "usual_pct": 70.8,
+          "long_run_usual_pct": 81.3,
+          "holdout_brier_skill": 0.04044613654943552,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "pass",
+          "secondary": "undecidable"
+        },
+        "90D": {
+          "usual_pct": 68.4,
+          "long_run_usual_pct": 83.2,
+          "holdout_brier_skill": -0.027918984150930637,
+          "holdout_lift_pts": 14.3,
+          "holdout_n_signal": 3,
+          "judged": false,
+          "primary": null,
+          "secondary": null
+        }
+      }
+    },
+    "ETH": {
+      "turn": {
+        "7D": {
+          "usual_pct": 57.4,
+          "long_run_usual_pct": 66.4,
+          "holdout_brier_skill": 0.0020151965417615214,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "pass",
+          "secondary": "undecidable"
+        },
+        "30D": {
+          "usual_pct": 60.1,
+          "long_run_usual_pct": 64.8,
+          "holdout_brier_skill": 0.017931288852443328,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "pass",
+          "secondary": "undecidable"
+        },
+        "90D": {
+          "usual_pct": 51.3,
+          "long_run_usual_pct": 64.7,
+          "holdout_brier_skill": -0.017581265271191304,
+          "holdout_lift_pts": 11.6,
+          "holdout_n_signal": 4,
+          "judged": false,
+          "primary": null,
+          "secondary": null
+        }
+      },
+      "move": {
+        "7D": {
+          "usual_pct": 72.8,
+          "long_run_usual_pct": 80.5,
+          "holdout_brier_skill": -0.0035913403802099175,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "fail",
+          "secondary": "undecidable"
+        },
+        "30D": {
+          "usual_pct": 85.9,
+          "long_run_usual_pct": 91.7,
+          "holdout_brier_skill": -0.03743566523669006,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": true,
+          "primary": "fail",
+          "secondary": "undecidable"
+        },
+        "90D": {
+          "usual_pct": 87.5,
+          "long_run_usual_pct": 93.9,
+          "holdout_brier_skill": -0.12320696043940638,
+          "holdout_lift_pts": null,
+          "holdout_n_signal": 0,
+          "judged": false,
+          "primary": null,
+          "secondary": null
+        }
+      }
+    }
+  }
+}

@@ -992,3 +992,43 @@ def test_run_producer_writes_history(tmp_path: Path, canned_fetcher: BinanceFetc
     assert list(written["history"]) == ["BTC", "ETH"] and len(written["history"]["BTC"]) == 1
     assert written["history"]["BTC"][0]["date"] == "2026-05-04"     # pinned clock
     assert written["history"]["BTC"][0]["close"] > 0
+
+
+# --- 今日の確率 (it-2026-10 段 2) ---
+def _run_fc(tmp_path, canned_fetcher, bulk_cache, assets=None):
+    assets = assets or tmp_path / "pivot_assets.live.json"
+    rc = run_producer(fetcher=canned_fetcher, assets_path=assets, backtest_path=tmp_path / "b.json",
+                      derivatives_history_path=tmp_path / "s.json", dry_run=False, skip_zod_validate=True,
+                      bulk_cache_dir=bulk_cache, bulk_http_get=lambda url: (404, b""))
+    return rc, json.loads(assets.read_text(encoding="utf-8"))
+
+
+def test_run_producer_writes_forecast(tmp_path, canned_fetcher, bulk_cache) -> None:
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    assert written["forecast_meta"] == {"iteration": "it-2026-10", "train_end": "2025-10-16"}
+    assert list(written["forecast"]) == ["BTC", "ETH"]
+    for items in written["forecast"].values():
+        assert len(items) == 6
+        assert all(0 <= i["today_pct"] <= 100 and "prev_today_pct" not in i for i in items)
+
+
+def test_run_producer_forecast_degrades_when_frozen_broken(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    bad = tmp_path / "bad.json"; bad.write_text("{broken")
+    monkeypatch.setattr("producer.forecast.FROZEN_PATH", bad)
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    assert "forecast" not in written and "forecast_meta" not in written
+    assert "forecast_degraded=" in capsys.readouterr().out
+
+
+def test_forecast_same_day_rerun_keeps_day_over_day_prev(tmp_path, canned_fetcher, bulk_cache) -> None:
+    rc, first = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    # fake yesterday's file: pin prev on every item
+    first["generated_at"] = "2026-05-03T00:00:00Z"
+    (tmp_path / "pivot_assets.live.json").write_text(json.dumps(first), encoding="utf-8")
+    rc, second = _run_fc(tmp_path, canned_fetcher, bulk_cache, tmp_path / "pivot_assets.live.json")
+    assert second["forecast"]["BTC"][0]["prev_today_pct"] == first["forecast"]["BTC"][0]["today_pct"]
+    pinned = {(i["event"], i["horizon"]): i["prev_today_pct"] for i in second["forecast"]["BTC"]}
+    rc, third = _run_fc(tmp_path, canned_fetcher, bulk_cache, tmp_path / "pivot_assets.live.json")
+    assert {(i["event"], i["horizon"]): i["prev_today_pct"] for i in third["forecast"]["BTC"]} == pinned
