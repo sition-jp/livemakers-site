@@ -1,12 +1,31 @@
 /* @vitest-environment jsdom */
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import React from "react";
+
+// Same Link mock as RadarTable.test.tsx (next-intl navigation imports
+// `next/navigation` without an extension, which Vitest rejects).
+vi.mock("@/i18n/navigation", () => ({
+  Link: ({
+    href,
+    children,
+    ...rest
+  }: {
+    href: string;
+    children: React.ReactNode;
+  } & React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+    <a href={href} {...rest}>
+      {children}
+    </a>
+  ),
+}));
+
 import { render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
 
 import ja from "@/messages/ja.json";
 import en from "@/messages/en.json";
 import { TurningPointTimeline } from "@/components/turning-points/TurningPointTimeline";
+import { TimelineMini } from "@/components/turning-points/TimelineMini";
 import type { BacktestEntry, DirectionBias, HistoryEntry, Horizon, RadarScores } from "@/lib/pivots/types";
 
 function wrap(locale: "ja" | "en", ui: React.ReactNode) {
@@ -100,7 +119,7 @@ describe("TurningPointTimeline", () => {
     expect(screen.getByTestId("timeline-window-90D")).toBeTruthy();
   });
 
-  it("shades and leans each forward window by ITS OWN horizon (T2)", () => {
+  it("shades each forward window by ITS OWN horizon and never shows a lean arrow (T2 / 10/17 item 4)", () => {
     wrap(
       "ja",
       <TurningPointTimeline
@@ -117,12 +136,12 @@ describe("TurningPointTimeline", () => {
     const w30 = screen.getByTestId("timeline-window-30D");
     const w90 = screen.getByTestId("timeline-window-90D");
 
-    // 7D is Low (score 20) — no lean arrow/title should render at all.
-    expect(w7.textContent).not.toContain("傾き:");
-    // 30D is Medium with a wide bullish gap — lean up.
-    expect(w30.textContent).toContain("傾き: 上");
-    // 90D is High with a wide bearish gap — lean down.
-    expect(w90.textContent).toContain("傾き: 下");
+    // 30D (Medium, wide bullish gap) and 90D (High, wide bearish gap) would
+    // have leaned before 10/17 — the lean stays internal data, never drawn.
+    for (const w of [w7, w30, w90]) {
+      expect(w.textContent).not.toContain("傾き");
+    }
+    expect(screen.getByTestId("turning-point-timeline").textContent).not.toContain("傾き");
 
     // The rect fill-opacity differs per window (driven by each horizon's own overall).
     const rect7 = w7.querySelector("rect")!;
@@ -130,6 +149,65 @@ describe("TurningPointTimeline", () => {
     const rect90 = w90.querySelector("rect")!;
     expect(rect7.getAttribute("fill-opacity")).not.toBe(rect30.getAttribute("fill-opacity"));
     expect(rect30.getAttribute("fill-opacity")).not.toBe(rect90.getAttribute("fill-opacity"));
+  });
+
+  it("shows the lead time as visible text, not only as a hover title (10/17 item 8-3)", () => {
+    wrap(
+      "ja",
+      <TurningPointTimeline
+        asset="BTC"
+        horizon="7D"
+        today="2026-09-04"
+        currentByHorizon={currentByHorizon}
+        biasByHorizon={biasByHorizon}
+        history={history}
+        backtest={backtest}
+      />,
+    );
+    const lead7 = screen.getByTestId("timeline-lead-7D");
+    expect(lead7.tagName.toLowerCase()).toBe("text");
+    expect(lead7.textContent).toContain("価格 平均 3 日（n=12）");
+    expect(screen.getByTestId("timeline-lead-30D").textContent).toContain("過去の該当例なし");
+  });
+
+  it("labels the past panel with its real span and the selected horizon (10/17 items 8-2, 8-4)", () => {
+    wrap(
+      "ja",
+      <TurningPointTimeline
+        asset="BTC"
+        horizon="7D"
+        today="2026-09-04"
+        currentByHorizon={currentByHorizon}
+        biasByHorizon={biasByHorizon}
+        history={history}
+        backtest={backtest}
+      />,
+    );
+    expect(screen.getByTestId("timeline-past-label").textContent).toBe("過去 7 日・7D のスコア");
+  });
+
+  it("draws a labelled gap instead of a joined line where records are missing (10/17 item 8-1)", () => {
+    const gappy: HistoryEntry[] = [
+      { date: "2026-07-01", close: 60000, overall: { "7D": 10, "30D": 10, "90D": 10 }, lean: { "7D": 0, "30D": 0, "90D": 0 } },
+      { date: "2026-07-02", close: 60100, overall: { "7D": 10, "30D": 10, "90D": 10 }, lean: { "7D": 0, "30D": 0, "90D": 0 } },
+      { date: "2026-08-22", close: 77000, overall: { "7D": 10, "30D": 10, "90D": 10 }, lean: { "7D": 0, "30D": 0, "90D": 0 } },
+      { date: "2026-08-23", close: 77100, overall: { "7D": 10, "30D": 10, "90D": 10 }, lean: { "7D": 0, "30D": 0, "90D": 0 } },
+    ];
+    wrap(
+      "ja",
+      <TurningPointTimeline
+        asset="BTC"
+        horizon="30D"
+        today="2026-08-23"
+        currentByHorizon={currentByHorizon}
+        biasByHorizon={biasByHorizon}
+        history={gappy}
+        backtest={[]}
+      />,
+    );
+    const past = screen.getByTestId("timeline-past");
+    expect(past.querySelectorAll("polyline")).toHaveLength(2);
+    expect(screen.getByTestId("timeline-gap-0").textContent).toContain("記録なし");
   });
 
   it("renders without throwing when history is absent (T5)", () => {
@@ -168,6 +246,27 @@ describe("TurningPointTimeline", () => {
       />,
     );
     expect(screen.getByTestId("turning-point-timeline")).toBeTruthy();
+  });
+});
+
+describe("TimelineMini (list page, 10/17 item 6)", () => {
+  it("draws the 30D past panel and links to the asset page", () => {
+    wrap("ja", <TimelineMini asset="BTC" today="2026-09-04" history={history} />);
+    const mini = screen.getByTestId("timeline-mini-BTC");
+    expect(mini.textContent).toContain("BTC");
+    expect(mini.textContent).toContain("30D");
+    expect(mini.querySelector("polyline")).not.toBeNull();
+    // no forward windows on the list page
+    expect(screen.queryByTestId("timeline-window-30D")).toBeNull();
+    const link = mini.querySelector("a")!;
+    expect(link.getAttribute("href")).toBe("/turning-points/btc");
+  });
+
+  it("still renders the heading and link while history is accumulating", () => {
+    wrap("ja", <TimelineMini asset="ETH" today="2026-09-04" history={null} />);
+    const mini = screen.getByTestId("timeline-mini-ETH");
+    expect(mini.textContent).toContain("履歴は蓄積中");
+    expect(mini.querySelector("a")!.getAttribute("href")).toBe("/turning-points/eth");
   });
 });
 

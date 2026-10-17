@@ -3,7 +3,6 @@ import { Link } from "@/i18n/navigation";
 import type { PivotDetail, AssetSymbol, Horizon } from "@/lib/pivots/types";
 import { ScoreBadge } from "./ScoreBadge";
 import { ConfidenceGradeBadge } from "./ConfidenceGrade";
-import { DirectionBiasBar } from "./DirectionBiasBar";
 import { EvidenceList } from "./EvidenceList";
 import { StateBlock, formatDelta } from "./StateBlock";
 import { scoreDelta } from "@/lib/pivots/describe";
@@ -91,13 +90,6 @@ export function AssetDetail({
             </span>
           ) : null}
         </div>
-      </section>
-
-      <section>
-        <h2 className="text-xs uppercase tracking-label text-text-tertiary mb-3">
-          {t("direction_bias_label")}
-        </h2>
-        <DirectionBiasBar bias={detail.direction_bias} />
       </section>
 
       <section>

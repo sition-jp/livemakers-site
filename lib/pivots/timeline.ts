@@ -40,6 +40,8 @@ export const TIMELINE_LAYOUT = {
 } as const;
 
 const MAX_HISTORY_DAYS = 120;
+/** Consecutive records further apart than this many days break the line (2+ missing days). */
+const GAP_BREAK_DAYS = 2;
 const MARKER_THRESHOLD = 40;
 const STRONG_THRESHOLD = 70;
 const TICK_THRESHOLD = 70;
@@ -80,11 +82,28 @@ export interface TimelineExample {
   movePct: number;
 }
 
+export interface TimelineGap {
+  /** Last record before the gap / first record after it (YYYY-MM-DD). */
+  from: string;
+  to: string;
+  missingDays: number;
+  x1: number;
+  x2: number;
+}
+
 export interface TimelinePast {
   points: TimelinePoint[];
+  /** `points` split wherever records are missing for 2+ days — drawn as separate lines. */
+  segments: TimelinePoint[][];
+  gaps: TimelineGap[];
   strip: TimelineStripCell[];
   markers: TimelineMarker[];
   example: TimelineExample | null;
+  /** Width of one calendar day on the date-proportional axis. */
+  dayWidth: number;
+  /** First record's date and the calendar span from it to `today` (the real "last N days"). */
+  fromDate: string;
+  spanDays: number;
 }
 
 export interface TimelineTick {
@@ -228,47 +247,60 @@ export function buildTimelineModel(input: TimelineInput): TimelineModel {
   const futureXEnd = TIMELINE_LAYOUT.futureXEnd * scale;
 
   const entries = normalizeHistory(input.history);
-  const dateIndex = new Map(entries.map((e, i) => [e.date, i]));
   const closes = entries.map((e) => e.close);
   const min = closes.length ? Math.min(...closes) : 0;
   const max = closes.length ? Math.max(...closes) : 0;
   const range = Math.max(max - min, Number.EPSILON);
 
-  const xAtIndex = (i: number): number =>
-    entries.length <= 1 ? todayX : pastXStart + (i / (entries.length - 1)) * (todayX - pastXStart);
+  // The past axis is proportional to calendar days (first record → today),
+  // so missing records show up as empty space instead of being squeezed out.
+  const firstDate = entries.length > 0 ? entries[0].date : input.today;
+  const spanDays = Math.max(1, daysBetweenISO(firstDate, input.today));
+  const dayWidth = (todayX - pastXStart) / spanDays;
   const yAtClose = (close: number): number =>
     TIMELINE_LAYOUT.priceYBottom -
     ((close - min) / range) * (TIMELINE_LAYOUT.priceYBottom - TIMELINE_LAYOUT.priceYTop);
 
   const xOfDate = (date: string): number => {
-    const idx = dateIndex.get(date);
-    if (idx !== undefined) return xAtIndex(idx);
-    if (entries.length === 0) return todayX;
-    const first = entries[0].date;
-    const totalDays = Math.max(1, daysBetweenISO(first, input.today));
-    const offset = daysBetweenISO(first, date);
-    const frac = clamp01(offset / totalDays);
+    // No history, or the only record is today's: everything sits on the today line.
+    if (entries.length === 0 || daysBetweenISO(firstDate, input.today) <= 0) return todayX;
+    const frac = clamp01(daysBetweenISO(firstDate, date) / spanDays);
     return pastXStart + frac * (todayX - pastXStart);
   };
 
   let past: TimelinePast | null = null;
   if (entries.length > 0) {
-    const points = entries.map((e, i) => ({ x: xAtIndex(i), y: yAtClose(e.close) }));
-    const strip = entries.map((e, i) => ({
-      x: xAtIndex(i),
+    const points = entries.map((e) => ({ x: xOfDate(e.date), y: yAtClose(e.close) }));
+    const segments: TimelinePoint[][] = [[points[0]]];
+    const gaps: TimelineGap[] = [];
+    for (let i = 1; i < entries.length; i++) {
+      const apart = daysBetweenISO(entries[i - 1].date, entries[i].date);
+      if (apart > GAP_BREAK_DAYS) {
+        gaps.push({
+          from: entries[i - 1].date,
+          to: entries[i].date,
+          missingDays: apart - 1,
+          x1: points[i - 1].x,
+          x2: points[i].x,
+        });
+        segments.push([]);
+      }
+      segments[segments.length - 1].push(points[i]);
+    }
+    const strip = entries.map((e) => ({
+      x: xOfDate(e.date),
       opacity: clamp01(e.overall[input.horizon] / 100),
     }));
     const markers = entries
-      .map((e, i) => ({ e, i }))
-      .filter(({ e }) => e.overall[input.horizon] >= MARKER_THRESHOLD)
-      .map(({ e, i }) => ({
-        x: xAtIndex(i),
+      .filter((e) => e.overall[input.horizon] >= MARKER_THRESHOLD)
+      .map((e) => ({
+        x: xOfDate(e.date),
         y: yAtClose(e.close),
         strong: e.overall[input.horizon] >= STRONG_THRESHOLD,
         date: e.date,
       }));
     const example = buildExample(entries, input.horizon, markers, xOfDate);
-    past = { points, strip, markers, example };
+    past = { points, segments, gaps, strip, markers, example, dayWidth, fromDate: firstDate, spanDays };
   }
 
   const windowX = todayX;

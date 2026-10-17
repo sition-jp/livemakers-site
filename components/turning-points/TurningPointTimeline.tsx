@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-import { buildTimelineModel, TIMELINE_LAYOUT, type TimelineWindow } from "@/lib/pivots/timeline";
+import { buildTimelineModel, TIMELINE_LAYOUT, type TimelinePast, type TimelineWindow } from "@/lib/pivots/timeline";
 import type {
   AssetSymbol,
   BacktestEntry,
@@ -79,9 +79,6 @@ export function TurningPointTimeline({
     backtest,
   });
 
-  const strip = model.past?.strip ?? [];
-  const stripCellWidth = strip.length > 1 ? Math.max(1.5, (model.today - pastXStart) / strip.length - 0.5) : 5;
-
   return (
     <section data-testid="turning-point-timeline" className="space-y-3 text-text-secondary">
       <h2 className="text-xs uppercase tracking-label text-text-tertiary">{t("heading")}</h2>
@@ -113,48 +110,26 @@ export function TurningPointTimeline({
           />
         </g>
 
-        <text x={pastXStart} y={40} fontSize={10} fill="currentColor" fillOpacity={0.6} className="text-text-tertiary">
-          {t("past")}
-        </text>
+        {model.past ? (
+          <text
+            data-testid="timeline-past-label"
+            x={pastXStart}
+            y={40}
+            fontSize={10}
+            fill="currentColor"
+            fillOpacity={0.6}
+            className="text-text-tertiary"
+          >
+            {t("past", { days: model.past.spanDays, h: horizon })}
+          </text>
+        ) : null}
         <text x={model.today + 8} y={40} fontSize={10} fill="currentColor" fillOpacity={0.6} className="text-text-tertiary">
           {t("future")}
         </text>
 
         {model.past ? (
           <g data-testid="timeline-past">
-            <polyline
-              points={model.past.points.map((p) => `${p.x},${p.y}`).join(" ")}
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.5}
-              className="text-pillar-market"
-            />
-            {model.past.strip.map((cell, i) => (
-              <rect
-                key={`strip-${i}`}
-                x={cell.x - stripCellWidth / 2}
-                y={stripYTop}
-                width={stripCellWidth}
-                height={stripYBottom - stripYTop}
-                fill="currentColor"
-                fillOpacity={cell.opacity}
-                className="text-pillar-market"
-              />
-            ))}
-            {model.past.markers.map((m, i) => (
-              <circle
-                key={`marker-${i}`}
-                cx={m.x}
-                cy={m.y}
-                r={m.strong ? 3.5 : 2}
-                fill={m.strong ? "currentColor" : "none"}
-                stroke="currentColor"
-                strokeWidth={1}
-                className={m.strong ? "text-status-up" : "text-text-secondary"}
-              >
-                <title>{m.date}</title>
-              </circle>
-            ))}
+            <TimelinePastLayer past={model.past} t={t} />
             {model.past.example ? (
               <g data-testid="timeline-example" className="text-text-secondary">
                 <line
@@ -167,11 +142,17 @@ export function TurningPointTimeline({
                   strokeWidth={1}
                   markerEnd="url(#tp-timeline-arrow)"
                 />
+                {/* On the date axis the arrow can be shorter than its label: hang the label off the
+                    end nearer the middle so it never runs past the chart edge. */}
                 <text
-                  x={(model.past.example.fromX + model.past.example.toX) / 2}
+                  x={
+                    model.past.example.fromX < (pastXStart + model.today) / 2
+                      ? model.past.example.fromX
+                      : model.past.example.toX
+                  }
                   y={model.past.example.y - 6}
                   fontSize={9}
-                  textAnchor="middle"
+                  textAnchor={model.past.example.fromX < (pastXStart + model.today) / 2 ? "start" : "end"}
                   fill="currentColor"
                 >
                   {t("example", {
@@ -196,6 +177,16 @@ export function TurningPointTimeline({
           </text>
         )}
 
+        <text
+          x={model.today - 8}
+          y={windowYStart - 6}
+          fontSize={9}
+          textAnchor="end"
+          fill="currentColor"
+          className="text-text-tertiary"
+        >
+          {t("lead_caption")}
+        </text>
         {model.windows.map((w, i) => (
           <TimelineWindowRow key={w.horizon} window={w} rowIndex={i} t={t} />
         ))}
@@ -253,20 +244,28 @@ function TimelineWindowRow({
         {t("window", { h: w.horizon })}
       </text>
 
-      {w.lean ? (
-        <g className={w.lean === "up" ? "text-status-up" : "text-status-down"}>
-          <path
-            d={
-              w.lean === "up"
-                ? `M${w.x + w.width - 20},${y + 24} l5,-8 l5,8 z`
-                : `M${w.x + w.width - 20},${y + 16} l5,8 l5,-8 z`
-            }
-            fill="currentColor"
-          >
-            <title>{t(w.lean === "up" ? "lean_up" : "lean_down")}</title>
-          </path>
-        </g>
-      ) : null}
+      {/* The lean arrow is no longer drawn (10/17): `w.lean` stays in the model as internal data. */}
+      <text
+        data-testid={`timeline-lead-${w.horizon}`}
+        x={w.x - 8}
+        y={y + windowHeight / 2 + 3}
+        fontSize={9}
+        textAnchor="end"
+        fill="currentColor"
+        className="text-text-secondary"
+      >
+        {w.ticks.length === 0
+          ? t("lead_none")
+          : w.ticks
+              .map((tick) =>
+                t(tick.weak ? "lead_item_weak" : "lead_item", {
+                  type: t(tick.scoreType === "price_pivot" ? "lead_type_price" : "lead_type_volatility"),
+                  days: Math.round(tick.days),
+                  n: tick.n,
+                }),
+              )
+              .join(" / ")}
+      </text>
 
       {w.ticks.map((tick, i) => (
         <g key={`${w.horizon}-tick-${i}`} className="text-text-secondary">
@@ -279,13 +278,90 @@ function TimelineWindowRow({
             strokeWidth={1.5}
             strokeDasharray={tick.weak ? "1.5 1.5" : undefined}
           >
-            <title>
-              {t("lead", { days: Math.round(tick.days), n: tick.n })}
-              {tick.weak ? ` · ${t("lead_weak")}` : ""}
-            </title>
+            {/* One string child: a <title> with several children breaks hydration. */}
+            <title>{`${t("lead", { days: Math.round(tick.days), n: tick.n })}${tick.weak ? ` · ${t("lead_weak")}` : ""}`}</title>
           </line>
         </g>
       ))}
     </g>
+  );
+}
+
+/**
+ * Past-side drawing shared by the asset page and the list page (TimelineMini):
+ * date-proportional price line split at missing records, the "no records"
+ * bands, the score strip and the >= 40 / >= 70 markers.
+ */
+export function TimelinePastLayer({
+  past,
+  t,
+}: {
+  past: TimelinePast;
+  t: ReturnType<typeof useTranslations>;
+}) {
+  const stripCellWidth = Math.max(1.5, past.dayWidth - 0.5);
+  return (
+    <>
+      {past.gaps.map((gap, i) => (
+        <g key={`gap-${i}`} data-testid={`timeline-gap-${i}`} className="text-text-tertiary">
+          <title>{`${t("gap")} ${gap.from} → ${gap.to}`}</title>
+          <rect
+            x={gap.x1}
+            y={priceYTop}
+            width={gap.x2 - gap.x1}
+            height={stripYBottom - priceYTop}
+            fill="currentColor"
+            fillOpacity={0.06}
+          />
+          {gap.x2 - gap.x1 > 36 ? (
+            <text
+              x={(gap.x1 + gap.x2) / 2}
+              y={(priceYTop + priceYBottom) / 2}
+              fontSize={9}
+              textAnchor="middle"
+              fill="currentColor"
+            >
+              {t("gap")}
+            </text>
+          ) : null}
+        </g>
+      ))}
+      {past.segments.map((segment, i) => (
+        <polyline
+          key={`segment-${i}`}
+          points={segment.map((p) => `${p.x},${p.y}`).join(" ")}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          className="text-pillar-market"
+        />
+      ))}
+      {past.strip.map((cell, i) => (
+        <rect
+          key={`strip-${i}`}
+          x={cell.x - stripCellWidth / 2}
+          y={stripYTop}
+          width={stripCellWidth}
+          height={stripYBottom - stripYTop}
+          fill="currentColor"
+          fillOpacity={cell.opacity}
+          className="text-pillar-market"
+        />
+      ))}
+      {past.markers.map((m, i) => (
+        <circle
+          key={`marker-${i}`}
+          cx={m.x}
+          cy={m.y}
+          r={m.strong ? 3.5 : 2}
+          fill={m.strong ? "currentColor" : "none"}
+          stroke="currentColor"
+          strokeWidth={1}
+          className={m.strong ? "text-status-up" : "text-text-secondary"}
+        >
+          <title>{m.date}</title>
+        </circle>
+      ))}
+    </>
   );
 }
