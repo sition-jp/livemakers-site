@@ -1,15 +1,15 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-10-16T23:00:48Z",
+  "generated_at": "2026-10-17T10:31:55Z",
   "radar": [
     {
       "symbol": "BTC",
       "scores": {
         "7D": {
-          "overall": 16.0,
-          "price_pivot": 15.0,
+          "overall": 24.0,
+          "price_pivot": 35.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "A",
+          "confidence_grade": "B+",
           "main_signal": "price"
         },
         "30D": {
@@ -39,18 +39,18 @@
           "main_signal": "price"
         },
         "30D": {
-          "overall": 24.0,
-          "price_pivot": 35.0,
+          "overall": 16.0,
+          "price_pivot": 15.0,
           "volatility_pivot": 0.0,
-          "confidence_grade": "B+",
+          "confidence_grade": "A",
           "main_signal": "price"
         },
         "90D": {
-          "overall": 36.0,
-          "price_pivot": 35.0,
+          "overall": 27.0,
+          "price_pivot": 15.0,
           "volatility_pivot": 25.0,
           "confidence_grade": "A",
-          "main_signal": "price"
+          "main_signal": "volatility"
         }
       }
     }
@@ -62,14 +62,14 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-10-16T23:00:48Z",
+      "timestamp": "2026-10-17T10:31:55Z",
       "scores": {
-        "overall": 16.0,
-        "price_pivot": 15.0,
+        "overall": 24.0,
+        "price_pivot": 35.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "A",
-          "score": 88.0
+          "grade": "B+",
+          "score": 80.0
         }
       },
       "direction_bias": {
@@ -83,12 +83,18 @@
           "direction": "bullish",
           "weight": 0.15,
           "message": "MACD momentum is improving"
+        },
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.2,
+          "message": "Price is near a recent range boundary"
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 1."
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 2."
       }
     },
     "BTC__30D": {
@@ -97,7 +103,7 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-10-16T23:00:48Z",
+      "timestamp": "2026-10-17T10:31:55Z",
       "scores": {
         "overall": 16.0,
         "price_pivot": 15.0,
@@ -132,14 +138,14 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-10-16T23:00:48Z",
+      "timestamp": "2026-10-17T10:31:55Z",
       "scores": {
         "overall": 25.0,
         "price_pivot": 15.0,
         "volatility_pivot": 20.0,
         "confidence": {
           "grade": "A",
-          "score": 92.0
+          "score": 91.0
         }
       },
       "direction_bias": {
@@ -159,7 +165,7 @@
           "direction": "volatility",
           "weight": 0.2,
           "message": "Bollinger Band width is compressed (bottom 20% of lookback)",
-          "raw_value": 0.06808096049258158
+          "raw_value": 0.07120201898840592
         }
       ],
       "summary": {
@@ -174,14 +180,14 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-10-16T23:00:48Z",
+      "timestamp": "2026-10-17T10:31:55Z",
       "scores": {
         "overall": 24.0,
         "price_pivot": 35.0,
         "volatility_pivot": 0.0,
         "confidence": {
           "grade": "B+",
-          "score": 83.0
+          "score": 81.0
         }
       },
       "direction_bias": {
@@ -206,21 +212,14 @@
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 3.3745
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.7415047816084152
+          "raw_value": 0.5540609528611442
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 3."
       }
     },
     "ETH__30D": {
@@ -229,14 +228,14 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-10-16T23:00:48Z",
+      "timestamp": "2026-10-17T10:31:55Z",
       "scores": {
-        "overall": 24.0,
-        "price_pivot": 35.0,
+        "overall": 16.0,
+        "price_pivot": 15.0,
         "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B+",
-          "score": 82.0
+          "grade": "A",
+          "score": 90.0
         }
       },
       "direction_bias": {
@@ -252,30 +251,17 @@
           "message": "MACD momentum is improving"
         },
         {
-          "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 3.3745
-        },
-        {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.7415047816084152
+          "raw_value": 0.5540609528611442
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 2."
       }
     },
     "ETH__90D": {
@@ -284,10 +270,10 @@
         "name": "Ethereum"
       },
       "horizon": "90D",
-      "timestamp": "2026-10-16T23:00:48Z",
+      "timestamp": "2026-10-17T10:31:55Z",
       "scores": {
-        "overall": 36.0,
-        "price_pivot": 35.0,
+        "overall": 27.0,
+        "price_pivot": 15.0,
         "volatility_pivot": 25.0,
         "confidence": {
           "grade": "A",
@@ -307,59 +293,46 @@
           "message": "MACD momentum is improving"
         },
         {
-          "category": "price",
-          "direction": "neutral",
-          "weight": 0.2,
-          "message": "Price is near a recent range boundary"
-        },
-        {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.25,
           "message": "30D realized volatility is compressed (bottom 20% of lookback)",
-          "raw_value": 0.4330967672562179
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 3.3745
+          "raw_value": 0.4317223551823007
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.7415047816084152
+          "raw_value": 0.5540609528611442
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 5."
+        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 3."
       }
     }
   },
   "previous": {
-    "generated_at": "2026-10-15T23:00:20Z",
+    "generated_at": "2026-10-16T23:00:48Z",
     "radar": [
       {
         "symbol": "BTC",
         "scores": {
           "7D": {
-            "overall": 35.0,
+            "overall": 16.0,
             "price_pivot": 15.0,
-            "volatility_pivot": 45.0,
-            "confidence_grade": "B+",
-            "main_signal": "volatility"
+            "volatility_pivot": 0.0,
+            "confidence_grade": "A",
+            "main_signal": "price"
           },
           "30D": {
-            "overall": 25.0,
+            "overall": 16.0,
             "price_pivot": 15.0,
-            "volatility_pivot": 20.0,
+            "volatility_pivot": 0.0,
             "confidence_grade": "A",
-            "main_signal": "mixed"
+            "main_signal": "price"
           },
           "90D": {
             "overall": 25.0,
@@ -374,25 +347,25 @@
         "symbol": "ETH",
         "scores": {
           "7D": {
-            "overall": 31.0,
+            "overall": 24.0,
             "price_pivot": 35.0,
-            "volatility_pivot": 15.0,
-            "confidence_grade": "A",
+            "volatility_pivot": 0.0,
+            "confidence_grade": "B+",
             "main_signal": "price"
           },
           "30D": {
-            "overall": 31.0,
+            "overall": 24.0,
             "price_pivot": 35.0,
-            "volatility_pivot": 15.0,
-            "confidence_grade": "A",
+            "volatility_pivot": 0.0,
+            "confidence_grade": "B+",
             "main_signal": "price"
           },
           "90D": {
-            "overall": 43.0,
+            "overall": 36.0,
             "price_pivot": 35.0,
-            "volatility_pivot": 40.0,
+            "volatility_pivot": 25.0,
             "confidence_grade": "A",
-            "main_signal": "mixed"
+            "main_signal": "price"
           }
         }
       }
@@ -1609,6 +1582,20 @@
         "close": 81796.3,
         "overall": {
           "7D": 16.0,
+          "30D": 16.0,
+          "90D": 25.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-10-17",
+        "close": 81639.0,
+        "overall": {
+          "7D": 24.0,
           "30D": 16.0,
           "90D": 25.0
         },
@@ -2837,6 +2824,7438 @@
           "30D": 100.0,
           "90D": 100.0
         }
+      },
+      {
+        "date": "2026-10-17",
+        "close": 2436.91,
+        "overall": {
+          "7D": 24.0,
+          "30D": 16.0,
+          "90D": 27.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      }
+    ]
+  },
+  "forecast": {
+    "BTC": [
+      {
+        "event": "turn",
+        "horizon": "7D",
+        "today_pct": 44.6,
+        "usual_pct": 47.3
+      },
+      {
+        "event": "turn",
+        "horizon": "30D",
+        "today_pct": 50.9,
+        "usual_pct": 48.3
+      },
+      {
+        "event": "turn",
+        "horizon": "90D",
+        "today_pct": 19.3,
+        "usual_pct": 15.0
+      },
+      {
+        "event": "move",
+        "horizon": "7D",
+        "today_pct": 56.9,
+        "usual_pct": 59.0
+      },
+      {
+        "event": "move",
+        "horizon": "30D",
+        "today_pct": 67.9,
+        "usual_pct": 70.8
+      },
+      {
+        "event": "move",
+        "horizon": "90D",
+        "today_pct": 70.7,
+        "usual_pct": 68.4
+      }
+    ],
+    "ETH": [
+      {
+        "event": "turn",
+        "horizon": "7D",
+        "today_pct": 55.8,
+        "usual_pct": 57.4
+      },
+      {
+        "event": "turn",
+        "horizon": "30D",
+        "today_pct": 57.7,
+        "usual_pct": 60.1
+      },
+      {
+        "event": "turn",
+        "horizon": "90D",
+        "today_pct": 52.5,
+        "usual_pct": 51.3
+      },
+      {
+        "event": "move",
+        "horizon": "7D",
+        "today_pct": 68.9,
+        "usual_pct": 72.8
+      },
+      {
+        "event": "move",
+        "horizon": "30D",
+        "today_pct": 87.9,
+        "usual_pct": 85.9
+      },
+      {
+        "event": "move",
+        "horizon": "90D",
+        "today_pct": 83.1,
+        "usual_pct": 87.5
+      }
+    ]
+  },
+  "forecast_meta": {
+    "iteration": "it-2026-10",
+    "train_end": "2025-10-16"
+  },
+  "trend": {
+    "BTC": {
+      "ret_30d_pct": 6.8,
+      "ret_90d_pct": 26.1
+    },
+    "ETH": {
+      "ret_30d_pct": -0.4,
+      "ret_90d_pct": 30.2
+    }
+  },
+  "ladder": {
+    "BTC": [
+      {
+        "strength": "cycle",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2025-10-06",
+          "kind": "top",
+          "close": 124658.54
+        },
+        "candidate": {
+          "date": "2026-06-30",
+          "kind": "bottom",
+          "close": 58624.71
+        },
+        "confirm_at": 87937.065
+      },
+      {
+        "strength": "large",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-02-05",
+          "kind": "bottom",
+          "close": 62909.86
+        },
+        "candidate": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 86620.0
+        },
+        "confirm_at": 60633.99999999999
+      },
+      {
+        "strength": "medium",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-06-30",
+          "kind": "bottom",
+          "close": 58624.71
+        },
+        "candidate": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 86620.0
+        },
+        "confirm_at": 73627.0
+      },
+      {
+        "strength": "small",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 86620.0
+        },
+        "candidate": {
+          "date": "2026-10-16",
+          "kind": "bottom",
+          "close": 81615.64
+        },
+        "confirm_at": 85696.422
+      }
+    ],
+    "ETH": [
+      {
+        "strength": "cycle",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-06-25",
+          "kind": "bottom",
+          "close": 1567.84
+        },
+        "candidate": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 2776.19
+        },
+        "confirm_at": 1388.095
+      },
+      {
+        "strength": "large",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-06-25",
+          "kind": "bottom",
+          "close": 1567.84
+        },
+        "candidate": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 2776.19
+        },
+        "confirm_at": 1943.3329999999999
+      },
+      {
+        "strength": "medium",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-06-25",
+          "kind": "bottom",
+          "close": 1567.84
+        },
+        "candidate": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 2776.19
+        },
+        "confirm_at": 2359.7615
+      },
+      {
+        "strength": "small",
+        "decided": true,
+        "last_confirmed": {
+          "date": "2026-09-21",
+          "kind": "top",
+          "close": 2776.19
+        },
+        "candidate": {
+          "date": "2026-10-14",
+          "kind": "bottom",
+          "close": 2421.6
+        },
+        "confirm_at": 2542.68
+      }
+    ]
+  },
+  "turns": {
+    "BTC": [
+      {
+        "date": "2017-12-16",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 19102.66
+      },
+      {
+        "date": "2018-02-05",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 6939.99
+      },
+      {
+        "date": "2018-03-04",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 11515.0
+      },
+      {
+        "date": "2018-12-15",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 3211.72
+      },
+      {
+        "date": "2019-06-26",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 13093.8
+      },
+      {
+        "date": "2020-03-12",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 4800.0
+      },
+      {
+        "date": "2021-04-13",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 63575.0
+      },
+      {
+        "date": "2021-07-20",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 29790.35
+      },
+      {
+        "date": "2021-11-08",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 67525.83
+      },
+      {
+        "date": "2022-11-21",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 15781.29
+      },
+      {
+        "date": "2025-10-06",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 124658.54
+      },
+      {
+        "date": "2026-06-30",
+        "kind": "bottom",
+        "strength": "medium",
+        "close": 58624.71
+      },
+      {
+        "date": "2026-07-21",
+        "kind": "top",
+        "strength": "small",
+        "close": 66556.16
+      },
+      {
+        "date": "2026-08-01",
+        "kind": "bottom",
+        "strength": "small",
+        "close": 62823.64
+      },
+      {
+        "date": "2026-09-03",
+        "kind": "top",
+        "strength": "small",
+        "close": 81270.37
+      },
+      {
+        "date": "2026-09-15",
+        "kind": "bottom",
+        "strength": "small",
+        "close": 75644.48
+      },
+      {
+        "date": "2026-09-21",
+        "kind": "top",
+        "strength": "small",
+        "close": 86620.0
+      }
+    ],
+    "ETH": [
+      {
+        "date": "2018-01-13",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 1388.02
+      },
+      {
+        "date": "2018-04-06",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 368.89
+      },
+      {
+        "date": "2018-05-05",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 819.5
+      },
+      {
+        "date": "2018-12-15",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 83.76
+      },
+      {
+        "date": "2019-06-26",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 339.39
+      },
+      {
+        "date": "2019-12-17",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 121.88
+      },
+      {
+        "date": "2020-02-14",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 285.15
+      },
+      {
+        "date": "2020-03-12",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 107.82
+      },
+      {
+        "date": "2021-05-11",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 4173.45
+      },
+      {
+        "date": "2021-07-20",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 1786.03
+      },
+      {
+        "date": "2021-11-08",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 4807.98
+      },
+      {
+        "date": "2022-06-18",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 995.13
+      },
+      {
+        "date": "2024-03-11",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 4064.8
+      },
+      {
+        "date": "2025-04-08",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 1473.41
+      },
+      {
+        "date": "2025-08-22",
+        "kind": "top",
+        "strength": "cycle",
+        "close": 4832.07
+      },
+      {
+        "date": "2026-06-25",
+        "kind": "bottom",
+        "strength": "cycle",
+        "close": 1567.84
+      },
+      {
+        "date": "2026-07-26",
+        "kind": "top",
+        "strength": "small",
+        "close": 1954.72
+      },
+      {
+        "date": "2026-08-01",
+        "kind": "bottom",
+        "strength": "small",
+        "close": 1844.94
+      },
+      {
+        "date": "2026-09-12",
+        "kind": "top",
+        "strength": "small",
+        "close": 2525.93
+      },
+      {
+        "date": "2026-09-15",
+        "kind": "bottom",
+        "strength": "small",
+        "close": 2398.26
+      },
+      {
+        "date": "2026-09-21",
+        "kind": "top",
+        "strength": "small",
+        "close": 2776.19
+      }
+    ]
+  },
+  "forecast_history": {
+    "BTC": [
+      {
+        "date": "2026-06-20",
+        "close": 64298.01,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-21",
+        "close": 63311.99,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-22",
+        "close": 64020.01,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-23",
+        "close": 62734.57,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-24",
+        "close": 61077.99,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-25",
+        "close": 59794.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.3,
+            "30D": 36.6,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-26",
+        "close": 60097.27,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-27",
+        "close": 60029.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-28",
+        "close": 59577.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-29",
+        "close": 60260.21,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-30",
+        "close": 58624.71,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-01",
+        "close": 60024.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-02",
+        "close": 61560.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-03",
+        "close": 62583.26,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-04",
+        "close": 63144.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-05",
+        "close": 63650.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-06",
+        "close": 64042.02,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-07",
+        "close": 63363.99,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-08",
+        "close": 62290.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-09",
+        "close": 63230.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-10",
+        "close": 64161.72,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-11",
+        "close": 63819.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-12",
+        "close": 63780.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-13",
+        "close": 62334.52,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-14",
+        "close": 65043.98,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-15",
+        "close": 64756.28,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-16",
+        "close": 63830.2,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-17",
+        "close": 63931.67,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-18",
+        "close": 64834.22,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 69.7,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-19",
+        "close": 64722.54,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-20",
+        "close": 65255.51,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-21",
+        "close": 66556.16,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-22",
+        "close": 66114.49,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-23",
+        "close": 65098.97,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-24",
+        "close": 64139.99,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-25",
+        "close": 64375.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-26",
+        "close": 65399.99,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-27",
+        "close": 63755.86,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-28",
+        "close": 63915.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-29",
+        "close": 63984.28,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-30",
+        "close": 64780.02,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-31",
+        "close": 62887.88,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-01",
+        "close": 62823.64,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-02",
+        "close": 63570.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-03",
+        "close": 63520.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-04",
+        "close": 64106.56,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 78.5
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-05",
+        "close": 64665.23,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-06",
+        "close": 64323.61,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-07",
+        "close": 64923.19,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-08",
+        "close": 64962.6,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-09",
+        "close": 64901.59,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-10",
+        "close": 63970.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-11",
+        "close": 63600.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 78.5
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-12",
+        "close": 63479.99,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-13",
+        "close": 63490.86,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 78.5
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-14",
+        "close": 63043.56,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-15",
+        "close": 63086.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-16",
+        "close": 62900.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-17",
+        "close": 64532.1,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 53.0,
+            "30D": 80.6,
+            "90D": 78.5
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-18",
+        "close": 64725.42,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-19",
+        "close": 69334.79,
+        "forecast": {
+          "turn": {
+            "7D": 59.2,
+            "30D": 29.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-20",
+        "close": 73025.15,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 29.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-21",
+        "close": 78338.03,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 29.9,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 77.2,
+            "90D": 71.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-22",
+        "close": 77074.93,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 29.9,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-23",
+        "close": 77734.0,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 29.9,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-24",
+        "close": 78992.75,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 29.9,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-25",
+        "close": 78539.14,
+        "forecast": {
+          "turn": {
+            "7D": 59.2,
+            "30D": 48.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-26",
+        "close": 79023.75,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 48.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-27",
+        "close": 80249.58,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 48.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-28",
+        "close": 77845.87,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 29.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-29",
+        "close": 78230.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 29.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-30",
+        "close": 77682.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 36.6,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-31",
+        "close": 78581.29,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 29.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-01",
+        "close": 77439.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-02",
+        "close": 77340.01,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-03",
+        "close": 81270.37,
+        "forecast": {
+          "turn": {
+            "7D": 44.3,
+            "30D": 29.9,
+            "90D": 5.4
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-04",
+        "close": 79660.77,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-05",
+        "close": 79831.75,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-06",
+        "close": 80341.83,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-07",
+        "close": 79112.01,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-08",
+        "close": 78455.8,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-09",
+        "close": 78306.43,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-10",
+        "close": 76568.72,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-11",
+        "close": 77225.7,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-12",
+        "close": 77278.73,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-13",
+        "close": 76842.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-14",
+        "close": 78189.21,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-15",
+        "close": 75644.48,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-16",
+        "close": 76206.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-17",
+        "close": 76417.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-18",
+        "close": 80883.87,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-19",
+        "close": 81249.99,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-20",
+        "close": 81178.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-21",
+        "close": 86620.0,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 48.9,
+            "90D": 4.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-22",
+        "close": 86208.56,
+        "forecast": {
+          "turn": {
+            "7D": 40.5,
+            "30D": 48.9,
+            "90D": 4.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-23",
+        "close": 84397.6,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-24",
+        "close": 84410.24,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-25",
+        "close": 84099.99,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-26",
+        "close": 84433.1,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-27",
+        "close": 84472.0,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-28",
+        "close": 83500.01,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-29",
+        "close": 83663.66,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-30",
+        "close": 83623.6,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-01",
+        "close": 84880.05,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-02",
+        "close": 84518.01,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-03",
+        "close": 84753.56,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-04",
+        "close": 86530.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 4.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-05",
+        "close": 85766.87,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-06",
+        "close": 85549.93,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 52.5,
+            "90D": 8.8
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-07",
+        "close": 83321.81,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-08",
+        "close": 81754.45,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-09",
+        "close": 82635.55,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-10",
+        "close": 82988.36,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-11",
+        "close": 83773.12,
+        "forecast": {
+          "turn": {
+            "7D": 53.3,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-12",
+        "close": 81850.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-13",
+        "close": 83169.0,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-14",
+        "close": 81682.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-15",
+        "close": 82245.93,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-16",
+        "close": 81615.64,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 55.8,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-17",
+        "close": 81639.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.6,
+            "30D": 50.9,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": false
+      }
+    ],
+    "ETH": [
+      {
+        "date": "2026-06-20",
+        "close": 1741.08,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-21",
+        "close": 1706.94,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-22",
+        "close": 1728.19,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-23",
+        "close": 1667.13,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-24",
+        "close": 1622.17,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-25",
+        "close": 1567.84,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-26",
+        "close": 1578.68,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-27",
+        "close": 1573.99,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-28",
+        "close": 1571.96,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-29",
+        "close": 1613.07,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-06-30",
+        "close": 1572.01,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-01",
+        "close": 1609.58,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-02",
+        "close": 1700.57,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-03",
+        "close": 1758.21,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-04",
+        "close": 1780.64,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-05",
+        "close": 1785.65,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-06",
+        "close": 1799.56,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 87.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-07",
+        "close": 1771.45,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-08",
+        "close": 1743.54,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-09",
+        "close": 1745.16,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-10",
+        "close": 1796.85,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-11",
+        "close": 1787.76,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-12",
+        "close": 1806.8,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-13",
+        "close": 1776.72,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-14",
+        "close": 1891.87,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-15",
+        "close": 1917.86,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-16",
+        "close": 1864.71,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-17",
+        "close": 1841.93,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-18",
+        "close": 1862.61,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-19",
+        "close": 1872.23,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-20",
+        "close": 1904.77,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-21",
+        "close": 1930.09,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-22",
+        "close": 1934.25,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-23",
+        "close": 1878.38,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-24",
+        "close": 1861.44,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-25",
+        "close": 1874.89,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-26",
+        "close": 1954.72,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 78.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-27",
+        "close": 1892.53,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-28",
+        "close": 1922.23,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-29",
+        "close": 1910.72,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-30",
+        "close": 1918.31,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-07-31",
+        "close": 1862.6,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-01",
+        "close": 1844.94,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-02",
+        "close": 1885.36,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-03",
+        "close": 1860.5,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-04",
+        "close": 1869.75,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-05",
+        "close": 1908.9,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-06",
+        "close": 1904.1,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-07",
+        "close": 1914.18,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-08",
+        "close": 1916.74,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-09",
+        "close": 1910.65,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-10",
+        "close": 1873.16,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-11",
+        "close": 1882.59,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-12",
+        "close": 1879.81,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-13",
+        "close": 1886.15,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-14",
+        "close": 1882.2,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-15",
+        "close": 1882.64,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-16",
+        "close": 1876.0,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-17",
+        "close": 1913.6,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 72.7,
+            "30D": 89.3,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-18",
+        "close": 1917.85,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-19",
+        "close": 2252.8,
+        "forecast": {
+          "turn": {
+            "7D": 67.0,
+            "30D": 57.2,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "hit"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-20",
+        "close": 2326.82,
+        "forecast": {
+          "turn": {
+            "7D": 67.0,
+            "30D": 57.2,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-21",
+        "close": 2516.3,
+        "forecast": {
+          "turn": {
+            "7D": 63.0,
+            "30D": 58.6,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 86.0,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-22",
+        "close": 2422.6,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 65.1,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-23",
+        "close": 2463.41,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 65.1,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-24",
+        "close": 2482.31,
+        "forecast": {
+          "turn": {
+            "7D": 67.0,
+            "30D": 57.2,
+            "90D": 64.2
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-25",
+        "close": 2442.64,
+        "forecast": {
+          "turn": {
+            "7D": 63.0,
+            "30D": 58.6,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-26",
+        "close": 2506.78,
+        "forecast": {
+          "turn": {
+            "7D": 63.0,
+            "30D": 57.2,
+            "90D": 64.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-27",
+        "close": 2510.94,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.2,
+            "90D": 64.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-28",
+        "close": 2442.8,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 58.6,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-29",
+        "close": 2457.67,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 58.6,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-30",
+        "close": 2416.88,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 65.1,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-08-31",
+        "close": 2467.65,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 58.6,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-01",
+        "close": 2418.57,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-02",
+        "close": 2391.92,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-03",
+        "close": 2507.51,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-04",
+        "close": 2455.85,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-05",
+        "close": 2480.34,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-06",
+        "close": 2514.48,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 65.1,
+            "90D": 68.0
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-07",
+        "close": 2490.16,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-08",
+        "close": 2485.06,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-09",
+        "close": 2468.13,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-10",
+        "close": 2438.27,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-11",
+        "close": 2516.43,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-12",
+        "close": 2525.93,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "miss",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-13",
+        "close": 2477.1,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-14",
+        "close": 2515.75,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-15",
+        "close": 2398.26,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-16",
+        "close": 2418.26,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-17",
+        "close": 2447.28,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-18",
+        "close": 2612.14,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-19",
+        "close": 2632.69,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-20",
+        "close": 2645.21,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-21",
+        "close": 2776.19,
+        "forecast": {
+          "turn": {
+            "7D": 63.0,
+            "30D": 57.2,
+            "90D": 64.2
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-22",
+        "close": 2753.63,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 65.1,
+            "90D": 57.2
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-23",
+        "close": 2684.71,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-24",
+        "close": 2688.05,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-25",
+        "close": 2691.61,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-26",
+        "close": 2696.33,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-27",
+        "close": 2688.65,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-28",
+        "close": 2688.71,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-29",
+        "close": 2677.98,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-09-30",
+        "close": 2686.01,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-01",
+        "close": 2706.42,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-02",
+        "close": 2668.59,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-03",
+        "close": 2687.23,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-04",
+        "close": 2726.94,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 34.3
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-05",
+        "close": 2709.98,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-06",
+        "close": 2697.49,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 78.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "hit",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-07",
+        "close": 2574.14,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 76.6,
+            "30D": 78.9,
+            "90D": 83.3
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-08",
+        "close": 2474.8,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-09",
+        "close": 2487.7,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "miss",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-10",
+        "close": 2506.52,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-11",
+        "close": 2536.94,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-12",
+        "close": 2447.17,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-13",
+        "close": 2497.95,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-14",
+        "close": 2421.6,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-15",
+        "close": 2442.08,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 77.8
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-16",
+        "close": 2423.54,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": true
+      },
+      {
+        "date": "2026-10-17",
+        "close": 2436.92,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": false
       }
     ]
   }
