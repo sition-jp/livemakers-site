@@ -15,6 +15,7 @@ import ja from "@/messages/ja.json";
 import section from "../../fixtures/landmark/section.json";
 import section17 from "../../fixtures/landmark/section-2026-10-17.json";
 import sectionEve from "../../fixtures/landmark/section-2026-10-17-evening.json";
+import sectionSeries from "../../fixtures/landmark/section-2026-10-17-series.json";
 
 const NOW = new Date("2026-10-16T10:45:00Z"); // 19:45 JST
 const NOW17 = new Date("2026-10-17T01:45:00Z"); // 10:45 JST
@@ -263,5 +264,73 @@ describe("LandmarkMeter — ETH spot ETF row (2026-10-17 evening)", () => {
     expect(container.querySelector('[data-landmark-row="ethEtf"] strong')?.textContent).toBe(
       "10/9 時点・Farside / SoSoValue 集計",
     );
+  });
+});
+
+describe("LandmarkMeter — sparklines (2026-10-18・core spec 2026-10-17-lvm-landmark-meter-sparkline-design)", () => {
+  it("draws one sparkline per row under the name and a legend under the lead", () => {
+    const { container } = renderMeter(undefined, sectionSeries, NOW_EVE);
+    const rows = [...container.querySelectorAll("[data-landmark-row]")];
+    expect(rows).toHaveLength(9);
+    for (const row of rows) {
+      const chart = row.querySelector("[data-landmark-sparkline]");
+      expect(chart, row.getAttribute("data-landmark-row")!).not.toBeNull();
+      expect(chart!.getAttribute("aria-hidden")).toBe("true");
+      // 名前の行のすぐ下・「いま」の行より上
+      expect(row.children[1]).toBe(chart);
+    }
+    const kinds = rows.map((row) => row.querySelector("[data-landmark-sparkline]")!.getAttribute("data-landmark-sparkline"));
+    expect(kinds).toEqual(["line", "bars", "bars", "line", "line", "peak", "peak", "line", "peak"]);
+    const legend = container.querySelector("[data-landmark-chart-legend]");
+    expect(legend?.textContent).toContain("グラフは過去 2 年");
+    expect(legend?.textContent).toContain("縦線は過去の点灯");
+  });
+
+  it("draws the past firing days, the reference line and the current point", () => {
+    const { container } = renderMeter(undefined, sectionSeries, NOW_EVE);
+    const row = (key: string) => container.querySelector(`[data-landmark-row="${key}"]`)!;
+    expect(row("ma200w").querySelectorAll("[data-landmark-event]")).toHaveLength(1);
+    expect(row("ethEtf").querySelectorAll("[data-landmark-event]")).toHaveLength(2);
+    expect(row("mvrv").querySelectorAll("[data-landmark-event]")).toHaveLength(0);
+    expect(row("ma200w").querySelector("[data-landmark-ref]")).not.toBeNull();
+    expect(row("etf").querySelector("[data-landmark-ref]")).toBeNull();
+    expect(row("etf").querySelector("[data-landmark-peak]")).not.toBeNull();
+    expect(row("ma200w").querySelectorAll("[data-landmark-now]")).toHaveLength(1);
+    expect(row("macd2w").querySelectorAll('[data-landmark-bar="now"]')).toHaveLength(1);
+    expect(row("macd2w").querySelectorAll('[data-landmark-bar="outside"]').length).toBeGreaterThan(0);
+    expect(row("macd1m").querySelectorAll('[data-landmark-bar="outside"]')).toHaveLength(0);
+    expect(row("ma200w").querySelector("[data-landmark-ticks]")?.textContent).toBe("20252026");
+  });
+
+  it("uses theme tokens only and no status colors, meters or text inside the chart", () => {
+    const { container } = renderMeter(undefined, sectionSeries, NOW_EVE);
+    expect(container.innerHTML).not.toMatch(/status-up|status-down|staleness-|<progress|role="meter"|#[0-9a-f]{3,6}\b/i);
+    for (const svg of container.querySelectorAll("[data-landmark-sparkline] svg")) {
+      expect(svg.querySelector("text")).toBeNull();
+    }
+  });
+
+  it("draws no chart for a row without a series or without fresh data, and no legend without any series", () => {
+    const partial = renderMeter((d) => {
+      delete d.items[0].series;
+      d.items = d.items.filter((item) => item.key !== "btc_etf_cum_high");
+    }, sectionSeries, NOW_EVE);
+    expect(partial.container.querySelector('[data-landmark-row="ma200w"] [data-landmark-sparkline]')).toBeNull();
+    expect(partial.container.querySelector('[data-landmark-row="etf"] [data-landmark-sparkline]')).toBeNull();
+    expect(partial.container.querySelector('[data-landmark-row="macd2w"] [data-landmark-sparkline]')).not.toBeNull();
+    expect(partial.container.querySelector("[data-landmark-chart-legend]")).not.toBeNull();
+    partial.unmount();
+    const none = renderMeter(undefined, sectionEve, NOW_EVE);
+    expect(none.container.querySelector("[data-landmark-sparkline]")).toBeNull();
+    expect(none.container.querySelector("[data-landmark-chart-legend]")).toBeNull();
+  });
+
+  it("keeps every number and sentence of the cards when charts are added", () => {
+    const withCharts = renderMeter(undefined, sectionSeries, NOW_EVE);
+    const textWith = [...withCharts.container.querySelectorAll("[data-landmark-row] dl")].map((dl) => dl.textContent);
+    withCharts.unmount();
+    const without = renderMeter(undefined, sectionEve, NOW_EVE);
+    const textWithout = [...without.container.querySelectorAll("[data-landmark-row] dl")].map((dl) => dl.textContent);
+    expect(textWith).toEqual(textWithout);
   });
 });

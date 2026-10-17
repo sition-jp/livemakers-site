@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import section from "../fixtures/landmark/section.json";
 import section17 from "../fixtures/landmark/section-2026-10-17.json";
 import sectionEve from "../fixtures/landmark/section-2026-10-17-evening.json";
+import sectionSeries from "../fixtures/landmark/section-2026-10-17-series.json";
 import { LANDMARK_ROW_KEYS, mapLandmarkMeter } from "@/lib/landmark/meter-feed";
 
 // SDE livemakers_export.landmark_meter.project の 2026-10-16 19:45 JST の出力 (core spec 2026-10-16-lvm-landmark-meter-design)
@@ -137,5 +138,86 @@ describe("mapLandmarkMeter — ETH spot ETF row (2026-10-17 evening)", () => {
     const bad = cloneEve();
     mutate(bad);
     expect(mapLandmarkMeter(bad)).toBeNull();
+  });
+});
+
+// 2026-10-18: 推移グラフの系列 (行に任意の series・core spec 2026-10-17-lvm-landmark-meter-sparkline-design §5-4)。
+// fixture = SDE の 10/17 19:45 JST の出力そのもの (状態ファイルの写し + 実データの系列ファイル)
+describe("mapLandmarkMeter — sparkline series", () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const cloneSeries = (): any => structuredClone(sectionSeries);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const index = (s: any, key: string): number => s.items.findIndex((item: { key: string }) => item.key === key);
+
+  it("maps the series of all nine rows of the real SDE output", () => {
+    const data = mapLandmarkMeter(cloneSeries());
+    expect(data?.items).toHaveLength(9);
+    for (const item of data!.items) {
+      expect(item.series, item.key).toBeDefined();
+      expect([item.series!.from, item.series!.to]).toEqual(["2024-10-17", "2026-10-17"]);
+      expect(item.series!.points.at(-1)![0]).toBe(item.barDate);
+    }
+    const wma = data!.items[0].series!;
+    expect(wma.ref).toBe(1);
+    expect(wma.events).toEqual(["2026-06-28"]);
+    expect(wma.points.at(-1)).toEqual(["2026-10-11", 1.2576]);
+    const etf = data!.items[5].series!;
+    expect(etf.ref).toBeUndefined();
+    expect(etf.peak).toHaveLength(etf.points.length);
+    expect(data!.items[1].series!.aboveZero!.length).toBeGreaterThan(0);
+  });
+
+  it("keeps the items unchanged when the feed has no series", () => {
+    const data = mapLandmarkMeter(cloneEve());
+    expect(data?.items).toHaveLength(9);
+    expect(data!.items.every((item) => !("series" in item))).toBe(true);
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const broken: [string, string, (series: any) => void][] = [
+    ["an extra key", "btc_below_200wma", (s) => { s.extra = 1; }],
+    ["no ref on a ref row", "btc_below_200wma", (s) => { delete s.ref; }],
+    ["peak on a ref row", "btc_below_200wma", (s) => { s.peak = s.points; }],
+    ["ref on a peak row", "btc_etf_cum_high", (s) => { s.ref = 0; }],
+    ["no peak on a peak row", "eth_etf_cum_high", (s) => { delete s.peak; }],
+    ["aboveZero outside the 2-week row", "btc_macd_1m_golden_cross", (s) => { s.aboveZero = []; }],
+    ["a window that is not 730 days", "btc_mvrv_1", (s) => { s.from = "2024-10-18"; }],
+    ["points out of order", "btc_funding_30d_negative", (s) => { s.points.reverse(); }],
+    ["a repeated date", "btc_funding_30d_negative", (s) => { s.points.push(s.points.at(-1)); }],
+    ["a last point that is not the bar", "btc_below_200wma", (s) => { s.points.pop(); }],
+    ["a point outside the window", "btc_mvrv_1", (s) => { s.points.unshift(["2024-10-01", 2]); }],
+    ["no points", "btc_mvrv_1", (s) => { s.points = []; }],
+    ["too many points", "btc_mvrv_1", (s) => { s.points = [...s.points, ...s.points]; }],
+    ["a string value", "stablecoin_supply_yoy_flip", (s) => { s.points[0][1] = "0.30"; }],
+    ["a boolean value", "stablecoin_supply_yoy_flip", (s) => { s.points[0][1] = true; }],
+    ["a three-element point", "stablecoin_supply_yoy_flip", (s) => { s.points[0].push(1); }],
+    ["repeated events", "btc_below_200wma", (s) => { s.events = ["2026-06-28", "2026-06-28"]; }],
+    ["an event outside the window", "btc_below_200wma", (s) => { s.events = ["2023-06-28"]; }],
+    ["too many events", "btc_below_200wma", (s) => {
+      s.events = Array.from({ length: 13 }, (_, i) => `2026-06-${String(i + 1).padStart(2, "0")}`);
+    }],
+    ["a shorter peak", "btc_etf_cum_high", (s) => { s.peak.pop(); }],
+    ["a peak below the value", "btc_etf_cum_high", (s) => { s.peak.at(-1)[1] = 0; }],
+    ["a falling peak", "stablecoin_supply_ath", (s) => { s.peak[0][1] = 99999; }],
+    ["aboveZero dates that are not bars", "btc_macd_2w_golden_below_zero", (s) => { s.aboveZero = ["2019-01-01"]; }],
+  ];
+
+  it.each(broken)("drops only the series on %s", (_, key, mutate) => {
+    const raw = cloneSeries();
+    mutate(raw.items[index(raw, key)].series);
+    const data = mapLandmarkMeter(raw);
+    expect(data?.items).toHaveLength(9);
+    const item = data!.items.find((candidate) => candidate.key === key)!;
+    expect(item.series).toBeUndefined();
+    expect(item.values).toEqual(sectionSeries.items[index(sectionSeries, key)].values);
+    expect(data!.items.filter((candidate) => candidate.series).length).toBe(8);
+  });
+
+  it("drops only the series when it is not an object at all", () => {
+    const raw = cloneSeries();
+    raw.items[0].series = "1.2576";
+    const data = mapLandmarkMeter(raw);
+    expect(data?.items[0].series).toBeUndefined();
+    expect(data?.items[0].values.gapPct).toBe("+25.8%");
   });
 });

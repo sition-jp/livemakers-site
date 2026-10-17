@@ -610,6 +610,7 @@
     "landmarkMeter": {
       "title": "Landmark gauges",
       "lead": "Where each landmark-signal indicator stands now. Judged on closed bars only; updated daily around 10:00 and 19:00 JST.",
+      "chartLegend": "The charts cover the past two years (weekly; for MACD, MACD minus signal on each closed bar, with hollow 2-week bars where MACD was above the zero line). The dotted line is the firing line (the condition's value, or the running high for the ETFs and total supply), vertical lines are past firings, and the colored dot or bar is now.",
       "columns": {
         "now": "Now",
         "condition": "Fires when",
