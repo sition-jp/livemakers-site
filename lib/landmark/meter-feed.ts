@@ -58,6 +58,26 @@ const DIRECTION_ROW: LandmarkRowKey = "stablecoin_supply_yoy_flip";
 const RAW_ITEMS_MAX = 32;
 
 const DATE_VALUES = new Set(["peakDate"]);
+
+/**
+ * 2026-10-18: 推移グラフの系列 (行に任意の series・core spec 2026-10-17-lvm-landmark-meter-sparkline-design §5-4)。
+ * SDE export_validator.validate_landmark_series と 1:1。崩れていれば series だけ捨てて行は出す。
+ * ETF と総供給の行は点灯の線の代わりに「それまでの最高」(peak)。2 週足だけゼロ線の上の足 (aboveZero) を持てる
+ */
+export const LANDMARK_SERIES_PEAK_ROWS: ReadonlySet<LandmarkRowKey> = new Set([
+  "btc_etf_cum_high",
+  "eth_etf_cum_high",
+  "stablecoin_supply_ath",
+]);
+const ABOVE_ZERO_ROW: LandmarkRowKey = "btc_macd_2w_golden_below_zero";
+/** MACD の行は棒を 0 の線から伸ばすので、点灯の線は 0 だけ */
+const ZERO_REF_ROWS: ReadonlySet<LandmarkRowKey> = new Set([
+  "btc_macd_2w_golden_below_zero",
+  "btc_macd_1m_golden_cross",
+]);
+const SERIES_WINDOW_DAYS = 730;
+const SERIES_MAX_POINTS = 140;
+const SERIES_MAX_EVENTS = 12;
 const NUMBER_RE = /^[+-]?\d{1,3}(,\d{3})*(\.\d+)?%?$/;
 const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const JST_TIMESTAMP_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?\+09:00$/;
@@ -71,6 +91,58 @@ function isIsoDate(value: unknown): value is string {
 const isoDate = z.string().refine(isIsoDate, "ISO date");
 const jstTimestamp = z.string().regex(JST_TIMESTAMP_RE);
 const plainInt = z.number().int();
+const finiteNumber = z.number().finite();
+const seriesPoint = z.tuple([isoDate, finiteNumber]);
+
+const seriesSchema = z
+  .object({
+    from: isoDate,
+    to: isoDate,
+    points: z.array(seriesPoint).min(1).max(SERIES_MAX_POINTS),
+    events: z.array(isoDate).max(SERIES_MAX_EVENTS),
+    ref: finiteNumber.optional(),
+    peak: z.array(seriesPoint).optional(),
+    aboveZero: z.array(isoDate).optional(),
+  })
+  .strict();
+
+const DAY_MS = 86_400_000;
+
+function ascending(days: readonly string[]): boolean {
+  return days.every((day, index) => index === 0 || days[index - 1] < day);
+}
+
+/** 行のキーと足の日付に照らした系列の決まり (SDE の _validate_landmark_series と同じ順に見る) */
+function seriesFitsRow(key: LandmarkRowKey, barDate: string, series: z.infer<typeof seriesSchema>): boolean {
+  const peakRow = LANDMARK_SERIES_PEAK_ROWS.has(key);
+  if (peakRow ? series.peak === undefined || series.ref !== undefined : series.ref === undefined || series.peak !== undefined) {
+    return false;
+  }
+  if (ZERO_REF_ROWS.has(key) && series.ref !== 0) return false;
+  if (series.aboveZero !== undefined && key !== ABOVE_ZERO_ROW) return false;
+  const span = (Date.parse(`${series.to}T00:00:00Z`) - Date.parse(`${series.from}T00:00:00Z`)) / DAY_MS;
+  if (span !== SERIES_WINDOW_DAYS) return false;
+  const days = series.points.map(([day]) => day);
+  if (!ascending(days) || days[0] < series.from || days.at(-1)! > series.to || days.at(-1) !== barDate) return false;
+  if (series.peak) {
+    const peak = series.peak;
+    if (peak.length !== days.length || peak.some(([day], index) => day !== days[index])) return false;
+    if (peak.some(([, high], index) => high < series.points[index][1])) return false;
+    if (peak.some(([, high], index) => index > 0 && high < peak[index - 1][1])) return false;
+  }
+  if (!ascending(series.events) || series.events.some((day) => day < series.from || day > series.to)) return false;
+  if (series.aboveZero) {
+    const known = new Set(days);
+    if (!ascending(series.aboveZero) || series.aboveZero.some((day) => !known.has(day))) return false;
+  }
+  return true;
+}
+
+function parseSeries(key: LandmarkRowKey, barDate: string, raw: unknown): LandmarkSeries | null {
+  const parsed = seriesSchema.safeParse(raw);
+  if (!parsed.success || !seriesFitsRow(key, barDate, parsed.data)) return null;
+  return parsed.data;
+}
 
 const recoverSchema = z
   .object({
@@ -103,6 +175,8 @@ const itemSchema = z
     values: z.record(z.string(), z.string()),
     recover: recoverSchema.optional(),
     dead: deadSchema.optional(),
+    // 中身は parseSeries で別に見る (崩れていても行は落とさない)
+    series: z.unknown().optional(),
   })
   .strict()
   .superRefine((item, ctx) => {
@@ -160,6 +234,22 @@ export interface LandmarkDead {
   count: number;
 }
 
+/** 推移グラフの系列 (過去 2 年・SDE が窓で切ったもの) */
+export interface LandmarkSeries {
+  from: string;
+  to: string;
+  /** [ISO 日付, 値] の古い順・最後 = barDate */
+  points: [string, number][];
+  /** 窓内の過去の点灯日 */
+  events: string[];
+  /** 点灯の線の値 (ETF と総供給の行には無い) */
+  ref?: number;
+  /** ETF と総供給の行だけ: それまでの最高 (points と同じ日付) */
+  peak?: [string, number][];
+  /** 2 週足 MACD だけ: MACD がゼロ線の上にあった足 */
+  aboveZero?: string[];
+}
+
 export interface LandmarkItem {
   key: LandmarkRowKey;
   checkedAtJst: string;
@@ -176,6 +266,8 @@ export interface LandmarkItem {
   recover?: LandmarkRecover;
   /** btc_macd_1m_golden_cross だけ (任意): 月足の下抜け */
   dead?: LandmarkDead;
+  /** 推移グラフの系列 (任意・崩れていれば付かない) */
+  series?: LandmarkSeries;
 }
 
 export interface LandmarkMeterData {
@@ -186,5 +278,10 @@ export interface LandmarkMeterData {
 export function mapLandmarkMeter(section: unknown): LandmarkMeterData | null {
   const parsed = landmarkSchema.safeParse(section);
   if (!parsed.success) return null;
-  return { generatedAtJst: parsed.data.generatedAtJst, items: parsed.data.items };
+  const items = parsed.data.items.map(({ series: rawSeries, ...item }): LandmarkItem => {
+    if (rawSeries === undefined) return item;
+    const series = parseSeries(item.key, item.barDate, rawSeries);
+    return series ? { ...item, series } : item;
+  });
+  return { generatedAtJst: parsed.data.generatedAtJst, items };
 }

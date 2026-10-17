@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { LandmarkSparkline } from "@/components/articles/LandmarkSparkline";
 import {
   formatLongDate,
   formatShortDate,
@@ -12,6 +13,8 @@ import {
  * 言葉は messages の articles.landmarkMeter、数字は feed (SDE が整形した文字列) から。
  * 2026-10-17: ステーブルコインの 2 行と月足 MACD の下抜け (core spec 2026-10-17-lvm-landmark-meter-stablecoin-rows-design)。
  * 2026-10-17 夜: ETH 現物 ETF の行 (core spec 2026-10-17-lvm-landmark-meter-eth-etf-row-design・BTC の ETF と同じ組み立て)。
+ * 2026-10-18: 各カードの名前の下に過去 2 年の推移グラフ (series があるときだけ・core spec
+ * 2026-10-17-lvm-landmark-meter-sparkline-design)。グラフは補助で、カードの文字はグラフの有無で変えない。
  */
 export type LandmarkMeterTranslate = (
   key: string,
@@ -233,6 +236,11 @@ export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMet
         {t("title")}
       </h2>
       <p className="mt-1 text-sm text-text-secondary">{t("lead")}</p>
+      {rows.some((row) => row.item?.series) ? (
+        <p data-landmark-chart-legend className="mt-1 text-[11px] leading-5 text-text-tertiary">
+          {t("chartLegend")}
+        </p>
+      ) : null}
       <ul className="mt-4 grid gap-3 sm:grid-cols-2">
         {rows.map((row) => (
           <li
@@ -244,6 +252,7 @@ export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMet
               {t(`rows.${row.copyKey}.name`)}
               <span className="ml-2 text-[11px] font-normal text-text-tertiary">{t(`rows.${row.copyKey}.unit`)}</span>
             </p>
+            {row.item?.series ? <LandmarkSparkline rowKey={row.key} series={row.item.series} /> : null}
             <dl className="mt-2 grid grid-cols-[5.5rem_minmax(0,1fr)] gap-x-2 gap-y-1.5">
               <Cell label={t("columns.now")}>
                 {row.item ? <NowCell row={row} t={t} /> : <p>{unavailable}</p>}
