@@ -174,24 +174,26 @@ def _build_volatility_context(
     lows = data.lows
     volumes = data.volumes
 
+    # Histories exclude the current bar (same window as compose_backtest
+    # _slice_history) so rules comparing "now" against history can fire.
     rv_now = realized_volatility(closes, 30)
     rv_history = [
         realized_volatility(closes[: i + 1], 30)
-        for i in range(len(closes) - lb, len(closes))
+        for i in range(len(closes) - lb - 1, len(closes) - 1)
         if i > 30
     ]
 
     bb_now = bollinger_band_width(closes, 20)
     bb_history = [
         bollinger_band_width(closes[: i + 1], 20)
-        for i in range(len(closes) - lb, len(closes))
+        for i in range(len(closes) - lb - 1, len(closes) - 1)
         if i >= 20
     ]
 
     atr_now = atr(highs, lows, closes, 14)
     atr_history = [
         atr(highs[: i + 1], lows[: i + 1], closes[: i + 1], 14)
-        for i in range(len(closes) - lb, len(closes))
+        for i in range(len(closes) - lb - 1, len(closes) - 1)
         if i > 14
     ]
 

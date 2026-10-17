@@ -228,3 +228,54 @@ def test_optional_long_short_failure_does_not_fail_snapshot() -> None:
         messages = {item["message"] for item in detail["evidence"]}
         assert LONG_SHORT_CROWDED_MESSAGE not in messages
         assert TOP_TRADER_DIVERGENCE_MESSAGE not in messages
+
+
+# --- it-2026-10 Task 1: live volatility histories must exclude the current bar ---
+
+def _vol_series(last_high_bump: float = 6.0):
+    """400 daily bars: wide ranges early (high ATR), narrow later, spike on the last bar."""
+    from producer.compose_assets import _AssetData
+
+    n = 400
+    closes = [100.0 + (i % 7) * 0.3 for i in range(n)]
+    half = [5.0 if i < 300 else 1.0 for i in range(n)]
+    highs = [c + h for c, h in zip(closes, half)]
+    lows = [c - h for c, h in zip(closes, half)]
+    highs[-1] = closes[-1] + last_high_bump
+    lows[-1] = closes[-1] - 0.0
+    return _AssetData(
+        closes=closes, highs=highs, lows=lows, volumes=[1.0] * n,
+        oi=[], funding=[0.0001 + 0.00001 * (i % 5) for i in range(200)],
+        global_long_short_ratio=[],
+        top_trader_position_ratio=[], last_close_time=0,
+    )
+
+
+def test_volatility_history_excludes_current_bar() -> None:
+    from producer.compose_assets import _build_volatility_context
+    from producer.indicators import atr, bollinger_band_width, realized_volatility
+    from producer.percentiles import LOOKBACK_DAYS
+
+    data = _vol_series()
+    horizon = next(iter(LOOKBACK_DAYS))
+    ctx = _build_volatility_context(data, horizon)
+    c, h, l = data.closes, data.highs, data.lows
+    # Last element == previous bar's value, NOT the current one.
+    assert ctx["atr_history"][-1] == pytest.approx(atr(h[:-1], l[:-1], c[:-1], 14))
+    assert ctx["atr_history"][-1] != pytest.approx(ctx["atr_now"])
+    assert ctx["rv_30d_history"][-1] == pytest.approx(realized_volatility(c[:-1], 30))
+    assert ctx["bb_width_history"][-1] == pytest.approx(bollinger_band_width(c[:-1], 20))
+    assert len(ctx["atr_history"]) == LOOKBACK_DAYS[horizon]
+
+
+def test_atr_rising_rule_can_fire_live() -> None:
+    from producer.compose_assets import _build_volatility_context
+    from producer.score_volatility_pivot import score_volatility_pivot
+
+    data = _vol_series()
+    horizon = "90D"  # long lookback so yesterday's ATR ranks low vs the wide-range era
+    ctx = _build_volatility_context(data, horizon)
+    assert ctx["atr_now"] > ctx["atr_history"][-1] * 1.10
+    _score, evidence = score_volatility_pivot(ctx)
+    messages = [e["message"] for e in evidence]
+    assert "ATR is rising from a low-volatility area" in messages
