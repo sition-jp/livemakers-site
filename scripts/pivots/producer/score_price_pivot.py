@@ -76,7 +76,7 @@ def score_price_pivot(ctx: MarketContext) -> tuple[int, list[EvidenceItem]]:
                 "category": "price",
                 "direction": "neutral",
                 "weight": 0.15,
-                "message": "Price is far from MA20 (top 20% of recent range)",
+                "message": "Price is far from its short moving average (top 20% of recent range)",
                 "raw_value": abs20,
             })
 
@@ -91,7 +91,7 @@ def score_price_pivot(ctx: MarketContext) -> tuple[int, list[EvidenceItem]]:
                 "category": "price",
                 "direction": "neutral",
                 "weight": 0.15,
-                "message": "Price is far from MA50 (top 20% of recent range)",
+                "message": "Price is far from its long moving average (top 20% of recent range)",
                 "raw_value": abs50,
             })
 

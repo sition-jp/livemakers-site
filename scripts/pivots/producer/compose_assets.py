@@ -29,6 +29,12 @@ from producer.indicators import (
     realized_volatility,
     rsi,
 )
+from producer.horizon_inputs import (
+    IT_2026_10_RULES,
+    boundary_flag,
+    compression_flag,
+    ma_windows,
+)
 from producer.percentiles import LOOKBACK_DAYS
 from producer.score_confidence import score_confidence
 from producer.score_direction_bias import score_direction_bias
@@ -132,27 +138,24 @@ def _build_market_context(data: _AssetData, horizon: Horizon) -> MarketContext:
 
     rsi_val = rsi(closes, 14)
     _, _, hist = macd(closes)
-    dist20 = distance_from_ma(closes, 20)
-    dist50 = distance_from_ma(closes, 50)
+    # Horizon-specific MA pair (it-2026-10). The context keys keep their
+    # historical "_20" / "_50" names (they mean short / long average now).
+    short_w, long_w = ma_windows(horizon, IT_2026_10_RULES)
+    dist20 = distance_from_ma(closes, short_w)
+    dist50 = distance_from_ma(closes, long_w)
 
-    # Build distance histories over the lookback window.
-    dist20_history = [
-        (closes[i] - sum(closes[i - 19 : i + 1]) / 20) / (sum(closes[i - 19 : i + 1]) / 20)
-        for i in range(len(closes) - lb, len(closes))
-        if i >= 19
-    ]
-    dist50_history = [
-        (closes[i] - sum(closes[i - 49 : i + 1]) / 50) / (sum(closes[i - 49 : i + 1]) / 50)
-        for i in range(len(closes) - lb, len(closes))
-        if i >= 49
-    ]
+    def _dist_history(w: int) -> list[float]:
+        return [
+            (closes[i] - sum(closes[i - w + 1 : i + 1]) / w)
+            / (sum(closes[i - w + 1 : i + 1]) / w)
+            for i in range(len(closes) - lb, len(closes))
+            if i >= w - 1
+        ]
 
-    # Range boundary check: within 2% of recent high or low.
-    recent_high = max(closes[-30:])
-    recent_low = min(closes[-30:])
-    near_boundary = (
-        closes[-1] >= recent_high * 0.98 or closes[-1] <= recent_low * 1.02
-    )
+    dist20_history = _dist_history(short_w)
+    dist50_history = _dist_history(long_w)
+
+    near_boundary = boundary_flag(closes, len(closes) - 1, horizon, IT_2026_10_RULES)
 
     return {
         "rsi_14": rsi_val,
@@ -215,13 +218,7 @@ def _build_volatility_context(
     else:
         oi_growth = 0.0
 
-    # Range compression: 30D true range / 30D MA close < 0.05
-    if len(closes) >= 30:
-        rng = max(closes[-30:]) - min(closes[-30:])
-        avg = sum(closes[-30:]) / 30
-        compression = (rng / avg) < 0.05 if avg > 0 else False
-    else:
-        compression = False
+    compression = compression_flag(closes, len(closes) - 1, IT_2026_10_RULES)
 
     abs_funding_now = abs(data.funding[-1]) if data.funding else 0.0
     abs_funding_history = [abs(f) for f in data.funding[-180:]]
