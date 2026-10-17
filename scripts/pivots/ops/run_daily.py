@@ -15,6 +15,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 from dataclasses import dataclass, field
@@ -42,6 +43,7 @@ class ProducerInvocation:
     sidecar_warnings: list[str]
     output: str
     bulk_warnings: list[str] = field(default_factory=list)
+    other_warnings: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -68,6 +70,20 @@ def _parse_bulk_warnings(output: str) -> list[str]:
     return [line.split(marker, 1)[1].strip() for line in output.splitlines() if marker in line]
 
 
+_DEGRADED_MARKER = re.compile(r"(\w+)_degraded=(.*)$")
+_HANDLED_ELSEWHERE = {"sidecar", "bulk_history"}
+
+
+def _parse_other_warnings(output: str) -> list[str]:
+    """`<name>_degraded=<reason>` を全部拾う (sidecar / bulk_history は別枠なので除く)。"""
+    out: list[str] = []
+    for line in output.splitlines():
+        m = _DEGRADED_MARKER.search(line)
+        if m and m.group(1) not in _HANDLED_ELSEWHERE:
+            out.append(f"{m.group(1)}: {m.group(2).strip()}")
+    return out
+
+
 def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
     """Subprocess the producer CLI. Returns rc plus sidecar/bulk soft warnings."""
     proc = subprocess.run(
@@ -83,6 +99,7 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
         sidecar_warnings=_parse_sidecar_warnings(output),
         output=output,
         bulk_warnings=_parse_bulk_warnings(output),
+        other_warnings=_parse_other_warnings(output),
     )
 
 
@@ -252,6 +269,8 @@ def _run_inside_lock(
         warning_detail += " | sidecar history blocked; operator action required"
     if live_result.bulk_warnings:
         warning_detail += f" | bulk history degraded: {'; '.join(live_result.bulk_warnings)}"
+    if live_result.other_warnings:
+        warning_detail += f" | producer degraded: {'; '.join(live_result.other_warnings)}"
 
     # Step 3: archive + prune
     try:
