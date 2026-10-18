@@ -4,10 +4,14 @@ import { SectionDivider } from "@/components/ui/SectionDivider";
 
 /**
  * G3 (2026-09-11 田平氏 GO): プライバシーポリシー。本サイトが実際に扱って
- * いる情報だけを書く (`grep -rn "analytics|gtag|plausible" app lib` はゼロ
- * ヒット・localStorage はテーマ切替のみ — `app/[locale]/layout.tsx` /
- * `components/ui/ThemeToggle.tsx`)。存在しない解析ツールを書かない。
+ * いる情報だけを書く (localStorage はテーマ切替のみ —
+ * `app/[locale]/layout.tsx` / `components/ui/ThemeToggle.tsx`)。
+ * 2026-10-19: GA4 を導入 (`components/layout/GoogleAnalytics.tsx`・本番のみ)。
+ * アクセス解析と Cookie の節はこのタグがある前提。タグを外すなら文面も戻す。
  */
+const GA_OPT_OUT_URL = "https://tools.google.com/dlpage/gaoptout";
+const GOOGLE_PARTNER_SITES_URL =
+  "https://policies.google.com/technologies/partner-sites";
 export async function generateMetadata({
   params,
 }: {
@@ -62,8 +66,32 @@ export default async function PrivacyPage({
         <h2 className="mb-4 text-2xl font-light tracking-title">
           {t("analyticsTitle")}
         </h2>
-        <p className="leading-relaxed text-text-secondary">
+        <p className="mb-4 leading-relaxed text-text-secondary">
           {t("analyticsBody")}
+        </p>
+        <p className="leading-relaxed text-text-secondary">
+          {t.rich("analyticsOptOut", {
+            optout: (chunks) => (
+              <a
+                href={`${GA_OPT_OUT_URL}?hl=${locale}`}
+                className="underline underline-offset-4"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {chunks}
+              </a>
+            ),
+            google: (chunks) => (
+              <a
+                href={`${GOOGLE_PARTNER_SITES_URL}?hl=${locale}`}
+                className="underline underline-offset-4"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {chunks}
+              </a>
+            ),
+          })}
         </p>
       </section>
 

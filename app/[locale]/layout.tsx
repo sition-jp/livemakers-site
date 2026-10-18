@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Inter, Noto_Sans_JP } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
@@ -78,6 +79,7 @@ export default async function LocaleLayout({
             {children}
           </SiteChrome>
         </NextIntlClientProvider>
+        <GoogleAnalytics />
       </body>
     </html>
   );
