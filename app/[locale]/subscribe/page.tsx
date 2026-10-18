@@ -1,5 +1,21 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SubscribeForm } from "@/components/subscribe/SubscribeForm";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "subscribe" });
+  return {
+    title: t("title"),
+    description: t("subtitle"),
+    alternates: localeAlternates(locale, "/subscribe"),
+  };
+}
 
 export default async function SubscribePage({
   params,

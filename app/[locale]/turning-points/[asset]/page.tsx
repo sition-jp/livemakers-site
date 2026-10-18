@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -15,6 +16,7 @@ import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 import { TurningPointTimeline } from "@/components/turning-points/TurningPointTimeline";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 /**
  * /turning-points/[asset]?h=<horizon> — Asset Detail (PRD §22 Screen 2).
@@ -31,6 +33,25 @@ export const dynamicParams = false;
 
 export function generateStaticParams() {
   return turningPointAssetParams();
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; asset: string }>;
+}): Promise<Metadata> {
+  const { locale, asset: rawAsset } = await params;
+  const assetParse = AssetSymbolSchema.safeParse(rawAsset.toUpperCase());
+  if (!assetParse.success) return {};
+  const t = await getTranslations({ locale, namespace: "turningPoints" });
+  return {
+    title: `${assetParse.data} · ${t("page_title")}`,
+    description: t("page_subtitle"),
+    alternates: localeAlternates(
+      locale,
+      `/turning-points/${assetParse.data.toLowerCase()}`,
+    ),
+  };
 }
 
 export default async function TurningPointAssetPage({

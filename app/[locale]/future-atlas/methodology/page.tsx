@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import fs from "node:fs";
 import path from "node:path";
 
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import remarkGfm from "remark-gfm";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 export const revalidate = 300;
 
@@ -22,6 +24,19 @@ export function getMethodologyBody(locale: "ja" | "en"): string {
     fs.existsSync(localizedPath) ? localizedPath : fallbackPath,
     "utf8",
   );
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "futureAtlas.surface" });
+  return {
+    title: t("methodologyLink"),
+    alternates: localeAlternates(locale, "/future-atlas/methodology"),
+  };
 }
 
 export default async function FutureAtlasMethodologyPage({

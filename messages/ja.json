@@ -581,6 +581,7 @@
       "landmark": "節目シグナル"
     },
     "todayTitle": "本日の記事一覧",
+    "seriesPagedTitle": "{series}（{page}ページ目）",
     "todayEmpty": "本日の記事はこれから公開されます",
     "latestTitle": "最近の記事",
     "seriesTitle": "シリーズ一覧",

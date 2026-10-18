@@ -3,9 +3,11 @@
  *
  * Spec: 08_DOCS/knowledge/specs/2026-04-20-lm-task-2-1-tradeintent-design.md §2.4
  */
-import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { IntentDetailFeed } from "@/components/terminal/IntentDetailFeed";
 import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { intentIdParams } from "@/lib/static-params";
 import {
   buildIntentDetailResponse,
@@ -28,6 +30,15 @@ export function generateStaticParams() {
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale, id } = await params;
+  const t = await getTranslations({ locale, namespace: "intents.list" });
+  return {
+    title: `${t("title")} · ${id}`,
+    alternates: localeAlternates(locale, `/intents/${id}`),
+  };
 }
 
 export default async function IntentDetailPage({ params }: PageProps) {

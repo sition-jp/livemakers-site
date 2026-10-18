@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -10,8 +11,22 @@ import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { buildLedgerSummary, currentJstDate } from "@/lib/future-atlas/snapshot";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 export const revalidate = 300;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "futureAtlas.surface" });
+  return {
+    title: t("title"),
+    alternates: localeAlternates(locale, "/future-atlas"),
+  };
+}
 
 export default async function FutureAtlasPage({
   params,

@@ -1,9 +1,11 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { TerminalAsset } from "@/lib/terminal/asset-summary";
 import { terminalAssetParams } from "@/lib/static-params";
 import { AssetDetailFeed } from "@/components/terminal/asset/AssetDetailFeed";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 // ISR cost doctrine (2026-08-01): the asset set is a closed enum — prerender
 // all four at build; anything else 404s statically without invoking a
@@ -23,6 +25,22 @@ export function generateStaticParams() {
  *
  * Spec: 08_DOCS/knowledge/specs/2026-04-27-livemakers-terminal-asset-contract-v0.md
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; asset: string }>;
+}): Promise<Metadata> {
+  const { locale, asset: rawAsset } = await params;
+  const parsed = TerminalAsset.safeParse(rawAsset.toUpperCase());
+  if (!parsed.success) return {};
+  const t = await getTranslations({ locale, namespace: "assets" });
+  return {
+    title: t("page_title", { asset: parsed.data }),
+    description: t("page_subtitle"),
+    alternates: localeAlternates(locale, `/assets/${parsed.data.toLowerCase()}`),
+  };
+}
+
 export default async function AssetPage({
   params,
 }: {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { readAssetsSnapshot } from "@/lib/pivots/pivots-reader";
@@ -7,6 +8,7 @@ import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 import { TimelineMini } from "@/components/turning-points/TimelineMini";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 /**
  * /turning-points — Market Timing Radar (PRD §22 Screen 1).
@@ -19,6 +21,20 @@ import { TimelineMini } from "@/components/turning-points/TimelineMini";
  *   2. snapshot present      → RadarTable with assets
  *   3. snapshot null + no err → RadarTable empty state (pre-launch)
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "turningPoints" });
+  return {
+    title: t("page_title"),
+    description: t("page_subtitle"),
+    alternates: localeAlternates(locale, "/turning-points"),
+  };
+}
+
 export default async function TurningPointsRadarPage({
   params,
 }: {

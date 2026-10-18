@@ -13,17 +13,18 @@ const HOME_OG_IMAGE = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://livemakers.com"),
-  title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
+  // 独自のタイトルを持つページは「〇〇 | LiveMakers」になる。持たない
+  // ページ (トップ) は default のまま。
+  title: {
+    default: "LiveMakers — Intelligence Terminal for the Financial Reboot",
+    template: "%s | LiveMakers",
+  },
   description:
     "LiveMakers is the intelligence terminal of SITION for the financial reboot, powered by SDE — integrating crypto assets and blockchains, AI and robotics, quantum, synthetic biology, and macro/regulation into leading-indicator signals, forecasts, and actionable decisions.",
-  // G3 (2026-09-11): <head> hreflang の既定値。個別ページ (記事詳細など)
-  // が独自の `alternates` を宣言すればこれを丸ごと上書きする — Next.js の
-  // metadata マージはフィールド単位の置き換えであり深いマージではない。
-  // ここはその置き換えが起きないページ (トップ・About 等) 向けの既定。
-  alternates: {
-    canonical: "/ja",
-    languages: { ja: "/ja", en: "/en", "x-default": "/ja" },
-  },
+  // canonical / hreflang はここで既定値を持たない (2026-10-19)。以前は
+  // `canonical: "/ja"` を置いていたため、独自の alternates を宣言しない
+  // 全ページが「トップの重複」を名乗り、Google 検索でトップが上に出なく
+  // なっていた。各ページが lib/seo/locale-alternates.ts で自分自身を宣言する。
   openGraph: {
     title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
     description:

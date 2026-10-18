@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { readBacktestSnapshot } from "@/lib/pivots/pivots-reader";
@@ -7,6 +8,7 @@ import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice
 import { Freshness } from "@/components/turning-points/Freshness";
 import { BacktestProvenanceBanner } from "@/components/turning-points/BacktestProvenanceBanner";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 /**
  * /turning-points/backtest — Backtest screen (PRD §22 Screen 3).
@@ -15,6 +17,20 @@ import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
  * score-type / threshold filters once the producer materialises a wider
  * grid.
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "turningPoints" });
+  return {
+    title: t("backtest.heading"),
+    description: t("backtest.subheading"),
+    alternates: localeAlternates(locale, "/turning-points/backtest"),
+  };
+}
+
 export default async function BacktestPage({
   params,
 }: {

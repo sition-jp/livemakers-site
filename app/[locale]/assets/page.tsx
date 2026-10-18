@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { DashboardFeed } from "@/components/terminal/asset/DashboardFeed";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 /**
  * /assets — Terminal dashboard. 4-asset overview (BTC/ETH/ADA/NIGHT).
@@ -9,6 +11,20 @@ import { DashboardFeed } from "@/components/terminal/asset/DashboardFeed";
  *
  * Spec: 08_DOCS/knowledge/specs/2026-04-27-livemakers-terminal-asset-contract-v0.md
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "assets.dashboard" });
+  return {
+    title: t("page_title"),
+    description: t("page_subtitle"),
+    alternates: localeAlternates(locale, "/assets"),
+  };
+}
+
 export default async function AssetsDashboardPage({
   params,
 }: {

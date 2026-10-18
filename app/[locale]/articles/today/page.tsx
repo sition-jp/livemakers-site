@@ -1,12 +1,27 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ArticleRow } from "@/components/home/ArticleRow";
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { resolveTodayJst } from "@/lib/home/resolve-today";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 export const revalidate = 300;
 
 const LATEST_FALLBACK_COUNT = 5;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "articles" });
+  return {
+    title: t("todayTitle"),
+    alternates: localeAlternates(locale, "/articles/today"),
+  };
+}
 
 export default async function TodayArticlesPage({
   params,

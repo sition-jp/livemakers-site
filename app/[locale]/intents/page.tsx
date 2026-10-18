@@ -6,7 +6,8 @@
  * Calls the SAME buildIntentListResponse SSOT as /api/intents, then hands
  * off initialData to IntentFeed. No skeleton on first paint.
  */
-import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { IntentFeed } from "@/components/terminal/IntentFeed";
 import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
 import {
@@ -14,9 +15,23 @@ import {
   readAndParseIntents,
   resolveIntentsPath,
 } from "@/lib/intents-reader";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "intents.list" });
+  return {
+    title: t("title"),
+    alternates: localeAlternates(locale, "/intents"),
+  };
 }
 
 export default async function IntentsListPage({ params }: PageProps) {
