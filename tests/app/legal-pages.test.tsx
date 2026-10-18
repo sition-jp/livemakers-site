@@ -22,7 +22,22 @@ vi.mock("next-intl/server", async () => {
         typeof arg === "object" && arg && "namespace" in arg ? arg.namespace : (arg as string);
       const messages = messagesFor(locale) as unknown as Record<string, Record<string, string>>;
       const bundle = messages[namespace] ?? {};
-      return (key: string) => bundle[key] ?? key;
+      const t = (key: string) => bundle[key] ?? key;
+      // next-intl の t.rich 相当: `<tag>text</tag>` を tags[tag](text) に置き換える
+      t.rich = (key: string, tags: Record<string, (chunks: string) => unknown>) => {
+        const parts: unknown[] = [];
+        const pattern = /<(\w+)>(.*?)<\/\1>/g;
+        const source = bundle[key] ?? key;
+        let last = 0;
+        for (const match of source.matchAll(pattern)) {
+          parts.push(source.slice(last, match.index));
+          parts.push(tags[match[1]](match[2]));
+          last = (match.index ?? 0) + match[0].length;
+        }
+        parts.push(source.slice(last));
+        return parts;
+      };
+      return t;
     }),
   };
 });
@@ -72,12 +87,26 @@ describe("contact page", () => {
 });
 
 describe("privacy page", () => {
-  it("describes Vercel access logs, no analytics/cookies, and theme-only localStorage", async () => {
+  it("describes Vercel access logs, Google Analytics (2026-10-19), and theme-only localStorage", async () => {
     render(await PrivacyPage({ params: Promise.resolve({ locale: "ja" }) }));
     expect(screen.getByText(/Vercel/)).toBeInTheDocument();
-    expect(screen.getByText(/Google Analytics/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "アクセス解析" })).toBeInTheDocument();
+    expect(screen.getByText(/Google LLC が提供するアクセス解析ツール/)).toBeInTheDocument();
     expect(screen.getByText(/localStorage/)).toBeInTheDocument();
-    expect(screen.getByText(/追跡目的の Cookie を発行していません/)).toBeInTheDocument();
+    expect(screen.getByText(/広告を目的とした Cookie は使用していません/)).toBeInTheDocument();
+  });
+
+  it("links to the Google Analytics opt-out add-on and Google's partner-sites policy", async () => {
+    render(await PrivacyPage({ params: Promise.resolve({ locale: "ja" }) }));
+    expect(screen.getByRole("link", { name: "オプトアウト アドオン" })).toHaveAttribute(
+      "href",
+      "https://tools.google.com/dlpage/gaoptout?hl=ja",
+    );
+    expect(
+      screen.getByRole("link", {
+        name: "Google のサービスを使用するサイトやアプリから収集した情報の Google による使用",
+      }),
+    ).toHaveAttribute("href", "https://policies.google.com/technologies/partner-sites?hl=ja");
   });
 
   it("discloses that embedded X posts, YouTube videos and source preview images load from external services (2026-10-06)", async () => {
