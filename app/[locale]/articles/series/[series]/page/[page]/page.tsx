@@ -1,6 +1,10 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { renderSeriesListPage } from "@/components/articles/SeriesListPage";
+import {
+  renderSeriesListPage,
+  seriesListMetadata,
+} from "@/components/articles/SeriesListPage";
 import { redirect } from "@/i18n/navigation";
 import { parseSeriesPageParam, seriesPageHref } from "@/lib/articles/series-pagination";
 
@@ -10,6 +14,17 @@ export const revalidate = 300;
 // revalidate 300 で更新)。空配列 = 全パスを実行時に静的生成。
 export function generateStaticParams() {
   return [];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; series: string; page: string }>;
+}): Promise<Metadata> {
+  const { locale, series, page: pageParam } = await params;
+  const page = parseSeriesPageParam(pageParam);
+  if (page === null) return {};
+  return seriesListMetadata({ locale, series, page });
 }
 
 // 2 ページ目以降 (/articles/series/{series}/page/{n})。1 ページ目は一覧の

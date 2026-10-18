@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
@@ -5,6 +6,7 @@ import { LatestArticlesRailLayout } from "@/components/articles/LatestArticlesRa
 import { SessionArchiveList } from "@/components/sessions/SessionArchiveList";
 import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 // 右レール「最新の記事」を記事一覧 (series) と同じ間隔で更新する (2026-10-02)
 export const revalidate = 300;
@@ -13,6 +15,19 @@ export const revalidate = 300;
  * Intelligence Terminal セッション記事の全記録 (2026-08-14 Phase 3b)。
  * /sessions/archive が直近 1 週間・本ページが全量アーカイブ。
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "sessions" });
+  return {
+    title: t("archivePastTitle"),
+    alternates: localeAlternates(locale, "/sessions/archive/past"),
+  };
+}
+
 export default async function SessionArchivePastPage({
   params,
 }: {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -14,11 +15,38 @@ import {
 import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import { resolveSessionPageRecord } from "@/lib/sessions/session-page-resolver";
 import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 export function generateStaticParams() {
   return getAllSessionRecords().map((record) => ({
     slug: record.sessionId,
   }));
+}
+
+async function loadSessionPageRecord(slug: string) {
+  const repoRecord = findSessionRecord(slug);
+  const feed = await fetchLiveMarketData();
+  return resolveSessionPageRecord({
+    slug,
+    repoRecords: repoRecord ? [repoRecord] : [],
+    feedSessions: feed?.sessions ?? null,
+  });
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  const record = await loadSessionPageRecord(slug);
+  if (!record) return {};
+  const definition = getSessionBySlug(record.sessionSlug);
+  return {
+    title: `${definition.nameEn} ${record.date}`,
+    description: record.titleJa,
+    alternates: localeAlternates(locale, `/sessions/${record.sessionId}`),
+  };
 }
 
 export default async function SessionPage({
@@ -30,13 +58,7 @@ export default async function SessionPage({
   setRequestLocale(locale);
   const t = await getTranslations("sessions");
 
-  const repoRecord = findSessionRecord(slug);
-  const feed = await fetchLiveMarketData();
-  const record = resolveSessionPageRecord({
-    slug,
-    repoRecords: repoRecord ? [repoRecord] : [],
-    feedSessions: feed?.sessions ?? null,
-  });
+  const record = await loadSessionPageRecord(slug);
   if (!record) notFound();
   const definition = getSessionBySlug(record.sessionSlug);
   const nav = getDaySessionNav(record.sessionId);

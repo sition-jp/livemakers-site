@@ -1,11 +1,26 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { LedgerSummaryBand } from "@/components/future-atlas/LedgerSummaryBand";
 import { getForecastSnapshotStates, LedgerTable } from "@/components/future-atlas/LedgerTable";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { buildLedgerSummary, currentJstDate } from "@/lib/future-atlas/snapshot";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 export const revalidate = 300;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "futureAtlas.ledger" });
+  return {
+    title: t("title"),
+    alternates: localeAlternates(locale, "/future-atlas/ledger"),
+  };
+}
 
 export default async function FutureAtlasLedgerPage({
   params,

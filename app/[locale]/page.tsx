@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Fragment } from "react";
 
@@ -12,8 +13,19 @@ import {
   resolveNextSession,
 } from "@/lib/sessions/next-session";
 import { READER_SESSIONS } from "@/lib/sessions/session-registry";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 export const revalidate = 300;
+
+// タイトル・説明は root layout の既定値 (トップ用) をそのまま使う。
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return { alternates: localeAlternates(locale) };
+}
 
 export default async function OverviewPage({
   params,

@@ -9,9 +9,11 @@
  * and hands off to SignalDetailFeed as initialData. No skeleton on
  * first paint for direct links.
  */
-import { setRequestLocale } from "next-intl/server";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SignalDetailFeed } from "@/components/terminal/SignalDetailFeed";
 import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { signalIdParams } from "@/lib/static-params";
 import {
   buildSignalDetailResponse,
@@ -35,6 +37,15 @@ import type { TradeIntent } from "@/lib/intents";
 
 interface PageProps {
   params: Promise<{ locale: string; id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale, id } = await params;
+  const t = await getTranslations({ locale, namespace: "signals" });
+  return {
+    title: `${t("page_title")} · ${id}`,
+    alternates: localeAlternates(locale, `/signals/${id}`),
+  };
 }
 
 export default async function SignalDetailPage({ params }: PageProps) {

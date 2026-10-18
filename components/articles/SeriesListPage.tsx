@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
@@ -16,14 +17,35 @@ import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import {
   groupByJstDate,
   paginateSeries,
+  seriesPageHref,
 } from "@/lib/articles/series-pagination";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { buildLandmarkRows } from "@/lib/landmark/meter-model";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
 
 function isSeriesSlug(value: string): value is SeriesSlug {
   return SERIES_SLUGS.includes(value as SeriesSlug);
+}
+
+/** シリーズ一覧の metadata (1 ページ目と 2 ページ目以降で共用)。 */
+export async function seriesListMetadata({
+  locale,
+  series,
+  page,
+}: {
+  locale: string;
+  series: string;
+  page: number;
+}): Promise<Metadata> {
+  if (!isSeriesSlug(series)) return {};
+  const t = await getTranslations({ locale, namespace: "articles" });
+  const label = t(`family.${series}`);
+  return {
+    title: page === 1 ? label : t("seriesPagedTitle", { series: label, page: String(page) }),
+    alternates: localeAlternates(locale, seriesPageHref(series, page)),
+  };
 }
 
 /**

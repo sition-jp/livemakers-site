@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { SignalsFeed } from "@/components/terminal/SignalsFeed";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 /**
  * /signals — three-bucket Signal feed page.
@@ -9,6 +11,20 @@ import { SignalsFeed } from "@/components/terminal/SignalsFeed";
  * 60s). We keep the wrapper thin so that next-intl server-side features
  * (setRequestLocale) can cooperate with the client child naturally.
  */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "signals" });
+  return {
+    title: t("page_title"),
+    description: t("page_subtitle"),
+    alternates: localeAlternates(locale, "/signals"),
+  };
+}
+
 export default async function SignalsPage({
   params,
 }: {

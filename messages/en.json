@@ -581,6 +581,7 @@
       "landmark": "Landmark Signal"
     },
     "todayTitle": "Today's articles",
+    "seriesPagedTitle": "{series} — page {page}",
     "todayEmpty": "Today's articles will be published shortly.",
     "latestTitle": "Recent articles",
     "seriesTitle": "Series",

@@ -1,10 +1,26 @@
+import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { LatestArticlesRailLayout } from "@/components/articles/LatestArticlesRailLayout";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
+import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 // 右レール「最新の記事」を一覧ページと同じ間隔で更新する (2026-10-02)
 export const revalidate = 300;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "about" });
+  return {
+    title: t("title"),
+    description: t("intro"),
+    alternates: localeAlternates(locale, "/about"),
+  };
+}
 
 export default async function AboutPage({
   params,
