@@ -1,0 +1,122 @@
+{
+  "sessionId": "2026-10-18-global-close",
+  "date": "2026-10-18",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-18-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-18-global-close",
+  "publishedAt": "2026-10-19T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261018_2303_a0340d99",
+  "asOfJst": "2026-10-18T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月18日 23:03 JST",
+  "bullets": [
+    "BTC/USD $81,469 → $81,298（-0.21%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +2.6% / ETH/USD -1.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261018_2350_618891eb",
+    "crawlAnchorJst": "2026-10-18T23:03:00+09:00",
+    "writtenAtJst": "2026-10-18T23:50:00+09:00",
+    "lead": "週末の市場の外側で、エネルギーの前提がまた動いた。ウクライナがロシアの石油ターミナルを大規模に攻撃し、イランはホルムズ海峡の再開に米軍の撤退を条件として突きつけた。AI では Anthropic が自ら連邦の安全法案を議員に示し、規制の土台を開発企業が書く段階に入った。週明けは原油と半導体株が最初の試金石になる。",
+    "items": [
+      {
+        "headline": "ウクライナ、1,000機超のドローンでロシアの石油ターミナルやデータセンターを攻撃",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/18/ukraine-launches-1000-drones-russian-oil-terminals-data-centers/",
+        "note": "サンクトペテルブルクの石油ターミナルも被弾と伝わる。原油の供給懸念が一段と強まる。"
+      },
+      {
+        "headline": "イラン、ホルムズ海峡の再開は「米国が中東を去る場合のみ」と表明",
+        "sourceUrl": "https://x.com/Kalshi/status/2111668341538795943",
+        "note": "一方で協議には応じ、核兵器は求めていないとも伝わる。"
+      },
+      {
+        "headline": "トランプ大統領、サウジアラビアのアブラハム合意参加に「今こそ」と言及",
+        "sourceUrl": "https://x.com/Kalshi/status/2111728998237479204"
+      },
+      {
+        "headline": "ベネズエラ、今後5年で約760億ドルの石油投資計画を発表と伝わる",
+        "sourceUrl": "https://x.com/Polymarket/status/2111787124395512113"
+      },
+      {
+        "headline": "米国債の利払い費、2026会計年度に過去最高の約1.05兆ドルと伝わる",
+        "sourceUrl": "https://x.com/Polymarket/status/2111647195623727301",
+        "note": "財政赤字は約2兆ドル。利払いが歳出の重荷として目立ってきた。"
+      },
+      {
+        "headline": "ハンガリー新政権、ユーロ導入の計画を示したと伝わる",
+        "sourceUrl": "https://x.com/Polymarket/status/2111718170004238592"
+      },
+      {
+        "headline": "IMF の会合で、ロシア財務相の演説中に代表団の約半数が退席と伝わる",
+        "sourceUrl": "https://x.com/Polymarket/status/2111747110714417658"
+      },
+      {
+        "headline": "BofA のハートネット氏「売りシグナルは終わった、次は半導体の価格を見よ」",
+        "sourceUrl": "https://x.com/zerohedge/status/2111638672848080954"
+      },
+      {
+        "headline": "サムスンと TSMC、エヌビディア次世代の広帯域メモリーで協業と伝わる",
+        "sourceUrl": "https://x.com/Polymarket/status/2111805791493849284"
+      },
+      {
+        "headline": "テスラの四半期の設備投資、フィジカル AI への傾斜で過去最高になる見通しと伝わる",
+        "sourceUrl": "https://x.com/Kalshi/status/2111600647586079049"
+      },
+      {
+        "headline": "Anthropic、連邦の AI 安全法案の草案を議員に提示",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2111801729813766451",
+        "note": "危険なモデルの公開を止められるのは重大で差し迫った危険がある場合に限る設計と報じられている。条文は公開されていない。"
+      },
+      {
+        "headline": "Anthropic、AI エージェントの稼働拡大で若手の採用をほぼ止めた",
+        "sourceUrl": "https://the-decoder.com/anthropic-has-nearly-stopped-hiring-junior-staff-because-ai-agents-now-work-six-times-as-many-hours/"
+      },
+      {
+        "headline": "ドイツの2つの裁判所、Google の AI 要約の内容に同社の責任を認める",
+        "sourceUrl": "https://the-decoder.com/two-german-courts-now-hold-google-liable-for-what-its-ai-overviews-say/",
+        "note": "検索結果に AI が書いた文章の責任を、表示した側が負う判断が続いた。"
+      },
+      {
+        "headline": "フランスの議員、暗号資産からステーブルコインへの交換に31.4%課税する案を可決",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2111691321190588840",
+        "note": "38対37の僅差で、2027年からの適用とされる。"
+      },
+      {
+        "headline": "暗号資産企業9社が「Quantum Alliance」を結成、耐量子の標準づくりへ",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2111600725503394234"
+      },
+      {
+        "headline": "セイラー氏、週明けのビットコイン追加購入を示唆",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2111803392549154939"
+      },
+      {
+        "headline": "Cardano のトレジャリー引き出し、現行の上限の9割超に",
+        "sourceUrl": "https://cryptoslate.com/cardano-has-42-6-million-ada-left-under-its-current-treasury-spending-limit/",
+        "note": "成立済み30件で約4.57億 ADA。残りは約4,260万 ADA で、銅の準備金に2,200万 ADA を充てる提案が控える。"
+      },
+      {
+        "headline": "米国の住宅、取得しやすさが過去最低に アトランタ連銀の指標",
+        "sourceUrl": "https://x.com/Kalshi/status/2111555348347883719"
+      },
+      {
+        "headline": "カナダの軍基地で爆発と火災、カーニー首相が「重大な事案」と説明",
+        "sourceUrl": "https://x.com/AP/status/2111632486744682710"
+      },
+      {
+        "headline": "フランス各地で大規模な抗議デモ、一部で市庁舎が焼ける",
+        "sourceUrl": "https://x.com/YahooNewsTopics/status/2111627839179210948"
+      }
+    ],
+    "watch": [
+      "週明けの原油価格と、ロシアの石油輸出施設への攻撃が供給に与える影響",
+      "半導体株と AI 関連の社債が下げ止まるか、メモリー価格の動きとあわせて",
+      "Strategy の週明けの発表と、ビットコインの週足の終わり方"
+    ]
+  }
+}
