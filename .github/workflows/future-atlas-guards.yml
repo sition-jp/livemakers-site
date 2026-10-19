@@ -19,3 +19,4 @@ jobs:
       - run: npm test
       - run: git fetch origin "${{ github.base_ref }}"
       - run: node scripts/future-atlas/gate.mjs --base "origin/${{ github.base_ref }}"
+      - run: node scripts/public-leak/gate.mjs --base "origin/${{ github.base_ref }}"

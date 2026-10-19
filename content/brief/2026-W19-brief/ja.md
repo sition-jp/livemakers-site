@@ -102,7 +102,7 @@ W18 で出した Lace 2.0 マルチチェーンの Android 版が継続的にロ
 
 事前公開された Charles 自身のツイート ── **"my keynote for Consensus Miami shall be 'We Don't Need Roads'"** （5/3）── は、Back to the Future Part II の最終シーンを引用したもので、**「既存のスケーリング論争（roads = レイヤー間競争）を超越した実装層がすでに揃っている」**という宣言として読める。
 
-メインステージで提示された Trinity（AI agent + privacy + blockchain）は、**SITION の Trinity Doctrine（4/24 確立）と Cardano 公式戦略発信が完全に同期したこと**を示している。SITION 側で先行整理していた仮説（[project_sition_ai_agent_economy.md](memory/project_sition_ai_agent_economy.md)）と Cardano 公式キーノートの主題が一致したという意味で、Cardano 単独の戦略提唱に留まらず、業界全体に対して「次の応用層は AI エージェント主権金融である」というアジェンダ設定が動き出した節目である。
+メインステージで提示された Trinity（AI agent + privacy + blockchain）は、**SITION の Trinity Doctrine（4/24 確立）と Cardano 公式戦略発信が完全に同期したこと**を示している。SITION 側で先行整理していた仮説と Cardano 公式キーノートの主題が一致したという意味で、Cardano 単独の戦略提唱に留まらず、業界全体に対して「次の応用層は AI エージェント主権金融である」というアジェンダ設定が動き出した節目である。
 
 ### Charles "Scaling 放棄は虚偽の物語" 直接反論 (5/5)
 
@@ -159,7 +159,7 @@ Midnight Foundation の **NIGHT 10 億トークン Glacier Drop 償還達成**�
 
 ### Charles Trinity 公演の構造的含意
 
-メインステージでの Trinity 公演（5/6）は、**SITION の AI Agent Economy doctrine（4/24 確立）** ── **「AI エージェント = 金融の主役 / ブロックチェーン = 信用層 / プライバシー = 不可欠」** ── と **Cardano 公式戦略発信が同じ主題に収束した**ことを意味する。SITION 側で先行整理していた戦略仮説（[project_sition_ai_agent_economy.md](memory/project_sition_ai_agent_economy.md), [project_cardano_architecture_paradigm_shift.md](memory/project_cardano_architecture_paradigm_shift.md)）と、Cardano 公式キーノートの主題が独立に同期した事実は、当該仮説が Cardano エコシステム単独の見方ではなく業界全体の next phase アジェンダとして読まれ始めていることを示唆する。
+メインステージでの Trinity 公演（5/6）は、**SITION の AI Agent Economy doctrine（4/24 確立）** ── **「AI エージェント = 金融の主役 / ブロックチェーン = 信用層 / プライバシー = 不可欠」** ── と **Cardano 公式戦略発信が同じ主題に収束した**ことを意味する。SITION 側で先行整理していた戦略仮説と、Cardano 公式キーノートの主題が独立に同期した事実は、当該仮説が Cardano エコシステム単独の見方ではなく業界全体の next phase アジェンダとして読まれ始めていることを示唆する。
 
 ---
 
