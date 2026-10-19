@@ -1,0 +1,95 @@
+{
+  "sessionId": "2026-10-19-global-close",
+  "date": "2026-10-19",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-19-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-19-global-close",
+  "publishedAt": "2026-10-20T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261019_2303_5ddfe628",
+  "asOfJst": "2026-10-19T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月19日 23:03 JST",
+  "bullets": [
+    "BTC/USD $81,496 → $81,837（+0.42%）",
+    "変動幅上位: 日経225（perp） +2.1% / 米テック100（perp） +1.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261019_2348_4730a1a2",
+    "crawlAnchorJst": "2026-10-19T23:03:00+09:00",
+    "writtenAtJst": "2026-10-19T23:48:38+09:00",
+    "lead": "Strategy が優先株 STRC の買い戻しに1.93億ドルを回し、枠も30億ドルへ広げた。ビットコインを積み増すだけだった資本の使い道に、自社の証券を買い戻す線が加わった。国内ではニフティの最大54万件、SONICWIRE の会員情報と、不正アクセスの公表が夜まで続いた。フランスの抗議はルーヴルの休館にまで及んでいる。",
+    "items": [
+      {
+        "headline": "Strategy、優先株 STRC を1.93億ドル買い戻し 買い戻し枠を30億ドルへ拡大",
+        "sourceUrl": "https://x.com/Strategy/status/2112152481082003633",
+        "note": "267 BTC も買い増し、10月18日時点の保有は848,517 BTC。資金の向け先にビットコインだけでなく自社の優先株の買い戻しが加わった。"
+      },
+      {
+        "headline": "マスク氏、来年 米国の子ども全員に SpaceX 株を1株ずつ贈ると表明",
+        "sourceUrl": "https://x.com/elonmusk/status/2112089556615123114",
+        "note": "本人は「最初の一歩」と書いたが、贈り方や時期の詳細はまだ示していない。"
+      },
+      {
+        "headline": "ニフティの回線申し込み管理システムに不正アクセス 最大54万件に流出のおそれ",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2610/19/2000002399/",
+        "note": "対象は2019年以降に光回線を申し込んだ人（ニフティの Web サイトからの申込を除く）。口座とカードの情報はこのシステムに無いとしている。"
+      },
+      {
+        "headline": "阪急阪神百貨店などの共通 ID、ほぼ全会員分の約126万件が漏えい",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2610/19/2000002398/",
+        "note": "予約サイトを入口に、通販の2サイトでも不正アクセスが見つかり3サイトとも停止。カード情報は持たない仕組みだという。"
+      },
+      {
+        "headline": "クリプトン、SONICWIRE と D2R への不正アクセスで会員情報漏えいの可能性を公表",
+        "sourceUrl": "https://x.com/cfm_sonicwire/status/2112133738708832567",
+        "note": "全利用者のパスワードを無効化し、再開後に再設定を求める。両サービスの再開時期は未定。"
+      },
+      {
+        "headline": "ルーヴル美術館、学生の抗議運動を理由に休館",
+        "sourceUrl": "https://x.com/MuseeLouvre/status/2112105415722811622",
+        "note": "フランス各地に広がる抗議が、観光と文化施設の運営にも及び始めた。"
+      },
+      {
+        "headline": "プーチン氏、来月にトランプ氏・習近平氏との首脳会談を提案と報道",
+        "sourceUrl": "https://x.com/Polymarket/status/2112018490651725945",
+        "note": "ウクライナでの戦争終結を話し合う場とされるが、当事国の公式な確認はまだ出ていない。"
+      },
+      {
+        "headline": "ベッセント財務長官「これはエネルギーのショック」 コアのインフレは下がっていると強調",
+        "sourceUrl": "https://x.com/USTreasury/status/2111840260455866725"
+      },
+      {
+        "headline": "Project Catalyst の新しい試行、117件から12件を選定 支払いを普及の度合いに連動",
+        "sourceUrl": "https://x.com/Cardano/status/2112149283168199058",
+        "note": "資金はほぼ200万 ADA。ステーブルコイン決済・DeFi・トークン化資産・デジタル ID の案件が並ぶ。"
+      },
+      {
+        "headline": "Cardanoscan、ブロック単位の分析画面「Block Analytics」を公開",
+        "sourceUrl": "https://x.com/cardanoscanio/status/2112126755683303532"
+      },
+      {
+        "headline": "Strike Finance、今週の取引高が2億 ADA を超えたと告知",
+        "sourceUrl": "https://x.com/strikeperps/status/2111885273411748035"
+      },
+      {
+        "headline": "Tesla、年次株主総会を12月3日に開催 マスク氏ら3人の取締役再任などを諮る",
+        "sourceUrl": "https://x.com/Tesla/status/2112182769451462745"
+      },
+      {
+        "headline": "Agility Robotics、元 UPS 社長が取締役に就く予定 Churchill Capital XI との合併完了後",
+        "sourceUrl": "https://x.com/agilityrobotics/status/2112140452531220643"
+      }
+    ],
+    "watch": [
+      "ニフティと阪急阪神百貨店の続報で、漏えいした項目と対象者がどこまで確定するか",
+      "プーチン氏が提案したとされる米中ロ首脳会談に、ホワイトハウスと北京がどう応じるか",
+      "Strategy が次の週も BTC の買い増しと STRC の買い戻しを並べて続けるか"
+    ]
+  }
+}
