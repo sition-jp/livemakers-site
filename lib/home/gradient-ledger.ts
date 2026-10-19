@@ -20,10 +20,10 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   // 2026-08-23 田平氏 GO B-1 (Signal 前面化): lead-article + mkt12-reading を
   //   morning-desk (「Daily Intel」帯 = compact な Daily Intel + サムネなし 12指標行)
   //   1 モジュールへ統合。Daily Intel ブロックだけ <xl hidden (D8・hero が担う)。
-  //   spec: docs/superpowers/specs/2026-08-23-home-morning-desk-design.md
+  //   spec: 2026-08-23 home-morning-desk design (内部設計文書)
   // 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) を撤去 — 公開以来一度も
   //   ペアが成立しなかった空カード。観測リスト (radar-observations) は残す。
-  //   spec: docs/superpowers/specs/2026-08-23-terminal-switching-ux-design.md §D
+  //   spec: 2026-08-23 terminal-switching-ux design §D (内部設計文書)
   //   (CP doctrine §4 は窓単位の台帳で「Live Radar」は観測カードとして存続 — 改訂不要)
   // 2026-10-09 田平氏 GO (案 A): radar-observations (観測リスト・一次ソースへの
   //   外部リンク) を flash-list (当日+前日の速報記事・自社記事リンク) へ置き換え。

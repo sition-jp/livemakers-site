@@ -5,7 +5,7 @@ import {
   resolveNextSession,
 } from "@/lib/sessions/next-session";
 
-// 2026-08-23 田平氏 GO (spec: docs/superpowers/specs/2026-08-23-terminal-switching-ux-design.md §B):
+// 2026-08-23 田平氏 GO (spec: 2026-08-23 terminal-switching-ux design §B・内部設計文書):
 // 「次の更新」「本日あと N 回更新」は時計ベース。JST の HH:MM を registry の
 // updateTimeLabel と比較する — 観測 RED でセッションが無い日に過ぎた時刻を
 // 「次」と言い続けない。

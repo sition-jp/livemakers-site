@@ -3,7 +3,7 @@
 livemakers.com — intelligence terminal for the financial reboot (crypto & blockchain, AI & robotics, quantum, synthetic biology) with a real-time market terminal.
 
 Parent: SITION (sition.jp)
-Backend pipeline: `../sition-intelligence-terminal/`
+Backend pipeline and internal design / operations docs: kept in a private repository.
 
 ## Development
 
