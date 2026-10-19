@@ -102,7 +102,7 @@ On May 6, Charles Hoskinson took the **Consensus 2026 Miami main stage**. Accord
 
 Charles' own pre-keynote tweet — **"my keynote for Consensus Miami shall be 'We Don't Need Roads'"** (May 3) — references the closing scene of *Back to the Future Part II* and reads as a declaration: **the existing scaling debate (the "roads" of inter-layer competition) has been transcended by an implementation stack that is already in place.**
 
-The Trinity (AI agent + privacy + blockchain) presented from the main stage **synchronizes precisely with SITION's Trinity Doctrine (established April 24)**. The fact that SITION's prior strategic hypothesis (`project_sition_ai_agent_economy.md`) and Cardano's official keynote theme arrived at the same subject independently signals that this framing has begun to be read as a next-phase industry agenda — not just Cardano-specific posture.
+The Trinity (AI agent + privacy + blockchain) presented from the main stage **synchronizes precisely with SITION's Trinity Doctrine (established April 24)**. The fact that SITION's prior strategic hypothesis and Cardano's official keynote theme arrived at the same subject independently signals that this framing has begun to be read as a next-phase industry agenda — not just Cardano-specific posture.
 
 ### Charles' direct rebuttal: "scaling abandonment is a false narrative" (May 5)
 
@@ -159,7 +159,7 @@ The **1 billion NIGHT Glacier Drop redemption** confirmed across the W18/W19 bou
 
 ### Structural implications of Charles' Trinity keynote
 
-The main-stage Trinity keynote on May 6 marks the moment **SITION's AI Agent Economy doctrine (established April 24)** — **"AI agents = the principal of finance / blockchain = the trust layer / privacy = non-negotiable"** — and **Cardano's official strategic message converged on the same theme**. The fact that SITION's prior strategic hypotheses (`project_sition_ai_agent_economy.md`, `project_cardano_architecture_paradigm_shift.md`) and Cardano's official keynote subject aligned independently suggests the framing has begun to be read as a next-phase industry agenda, beyond a Cardano-specific posture.
+The main-stage Trinity keynote on May 6 marks the moment **SITION's AI Agent Economy doctrine (established April 24)** — **"AI agents = the principal of finance / blockchain = the trust layer / privacy = non-negotiable"** — and **Cardano's official strategic message converged on the same theme**. The fact that SITION's prior strategic hypotheses and Cardano's official keynote subject aligned independently suggests the framing has begun to be read as a next-phase industry agenda, beyond a Cardano-specific posture.
 
 ---
 

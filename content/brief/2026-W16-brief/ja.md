@@ -64,7 +64,7 @@ IOG は Cardano Node **10.7.0** を 4/12 に公開、続く 10.7.1 でメモリ�
 ### Epoch 624→625 遷移 (4/17 05:26 UTC)
 
 - Tip Block Height: 13,301,625
-- SIPO SPO #1 / #2 / #3 合計: 約 114M ADA 委任・2,186 委任者 (CLAUDE.md 記録値)
+- SIPO SPO #1 / #2 / #3 合計: 約 114M ADA 委任・2,186 委任者 (SIPO 集計値)
 - **ブロック生産: ノミナル**・van Rossem 準備としての minor perf 改善が 10.7.x 系列で段階投入済
 
 ### Blockchain Expo Tokyo (4/15-17)

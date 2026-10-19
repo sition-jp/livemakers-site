@@ -64,7 +64,7 @@ This is not a technical release in isolation — it is an institutional commitme
 ### Epoch 624→625 Transition (Apr 17 05:26 UTC)
 
 - Tip block height: 13,301,625
-- SIPO SPO #1 / #2 / #3 combined: ~114M ADA delegation · 2,186 delegators (per CLAUDE.md)
+- SIPO SPO #1 / #2 / #3 combined: ~114M ADA delegation · 2,186 delegators (SIPO figures)
 - **Block production nominal** · minor perf improvements staged via 10.7.x as van Rossem preparation
 
 ### Blockchain Expo Tokyo (Apr 15-17)
