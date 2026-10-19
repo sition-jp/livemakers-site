@@ -5,7 +5,7 @@
 # to confirm the host TZ before installing this entry.
 #
 # macOS BSD cron also treats `%` as newline — escape any date format if
-# you add one (memory feedback_cron_percent_escape_macos.md).
+# you add one.
 #
 # Replace REPLACE_REPO_PATH below.
 #

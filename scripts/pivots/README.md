@@ -90,6 +90,6 @@ Once Phase 2 is reviewed, propose a daily 08:00 JST cron:
 
 ## Ops
 
-Daily run / recovery / scheduling: see [`RUNBOOK.md`](./RUNBOOK.md) and the
-sample LaunchAgent + crontab in `ops/samples/`. Smoke checklist for v0.1-ops
-gate: `ops/smoke_checklist.md`.
+Daily run / recovery / scheduling and the v0.1-ops smoke checklist are kept
+in the private operations runbook. Sample LaunchAgent + crontab are in
+`ops/samples/`.
