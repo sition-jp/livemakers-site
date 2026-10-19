@@ -1,0 +1,91 @@
+{
+  "sessionId": "2026-10-19-europe-bridge",
+  "date": "2026-10-19",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-19-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-19-europe-bridge",
+  "publishedAt": "2026-10-20T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261019_1203_00c60215",
+  "asOfJst": "2026-10-19T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月19日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1236 → 1.1231（-0.04%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +2.2% / Coinbase（perp） +1.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261019_1240_b989b13f",
+    "crawlAnchorJst": "2026-10-19T12:03:00+09:00",
+    "writtenAtJst": "2026-10-19T12:40:00+09:00",
+    "lead": "週明けの東京で最初に出た材料は中国の成長率で、7〜9月期は前年比4.5%と1〜3月期の5.0%からの減速が続いた。米国の株価指数先物は「ブラックマンデー」を見込む声をよそに上げて始まった。市場の関心は地政学に移り、プーチン大統領がトランプ大統領と習近平国家主席との3者会談を提案したと報じられた。国内では企業への不正アクセスの公表が続いている。",
+    "items": [
+      {
+        "headline": "中国の7〜9月期の成長率は前年比4.5%、1〜3月期の5.0%から減速が続く",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2112001074370388354",
+        "note": "国家統計局の発表では1〜9月は4.6%、9月の小売は1.1%増にとどまり、工業生産の5.5%増との差が開いた。"
+      },
+      {
+        "headline": "米国の株価指数先物が上げて始まる、S&P 500 の先物 perp は7,700を上抜け",
+        "sourceUrl": "https://x.com/Polymarket/status/2111979043843146099",
+        "note": "週末に「ブラックマンデー」を見込む投稿が広がったが、週明けの値動きは逆になった。"
+      },
+      {
+        "headline": "プーチン大統領、トランプ大統領と習主席との3者会談を提案と WSJ が報道",
+        "sourceUrl": "https://www.straitstimes.com/world/putin-proposes-summit-with-trump-and-xi-to-discuss-ukraine-deal-wsj-says",
+        "note": "ウクライナの和平を話し合う場として来月の開催を求めたとされる。トランプ大統領は和平の協議に「大きな進展」があると述べた。"
+      },
+      {
+        "headline": "Zcash、新しい通信層 Zakura P2Pv2 を公表",
+        "sourceUrl": "https://x.com/Zcash/status/2111912616478101507",
+        "note": "高い処理量の通信と資源の制御を組み合わせた、ノード間の通信の作り直しとしている。"
+      },
+      {
+        "headline": "ドイツ銀行、暗号資産の保管事業を2027年にアジアへ広げる計画",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/18/deutsche-bank-targets-asia-crypto-custody-expansion-in-2027-as-german-launch-nears",
+        "note": "ドイツ国内での開始が近いと CoinDesk が伝えた。"
+      },
+      {
+        "headline": "World、銀行向けの本人確認の製品群 World ID を公開",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-10-18-world-launches-world-id-suite-banks-418869",
+        "note": "Zoom 上のディープフェイクを見分ける機能も一般提供に移した。"
+      },
+      {
+        "headline": "Tron Inc.、TRX を14万9,576枚買い増し",
+        "sourceUrl": "https://x.com/TRON_INC/status/2112011197394682033",
+        "note": "平均取得価格は0.3343ドルと公表した。"
+      },
+      {
+        "headline": "Joshin が不正アクセスで一部のサービスを停止、個人情報の漏えいは「可能性を否定できない」",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2610/19/2000002369/"
+      },
+      {
+        "headline": "日本サッカー協会の公式アプリ「JFA Passport」に不正アクセス、一部の機能を停止",
+        "sourceUrl": "https://x.com/itmedia_news/status/2111964317964988486"
+      },
+      {
+        "headline": "GMOリサーチ&AI のアンケートサイト「infoQ」、89万4,082件の個人情報の持ち出しを確認",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/19/56497.html"
+      },
+      {
+        "headline": "えきねっとと大人の休日倶楽部の会員情報は漏えいしていなかったと判断",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/19/56496.html",
+        "note": "IDCフロンティアへの不正アクセスをめぐる続報。"
+      },
+      {
+        "headline": "厚生労働省、フリーランスと自営業の人の国民年金保険料を子が1歳になるまで免除と案内",
+        "sourceUrl": "https://x.com/MHLWitter/status/2111978156538450396"
+      }
+    ],
+    "watch": [
+      "中国の減速を受けた追加の景気対策と、人民元・資源価格の反応",
+      "3者会談の提案に対するホワイトハウスと北京の公式な反応",
+      "国内の不正アクセスの公表が続くなか、漏えいの件数と対象が確定するか"
+    ]
+  }
+}
