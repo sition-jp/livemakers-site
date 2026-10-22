@@ -1,6 +1,6 @@
 {
   "schema_version": "pivots_derivatives_history.v0.1",
-  "generated_at": "2026-10-21T23:00:23Z",
+  "generated_at": "2026-10-22T23:00:25Z",
   "provider": "binance_usdm",
   "assets": {
     "BTC": {
@@ -9102,6 +9102,39 @@
             "abs_avg": 8.05533e-05,
             "max_abs": 9.208e-05,
             "last": 7.856e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-10-21T00:00:00Z",
+          "bucket_end": "2026-10-22T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 94818.828,
+            "last": 98223.275,
+            "min": 94818.828,
+            "max": 98971.071,
+            "avg": 96672.996,
+            "last_usd": 8296777239.69016,
+            "avg_usd": 8077031152.426804,
+            "growth_pct": 0.0359047572
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00019978,
+            "avg": 6.65933e-05,
+            "abs_avg": 6.65933e-05,
+            "max_abs": 8.54e-05,
+            "last": 4.896e-05
           },
           "completeness": {
             "open_interest": 1.0,
@@ -18215,6 +18248,39 @@
             "abs_avg": 5.24667e-05,
             "max_abs": 7.381e-05,
             "last": 7.381e-05
+          },
+          "completeness": {
+            "open_interest": 1.0,
+            "funding": 1.0,
+            "overall": 1.0
+          },
+          "source": {
+            "oi_period": "4h",
+            "funding_granularity": "8h",
+            "is_closed_bucket": true
+          }
+        },
+        {
+          "bucket_start": "2026-10-21T00:00:00Z",
+          "bucket_end": "2026-10-22T00:00:00Z",
+          "open_interest": {
+            "sample_count": 6,
+            "first": 2288679.551,
+            "last": 2267421.89,
+            "min": 2267421.89,
+            "max": 2323213.267,
+            "avg": 2302683.783333333,
+            "last_usd": 5654205582.8548355,
+            "avg_usd": 5687574164.052837,
+            "growth_pct": -0.0092881771
+          },
+          "funding": {
+            "sample_count": 3,
+            "sum": 0.00018411,
+            "avg": 6.137e-05,
+            "abs_avg": 6.137e-05,
+            "max_abs": 8.498e-05,
+            "last": 8.498e-05
           },
           "completeness": {
             "open_interest": 1.0,
