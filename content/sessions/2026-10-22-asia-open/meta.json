@@ -1,0 +1,138 @@
+{
+  "sessionId": "2026-10-22-asia-open",
+  "date": "2026-10-22",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-22-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-22-asia-open",
+  "publishedAt": "2026-10-23T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261022_0730_bf4ecdc6",
+  "asOfJst": "2026-10-22T07:30:05+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月22日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 65,322 → 64,578（-1.14%）",
+    "変動幅上位: Coinbase（perp） +2.5% / BTC/USD +1.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261022_0600_e5b6cf0d",
+    "crawlAnchorJst": "2026-10-22T05:03:00+09:00",
+    "writtenAtJst": "2026-10-22T06:00:49+09:00",
+    "lead": "ウェブの土台の PHP に重大な欠陥が見つかり、国内の銀行や決済が予防のためにサービスを止めた。AI が欠陥を見つける速さが上がり、守る側の手順が試されている。米国ではステーブルコインの規則が確定し、銀行と暗号資産の業界の線引きの争いが規則の文言に移った。暗号資産はビットコインが8万4,000ドル台を回復し、Solana の新しい合意の仕組みが稼働した。",
+    "items": [
+      {
+        "headline": "PHP の重大な欠陥 2 件、AI のモデルが発見に関与",
+        "sourceUrl": "https://the-decoder.com/openais-gpt-5-6-sol-and-gemini-4-argon-discovered-the-critical-php-vulnerability-affecting-millions-of-websites/",
+        "note": "OpenAI と Google のモデルが、数百万のウェブサイトに影響する PHP の欠陥を見つけたと伝えられた。"
+      },
+      {
+        "headline": "米欧の当局、PHP の欠陥への対応を急ぐ",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2112952172438491544"
+      },
+      {
+        "headline": "七十七銀行、PHP の欠陥への対応で一部のサービスを停止",
+        "sourceUrl": "https://x.com/nikkei/status/2112927850995048820",
+        "note": "情報の漏えいは確認されておらず、予防の措置としている。"
+      },
+      {
+        "headline": "静岡銀行、インターネットバンキングを一時停止",
+        "sourceUrl": "https://x.com/nikkei/status/2112928420980035593",
+        "note": "PHP の欠陥への予防の措置。"
+      },
+      {
+        "headline": "JPYC、ギフトコードの販売を臨時メンテナンスで停止",
+        "sourceUrl": "https://x.com/jpyc_official/status/2112909225894756522",
+        "note": "資金移動業の JPYC EX には影響がない。"
+      },
+      {
+        "headline": "OpenAI、自分のサイトが影響を受けるかを確かめる手順を公開",
+        "sourceUrl": "https://x.com/OpenAI/status/2112945805686604033"
+      },
+      {
+        "headline": "岩井コスモ証券、個人情報の流出も判明 意図しない売買に続き",
+        "sourceUrl": "https://www.security-next.com/191717"
+      },
+      {
+        "headline": "Intersect、PHP の欠陥を受けて会員のページを予防停止",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2112949236690043321"
+      },
+      {
+        "headline": "米国銀行協会、OCC の GENIUS 法の最終規則を批判",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-10-21-american-bankers-association-accuses-occ-undermining-congress-stablecoin-rewards-rule-421629",
+        "note": "ステーブルコインの報酬の規定が議会の意図を損なうとした。"
+      },
+      {
+        "headline": "ベッセント財務長官、GENIUS 法の規則を「米国の金融の転換点」と評価",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2112913417023434867"
+      },
+      {
+        "headline": "SEC、3社がトークン化した証券の取引の場の運営を届け出",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2112972022817214761"
+      },
+      {
+        "headline": "Cardano Foundation など6団体、「デジタル商品」の分類を規則の本文に求める",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2112884293575856508"
+      },
+      {
+        "headline": "Solana の Alpenglow が稼働、確定まで12.8秒から150ミリ秒へ",
+        "sourceUrl": "https://x.com/Grayscale/status/2112927936580088154"
+      },
+      {
+        "headline": "ビットコインが8万4,000ドル台を回復、イーサリアムは2,500ドル台",
+        "sourceUrl": "https://x.com/BullTheoryio/status/2112927942808572224",
+        "note": "弱気の建玉の清算が重なった。"
+      },
+      {
+        "headline": "米国の現物のビットコイン ETF、2営業日で5億4,990万ドルの流入",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2112952109348045257"
+      },
+      {
+        "headline": "Grayscale、手持ちの暗号資産での持分の受け取りを10本に拡大",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-10-21-grayscale-expands-in-kind-subscriptions-10-crypto-etfs-421559"
+      },
+      {
+        "headline": "マスク氏、SpaceX と Tesla が合併を検討する独立の委員会を設けたと確認",
+        "sourceUrl": "https://x.com/BitcoinNews/status/2112937916934586482"
+      },
+      {
+        "headline": "Tesla、ヒューマノイド Optimus の生産をフリーモントで開始",
+        "sourceUrl": "https://x.com/StockMKTNewz/status/2113001772432203815"
+      },
+      {
+        "headline": "OpenAI のモデルが Google Cloud でも使えるように",
+        "sourceUrl": "https://x.com/OpenAI/status/2112988118471295323"
+      },
+      {
+        "headline": "Coinbase と Mastercard、x402 で AI エージェントの買い物を広げる",
+        "sourceUrl": "https://x.com/brian_armstrong/status/2112919939686240703"
+      },
+      {
+        "headline": "米財務省、イランの海上輸送を支えた法律事務所と船舶に制裁",
+        "sourceUrl": "https://x.com/USTreasury/status/2112956889004679566"
+      },
+      {
+        "headline": "Liqwid、NIGHT の清算で不良債権を負った貸し手に補填へ",
+        "sourceUrl": "https://x.com/liqwidfinance/status/2112946902216138956"
+      },
+      {
+        "headline": "Minswap、直近7日の取引高で Cardano の DEX 1位に",
+        "sourceUrl": "https://defillama.com/protocol/minswap-dex"
+      },
+      {
+        "headline": "Polkadot、外部チームの Fearless Wallet に安全上の注意",
+        "sourceUrl": "https://x.com/Polkadot/status/2112910039207800970"
+      }
+    ],
+    "watch": [
+      "止まった国内の銀行・決済のサービスの再開の時期と、PHP の欠陥の悪用の報告が出るか",
+      "OCC の GENIUS 法の規則への銀行業界の反発が、議会の議論に及ぶか",
+      "SpaceX と Tesla の合併を話し合う委員会の動き"
+    ]
+  }
+}
