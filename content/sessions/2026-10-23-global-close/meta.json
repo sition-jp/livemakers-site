@@ -1,0 +1,103 @@
+{
+  "sessionId": "2026-10-23-global-close",
+  "date": "2026-10-23",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-23-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-23-global-close",
+  "publishedAt": "2026-10-24T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261023_2303_eb1b4521",
+  "asOfJst": "2026-10-23T23:03:01+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月23日 23:03 JST",
+  "bullets": [
+    "BTC/USD $81,705 → $82,015（+0.38%）",
+    "変動幅上位: WTI（perp） +3.4% / 米10年金利 -3.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261023_2347_cc7e9364",
+    "crawlAnchorJst": "2026-10-23T23:03:00+09:00",
+    "writtenAtJst": "2026-10-23T23:47:28+09:00",
+    "lead": "原油が再び上がり、市場は守りに傾いている。ブレント原油は5月以来の水準を超え、米国では石油の増産に国防生産法を使うと報じられた。国内では佐川急便に続き、アパレル大手やフィギュア大手でも顧客情報の流出が相次いで明らかになり、会員基盤への攻撃が一週間のうちに連なった。ビットコインは価格の弱さとは別に、採掘の計算力が7か月ぶりの高さに戻っている。",
+    "items": [
+      {
+        "headline": "ブレント原油、5月5日以来はじめて1バレル114ドルを超える",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2113576677397913993",
+        "note": "米国とイランの緊張が背景と伝えられている。"
+      },
+      {
+        "headline": "トランプ大統領、石油の生産拡大に国防生産法を発動と報道",
+        "sourceUrl": "https://x.com/zerohedge/status/2113613941339234415"
+      },
+      {
+        "headline": "佐川急便、個人情報が最大5323万件流出したおそれ",
+        "sourceUrl": "https://x.com/47news_official/status/2113523576079077555"
+      },
+      {
+        "headline": "アパレル大手アンドエスティ、客の個人情報約250万件が流出したおそれと報道",
+        "sourceUrl": "https://x.com/nhk_news/status/2113613424685117674"
+      },
+      {
+        "headline": "グッドスマイルカンパニー、不正アクセスによる顧客情報流出の可能性を公表",
+        "sourceUrl": "https://x.com/gsc_goodsmile/status/2113630397875519546",
+        "note": "詳細は同社のお知らせで確認できる。"
+      },
+      {
+        "headline": "3メガバンク、運転免許証での本人確認を前倒しで廃止へ",
+        "sourceUrl": "https://x.com/nikkei/status/2113521619918266773",
+        "note": "不正対策として、マイナンバーカードの IC チップによる確認へ寄せる流れが銀行全体に広がる。"
+      },
+      {
+        "headline": "ビットコインのハッシュレート、7か月ぶりの高水準に",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2113377416554909842",
+        "note": "一部のマイナーが AI 向けの計算に設備を振り向けるなかでも、採掘の競争は再び強まっている。"
+      },
+      {
+        "headline": "韓国、外為法を改正してステーブルコインを支払い手段として規制へと報道",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-10-23-south-korea-stablecoins-payment-instruments-424028"
+      },
+      {
+        "headline": "Robinhood、スポーツ以外のビットコインや金の予測市場で取引が急増",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/23/robinhood-sees-surge-in-bitcoin-gold-prediction-markets-as-traders-move-beyond-sports"
+      },
+      {
+        "headline": "SpaceX、米国で少なくとも8万の携帯基地局の利用を交渉中と報道",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2113495829646372874"
+      },
+      {
+        "headline": "UAE 主導の捜査、詐欺に関わる資金と暗号資産で390億ドル超を特定と報道",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2113586415732740389"
+      },
+      {
+        "headline": "American Express、従業員の5%にあたる約3,500人を削減と報道",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2113631530065305785"
+      },
+      {
+        "headline": "Moderna 株が一時23%下落、がんワクチン治験のデータがSNSに流出したと報道",
+        "sourceUrl": "https://x.com/Polymarket/status/2113360473878114667"
+      },
+      {
+        "headline": "カタール、米国産 LNG を2054年まで年400万トン輸入する契約に署名と報道",
+        "sourceUrl": "https://x.com/Polymarket/status/2113290027497410955"
+      },
+      {
+        "headline": "ウクライナ和平をめぐるトランプ政権の新たな案の概要が浮上",
+        "sourceUrl": "https://x.com/zerohedge/status/2113626523299086459"
+      },
+      {
+        "headline": "Cardano の Dijkstra 公開テストネットが稼働、当面は現行規則のノードで動く",
+        "sourceUrl": "https://x.com/DailyOnCardano/status/2113611102688776560"
+      }
+    ],
+    "watch": [
+      "ブレント原油が115ドル台を保つか。国防生産法の発動が公式文書で確認されるか",
+      "アンドエスティとグッドスマイルカンパニーが、流出の範囲と対象者を公式に確定させるか",
+      "韓国の外為法改正の具体案と、ステーブルコインを支払いに使える範囲"
+    ]
+  }
+}
