@@ -1,0 +1,110 @@
+{
+  "sessionId": "2026-10-24-global-close",
+  "date": "2026-10-24",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-24-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-24-global-close",
+  "publishedAt": "2026-10-25T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261024_2303_5a720cc5",
+  "asOfJst": "2026-10-24T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月24日 23:03 JST",
+  "bullets": [
+    "BTC/USD $82,021 → $80,713（-1.59%）",
+    "変動幅上位: Coinbase（perp） -3.2% / ETH/USD -1.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261024_2347_0041b9c6",
+    "crawlAnchorJst": "2026-10-24T23:03:00+09:00",
+    "writtenAtJst": "2026-10-24T23:47:10+09:00",
+    "lead": "米国の金曜は、暗号資産の制度面と市場面が逆向きに動いた一日だった。トークン化株には発行体の反対が 22 社まで広がり、現物ビットコイン ETF からは 6 月以来の資金が出た。一方でビットコインの上では、ノードを持たずに自己保管で送金できる仕組みがメインネットに乗った。中東の緊張は原油を高値に留め、英国は家庭に備えを求めている。",
+    "items": [
+      {
+        "headline": "OKX と ICE のトークン化株、上場予定 63 社のうち反対が 22 社に",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/24/wells-fargo-cisco-marvell-among-latest-firms-objecting-to-okxice-s-tokenized-stock-plan",
+        "note": "Wells Fargo・Cisco・Marvell・Arm・Intuit が新たに加わった。発行体の同意なしに株をトークンにできるのかという論点が、稼働前に表へ出ている。"
+      },
+      {
+        "headline": "Lightning Labs、Ark 実装の Wavelength をメインネットで公開",
+        "sourceUrl": "https://x.com/lightning/status/2113637153070542859",
+        "note": "ノードや流動性の管理なしに、人と AI エージェントが自己保管のままビットコインを送受金できるとする SDK。"
+      },
+      {
+        "headline": "米国の現物ビットコイン ETF、1日で 6.356 億ドルの流出と報道",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2113843123486966077",
+        "note": "6月以来の大きさとされる。価格の重さと機関マネーの出入りが同じ方向を向いた。"
+      },
+      {
+        "headline": "Arthur Hayes、Maelstrom の方向性ポジションを全て手仕舞いと投稿",
+        "sourceUrl": "https://x.com/CryptoHayes/status/2113877751803642092",
+        "note": "ETH・ENA・UNI などの利益を確定したとする。本人は「下げてから上げる」との見立て。"
+      },
+      {
+        "headline": "Franklin Templeton、ビットコイン関連 ETF 2本の Nasdaq 上場承認と報道",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2113701562673446988",
+        "note": "配当で得た資金をビットコインに回す設計とされる。発行体の一次資料は確認待ち。"
+      },
+      {
+        "headline": "ネタニヤフ首相、制裁リスクへの備えに暗号資産を使う計画の準備を要請",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2113675169025716444",
+        "note": "国家が国際的な銀行網の外側に退避路を持つ発想が、首相の口から出た。"
+      },
+      {
+        "headline": "米情報機関、イランが米外交官を狙う動きを「大幅に強めた」と判断と Axios",
+        "sourceUrl": "https://x.com/BarakRavid/status/2113787948181356827",
+        "note": "中東の緊張が外交の現場にまで広がっていることを示す。"
+      },
+      {
+        "headline": "ゼレンスキー大統領、トランプ政権のウィトコフ特使・クシュナー氏と協議",
+        "sourceUrl": "https://x.com/ZelenskyyUa/status/2113675660950372427",
+        "note": "停戦の枠組みをめぐる米国との直接のやり取りが続いている。"
+      },
+      {
+        "headline": "原油はブレント 117 ドル台・WTI 103 ドル台",
+        "sourceUrl": "https://x.com/zerohedge/status/2113664628823900664",
+        "note": "中東の緊張と米国の増産策が並ぶなかで、高値圏が続く。"
+      },
+      {
+        "headline": "Moody's、フランスの格付け見直しを完了し据え置き",
+        "sourceUrl": "https://x.com/zerohedge/status/2113739498731512158",
+        "note": "財政への懸念が続くなかで、格下げは見送られた。"
+      },
+      {
+        "headline": "英政府、緊急事態に備え国民に3日分の生活物資の確保を勧告とブルームバーグ",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2113654359829491844",
+        "note": "平時の備えを政府が家庭単位で求める動き。"
+      },
+      {
+        "headline": "アマゾンのジャシー CEO、AWS のクラウド容量は 2027 年までほぼ埋まっていると説明と報道",
+        "sourceUrl": "https://x.com/Polymarket/status/2113771052987772997",
+        "note": "AI の計算需要が供給を上回る状態が、数年単位で続く見通しになった。"
+      },
+      {
+        "headline": "Intersect、2025 年のトレジャリー準備金コントラクトで SweepTreasury を初めて実行",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2113992409247830274",
+        "note": "Cardano の予算執行で、準備金コントラクトの資金を戻す仕組みが初めて動いた。"
+      },
+      {
+        "headline": "ピッコマ、メルマガ宛先のメールアドレスが流出 配信委託先ブラストメールへの不正アクセスで",
+        "sourceUrl": "https://x.com/piccoma_jp/status/2113928373567393977",
+        "note": "アカウント・パスワード・購入情報への影響はないとする。同じ委託先経由の公表が企業・官庁で続いている。"
+      },
+      {
+        "headline": "タイムズカー、漏えいの内容をマイページで確認できるように 退会者は専用フォームで照会",
+        "sourceUrl": "https://x.com/livedoornews/status/2113934262256930990",
+        "note": "対象かどうかを利用者が自分で確かめられる窓口ができた。"
+      }
+    ],
+    "watch": [
+      "OKX と ICE のトークン化株の稼働時期と、反対した発行体の扱い",
+      "現物ビットコイン ETF の資金の流れが週明けも続くか",
+      "ブラストメール経由の漏えいの公表がどこまで広がるか"
+    ]
+  }
+}

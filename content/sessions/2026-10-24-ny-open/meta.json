@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-10-24-ny-open",
+  "date": "2026-10-24",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-24-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-24-ny-open",
+  "publishedAt": "2026-10-25T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261024_1803_1c431063",
+  "asOfJst": "2026-10-24T18:03:03+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月24日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,660.30 → 7,621.90（-0.50%）",
+    "変動幅上位: Coinbase（perp） -4.2% / WTI（perp） +3.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261024_1845_a4661c99",
+    "crawlAnchorJst": "2026-10-24T18:03:00+09:00",
+    "writtenAtJst": "2026-10-24T18:45:00+09:00",
+    "lead": "この夕方の中心は、GMO グループの不正アクセス問題が企業の事故対応から国の防御の話へ移ったことだ。GMO は損失の補償と全利用者への見舞金を決め、攻撃者の金銭要求には応じないとしたうえで、政府に能動的サイバー防御の適用を求めた。暗号資産の側では、伝統的な運用会社がチェーン上の持ち高を静かに積み増し、著名トレーダーは逆に持ち高を畳んで様子見に回った。",
+    "items": [
+      {
+        "headline": "GMO グループ、不正アクセス問題で政府に「能動的サイバー防御」の適用を緊急要請",
+        "sourceUrl": "https://x.com/nhk_news/status/2113853441806348318",
+        "note": "民間企業が被害の当事者として国の防御措置の適用を求めた。"
+      },
+      {
+        "headline": "GMO、金銭要求に応じず FX 口座の利用者には一律5,000円の見舞金",
+        "sourceUrl": "https://x.com/nikkei/status/2113851291659116876",
+        "note": "不正取引による損失は補償の対象とした。"
+      },
+      {
+        "headline": "チームみらい、相次ぐ情報漏えいを受けデジタル庁に緊急提言 国産のセキュリティ AI 開発支援など",
+        "sourceUrl": "https://x.com/livedoornews/status/2113842228150026738"
+      },
+      {
+        "headline": "Franklin Templeton、XRP Ledger 上のトークン化 MMF の持ち高を約1.5億ドル積み増し",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/24/franklin-templeton-adds-usd150-million-in-fund-shares-to-xrp-ledger-all-in-one-wallet",
+        "note": "チェーン上の記録では保有口数が約4,800万口から約1.93億口に増えた。"
+      },
+      {
+        "headline": "Arthur Hayes、Maelstrom の方向性ポジションを全て手仕舞い 「下げてから上げる」と様子見へ",
+        "sourceUrl": "https://x.com/CryptoHayes/status/2113877751803642092",
+        "note": "ETH・ENA・UNI などで利益を確定し、マクロと地政学の不透明さを理由に挙げた。"
+      },
+      {
+        "headline": "Aptos、トークン設計の変更がチェーン上の投票を経て稼働 供給上限は21億 APT",
+        "sourceUrl": "https://x.com/Aptos/status/2113831603265019956",
+        "note": "ガス代は10倍にして全額を焼却、ステーキング報酬は5.19%から2.6%へ。"
+      },
+      {
+        "headline": "Cardano PRIME、最初の資金提供先9チームを発表 DEX・レンディング・ブリッジなど DeFi の空白を埋める",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2113781018939568311"
+      },
+      {
+        "headline": "Solana 上のトークン化株式、上場は100銘柄超・取引額は3,000億ドル超と運営側が説明",
+        "sourceUrl": "https://x.com/solana/status/2113884444180586533"
+      },
+      {
+        "headline": "フランス各地で数百件のデモ、店舗や観光地が閉鎖",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/24/france-demonstrations-police-macron-italy-albania-belgium-spain-ukraine-russia-europe-latest-news"
+      },
+      {
+        "headline": "分断が深まるイスラエル、総選挙を前にネタニヤフ氏の戦略を読む",
+        "sourceUrl": "https://www.theguardian.com/news/ng-interactive/2026/oct/24/divided-israel-election-benjamin-netanyahu"
+      },
+      {
+        "headline": "Intersect、週次アップデート #134 を公開",
+        "sourceUrl": "https://intersectmbo.org/news/intersect-weekly-update-134-oct-24-2026"
+      },
+      {
+        "headline": "凝った周辺ツールはコーディングエージェントを高くするが賢くはしない、との研究",
+        "sourceUrl": "https://the-decoder.com/fancy-harnesses-make-coding-agents-more-expensive-but-not-better-study-finds/"
+      }
+    ],
+    "watch": [
+      "政府が GMO の要請にどう答えるか。能動的サイバー防御が民間の被害に初めて使われるかが焦点になる。",
+      "GMO の補償の申請方法の案内と、同じ週に公表が続いた他社の続報。",
+      "伝統的な運用会社によるチェーン上の持ち高の動き。XRP Ledger と Solana のトークン化資産の伸び。"
+    ]
+  }
+}
