@@ -1,0 +1,104 @@
+{
+  "sessionId": "2026-10-24-europe-bridge",
+  "date": "2026-10-24",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-24-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-24-europe-bridge",
+  "publishedAt": "2026-10-25T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261024_1203_cd6a6942",
+  "asOfJst": "2026-10-24T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月24日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1216 → 1.1198（-0.16%）",
+    "変動幅上位: WTI（perp） +3.5% / Coinbase（perp） -3.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261024_1240_d1ee9f90",
+    "crawlAnchorJst": "2026-10-24T12:03:00+09:00",
+    "writtenAtJst": "2026-10-24T12:40:00+09:00",
+    "lead": "ペルシャ湾の原油輸出が戻りつつあるという米財務長官の発言と、対イランで追加の軍事作戦をにおわせる大統領発言が同じ夜に並んだ。株式は下げ、債券利回りは低下した。暗号資産では、ユーロ建てステーブルコインの流通拡大と上場企業による保有の積み増しが続く。Cardano では DeFi 支援策の最初の資金提供先が決まった。",
+    "items": [
+      {
+        "headline": "ベッセント米財務長官、ペルシャ湾からの石油輸出は回復していると投稿",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2113742459708817430",
+        "note": "イランによる輸送妨害の試みがあるなかでの発言。"
+      },
+      {
+        "headline": "トランプ大統領、対イランで追加の軍事作戦の可能性に言及と予測市場各社が速報",
+        "sourceUrl": "https://x.com/Kalshi/status/2113827839506026879",
+        "note": "大統領発言の一次記録はこの時点で未確認。"
+      },
+      {
+        "headline": "米株、ダウ平均が600ドル超下落 債券利回りは低下",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dow-jones-sp-500-nasdaq-dow-jones-verliert-mehr-als-600-punkte-anleiherenditen-sinken/100264495.html",
+        "note": "独 Handelsblatt の市況報道。"
+      },
+      {
+        "headline": "米財務省、中国の安全保障関連分野への米国資金に新たな制限を検討",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/23/treasury-seeks-new-restrictions-us-security-linked-funding-china/"
+      },
+      {
+        "headline": "セントルイス連銀の速報指数、7〜9月期の実質GDP成長率を年率3.2%と推計",
+        "sourceUrl": "https://x.com/stlouisfed/status/2113756118115586507"
+      },
+      {
+        "headline": "Circle のユーロ建てステーブルコイン EURC、流通量が4.5億ユーロを超える",
+        "sourceUrl": "https://x.com/circle/status/2113733765604515952",
+        "note": "同社はユーロ建てで初めてと説明している。"
+      },
+      {
+        "headline": "Tron Inc.、TRX を15万783枚追加取得 平均価格は0.3316ドル",
+        "sourceUrl": "https://x.com/TRON_INC/status/2113811923649310815",
+        "note": "ナスダック上場企業による保有の積み増し。"
+      },
+      {
+        "headline": "Zcash、PoW と PoS を組み合わせる改修案 Crosslink の仕組みを説明",
+        "sourceUrl": "https://x.com/Zcash/status/2113771327697854575",
+        "note": "提案段階で、採用は決まっていない。"
+      },
+      {
+        "headline": "SEC のトークン化の適用除外、対象になるブロックチェーンをめぐり疑問の声",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2113745740204065146",
+        "note": "Canton や Ethereum などの扱いが論点。記者の報道。"
+      },
+      {
+        "headline": "Cardano PRIME、最初の資金提供先として9チームを公表",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2113781018939568311",
+        "note": "Liqwid V3、Indigo、SundaeSwap、TxPipe など DeFi の基盤を担う顔ぶれ。"
+      },
+      {
+        "headline": "Cardano のデスクトップウォレット Daedalus 11.6.0 を公開",
+        "sourceUrl": "https://x.com/se7en_labs/status/2113821019861610990",
+        "note": "メインネット向けの保守リリース。"
+      },
+      {
+        "headline": "ウクライナ側交渉担当、ロシアとの局地的な人道停戦が火曜日に始まると説明",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/23/ukrainian-negotiator-says-local-humanitarian-ceasefire-russia-begin/"
+      },
+      {
+        "headline": "台風で台湾に死者1人・負傷者500人超 中国本土へ向かう",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/24/typhoon-champi-kills-one-and-injures-more-than-500-in-taiwan-as-it-heads-to-china"
+      },
+      {
+        "headline": "中国チベット自治区で地震 生存者の捜索続く",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/23/rescuers-searching-survivors-deadly-earthquake-chinas-tibet-region/"
+      },
+      {
+        "headline": "赤澤経産相、自民党のサイバーセキュリティ戦略本部長と面談 AI を使う人材育成とサプライチェーン防衛を議論",
+        "sourceUrl": "https://x.com/meti_NIPPON/status/2113566867784900999"
+      }
+    ],
+    "watch": [
+      "米大統領の対イラン発言が、原油価格と中東の海上輸送にどう表れるか。",
+      "米財務省の対中投資制限が、正式な規則案として出てくるか。",
+      "Cardano PRIME の9チームが、資金の使い道と時期をどう示すか。"
+    ]
+  }
+}
