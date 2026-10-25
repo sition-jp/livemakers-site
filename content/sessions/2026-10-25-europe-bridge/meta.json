@@ -1,0 +1,64 @@
+{
+  "sessionId": "2026-10-25-europe-bridge",
+  "date": "2026-10-25",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-25-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-25-europe-bridge",
+  "publishedAt": "2026-10-26T02:30:01+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261025_1203_efacc80d",
+  "asOfJst": "2026-10-25T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月25日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1197 → 1.1203（+0.05%）",
+    "変動幅上位: ETH/USD -0.8% / 米10年金利 +0.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261025_1236_59ae5599",
+    "crawlAnchorJst": "2026-10-25T12:03:00+09:00",
+    "writtenAtJst": "2026-10-25T12:36:19+09:00",
+    "lead": "日曜の昼は市場が閉じ、動きは政策と技術の側に寄った。不正アクセスを受けたGMOグループが政府に「能動的サイバー防御」を要請したことで、民間の被害が国の防御の発動を求める段階に入った。暗号の世界では、ECDSA に頼らない署名の設計が研究の場で続けて出ており、量子耐性は議論から設計の段階へ進んでいる。",
+    "items": [
+      {
+        "headline": "不正アクセスを受けたGMOグループ、政府に「能動的サイバー防御」を緊急要請（NHK）",
+        "sourceUrl": "https://x.com/nhk_news/status/2113853441806348318",
+        "note": "顧客情報の流出と身に覚えのない取引の報告を受け、攻撃基盤への国の対処を求めた。"
+      },
+      {
+        "headline": "Solana 公式、ステーブルコインの保有者が1,400万を超えたと投稿",
+        "sourceUrl": "https://x.com/solana/status/2114128183197147383"
+      },
+      {
+        "headline": "セントルイス連銀、米住宅着工件数は年率122.1万戸、着工許可は年率140.0万戸と投稿",
+        "sourceUrl": "https://x.com/stlouisfed/status/2114115976648171979"
+      },
+      {
+        "headline": "ウクライナがロシア占領下のクリミアを攻撃、英仏は合同軍事演習（ガーディアン）",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/25/ukraine-war-briefing-kyiv-targets-russian-occupied-crimea-as-uk-and-france-conduct-joint-military-exercise"
+      },
+      {
+        "headline": "Ethereum の研究フォーラムに、L2 内で ECDSA を使わずハッシュ鎖で口座を守るロールアップ案",
+        "sourceUrl": "https://ethresear.ch/t/a-hash-only-rollup-op-stack-l2-accounts-as-lamport-style-hash-chains-no-ecdsa-inside-the-l2/26172",
+        "note": "量子計算機に強い署名へ移る設計の一つとして出された研究投稿。"
+      },
+      {
+        "headline": "Ethereum Classic のコミュニティコール、ECDSA への量子の脅威への立ち位置を議題に",
+        "sourceUrl": "https://x.com/eth_classic/status/2113986617723511245"
+      },
+      {
+        "headline": "IACR に、Bitcoin 上で複数者の証明検証の争いを解く方式「Tritone」の論文",
+        "sourceUrl": "https://eprint.iacr.org/2026/2612"
+      }
+    ],
+    "watch": [
+      "GMOの要請に政府がどう応じるか。能動的サイバー防御の初の発動になるかが焦点。",
+      "週明けの市場で、中東の緊張とBTCの8万ドル前後の攻防がどう続くか。"
+    ]
+  }
+}
