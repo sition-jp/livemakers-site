@@ -6,7 +6,8 @@ import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
-import { loadChromeProps } from "@/lib/home/load-home-composition";
+import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
+import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { pickClientMessages } from "@/lib/i18n/client-messages";
 
@@ -51,14 +52,10 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
-  // 2026-10-26 段 1: 共通の枠は記事カタログを読まない。カタログは 1.6MB で
-  // データキャッシュに載らず、全ページの作り直しのたびに取得が走っていた。
-  // 未来アトラスの nav も config だけで決める (T4-2 の feed 判定 = カタログ読みは、
-  // 未来アトラスの本体ページ・一覧ページ側に残す)
-  const chrome = await loadChromeProps();
+  const { props } = await loadHomeCompositionProps();
   const futureAtlas = await loadFutureAtlas();
-  const surfacePublished = futureAtlas.config.surfacePublished;
-  const chromeMeta = getSnapshotChromeMeta(chrome.snapshot);
+  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
+  const chromeMeta = getSnapshotChromeMeta(props.snapshot);
 
   // Applies a stored dark preference before first paint so there is no
   // light-flash for returning dark users. Light is the default and needs no
@@ -80,8 +77,8 @@ export default async function LocaleLayout({
           <SiteChrome
             chromeMeta={chromeMeta}
             futureAtlasNav={surfacePublished}
-            tickerItems={chrome.tickerItems}
-            pageProvenance={chrome.pageProvenance}
+            tickerItems={props.tickerItems}
+            pageProvenance={props.pageProvenance}
           >
             {children}
           </SiteChrome>

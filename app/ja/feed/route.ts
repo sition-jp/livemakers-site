@@ -13,7 +13,7 @@ import { SITE_URL } from "@/lib/site";
  * かかわらず購読が壊れないようにする。ビルダーは `rss-feed.ts` を共有
  * するので二重管理にはならない。
  */
-export const revalidate = 86400;
+export const revalidate = 3600;
 
 export async function GET(): Promise<Response> {
   const catalog = await loadPublicArticleInflowCatalog();
@@ -21,7 +21,7 @@ export async function GET(): Promise<Response> {
   return new Response(xml, {
     headers: {
       "Content-Type": "application/rss+xml; charset=utf-8",
-      "Cache-Control": "s-maxage=86400, stale-while-revalidate",
+      "Cache-Control": "s-maxage=3600, stale-while-revalidate",
     },
   });
 }

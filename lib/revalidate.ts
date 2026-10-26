@@ -1,7 +1,5 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 
-import { TERMINAL_FEED_CACHE_TAG } from "@/lib/terminal/live-market-feed";
-
 /**
  * on-demand revalidation の判定 (GO#2 追補・2026-08-01 論点の履行)。
  *
@@ -22,46 +20,8 @@ const MAX_PATHS = 50;
 const PATH_RE =
   /^\/(ja|en)(\/articles(\/series\/[a-z0-9-]+|\/[a-z0-9-]+)?|\/sessions(\/archive|\/[a-z0-9-]+)?)?$/;
 
-/**
- * 2026-10-26 段 1 (設計書 2026-10-26-lvm-lmk-vercel-cost-on-demand-and-catalog-split-design):
- * 記事カタログを読む一覧系ページの「種類」。記事の公開・訂正・取り下げの合図
- * (記事の path を含む payload) を受けたら、`revalidatePath(route, "page")` で
- * その種類のページを丸ごと作り直す (次のアクセス時に 1 回だけ)。カタログは
- * 1.6MB でデータキャッシュに載らず、fetch のタグがページに記録されないため、
- * タグではなく Next.js がページの種類ごとに付ける印で合図する (2026-10-26 実測)。
- * 記事詳細の種類は含めない — 公開レーンが記事ごとの path を送る。
- * 後半の 4 つは「最新記事」の欄 (loadLatestArticlesRail) を持つページ。
- */
-export const ARTICLE_LISTING_ROUTES = [
-  "/[locale]",
-  "/[locale]/articles/today",
-  "/[locale]/articles/series/[series]",
-  "/[locale]/articles/series/[series]/page/[page]",
-  "/[locale]/about",
-  "/[locale]/sessions/archive",
-  "/[locale]/sessions/archive/past",
-  "/[locale]/future-atlas",
-] as const;
-
-/** 記事カタログから作る RSS・sitemap (記事の合図で一緒に作り直す)。 */
-export const ARTICLE_FEED_PATHS = [
-  "/sitemap.xml",
-  "/sitemap-news.xml",
-  "/ja/feed.xml",
-  "/ja/feed",
-] as const;
-
-const ARTICLE_PATH_RE = /^\/(ja|en)\/articles(\/|$)/;
-
 export type RevalidateDecision =
-  | {
-      ok: true;
-      paths: string[];
-      /** `revalidatePath(route, "page")` で作り直すページの種類 */
-      routes?: string[];
-      /** `revalidateTag(tag, "max")` で合図するタグ */
-      tags?: string[];
-    }
+  | { ok: true; paths: string[] }
   | { ok: false; status: number; reason: string };
 
 export function tokensMatch(candidate: string, configured: string): boolean {
@@ -93,14 +53,7 @@ export function decideCronRefresh(
   if (!bearer || !tokensMatch(bearer, configuredSecret)) {
     return { ok: false, status: 401, reason: "invalid_token" };
   }
-  // 2026-10-26 段 1: 時間での作り直しを 6 時間に延ばしたので、セッション時刻と
-  // 0 時にここで home + セッション一覧を作り直す。市場データのタグで、全ページの
-  // 共通の枠 (ティッカー) も次のアクセス時に新しくする
-  return {
-    ok: true,
-    paths: ["/ja", "/en", "/ja/sessions/archive", "/en/sessions/archive"],
-    tags: [TERMINAL_FEED_CACHE_TAG],
-  };
+  return { ok: true, paths: ["/ja", "/en"] };
 }
 
 export function decideRevalidate(
@@ -125,15 +78,6 @@ export function decideRevalidate(
       return { ok: false, status: 400, reason: "invalid_path" };
     }
     normalized.push(path);
-  }
-  // 記事の path を含む = 記事カタログが変わった合図 (公開レーンは必ず
-  // /ja/articles を送る)。市場データの配信は /ja・/en・セッションだけなので広げない
-  if (normalized.some((path) => ARTICLE_PATH_RE.test(path))) {
-    return {
-      ok: true,
-      paths: [...new Set([...normalized, ...ARTICLE_FEED_PATHS])],
-      routes: [...ARTICLE_LISTING_ROUTES],
-    };
   }
   return { ok: true, paths: [...new Set(normalized)] };
 }

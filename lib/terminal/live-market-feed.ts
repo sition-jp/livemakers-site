@@ -76,11 +76,6 @@ export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 // Client-side live surfaces (/api/dashboard/live no-store,
 // SWR polling) are unaffected.
 export const TERMINAL_FEED_REVALIDATE_SECONDS = 3600;
-// 2026-10-26 段 1: 全ページ共通の枠 (ティッカー) がこの feed を読むので、セッション
-// 時刻の cron はこのタグで合図し、全ページの枠を次のアクセス時に新しくする。
-// feed は 131KB でデータキャッシュに載るのでタグがページに記録される (1.6MB の
-// 記事カタログはキャッシュに載らずタグが記録されない — 2026-10-26 手元で実測)
-export const TERMINAL_FEED_CACHE_TAG = "lvm-terminal-feed";
 
 const localizedTextSchema = z.object({ en: z.string(), ja: z.string() });
 
@@ -1201,10 +1196,7 @@ export async function fetchLiveMarketData(): Promise<LiveMarketData | null> {
   for (let attempt = 1; attempt <= TERMINAL_FEED_FETCH_ATTEMPTS; attempt += 1) {
     try {
       const response = await fetch(url, {
-        next: {
-          revalidate: TERMINAL_FEED_REVALIDATE_SECONDS,
-          tags: [TERMINAL_FEED_CACHE_TAG],
-        },
+        next: { revalidate: TERMINAL_FEED_REVALIDATE_SECONDS },
         signal: AbortSignal.timeout(TERMINAL_FEED_FETCH_TIMEOUT_MS),
       });
       if (response.ok) return mapTerminalFeed(await response.json());
