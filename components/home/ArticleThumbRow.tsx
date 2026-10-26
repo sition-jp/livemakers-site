@@ -12,15 +12,18 @@ export function ArticleThumbRow({
   article,
   familyLabel,
   indexNav = false,
+  trackArticleId = true,
 }: {
   article: ArticleMeta;
   familyLabel: string;
   indexNav?: boolean;
+  /** false = data-article-id を付けない (CompositeHero は id を持たない・D14) */
+  trackArticleId?: boolean;
 }) {
   return (
     <Link
       href={article.href}
-      data-article-id={article.articleId}
+      data-article-id={trackArticleId ? article.articleId : undefined}
       data-index-nav={indexNav ? "" : undefined}
       data-thumb-row
       className="group flex items-center gap-3 border-b border-border-primary px-3 py-2.5 text-left transition-colors hover:bg-bg-tertiary"

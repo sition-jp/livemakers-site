@@ -9,6 +9,7 @@ import type { HomeCompositionProps } from "../HomeComposition";
 import { IndicatorTileCard } from "../IndicatorTileCard";
 import { LaneValuesCard } from "../LaneValuesCard";
 import { LeadArticleCard } from "../LeadArticleCard";
+import { mkt12ReadingText } from "../mkt12-reading-text";
 import { SignalTimeline } from "../SignalTimeline";
 import { TopMoversCard } from "../TopMoversCard";
 
@@ -16,9 +17,10 @@ const REGION = "coincident" satisfies GradientRegion;
 
 /**
  * 中央カラム = 一致 (G44 D6 / 2026-08-14 Phase 3 改訂 / 2026-10-26 で 8/22 の形へ)。
- * モジュール順は勾配台帳 REGION_MODULES.coincident。lead-article は D8 の単一表現
- * ルールで desktop 専用 (mobile は CompositeHero が担う)。mkt12-reading = 「今朝の
- * 12指標」最新 1 本 + シリーズページへのアーカイブリンク (lead-article 直下)。
+ * モジュール順は勾配台帳 REGION_MODULES.coincident。lead-article と mkt12-reading は
+ * D8 の単一表現ルールで desktop 専用 (mobile は CompositeHero が担う・2026-10-26)。
+ * mkt12-reading = 「今朝の12指標」最新 1 本 + シリーズページへのアーカイブリンク
+ * (lead-article 直下)。
  * 直下に signal-timeline。
  */
 export type CoincidentColumnProps = Pick<
@@ -33,8 +35,11 @@ export type CoincidentColumnProps = Pick<
   | "copy"
 >;
 
+// 2026-10-26 田平氏 GO: スマホでは Daily Intel と今朝の12指標をページ上部
+// (CompositeHero) に出すので、この 2 欄は PC 専用 (同じ記事を 2 回出さない)。
 const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
   "lead-article": "hidden xl:block",
+  "mkt12-reading": "hidden xl:block",
 };
 
 export function CoincidentColumn({
@@ -75,20 +80,7 @@ export function CoincidentColumn({
         // アーカイブ先も週末系へ)。遅行カラムの索引カードとの二重掲載は許容。
         // 2026-10-26 田平氏 GO: 8/23 の帯 (小サムネ行 + 右隣リンク) をやめ、
         // この 8/22 の欄へ戻す (右隣リンクはスマホ幅で行を押し縮めていた)。
-        const isWeekend = slots.mkt12.variant === "weekend";
-        const mkt12Text = isWeekend
-          ? {
-              title: copy.mkt12.articleTitleWeekend,
-              awaiting: copy.mkt12.awaitingWeekend,
-              previous: copy.mkt12.previousWeekend,
-              archiveHref: "/articles/series/mkt12-weekend",
-            }
-          : {
-              title: copy.mkt12.articleTitle,
-              awaiting: copy.mkt12.awaiting,
-              previous: copy.mkt12.previous,
-              archiveHref: "/articles/series/mkt12-morning",
-            };
+        const mkt12Text = mkt12ReadingText(slots.mkt12.variant, copy.mkt12);
         return (
           <section
             data-mkt12-reading

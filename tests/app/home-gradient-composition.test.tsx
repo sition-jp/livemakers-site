@@ -105,6 +105,74 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     }
   });
 
+  // 2026-10-26 田平氏 GO (スマホの並び): 表示の順番は HTML の順番のまま。スマホ
+  // だけの表現 (xl:hidden) と PC だけの表現 (hidden xl:block) を出し分けて並べる。
+  // Tailwind の class で「その幅で見えるか」を判定する (jsdom はレイアウトを持たない)。
+  const visibleModules = (container: HTMLElement, width: "mobile" | "xl") =>
+    [...container.querySelectorAll("[data-column-module]")]
+      .filter((element) => {
+        for (let node: Element | null = element; node; node = node.parentElement) {
+          if (node.hasAttribute("hidden")) return false;
+          const classes = [...node.classList];
+          if (width === "mobile" && classes.includes("hidden")) return false;
+          if (width === "xl") {
+            if (classes.includes("xl:hidden")) return false;
+            if (
+              classes.includes("hidden") &&
+              !classes.some((name) => /^(sm|md|lg|xl):(block|flex|grid)$/.test(name))
+            ) {
+              return false;
+            }
+          }
+        }
+        return true;
+      })
+      .map((element) => element.getAttribute("data-column-module"));
+
+  it("stacks the mobile page: Daily Intel → 12 indicators → Intelligence Terminal → … → Event Risk → latest articles", () => {
+    const { container } = renderHome();
+    const lagging = orderLaggingModules(props.slots).filter(
+      (module) => !["event-risk-mobile", "latest-articles", "turning-point-reserved"].includes(module),
+    );
+    expect(visibleModules(container, "mobile")).toEqual([
+      "hero-lead-card",
+      "hero-mkt12-card",
+      "session-line",
+      "schedule",
+      "flash-list",
+      "signal-timeline",
+      "mkt12-tiles",
+      "lane-values",
+      ...lagging,
+      "event-risk-mobile",
+      "latest-articles",
+    ]);
+    // セッション 1 行は Intelligence Terminal の見出しのすぐ下
+    const leading = container.querySelector('[data-ledger-group="leading"]')!;
+    const heading = leading.querySelector("h2")!;
+    expect(heading.nextElementSibling?.getAttribute("data-column-module")).toBe("session-line");
+  });
+
+  it("keeps the desktop columns unchanged by the mobile order", () => {
+    const { container } = renderHome();
+    const lagging = orderLaggingModules(props.slots).filter(
+      (module) => !["event-risk-mobile", "turning-point-reserved"].includes(module),
+    );
+    expect(visibleModules(container, "xl")).toEqual([
+      "session-now",
+      "schedule",
+      "focus",
+      "event-risk",
+      "flash-list",
+      "lead-article",
+      "mkt12-reading",
+      "signal-timeline",
+      "mkt12-tiles",
+      "lane-values",
+      ...lagging,
+    ]);
+  });
+
   it("hides the hero at xl and keeps it free of data-article-id", () => {
     const { container } = renderHome();
     const hero = container.querySelector('[data-ledger-group="hero"]')!;

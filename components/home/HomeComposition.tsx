@@ -65,14 +65,7 @@ export function HomeComposition({
       className="mx-auto max-w-[1760px] px-4 pb-10 pt-6 md:px-8"
     >
       <FlashBand article={slots.flashLatest} locale={locale} />
-      <CompositeHero
-        live={live}
-        recentClosed={recentClosed}
-        lead={slots.lead}
-        copy={copy.hero}
-        editorialCopy={copy.sessionNow}
-        showSessionEditorial={showSessionEditorial}
-      />
+      <CompositeHero lead={slots.lead} mkt12={slots.mkt12} copy={copy} />
       {/* xl では CompositeHero が hidden のため、mt-8 だと masthead 直下に
           56px (wrapper pt-6 + mt-8) の空白が生じる — xl:mt-0 で 24px に詰める
           (2026-08-14 田平氏指示)。mobile〜lg は hero が実在するので mt-8 維持。 */}

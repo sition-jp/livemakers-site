@@ -35,19 +35,29 @@ export function SessionScheduleCard({
   const firstPrevious = remaining.find((item) => item.previous)?.previous;
 
   if (variant === "compact") {
+    // 2026-10-26 田平氏 GO: スマホにもセッション記事の一覧への導線を出す
+    // (full と同じ archive 文言・時間が経つとライブは記事になる旨を含む)
     return (
       <div
         data-index-nav
-        className="flex items-center gap-3 rounded border border-border-primary bg-bg-secondary px-3 py-2"
+        className="rounded border border-border-primary bg-bg-secondary px-3 py-2"
       >
-        <span className="rounded bg-bg-tertiary px-2 py-1 text-[10px] font-bold text-text-secondary">
-          {copy.compactBadge}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="rounded bg-bg-tertiary px-2 py-1 text-[10px] font-bold text-text-secondary">
+            {copy.compactBadge}
+          </span>
+          <Link
+            href={firstPrevious?.currentUrl ?? "/sessions/archive"}
+            className="ml-auto text-xs font-bold text-accent"
+          >
+            {copy.compactPrevious}
+          </Link>
+        </div>
         <Link
-          href={firstPrevious?.currentUrl ?? "/sessions/archive"}
-          className="ml-auto text-xs font-bold text-accent"
+          href="/sessions/archive"
+          className="mt-2 block border-t border-dashed border-border-primary pt-2 text-xs font-bold text-accent"
         >
-          {copy.compactPrevious}
+          {copy.archive}
         </Link>
       </div>
     );

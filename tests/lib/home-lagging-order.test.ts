@@ -55,12 +55,14 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・�
     expect(laggingModuleLatest({ ...saturday, deepDives: [] }, "deep-dive")).toBeNull();
   });
 
+  // 2026-10-26: 末尾の固定枠に event-risk-mobile (スマホ専用) が最新記事の直前で加わる
   it("orders the four article modules newest-first and keeps the ledger tail fixed", () => {
     expect(orderLaggingModules(saturday)).toEqual([
       "atlas-entry",
       "mkt12-weekend",
       "weekly-brief",
       "deep-dive",
+      "event-risk-mobile",
       "latest-articles",
       "turning-point-reserved",
     ]);
@@ -83,6 +85,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・�
       "deep-dive",
       "atlas-entry",
       "weekly-brief",
+      "event-risk-mobile",
       "latest-articles",
       "turning-point-reserved",
     ]);
