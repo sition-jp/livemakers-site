@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-10-26-europe-bridge",
+  "date": "2026-10-26",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-26-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-26-europe-bridge",
+  "publishedAt": "2026-10-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261026_1203_ce09565c",
+  "asOfJst": "2026-10-26T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月26日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1202 → 1.1226（+0.21%）",
+    "変動幅上位: ETH/USD -2.3% / WTI（perp） -2.2%"
+  ]
+}

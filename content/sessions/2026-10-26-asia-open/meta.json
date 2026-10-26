@@ -1,0 +1,114 @@
+{
+  "sessionId": "2026-10-26-asia-open",
+  "date": "2026-10-26",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-26-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-26-asia-open",
+  "publishedAt": "2026-10-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261026_0730_4253d4f7",
+  "asOfJst": "2026-10-26T07:30:07+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月26日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 62,500 → 62,727（+0.36%）",
+    "変動幅上位: WTI（perp） -1.7% / 米10年金利 +0.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261026_0620_200eaf9f",
+    "crawlAnchorJst": "2026-10-26T05:03:00+09:00",
+    "writtenAtJst": "2026-10-26T06:20:00+09:00",
+    "lead": "週明けの朝は、AI への資金の置き場所が割れたまま始まる。メモリ半導体の ETF からは10月に20億ドルが流出し、ブルームバーグは米国のハイテクの決算のあとの相場の波乱が今週も起きる恐れを伝える。中東ではトランプ大統領が「今日は攻撃しない」と述べた一方、27日のイスラエルの選挙を前に言葉の応酬が続く。セルビアではブチッチ大統領が選挙での敗北を認めた。",
+    "items": [
+      {
+        "headline": "メモリ半導体の ETF の DRAM、10月の流出が20億ドルに",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2114360329983709687",
+        "note": "上場以来で最大の月の流出に向かい、3か月続けての流出になる見込み。"
+      },
+      {
+        "headline": "米国のハイテクの決算のあとの相場の波乱、今週も起きる恐れ",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2114420518505857370",
+        "note": "AI の投資の見返りへの疑問が背景にある（ブルームバーグ）。"
+      },
+      {
+        "headline": "ラミス上院議員、民主党の求めた Regulation Crypto の上限を CLARITY 法案に入れたと投稿",
+        "sourceUrl": "https://x.com/SenLummis/status/2114365112257564951",
+        "note": "年間の上限を7,500万ドルから5,000万ドルに下げ、累計2億ドルの上限を加えた。そのうえで民主党が反対票を投じたと批判した。"
+      },
+      {
+        "headline": "トランプ大統領、イランを「今日は攻撃しない」",
+        "sourceUrl": "https://x.com/coinbureau/status/2114414839355654232",
+        "note": "48時間前には、もう一度の攻撃の可能性に触れていた。27日にイスラエルの総選挙がある。"
+      },
+      {
+        "headline": "トランプ大統領、イランとは合意か「片付ける」かを考えていると発言",
+        "sourceUrl": "https://x.com/Kalshi/status/2114377173993931234"
+      },
+      {
+        "headline": "イランの外相、テヘランは戦術を変えないと表明",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/25/iranian-foreign-minister-abbas-araghchi-says-tehran-not-change/"
+      },
+      {
+        "headline": "イスラエルの選挙が米国の経済と軍の作戦に大きく響きうるとの分析",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/25/israeli-election-could-dramatically-impact-us-economy-military/"
+      },
+      {
+        "headline": "セルビアのブチッチ大統領が選挙で敗北を認め、学生の名簿が第一党に",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/25/europe-serbia-elections-aleksander-vucic-student-list-protests-bulgaria-latest-news-updates",
+        "note": "ブチッチ氏は学生の名簿が最大の政党になると述べた（ガーディアン）。"
+      },
+      {
+        "headline": "ブラジルの大統領選の決選投票、開票が進む",
+        "sourceUrl": "https://www.theguardian.com/world/ng-interactive/2026/oct/25/brazil-election-2026-live-second-round-results"
+      },
+      {
+        "headline": "ベネズエラの野党の指導者マチャド氏が帰国",
+        "sourceUrl": "https://www.straitstimes.com/world/venezuela-opposition-leader-maria-corina-machado-returns-to-venezuela"
+      },
+      {
+        "headline": "Uniswap のトークン化した株、先週の取引の62%が米市場の時間外",
+        "sourceUrl": "https://x.com/Uniswap/status/2114404903330443560"
+      },
+      {
+        "headline": "ラトビア、商業不動産を軸に2027年にトークン化のルールへ",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/25/latvia-targets-tokenization-rules-in-2027-with-commercial-property-in-focus"
+      },
+      {
+        "headline": "インドの取引所 CoinDCX、使わなくなったはずのウォレットからの1,600万ドルの損失を認める",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-25-coindcx-confirms-16-million-loss-from-retired-wallets-days-after-ceo-called-breach-reports-a-false-alarm-431617"
+      },
+      {
+        "headline": "Keystone の購入者から、消したはずの情報が流出に含まれていたとの声",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-25-keystone-customers-say-breach-exposed-data-the-hardware-wallet-maker-promised-to-delete-431613"
+      },
+      {
+        "headline": "日本の投資家、海外の長期債を5週続けて売り越し",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2114440496869470523",
+        "note": "10月17日までの週は10億ドルの売り越しで、5週続けては4年で最長。"
+      },
+      {
+        "headline": "マレーシアの9月の輸出、前の年より54.5%増の過去最高",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2114400418524729698"
+      },
+      {
+        "headline": "Cardano の DRep Talk 1.8、すべての種類のガバナンスの議案をメインネットで提出可能に",
+        "sourceUrl": "https://x.com/dreptalkcom/status/2114417037657378999"
+      },
+      {
+        "headline": "SpaceX、Flight 15 に向けて Super Heavy の33基のエンジンの燃焼試験",
+        "sourceUrl": "https://x.com/SpaceX/status/2114444137067844004"
+      }
+    ],
+    "watch": [
+      "10月27日のイスラエルの総選挙と、その前後の米国のイランへの発言",
+      "10月28日の FOMC の決定と、同じ日の Microsoft・Alphabet の決算での AI の投資の説明",
+      "メモリ半導体からの資金の流出が月末まで続くか"
+    ]
+  }
+}

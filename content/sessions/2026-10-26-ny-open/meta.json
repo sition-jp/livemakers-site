@@ -1,0 +1,105 @@
+{
+  "sessionId": "2026-10-26-ny-open",
+  "date": "2026-10-26",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-26-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-26-ny-open",
+  "publishedAt": "2026-10-27T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261026_1803_558291a0",
+  "asOfJst": "2026-10-26T18:03:25+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月26日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,627.40 → 7,644.40（+0.22%）",
+    "変動幅上位: WTI（perp） -2.2% / BTCボラティリティ（BVIV） -2.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261026_1849_6b3a766d",
+    "crawlAnchorJst": "2026-10-26T18:03:00+09:00",
+    "writtenAtJst": "2026-10-26T18:49:30+09:00",
+    "lead": "週明けの市場は、今週の金融政策ラッシュを前に身構えている。FRB・ECB・日銀の決定とCoinbaseの決算が同じ週に並び、ビットコインは8万ドルを割り込んだ。暗号資産では、古参ウォレットElectrumの不具合とCoinDCXの旧ウォレットでの損失が相次いで明らかになり、運用の継ぎ目が狙われる構図が続く。国内ではグッドスマイルカンパニーの公式ECが閉鎖に追い込まれ、漏えいの連鎖はまだ止まっていない。",
+    "items": [
+      {
+        "headline": "今週はFRB・ECB・日銀の金融政策決定とCoinbase決算が同じ週に重なる",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/26/fed-ecb-and-boj-interest-rate-decisions-coinbase-earnings-crypto-week-ahead",
+        "note": "3つの中銀の判断が数日のうちに出そろう。暗号資産市場も金利の織り込み直しに振られやすい週になる。"
+      },
+      {
+        "headline": "ビットコインが8万ドルを割り込む　FRB会合を前に持ち高を落とす動き",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/26/bitcoin-slips-under-usd80-000-as-traders-de-risk-ahead-of-fed-meeting"
+      },
+      {
+        "headline": "Electrumに、悪意あるサーバーが手数料引き上げ時の送金先をすり替える不具合　4.8.3で修正",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/26/bitcoin-wallet-bug-let-rogue-servers-steal-funds-when-users-tried-to-speed-up-payments",
+        "note": "4.8.3より前の版が対象。開発元によると10月に被害の報告が2件あり、少なくとも1件で実際に資金が失われた。"
+      },
+      {
+        "headline": "インド最大の取引所CoinDCX、廃止したはずの旧ウォレットで約1,600万ドルの損失を自社で吸収",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/26/coindcx-absorbs-usd16-million-loss-from-internal-process-failure-tied-to-retired-wallet",
+        "note": "入金の移し替え処理の不備で、旧アドレスに顧客の入金がたまっていた。同社は顧客の残高に影響はないと説明している。"
+      },
+      {
+        "headline": "Solanaのトークン化株の保有者が150万人に　8月から5倍で過去最高",
+        "sourceUrl": "https://x.com/solana/status/2114610515452551411",
+        "note": "Solanaの公式アカウントが示した数字。"
+      },
+      {
+        "headline": "アーサー・ヘイズ氏、flop_labsのDevnetを数日のうちに誰でもマイナー・バリデーターとして参加できる形で開放すると投稿",
+        "sourceUrl": "https://x.com/CryptoHayes/status/2114617436398100654"
+      },
+      {
+        "headline": "ブルームバーグ、ジャンク債の発行市場が止まり債務再編の恐れも出ていると報道",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2114545134192763213"
+      },
+      {
+        "headline": "グッドスマイルカンパニーの公式ECに不正アクセス　サイトは閉鎖中で再開の目処は立たず",
+        "sourceUrl": "https://x.com/itmedia_news/status/2114560753655243126",
+        "note": "会員の住所や注文履歴などが閲覧された可能性がある。対象の会員には順次メールで連絡するとしている。"
+      },
+      {
+        "headline": "GoWebクラウド、提供サービス「GoWeb」への不正アクセスを報告",
+        "sourceUrl": "https://x.com/piyokango/status/2114573842459034019"
+      },
+      {
+        "headline": "GMOの緊急要請を受け、政府は無害化措置を「適切に判断」　省庁が一体で対応へ",
+        "sourceUrl": "https://x.com/Sankei_news/status/2114563387170734340",
+        "note": "企業へのサイバー攻撃による漏えいが相次ぐなか、政府が対応の枠組みに踏み込む。"
+      },
+      {
+        "headline": "IPA、個人情報が漏えいしたときの対処と日頃の対策をまとめて公開",
+        "sourceUrl": "https://x.com/IPA_anshin/status/2114631339005857820"
+      },
+      {
+        "headline": "セイコーマート、10月26日にアプリのログインを再開",
+        "sourceUrl": "https://x.com/Seicomart_TW/status/2114614032510730243"
+      },
+      {
+        "headline": "トヨタ、人型ロボットと工場の自動化に年64億ドルを投じる（The Decoder）",
+        "sourceUrl": "https://the-decoder.com/toyota-is-betting-6-4-billion-a-year-on-humanoid-robots-and-factory-automation/"
+      },
+      {
+        "headline": "Amazonの衛星インターネット「Leo」、Starlinkより高速で小型の端末を準備と報道",
+        "sourceUrl": "https://www.gizmodo.jp/article/2610-amazon-leo-satellite-internet/"
+      },
+      {
+        "headline": "Cardanoscan、Cardanoのプロトコルパラメータを一覧できる新しい画面を公開",
+        "sourceUrl": "https://x.com/cardanoscanio/status/2114602533910151484"
+      },
+      {
+        "headline": "ヘブロンでイスラエル軍が住宅を接収、パレスチナ人約2,000人が住まいを追われる（ガーディアン）",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/26/collective-punishment-palestinians-displaced-israeli-forces-take-over-hebron-homes"
+      }
+    ],
+    "watch": [
+      "FRB・ECB・日銀の決定と、ビットコインの8万ドル前後での値動き",
+      "グッドスマイルカンパニーの続報で、対象の会員数と再開時期が示されるか",
+      "Electrum 4.8.3 への更新がどこまで進むか、他のライトウォレットに同種の問題がないか"
+    ]
+  }
+}
