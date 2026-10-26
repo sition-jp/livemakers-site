@@ -53,7 +53,7 @@ function toJstParts(value: string) {
   return { date, time, iso: `${date}T${time}:${pad(jst.getUTCSeconds())}+09:00` };
 }
 
-function mapInflowArticle(
+export function mapInflowArticle(
   article: ArticleInflowSourceItem,
   hrefBase: string,
 ): ArticleInflowPreviewArticle {
