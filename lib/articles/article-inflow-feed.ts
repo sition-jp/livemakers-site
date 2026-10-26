@@ -1,5 +1,7 @@
 import "server-only";
 
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
+
 import {
   getAllArticles,
   getArticleBody,
@@ -95,6 +97,9 @@ export const ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS = 4_000;
  * 2026-09-22: the catalog (FEEDSPLIT, ~460KB) is NOT memoized — it fits the
  * data cache, and a shared memo defeats revalidatePath (see
  * fetchProductionArticleInflowFeed). Only the v0 fallback feed uses this memo.
+ * 2026-10-26: the catalog grew to 1.6MB and no longer fits the data cache, so
+ * it IS memoized during `next build` only (a one-off snapshot with no
+ * revalidatePath) — runtime behavior is unchanged.
  */
 export const ARTICLE_INFLOW_FEED_MEMO_TTL_MS = 120_000;
 
@@ -219,8 +224,16 @@ export async function fetchProductionArticleInflowFeed(
     // revalidatePath で再生成した記事ページが別ページの読んだ旧 catalog を使い、
     // 新記事 404・取り下げ記事 200 が焼き付いた (9/22 14:30 / 14:56 実測)。
     // data cache 経由なら再生成された path の implicit tag で旧 entry を捨てられる
-    const catalog = await fetchValidatedArticleInflowFeed(
-      catalogUrl, fetcher, "production", parseArticleInflowCatalog);
+    // 2026-10-26: ただし catalog は 1.6MB に育ち data cache にも載らなくなった
+    // (キャッシュ用の形で 2.17MB)。`next build` では約 1,000 ページがページごとに
+    // 取りに行き、Blob に 403 で拒否されてトップが repository-only で焼かれていた。
+    // ビルドは 1 回きりの snapshot で revalidatePath も来ないので、ビルド中だけ
+    // memo + single-flight で取得をプロセスあたり 1 回に絞る (実行時は従来どおり)
+    const catalog = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
+      ? await loadValidatedArticleInflowFeedMemoized(
+          catalogUrl, fetcher, "production", parseArticleInflowCatalog)
+      : await fetchValidatedArticleInflowFeed(
+          catalogUrl, fetcher, "production", parseArticleInflowCatalog);
     if (catalog) return catalog;
     console.warn(
       "[article-inflow] catalog v1 unavailable; falling back to v0 feed");

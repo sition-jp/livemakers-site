@@ -27,6 +27,7 @@ const BODY_URL = `${ARTICLE_BLOB_ORIGIN}/livemakers/article_inflow/bodies/${SLUG
 const originalCatalogUrl = process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY];
 const originalFeedUrl = process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY];
 const originalPublicFlag = process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY];
+const originalNextPhase = process.env.NEXT_PHASE;
 
 function catalogPayload() {
   return {
@@ -105,6 +106,11 @@ afterEach(() => {
   } else {
     process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = originalPublicFlag;
   }
+  if (originalNextPhase === undefined) {
+    delete process.env.NEXT_PHASE;
+  } else {
+    process.env.NEXT_PHASE = originalNextPhase;
+  }
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
   resetArticleInflowFeedMemo();
@@ -163,6 +169,29 @@ describe("catalog v1 loader", () => {
     const second = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
     expect(first?.feed_checksum).toBe("1111111111111111");
     expect(second?.feed_checksum).toBe("2222222222222222");
+  });
+
+  // 2026-10-26: catalog は 1.6MB に育ち、data cache 上限 (2MB) を超えた
+  // (キャッシュ用の形で 2.17MB・"items over 2MB can not be cached")。`next build`
+  // では約 1,000 ページがページごとに catalog を取りに行き、Blob に 403 で拒否され
+  // てトップが repository-only で焼かれていた。ビルドは 1 回きりの snapshot で
+  // revalidatePath も来ないので、ビルド中だけ memo + single-flight で 1 回に絞る。
+  it("fetches the catalog once per process during next build", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    process.env.NEXT_PHASE = "phase-production-build";
+    const fetcher = routedFetcher({
+      [CATALOG_URL]: () => jsonResponse(catalogPayload()),
+    });
+    const loads = await Promise.all(
+      Array.from({ length: 10 }, () =>
+        fetchProductionArticleInflowFeed(fetcher as typeof fetch)),
+    );
+    const later = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    for (const source of [...loads, later]) {
+      expect(source?.feed_checksum).toBe("8f36d3924040c7aa");
+    }
   });
 
   it("still memoizes the v0 fallback feed (too large for the data cache)", async () => {
