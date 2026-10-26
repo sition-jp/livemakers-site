@@ -1,6 +1,7 @@
 import "server-only";
 
 import { PHASE_PRODUCTION_BUILD } from "next/constants";
+import { cache } from "react";
 
 import {
   getAllArticles,
@@ -286,10 +287,67 @@ export async function loadArticleInflowPreviewCatalog(): Promise<ArticleInflowPr
   return buildArticleInflowPreviewCatalog(getAllArticles(), await fetchArticleInflowFeed());
 }
 
-export async function loadPublicArticleInflowCatalog(): Promise<ArticleInflowPublicCatalog> {
+/**
+ * 2026-10-26 (PR-A): 本番の記事フィードが実行時に取れなかったことを表す。
+ * Vercel 上ではカタログ (1.6MB・データキャッシュに載らない) の取得が 1 日中
+ * たびたび 403 で拒否されている (ランタイムログ)。取れなかった作り直しを
+ * リポジトリ内の記事だけで描くと、その古いページがキャッシュされて次の
+ * 作り直しまで残る (2026-10-26 21:46 の /ja)。このエラーで作り直しを中断すると、
+ * Next.js は前の正常なページを出し続ける。
+ */
+export class ArticleInflowUnavailableError extends Error {
+  constructor() {
+    super("production article feed unavailable; keeping the previous render");
+    this.name = "ArticleInflowUnavailableError";
+  }
+}
+
+/**
+ * 取れなかったときの扱い。"throw" (既定) = 作り直しを中断して前のページを保つ。
+ * "degrade" = リポジトリ内の記事だけで描く (リクエストごとに描く検索ページ用)。
+ */
+export type ArticleInflowUnavailablePolicy = "throw" | "degrade";
+
+// 2026-10-26 (PR-A): 1 回の作り直し (1 リクエスト) の中では本番フィードを 1 回だけ
+// 取る。layout・page・generateMetadata・未来アトラスの判定がそれぞれ読んでいて、
+// 1 回の作り直しでカタログを約 3 回取っていた。React の cache はリクエストを
+// またがないので、9/22 の「古いカタログの焼き付き」(プロセス内 memo) は起きない
+const fetchProductionArticleInflowFeedForRequest = cache(() =>
+  fetchProductionArticleInflowFeed());
+
+function productionFeedConfigured(): boolean {
+  return isArticleInflowPublicEnabled() && Boolean(
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] ||
+      process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY],
+  );
+}
+
+/**
+ * 実行時の本番フィード (1 リクエスト 1 回)。取れなければ既定でエラーにする。
+ * ビルド中は従来どおり null (リポジトリ内の記事で作る) — ビルドを落とすより、
+ * 次の作り直しで直る prerender のほうがよい。
+ */
+export async function loadProductionArticleInflowFeed(
+  onUnavailable: ArticleInflowUnavailablePolicy = "throw",
+): Promise<ArticleInflowSource | null> {
+  const feed = await fetchProductionArticleInflowFeedForRequest();
+  if (
+    feed === null &&
+    onUnavailable === "throw" &&
+    productionFeedConfigured() &&
+    process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD
+  ) {
+    throw new ArticleInflowUnavailableError();
+  }
+  return feed;
+}
+
+export async function loadPublicArticleInflowCatalog(
+  options: { onUnavailable?: ArticleInflowUnavailablePolicy } = {},
+): Promise<ArticleInflowPublicCatalog> {
   return buildArticleInflowPublicCatalog(
     getAllArticles(),
-    await fetchProductionArticleInflowFeed(),
+    await loadProductionArticleInflowFeed(options.onUnavailable),
   );
 }
 

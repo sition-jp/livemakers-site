@@ -8,13 +8,20 @@ import {
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
   resetArticleInflowFeedMemo,
 } from "@/lib/articles/article-inflow-feed";
-import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
-import { TERMINAL_FEED_ENV_KEY } from "@/lib/terminal/live-market-feed";
+import {
+  loadChromeProps,
+  loadHomeCompositionProps,
+} from "@/lib/home/load-home-composition";
+import {
+  TERMINAL_FEED_ENV_KEY,
+  TerminalFeedUnavailableError,
+} from "@/lib/terminal/live-market-feed";
 
 const originalProductionUrl =
   process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY];
 const originalPublicFlag = process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY];
 const originalTerminalUrl = process.env[TERMINAL_FEED_ENV_KEY];
+const originalNextPhase = process.env.NEXT_PHASE;
 
 function restoreEnv(key: string, value: string | undefined) {
   if (value === undefined) delete process.env[key];
@@ -61,6 +68,7 @@ afterEach(() => {
   );
   restoreEnv(ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY, originalPublicFlag);
   restoreEnv(TERMINAL_FEED_ENV_KEY, originalTerminalUrl);
+  restoreEnv("NEXT_PHASE", originalNextPhase);
   vi.unstubAllGlobals();
   vi.useRealTimers();
   // 2026-08-23 案 B: feed はプロセス内メモ (TTL 2 分) されるので、同じ URL を
@@ -118,5 +126,66 @@ describe("loadHomeCompositionProps article catalog states", () => {
     expect(result.catalogSource).toBe("repository_plus_feed");
     expect(result.props.slots.latestArticles.length).toBeGreaterThan(0);
     expect(fetcher).toHaveBeenCalledOnce();
+  });
+});
+
+// 2026-10-26: 全ページ共通の枠 (ティッカー・来歴帯・スナップショット表示) は
+// 市場データだけを使う。記事カタログ (1.6MB・データキャッシュに載らない) を読むと、
+// 全ページの作り直しのたびに取得が走っていた
+describe("loadChromeProps (site chrome without the article catalog)", () => {
+  it("never fetches the article catalog, yet yields the same chrome values", async () => {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "1";
+    process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY] =
+      "https://example.test/production.json";
+    const fetcher = vi.fn(async () => ({
+      ok: true,
+      json: async () => productionFeed([feedArticle()]),
+    }));
+    vi.stubGlobal("fetch", fetcher);
+
+    const chrome = await loadChromeProps();
+
+    expect(fetcher).not.toHaveBeenCalled();
+    const home = await loadHomeCompositionProps();
+    expect(chrome.tickerItems).toEqual(home.props.tickerItems);
+    expect(chrome.pageProvenance).toEqual(home.props.pageProvenance);
+    expect(chrome.snapshot).toEqual(home.props.snapshot);
+  });
+});
+
+// 2026-10-26 (PR-A): 21:46 の /ja は記事カタログと市場データの両方が 403 で
+// 取れず、見本の市場データ (7/10) で描かれてキャッシュされた。市場データも
+// 実行時に取れなければエラーにして、前の正常なページを出し続けさせる
+describe("market feed unavailable at runtime keeps the previous page", () => {
+  function failingMarketFeed() {
+    process.env[TERMINAL_FEED_ENV_KEY] = "https://example.test/terminal_feed.public.json";
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => ({ ok: false, status: 403 }) as unknown as Response),
+    );
+  }
+
+  it("throws from both the chrome and the home loaders", async () => {
+    delete process.env.NEXT_PHASE;
+    failingMarketFeed();
+    await expect(loadChromeProps()).rejects.toBeInstanceOf(TerminalFeedUnavailableError);
+    await expect(loadHomeCompositionProps()).rejects.toBeInstanceOf(
+      TerminalFeedUnavailableError,
+    );
+  });
+
+  it("still falls back to the fixture snapshot during next build", async () => {
+    process.env.NEXT_PHASE = "phase-production-build";
+    failingMarketFeed();
+    const chrome = await loadChromeProps();
+    expect(chrome.tickerItems.length).toBeGreaterThan(0);
+  });
+
+  it("uses the fixture without throwing when no market feed is configured", async () => {
+    delete process.env.NEXT_PHASE;
+    delete process.env[TERMINAL_FEED_ENV_KEY];
+    const chrome = await loadChromeProps();
+    expect(chrome.tickerItems.length).toBeGreaterThan(0);
   });
 });

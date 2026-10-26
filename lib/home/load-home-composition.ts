@@ -2,7 +2,10 @@ import { cache } from "react";
 
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
-import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
+import {
+  fetchLiveMarketData,
+  requireLiveMarketData,
+} from "@/lib/terminal/live-market-feed";
 import {
   buildHomeCompositionProps,
   resolveHomeRadarSource,
@@ -45,10 +48,13 @@ function extractRwaLive(
 }
 
 export const loadHomeCompositionProps = cache(async () => {
-  const [feed, inflow] = await Promise.all([
+  // 2026-10-26 (PR-A): どちらかが実行時に取れなければエラーにして、前の正常な
+  // ページを出し続ける (古い記事・見本の市場データで描いてキャッシュに残さない)
+  const [marketFeed, inflow] = await Promise.all([
     fetchLiveMarketData(),
     loadPublicArticleInflowCatalog(),
   ]);
+  const feed = requireLiveMarketData(marketFeed);
   const catalogSource: HomeCatalogSource = inflow.feedPresent
     ? "repository_plus_feed"
     : "repository_only";
@@ -95,5 +101,30 @@ export const loadHomeCompositionProps = cache(async () => {
     catalogSource,
     radarSource,
     sessionsSource,
+  } as const;
+});
+
+/**
+ * 全ページ共通の枠 (ティッカー・来歴帯・スナップショット表示) 用 (2026-10-26 PR-A)。
+ * 枠の値は市場データとセッション記録だけで決まり、記事には依存しない。そこで
+ * 記事カタログ (1.6MB・データキャッシュに載らない) を読まず、記事はリポジトリ内の
+ * ものだけで組み立てる。layout がこれを使うことで、記事のないページも含めた全ページの
+ * 作り直しのたびに起きていたカタログの取得がなくなる。
+ */
+export const loadChromeProps = cache(async () => {
+  const feed = requireLiveMarketData(await fetchLiveMarketData());
+  const props = buildHomeCompositionProps({
+    source: feed?.home ?? null,
+    feedRadar: feed?.radar ?? null,
+    feedSessions: feed?.sessions ?? null,
+    rwaLive: extractRwaLive(feed),
+    alt20: feed?.alt20 ?? null,
+    sessionRecords: getAllSessionRecords(),
+    now: new Date(),
+  });
+  return {
+    tickerItems: props.tickerItems,
+    pageProvenance: props.pageProvenance,
+    snapshot: props.snapshot,
   } as const;
 });
