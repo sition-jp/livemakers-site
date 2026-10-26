@@ -8,8 +8,8 @@ import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { EventRiskModule } from "../EventRiskModule";
 import { FlashListCard } from "../FlashListCard";
+import { MobileLeadCard, MobileMkt12Card } from "../MobileMorningCards";
 import { SessionFocusChart } from "../SessionFocusChart";
-import { SessionLine } from "../SessionLine";
 import { SessionNowCard } from "../SessionNowCard";
 import { SessionScheduleCard } from "../SessionScheduleCard";
 
@@ -17,8 +17,9 @@ const REGION = "leading" satisfies GradientRegion;
 
 /**
  * 左カラム = 先行 (G44 D5 / 2026-08-14 Phase 3 改訂)。モジュール順は勾配台帳
- * REGION_MODULES.leading。session-now は D8 の単一表現ルールで desktop 専用
- * (mobile は先頭の session-line が担う・2026-10-26 に hero から移設)。
+ * REGION_MODULES.leading。session-now・schedule はスマホも同じ部品 (2026-10-26)。
+ * lead-card-mobile / mkt12-card-mobile = スマホ専用の Daily Intel・12指標カード
+ * (focus 直下・PC は中央列の 2 欄)。
  * event-risk = 最新 event-risk-radar 記事 1 本 (focus 直下・desktop 専用 — mobile は
  * 右列の event-risk-mobile)・flash-list = 当日+前日の速報記事 (event-risk 直下) を描画する。
  * 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) は撤去 — 公開以来一度も
@@ -42,12 +43,13 @@ export type LeadingColumnProps = Pick<
     Pick<HomeCompositionProps, "recentClosed" | "recentClosedProvenance" | "locale">
   >;
 
-// 2026-10-26 田平氏 GO (スマホの並び): session-line はスマホ専用 (見出しの直下)・
-// session-now は PC 専用。event-risk は PC 専用 — スマホは右列の event-risk-mobile。
+// 2026-10-26 田平氏 GO: session-now・schedule はスマホも PC と同じ部品で出す。
+// Daily Intel・12指標のカードはスマホ専用 (PC は中央の 2 欄)・event-risk は PC 専用
+// (スマホは右列の event-risk-mobile)。
 const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
-  "session-line": "xl:hidden",
-  "session-now": "hidden xl:block",
   focus: "hidden md:block",
+  "lead-card-mobile": "xl:hidden",
+  "mkt12-card-mobile": "xl:hidden",
   "event-risk": "hidden xl:block",
 };
 
@@ -70,16 +72,6 @@ export function LeadingColumn({
 
   const renderModule = (module: string): ReactNode => {
     switch (module) {
-      case "session-line":
-        return (
-          <SessionLine
-            live={live}
-            recentClosed={recentClosed}
-            copy={copy.hero}
-            editorialCopy={copy.sessionNow}
-            showSessionEditorial={showSessionEditorial}
-          />
-        );
       case "session-now":
         return live && sessionProvenance ? (
           <SessionNowCard
@@ -105,20 +97,13 @@ export function LeadingColumn({
           </section>
         );
       case "schedule":
-        return (
-          <>
-            <div className="md:hidden">
-              <SessionScheduleCard
-                schedule={schedule}
-                copy={copy.schedule}
-                variant="compact"
-              />
-            </div>
-            <div className="hidden md:block">
-              <SessionScheduleCard schedule={schedule} copy={copy.schedule} />
-            </div>
-          </>
-        );
+        // 2026-10-26 田平氏 GO: スマホも PC と同じ全行 (旧 compact は 1 行で
+        // 情報が少なく、セッション名も読めなかった)
+        return <SessionScheduleCard schedule={schedule} copy={copy.schedule} />;
+      case "lead-card-mobile":
+        return <MobileLeadCard lead={slots.lead} copy={copy} />;
+      case "mkt12-card-mobile":
+        return <MobileMkt12Card mkt12={slots.mkt12} copy={copy} />;
       case "focus":
         return (
           <SessionFocusChart

@@ -91,7 +91,7 @@ describe("LeadingColumn (gradient leading, D5)", () => {
         copy={copy}
       />,
     );
-    // PC の session-now カード (スマホの session-line も同じ文言を出すので範囲を絞る)
+    // session-now カード (スマホも同じカード・2026-10-26)
     const sessionNow = within(
       container.querySelector('[data-column-module="session-now"]') as HTMLElement,
     );
@@ -213,7 +213,7 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     expect(leadCard.compareDocumentPosition(intelLink) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 
     // 今朝の12指標欄: 見出し + full カード (大きなサムネ) + 下にアーカイブリンク
-    // 2026-10-26 田平氏 GO: スマホは上部 (CompositeHero) が担うので PC 専用
+    // 2026-10-26 田平氏 GO: スマホは左列のカード (mkt12-card-mobile) が担うので PC 専用
     const readingWrapper = container.querySelector('[data-column-module="mkt12-reading"]')!;
     expect(readingWrapper.classList.contains("hidden")).toBe(true);
     expect(readingWrapper.classList.contains("xl:block")).toBe(true);

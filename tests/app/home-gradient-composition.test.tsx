@@ -129,16 +129,19 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       })
       .map((element) => element.getAttribute("data-column-module"));
 
-  it("stacks the mobile page: Daily Intel → 12 indicators → Intelligence Terminal → … → Event Risk → latest articles", () => {
+  // 2026-10-26 田平氏 GO (2 回目): スマホも Intelligence Terminal を先頭に PC と同じ
+  // 部品 (セッションカード + 本日の更新予定の全行) で出し、その下に Daily Intel・12指標。
+  // 旧スマホのセッション 1 行はセッション名が「昼・ア…」と切れて読めなかった。
+  it("stacks the mobile page: Intelligence Terminal → Daily Intel → 12 indicators → … → Event Risk → latest articles", () => {
     const { container } = renderHome();
     const lagging = orderLaggingModules(props.slots).filter(
       (module) => !["event-risk-mobile", "latest-articles", "turning-point-reserved"].includes(module),
     );
     expect(visibleModules(container, "mobile")).toEqual([
-      "hero-lead-card",
-      "hero-mkt12-card",
-      "session-line",
+      "session-now",
       "schedule",
+      "lead-card-mobile",
+      "mkt12-card-mobile",
       "flash-list",
       "signal-timeline",
       "mkt12-tiles",
@@ -147,10 +150,22 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       "event-risk-mobile",
       "latest-articles",
     ]);
-    // セッション 1 行は Intelligence Terminal の見出しのすぐ下
+    // セッションカードは Intelligence Terminal の見出しのすぐ下
     const leading = container.querySelector('[data-ledger-group="leading"]')!;
     const heading = leading.querySelector("h2")!;
-    expect(heading.nextElementSibling?.getAttribute("data-column-module")).toBe("session-line");
+    expect(heading.nextElementSibling?.getAttribute("data-column-module")).toBe("session-now");
+    // 本日の更新予定はスマホでも PC と同じ全行 (幅で出し分けない)
+    const schedule = leading.querySelector('[data-column-module="schedule"]')!;
+    expect(schedule.querySelector(".hidden, .md\\:hidden")).toBeNull();
+    expect(schedule.querySelector("h3")?.textContent).toBe(copy.schedule.title);
+    expect(schedule.querySelector('a[href="/sessions/archive"]')).not.toBeNull();
+    // 注目銘柄の行はスマホ幅で切らない (折り返す)・md 以上は 1 行で truncate
+    const focusLines = [...schedule.querySelectorAll("[data-schedule-focus]")];
+    expect(focusLines.length).toBeGreaterThan(0);
+    for (const line of focusLines) {
+      expect(line.classList.contains("truncate")).toBe(false);
+      expect(line.classList.contains("md:truncate")).toBe(true);
+    }
   });
 
   it("keeps the desktop columns unchanged by the mobile order", () => {
@@ -173,16 +188,19 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     ]);
   });
 
-  it("hides the hero at xl and keeps it free of data-article-id", () => {
+  it("keeps the mobile-only Daily Intel and 12 indicators cards free of data-article-id", () => {
     const { container } = renderHome();
-    const hero = container.querySelector('[data-ledger-group="hero"]')!;
-    expect(hero.classList.contains("xl:hidden")).toBe(true);
-    expect(hero.querySelectorAll("[data-article-id]")).toHaveLength(0);
+    expect(container.querySelector('[data-ledger-group="hero"]')).toBeNull();
+    for (const module of ["lead-card-mobile", "mkt12-card-mobile"]) {
+      const wrapper = container.querySelector(`[data-column-module="${module}"]`)!;
+      expect(wrapper.classList.contains("xl:hidden"), module).toBe(true);
+      expect(wrapper.querySelectorAll("[data-article-id]"), module).toHaveLength(0);
+    }
   });
 
-  it("keeps session-now and the Daily Intel card desktop-only (single representation)", () => {
+  it("keeps the Daily Intel and 12 indicators desks desktop-only (single representation)", () => {
     const { container } = renderHome();
-    for (const module of ["session-now", "lead-article"]) {
+    for (const module of ["lead-article", "mkt12-reading"]) {
       const wrapper = container.querySelector(
         `[data-column-module="${module}"]`,
       )!;

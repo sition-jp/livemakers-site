@@ -18,7 +18,7 @@ const REGION = "coincident" satisfies GradientRegion;
 /**
  * 中央カラム = 一致 (G44 D6 / 2026-08-14 Phase 3 改訂 / 2026-10-26 で 8/22 の形へ)。
  * モジュール順は勾配台帳 REGION_MODULES.coincident。lead-article と mkt12-reading は
- * D8 の単一表現ルールで desktop 専用 (mobile は CompositeHero が担う・2026-10-26)。
+ * D8 の単一表現ルールで desktop 専用 (mobile は左列のカードが担う・2026-10-26)。
  * mkt12-reading = 「今朝の12指標」最新 1 本 + シリーズページへのアーカイブリンク
  * (lead-article 直下)。
  * 直下に signal-timeline。
@@ -35,8 +35,8 @@ export type CoincidentColumnProps = Pick<
   | "copy"
 >;
 
-// 2026-10-26 田平氏 GO: スマホでは Daily Intel と今朝の12指標をページ上部
-// (CompositeHero) に出すので、この 2 欄は PC 専用 (同じ記事を 2 回出さない)。
+// 2026-10-26 田平氏 GO: スマホでは Daily Intel と今朝の12指標を左列の Intelligence
+// Terminal の下 (lead-card-mobile / mkt12-card-mobile) に出すので、この 2 欄は PC 専用。
 const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
   "lead-article": "hidden xl:block",
   "mkt12-reading": "hidden xl:block",

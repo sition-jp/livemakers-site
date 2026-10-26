@@ -3,7 +3,9 @@
 // DOM 順 = 領域の順 + 領域内の記載順 (モバイル縦積み・SR・列追加が自動一致)。
 // 本ファイルとテスト・実装コンポーネントは同一 import を共有し、drift を封じる (D14)。
 
-export const GRADIENT_REGIONS = ["hero", "leading", "coincident", "lagging"] as const;
+// 2026-10-26 田平氏 GO (2 回目): スマホ専用の hero 領域を廃止。スマホも Intelligence
+// Terminal (PC と同じ部品) を先頭にし、Daily Intel・12指標のカードはその下 (leading)。
+export const GRADIENT_REGIONS = ["leading", "coincident", "lagging"] as const;
 
 export type GradientRegion = (typeof GRADIENT_REGIONS)[number];
 
@@ -12,12 +14,6 @@ export type GradientRegion = (typeof GRADIENT_REGIONS)[number];
  * data-column-module 属性はこの配列から map で描画する (リテラル直書き禁止・T7/T8/T9)。
  */
 export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>> = {
-  // 2026-10-26 田平氏 GO (スマホの並び): hero (mobile のみ) = Daily Intel 大カード +
-  //   今朝の12指標 小カード。セッション 1 行は leading 先頭の session-line へ移し、
-  //   Intelligence Terminal の見出しの下に置く。中央の lead-article / mkt12-reading
-  //   は PC 専用。Event Risk はスマホでは event-risk-mobile (遅行の最新記事の直前)
-  //   で出し、左の event-risk は PC 専用。HTML の順番 = スマホの並びは維持する。
-  hero: ["hero-lead-card", "hero-mkt12-card"],
   // 2026-08-14 田平氏 GO (Phase 3 レイアウト改修):
   // - leading: event-risk (最新記事) を schedule 直下へ・観測リストは
   //   radar-observations として独立させ flash-promotion 直下へ・focus は末尾へ
@@ -41,11 +37,17 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   // 2026-10-26 田平氏 GO: morning-desk (8/23 の帯) をやめ、8/22 の lead-article +
   //   mkt12-reading の 2 枚へ戻す。帯の 12指標行の右隣リンクがスマホ幅で行を
   //   押し縮めていたため。signal-timeline は mkt12-reading の直下。
+  // 2026-10-26 田平氏 GO: スマホの並び = Intelligence Terminal (session-now・schedule は
+  //   PC と同じ部品を全幅で) → Daily Intel 大カード・12指標 小カード (スマホ専用・
+  //   xl:hidden) → 速報。中央の lead-article / mkt12-reading は PC 専用。Event Risk は
+  //   スマホでは event-risk-mobile (遅行の最新記事の直前) で出し、左の event-risk は
+  //   PC 専用。HTML の順番 = スマホの並びは維持する (表示の出し分けで作る)。
   leading: [
-    "session-line",
     "session-now",
     "schedule",
     "focus",
+    "lead-card-mobile",
+    "mkt12-card-mobile",
     "event-risk",
     "flash-list",
   ],
@@ -74,16 +76,15 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
 
 /**
  * data-index-nav 扱いのモジュール (articleId 重複検査から除外 = gate 6)。
- * hero のカード + スマホのセッション行 + 索引系 (速報リスト / 未来アトラス入口 /
+ * スマホの Daily Intel・12指標カード + 索引系 (速報リスト / 未来アトラス入口 /
  * 週末12指標 / Weekly Brief / 最新記事)。速報リストは速報帯の 1 本を再掲し得るため
  * 索引扱い。event-risk-mobile は PC の event-risk (本体) のスマホ用の写しなので索引扱い。
  * DeepDiveShelf の featured 1 本は本体扱いのため含めない (残り 4 本の title 行が
  * data-index-nav なのはコンポーネント側で付与する)。
  */
 export const INDEX_NAV_MODULES: readonly string[] = [
-  "hero-lead-card",
-  "hero-mkt12-card",
-  "session-line",
+  "lead-card-mobile",
+  "mkt12-card-mobile",
   "flash-list",
   "event-risk-mobile",
   "atlas-entry",

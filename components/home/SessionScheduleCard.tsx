@@ -88,7 +88,11 @@ export function SessionScheduleCard({
                 <span className="font-semibold text-text-primary">
                   {def.nameEn}
                 </span>
-                <span className="block truncate text-[10px] text-text-tertiary">
+                {/* 2026-10-26: スマホ幅では切らずに折り返す (md 以上は 1 行) */}
+                <span
+                  data-schedule-focus
+                  className="block text-[10px] text-text-tertiary md:truncate"
+                >
                   {copy.focusPrefix} {focusPreview}
                 </span>
               </span>
