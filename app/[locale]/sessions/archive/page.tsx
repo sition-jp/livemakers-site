@@ -10,7 +10,7 @@ import { getAllSessionRecords } from "@/lib/sessions/session-content";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 // 右レール「最新の記事」を記事一覧 (series) と同じ間隔で更新する (2026-10-02)
-export const revalidate = 300;
+export const revalidate = 21600;
 
 /**
  * Intelligence Terminal セッション記事の一覧 (2026-08-14 Phase 3b 田平氏指示)。

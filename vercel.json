@@ -4,6 +4,7 @@
     { "path": "/api/cron/refresh-home", "schedule": "50 22 * * *" },
     { "path": "/api/cron/refresh-home", "schedule": "12 3 * * *" },
     { "path": "/api/cron/refresh-home", "schedule": "12 9 * * *" },
-    { "path": "/api/cron/refresh-home", "schedule": "12 14 * * *" }
+    { "path": "/api/cron/refresh-home", "schedule": "12 14 * * *" },
+    { "path": "/api/cron/refresh-home", "schedule": "0 15 * * *" }
   ]
 }

@@ -97,3 +97,28 @@ export const loadHomeCompositionProps = cache(async () => {
     sessionsSource,
   } as const;
 });
+
+/**
+ * 全ページ共通の枠 (ティッカー・来歴帯・スナップショット表示) 用 (2026-10-26 段 1)。
+ * 枠の値は市場データとセッション記録だけで決まり、記事には依存しない。そこで
+ * 記事カタログ (1.6MB・データキャッシュに載らない) を読まず、記事はリポジトリ内の
+ * ものだけで組み立てる。layout がこれを使うことで、記事のないページも含めた全ページの
+ * 作り直しのたびに起きていたカタログの取得がなくなる。
+ */
+export const loadChromeProps = cache(async () => {
+  const feed = await fetchLiveMarketData();
+  const props = buildHomeCompositionProps({
+    source: feed?.home ?? null,
+    feedRadar: feed?.radar ?? null,
+    feedSessions: feed?.sessions ?? null,
+    rwaLive: extractRwaLive(feed),
+    alt20: feed?.alt20 ?? null,
+    sessionRecords: getAllSessionRecords(),
+    now: new Date(),
+  });
+  return {
+    tickerItems: props.tickerItems,
+    pageProvenance: props.pageProvenance,
+    snapshot: props.snapshot,
+  } as const;
+});
