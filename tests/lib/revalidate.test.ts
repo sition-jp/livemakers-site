@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { decideCronRefresh, decideRevalidate } from "@/lib/revalidate";
+import {
+  decideCronRefresh,
+  decideRevalidate,
+  pagePathTag,
+} from "@/lib/revalidate";
 
 const TOKEN = "test-revalidate-token";
 const AUTH = `Bearer ${TOKEN}`;
@@ -110,5 +114,30 @@ describe("cron refresh backstop decision (Phase 1, 2026-08-14)", () => {
       ok: true,
       paths: ["/ja", "/en"],
     });
+  });
+});
+
+// 2026-10-26 (PR-A): 合図は「古いページを出しながら裏で作り直す」(stale-while-
+// revalidate) で送る。revalidatePath はページを即時に捨てるので、作り直しが
+// Blob の 403 で失敗すると前のページが残らず 500 になった (手元で再現)。
+// revalidatePath が内部で使う印 (暗黙タグ) を revalidateTag(…, "max") で送る
+describe("pagePathTag (the implicit tag revalidatePath would expire)", () => {
+  it("matches Next.js's implicit tag prefix", async () => {
+    const { NEXT_CACHE_IMPLICIT_TAG_ID } = await import("next/dist/lib/constants");
+    expect(pagePathTag("/ja")).toBe(`${NEXT_CACHE_IMPLICIT_TAG_ID}/ja`);
+  });
+
+  it("drops a trailing slash like revalidatePath does", () => {
+    expect(pagePathTag("/ja/articles/")).toBe("_N_T_/ja/articles");
+    expect(pagePathTag("/en")).toBe("_N_T_/en");
+  });
+
+  it("is what both revalidation routes send, with the stale-while-revalidate profile", async () => {
+    const fs = await import("node:fs");
+    for (const file of ["app/api/revalidate/route.ts", "app/api/cron/refresh-home/route.ts"]) {
+      const source = fs.readFileSync(file, "utf8");
+      expect(source, file).toContain('revalidateTag(pagePathTag(path), "max")');
+      expect(source, file).not.toMatch(/revalidatePath\(/);
+    }
   });
 });

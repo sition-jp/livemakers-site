@@ -1,3 +1,4 @@
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import { z } from "zod";
 import {
   CHARTABLE_INSTRUMENTS,
@@ -1190,6 +1191,36 @@ export const TERMINAL_FEED_FETCH_TIMEOUT_MS = 4_000;
  * Next's data cache (revalidate) keeps the last good payload between
  * deliveries, which is the design §3-4 behaviour for delivery outages.
  */
+/**
+ * 2026-10-26 (PR-A): 市場データが実行時に取れなかったことを表す。21:46 の /ja は
+ * 記事カタログと市場データの両方が Blob に 403 で拒否され、見本の市場データ
+ * (fixture) で描かれてキャッシュに残った。作り直しを中断すれば、Next.js は
+ * 前の正常なページを出し続ける。
+ */
+export class TerminalFeedUnavailableError extends Error {
+  constructor() {
+    super("terminal feed unavailable; keeping the previous render");
+    this.name = "TerminalFeedUnavailableError";
+  }
+}
+
+/**
+ * 配信 URL が設定されているのに実行時に取れなければエラーにする。URL 未設定
+ * (fixture 運用) とビルド中は従来どおり null を返し、fixture で描く。
+ */
+export function requireLiveMarketData(
+  feed: LiveMarketData | null,
+): LiveMarketData | null {
+  if (
+    feed === null &&
+    process.env[TERMINAL_FEED_ENV_KEY] &&
+    process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD
+  ) {
+    throw new TerminalFeedUnavailableError();
+  }
+  return feed;
+}
+
 export async function fetchLiveMarketData(): Promise<LiveMarketData | null> {
   const url = process.env[TERMINAL_FEED_ENV_KEY];
   if (!url) return null;

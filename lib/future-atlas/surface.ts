@@ -1,6 +1,6 @@
 import "server-only";
 
-import { fetchProductionArticleInflowFeed } from "@/lib/articles/article-inflow-feed";
+import { loadProductionArticleInflowFeed } from "@/lib/articles/article-inflow-feed";
 import {
   effectiveSurfacePublished,
   type FutureAtlasData,
@@ -17,6 +17,7 @@ export async function loadEffectiveSurfacePublished(
   data: Pick<FutureAtlasData, "config">,
 ): Promise<boolean> {
   if (data.config.surfacePublished) return true;
-  const feed = await fetchProductionArticleInflowFeed();
+  // 2026-10-26 (PR-A): 1 リクエスト 1 回の取得を共有し、取れなければ前のページを保つ
+  const feed = await loadProductionArticleInflowFeed();
   return effectiveSurfacePublished(data.config, feed?.articles ?? null);
 }

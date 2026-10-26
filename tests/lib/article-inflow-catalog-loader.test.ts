@@ -7,7 +7,9 @@ import {
   ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY,
   ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY,
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
+  ArticleInflowUnavailableError,
   fetchProductionArticleInflowFeed,
+  loadPublicArticleInflowCatalog,
   loadPublicArticleInflowDetail,
   resetArticleInflowFeedMemo,
 } from "@/lib/articles/article-inflow-feed";
@@ -243,5 +245,62 @@ describe("detail body fetch over catalog v1", () => {
     const detail = await loadPublicArticleInflowDetail(SLUG, "ja");
     expect(detail).toBeNull();
     expect(warning).toHaveBeenCalled();
+  });
+});
+
+// 2026-10-26 (PR-A): Vercel 上では記事カタログの取得が 1 日中たびたび 403 で
+// 拒否されている (ランタイムログ)。取得に失敗した作り直しをリポジトリ内の記事
+// だけで描くと、その古いページがキャッシュされて次の作り直しまで残る (21:46 の
+// /ja)。実行時はエラーにして作り直しをやめ、Next.js に前の正常なページを
+// 出し続けさせる。ビルド中・公開フラグ OFF・検索 (毎回描く) は従来どおり退避する
+describe("catalog unavailable at runtime keeps the previous page", () => {
+  function failingEverything() {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () => ({ ok: false, status: 403 }) as unknown as Response),
+    );
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+  }
+
+  it("throws instead of rendering repository-only content", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    delete process.env.NEXT_PHASE;
+    failingEverything();
+    await expect(loadPublicArticleInflowCatalog()).rejects.toBeInstanceOf(
+      ArticleInflowUnavailableError,
+    );
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).rejects.toBeInstanceOf(
+      ArticleInflowUnavailableError,
+    );
+  });
+
+  it("degrades to repository-only when the caller opts in (search renders per request)", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    delete process.env.NEXT_PHASE;
+    failingEverything();
+    const catalog = await loadPublicArticleInflowCatalog({ onUnavailable: "degrade" });
+    expect(catalog.feedPresent).toBe(false);
+    expect(catalog.articles.length).toBeGreaterThan(0);
+  });
+
+  it("still degrades during next build (a failed build is worse than a stale prerender)", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    process.env.NEXT_PHASE = "phase-production-build";
+    failingEverything();
+    const catalog = await loadPublicArticleInflowCatalog();
+    expect(catalog.feedPresent).toBe(false);
+  });
+
+  it("does not throw when the public feed is switched off", async () => {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    delete process.env.NEXT_PHASE;
+    const fetcher = vi.fn();
+    vi.stubGlobal("fetch", fetcher);
+    const catalog = await loadPublicArticleInflowCatalog();
+    expect(catalog.feedPresent).toBe(false);
+    expect(fetcher).not.toHaveBeenCalled();
   });
 });

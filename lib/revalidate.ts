@@ -1,5 +1,7 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 
+import { NEXT_CACHE_IMPLICIT_TAG_ID } from "next/dist/lib/constants";
+
 /**
  * on-demand revalidation の判定 (GO#2 追補・2026-08-01 論点の履行)。
  *
@@ -19,6 +21,17 @@ const MAX_PATHS = 50;
 // ライフサイクル (crystallize 着地・live 切替) にも on-demand purge 経路を持たせる。
 const PATH_RE =
   /^\/(ja|en)(\/articles(\/series\/[a-z0-9-]+|\/[a-z0-9-]+)?|\/sessions(\/archive|\/[a-z0-9-]+)?)?$/;
+
+/**
+ * 2026-10-26 (PR-A): ページの path に Next.js が付ける印 (暗黙タグ)。
+ * `revalidatePath(path)` はこの印でページを**即時に捨てる** (profile なし)。
+ * 作り直しが Blob の 403 で失敗すると前のページが残らず 500 になった (手元で
+ * 再現)。同じ印を `revalidateTag(tag, "max")` で送ると「古いページを出しながら
+ * 裏で作り直す」(stale-while-revalidate) になり、失敗しても前のページが残る。
+ */
+export function pagePathTag(path: string): string {
+  return `${NEXT_CACHE_IMPLICIT_TAG_ID}${path.replace(/\/+$/, "") || "/"}`;
+}
 
 export type RevalidateDecision =
   | { ok: true; paths: string[] }

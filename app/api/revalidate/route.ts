@@ -1,6 +1,10 @@
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
-import { REVALIDATE_TOKEN_ENV_KEY, decideRevalidate } from "@/lib/revalidate";
+import {
+  REVALIDATE_TOKEN_ENV_KEY,
+  decideRevalidate,
+  pagePathTag,
+} from "@/lib/revalidate";
 
 export const dynamic = "force-dynamic";
 
@@ -27,8 +31,10 @@ export async function POST(request: Request) {
       { status: decision.status },
     );
   }
+  // 2026-10-26 (PR-A): 古いページを出しながら裏で作り直す。作り直しに失敗
+  // しても前のページが残る (revalidatePath は即時に捨てるので 500 になった)
   for (const path of decision.paths) {
-    revalidatePath(path);
+    revalidateTag(pagePathTag(path), "max");
   }
   return Response.json({ ok: true, revalidated: decision.paths });
 }

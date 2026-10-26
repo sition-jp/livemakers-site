@@ -112,7 +112,9 @@ export default async function SearchPage({ params, searchParams }: PageProps) {
   const t = await getTranslations("search");
   const tArticles = await getTranslations("articles");
   const familyLabel = (value: ArticleFamily) => tArticles(`family.${value}`);
-  const catalog = await loadPublicArticleInflowCatalog();
+  // 検索はリクエストごとに描く (前のページが無い) ので、取れなければリポジトリ内の
+  // 記事だけで答える (2026-10-26 PR-A)
+  const catalog = await loadPublicArticleInflowCatalog({ onUnavailable: "degrade" });
   const rail = await loadLatestArticlesRail({
     locale,
     articles: catalog.articles,
