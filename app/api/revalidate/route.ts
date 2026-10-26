@@ -1,7 +1,14 @@
 import { revalidateTag } from "next/cache";
+import { after } from "next/server";
 
 import {
+  articleRecordTag,
+  fetchArticleRecord,
+  isArticleInflowV2Enabled,
+} from "@/lib/articles/article-inflow-v2";
+import {
   REVALIDATE_TOKEN_ENV_KEY,
+  articleSlugsFromPaths,
   decideRevalidate,
   pagePathTag,
 } from "@/lib/revalidate";
@@ -35,6 +42,20 @@ export async function POST(request: Request) {
   // しても前のページが残る (revalidatePath は即時に捨てるので 500 になった)
   for (const path of decision.paths) {
     revalidateTag(pagePathTag(path), "max");
+  }
+  // 2026-10-27 (段 2a): 記事ページはカタログ v2 の記録を期限なしで保存する。
+  // 記事の合図で記録も古い扱いにし、応答のあとで読み直して取得キャッシュに
+  // 入れておく — 公開直後の初めての表示が Blob の 403 に当たっても描けるように
+  if (isArticleInflowV2Enabled()) {
+    const slugs = articleSlugsFromPaths(decision.paths);
+    for (const slug of slugs) {
+      revalidateTag(articleRecordTag(slug), "max");
+    }
+    if (slugs.length > 0) {
+      after(async () => {
+        await Promise.all(slugs.map((slug) => fetchArticleRecord(slug)));
+      });
+    }
   }
   return Response.json({ ok: true, revalidated: decision.paths });
 }

@@ -33,6 +33,21 @@ export function pagePathTag(path: string): string {
   return `${NEXT_CACHE_IMPLICIT_TAG_ID}${path.replace(/\/+$/, "") || "/"}`;
 }
 
+// 記事の slug は末尾が -YYYYMMDD-<8 桁の 16 進> (today・series などは除く)
+const ARTICLE_PATH_RE = /^\/(?:ja|en)\/articles\/([a-z0-9-]+-\d{8}-[0-9a-f]{8})$/;
+
+/**
+ * 段 2a (2026-10-27): 合図の path から記事の slug を重複なしで取り出す。
+ * 記事ページはカタログ v2 の記録を期限なしで保存するので、記事の合図で
+ * その記録のタグも消す (app/api/revalidate/route.ts)。
+ */
+export function articleSlugsFromPaths(paths: readonly string[]): string[] {
+  const slugs = paths
+    .map((path) => ARTICLE_PATH_RE.exec(path)?.[1])
+    .filter((slug): slug is string => slug !== undefined);
+  return [...new Set(slugs)];
+}
+
 export type RevalidateDecision =
   | { ok: true; paths: string[] }
   | { ok: false; status: number; reason: string };
