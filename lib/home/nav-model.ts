@@ -11,7 +11,7 @@ export interface NavItem {
 }
 
 export interface NavModel {
-  articlesGroup: NavItem[]; // flag OFF: 10 項目 / ON: 9 項目 (future-map 除去・2026-09-21 flash 追加・2026-10-03 landmark 追加)
+  articlesGroup: NavItem[]; // flag OFF: 11 項目 / ON: 10 項目 (future-map 除去・2026-09-21 flash 追加・2026-10-03 landmark 追加・2026-10-26 restart-map 追加)
   topLevel: NavItem[]; // ON のとき futureAtlas を先頭に含む
 }
 
@@ -35,6 +35,8 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
     // 2026-10-16 田平氏: Signal 直後 → Deep Dive の後ろ (#271) → 週末の12指標の後ろへ。メニューは
     // 更新の多い順で、年に数本のシリーズは毎日の 12 指標より後ろ・指標の列の隣に置く
     { key: "landmark", href: seriesHref("landmark") },
+    // 2026-10-26: 金融再起動の現在地 (月次の定点観測・節目シグナルの隣)
+    { key: "restartMap", href: seriesHref("restart-map") },
     { key: "eventRiskRadar", href: seriesHref("event-risk-radar") },
     { key: "weeklyBrief", href: seriesHref("weekly-brief") },
     ...(surfacePublished

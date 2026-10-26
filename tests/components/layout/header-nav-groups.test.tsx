@@ -59,6 +59,8 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     "/articles/series/mkt12-weekend",
     // 2026-10-16 田平氏: 節目シグナルは週末の12指標の後ろ (更新が少ないので 12 指標より後に)
     "/articles/series/landmark",
+    // 2026-10-26: 金融再起動の現在地 (月次・節目シグナルの隣)
+    "/articles/series/restart-map",
     "/articles/series/event-risk-radar",
     "/articles/series/weekly-brief",
     "/articles/series/future-map",

@@ -35,6 +35,18 @@ describe("selectSignalTimeline", () => {
     expect(ids(result)).toEqual(["lm", "sig"]);
   });
 
+  it("places restart-map (金融再起動の現在地) articles in the same timeline as signal (2026-10-26)", () => {
+    const result = selectSignalTimeline({
+      articles: [
+        mk("sig", "2026-07-10T10:00:00+09:00"),
+        mk("rm", "2026-07-10T11:00:00+09:00", "restart-map"),
+        mk("dd", "2026-07-10T09:00:00+09:00", "deep-dive"),
+      ],
+      now: NOW,
+    });
+    expect(ids(result)).toEqual(["rm", "sig"]);
+  });
+
   it("returns all signals within 24h when they exceed the floor", () => {
     // 21 signals (floor 20 + 1), hourly from 07-10 11:00 back to 07-09 14:00 —
     // all inside the 24h window [07-09 12:00, 07-10 12:00], descending

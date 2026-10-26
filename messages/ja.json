@@ -22,7 +22,8 @@
     "futureMap": "次の時代の地図",
     "sessionTerminal": "Intelligence Terminal",
     "flash": "速報",
-    "landmark": "節目シグナル"
+    "landmark": "節目シグナル",
+    "restartMap": "金融再起動の現在地"
   },
   "assets": {
     "dashboard": {
@@ -475,7 +476,8 @@
       "session": "セッション記事",
       "future-atlas": "未来アトラス",
       "flash": "速報",
-      "landmark": "節目シグナル"
+      "landmark": "節目シグナル",
+      "restart-map": "金融再起動の現在地"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
@@ -578,7 +580,8 @@
       "session": "セッション記事",
       "future-atlas": "未来アトラス",
       "flash": "速報",
-      "landmark": "節目シグナル"
+      "landmark": "節目シグナル",
+      "restart-map": "金融再起動の現在地"
     },
     "todayTitle": "本日の記事一覧",
     "seriesPagedTitle": "{series}（{page}ページ目）",

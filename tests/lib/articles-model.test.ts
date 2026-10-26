@@ -25,7 +25,7 @@ describe("article model + lane taxonomy", () => {
     expect(getAllArticles({ contentDir: missing })).toEqual([]);
   });
 
-  it("declares the eight G40 families plus session, future-atlas, flash and landmark", () => {
+  it("declares the eight G40 families plus session, future-atlas, flash, landmark and restart-map", () => {
     expect(ARTICLE_FAMILIES).toEqual([
       "daily-intel",
       "signal",
@@ -39,6 +39,7 @@ describe("article model + lane taxonomy", () => {
       "future-atlas",   // T4-2: site-first go_record 面 (P0-7)
       "flash",          // Task 13: 速報 (breaking full-auto lane G1)
       "landmark",       // 2026-10-03: 節目シグナル
+      "restart-map",    // 2026-10-26: 金融再起動の現在地 (月次)
     ]);
     expect(SERIES_SLUGS).toEqual([
       "daily-intel",
@@ -51,6 +52,7 @@ describe("article model + lane taxonomy", () => {
       "weekly-brief",
       "flash",
       "landmark",
+      "restart-map",
     ]);
   });
 
@@ -138,5 +140,16 @@ describe("article model + lane taxonomy", () => {
       publishedLabel: "10-05 18:10 節目シグナル",
     });
     expect(parsed.family).toBe("landmark");
+  });
+
+  it("accepts family restart-map (金融再起動の現在地) as a valid ArticleMetaSchema family", () => {
+    const parsed = ArticleMetaSchema.parse({
+      articleId: "restart-map-202611-a1b2c3d4",
+      family: "restart-map",
+      titleJa: "金融再起動の現在地のテスト",
+      publishedAtJst: "2026-11-01T09:00:00+09:00",
+      publishedLabel: "11-01 09:00 金融再起動の現在地",
+    });
+    expect(parsed.family).toBe("restart-map");
   });
 });

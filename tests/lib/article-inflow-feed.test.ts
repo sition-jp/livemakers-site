@@ -104,6 +104,15 @@ describe("article inflow server boundary", () => {
     expect(parsed?.articles.map((a) => a.family)).toEqual(["daily-intel", "landmark"]);
   });
 
+  it("accepts a restart-map (金融再起動の現在地) item without rejecting the feed (2026-10-26)", async () => {
+    process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/feed.json";
+    const feed = payload();
+    feed.articles.push({ ...feed.articles[0], slug: "restart-map-202611-feedtest", family: "restart-map" });
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => feed }));
+    const parsed = await fetchArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(parsed?.articles.map((a) => a.family)).toEqual(["daily-intel", "restart-map"]);
+  });
+
   it("returns a fully validated feed", async () => {
     process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/feed.json";
     const fetcher = vi.fn(async () => ({ ok: true, json: async () => payload() }));
