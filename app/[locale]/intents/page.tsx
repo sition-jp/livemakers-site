@@ -8,6 +8,7 @@
  */
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ScopedIntlProvider } from "@/components/i18n/ScopedIntlProvider";
 import { IntentFeed } from "@/components/terminal/IntentFeed";
 import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
 import {
@@ -49,7 +50,9 @@ export default async function IntentsListPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
-      <IntentFeed locale={normalizedLocale} initialData={initialData} />
+      <ScopedIntlProvider scope="intents">
+        <IntentFeed locale={normalizedLocale} initialData={initialData} />
+      </ScopedIntlProvider>
     </main>
   );
 }

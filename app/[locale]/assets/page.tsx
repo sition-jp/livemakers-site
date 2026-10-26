@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { ScopedIntlProvider } from "@/components/i18n/ScopedIntlProvider";
 import { DashboardFeed } from "@/components/terminal/asset/DashboardFeed";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
@@ -42,7 +43,9 @@ export default async function AssetsDashboardPage({
         </h1>
         <p className="text-text-secondary">{t("page_subtitle")}</p>
       </header>
-      <DashboardFeed />
+      <ScopedIntlProvider scope="assets">
+        <DashboardFeed />
+      </ScopedIntlProvider>
     </section>
   );
 }

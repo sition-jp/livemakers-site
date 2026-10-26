@@ -36,7 +36,9 @@ export function SiteChrome({
   pageProvenance: WindowProvenance;
 }) {
   const pathname = usePathname();
-  const home = useTranslations("home");
+  // "home.provenance" まで絞る — client に渡す辞書は chrome scope だけ
+  // (lib/i18n/client-messages.ts)
+  const provenance = useTranslations("home.provenance");
   const nav = useTranslations("nav");
 
   if (isHiddenPreviewPath(pathname)) {
@@ -50,12 +52,12 @@ export function SiteChrome({
       <GlobalProvenanceStrip
         provenance={pageProvenance}
         labels={{
-          review: home("provenance.review"),
-          source: home("provenance.source"),
-          asOf: home("provenance.asOf"),
-          packet: home("provenance.packet"),
+          review: provenance("review"),
+          source: provenance("source"),
+          asOf: provenance("asOf"),
+          packet: provenance("packet"),
         }}
-        note={home("provenance.note")}
+        note={provenance("note")}
         chromeMeta={chromeMeta}
         snapshotLabel={nav("snapshot")}
       />

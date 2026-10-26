@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
+import { ScopedIntlProvider } from "@/components/i18n/ScopedIntlProvider";
 import { SignalsFeed } from "@/components/terminal/SignalsFeed";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
@@ -43,7 +44,9 @@ export default async function SignalsPage({
         </h1>
         <p className="text-text-secondary">{t("page_subtitle")}</p>
       </header>
-      <SignalsFeed locale={normalizedLocale} />
+      <ScopedIntlProvider scope="signals">
+        <SignalsFeed locale={normalizedLocale} />
+      </ScopedIntlProvider>
     </section>
   );
 }

@@ -9,6 +9,7 @@ import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
+import { pickClientMessages } from "@/lib/i18n/client-messages";
 
 // Self-hosted via next/font so the design typeface renders identically on
 // every device (2026-07-04 review: system fallbacks drifted to serif when
@@ -69,7 +70,10 @@ export default async function LocaleLayout({
     >
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <NextIntlClientProvider messages={messages}>
+        {/* ISR コスト doctrine (2026-10-26): 全ページに焼き込まれるので
+            chrome 分の辞書だけを渡す。ページ固有の client component は
+            ScopedIntlProvider で包む (lib/i18n/client-messages.ts) */}
+        <NextIntlClientProvider messages={pickClientMessages(messages, "chrome")}>
           <SiteChrome
             chromeMeta={chromeMeta}
             futureAtlasNav={surfacePublished}
