@@ -6,7 +6,7 @@ import {
 } from "@/components/articles/SeriesListPage";
 import { SERIES_SLUGS } from "@/lib/articles/article-model";
 
-export const revalidate = 21600;
+export const revalidate = 300;
 
 export function generateStaticParams() {
   return SERIES_SLUGS.map((series) => ({ series }));

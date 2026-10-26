@@ -1,4 +1,4 @@
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 import { REVALIDATE_TOKEN_ENV_KEY, decideRevalidate } from "@/lib/revalidate";
 
@@ -30,17 +30,5 @@ export async function POST(request: Request) {
   for (const path of decision.paths) {
     revalidatePath(path);
   }
-  // 2026-10-26 段 1: ページの種類ごとの作り直しとタグの合図
-  for (const route of decision.routes ?? []) {
-    revalidatePath(route, "page");
-  }
-  for (const tag of decision.tags ?? []) {
-    revalidateTag(tag, "max");
-  }
-  return Response.json({
-    ok: true,
-    revalidated: decision.paths,
-    routes: decision.routes ?? [],
-    tags: decision.tags ?? [],
-  });
+  return Response.json({ ok: true, revalidated: decision.paths });
 }

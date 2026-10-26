@@ -38,9 +38,7 @@ export const dynamicParams = true;
 // 2026-08-21 田平氏 GO (ISR コスト): 記事詳細 (~270 paths) が ISR Writes の
 // 大半を占めるため 3600s へ。新規公開 slug は公開レーンが revalidatePath で
 // 即時 purge するので反映は遅れない。既存記事の本文はほぼ不変。
-// 2026-10-26 段 1: 86400s (1 日) へ。公開・訂正・取り下げは記事ごとの合図で即時、
-// 時間での作り直しは合図が届かなかったときの保険。
-export const revalidate = 86400;
+export const revalidate = 3600;
 
 const TOC_MIN_HEADINGS = 3;
 

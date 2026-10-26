@@ -6,7 +6,7 @@ import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-fe
 import { resolveTodayJst } from "@/lib/home/resolve-today";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
-export const revalidate = 21600;
+export const revalidate = 300;
 
 const LATEST_FALLBACK_COUNT = 5;
 

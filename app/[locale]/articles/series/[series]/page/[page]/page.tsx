@@ -8,7 +8,7 @@ import {
 import { redirect } from "@/i18n/navigation";
 import { parseSeriesPageParam, seriesPageHref } from "@/lib/articles/series-pagination";
 
-export const revalidate = 21600;
+export const revalidate = 300;
 
 // ページ数は記事の増加で毎日変わるため事前生成しない (初回アクセス時に生成し
 // revalidate 300 で更新)。空配列 = 全パスを実行時に静的生成。

@@ -7,7 +7,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import remarkGfm from "remark-gfm";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
-export const revalidate = 21600;
+export const revalidate = 300;
 
 const METHODOLOGY_DIR = path.join(
   process.cwd(),

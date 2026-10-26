@@ -8,10 +8,7 @@ import {
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
   resetArticleInflowFeedMemo,
 } from "@/lib/articles/article-inflow-feed";
-import {
-  loadChromeProps,
-  loadHomeCompositionProps,
-} from "@/lib/home/load-home-composition";
+import { loadHomeCompositionProps } from "@/lib/home/load-home-composition";
 import { TERMINAL_FEED_ENV_KEY } from "@/lib/terminal/live-market-feed";
 
 const originalProductionUrl =
@@ -121,29 +118,5 @@ describe("loadHomeCompositionProps article catalog states", () => {
     expect(result.catalogSource).toBe("repository_plus_feed");
     expect(result.props.slots.latestArticles.length).toBeGreaterThan(0);
     expect(fetcher).toHaveBeenCalledOnce();
-  });
-});
-
-// 2026-10-26 段 1: 全ページ共通の枠 (ティッカー・来歴帯・スナップショット表示) は
-// 市場データだけを使う。記事カタログ (1.6MB・データキャッシュに載らない) を読むと、
-// 全ページの作り直しのたびに取得が走っていた
-describe("loadChromeProps (site chrome without the article catalog)", () => {
-  it("never fetches the article catalog, yet yields the same chrome values", async () => {
-    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "1";
-    process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY] =
-      "https://example.test/production.json";
-    const fetcher = vi.fn(async () => ({
-      ok: true,
-      json: async () => productionFeed([feedArticle()]),
-    }));
-    vi.stubGlobal("fetch", fetcher);
-
-    const chrome = await loadChromeProps();
-
-    expect(fetcher).not.toHaveBeenCalled();
-    const home = await loadHomeCompositionProps();
-    expect(chrome.tickerItems).toEqual(home.props.tickerItems);
-    expect(chrome.pageProvenance).toEqual(home.props.pageProvenance);
-    expect(chrome.snapshot).toEqual(home.props.snapshot);
   });
 });
