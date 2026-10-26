@@ -5,6 +5,7 @@
  */
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ScopedIntlProvider } from "@/components/i18n/ScopedIntlProvider";
 import { IntentDetailFeed } from "@/components/terminal/IntentDetailFeed";
 import { deploymentFreshnessSec } from "@/lib/deployment-freshness";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
@@ -64,11 +65,13 @@ export default async function IntentDetailPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto max-w-4xl px-4 py-8">
-      <IntentDetailFeed
-        id={id}
-        locale={normalizedLocale}
-        initialData={initialData}
-      />
+      <ScopedIntlProvider scope="intents">
+        <IntentDetailFeed
+          id={id}
+          locale={normalizedLocale}
+          initialData={initialData}
+        />
+      </ScopedIntlProvider>
     </main>
   );
 }

@@ -4,6 +4,7 @@ import { setRequestLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { TerminalAsset } from "@/lib/terminal/asset-summary";
 import { terminalAssetParams } from "@/lib/static-params";
+import { ScopedIntlProvider } from "@/components/i18n/ScopedIntlProvider";
 import { AssetDetailFeed } from "@/components/terminal/asset/AssetDetailFeed";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
@@ -73,7 +74,9 @@ export default async function AssetPage({
         </h1>
         <p className="text-text-secondary">{t("page_subtitle")}</p>
       </header>
-      <AssetDetailFeed asset={parsed.data} />
+      <ScopedIntlProvider scope="assets">
+        <AssetDetailFeed asset={parsed.data} />
+      </ScopedIntlProvider>
     </section>
   );
 }
