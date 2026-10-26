@@ -33,6 +33,9 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   セッション → 本日の更新予定 (注目銘柄) → その銘柄のチャートを連続させる。
   //   速報リストは件数で伸びるため、末尾だとチャートが日によって沈んでいた。
   //   CP doctrine §1「フォーカスはセッションカード直後」の意図にも近づく。
+  // 2026-10-26 田平氏 GO: morning-desk (8/23 の帯) をやめ、8/22 の lead-article +
+  //   mkt12-reading の 2 枚へ戻す。帯の 12指標行の右隣リンクがスマホ幅で行を
+  //   押し縮めていたため。signal-timeline は mkt12-reading の直下。
   leading: [
     "session-now",
     "schedule",
@@ -40,7 +43,13 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
     "event-risk",
     "flash-list",
   ],
-  coincident: ["morning-desk", "signal-timeline", "mkt12-tiles", "lane-values"],
+  coincident: [
+    "lead-article",
+    "mkt12-reading",
+    "signal-timeline",
+    "mkt12-tiles",
+    "lane-values",
+  ],
   // - lagging (2026-08-23 田平氏 GO A): 記事 4 枠 (deep-dive / atlas-entry /
   //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
   //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
