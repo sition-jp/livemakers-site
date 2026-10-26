@@ -223,7 +223,7 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     expect(
       [...lead.querySelectorAll("span")].some((span) => span.textContent === copy.lead.family),
     ).toBe(false);
-    // 索引リンク: Daily Intel 一覧はヘッダ・12指標アーカイブは行の右隣
+    // 索引リンク: Daily Intel 一覧はヘッダ・12指標アーカイブは行の下 (右寄せ)
     const intelLink = desk.querySelector('a[href="/articles/series/daily-intel"]')!;
     expect(intelLink.closest("[data-index-nav]")).not.toBeNull();
     const mkt12Link = desk.querySelector(
@@ -246,6 +246,20 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     expect(row.textContent).toContain(copy.familyLabels["mkt12-morning"]);
     // 本体扱い (index-nav にしない)
     expect(row.hasAttribute("data-index-nav")).toBe(false);
+  });
+
+  // 2026-10-26 田平氏 GO 案A: 12指標アーカイブは行の右隣でなく行の下・右寄せ
+  // (右隣だとスマホ幅で行が半分に押し縮められ、題名が 2〜3 字ずつ折り返した)
+  it("stacks the mkt12 archive link below the row, right-aligned, at every width", () => {
+    const { container } = renderCoincident();
+    const reading = container.querySelector("[data-mkt12-reading]")!;
+    const hero = reading.querySelector('[data-mkt12-role="hero"]')!;
+    const archive = reading.querySelector('[data-mkt12-role="archive-link"]')!;
+    // 横並び (flex 行) にしない — どの breakpoint でも
+    expect([...reading.classList].some((c) => /(^|:)flex$|justify-between/.test(c))).toBe(false);
+    expect([...archive.classList].some((c) => /shrink-0/.test(c))).toBe(false);
+    expect(hero.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(archive.classList.contains("text-right")).toBe(true);
   });
 
   it("puts the signal timeline right after the morning desk", () => {

@@ -100,9 +100,9 @@ export function CoincidentColumn({
             <div
               data-mkt12-reading
               data-mkt12-variant={slots.mkt12.variant}
-              className="mt-3 flex items-start justify-between gap-3 border-t border-border-primary"
+              className="mt-3 border-t border-border-primary"
             >
-              <div data-mkt12-role="hero" className="min-w-0 flex-1">
+              <div data-mkt12-role="hero" className="min-w-0">
                 {slots.mkt12.article ? (
                   <ArticleThumbRow
                     article={slots.mkt12.article}
@@ -124,10 +124,12 @@ export function CoincidentColumn({
                   </div>
                 )}
               </div>
+              {/* 行の下・右寄せ (2026-10-26 田平氏 GO 案A) — 右隣だとスマホ幅で
+                  行が半分に押し縮められ題名が 2〜3 字ずつ折り返した */}
               <div
                 data-mkt12-role="archive-link"
                 data-index-nav
-                className="shrink-0 pt-2.5"
+                className="mt-2 text-right"
               >
                 <Link
                   href={mkt12Text.archiveHref}
