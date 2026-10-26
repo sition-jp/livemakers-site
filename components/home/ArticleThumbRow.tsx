@@ -17,7 +17,7 @@ export function ArticleThumbRow({
   article: ArticleMeta;
   familyLabel: string;
   indexNav?: boolean;
-  /** false = data-article-id を付けない (CompositeHero は id を持たない・D14) */
+  /** false = data-article-id を付けない (スマホ専用カードは id を持たない・gate 6) */
   trackArticleId?: boolean;
 }) {
   return (

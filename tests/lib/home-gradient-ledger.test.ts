@@ -6,13 +6,12 @@ import {
 } from "@/lib/home/gradient-ledger";
 
 describe("gradient ledger", () => {
-  it("defines the four regions in DOM order", () => {
-    expect(GRADIENT_REGIONS).toEqual(["hero", "leading", "coincident", "lagging"]);
+  it("defines the three regions in DOM order", () => {
+    // 2026-10-26 田平氏 GO (2 回目): スマホ専用の hero 領域を廃止 — スマホは
+    // Intelligence Terminal (PC と同じ部品) を先頭に、その下に Daily Intel・12指標。
+    expect(GRADIENT_REGIONS).toEqual(["leading", "coincident", "lagging"]);
   });
   it("defines module order per region (doctrine §4 gradient ledger)", () => {
-    // 2026-10-26 田平氏 GO (スマホの並び): hero = Daily Intel 大カード + 12指標 小カード。
-    // セッション 1 行は Intelligence Terminal の見出しの下 (leading の先頭) へ移す。
-    expect(REGION_MODULES.hero).toEqual(["hero-lead-card", "hero-mkt12-card"]);
     // 2026-08-14 Phase 3 (田平氏 GO): event-risk を schedule 直下・観測リストを
     // radar-observations として独立・mkt12-reading を lead-article 直下へ。
     // 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) を撤去 — 公開以来一度も
@@ -21,8 +20,11 @@ describe("gradient ledger", () => {
     // (当日+前日の速報記事) へ置き換え — 同じ位置。
     // 2026-10-09 田平氏 GO: focus を末尾から schedule 直下へ (セッション →
     // 予定 → 注目銘柄チャートを連続させる)。
+    // 2026-10-26 田平氏 GO: スマホ専用の Daily Intel 大カード・12指標 小カードを
+    // focus の直下 (Intelligence Terminal の下) に置く。
     expect(REGION_MODULES.leading).toEqual([
-      "session-line", "session-now", "schedule", "focus", "event-risk", "flash-list",
+      "session-now", "schedule", "focus", "lead-card-mobile", "mkt12-card-mobile",
+      "event-risk", "flash-list",
     ]);
     // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
     // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。
@@ -39,7 +41,7 @@ describe("gradient ledger", () => {
   });
   it("marks index-nav modules (dedup-exempt)", () => {
     expect(INDEX_NAV_MODULES).toEqual([
-      "hero-lead-card", "hero-mkt12-card", "session-line",
+      "lead-card-mobile", "mkt12-card-mobile",
       "flash-list", "event-risk-mobile",
       "atlas-entry", "mkt12-weekend", "weekly-brief", "latest-articles",
     ]);

@@ -261,25 +261,9 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
       (anchor) => !heroAnchors.includes(anchor),
     );
 
-    // Hero: index links only, one allowlist path per anchor.
-    // 2026-10-26 田平氏 GO (スマホの並び): hero = Daily Intel カード + 今朝の12指標
-    // 小カード (記事 1 本 or 前回リンク + シリーズのアーカイブリンク)。セッション
-    // 1 行は leading の session-line へ移ったので gradient 側で数える。
-    const mkt12HeroLinks =
-      (props.slots.mkt12.article || props.slots.mkt12.previous ? 1 : 0) + 1;
-    expect(heroAnchors).toHaveLength(
-      (props.slots.lead.article ? 1 : 0) + mkt12HeroLinks,
-    );
-    for (const anchor of heroAnchors) {
-      const href = stripLocale(anchor.getAttribute("href")!);
-      expect(anchor.closest("[data-index-nav]"), `hero:${href}`).not.toBeNull();
-      // 記事ルート or (index-nav の) シリーズ一覧などの chrome ルート — 1 本 1 経路
-      if (isAllowedPublishedArticleRoute(href)) {
-        expectResolvesRealDocument(href);
-      } else {
-        expect(isAllowedChromeRoute(href), `hero:${href}`).toBe(true);
-      }
-    }
+    // 2026-10-26 田平氏 GO (2 回目): スマホ専用の hero 領域は廃止 — hero バケットは空。
+    // スマホの Daily Intel・12指標カードは leading の索引モジュールとして gradient 側で数える。
+    expect(heroAnchors).toHaveLength(0);
 
     // Primary-source links: 2026-08-14 裁定で観測カード内に限り許した外部 1 hop
     // は、2026-10-09 の観測カード撤去 (案 A) で 0 本。外部リンクの混入は

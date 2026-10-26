@@ -5,7 +5,6 @@ import type {
 } from "@/lib/home/build-home-props";
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeCatalogSource } from "@/lib/home/load-home-composition";
-import { CompositeHero } from "./CompositeHero";
 import { FlashBand } from "./FlashBand";
 import { CoincidentColumn } from "./columns/CoincidentColumn";
 import { LaggingColumn } from "./columns/LaggingColumn";
@@ -28,7 +27,8 @@ export type HomeCompositionProps = ReturnType<
 
 /**
  * トップ組成 = 勾配 3 カラムシェル (G44 D1/D2/D8)。
- * DOM 順 = hero → leading → coincident → lagging (勾配台帳 GRADIENT_REGIONS)。
+ * DOM 順 = leading → coincident → lagging (勾配台帳 GRADIENT_REGIONS・2026-10-26 に
+ * スマホ専用の hero を廃止)。
  * mobile〜lg は単一カラム縦積み・xl (1280px) で 3 カラム
  * (1fr / 1.15fr / 1fr・各カラムは独立フロー)。masthead は page.tsx 直下へ
  * 移設済み (台帳対象外の chrome 項 0)。
@@ -65,11 +65,9 @@ export function HomeComposition({
       className="mx-auto max-w-[1760px] px-4 pb-10 pt-6 md:px-8"
     >
       <FlashBand article={slots.flashLatest} locale={locale} />
-      <CompositeHero lead={slots.lead} mkt12={slots.mkt12} copy={copy} />
-      {/* xl では CompositeHero が hidden のため、mt-8 だと masthead 直下に
-          56px (wrapper pt-6 + mt-8) の空白が生じる — xl:mt-0 で 24px に詰める
-          (2026-08-14 田平氏指示)。mobile〜lg は hero が実在するので mt-8 維持。 */}
-      <div className="mt-8 space-y-8 xl:mt-0 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-8 xl:space-y-0">
+      {/* masthead 直下の空白は wrapper pt-6 の 24px (2026-08-14 田平氏指示)。
+          2026-10-26: スマホ専用の hero を廃止したので、どの幅でも mt を付けない。 */}
+      <div className="space-y-8 xl:grid xl:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-8 xl:space-y-0">
         <LeadingColumn
           live={live}
           recentClosed={recentClosed}

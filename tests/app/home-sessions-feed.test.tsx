@@ -144,7 +144,7 @@ describe("home sessions rail — feed adoption end to end (G43-e S2)", () => {
     expect(resolveHomeSessionsSource({})).toBe("repo");
     expect(props.live).toBeNull();
 
-    // PC の session-now カード (スマホの session-line も同じ文言を出すので範囲を絞る)
+    // session-now カード (スマホも同じカード・2026-10-26)
     const { container } = renderLeading(props);
     const sessionNow = within(
       container.querySelector('[data-column-module="session-now"]') as HTMLElement,
