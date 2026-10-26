@@ -15,7 +15,7 @@ import {
 import { READER_SESSIONS } from "@/lib/sessions/session-registry";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
-export const revalidate = 300;
+export const revalidate = 21600;
 
 // タイトル・説明は root layout の既定値 (トップ用) をそのまま使う。
 export async function generateMetadata({
@@ -43,7 +43,9 @@ export default async function OverviewPage({
   // live があれば従来どおり live + 1 (12:03–12:45 の配信待ち窓で「Europe
   // Bridge 12:03」と出るのは配信待ちの表現として正しい)。live が無い窓は
   // 時計ベース — 観測 RED の日に過ぎた時刻を「次」と言い続けない。残り回数は
-  // 常に時計ベース。ISR revalidate=300 なので表示は最大 5 分遅れ。
+  // 常に時計ベース。2026-10-26 段 1 で時間での作り直しは 6 時間になったが、
+  // 残り回数が変わるのはセッション時刻だけで、その直後の cron (refresh-home)
+  // が home を作り直すので表示はずれない。
   const now = new Date();
   const liveIndex = props.live
     ? READER_SESSIONS.findIndex(

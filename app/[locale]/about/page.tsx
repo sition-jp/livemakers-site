@@ -6,7 +6,7 @@ import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
 // 右レール「最新の記事」を一覧ページと同じ間隔で更新する (2026-10-02)
-export const revalidate = 300;
+export const revalidate = 21600;
 
 export async function generateMetadata({
   params,

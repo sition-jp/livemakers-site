@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { decideCronRefresh, decideRevalidate } from "@/lib/revalidate";
+import {
+  ARTICLE_FEED_PATHS,
+  ARTICLE_LISTING_ROUTES,
+  decideCronRefresh,
+  decideRevalidate,
+} from "@/lib/revalidate";
+import { TERMINAL_FEED_CACHE_TAG } from "@/lib/terminal/live-market-feed";
 
 const TOKEN = "test-revalidate-token";
 const AUTH = `Bearer ${TOKEN}`;
@@ -37,6 +43,8 @@ describe("on-demand revalidation decision (GO#2 追補・GO#3 まで inert)", ()
         "/ja/articles/signal-20260807-abc12345",
       ],
     });
+    // 2026-10-26 段 1: 記事の path を含む合図 = 記事カタログが変わった合図。
+    // 一覧系のページの「種類」と RSS・sitemap もまとめて作り直す
     expect(decision).toEqual({
       ok: true,
       paths: [
@@ -44,7 +52,41 @@ describe("on-demand revalidation decision (GO#2 追補・GO#3 まで inert)", ()
         "/ja/articles",
         "/ja/articles/signal-20260807-abc12345",
         "/en/articles/series/signal",
+        ...ARTICLE_FEED_PATHS,
       ],
+      routes: [...ARTICLE_LISTING_ROUTES],
+    });
+  });
+
+  it("lists the listing route types and feeds that read the article catalog", () => {
+    expect(ARTICLE_LISTING_ROUTES).toEqual([
+      "/[locale]",
+      "/[locale]/articles/today",
+      "/[locale]/articles/series/[series]",
+      "/[locale]/articles/series/[series]/page/[page]",
+      // 「最新記事」の欄 (loadLatestArticlesRail) を持つページ
+      "/[locale]/about",
+      "/[locale]/sessions/archive",
+      "/[locale]/sessions/archive/past",
+      "/[locale]/future-atlas",
+    ]);
+    // 記事詳細の「種類」は含めない — 公開レーンが記事ごとの path を送る
+    expect(ARTICLE_LISTING_ROUTES).not.toContain("/[locale]/articles/[slug]");
+    expect(ARTICLE_FEED_PATHS).toEqual([
+      "/sitemap.xml",
+      "/sitemap-news.xml",
+      "/ja/feed.xml",
+      "/ja/feed",
+    ]);
+  });
+
+  it("does not expand to listing routes for the market-feed push (home + sessions only)", () => {
+    const decision = decideRevalidate(TOKEN, AUTH, {
+      paths: ["/ja", "/en", "/ja/sessions/2026-10-26-europe-bridge"],
+    });
+    expect(decision).toEqual({
+      ok: true,
+      paths: ["/ja", "/en", "/ja/sessions/2026-10-26-europe-bridge"],
     });
   });
 
@@ -105,10 +147,38 @@ describe("cron refresh backstop decision (Phase 1, 2026-08-14)", () => {
     });
   });
 
-  it("purges exactly the two home routes on a valid call", () => {
+  // 2026-10-26 段 1: 時間での作り直しを 6 時間に延ばすので、セッション時刻と
+  // 0 時の cron が home + セッション一覧を作り直し、市場データのタグで全ページの
+  // ティッカー (共通の枠) を次のアクセス時に新しくする
+  it("purges home + session archives and the market-feed tag on a valid call", () => {
     expect(decideCronRefresh(TOKEN, AUTH)).toEqual({
       ok: true,
-      paths: ["/ja", "/en"],
+      paths: ["/ja", "/en", "/ja/sessions/archive", "/en/sessions/archive"],
+      tags: [TERMINAL_FEED_CACHE_TAG],
     });
+  });
+});
+
+// 2026-10-26 段 1: 「最新記事」の欄を持つページは、記事の公開で作り直す一覧に
+// 必ず入れる (欄が 6 時間古いままになるのを防ぐ)。欄を使うページが増えたら
+// ARTICLE_LISTING_ROUTES にも足す
+describe("pages with the latest-articles rail are refreshed on publish", () => {
+  it("covers every static page that renders loadLatestArticlesRail", async () => {
+    const fs = await import("node:fs");
+    const path = await import("node:path");
+    const walk = (dir: string): string[] =>
+      fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+        const full = path.join(dir, entry.name);
+        return entry.isDirectory() ? walk(full) : entry.name === "page.tsx" ? [full] : [];
+      });
+    const railPages = walk("app")
+      .filter((file) => fs.readFileSync(file, "utf8").includes("loadLatestArticlesRail"))
+      // search はリクエストごとに描画する (ISR ではない)
+      .filter((file) => !file.includes(`${path.sep}search${path.sep}`))
+      .map((file) => file.replace(/^app/, "").replace(/\/page\.tsx$/, ""));
+    expect(railPages.length).toBeGreaterThan(0);
+    for (const route of railPages) {
+      expect(ARTICLE_LISTING_ROUTES, route).toContain(route);
+    }
   });
 });
