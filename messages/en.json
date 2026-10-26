@@ -22,7 +22,8 @@
     "futureMap": "MAP OF THE NEXT ERA",
     "sessionTerminal": "INTELLIGENCE TERMINAL",
     "flash": "FLASH",
-    "landmark": "LANDMARK"
+    "landmark": "LANDMARK",
+    "restartMap": "RESTART MAP"
   },
   "assets": {
     "dashboard": {
@@ -475,7 +476,8 @@
       "session": "Session Article",
       "future-atlas": "Future Atlas",
       "flash": "Flash",
-      "landmark": "Landmark Signal"
+      "landmark": "Landmark Signal",
+      "restart-map": "Financial Restart Map"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
@@ -578,7 +580,8 @@
       "session": "Session Article",
       "future-atlas": "Future Atlas",
       "flash": "Flash",
-      "landmark": "Landmark Signal"
+      "landmark": "Landmark Signal",
+      "restart-map": "Financial Restart Map"
     },
     "todayTitle": "Today's articles",
     "seriesPagedTitle": "{series} — page {page}",

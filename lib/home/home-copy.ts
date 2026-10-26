@@ -120,6 +120,7 @@ export function buildHomeCopy(
       "weekly-brief",
       "session",
       "landmark",
+      "restart-map",
     ].map((family) => [family, translate(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;
 

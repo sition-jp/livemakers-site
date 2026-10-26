@@ -16,7 +16,8 @@ export type ArticleInflowFamily =
   | "session"
   | "future-atlas"
   | "flash"
-  | "landmark";
+  | "landmark"
+  | "restart-map";
 
 export type ArticleInflowProvenance =
   | {
