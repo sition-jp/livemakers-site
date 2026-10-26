@@ -35,7 +35,7 @@ describe("selectSignalTimeline", () => {
     expect(ids(result)).toEqual(["lm", "sig"]);
   });
 
-  it("places restart-map (金融再起動の現在地) articles in the same timeline as signal (2026-10-26)", () => {
+  it("excludes restart-map (金融再起動の現在地・月次レポート) from the signal timeline (2026-10-26)", () => {
     const result = selectSignalTimeline({
       articles: [
         mk("sig", "2026-07-10T10:00:00+09:00"),
@@ -44,7 +44,8 @@ describe("selectSignalTimeline", () => {
       ],
       now: NOW,
     });
-    expect(ids(result)).toEqual(["rm", "sig"]);
+    expect(ids(result)).toEqual(["sig"]);
+    expect(ids(result)).not.toContain("rm");
   });
 
   it("returns all signals within 24h when they exceed the floor", () => {
