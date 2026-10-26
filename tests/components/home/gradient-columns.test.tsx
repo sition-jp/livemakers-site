@@ -193,81 +193,50 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     ).toEqual([...REGION_MODULES.coincident]);
   });
 
-  // 2026-08-23 田平氏 GO B-1: 「Daily Intel」帯 = compact Daily Intel + サムネなし 12指標行
-  it("renders the morning desk as one band: Daily Intel header, compact lead, thumb-row mkt12", () => {
+  // 2026-10-26 田平氏 GO: 8/23 の「Daily Intel」帯 (1 枚) をやめ、8/22 の形
+  // (Daily Intel 欄 + 今朝の12指標欄の 2 枚・どちらも大きなサムネのカード) へ戻す
+  it("renders Daily Intel and this morning's 12 indicators as two separate cards", () => {
     const { container } = renderCoincident();
-    const desk = container.querySelector(
-      '[data-column-module="morning-desk"] [data-morning-desk]',
-    )!;
-    expect(desk).not.toBeNull();
-    // ヘッダ = 「Daily Intel」(h3 は帯に 1 つだけ)
-    expect(desk.querySelectorAll("h3")).toHaveLength(1);
-    expect(desk.querySelector("h3")?.textContent).toBe(copy.familyLabels["daily-intel"]);
-    // 本体 2 本 (Daily Intel + 12指標)・抜粋なし
-    const bodies = desk.querySelectorAll("a[data-article-id]");
-    expect([...bodies].map((a) => a.getAttribute("data-article-id"))).toEqual([
-      "daily-intel-2026-07-10",
-      "mkt12-morning-2026-07-10",
-    ]);
-    expect(desk.textContent).not.toContain(props.slots.lead.article!.excerptJa!);
-    // サムネ = Daily Intel の 14:3 (ArticleThumbnail) 1 枚 + 12指標行の小サムネ
-    // (ArticleThumbRow・Signal 行と同型・2026-08-23 田平氏 GO 2)
-    expect(desk.querySelectorAll("[data-article-thumbnail]")).toHaveLength(1);
-    expect(desk.querySelectorAll("[data-thumb-row]")).toHaveLength(1);
-    // Daily Intel ブロックだけ <xl hidden (D8)
-    const lead = desk.querySelector('[data-morning-desk-role="daily-intel"]')!;
-    expect(lead.classList.contains("hidden")).toBe(true);
-    expect(lead.classList.contains("xl:block")).toBe(true);
-    expect(lead.querySelector('[data-lead-variant="compact"]')).not.toBeNull();
-    // compact カードに family ラベル行は無い (帯ヘッダが担う)
-    expect(
-      [...lead.querySelectorAll("span")].some((span) => span.textContent === copy.lead.family),
-    ).toBe(false);
-    // 索引リンク: Daily Intel 一覧はヘッダ・12指標アーカイブは行の下 (右寄せ)
-    const intelLink = desk.querySelector('a[href="/articles/series/daily-intel"]')!;
+    // Daily Intel 欄: full カード (family ラベル行あり) + 下に一覧リンク・<xl hidden (D8)
+    const leadWrapper = container.querySelector('[data-column-module="lead-article"]')!;
+    expect(leadWrapper.classList.contains("hidden")).toBe(true);
+    expect(leadWrapper.classList.contains("xl:block")).toBe(true);
+    const leadCard = leadWrapper.querySelector('a[data-lead-variant="full"]')!;
+    expect(leadCard.getAttribute("data-article-id")).toBe("daily-intel-2026-07-10");
+    expect(leadCard.querySelector("[data-article-thumbnail]")).not.toBeNull();
+    const intelLink = leadWrapper.querySelector('a[href="/articles/series/daily-intel"]')!;
     expect(intelLink.closest("[data-index-nav]")).not.toBeNull();
-    const mkt12Link = desk.querySelector(
-      '[data-mkt12-role="archive-link"] a[href="/articles/series/mkt12-morning"]',
-    )!;
-    expect(mkt12Link.closest("[data-index-nav]")).not.toBeNull();
-    expect(
-      intelLink.compareDocumentPosition(lead) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
-  });
+    expect(leadCard.compareDocumentPosition(intelLink) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
 
-  // 2026-08-23 田平氏 GO 2: 12指標行は Signal 行と同じ小サムネ付き行 (ArticleThumbRow)
-  it("renders the mkt12 row as a Signal-style thumb row labelled by its family chip", () => {
-    const { container } = renderCoincident();
-    const row = container.querySelector('[data-mkt12-reading] [data-mkt12-role="hero"] a[data-article-id]')!;
-    expect(row.getAttribute("data-article-id")).toBe("mkt12-morning-2026-07-10");
-    expect(row.hasAttribute("data-thumb-row")).toBe(true);
-    // fixture はサムネ未検証 → family 色の帯で枠を保つ (CLS ゼロ・Signal 行と同じ判断)
-    expect(row.querySelector('img, span[aria-hidden="true"]')).not.toBeNull();
-    expect(row.textContent).toContain(copy.familyLabels["mkt12-morning"]);
-    // 本体扱い (index-nav にしない)
-    expect(row.hasAttribute("data-index-nav")).toBe(false);
-  });
-
-  // 2026-10-26 田平氏 GO 案A: 12指標アーカイブは行の右隣でなく行の下・右寄せ
-  // (右隣だとスマホ幅で行が半分に押し縮められ、題名が 2〜3 字ずつ折り返した)
-  it("stacks the mkt12 archive link below the row, right-aligned, at every width", () => {
-    const { container } = renderCoincident();
-    const reading = container.querySelector("[data-mkt12-reading]")!;
-    const hero = reading.querySelector('[data-mkt12-role="hero"]')!;
+    // 今朝の12指標欄: 見出し + full カード (大きなサムネ) + 下にアーカイブリンク・全幅で常に表示
+    const readingWrapper = container.querySelector('[data-column-module="mkt12-reading"]')!;
+    expect(readingWrapper.classList.contains("hidden")).toBe(false);
+    const reading = readingWrapper.querySelector("[data-mkt12-reading]")!;
+    expect(reading.querySelector("h3")?.textContent).toBe(copy.mkt12.articleTitle);
+    const card = reading.querySelector('[data-mkt12-role="hero"] a[data-article-id]')!;
+    expect(card.getAttribute("data-article-id")).toBe("mkt12-morning-2026-07-10");
+    expect(card.getAttribute("data-lead-variant")).toBe("full");
+    expect(card.querySelector("[data-article-thumbnail]")).not.toBeNull();
+    expect(card.textContent).toContain(copy.familyLabels["mkt12-morning"]);
+    expect(reading.querySelector("[data-thumb-row]")).toBeNull();
     const archive = reading.querySelector('[data-mkt12-role="archive-link"]')!;
-    // 横並び (flex 行) にしない — どの breakpoint でも
-    expect([...reading.classList].some((c) => /(^|:)flex$|justify-between/.test(c))).toBe(false);
-    expect([...archive.classList].some((c) => /shrink-0/.test(c))).toBe(false);
-    expect(hero.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(archive.classList.contains("text-right")).toBe(true);
+    expect(archive.querySelector('a[href="/articles/series/mkt12-morning"]')).not.toBeNull();
+    expect(archive.hasAttribute("data-index-nav")).toBe(true);
+    expect(card.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // 右隣に並べない (8/23〜10/26 はスマホ幅で行が押し縮められた)
+    expect(archive.parentElement).toBe(reading);
+    expect(reading.classList.contains("flex-col")).toBe(true);
+
+    // 8/23 の帯は残さない
+    expect(container.querySelector("[data-morning-desk]")).toBeNull();
   });
 
-  it("puts the signal timeline right after the morning desk", () => {
+  it("puts the signal timeline right after the 12 indicators card", () => {
     const { container } = renderCoincident();
     const modules = [...container.querySelectorAll("[data-column-module]")].map((el) =>
       el.getAttribute("data-column-module"),
     );
-    expect(modules.slice(0, 2)).toEqual(["morning-desk", "signal-timeline"]);
+    expect(modules.slice(0, 3)).toEqual(["lead-article", "mkt12-reading", "signal-timeline"]);
   });
 
   it("renders the signal timeline with at least the floor of ten rows", () => {
