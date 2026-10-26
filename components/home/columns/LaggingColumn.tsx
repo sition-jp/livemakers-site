@@ -5,16 +5,22 @@ import { type GradientRegion } from "@/lib/home/gradient-ledger";
 import { orderLaggingModules } from "@/lib/home/lagging-order";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { DeepDiveShelf } from "../DeepDiveShelf";
+import { EventRiskModule } from "../EventRiskModule";
 import { IndexEntryCard } from "../IndexEntryCard";
 import { LatestArticlesCard } from "../LatestArticlesCard";
 
 const REGION = "lagging" satisfies GradientRegion;
 
+const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
+  "event-risk-mobile": "xl:hidden",
+};
+
 /**
  * 右カラム = 遅行 (索引) (G44 D7)。モジュールの集合と末尾固定枠は勾配台帳
  * REGION_MODULES.lagging。**記事 4 枠 (Deep Dive / 未来アトラス / 週末の12指標 /
  * Weekly Brief) は各枠の最新記事の公開順に動的に並ぶ** (2026-08-23 田平氏 GO A・
- * `orderLaggingModules`)。⑤ 最新記事 ⑥ Turning Point 予約席 (非表示) は末尾固定。
+ * `orderLaggingModules`)。Event Risk (スマホ専用の写し・2026-10-26) ⑤ 最新記事
+ * ⑥ Turning Point 予約席 (非表示) は末尾固定。
  * 台帳順の説明: ① Deep Dive (featured + title 4) ② 未来アトラス入口 (flag-aware)
  * ③ 週末の12指標 ④ Weekly Brief (latest null なら記事ブロック末尾)。②〜④ は
  * IndexEntryCard 共用 (最新 1 本は DeepDive featured と同じサムネ付きカード・
@@ -81,6 +87,17 @@ export function LaggingColumn({
             copy={indexCopy}
           />
         );
+      case "event-risk-mobile":
+        // 2026-10-26 田平氏 GO: スマホでは Event Risk を最新記事の直前に出す
+        // (左列の event-risk はスマホで非表示・この写しは PC で非表示・索引扱い)
+        return (
+          <div data-index-nav>
+            <EventRiskModule
+              article={slots.eventRiskLatest}
+              familyLabels={copy.familyLabels}
+            />
+          </div>
+        );
       case "latest-articles":
         return (
           <LatestArticlesCard
@@ -112,7 +129,11 @@ export function LaggingColumn({
             aria-hidden="true"
           />
         ) : (
-          <div key={module} data-column-module={module}>
+          <div
+            key={module}
+            data-column-module={module}
+            className={MODULE_CLASSNAMES[module]}
+          >
             {renderModule(module)}
           </div>
         ),

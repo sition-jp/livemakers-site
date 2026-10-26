@@ -12,7 +12,12 @@ export type GradientRegion = (typeof GRADIENT_REGIONS)[number];
  * data-column-module 属性はこの配列から map で描画する (リテラル直書き禁止・T7/T8/T9)。
  */
 export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>> = {
-  hero: ["hero-session-line", "hero-lead-headline"],
+  // 2026-10-26 田平氏 GO (スマホの並び): hero (mobile のみ) = Daily Intel 大カード +
+  //   今朝の12指標 小カード。セッション 1 行は leading 先頭の session-line へ移し、
+  //   Intelligence Terminal の見出しの下に置く。中央の lead-article / mkt12-reading
+  //   は PC 専用。Event Risk はスマホでは event-risk-mobile (遅行の最新記事の直前)
+  //   で出し、左の event-risk は PC 専用。HTML の順番 = スマホの並びは維持する。
+  hero: ["hero-lead-card", "hero-mkt12-card"],
   // 2026-08-14 田平氏 GO (Phase 3 レイアウト改修):
   // - leading: event-risk (最新記事) を schedule 直下へ・観測リストは
   //   radar-observations として独立させ flash-promotion 直下へ・focus は末尾へ
@@ -37,6 +42,7 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   mkt12-reading の 2 枚へ戻す。帯の 12指標行の右隣リンクがスマホ幅で行を
   //   押し縮めていたため。signal-timeline は mkt12-reading の直下。
   leading: [
+    "session-line",
     "session-now",
     "schedule",
     "focus",
@@ -54,11 +60,13 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
   //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
   //   tie-break 順」で、末尾 2 枠 (latest-articles / turning-point-reserved) は固定
+  //   2026-10-26: event-risk-mobile (スマホ専用) も末尾側の固定枠で最新記事の直前
   lagging: [
     "deep-dive",
     "atlas-entry",
     "mkt12-weekend",
     "weekly-brief",
+    "event-risk-mobile",
     "latest-articles",
     "turning-point-reserved",
   ],
@@ -66,15 +74,18 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
 
 /**
  * data-index-nav 扱いのモジュール (articleId 重複検査から除外 = gate 6)。
- * hero のリンク行 + 索引系 (速報リスト / 未来アトラス入口 / 週末12指標 /
- * Weekly Brief / 最新記事)。速報リストは速報帯の 1 本を再掲し得るため索引扱い。
+ * hero のカード + スマホのセッション行 + 索引系 (速報リスト / 未来アトラス入口 /
+ * 週末12指標 / Weekly Brief / 最新記事)。速報リストは速報帯の 1 本を再掲し得るため
+ * 索引扱い。event-risk-mobile は PC の event-risk (本体) のスマホ用の写しなので索引扱い。
  * DeepDiveShelf の featured 1 本は本体扱いのため含めない (残り 4 本の title 行が
  * data-index-nav なのはコンポーネント側で付与する)。
  */
 export const INDEX_NAV_MODULES: readonly string[] = [
-  "hero-session-line",
-  "hero-lead-headline",
+  "hero-lead-card",
+  "hero-mkt12-card",
+  "session-line",
   "flash-list",
+  "event-risk-mobile",
   "atlas-entry",
   "mkt12-weekend",
   "weekly-brief",

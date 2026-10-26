@@ -10,7 +10,9 @@ describe("gradient ledger", () => {
     expect(GRADIENT_REGIONS).toEqual(["hero", "leading", "coincident", "lagging"]);
   });
   it("defines module order per region (doctrine §4 gradient ledger)", () => {
-    expect(REGION_MODULES.hero).toEqual(["hero-session-line", "hero-lead-headline"]);
+    // 2026-10-26 田平氏 GO (スマホの並び): hero = Daily Intel 大カード + 12指標 小カード。
+    // セッション 1 行は Intelligence Terminal の見出しの下 (leading の先頭) へ移す。
+    expect(REGION_MODULES.hero).toEqual(["hero-lead-card", "hero-mkt12-card"]);
     // 2026-08-14 Phase 3 (田平氏 GO): event-risk を schedule 直下・観測リストを
     // radar-observations として独立・mkt12-reading を lead-article 直下へ。
     // 2026-08-23 田平氏 GO: flash-promotion (昇格ペア) を撤去 — 公開以来一度も
@@ -20,7 +22,7 @@ describe("gradient ledger", () => {
     // 2026-10-09 田平氏 GO: focus を末尾から schedule 直下へ (セッション →
     // 予定 → 注目銘柄チャートを連続させる)。
     expect(REGION_MODULES.leading).toEqual([
-      "session-now", "schedule", "focus", "event-risk", "flash-list",
+      "session-line", "session-now", "schedule", "focus", "event-risk", "flash-list",
     ]);
     // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
     // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。
@@ -28,15 +30,17 @@ describe("gradient ledger", () => {
     expect(REGION_MODULES.coincident).toEqual([
       "lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values",
     ]);
+    // 2026-10-26 田平氏 GO: スマホでは Event Risk を「最新の記事」の直前に出す
+    // (event-risk-mobile = スマホだけの表現・左の event-risk はスマホで非表示)。
     expect(REGION_MODULES.lagging).toEqual([
-      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "latest-articles",
-      "turning-point-reserved",
+      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "event-risk-mobile",
+      "latest-articles", "turning-point-reserved",
     ]);
   });
   it("marks index-nav modules (dedup-exempt)", () => {
     expect(INDEX_NAV_MODULES).toEqual([
-      "hero-session-line", "hero-lead-headline",
-      "flash-list",
+      "hero-lead-card", "hero-mkt12-card", "session-line",
+      "flash-list", "event-risk-mobile",
       "atlas-entry", "mkt12-weekend", "weekly-brief", "latest-articles",
     ]);
   });

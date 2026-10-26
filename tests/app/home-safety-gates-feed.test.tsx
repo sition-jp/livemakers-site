@@ -372,12 +372,23 @@ describe("G44 safety gates with validated Production feed overlay", () => {
       (anchor) => !heroAnchors.includes(anchor),
     );
 
-    expect(heroAnchors).toHaveLength(1 + (props.slots.lead.article ? 1 : 0));
+    // 2026-10-26 田平氏 GO (スマホの並び): hero = Daily Intel カード + 今朝の12指標
+    // 小カード (記事 1 本 or 前回リンク + シリーズのアーカイブリンク)。セッション
+    // 1 行は leading の session-line へ移ったので gradient 側で数える。
+    const mkt12HeroLinks =
+      (props.slots.mkt12.article || props.slots.mkt12.previous ? 1 : 0) + 1;
+    expect(heroAnchors).toHaveLength(
+      (props.slots.lead.article ? 1 : 0) + mkt12HeroLinks,
+    );
     for (const anchor of heroAnchors) {
       const href = stripLocale(anchor.getAttribute("href")!);
       expect(anchor.closest("[data-index-nav]"), `hero:${href}`).not.toBeNull();
-      expect(isAllowedPublishedArticleRoute(href), `hero:${href}`).toBe(true);
-      await expectResolvesPublicDocument(href);
+      // 記事ルート or (index-nav の) シリーズ一覧などの chrome ルート — 1 本 1 経路
+      if (isAllowedPublishedArticleRoute(href)) {
+        await expectResolvesPublicDocument(href);
+      } else {
+        expect(isAllowedChromeRoute(href), `hero:${href}`).toBe(true);
+      }
     }
 
     // Primary-source links: 2026-10-09 の観測カード撤去 (案 A) で 0 本。

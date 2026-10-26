@@ -144,9 +144,13 @@ describe("home sessions rail — feed adoption end to end (G43-e S2)", () => {
     expect(resolveHomeSessionsSource({})).toBe("repo");
     expect(props.live).toBeNull();
 
-    const { getByText } = renderLeading(props);
-    getByText("現在のセッションは切替中です");
-    getByText("次の更新: Europe Bridge Terminal 12:03 JST");
+    // PC の session-now カード (スマホの session-line も同じ文言を出すので範囲を絞る)
+    const { container } = renderLeading(props);
+    const sessionNow = within(
+      container.querySelector('[data-column-module="session-now"]') as HTMLElement,
+    );
+    sessionNow.getByText("現在のセッションは切替中です");
+    sessionNow.getByText("次の更新: Europe Bridge Terminal 12:03 JST");
   });
 
   it("surfaces sessionsSource through data-home-sessions-source on the HomeComposition root", () => {

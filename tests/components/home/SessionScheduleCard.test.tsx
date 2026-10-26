@@ -125,4 +125,18 @@ describe("SessionScheduleCard", () => {
         ),
     ).toHaveLength(0);
   });
+
+  // 2026-10-26 田平氏 GO: スマホ (compact) にもセッション記事の一覧への導線を出す
+  it("adds the session archive link under the compact row", () => {
+    render(
+      <SessionScheduleCard schedule={schedule} copy={copy} variant="compact" />,
+    );
+    const archive = screen.getByRole("link", { name: copy.archive });
+    expect(archive).toHaveAttribute("href", "/sessions/archive");
+    expect(archive.closest("[data-index-nav]")).not.toBeNull();
+    const previous = screen.getByRole("link", { name: copy.compactPrevious });
+    expect(
+      previous.compareDocumentPosition(archive) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
 });
