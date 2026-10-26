@@ -4,6 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("server-only", () => ({}));
 
 import {
+  ARTICLE_INFLOW_CATALOG_FAILURE_HOLD_MS,
   ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY,
   ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY,
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
@@ -137,17 +138,76 @@ describe("catalog v1 loader", () => {
     expect(urls).not.toContain(FEED_URL);
   });
 
-  it("falls back to the v0 feed when the catalog cannot be served", async () => {
+  // 2026-10-27: v0 への予備取得はやめた。v0 も同じ Blob にあり、カタログが 403 の
+  // ときは v0 も 403 で、失敗 1 回につき Blob へ 2 倍当たっていただけだった
+  // (本番ログ・手元の再現)
+  it("does not fall back to the v0 feed when the catalog cannot be served", async () => {
     enablePublic();
     process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
-    const warning = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const fetcher = routedFetcher({
-      [CATALOG_URL]: () => ({ ok: false, status: 500 }) as unknown as Response,
+      [CATALOG_URL]: () => ({ ok: false, status: 403 }) as unknown as Response,
       [FEED_URL]: () => jsonResponse(feedPayload()),
     });
     const source = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
-    expect(source?.feed_checksum).toBe("aabbccddeeff0011");
-    expect(warning.mock.calls.flat().join(" ")).toContain("falling back");
+    expect(source).toBeNull();
+    const urls = fetcher.mock.calls.map((call) => String(call[0]).split("?")[0]);
+    expect(urls).not.toContain(FEED_URL);
+  });
+
+  // 2026-10-27: カタログ (1.6MB) はデータキャッシュに載らないので、同じ
+  // インスタンスで同時に走る作り直しがそれぞれ取りに行っていた。進行中の取得に
+  // 相乗りさせる。終わった結果は持ち越さない (9/22 の焼き付きを避ける)
+  it("shares one in-flight catalog fetch among concurrent loads at runtime", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    delete process.env.NEXT_PHASE;
+    const fetcher = routedFetcher({
+      [CATALOG_URL]: () => jsonResponse(catalogPayload()),
+    });
+    const loads = await Promise.all(
+      Array.from({ length: 5 }, () =>
+        fetchProductionArticleInflowFeed(fetcher as typeof fetch)),
+    );
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    for (const source of loads) {
+      expect(source?.feed_checksum).toBe("8f36d3924040c7aa");
+    }
+  });
+
+  // 記事ページの作り直しが失敗すると、Next.js は 500 用の描画で generateMetadata を
+  // もう一度呼ぶ (React の cache をまたぐ)。失敗を短い間だけ覚えて、Blob へ
+  // 2 回目を取りに行かない。成功は覚えない (上の「memo しない」テスト)
+  it("shares a failure among concurrent loads and holds it briefly before retrying", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    delete process.env.NEXT_PHASE;
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    let now = 1_000_000;
+    vi.spyOn(Date, "now").mockImplementation(() => now);
+    let failing = true;
+    const fetcher = routedFetcher({
+      [CATALOG_URL]: () => failing
+        ? ({ ok: false, status: 403 }) as unknown as Response
+        : jsonResponse(catalogPayload()),
+    });
+    const failed = await Promise.all(
+      Array.from({ length: 5 }, () =>
+        fetchProductionArticleInflowFeed(fetcher as typeof fetch)),
+    );
+    expect(failed.every((source) => source === null)).toBe(true);
+    // 1 回の取得 (2 回試す) を 5 つの読み込みで共有する
+    expect(fetcher).toHaveBeenCalledTimes(2);
+
+    failing = false;
+    now += ARTICLE_INFLOW_CATALOG_FAILURE_HOLD_MS - 1;
+    expect(await fetchProductionArticleInflowFeed(fetcher as typeof fetch)).toBeNull();
+    expect(fetcher).toHaveBeenCalledTimes(2);
+
+    now += 1;
+    const recovered = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
+    expect(recovered?.feed_checksum).toBe("8f36d3924040c7aa");
+    expect(fetcher).toHaveBeenCalledTimes(3);
   });
 
   // 2026-09-22: catalog をプロセス内 memo (120s) に載せると、revalidatePath で
@@ -167,6 +227,7 @@ describe("catalog v1 loader", () => {
         });
       },
     });
+    delete process.env.NEXT_PHASE;
     const first = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
     const second = await fetchProductionArticleInflowFeed(fetcher as typeof fetch);
     expect(first?.feed_checksum).toBe("1111111111111111");

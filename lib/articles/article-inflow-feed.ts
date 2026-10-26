@@ -97,10 +97,13 @@ export const ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS = 4_000;
  *
  * 2026-09-22: the catalog (FEEDSPLIT, ~460KB) is NOT memoized — it fits the
  * data cache, and a shared memo defeats revalidatePath (see
- * fetchProductionArticleInflowFeed). Only the v0 fallback feed uses this memo.
+ * fetchProductionArticleInflowFeed). Only the v0 feed (used when the catalog
+ * env is unset) uses this memo at runtime.
  * 2026-10-26: the catalog grew to 1.6MB and no longer fits the data cache, so
  * it IS memoized during `next build` only (a one-off snapshot with no
- * revalidatePath) — runtime behavior is unchanged.
+ * revalidatePath).
+ * 2026-10-27: at runtime the catalog shares an in-flight fetch only
+ * (fetchCatalogInFlightShared) — a settled result is never reused.
  */
 export const ARTICLE_INFLOW_FEED_MEMO_TTL_MS = 120_000;
 
@@ -111,11 +114,15 @@ interface InflowFeedMemoEntry {
 
 const inflowFeedMemo = new Map<string, InflowFeedMemoEntry>();
 const inflowFeedInFlight = new Map<string, Promise<ArticleInflowSource | null>>();
+const catalogInFlight = new Map<string, Promise<ArticleInflowSource | null>>();
+const catalogFailedAt = new Map<string, number>();
 
 /** テスト用: memo と in-flight を破棄する。 */
 export function resetArticleInflowFeedMemo(): void {
   inflowFeedMemo.clear();
   inflowFeedInFlight.clear();
+  catalogInFlight.clear();
+  catalogFailedAt.clear();
 }
 
 function memoKey(url: string, requiredEnvironment?: string): string {
@@ -145,6 +152,48 @@ async function loadValidatedArticleInflowFeedMemoized(
       inflowFeedInFlight.delete(key);
     });
   inflowFeedInFlight.set(key, load);
+  return load;
+}
+
+/**
+ * 2026-10-27: 実行時のカタログ取得は、同じインスタンスで進行中の取得に相乗りする。
+ * カタログ (1.6MB) はデータキャッシュに載らないので、同時に走る作り直しがそれぞれ
+ * Blob へ取りに行き、403 の時間帯は失敗を数倍に増やしていた (本番ログ)。
+ * 取得が終わったら結果は捨てる — 9/22 の焼き付き (終わった結果を 120 秒使い回した)
+ * は起きない。相乗りで古くなりうる幅は取得中の 1 秒前後で、Blob 側のキャッシュ
+ * (max-age=300) より小さい。
+ *
+ * 失敗だけは ARTICLE_INFLOW_CATALOG_FAILURE_HOLD_MS の間覚えて、Blob へ行かずに
+ * すぐ失敗を返す。記事ページの作り直しが失敗すると、Next.js は 500 用の描画で
+ * generateMetadata をもう一度呼ぶ (React の cache をまたぐ別の描画) ため、
+ * 失敗 1 回で Blob に 2 回当たっていた (手元の再現)。失敗は中身を持たないので、
+ * 覚えても古い記事は出ない。戻るのが最大でこの秒数だけ遅れる。
+ */
+export const ARTICLE_INFLOW_CATALOG_FAILURE_HOLD_MS = 10_000;
+
+function fetchCatalogInFlightShared(
+  url: string,
+  fetcher: typeof fetch,
+): Promise<ArticleInflowSource | null> {
+  const inFlight = catalogInFlight.get(url);
+  if (inFlight) return inFlight;
+  const failedAt = catalogFailedAt.get(url);
+  if (
+    failedAt !== undefined &&
+    Date.now() - failedAt < ARTICLE_INFLOW_CATALOG_FAILURE_HOLD_MS
+  ) {
+    return Promise.resolve(null);
+  }
+  const load = fetchValidatedArticleInflowFeed(
+    url, fetcher, "production", parseArticleInflowCatalog,
+  ).then((feed) => {
+    if (feed === null) catalogFailedAt.set(url, Date.now());
+    else catalogFailedAt.delete(url);
+    return feed;
+  }).finally(() => {
+    catalogInFlight.delete(url);
+  });
+  catalogInFlight.set(url, load);
   return load;
 }
 
@@ -215,8 +264,11 @@ export async function fetchProductionArticleInflowFeed(
   fetcher: typeof fetch = fetch,
 ): Promise<ArticleInflowSource | null> {
   if (!isArticleInflowPublicEnabled()) return null;
-  // FEEDSPLIT T7: catalog v1 が設定されていればそれを正とし、取得/契約
-  // 失敗時のみ v0 feed へ fallback する (移行完了 = S3 で fallback 撤去)
+  // FEEDSPLIT T7: catalog v1 が設定されていればそれだけを正とする。
+  // 2026-10-27: 取得失敗時の v0 feed への fallback は撤去した。v0 も同じ Blob に
+  // あり、カタログが 403 のときは v0 も 403 で、失敗 1 回につき Blob へ 2 倍
+  // 当たっていただけだった (本番ログ・手元の再現)。失敗は null を返し、
+  // 呼び出し側 (loadProductionArticleInflowFeed) が前のページを保つ
   const catalogUrl = process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY];
   if (catalogUrl) {
     // 2026-09-22: catalog は memo しない。~460KB で data cache (2MB 上限) に
@@ -229,15 +281,12 @@ export async function fetchProductionArticleInflowFeed(
     // (キャッシュ用の形で 2.17MB)。`next build` では約 1,000 ページがページごとに
     // 取りに行き、Blob に 403 で拒否されてトップが repository-only で焼かれていた。
     // ビルドは 1 回きりの snapshot で revalidatePath も来ないので、ビルド中だけ
-    // memo + single-flight で取得をプロセスあたり 1 回に絞る (実行時は従来どおり)
-    const catalog = process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
-      ? await loadValidatedArticleInflowFeedMemoized(
+    // memo + single-flight で取得をプロセスあたり 1 回に絞る。実行時は進行中の
+    // 取得への相乗りだけ (fetchCatalogInFlightShared)
+    return process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD
+      ? loadValidatedArticleInflowFeedMemoized(
           catalogUrl, fetcher, "production", parseArticleInflowCatalog)
-      : await fetchValidatedArticleInflowFeed(
-          catalogUrl, fetcher, "production", parseArticleInflowCatalog);
-    if (catalog) return catalog;
-    console.warn(
-      "[article-inflow] catalog v1 unavailable; falling back to v0 feed");
+      : fetchCatalogInFlightShared(catalogUrl, fetcher);
   }
   const url = process.env[ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY];
   if (!url) return null;
