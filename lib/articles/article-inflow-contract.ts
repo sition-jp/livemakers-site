@@ -45,7 +45,7 @@ export interface ArticleInflowPublicCatalog
   searchIndex?: ArticleSearchIndexRef | null;
 }
 
-function toJstParts(value: string) {
+export function toJstParts(value: string) {
   const jst = new Date(new Date(value).getTime() + 9 * 60 * 60 * 1000);
   const pad = (part: number) => String(part).padStart(2, "0");
   const date = `${jst.getUTCFullYear()}-${pad(jst.getUTCMonth() + 1)}-${pad(jst.getUTCDate())}`;

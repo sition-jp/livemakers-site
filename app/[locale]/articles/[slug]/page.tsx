@@ -18,6 +18,7 @@ import {
   ARTICLE_FAMILIES,
   getAllArticles,
   type ArticleFamily,
+  type ArticleMeta,
 } from "@/lib/articles/article-model";
 import {
   loadPublicArticleInflowCatalog,
@@ -26,11 +27,16 @@ import {
 import { buildArticleMetadata } from "@/lib/articles/article-metadata";
 import { formatPublishedLabelWithYear } from "@/lib/articles/published-date";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
+import {
+  loadArticleDetailContext,
+  type ArticleDetailContext,
+} from "@/lib/articles/article-detail-context";
+import { isArticleInflowV2Enabled } from "@/lib/articles/article-inflow-v2";
 import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
 import { createSourceCardCollector } from "@/lib/articles/source-links";
 import { extractToc } from "@/lib/articles/toc";
-import { loadFutureAtlas } from "@/lib/future-atlas/load";
+import { loadFutureAtlas, type FutureAtlasData } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { X_HANDLE } from "@/lib/site";
 
@@ -41,6 +47,20 @@ export const dynamicParams = true;
 export const revalidate = 3600;
 
 const TOC_MIN_HEADINGS = 3;
+
+async function loadDetailContextFromCatalog(
+  article: ArticleMeta,
+  futureAtlas: FutureAtlasData,
+): Promise<ArticleDetailContext> {
+  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
+  const catalog = await loadPublicArticleInflowCatalog();
+  return {
+    neighbors: getSeriesNeighbors(catalog.articles, article),
+    related: getRelatedArticles(catalog.articles, article),
+    railArticles: catalog.articles,
+    surfacePublished,
+  };
+}
 
 export function generateStaticParams() {
   return getAllArticles().map((article) => ({ slug: article.articleId }));
@@ -85,15 +105,16 @@ export default async function ArticleDetailPage({
   const { article, body } = detail;
   const title = language === "en" ? (article.titleEn ?? article.titleJa) : article.titleJa;
   const futureAtlas = await loadFutureAtlas();
-  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
+  // 段 2a (2026-10-27): v2 が有効なら v1 カタログ (1.6MB) を読まない。前後リンク・
+  // 関連記事・シリーズ欄は取れなければ空で描く (記事ページを 500 にしない)
+  const { neighbors, related, railArticles, surfacePublished } = isArticleInflowV2Enabled()
+    ? await loadArticleDetailContext(article, futureAtlas.config)
+    : await loadDetailContextFromCatalog(article, futureAtlas);
   const manifestEntry = futureAtlas.manifest.entries.find((entry) => entry.articleId === article.articleId);
   const contracts = manifestEntry?.kind === "forecast"
     ? futureAtlas.contracts.filter((contract) => contract.articleId === article.articleId)
     : [];
 
-  const catalog = await loadPublicArticleInflowCatalog();
-  const neighbors = getSeriesNeighbors(catalog.articles, article);
-  const related = getRelatedArticles(catalog.articles, article);
   // INFLOW-G2 D2: 表示層タイトル抑止。受領 body (= source) は不変のまま、
   // MDX へ渡すテキストだけを変換する。T1a 時点では transform は inert
   // (ACTIVE_ARTICLE_DISPLAY_TRANSFORM_ID = "none"・display == source)
@@ -265,7 +286,7 @@ export default async function ArticleDetailPage({
         />
       </article>
       <SeriesRail
-        articles={catalog.articles}
+        articles={railArticles}
         current={article}
         surfacePublished={surfacePublished}
         copy={railCopy}

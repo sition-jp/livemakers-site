@@ -1,9 +1,6 @@
 import "server-only";
 
 import {
-  isArticleInflowPublicEnabled,
-} from "@/lib/articles/article-inflow-feed";
-import {
   mapInflowArticle,
   type ArticleInflowPublicArticle,
 } from "@/lib/articles/article-inflow-contract";
@@ -67,8 +64,14 @@ function v2BaseUrl(): string | null {
   }
 }
 
+// article-inflow-feed.ts の ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY と同じ値
+// (同じ名前であることはテストで確かめる)。feed.ts は v2 を読むので、v2 から
+// feed.ts を読むと互いを読み合う形になり、feed.ts を差し替えるテストで壊れる
+const PUBLIC_FLAG_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_PUBLIC_ENABLED";
+
 export function isArticleInflowV2Enabled(): boolean {
-  return isArticleInflowPublicEnabled() && v2BaseUrl() !== null;
+  const flag = process.env[PUBLIC_FLAG_ENV_KEY];
+  return (flag === "1" || flag === "true") && v2BaseUrl() !== null;
 }
 
 export function articleRecordTag(slug: string): string {
