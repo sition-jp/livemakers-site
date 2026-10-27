@@ -23,6 +23,7 @@ import {
   parseArticleInflowCatalog,
   type ArticleInflowSource,
 } from "@/lib/articles/article-inflow-validation.mjs";
+import { fetchArticleRecord, isArticleInflowV2Enabled } from "@/lib/articles/article-inflow-v2";
 import { stripUnverifiedThumbnails } from "@/lib/articles/thumbnail-verification";
 
 export const ARTICLE_INFLOW_FEED_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_FEED_URL";
@@ -407,6 +408,14 @@ async function loadArticleInflowDetail(
 ): Promise<ArticleInflowPreviewDetail | null> {
   const article = catalog.articles.find((candidate) => candidate.articleId === slug);
   if (!article) return null;
+  return loadDetailForArticle(article, slug, locale);
+}
+
+async function loadDetailForArticle(
+  article: ArticleInflowPreviewArticle,
+  slug: string,
+  locale: "ja" | "en",
+): Promise<ArticleInflowPreviewDetail | null> {
   const body = article.source === "inflow"
     ? article.inflowBody
       ?? (article.bodyUrl && article.declaredBodyChecksum
@@ -437,5 +446,32 @@ export async function loadPublicArticleInflowDetail(
   slug: string,
   locale: "ja" | "en",
 ): Promise<ArticleInflowPublicDetail | null> {
+  if (isArticleInflowV2Enabled()) return loadPublicArticleDetailV2(slug, locale);
   return loadArticleInflowDetail(await loadPublicArticleInflowCatalog(), slug, locale);
+}
+
+/**
+ * 段 2a (2026-10-27): v1 カタログ (1.6MB) を読まずに、記事 1 本の記録から描く。
+ * リポジトリの記事が優先 (v1 と同じ)。記録が 404・取り下げ → null (notFound)。
+ * 取れない (403 など) → 前のページを保つ (ビルド中は null)。
+ */
+async function loadPublicArticleDetailV2(
+  slug: string,
+  locale: "ja" | "en",
+): Promise<ArticleInflowPublicDetail | null> {
+  const repository = getAllArticles().find((candidate) => candidate.articleId === slug);
+  if (repository) {
+    return loadDetailForArticle(
+      { ...repository, href: `/articles/${repository.articleId}`, source: "repository" },
+      slug,
+      locale,
+    );
+  }
+  const record = await fetchArticleRecord(slug);
+  if (record.kind === "missing") return null;
+  if (record.kind === "unavailable") {
+    if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) return null;
+    throw new ArticleInflowUnavailableError();
+  }
+  return loadDetailForArticle(record.article, slug, locale);
 }

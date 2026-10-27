@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  articleSlugsFromPaths,
   decideCronRefresh,
   decideRevalidate,
   pagePathTag,
@@ -139,5 +140,20 @@ describe("pagePathTag (the implicit tag revalidatePath would expire)", () => {
       expect(source, file).toContain('revalidateTag(pagePathTag(path), "max")');
       expect(source, file).not.toMatch(/revalidatePath\(/);
     }
+  });
+});
+
+describe("articleSlugsFromPaths (段 2a)", () => {
+  it("collects article slugs once, skipping series and non-article pages", () => {
+    expect(
+      articleSlugsFromPaths([
+        "/ja",
+        "/ja/articles/a-20261027-0123abcd",
+        "/en/articles/a-20261027-0123abcd",
+        "/ja/articles/series/signal",
+        "/ja/articles/today",
+        "/ja/articles",
+      ]),
+    ).toEqual(["a-20261027-0123abcd"]);
   });
 });

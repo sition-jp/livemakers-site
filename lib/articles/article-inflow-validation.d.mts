@@ -121,3 +121,40 @@ export interface ArticleSearchShard {
 
 export function parseArticleSearchIndexRef(payload: unknown): ArticleSearchIndexRef | null;
 export function parseArticleSearchShard(payload: unknown): ArticleSearchShard | null;
+
+// ---- カタログ v2 (段 2a・2026-10-27) ---------------------------------------
+export const ARTICLE_RECORD_SCHEMA_VERSION: "livemakers_article_record_v1";
+export const ARTICLE_RAIL_SCHEMA_VERSION: "livemakers_article_rail_v1";
+export const ARTICLE_FAMILY_INDEX_SCHEMA_VERSION: "livemakers_article_family_index_v1";
+
+export type ArticleRecordPayload =
+  | {
+      schema_version: typeof ARTICLE_RECORD_SCHEMA_VERSION;
+      environment: "staging" | "production";
+      article: ArticleInflowCatalogItem;
+    }
+  | {
+      schema_version: typeof ARTICLE_RECORD_SCHEMA_VERSION;
+      environment: "staging" | "production";
+      slug: string;
+      withdrawn: true;
+    };
+
+export interface ArticleRailPayload {
+  schema_version: typeof ARTICLE_RAIL_SCHEMA_VERSION;
+  environment: "staging" | "production";
+  generated_at: string;
+  latest: ArticleInflowCatalogItem[];
+  by_family: Record<string, ArticleInflowCatalogItem[]>;
+}
+
+export interface ArticleFamilyIndexPayload {
+  schema_version: typeof ARTICLE_FAMILY_INDEX_SCHEMA_VERSION;
+  environment: "staging" | "production";
+  family: string;
+  items: { slug: string; title: string; published_at: string }[];
+}
+
+export function parseArticleRecord(payload: unknown): ArticleRecordPayload | null;
+export function parseArticleRail(payload: unknown): ArticleRailPayload | null;
+export function parseArticleFamilyIndex(payload: unknown): ArticleFamilyIndexPayload | null;
