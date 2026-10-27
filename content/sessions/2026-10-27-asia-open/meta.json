@@ -1,0 +1,108 @@
+{
+  "sessionId": "2026-10-27-asia-open",
+  "date": "2026-10-27",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-27-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-27-asia-open",
+  "publishedAt": "2026-10-28T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261027_0730_01c1244c",
+  "asOfJst": "2026-10-27T07:30:06+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月27日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 62,723 → 62,849（+0.20%）",
+    "変動幅上位: Coinbase（perp） -2.9% / ETH/USD -1.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261027_0559_5c45993d",
+    "crawlAnchorJst": "2026-10-27T05:03:00+09:00",
+    "writtenAtJst": "2026-10-27T05:59:15+09:00",
+    "lead": "ブラジルの決選投票でルラ大統領が4期目を決め、株は売買が止まり、通貨と国債も大きく下げた。問われているのは結果より、新しい政権が財政の道筋を示せるかだ。米国では暗号資産の取引所の大手が分散型の先物の基盤を規制の内側へ持ち込もうとし、今週は FOMC と大手テックの決算が同じ水曜に重なる。",
+    "items": [
+      {
+        "headline": "ルラ大統領が再選後の演説で「民主主義は常に」と述べ、独裁への逆戻りはないと誓った",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/26/brazil-lula-vow-democracy-always-election-win",
+        "note": "ブラジルの決選投票の勝利の直後の発言。陣営の相手側は結果の無効を求めている。"
+      },
+      {
+        "headline": "ブラジルの10年物の国債の利回りが1日で約3%上がり、16%に迫った",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2114785608312967621",
+        "note": "選挙の結果を受けた売りで、株・通貨とともに国債も大きく下げた。"
+      },
+      {
+        "headline": "各国の首脳がルラ大統領の再選に祝意を示した",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/oct/26/words-world-leaders-congratulate-trump-critic-lula-reelection-brazil/"
+      },
+      {
+        "headline": "Kraken の親会社 Payward が、Hyperliquid の HIP-3 で CFTC の規制を受ける最初の運営者になる意向を示した",
+        "sourceUrl": "https://x.com/HyperliquidX/status/2114772826435866711",
+        "note": "米国の顧客向けの永久先物を Hyperliquid の上で開く計画で、規制当局の承認が前提になる。"
+      },
+      {
+        "headline": "ラミス上院議員が、民主党の求めた SEC の認定の取り消しの権限は CLARITY 法案に入っていると反論した",
+        "sourceUrl": "https://x.com/SenLummis/status/2114727751856914898"
+      },
+      {
+        "headline": "カナダがステーブルコインのルールの案への意見の募集を始め、保有者への利息や利回りの支払いの禁止は残した",
+        "sourceUrl": "https://x.com/coinbureau/status/2114745117646942300"
+      },
+      {
+        "headline": "米 OCC が地方の銀行に、ステーブルコインの決済の市場に入るよう促した",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/10/26/occ-calls-on-community-banks-to-enter-the-stablecoin-payments-market"
+      },
+      {
+        "headline": "Anthropic が上場の書類で、過去最高の売上と膨らむ支払いの義務を示した",
+        "sourceUrl": "https://the-decoder.com/anthropic-opens-its-books-for-wall-street-showing-record-revenue-and-mounting-obligations/"
+      },
+      {
+        "headline": "米 FTC が AI の安全の調査を広げ、Anthropic の幹部に証言を求めているとアクシオスが報じた",
+        "sourceUrl": "https://x.com/axios/status/2114780721768546468"
+      },
+      {
+        "headline": "Microsoft が6万人の社員に退職のパッケージを示した",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2114745896315359305",
+        "note": "AI の導入にあわせた人員の見直しとして伝えられた。"
+      },
+      {
+        "headline": "Bitcoin Core 32.1 の正式版が公開された",
+        "sourceUrl": "https://github.com/bitcoin/bitcoin/releases/tag/v32.1"
+      },
+      {
+        "headline": "Bitcoin Core 31.2 の正式版が公開された",
+        "sourceUrl": "https://github.com/bitcoin/bitcoin/releases/tag/v31.2"
+      },
+      {
+        "headline": "Chainlink が、保管機関の顧客が資産を保管したまま DeFi の貸し出しを使える CustodySync を始めた",
+        "sourceUrl": "https://x.com/chainlink/status/2114753137848299991"
+      },
+      {
+        "headline": "Aave V4 の預け入れが15億ドルを超え、最高を更新した",
+        "sourceUrl": "https://x.com/aave/status/2114745973201060014"
+      },
+      {
+        "headline": "Bernstein が、暗号資産の関連株の伸びは予測市場とトークン化が支えるとみて、Coinbase の目標株価を下げ、Circle を上げた",
+        "sourceUrl": "https://x.com/TheBlockCo/status/2114736808462344631"
+      },
+      {
+        "headline": "イスラエルの総選挙を前に、ネタニヤフ首相が軍にイランへの攻撃を迫っていたと報じられた",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/26/netanyahu-reportedly-pressured-israel-military-attack-iran-runup-to-election"
+      },
+      {
+        "headline": "Microsoft が、Android 向けの Authenticator の深刻な欠陥を修正した",
+        "sourceUrl": "https://x.com/The_Cyber_News/status/2114630691896127947"
+      }
+    ],
+    "watch": [
+      "ブラジルの財政の計画の発表と、レアル・国債の落ち着き",
+      "10月28日の FOMC の決定と、同じ日の Microsoft・Alphabet の決算",
+      "10月27日のイスラエルの総選挙の結果と、イランをめぐる協議"
+    ]
+  }
+}
