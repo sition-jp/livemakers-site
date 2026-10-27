@@ -36,9 +36,9 @@ describe("locked LiveMakers logo mark", () => {
     );
   });
 
-  it("uses the lime ground (#8AE617) and white mark for app icons", () => {
+  it("uses the lime ground (#8AE617) and black mark for app icons", () => {
     expect(appIcon).toContain('fill="#8AE617"');
-    expect(appIcon.match(/fill="#FFFFFF"/g)).toHaveLength(4);
+    expect(appIcon.match(/fill="#000000"/g)).toHaveLength(4);
     expect(
       fs.statSync(path.join(process.cwd(), "app/apple-icon.png")).size,
     ).toBeGreaterThan(1_000);
