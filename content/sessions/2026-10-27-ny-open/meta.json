@@ -1,0 +1,116 @@
+{
+  "sessionId": "2026-10-27-ny-open",
+  "date": "2026-10-27",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-27-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-27-ny-open",
+  "publishedAt": "2026-10-28T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261027_1803_4398eca1",
+  "asOfJst": "2026-10-27T18:03:01+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月27日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,641.50 → 7,676.30（+0.46%）",
+    "変動幅上位: Coinbase（perp） -1.5% / 日経225（perp） +1.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261027_1836_5e45b959",
+    "crawlAnchorJst": "2026-10-27T18:03:00+09:00",
+    "writtenAtJst": "2026-10-27T18:36:48+09:00",
+    "lead": "GMO への攻撃は、予告されていた情報の公開へ進んだ。金融相の会見では関連の FX 業者 5 社から顧客被害の報告が上がり、1 つのクラウド基盤の侵害が複数の業者の顧客口座に及ぶ構図が見えた。メール配信事業者からの漏えいも公表が 197 組織に広がり、委託先が攻撃の入口になる流れは止まっていない。暗号資産では、Ripple の信託銀行が最終承認を得て、イーサリアムと Zcash がそれぞれ仕組みの手直しに動いた。",
+    "items": [
+      {
+        "headline": "GMO、お名前.com デスクトップクラウドへの攻撃で第10報 攻撃者とみられる者による情報の公開に対応",
+        "sourceUrl": "https://x.com/GMOGroup/status/2114945638588715062",
+        "note": "予告されていた情報の公開が始まり、GMO が認識と対策を公表した。"
+      },
+      {
+        "headline": "片山金融相、GMO 関連と考えられる FX 取引 5 社から顧客被害の報告",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2114886339829112920",
+        "note": "共用のクラウド基盤が複数の業者の顧客口座への入口になった構図が、監督当局の場に上がった。"
+      },
+      {
+        "headline": "沖縄ツーリスト、最大約73万人分の個人情報が漏えいと発表",
+        "sourceUrl": "https://x.com/nhk_news/status/2114947462138073203"
+      },
+      {
+        "headline": "バンダイナムコの子会社に不正アクセス、「一番くじONLINE」の配送情報が流出のおそれ",
+        "sourceUrl": "https://www.security-next.com/191994"
+      },
+      {
+        "headline": "メール配信サービス「ブラストメール」への不正アクセス、公表した組織は10月27日時点で197に",
+        "sourceUrl": "https://piyolog.hatenadiary.jp/entry/2026/10/27/133851",
+        "note": "1 つの配信事業者への侵入が、自治体・鉄道・報道機関などの宛先リストに広がっている。"
+      },
+      {
+        "headline": "Ripple、米国の国法信託銀行の設立で OCC から最終承認",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/27/ripple-gets-a-final-go-ahead-to-launch-its-own-u-s-national-trust-bank"
+      },
+      {
+        "headline": "イーサリアム Glamsterdam、ステーキングの預け入れがビルダー側に入りうる不具合を仕様で修正",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/27/ethereum-fixes-glamsterdam-bug-that-could-have-sent-staking-deposits-to-builders",
+        "note": "一度見送られた修正案が再審査で戻った。Hoodi テストネットの新しい日程はまだ出ていない。"
+      },
+      {
+        "headline": "Zcash 共同創業者、コミュニティ助成への新規発行の配分をやめる草案を公表",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/27/zcash-co-founder-proposes-ending-grants-funding-citing-usd125-million-treasury",
+        "note": "助成側の残高は約束分を除いて約1.25億ドルという本人の試算が根拠。"
+      },
+      {
+        "headline": "Solana、不具合報告の提出に 1 SOL を求める AI が生む大量の報告への対策",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/27/solana-bug-reports-now-cost-1-sol-as-ai-floods-security-teams-with-spam"
+      },
+      {
+        "headline": "みずほ、AI エージェントが Circle の収入を最大2割削りうると指摘",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-27-mizuho-cuts-circle-price-target-431826"
+      },
+      {
+        "headline": "JPMorgan、「AI」の看板だけでは貸し手を得られなくなったと分析",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/27/an-ai-label-alone-no-longer-wins-lenders-jpmorgan-says"
+      },
+      {
+        "headline": "StoneX、Strive の目標株価を34%引き上げ 追加の株式発行が BTC 戦略を支えると評価",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-26-stonex-lifts-strive-price-target-431818"
+      },
+      {
+        "headline": "アジア株、KOSPI と日経平均が大きく上昇 AI 関連の計画が追い風",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/aktien-kospi-und-nikkei-springen-hoch-ki-plaene-staerken-asiens-boersen/100265142.html"
+      },
+      {
+        "headline": "イスラエル総選挙の投票が始まる",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/27/israel-elections-knesset-netanyahu-likud-eisenkot-gaza-latest-updates"
+      },
+      {
+        "headline": "中国、近く中東へ特使を派遣へ",
+        "sourceUrl": "https://www.straitstimes.com/world/middle-east/china-to-send-envoy-to-middle-east-in-near-future-amid-conflict-spillover"
+      },
+      {
+        "headline": "ロシアがウクライナへ無人機280機、オレシキでは局地的な停戦が始まる",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/27/russia-ukraine-oleshky-serbia-france-europe-latest-news-updates"
+      },
+      {
+        "headline": "アリババ、中国企業リストに基づく国防総省の契約制限に差し止め命令を得る",
+        "sourceUrl": "https://www.straitstimes.com/world/alibaba-wins-injunction-against-pentagon-contract-restrictions-tied-to-china-blacklist"
+      },
+      {
+        "headline": "金融庁、信用格付業者の登録を公表",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/shouken/20261027/20261027.html"
+      },
+      {
+        "headline": "イーサリアムのコンセンサス層、量子耐性の通信への移行項目の棚卸しが研究フォーラムに",
+        "sourceUrl": "https://ethresear.ch/t/inventory-of-pq-p2p-migrations-in-the-consensus-layer/26183"
+      }
+    ],
+    "watch": [
+      "GMO の次の報と、金融庁の会見概要に載る FX 5 社の被害の中身",
+      "Glamsterdam の Hoodi テストネットの新しい日程",
+      "Zcash の助成配分をめぐる草案への開発者・保有者の反応"
+    ]
+  }
+}
