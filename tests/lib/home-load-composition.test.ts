@@ -164,7 +164,7 @@ describe("loadHomeCompositionProps funding shelf", () => {
   });
 
   it("passes topic articles through to the slots", async () => {
-    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "1";
     topicIndexMock.fetchArticleTopicIndex.mockResolvedValue({
       topic: "funding",
       generatedAt: "2026-08-03T09:00:00+09:00",
@@ -173,6 +173,33 @@ describe("loadHomeCompositionProps funding shelf", () => {
     const result = await loadHomeCompositionProps();
     expect(result.props.slots.fundingArticles.map((a) => a.articleId)).toEqual(["fd-1"]);
     expect(topicIndexMock.fetchArticleTopicIndex).toHaveBeenCalledWith("funding");
+  });
+
+  // 公開の切り替えを切ったら棚は出さない (本物の fetchArticleTopicIndex で確かめる)
+  it("public flag off → no funding articles and no topic fetch", async () => {
+    const actual = await vi.importActual<
+      typeof import("@/lib/articles/article-inflow-v2")
+    >("@/lib/articles/article-inflow-v2");
+    topicIndexMock.fetchArticleTopicIndex.mockImplementation(
+      (topic: "funding") => actual.fetchArticleTopicIndex(topic),
+    );
+    const originalBase = process.env[actual.ARTICLE_INFLOW_V2_BASE_URL_ENV_KEY];
+    process.env[actual.ARTICLE_INFLOW_V2_BASE_URL_ENV_KEY] =
+      "http://127.0.0.1:8787/livemakers/article_inflow/v2";
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    const fetchSpy = vi.fn(async (_input: RequestInfo | URL) => {
+      throw new Error("must not fetch");
+    });
+    vi.stubGlobal("fetch", fetchSpy);
+    try {
+      const result = await loadHomeCompositionProps();
+      expect(result.props.slots.fundingArticles).toEqual([]);
+      expect(
+        fetchSpy.mock.calls.some(([url]) => String(url).includes("/topics/")),
+      ).toBe(false);
+    } finally {
+      restoreEnv(actual.ARTICLE_INFLOW_V2_BASE_URL_ENV_KEY, originalBase);
+    }
   });
 });
 

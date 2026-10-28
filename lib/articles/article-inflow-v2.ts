@@ -193,13 +193,15 @@ export async function fetchArticleFamilyIndex(
   };
 }
 
-// 棚の一覧 (topics/<topic>.json)。なくても描ける — 取れなければ null
+// 棚の一覧 (topics/<topic>.json)。なくても描ける — 取れなければ null。
+// 公開の切り替えが切れていれば読まない (隠した記事へのリンクを棚・トップ・
+// sitemap に残さない)。項目を記事の形にできなければ null (呼び側を 500 にしない)
 export async function fetchArticleTopicIndex(
   topic: ArticleTopic,
   fetcher: typeof fetch = fetch,
 ): Promise<ArticleTopicIndex | null> {
   const base = v2BaseUrl();
-  if (!base || !isArticleTopic(topic)) return null;
+  if (!base || !isArticleInflowV2Enabled() || !isArticleTopic(topic)) return null;
   const payload = await fetchJson(
     `${base}/topics/${topic}.json`,
     { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS } },
@@ -207,9 +209,14 @@ export async function fetchArticleTopicIndex(
   );
   const index = payload && payload !== "missing" ? parseArticleTopicIndex(payload) : null;
   if (!index || index.environment !== "production" || index.topic !== topic) return null;
-  return {
-    topic,
-    generatedAt: index.generated_at,
-    articles: index.items.map(toArticle),
-  };
+  let articles: ArticleInflowPublicArticle[];
+  try {
+    articles = index.items.map(toArticle);
+  } catch (error) {
+    console.warn(
+      `[article-inflow-v2] topic ${topic} item rejected (${error instanceof Error ? error.message.slice(0, 200) : String(error)})`,
+    );
+    return null;
+  }
+  return { topic, generatedAt: index.generated_at, articles };
 }

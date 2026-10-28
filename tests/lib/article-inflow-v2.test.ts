@@ -228,4 +228,25 @@ describe("fetchArticleTopicIndex", () => {
       await expect(fetchArticleTopicIndex("funding", fetcher as typeof fetch)).resolves.toBeNull();
     }
   });
+
+  // 公開の切り替え (LIVEMAKERS_ARTICLE_INFLOW_PUBLIC_ENABLED) を切ったら棚も出さない —
+  // 隠した記事 (404) へのリンクを棚・トップ・sitemap に残さない
+  it("null without fetching when the public flag is off", async () => {
+    enable();
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    const fetcher = fetcherReturning(json(topicIndex()));
+    await expect(fetchArticleTopicIndex("funding", fetcher as typeof fetch)).resolves.toBeNull();
+    expect(fetcher).not.toHaveBeenCalled();
+  });
+
+  // 契約は通るが記事の形にできない項目 (ArticleMetaSchema が弾く) でも、
+  // 呼び側 (記事ページ・一覧・トップ・sitemap) を 500 にしない
+  it("null (not a throw) when an item cannot be mapped to an article", async () => {
+    enable();
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const bad = { ...catalogArticle("signal-20261028-cccccccc"), radar_topic_id: "" };
+    const fetcher = fetcherReturning(json(topicIndex({ items: [bad] })));
+    await expect(fetchArticleTopicIndex("funding", fetcher as typeof fetch)).resolves.toBeNull();
+    expect(warn).toHaveBeenCalled();
+  });
 });
