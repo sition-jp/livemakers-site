@@ -1,0 +1,120 @@
+{
+  "sessionId": "2026-10-28-ny-open",
+  "date": "2026-10-28",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-28-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-28-ny-open",
+  "publishedAt": "2026-10-29T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261028_1803_dd9aad2d",
+  "asOfJst": "2026-10-28T18:03:03+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月28日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,675.70 → 7,725.50（+0.65%）",
+    "変動幅上位: ETH/USD +2.5% / BTC/USD +2.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261028_1839_71581442",
+    "crawlAnchorJst": "2026-10-28T18:03:00+09:00",
+    "writtenAtJst": "2026-10-28T18:39:57+09:00",
+    "lead": "米国の金融政策の発表を前に、市場は様子見の色が濃い。暗号資産では、格付け会社によるステーブルコインの評価や、トークン化の対応チェーンの拡大など、伝統的な金融の側からの組み込みが続いた。一方で、取引所への侵入や企業が自社の BTC に触れなくなる事案も出て、保管と鍵の管理の重みが改めて浮かんだ。国内では企業の漏えいの公表がこの日も相次いだ。",
+    "items": [
+      {
+        "headline": "FOMC の結果発表を控え、ビットコインは8万1,000ドル近辺。ZEC は8%上昇",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/28/bitcoin-nears-usd81-000-ahead-of-fed-decision-as-zec-jumps-8"
+      },
+      {
+        "headline": "ムーディーズ、Ripple のステーブルコイン RLUSD に投資適格の格付け",
+        "sourceUrl": "https://www.theblock.co/news/web3/2026-10-28-moodys-ripple-rlusd-stablecoin-431969",
+        "note": "格付け会社の評価がステーブルコインに付くことで、機関の保有判断に使える物差しが一つ増える。"
+      },
+      {
+        "headline": "Securitize、トークン化の対応チェーンに Stellar を追加",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/28/securitize-adds-stellar-blockchain-as-institutional-tokenization-gathers-steam",
+        "note": "Stellar の年次会議 Meridian の場で発表された。"
+      },
+      {
+        "headline": "韓国の暗号資産取引所 Bithumb、従業員のシステム経由で侵入を受けたと報道",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/10/28/bithumb-hacked-through-employee-system-as-south-korean-financial-firms-face-cyberattacks",
+        "note": "韓国の金融機関へのサイバー攻撃が続くなかでの事案。"
+      },
+      {
+        "headline": "ビットコインを保有する Datavault AI、自社の BTC にアクセスできないと公表し株価が半減",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/28/bitcoin-treasury-datavault-ai-plunges-50-after-firm-says-it-can-t-access-its-btc",
+        "note": "財務に BTC を持つ企業にとって、鍵と保管の管理がそのまま株主価値の問題になることを示した。"
+      },
+      {
+        "headline": "EMURGO と Yoroi の DRep、11月30日に登録を解除",
+        "sourceUrl": "https://x.com/emurgo_io/status/2115299422850683118",
+        "note": "8月に表明していた撤退の日程が確定した。委任している利用者は委任先の選び直しが必要になる。"
+      },
+      {
+        "headline": "バンダイナムコ、顧客のメールアドレスなど34万6,000件余りが漏えい",
+        "sourceUrl": "https://x.com/nhk_news/status/2115319412542804200"
+      },
+      {
+        "headline": "ドン・キホーテなど4社、時計修理の委託先がランサムウェア被害 依頼者の氏名・住所の一部が漏えいのおそれ",
+        "sourceUrl": "https://x.com/piyokango/status/2115311338184749182",
+        "note": "対象は2025年9月以降に店舗で時計の修理を頼んだ客。漏えいの事実は確認されていないが、否定もできないとしている。"
+      },
+      {
+        "headline": "ゲーム通販の DIRECT GAMES に不正アクセス 会員のメールアドレス・氏名・生年月日・注文履歴が流出",
+        "sourceUrl": "https://x.com/piyokango/status/2115352521753694624",
+        "note": "カード番号は保持しておらず漏れていない。全会員がパスワードの再設定の対象。"
+      },
+      {
+        "headline": "ツイキャス、不正アクセスの痕跡を確認し緊急メンテナンスを継続",
+        "sourceUrl": "https://x.com/twitcasting_jp/status/2115342856403796257",
+        "note": "影響の範囲は調査中で、安全を確かめたうえで再開するとしている。"
+      },
+      {
+        "headline": "ドトールコーヒー、従業員と退職者の個人情報951件が漏えいか",
+        "sourceUrl": "https://x.com/nhk_news/status/2115351124236791961"
+      },
+      {
+        "headline": "資さんうどん、委託先の勤怠システムの設定不備で従業員の退職理由などが外部から閲覧可能に",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2610/28/2000002667/"
+      },
+      {
+        "headline": "JPYC、発行・償還サービス JPYC EX の開始から1年",
+        "sourceUrl": "https://x.com/jpyc_official/status/2115364973593665751"
+      },
+      {
+        "headline": "湾岸諸国、米国とイランの戦闘再開を避けるための多段階の和平案を調整",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/28/gulf-states-multipart-peace-deal-avert-renewal-us-iran-war"
+      },
+      {
+        "headline": "イスラエル総選挙、出口調査では明確な勝者が見えず開票が続く",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/oct/28/israel-election-results-live-updates-exit-polls-netanyahu-likud-eisenkot-latest-news"
+      },
+      {
+        "headline": "日米の防衛相、中国の影響力拡大を前に抑止力の強化で一致",
+        "sourceUrl": "https://www.straitstimes.com/world/japan-us-defence-chiefs-agree-to-boost-deterrence-amid-china-clout"
+      },
+      {
+        "headline": "フランスの鉱物特使、レアアースの中国依存は3〜5年で分散できると発言",
+        "sourceUrl": "https://www.straitstimes.com/world/france-minerals-envoy-says-rare-earths-diversification-from-china-possible-within-3-5-years"
+      },
+      {
+        "headline": "SK ハイニックス、利益が7倍に AI 需要への懸念が和らぐ",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2115230769752756675"
+      },
+      {
+        "headline": "欧州の大手銀行の決算、ドイツ銀行が市場予想を上回る利益",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/banken-deutsche-bank-erzielt-milliardengewinn-und-uebertrifft-erwartungen/100263571.html",
+        "note": "BNP パリバも予想を上回り、自社株買いを打ち出した。UBS も7〜9月期の利益を伸ばした。"
+      }
+    ],
+    "watch": [
+      "FOMC の決定と記者会見が、暗号資産と株の値動きをどちらへ傾けるか",
+      "イスラエルの開票の行方と、湾岸諸国の和平案が米国とイランの緊張にどう効くか",
+      "ツイキャスとバンダイナムコの続報で、漏えいの範囲と利用者が取るべき対応が示されるか"
+    ]
+  }
+}
