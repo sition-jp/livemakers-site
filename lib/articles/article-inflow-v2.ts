@@ -9,8 +9,10 @@ import {
   parseArticleFamilyIndex,
   parseArticleRail,
   parseArticleRecord,
+  parseArticleTopicIndex,
   type ArticleInflowCatalogItem,
 } from "@/lib/articles/article-inflow-validation.mjs";
+import { isArticleTopic, type ArticleTopic } from "@/lib/articles/topics";
 import { stripUnverifiedThumbnails } from "@/lib/articles/thumbnail-verification";
 
 /**
@@ -51,6 +53,12 @@ export type ArticleRail = {
 export type ArticleFamilyIndex = {
   family: string;
   items: { slug: string; title: string; publishedAt: string }[];
+};
+
+export type ArticleTopicIndex = {
+  topic: ArticleTopic;
+  generatedAt: string;
+  articles: ArticleInflowPublicArticle[];
 };
 
 function v2BaseUrl(): string | null {
@@ -182,5 +190,26 @@ export async function fetchArticleFamilyIndex(
       title: item.title,
       publishedAt: item.published_at,
     })),
+  };
+}
+
+// 棚の一覧 (topics/<topic>.json)。なくても描ける — 取れなければ null
+export async function fetchArticleTopicIndex(
+  topic: ArticleTopic,
+  fetcher: typeof fetch = fetch,
+): Promise<ArticleTopicIndex | null> {
+  const base = v2BaseUrl();
+  if (!base || !isArticleTopic(topic)) return null;
+  const payload = await fetchJson(
+    `${base}/topics/${topic}.json`,
+    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS } },
+    fetcher,
+  );
+  const index = payload && payload !== "missing" ? parseArticleTopicIndex(payload) : null;
+  if (!index || index.environment !== "production" || index.topic !== topic) return null;
+  return {
+    topic,
+    generatedAt: index.generated_at,
+    articles: index.items.map(toArticle),
   };
 }

@@ -10,6 +10,7 @@ import {
   fetchArticleFamilyIndex,
   fetchArticleRail,
   fetchArticleRecord,
+  fetchArticleTopicIndex,
   isArticleInflowV2Enabled,
 } from "@/lib/articles/article-inflow-v2";
 import { ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY } from "@/lib/articles/article-inflow-feed";
@@ -179,5 +180,52 @@ describe("fetchArticleRail / fetchArticleFamilyIndex", () => {
       items: [{ slug: SLUG, title: "題名", publishedAt: "2026-10-26T19:52:10+09:00" }],
     });
     expect(String(fetcher.mock.calls[0][0])).toBe(`${BASE}/families/signal.json`);
+  });
+});
+
+describe("fetchArticleTopicIndex", () => {
+  function topicIndex(overrides: Record<string, unknown> = {}) {
+    return {
+      schema_version: "livemakers_article_topic_index_v1",
+      environment: "production",
+      topic: "funding",
+      generated_at: "2026-10-28T07:00:00+09:00",
+      items: [
+        catalogArticle("signal-20261028-aaaaaaaa", "signal", "2026-10-28T06:00:00+09:00"),
+        catalogArticle("signal-20261027-bbbbbbbb", "signal", "2026-10-27T06:00:00+09:00"),
+      ],
+      ...overrides,
+    };
+  }
+
+  it("maps items with toArticle in order", async () => {
+    enable();
+    const fetcher = fetcherReturning(json(topicIndex()));
+    const index = await fetchArticleTopicIndex("funding", fetcher as typeof fetch);
+    expect(index?.topic).toBe("funding");
+    expect(index?.generatedAt).toBe("2026-10-28T07:00:00+09:00");
+    expect(index?.articles.map((a) => a.articleId)).toEqual([
+      "signal-20261028-aaaaaaaa",
+      "signal-20261027-bbbbbbbb",
+    ]);
+    expect(index?.articles[0]?.href).toBe("/articles/signal-20261028-aaaaaaaa");
+    const [url, init] = fetcher.mock.calls[0];
+    expect(String(url)).toBe(`${BASE}/topics/funding.json`);
+    expect((init as { next?: { revalidate?: number } }).next?.revalidate).toBe(3600);
+  });
+
+  it("null on 403, 404, wrong schema, staging, topic mismatch", async () => {
+    enable();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    const cases = [
+      fetcherReturning(json({}, 403), json({}, 403)),
+      fetcherReturning(json({}, 404)),
+      fetcherReturning(json(topicIndex({ schema_version: "other" }))),
+      fetcherReturning(json(topicIndex({ environment: "staging" }))),
+      fetcherReturning(json(topicIndex({ topic: "other" }))),
+    ];
+    for (const fetcher of cases) {
+      await expect(fetchArticleTopicIndex("funding", fetcher as typeof fetch)).resolves.toBeNull();
+    }
   });
 });

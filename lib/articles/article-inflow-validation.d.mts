@@ -126,6 +126,7 @@ export function parseArticleSearchShard(payload: unknown): ArticleSearchShard | 
 export const ARTICLE_RECORD_SCHEMA_VERSION: "livemakers_article_record_v1";
 export const ARTICLE_RAIL_SCHEMA_VERSION: "livemakers_article_rail_v1";
 export const ARTICLE_FAMILY_INDEX_SCHEMA_VERSION: "livemakers_article_family_index_v1";
+export const ARTICLE_TOPIC_INDEX_SCHEMA_VERSION: "livemakers_article_topic_index_v1";
 
 export type ArticleRecordPayload =
   | {
@@ -155,6 +156,15 @@ export interface ArticleFamilyIndexPayload {
   items: { slug: string; title: string; published_at: string }[];
 }
 
+export interface ArticleTopicIndexPayload {
+  schema_version: typeof ARTICLE_TOPIC_INDEX_SCHEMA_VERSION;
+  environment: "staging" | "production";
+  topic: string;
+  generated_at: string;
+  items: ArticleInflowCatalogItem[];
+}
+
 export function parseArticleRecord(payload: unknown): ArticleRecordPayload | null;
 export function parseArticleRail(payload: unknown): ArticleRailPayload | null;
 export function parseArticleFamilyIndex(payload: unknown): ArticleFamilyIndexPayload | null;
+export function parseArticleTopicIndex(payload: unknown): ArticleTopicIndexPayload | null;
