@@ -29,13 +29,15 @@ describe("gradient ledger", () => {
     // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
     // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。
     // 2026-10-26 田平氏 GO: 8/22 の 2 枚 (lead-article + mkt12-reading) へ戻す。
+    // 2026-10-28 田平氏 GO: 資金調達 (funding) を右の列から直近の Signal の直下へ。
     expect(REGION_MODULES.coincident).toEqual([
-      "lead-article", "mkt12-reading", "signal-timeline", "mkt12-tiles", "lane-values",
+      "lead-article", "mkt12-reading", "signal-timeline", "funding", "mkt12-tiles",
+      "lane-values",
     ]);
     // 2026-10-26 田平氏 GO: スマホでは Event Risk を「最新の記事」の直前に出す
     // (event-risk-mobile = スマホだけの表現・左の event-risk はスマホで非表示)。
     expect(REGION_MODULES.lagging).toEqual([
-      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "funding", "event-risk-mobile",
+      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "event-risk-mobile",
       "latest-articles", "turning-point-reserved",
     ]);
   });
