@@ -178,6 +178,8 @@ function buildOverlayProps(
     today: "2026-07-10",
     articleCutoffToday: "2026-07-10",
     articles,
+    // 資金調達の枠 (索引扱い): 本体と同じ記事を再掲しても gate 6 を通ること
+    fundingArticles: articles.filter((a) => a.family === "signal").slice(0, 2),
     // G43-d: production default radar is now honest-empty (no feed/
     // injection). These page-wide gates inject the former fixture
     // population explicitly so their assertions keep exercising a

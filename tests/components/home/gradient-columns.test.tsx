@@ -325,12 +325,12 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     ]);
     // the article block really is in publishedAtJst descending order
     const stamps = rendered
-      .slice(0, 4)
+      .slice(0, 5)
       .map(
         (module) =>
           laggingModuleLatest(
             props.slots,
-            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief",
+            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief" | "funding",
           )?.publishedAtJst ?? "",
       )
       .filter((stamp) => stamp !== "");

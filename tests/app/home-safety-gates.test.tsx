@@ -12,7 +12,7 @@ import { HomeComposition } from "@/components/home/HomeComposition";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { TickerBar } from "@/components/terminal/TickerBar";
-import { getArticleBySlug } from "@/lib/articles/article-model";
+import { getAllArticles, getArticleBySlug } from "@/lib/articles/article-model";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
 import {
   INDEX_NAV_MODULES,
@@ -94,6 +94,10 @@ const props = buildHomeCompositionProps({
   contentDir: TEST_CONTENT_DIR,
   radar: RADAR_WITH_SOURCE,
   promotions: RADAR_PROMOTIONS,
+  // 資金調達の枠 (索引扱い): 本体の Signal と同じ記事を再掲しても gate 6 を通ること
+  fundingArticles: getAllArticles({ contentDir: TEST_CONTENT_DIR })
+    .filter((article) => article.family === "signal")
+    .slice(0, 2),
 });
 const copy = buildTestHomeCopy();
 

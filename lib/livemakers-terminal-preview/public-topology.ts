@@ -35,6 +35,8 @@ export const PAGE_CHROME_ROUTES = [
   "/articles/series/flash",
   "/articles/series/landmark",
   "/articles/series/restart-map",
+  // 資金調達の棚 (トップ右の列の枠・Signal 一覧のリンクの飛び先)。ヘッダには置かない
+  "/topics/funding",
   "/sessions/archive",
   "/future-atlas",
   "/future-atlas/ledger",

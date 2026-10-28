@@ -79,6 +79,8 @@ export interface BuildHomeCompositionArgs {
   promotions?: Readonly<Record<string, string>>;
   sessionRecords?: SessionRecord[];
   articles?: ArticleMeta[];
+  /** 資金調達の棚 (topics/funding.json) の記事。省略時は枠なし。 */
+  fundingArticles?: ArticleMeta[];
   articleCutoffToday?: string;
 }
 
@@ -525,6 +527,7 @@ export function buildHomeCompositionProps(
   const raw = {
     articles:
       args.articles ?? getAllArticles({ contentDir: args.contentDir }),
+    fundingArticles: args.fundingArticles ?? [],
     sessions: effectiveSessionRecords,
     radar,
     promotions,

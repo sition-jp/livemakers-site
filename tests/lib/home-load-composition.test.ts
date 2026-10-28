@@ -3,6 +3,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("server-only", () => ({}));
 
+const topicIndexMock = vi.hoisted(() => ({ fetchArticleTopicIndex: vi.fn() }));
+vi.mock("@/lib/articles/article-inflow-v2", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/articles/article-inflow-v2")>()),
+  fetchArticleTopicIndex: topicIndexMock.fetchArticleTopicIndex,
+}));
+
 import {
   ARTICLE_INFLOW_PRODUCTION_FEED_ENV_KEY,
   ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY,
@@ -56,6 +62,8 @@ function feedArticle() {
 }
 
 beforeEach(() => {
+  topicIndexMock.fetchArticleTopicIndex.mockReset();
+  topicIndexMock.fetchArticleTopicIndex.mockResolvedValue(null);
   vi.useFakeTimers();
   vi.setSystemTime(new Date("2026-08-03T10:00:00+09:00"));
   delete process.env[TERMINAL_FEED_ENV_KEY];
@@ -126,6 +134,45 @@ describe("loadHomeCompositionProps article catalog states", () => {
     expect(result.catalogSource).toBe("repository_plus_feed");
     expect(result.props.slots.latestArticles.length).toBeGreaterThan(0);
     expect(fetcher).toHaveBeenCalledOnce();
+  });
+});
+
+// 資金調達の棚 (入口 ②): 取れなくてもトップは作れる (棚が出ないだけ)
+describe("loadHomeCompositionProps funding shelf", () => {
+  const fundingArticle = (id: string, at: string) => ({
+    articleId: id,
+    family: "signal" as const,
+    titleJa: id,
+    publishedAtJst: at,
+    publishedLabel: at.slice(5, 16),
+    lanes: [],
+    href: `/articles/${id}`,
+  });
+
+  it("topic index failure does not fail home", async () => {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    topicIndexMock.fetchArticleTopicIndex.mockResolvedValue(null);
+    const nullResult = await loadHomeCompositionProps();
+    expect(nullResult.props.slots.fundingArticles).toEqual([]);
+  });
+
+  it("a throwing topic fetch does not fail home either", async () => {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    topicIndexMock.fetchArticleTopicIndex.mockRejectedValue(new Error("boom"));
+    const result = await loadHomeCompositionProps();
+    expect(result.props.slots.fundingArticles).toEqual([]);
+  });
+
+  it("passes topic articles through to the slots", async () => {
+    process.env[ARTICLE_INFLOW_PUBLIC_FLAG_ENV_KEY] = "0";
+    topicIndexMock.fetchArticleTopicIndex.mockResolvedValue({
+      topic: "funding",
+      generatedAt: "2026-08-03T09:00:00+09:00",
+      articles: [fundingArticle("fd-1", "2026-08-02T09:00:00+09:00")],
+    });
+    const result = await loadHomeCompositionProps();
+    expect(result.props.slots.fundingArticles.map((a) => a.articleId)).toEqual(["fd-1"]);
+    expect(topicIndexMock.fetchArticleTopicIndex).toHaveBeenCalledWith("funding");
   });
 });
 

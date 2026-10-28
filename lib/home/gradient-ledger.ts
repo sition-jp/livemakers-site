@@ -62,12 +62,14 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
   //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
   //   tie-break 順」で、末尾 2 枠 (latest-articles / turning-point-reserved) は固定
+  //   資金調達 (funding・入口 ②) も記事枠として新着順に並ぶ
   //   2026-10-26: event-risk-mobile (スマホ専用) も末尾側の固定枠で最新記事の直前
   lagging: [
     "deep-dive",
     "atlas-entry",
     "mkt12-weekend",
     "weekly-brief",
+    "funding",
     "event-risk-mobile",
     "latest-articles",
     "turning-point-reserved",
@@ -90,5 +92,6 @@ export const INDEX_NAV_MODULES: readonly string[] = [
   "atlas-entry",
   "mkt12-weekend",
   "weekly-brief",
+  "funding",
   "latest-articles",
 ] as const;

@@ -454,6 +454,8 @@
       "dailyIntelSeriesLink": "Daily Intel 一覧 →",
       "signalSeriesLink": "Signal 一覧 →",
       "deepDiveSeriesLink": "Deep Dive 一覧 →",
+      "fundingTitle": "資金調達",
+      "fundingViewAll": "資金調達の記事をすべて見る →",
       "signalTodayCount": "今日 {count} 本",
       "signalLatestAt": "最新 {time}"
     },

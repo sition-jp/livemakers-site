@@ -1,5 +1,6 @@
 import { cache } from "react";
 
+import { fetchArticleTopicIndex } from "@/lib/articles/article-inflow-v2";
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { getAllSessionRecords } from "@/lib/sessions/session-content";
 import {
@@ -50,9 +51,14 @@ function extractRwaLive(
 export const loadHomeCompositionProps = cache(async () => {
   // 2026-10-26 (PR-A): どちらかが実行時に取れなければエラーにして、前の正常な
   // ページを出し続ける (古い記事・見本の市場データで描いてキャッシュに残さない)
-  const [marketFeed, inflow] = await Promise.all([
+  // 資金調達の棚は任意: 取れなくても (null / 例外) トップは作る = 枠が出ないだけ。
+  // 上の「取れなければエラー」には入れない
+  const [marketFeed, inflow, fundingArticles] = await Promise.all([
     fetchLiveMarketData(),
     loadPublicArticleInflowCatalog(),
+    (async () => (await fetchArticleTopicIndex("funding"))?.articles ?? [])().catch(
+      () => [],
+    ),
   ]);
   const feed = requireLiveMarketData(marketFeed);
   const catalogSource: HomeCatalogSource = inflow.feedPresent
@@ -95,6 +101,7 @@ export const loadHomeCompositionProps = cache(async () => {
       rwaLive: extractRwaLive(feed),
       alt20: feed?.alt20 ?? null,
       articles: inflow.articles,
+      fundingArticles,
       sessionRecords,
       now,
     }),

@@ -412,6 +412,36 @@ describe("home slot selection (B+)", () => {
     expect(slots.weeklyBriefLatest?.articleId).toBe("weekly-brief-001");
   });
 
+  it("fundingArticles: drops future-dated, newest first, max 5 (empty by default)", () => {
+    expect(selectHomeSlots(input()).fundingArticles).toEqual([]);
+    const mkFunding = (id: string, at: string): ArticleMeta => ({
+      articleId: id,
+      family: "signal",
+      titleJa: id,
+      publishedAtJst: at,
+      publishedLabel: at.slice(5, 16),
+      lanes: [],
+      href: `/articles/${id}`,
+    });
+    const slots = selectHomeSlots({
+      ...input(),
+      fundingArticles: [
+        mkFunding("f-future", "2026-07-11T09:00:00+09:00"),
+        mkFunding("f-1", "2026-07-08T09:00:00+09:00"),
+        mkFunding("f-2", "2026-07-10T09:00:00+09:00"),
+        mkFunding("f-3", "2026-07-09T09:00:00+09:00"),
+        mkFunding("f-4", "2026-07-07T09:00:00+09:00"),
+        mkFunding("f-5", "2026-07-06T09:00:00+09:00"),
+        mkFunding("f-6", "2026-07-05T09:00:00+09:00"),
+      ],
+    });
+    expect(slots.fundingArticles.map((a) => a.articleId)).toEqual([
+      "f-2", "f-3", "f-1", "f-4", "f-5",
+    ]);
+    // 索引意味論: 本体の重複検査には入らない
+    expect(collectSelectedArticleIds(slots)).not.toContain("f-2");
+  });
+
   it("dedupes article ids across the whole page", () => {
     const ids = collectSelectedArticleIds(selectHomeSlots(input()));
     expect(new Set(ids).size).toBe(ids.length);
