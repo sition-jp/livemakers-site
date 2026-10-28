@@ -1,0 +1,105 @@
+{
+  "sessionId": "2026-10-28-asia-open",
+  "date": "2026-10-28",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-28-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-10-28-asia-open",
+  "publishedAt": "2026-10-29T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261028_0730_6854a848",
+  "asOfJst": "2026-10-28T07:30:10+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 10月28日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 62,849 → 64,339（+2.37%）",
+    "変動幅上位: 日経225（perp） +2.4% / ETH/USD +1.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261028_0610_5936c3a5",
+    "crawlAnchorJst": "2026-10-28T05:03:00+09:00",
+    "writtenAtJst": "2026-10-28T06:10:00+09:00",
+    "lead": "米国で暗号資産を規制の内側に入れる動きが一日に重なった。CFTC は予測市場をめぐりユタ州を提訴し、トークン化した株への発行体の反対は26社に広がった。ブラジルの企業は選挙の当日に通貨の急落を避けるためステーブルコインへ向かい、ステーブルコインが新興国の資金の逃げ場として使われている。",
+    "items": [
+      {
+        "headline": "CFTC、州の取り締まりを止めるためユタ州を提訴",
+        "sourceUrl": "https://x.com/CFTC/status/2115125987096613311",
+        "note": "連邦の管轄を守る動きで、予測市場 Kalshi の州での提供が焦点になっている。"
+      },
+      {
+        "headline": "トークン化した株への反対、IBM・Oracle・Intel が加わる",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/27/intel-oracle-ibm-join-growing-list-of-firms-objecting-to-okx-ice-tokenized-stock-plans",
+        "note": "OKX と ICE の計画に反対した発行体は26社になった。"
+      },
+      {
+        "headline": "ブラジルの企業、選挙の当日にステーブルコインへ",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/27/brazilian-companies-turned-to-stablecoins-on-election-day-to-dodge-a-currency-crash",
+        "note": "通貨の急落を避ける手段として使われた。"
+      },
+      {
+        "headline": "Robinhood、Ripple のステーブルコイン RLUSD を採用",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/27/ripple-s-rlusd-stablecoin-is-coming-to-robinhood-s-28-6-million-customer-platform"
+      },
+      {
+        "headline": "Ripple と BNY、XRP Ledger で承認済みの請求書の資金調達を検討",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-27-ripple-bny-explore-using-xrp-ledger-finance-approved-invoices-431891"
+      },
+      {
+        "headline": "フラビオ・ボルソナロ氏、大統領選の敗北後にブラジルを離れたと報道",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/27/flavio-bolsonaro-brazil-argentina-fled"
+      },
+      {
+        "headline": "Galaxy Digital、7〜9月期は3億2,300万ドルの黒字",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-10-27-galaxy-digital-323-million-quarterly-profit-new-200-million-share-buyback-431860",
+        "note": "2億ドルの自社株買いも示した。"
+      },
+      {
+        "headline": "SoFi、暗号資産の総収入は1億6,200万ドル",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-10-27-sofi-discloses-503000-crypto-products-as-gross-crypto-revenue-hits-162-million-431897"
+      },
+      {
+        "headline": "暗号資産の取引所の2社、米国で最大5倍の永久先物を開始",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-10-27-crypto-com-og-com-launch-us-crypto-perps-up-to-5x-leverage-431902"
+      },
+      {
+        "headline": "Midnight のメインネット、取引が100万件を超える",
+        "sourceUrl": "https://x.com/IOGroup/status/2115130924287644054"
+      },
+      {
+        "headline": "フォード、約3万ドルの電気のトラックに双方向の充電",
+        "sourceUrl": "https://arstechnica.com/cars/2026/10/ford-builds-bidrectional-charging-into-its-30k-electric-truck/",
+        "note": "車を家の蓄電池として使いやすくした。"
+      },
+      {
+        "headline": "Google DeepMind、写実的で対話のできる世界モデル Genie 4 を公開",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2115114028338962672"
+      },
+      {
+        "headline": "Alibaba の Qwen の新しいモデル、一部の要求を自社のサーバーへ",
+        "sourceUrl": "https://the-decoder.com/alibabas-latest-qwen-models-routed-some-requests-through-company-servers-researchers-find/"
+      },
+      {
+        "headline": "AI エージェントの安全の Infisical、4,000万ドルを調達",
+        "sourceUrl": "https://www.prnewswire.com/news-releases/infisical-raises-40-million-at-600-million-valuation-to-secure-the-ai-agent-economy-302920994.html"
+      },
+      {
+        "headline": "Disruptive、100億ドルのファンドを集める",
+        "sourceUrl": "https://techcrunch.com/2026/10/27/disruptive-raises-10b-fund-to-make-big-bets-on-at-least-10-companies/"
+      },
+      {
+        "headline": "米国の株式市場、ボーイングが2桁の下げ",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dow-jones-sp-500-nasdaq-us-boersen-schliessen-durchmischt-boeing-aktie-verliert-zweistellig/100265281.html"
+      }
+    ],
+    "watch": [
+      "日本時間10月29日未明の FOMC の決定と、同じ日の Microsoft・Alphabet の決算",
+      "CFTC 対ユタ州の訴訟の初動と、予測市場をめぐる州と連邦の管轄の争い",
+      "ステーブルコインの新興国での使われ方と、ブラジルの通貨と金利の落ち着き"
+    ]
+  }
+}

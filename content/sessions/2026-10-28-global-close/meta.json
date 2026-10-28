@@ -1,0 +1,105 @@
+{
+  "sessionId": "2026-10-28-global-close",
+  "date": "2026-10-28",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-28-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-28-global-close",
+  "publishedAt": "2026-10-29T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261028_2303_d76e2924",
+  "asOfJst": "2026-10-28T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月28日 23:03 JST",
+  "bullets": [
+    "BTC/USD $80,035 → $80,774（+0.92%）",
+    "変動幅上位: 日経225（perp） +1.4% / 米テック100（perp） +0.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261028_2351_849c25a4",
+    "crawlAnchorJst": "2026-10-28T23:03:00+09:00",
+    "writtenAtJst": "2026-10-28T23:51:10+09:00",
+    "lead": "証券決済の中枢である DTCC がトークン化サービスを動かし、ドル連動トークンの RLUSD は Coinbase でも扱われ始めた。伝統金融の基盤がブロックチェーンへ接続する動きは、もう構想ではなく運用の段階にある。一方で国内は JAL・ソニー生命・経産省と、委託先や顧客向けサイトを入口にした不正アクセスが1日に重なった。市場は FOMC の結果を待つ。",
+    "items": [
+      {
+        "headline": "DTCC がトークン化サービスを稼働、まず34銘柄から",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/28/wall-street-backbone-dtcc-brings-usd30-trillion-securities-closer-to-blockchain-with-major-banks",
+        "note": "米国の証券決済を担う DTCC が、証券をトークンとして扱うサービスを始めた。主要銀行の参加と、初期に扱う銘柄の範囲が次の焦点になる。"
+      },
+      {
+        "headline": "Ripple の RLUSD、Coinbase と Coinbase Prime で 1:1 交換に対応",
+        "sourceUrl": "https://x.com/CoinbaseInsto/status/2115416168198816201",
+        "note": "前日の Robinhood に続き、米国の大手取引所でもドル連動トークン RLUSD が扱われる。"
+      },
+      {
+        "headline": "ムーディーズ、RLUSD に A2 と P-1 の格付け",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2115330281620078814"
+      },
+      {
+        "headline": "トークン化株の取引計画への反対に JPMorgan・Coca-Cola・Dell も加わる",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/28/jpmorgan-coca-cola-dell-also-say-no-to-okx-ice-tokenized-tock-trading-plan",
+        "note": "OKX と ICE の計画に対し、自社株のトークン化を望まない上場企業が増えている。"
+      },
+      {
+        "headline": "FOMC の結果発表を前に、ビットコインは朝の上げ幅を縮める",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/28/live-updates-bitcoin-climbs-above-usd81-000-as-majors-rally-ahead-of-fed-decision"
+      },
+      {
+        "headline": "FOMC で見るべき3点 — 反対票の数など",
+        "sourceUrl": "https://www.coindesk.com/daybook-us/2026/10/28/dissent-and-more-3-things-to-watch-for-at-the-fed-meeting"
+      },
+      {
+        "headline": "米国の現物ビットコイン ETF、今週の流入は2億8,630万ドル",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2115396145937588318"
+      },
+      {
+        "headline": "米国債の安定した買い手に変化、日本の買越額は99%減",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2115334049799496010"
+      },
+      {
+        "headline": "JAL と JTA、予約システムへの不正アクセスで約9万件の予約情報が漏えい",
+        "sourceUrl": "https://x.com/itmedia_news/status/2115412059945078921",
+        "note": "航空会社が共同で使う予約基盤 Amadeus 経由で、一部はパスポート番号も含む。"
+      },
+      {
+        "headline": "ソニー生命、契約者サイトへの不正アクセスで個人情報約38万件が漏えい",
+        "sourceUrl": "https://x.com/nhk_news/status/2115424609428472043"
+      },
+      {
+        "headline": "経産省のサイトに不正アクセス、運営を止めて原因を調べる",
+        "sourceUrl": "https://x.com/nikkei/status/2115434408672977385"
+      },
+      {
+        "headline": "アニメイトのメルマガ登録者の個人情報が漏えい",
+        "sourceUrl": "https://x.com/denfaminicogame/status/2115396815822663716",
+        "note": "メール配信に使う外部サービスへの不正アクセスが原因。対象件数は調査中。"
+      },
+      {
+        "headline": "プルデンシャル生命、営業自粛中にも金銭の不祥事",
+        "sourceUrl": "https://x.com/nikkei/status/2115353374862299455"
+      },
+      {
+        "headline": "Google DeepMind が世界モデル Genie 4 を研究プレビューで公開",
+        "sourceUrl": "https://x.com/Techstrongai/status/2115439771602374853",
+        "note": "音声と、その場での場面編集に対応した。"
+      },
+      {
+        "headline": "ブラジル大統領選で敗れたフラビオ・ボルソナロ氏が米マイアミに到着",
+        "sourceUrl": "https://www.theguardian.com/world/2026/oct/28/flavio-bolsonaro-miami-us-fleeing-brazilian-election-defeat"
+      },
+      {
+        "headline": "DBS 調査、大企業の約9割がトークン化した現金を決済に使い始めている",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/28/nearly-90-of-large-businesses-are-embracing-tokenized-cash-to-speed-up-payments-dbs"
+      }
+    ],
+    "watch": [
+      "FOMC の決定と、声明・会見で示される次回以降の利下げの見通し",
+      "DTCC のトークン化サービスに参加する銀行と、初期に扱う銘柄の範囲",
+      "JAL・ソニー生命の公式発表で示される対象者と問い合わせ窓口、二次被害の有無"
+    ]
+  }
+}
