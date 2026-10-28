@@ -764,6 +764,18 @@
       }
     }
   },
+  "topics": {
+    "eyebrow": "テーマ",
+    "weeklyBriefNote": "毎週の振り返りは Weekly Brief で →",
+    "funding": {
+      "title": "資金調達",
+      "description": "AI とクリプトのスタートアップに、誰が・いくら・どんな事業に出資したか。会社や投資家の発表など一次情報で確かめた記事を並べています。",
+      "rule": "資金調達デスクが一次情報で確かめた案件の Signal と、同じ基準で書かれた資金調達の記事を集めています。",
+      "chip": "資金調達",
+      "signalLink": "資金調達の Signal だけを見る →",
+      "homeViewAll": "資金調達の記事をすべて見る →"
+    }
+  },
   "sessions": {
     "family": "Session Article",
     "prev": "Previous session",

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
+import { fetchArticleTopicIndex } from "@/lib/articles/article-inflow-v2";
 import { SERIES_SLUGS } from "@/lib/articles/article-model";
 import { SITE_URL } from "@/lib/site";
 
@@ -34,6 +35,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${SITE_URL}/ja/articles/series/${slug}`,
   }));
 
+  // 棚ページ: 一覧が 1 本以上取れたときだけ載せる (取れなければ載せない・失敗しても sitemap は落とさない)
+  const fundingIndex = await fetchArticleTopicIndex("funding").catch(() => null);
+  const topicEntries: MetadataRoute.Sitemap =
+    fundingIndex && fundingIndex.articles.length > 0
+      ? [{ url: `${SITE_URL}/ja/topics/funding` }]
+      : [];
+
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/ja` },
     { url: `${SITE_URL}/ja/about` },
@@ -42,5 +50,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/ja/privacy` },
   ];
 
-  return [...staticEntries, ...seriesEntries, ...articleEntries];
+  return [...staticEntries, ...seriesEntries, ...topicEntries, ...articleEntries];
 }
