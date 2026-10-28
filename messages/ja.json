@@ -454,6 +454,8 @@
       "dailyIntelSeriesLink": "Daily Intel 一覧 →",
       "signalSeriesLink": "Signal 一覧 →",
       "deepDiveSeriesLink": "Deep Dive 一覧 →",
+      "fundingTitle": "資金調達",
+      "fundingViewAll": "資金調達の記事をすべて見る →",
       "signalTodayCount": "今日 {count} 本",
       "signalLatestAt": "最新 {time}"
     },
@@ -762,6 +764,17 @@
         "cooldown": "休止期間: 前回から日が浅い間は、条件を満たしても節目として数えません（200 週平均は 52 週、MVRV は 365 日、ファンディングは 180 日、ETF は 90 日、ステーブルコインの前年比は 180 日、総供給の最高は 90 日）。休止期間の終わりは、その後また条件の内側に入ると先へ延びます。",
         "sources": "データ: Coin Metrics Community（価格・MVRV）/ Binance（ファンディングレート）/ TFTC (tftc.io/bitcoin-etf-flows) の公開データ・CC BY 4.0（BTC 現物 ETF） / Farside Investors（上場〜2026年10月16日）と SoSoValue（それ以降の確定日）の日次をつないだ値（ETH 現物 ETF） / DefiLlama（ステーブルコイン総供給・USD ペッグ・2021 年以降の値で判定）"
       }
+    }
+  },
+  "topics": {
+    "eyebrow": "テーマ",
+    "weeklyBriefNote": "毎週の振り返りは Weekly Brief で →",
+    "funding": {
+      "title": "資金調達",
+      "description": "AI とクリプトのスタートアップに、誰が・いくら・どんな事業に出資したか。会社や投資家の発表など一次情報で確かめた記事を並べています。",
+      "rule": "資金調達デスクが一次情報で確かめた案件の Signal と、同じ基準で書かれた資金調達の記事を集めています。",
+      "chip": "資金調達",
+      "signalLink": "資金調達の Signal だけを見る →"
     }
   },
   "sessions": {

@@ -14,6 +14,8 @@ export interface HomeSlotInput {
   promotions: Readonly<Record<string, string>>;
   today: string;
   articleCutoffToday?: string;
+  // 資金調達の棚 (topics/funding.json) の記事。新しい順。省略時は空 (棚を描かない)
+  fundingArticles?: ArticleMeta[];
   // 2026-09-05: セッションの live 降格時計。省略時は articleCutoffToday と同じ。
   // builder は reviewed packet 採用時に snapshot.dataDate を渡す (00:45–05:02 の
   // global-close 持ち越しを live のまま保つため)。記事の時計とは切り離す。
@@ -21,6 +23,7 @@ export interface HomeSlotInput {
 }
 
 type NormalizedHomeSlotInput = HomeSlotInput & {
+  fundingArticles: ArticleMeta[];
   articleCutoffToday: string;
   sessionClockToday: string;
 };
@@ -71,6 +74,8 @@ export interface HomeSlots {
   atlasLatest: ArticleMeta | null;
   mkt12WeekendLatest: ArticleMeta | null;
   weeklyBriefLatest: ArticleMeta | null;
+  // 資金調達の枠 (入口 ②): 記事の時計より未来を除き新しい順に最大 5 本。索引意味論
+  fundingArticles: ArticleMeta[];
 }
 
 const dateOf = (article: ArticleMeta): string =>
@@ -135,6 +140,9 @@ export function normalizeHomeInput(
     articleCutoffToday: articleToday,
     sessionClockToday: sessionToday,
     articles: input.articles.filter((article) => dateOf(article) <= articleToday),
+    fundingArticles: (input.fundingArticles ?? []).filter(
+      (article) => dateOf(article) <= articleToday,
+    ),
     // P0-1b (G44 Amendment A): the live demote clock is the session clock
     // (real JST today under fixture degrade, the adopted packet's dataDate
     // otherwise) — a fixture session must never present as live once the
@@ -252,6 +260,11 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");
   const weeklyBriefLatest = latestOf("weekly-brief");
+  const fundingArticles = input.fundingArticles
+    .toSorted((left, right) =>
+      right.publishedAtJst.localeCompare(left.publishedAtJst),
+    )
+    .slice(0, 5);
 
   return {
     lead,
@@ -267,13 +280,14 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     atlasLatest,
     mkt12WeekendLatest,
     weeklyBriefLatest,
+    fundingArticles,
   };
 }
 
 /**
  * 本体 (body) スロットの articleId のみを返す (gate 6 の重複検査対象)。
  * 索引意味論スロット (deepDives[1..] / latestArticles / atlasLatest /
- * mkt12WeekendLatest / weeklyBriefLatest) は data-index-nav 扱いで
+ * mkt12WeekendLatest / weeklyBriefLatest / fundingArticles) は data-index-nav 扱いで
  * 本体記事の再掲を許すため、ここには含めない (D7 索引意味論)。
  */
 export function collectSelectedArticleIds(slots: HomeSlots): string[] {

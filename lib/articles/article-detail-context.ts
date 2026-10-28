@@ -4,6 +4,7 @@ import { toJstParts } from "@/lib/articles/article-inflow-contract";
 import {
   fetchArticleFamilyIndex,
   fetchArticleRail,
+  fetchArticleTopicIndex,
   type ArticleFamilyIndex,
 } from "@/lib/articles/article-inflow-v2";
 import {
@@ -12,6 +13,7 @@ import {
   type ArticleFamily,
   type ArticleMeta,
 } from "@/lib/articles/article-model";
+import type { ArticleTopic } from "@/lib/articles/topics";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
 import { effectiveSurfacePublished } from "@/lib/future-atlas/load";
 
@@ -31,6 +33,8 @@ export type ArticleDetailContext = {
   related: ArticleMeta[];
   railArticles: ArticleMeta[];
   surfacePublished: boolean;
+  // 記事が入っている棚 (一覧が取れなければ [])
+  topics: ArticleTopic[];
 };
 
 function repositoryArticles(): ArticleMeta[] {
@@ -70,9 +74,10 @@ export async function loadArticleDetailContext(
   article: ArticleMeta,
   config: Parameters<typeof effectiveSurfacePublished>[0],
 ): Promise<ArticleDetailContext> {
-  const [rail, familyIndex] = await Promise.all([
+  const [rail, familyIndex, fundingIndex] = await Promise.all([
     fetchArticleRail(),
     isFamily(article.family) ? fetchArticleFamilyIndex(article.family) : Promise.resolve(null),
+    fetchArticleTopicIndex("funding"),
   ]);
   const repository = repositoryArticles();
 
@@ -98,5 +103,8 @@ export async function loadArticleDetailContext(
     related: rail ? getRelatedArticles(railArticles, article) : [],
     railArticles,
     surfacePublished: effectiveSurfacePublished(config, inflowRail),
+    topics: fundingIndex?.articles.some((entry) => entry.articleId === article.articleId)
+      ? ["funding"]
+      : [],
   };
 }

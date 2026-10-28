@@ -5,6 +5,7 @@ import { type GradientRegion } from "@/lib/home/gradient-ledger";
 import { orderLaggingModules } from "@/lib/home/lagging-order";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { DeepDiveShelf } from "../DeepDiveShelf";
+import { FundingShelf } from "../FundingShelf";
 import { EventRiskModule } from "../EventRiskModule";
 import { IndexEntryCard } from "../IndexEntryCard";
 import { LatestArticlesCard } from "../LatestArticlesCard";
@@ -17,8 +18,8 @@ const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
 
 /**
  * 右カラム = 遅行 (索引) (G44 D7)。モジュールの集合と末尾固定枠は勾配台帳
- * REGION_MODULES.lagging。**記事 4 枠 (Deep Dive / 未来アトラス / 週末の12指標 /
- * Weekly Brief) は各枠の最新記事の公開順に動的に並ぶ** (2026-08-23 田平氏 GO A・
+ * REGION_MODULES.lagging。**記事 5 枠 (Deep Dive / 未来アトラス / 週末の12指標 /
+ * Weekly Brief / 資金調達) は各枠の最新記事の公開順に動的に並ぶ** (2026-08-23 田平氏 GO A・
  * `orderLaggingModules`)。Event Risk (スマホ専用の写し・2026-10-26) ⑤ 最新記事
  * ⑥ Turning Point 予約席 (非表示) は末尾固定。
  * 台帳順の説明: ① Deep Dive (featured + title 4) ② 未来アトラス入口 (flag-aware)
@@ -87,6 +88,19 @@ export function LaggingColumn({
             copy={indexCopy}
           />
         );
+      case "funding":
+        // 0 本なら枠を描かない (wrapper は hidden で残る — 下の return)
+        if (slots.fundingArticles.length === 0) return null;
+        return (
+          <FundingShelf
+            articles={slots.fundingArticles}
+            copy={{
+              title: copy.gradient.fundingTitle,
+              viewAll: copy.gradient.fundingViewAll,
+              familyLabels: copy.familyLabels,
+            }}
+          />
+        );
       case "event-risk-mobile":
         // 2026-10-26 田平氏 GO: スマホでは Event Risk を最新記事の直前に出す
         // (左列の event-risk はスマホで非表示・この写しは PC で非表示・索引扱い)
@@ -121,7 +135,9 @@ export function LaggingColumn({
       className="min-w-0 space-y-6"
     >
       {modules.map((module) =>
-        module === "turning-point-reserved" ? (
+        // 予約席と 0 本の資金調達は、列の余白 (space-y-6) を取らないよう隠す
+        module === "turning-point-reserved" ||
+        (module === "funding" && slots.fundingArticles.length === 0) ? (
           <div
             key={module}
             data-column-module={module}

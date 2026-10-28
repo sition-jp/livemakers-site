@@ -60,6 +60,8 @@ export interface HomeCopy {
     dailyIntelSeriesLink: string;
     signalSeriesLink: string;
     deepDiveSeriesLink: string;
+    fundingTitle: string;
+    fundingViewAll: string;
     atlasHeadingUnpublished: string;
     atlasHeadingPublished: string;
     // 整形済み文字列 (null = そのセグメントを描かない・honest empty)
@@ -152,6 +154,8 @@ export function buildHomeCopy(
       dailyIntelSeriesLink: translate("gradient.dailyIntelSeriesLink"),
       signalSeriesLink: translate("gradient.signalSeriesLink"),
       deepDiveSeriesLink: translate("gradient.deepDiveSeriesLink"),
+      fundingTitle: translate("gradient.fundingTitle"),
+      fundingViewAll: translate("gradient.fundingViewAll"),
       viewAll: translate("gradient.viewAll"),
       atlasHeadingUnpublished: translate("gradient.atlasHeadingUnpublished"),
       atlasHeadingPublished: translate("gradient.atlasHeadingPublished"),

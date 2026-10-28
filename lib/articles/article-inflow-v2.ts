@@ -9,8 +9,10 @@ import {
   parseArticleFamilyIndex,
   parseArticleRail,
   parseArticleRecord,
+  parseArticleTopicIndex,
   type ArticleInflowCatalogItem,
 } from "@/lib/articles/article-inflow-validation.mjs";
+import { isArticleTopic, type ArticleTopic } from "@/lib/articles/topics";
 import { stripUnverifiedThumbnails } from "@/lib/articles/thumbnail-verification";
 
 /**
@@ -51,6 +53,12 @@ export type ArticleRail = {
 export type ArticleFamilyIndex = {
   family: string;
   items: { slug: string; title: string; publishedAt: string }[];
+};
+
+export type ArticleTopicIndex = {
+  topic: ArticleTopic;
+  generatedAt: string;
+  articles: ArticleInflowPublicArticle[];
 };
 
 function v2BaseUrl(): string | null {
@@ -183,4 +191,32 @@ export async function fetchArticleFamilyIndex(
       publishedAt: item.published_at,
     })),
   };
+}
+
+// 棚の一覧 (topics/<topic>.json)。なくても描ける — 取れなければ null。
+// 公開の切り替えが切れていれば読まない (隠した記事へのリンクを棚・トップ・
+// sitemap に残さない)。項目を記事の形にできなければ null (呼び側を 500 にしない)
+export async function fetchArticleTopicIndex(
+  topic: ArticleTopic,
+  fetcher: typeof fetch = fetch,
+): Promise<ArticleTopicIndex | null> {
+  const base = v2BaseUrl();
+  if (!base || !isArticleInflowV2Enabled() || !isArticleTopic(topic)) return null;
+  const payload = await fetchJson(
+    `${base}/topics/${topic}.json`,
+    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS } },
+    fetcher,
+  );
+  const index = payload && payload !== "missing" ? parseArticleTopicIndex(payload) : null;
+  if (!index || index.environment !== "production" || index.topic !== topic) return null;
+  let articles: ArticleInflowPublicArticle[];
+  try {
+    articles = index.items.map(toArticle);
+  } catch (error) {
+    console.warn(
+      `[article-inflow-v2] topic ${topic} item rejected (${error instanceof Error ? error.message.slice(0, 200) : String(error)})`,
+    );
+    return null;
+  }
+  return { topic, generatedAt: index.generated_at, articles };
 }

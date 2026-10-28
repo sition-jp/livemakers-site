@@ -325,12 +325,12 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     ]);
     // the article block really is in publishedAtJst descending order
     const stamps = rendered
-      .slice(0, 4)
+      .slice(0, 5)
       .map(
         (module) =>
           laggingModuleLatest(
             props.slots,
-            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief",
+            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief" | "funding",
           )?.publishedAtJst ?? "",
       )
       .filter((stamp) => stamp !== "");
@@ -365,6 +365,38 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
       "latest-articles",
       "turning-point-reserved",
     ]);
+  });
+
+  // 資金調達が 0 本の本番: 空の枠は隠す (列の space-y-6 の余白を取らない)・
+  // data-column-module は残す (台帳順の突合のため)
+  it("hides the empty funding wrapper when there are no funding articles", () => {
+    const { container } = render(
+      <LaggingColumn
+        slots={{ ...props.slots, fundingArticles: [] }}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    const funding = container.querySelector('[data-column-module="funding"]')!;
+    expect(funding).not.toBeNull();
+    expect(funding.hasAttribute("hidden")).toBe(true);
+    expect(funding.getAttribute("aria-hidden")).toBe("true");
+    expect(funding.childElementCount).toBe(0);
+  });
+
+  it("shows the funding wrapper when there are funding articles", () => {
+    const fundingArticles = props.slots.latestArticles.slice(0, 1);
+    expect(fundingArticles).toHaveLength(1);
+    const funding = render(
+      <LaggingColumn
+        slots={{ ...props.slots, fundingArticles }}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    ).container.querySelector('[data-column-module="funding"]')!;
+    expect(funding.hasAttribute("hidden")).toBe(false);
+    expect(funding.hasAttribute("aria-hidden")).toBe(false);
+    expect(funding.querySelector('a[href="/topics/funding"]')).not.toBeNull();
   });
 
   it("treats only the deep-dive featured article as body content", () => {
