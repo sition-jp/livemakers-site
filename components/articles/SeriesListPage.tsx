@@ -12,6 +12,7 @@ import {
   type SeriesSlug,
 } from "@/lib/articles/article-model";
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
+import { fetchArticleTopicIndex } from "@/lib/articles/article-inflow-v2";
 import { formatDateHeading } from "@/lib/articles/date-heading";
 import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import {
@@ -22,6 +23,7 @@ import {
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { buildLandmarkRows } from "@/lib/landmark/meter-model";
+import { topicPageHref } from "@/lib/articles/topics";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { fetchLiveMarketData } from "@/lib/terminal/live-market-feed";
 
@@ -89,6 +91,12 @@ export async function renderSeriesListPage({
     series === "landmark" && locale === "ja" && current.page === 1
       ? buildLandmarkRows((await fetchLiveMarketData())?.landmark ?? null, new Date())
       : null;
+  // 資金調達の棚へのリンク: Signal 一覧の 1 ページ目だけ。棚が取れない・空なら出さない
+  const showFundingLink =
+    series === "signal" &&
+    current.page === 1 &&
+    ((await fetchArticleTopicIndex("funding"))?.articles.length ?? 0) > 0;
+  const topicsT = showFundingLink ? await getTranslations("topics") : null;
   const meterT = landmarkRows ? await getTranslations("articles.landmarkMeter") : null;
 
   return (
@@ -123,6 +131,17 @@ export async function renderSeriesListPage({
           <p className="mt-4 text-sm text-text-secondary">
             <Link href="/brief" className="underline underline-offset-4">
               {t("briefArchiveNote")}
+            </Link>
+          </p>
+        )}
+        {topicsT && (
+          <p className="mt-4 text-sm text-text-secondary">
+            <Link
+              href={topicPageHref("funding", 1)}
+              data-topic-link="funding"
+              className="underline underline-offset-4"
+            >
+              {topicsT("funding.signalLink")}
             </Link>
           </p>
         )}

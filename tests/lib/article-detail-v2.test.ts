@@ -170,6 +170,15 @@ const familyRoute = () =>
     ],
   });
 
+const topicRoute = (slugs: string[]) => () =>
+  json({
+    schema_version: "livemakers_article_topic_index_v1",
+    environment: "production",
+    topic: "funding",
+    generated_at: "2026-10-28T07:00:00+09:00",
+    items: slugs.map((slug) => item(slug)),
+  });
+
 describe("loadArticleDetailContext", () => {
   const config = { surfacePublished: false };
 
@@ -233,5 +242,41 @@ describe("loadArticleDetailContext", () => {
     });
     const context = await loadArticleDetailContext(current(), config);
     expect(context.surfacePublished).toBe(true);
+  });
+
+  it("topics includes funding when the slug is in the topic index", async () => {
+    enableV2();
+    routed({
+      [`${BASE}/rail.json`]: railRoute,
+      [`${BASE}/families/signal.json`]: familyRoute,
+      [`${BASE}/topics/funding.json`]: topicRoute([SLUG]),
+    });
+    const context = await loadArticleDetailContext(current(), config);
+    expect(context.topics).toEqual(["funding"]);
+  });
+
+  it("topics is empty when the slug is not in the topic index", async () => {
+    enableV2();
+    routed({
+      [`${BASE}/rail.json`]: railRoute,
+      [`${BASE}/families/signal.json`]: familyRoute,
+      [`${BASE}/topics/funding.json`]: topicRoute(["signal-20261027-bbbbbbbb"]),
+    });
+    const context = await loadArticleDetailContext(current(), config);
+    expect(context.topics).toEqual([]);
+  });
+
+  it("topics is empty when the topic index is unavailable (rail and neighbours still render)", async () => {
+    enableV2();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    routed({
+      [`${BASE}/rail.json`]: railRoute,
+      [`${BASE}/families/signal.json`]: familyRoute,
+      [`${BASE}/topics/funding.json`]: () => json({}, 403),
+    });
+    const context = await loadArticleDetailContext(current(), config);
+    expect(context.topics).toEqual([]);
+    expect(context.neighbors.prev?.articleId).toBe("signal-20261025-cccccccc");
+    expect(context.related[0]?.articleId).toBe("signal-20261027-bbbbbbbb");
   });
 });

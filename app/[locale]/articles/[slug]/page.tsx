@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 
+import { Link } from "@/i18n/navigation";
+import { topicPageHref } from "@/lib/articles/topics";
 import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { ArticleContractBlock } from "@/components/future-atlas/ArticleContractBlock";
 import { AuthorshipLine } from "@/components/future-atlas/AuthorshipLine";
@@ -59,6 +61,7 @@ async function loadDetailContextFromCatalog(
     related: getRelatedArticles(catalog.articles, article),
     railArticles: catalog.articles,
     surfacePublished,
+    topics: [],
   };
 }
 
@@ -98,6 +101,7 @@ export default async function ArticleDetailPage({
   setRequestLocale(locale);
   const t = await getTranslations("articles");
   const tFollow = await getTranslations("follow");
+  const tTopics = await getTranslations("topics");
 
   const language = locale === "en" ? "en" : "ja";
   const detail = await loadPublicArticleInflowDetail(slug, language);
@@ -107,7 +111,7 @@ export default async function ArticleDetailPage({
   const futureAtlas = await loadFutureAtlas();
   // 段 2a (2026-10-27): v2 が有効なら v1 カタログ (1.6MB) を読まない。前後リンク・
   // 関連記事・シリーズ欄は取れなければ空で描く (記事ページを 500 にしない)
-  const { neighbors, related, railArticles, surfacePublished } = isArticleInflowV2Enabled()
+  const { neighbors, related, railArticles, surfacePublished, topics } = isArticleInflowV2Enabled()
     ? await loadArticleDetailContext(article, futureAtlas.config)
     : await loadDetailContextFromCatalog(article, futureAtlas);
   const manifestEntry = futureAtlas.manifest.entries.find((entry) => entry.articleId === article.articleId);
@@ -166,12 +170,21 @@ export default async function ArticleDetailPage({
           <h1 className="text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
             {title}
           </h1>
-          <time
-            dateTime={article.publishedAtJst}
-            className="mt-4 block font-mono text-xs text-text-tertiary"
-          >
-            {formatPublishedLabelWithYear(article.publishedAtJst)}
-          </time>
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs text-text-tertiary">
+            <time dateTime={article.publishedAtJst}>
+              {formatPublishedLabelWithYear(article.publishedAtJst)}
+            </time>
+            {topics.includes("funding") ? (
+              // 資金調達の棚に入っている記事の印 (棚の一覧から引く・記事データは変えない)
+              <Link
+                href={topicPageHref("funding", 1)}
+                data-article-topic="funding"
+                className="rounded border border-border-primary px-1.5 py-0.5 text-[10px] font-bold tracking-label text-text-secondary hover:text-text-primary"
+              >
+                {tTopics("funding.chip")}
+              </Link>
+            ) : null}
+          </div>
           {article.excerptJa ? (
             // site-first 記事の packet meta 由来の要約 (TQ3)。mirror 記事は
             // excerpt を持たない = 冒頭リード段落がその役割を担う (非表示)
