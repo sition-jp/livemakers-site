@@ -89,7 +89,7 @@ export function LaggingColumn({
           />
         );
       case "funding":
-        // 0 本なら枠を描かない (wrapper の data-column-module は残る)
+        // 0 本なら枠を描かない (wrapper は hidden で残る — 下の return)
         if (slots.fundingArticles.length === 0) return null;
         return (
           <FundingShelf
@@ -135,7 +135,9 @@ export function LaggingColumn({
       className="min-w-0 space-y-6"
     >
       {modules.map((module) =>
-        module === "turning-point-reserved" ? (
+        // 予約席と 0 本の資金調達は、列の余白 (space-y-6) を取らないよう隠す
+        module === "turning-point-reserved" ||
+        (module === "funding" && slots.fundingArticles.length === 0) ? (
           <div
             key={module}
             data-column-module={module}

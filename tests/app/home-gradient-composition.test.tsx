@@ -129,6 +129,10 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       })
       .map((element) => element.getAttribute("data-column-module"));
 
+  // 資金調達が 0 本なら枠は hidden (列の余白を取らない) — 見える並びから外す
+  const hasVisibleFunding = (module: string) =>
+    module !== "funding" || props.slots.fundingArticles.length > 0;
+
   // 2026-10-26 田平氏 GO (2 回目): スマホも Intelligence Terminal を先頭に PC と同じ
   // 部品 (セッションカード + 本日の更新予定の全行) で出し、その下に Daily Intel・12指標。
   // 旧スマホのセッション 1 行はセッション名が「昼・ア…」と切れて読めなかった。
@@ -136,7 +140,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     const { container } = renderHome();
     const lagging = orderLaggingModules(props.slots).filter(
       (module) => !["event-risk-mobile", "latest-articles", "turning-point-reserved"].includes(module),
-    );
+    ).filter(hasVisibleFunding);
     expect(visibleModules(container, "mobile")).toEqual([
       "session-now",
       "schedule",
@@ -172,7 +176,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
     const { container } = renderHome();
     const lagging = orderLaggingModules(props.slots).filter(
       (module) => !["event-risk-mobile", "turning-point-reserved"].includes(module),
-    );
+    ).filter(hasVisibleFunding);
     expect(visibleModules(container, "xl")).toEqual([
       "session-now",
       "schedule",
