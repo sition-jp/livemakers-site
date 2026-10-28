@@ -298,6 +298,55 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     const { container } = renderCoincident();
     expect(container.textContent).not.toContain("⇄");
   });
+  // 2026-10-28 田平氏 GO: 資金調達の棚は直近の Signal の直下。0 本の本番では空の枠を
+  // 隠す (列の space-y-6 の余白を取らない)・data-column-module は残す (台帳順の突合)
+  it("places the funding shelf right after the signal timeline", () => {
+    const fundingArticles = props.slots.latestArticles.slice(0, 1);
+    expect(fundingArticles).toHaveLength(1);
+    const { container } = render(
+      <CoincidentColumn
+        slots={{ ...props.slots, fundingArticles }}
+        snapshot={props.snapshot}
+        coreCells={props.coreCells}
+        laneCells={props.laneCells}
+        laneProvenance={props.laneProvenance}
+        alt20={props.alt20}
+        mkt12Provenance={props.mkt12Provenance}
+        copy={copy}
+      />,
+    );
+    const funding = container.querySelector('[data-column-module="funding"]')!;
+    expect(
+      funding.previousElementSibling?.getAttribute("data-column-module"),
+    ).toBe("signal-timeline");
+    expect(funding.hasAttribute("hidden")).toBe(false);
+    expect(funding.hasAttribute("aria-hidden")).toBe(false);
+    expect(funding.querySelector('a[href="/topics/funding"]')).not.toBeNull();
+  });
+
+  it("hides the empty funding wrapper when there are no funding articles", () => {
+    const { container } = render(
+      <CoincidentColumn
+        slots={{ ...props.slots, fundingArticles: [] }}
+        snapshot={props.snapshot}
+        coreCells={props.coreCells}
+        laneCells={props.laneCells}
+        laneProvenance={props.laneProvenance}
+        alt20={props.alt20}
+        mkt12Provenance={props.mkt12Provenance}
+        copy={copy}
+      />,
+    );
+    const funding = container.querySelector('[data-column-module="funding"]')!;
+    expect(funding).not.toBeNull();
+    expect(funding.hasAttribute("hidden")).toBe(true);
+    expect(funding.getAttribute("aria-hidden")).toBe("true");
+    expect(funding.childElementCount).toBe(0);
+  });
+
+  it("keeps the lagging column free of the funding shelf", () => {
+    expect(REGION_MODULES.lagging).not.toContain("funding");
+  });
 });
 
 describe("LaggingColumn (gradient lagging, D7)", () => {
@@ -325,12 +374,12 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     ]);
     // the article block really is in publishedAtJst descending order
     const stamps = rendered
-      .slice(0, 5)
+      .slice(0, 4)
       .map(
         (module) =>
           laggingModuleLatest(
             props.slots,
-            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief" | "funding",
+            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief",
           )?.publishedAtJst ?? "",
       )
       .filter((stamp) => stamp !== "");
@@ -365,38 +414,6 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
       "latest-articles",
       "turning-point-reserved",
     ]);
-  });
-
-  // 資金調達が 0 本の本番: 空の枠は隠す (列の space-y-6 の余白を取らない)・
-  // data-column-module は残す (台帳順の突合のため)
-  it("hides the empty funding wrapper when there are no funding articles", () => {
-    const { container } = render(
-      <LaggingColumn
-        slots={{ ...props.slots, fundingArticles: [] }}
-        surfacePublished={false}
-        copy={copy}
-      />,
-    );
-    const funding = container.querySelector('[data-column-module="funding"]')!;
-    expect(funding).not.toBeNull();
-    expect(funding.hasAttribute("hidden")).toBe(true);
-    expect(funding.getAttribute("aria-hidden")).toBe("true");
-    expect(funding.childElementCount).toBe(0);
-  });
-
-  it("shows the funding wrapper when there are funding articles", () => {
-    const fundingArticles = props.slots.latestArticles.slice(0, 1);
-    expect(fundingArticles).toHaveLength(1);
-    const funding = render(
-      <LaggingColumn
-        slots={{ ...props.slots, fundingArticles }}
-        surfacePublished={false}
-        copy={copy}
-      />,
-    ).container.querySelector('[data-column-module="funding"]')!;
-    expect(funding.hasAttribute("hidden")).toBe(false);
-    expect(funding.hasAttribute("aria-hidden")).toBe(false);
-    expect(funding.querySelector('a[href="/topics/funding"]')).not.toBeNull();
   });
 
   it("treats only the deep-dive featured article as body content", () => {

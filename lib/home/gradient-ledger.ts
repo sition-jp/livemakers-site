@@ -51,10 +51,14 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
     "event-risk",
     "flash-list",
   ],
+  // 2026-10-28 田平氏 GO: 資金調達 (funding・入口 ②) は「いまどこに資金が流れて
+  //   いるか」= 現在地なので、遅行の記事枠 (新着順で動く) から一致の固定位置
+  //   (直近の Signal の直下) へ。同じ Signal が上の欄と並ぶ日も索引行のまま許容。
   coincident: [
     "lead-article",
     "mkt12-reading",
     "signal-timeline",
+    "funding",
     "mkt12-tiles",
     "lane-values",
   ],
@@ -62,14 +66,12 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   mkt12-weekend / weekly-brief) は描画時に各枠の最新記事の公開順へ並べ替える
   //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
   //   tie-break 順」で、末尾 2 枠 (latest-articles / turning-point-reserved) は固定
-  //   資金調達 (funding・入口 ②) も記事枠として新着順に並ぶ
   //   2026-10-26: event-risk-mobile (スマホ専用) も末尾側の固定枠で最新記事の直前
   lagging: [
     "deep-dive",
     "atlas-entry",
     "mkt12-weekend",
     "weekly-brief",
-    "funding",
     "event-risk-mobile",
     "latest-articles",
     "turning-point-reserved",

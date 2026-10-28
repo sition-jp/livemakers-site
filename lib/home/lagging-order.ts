@@ -3,7 +3,7 @@ import type { HomeSlots } from "@/lib/home/select-home-slots";
 import { REGION_MODULES } from "./gradient-ledger";
 
 /**
- * 右カラム (lagging) の記事 5 枠を「各枠の最新記事の公開順」に並べる
+ * 右カラム (lagging) の記事 4 枠を「各枠の最新記事の公開順」に並べる
  * (2026-08-23 田平氏 GO・A 案 = 4 枠すべて新着順)。
  *
  * - 台帳 (REGION_MODULES.lagging) は「枠の集合 + 末尾固定枠の順」の正本として
@@ -18,18 +18,13 @@ export const LAGGING_ARTICLE_MODULES = [
   "atlas-entry",
   "mkt12-weekend",
   "weekly-brief",
-  "funding",
 ] as const;
 
 export type LaggingArticleModule = (typeof LAGGING_ARTICLE_MODULES)[number];
 
 export type LaggingLatestSlots = Pick<
   HomeSlots,
-  | "deepDives"
-  | "atlasLatest"
-  | "mkt12WeekendLatest"
-  | "weeklyBriefLatest"
-  | "fundingArticles"
+  "deepDives" | "atlasLatest" | "mkt12WeekendLatest" | "weeklyBriefLatest"
 >;
 
 export function isLaggingArticleModule(
@@ -52,8 +47,6 @@ export function laggingModuleLatest(
       return slots.mkt12WeekendLatest;
     case "weekly-brief":
       return slots.weeklyBriefLatest;
-    case "funding":
-      return slots.fundingArticles[0] ?? null;
   }
 }
 

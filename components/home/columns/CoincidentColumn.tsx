@@ -6,6 +6,7 @@ import {
   type GradientRegion,
 } from "@/lib/home/gradient-ledger";
 import type { HomeCompositionProps } from "../HomeComposition";
+import { FundingShelf } from "../FundingShelf";
 import { IndicatorTileCard } from "../IndicatorTileCard";
 import { LaneValuesCard } from "../LaneValuesCard";
 import { LeadArticleCard } from "../LeadArticleCard";
@@ -21,7 +22,8 @@ const REGION = "coincident" satisfies GradientRegion;
  * D8 の単一表現ルールで desktop 専用 (mobile は左列のカードが担う・2026-10-26)。
  * mkt12-reading = 「今朝の12指標」最新 1 本 + シリーズページへのアーカイブリンク
  * (lead-article 直下)。
- * 直下に signal-timeline。
+ * 直下に signal-timeline。その直下に funding (資金調達の棚・2026-10-28 田平氏 GO で
+ * 右の列から移設・0 本なら wrapper ごと隠す)。
  */
 export type CoincidentColumnProps = Pick<
   HomeCompositionProps,
@@ -161,6 +163,17 @@ export function CoincidentColumn({
             }}
           />
         );
+      case "funding":
+        return (
+          <FundingShelf
+            articles={slots.fundingArticles}
+            copy={{
+              title: copy.gradient.fundingTitle,
+              viewAll: copy.gradient.fundingViewAll,
+              familyLabels: copy.familyLabels,
+            }}
+          />
+        );
       case "lane-values":
         return (
           <LaneValuesCard
@@ -182,15 +195,25 @@ export function CoincidentColumn({
 
   return (
     <section data-ledger-group={REGION} className="min-w-0 space-y-6">
-      {REGION_MODULES[REGION].map((module) => (
-        <div
-          key={module}
-          data-column-module={module}
-          className={MODULE_CLASSNAMES[module]}
-        >
-          {renderModule(module)}
-        </div>
-      ))}
+      {REGION_MODULES[REGION].map((module) =>
+        // 0 本の資金調達は、列の余白 (space-y-6) を取らないよう隠す
+        module === "funding" && slots.fundingArticles.length === 0 ? (
+          <div
+            key={module}
+            data-column-module={module}
+            hidden
+            aria-hidden="true"
+          />
+        ) : (
+          <div
+            key={module}
+            data-column-module={module}
+            className={MODULE_CLASSNAMES[module]}
+          >
+            {renderModule(module)}
+          </div>
+        ),
+      )}
     </section>
   );
 }
