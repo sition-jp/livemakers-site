@@ -1016,7 +1016,16 @@
       "freshness": "Updated every morning at 08:00 JST with data through the previous day. If it says stale, do not use it for that day's reading.",
       "use": "How to use it: as background when reading articles. A ten-second check of \"any turn signs, or conditions aligning?\" and \"price or volatility?\".",
       "backtest_title": "How to read this table",
-      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only. OI and funding history come from Binance public data."
+      "backtest_body": "Past days where the score crossed the threshold are collected; the table shows how often a qualifying move followed within the horizon (hit rate) and related figures. Rows with fewer than 5 samples are indicative only. OI and funding history come from Binance public data.",
+      "forecast_title": "How to read this page",
+      "forecast_what": "What it shows: for four questions, today's chance next to the usual chance. The usual chance is the share of all past days on which the event happened within the period that followed (like \"on 3 in 10 days in Tokyo in October it rains\"). Today's chance uses only past days that looked like today (like \"70% today, judging by the clouds\").",
+      "forecast_not": "What it does not measure: trade timing or the direction of price moves. No direction is given, and neither direction nor size is promised.",
+      "forecast_signal": "A sign = today's chance is 10 points or more away from the usual chance. Many days of \"about as usual\" are normal; in past checks, days with a sign were few.",
+      "forecast_ladder": "Top/bottom strength has four levels. Small = a high counts as a top after a 5% drop, a low counts as a bottom after a 5% rebound. Medium = 15%. Large = 30%. Cycle-level = 50%. Only after that much movement is a high or low counted. Cycle-level events are too rare for a chance figure, so the latest confirmed one and its distance from now are shown instead.",
+      "forecast_resolve": "How results are judged: if a top or bottom day falls inside the window (the day after today through day H), it \"came\". Confirmation can wait up to H more days after the window; if it is still not confirmed, it \"did not come\". Until then the result is pending.",
+      "forecast_condition": "The \"confirmation condition\" price is a rule for counting a top or bottom. It is not a price outlook.",
+      "forecast_backfill": "Some past bars in the chart are back-calculated values (not what the page showed at the time). The legend marks which days were actually shown.",
+      "forecast_date": "Dates are daily-candle (UTC) dates."
     },
     "timeline": {
       "heading": "Turning-point timeline",
@@ -1040,6 +1049,116 @@
       "gap": "No records",
       "mini_heading": "{asset} history ({h} score)",
       "mini_link": "See details"
+    },
+    "probability": {
+      "heading": "Chance of a medium-or-larger top or bottom within 30 days: daily record and results",
+      "notes": "One bar = one day (that morning's chance). Thin vertical lines mark each Monday. The thick vertical line = today; the right edge = {days} days ahead",
+      "legend_hit": "A top or bottom came within 30 days",
+      "legend_miss": "None came",
+      "legend_pending": "Result pending (window still open)",
+      "legend_backfilled": "Hatched = recomputed after the fact (not what was shown at the time)",
+      "legend_today": "Today and the window ahead",
+      "gap": "No record",
+      "future": "Next {days} days",
+      "usual": "Usual {pct}%",
+      "price": "Price (daily close) and tops and bottoms confirmed later",
+      "top": "Top",
+      "bottom": "Bottom",
+      "today": "Today",
+      "mini_link": "Details",
+      "aria": "{asset}, past {n} days: {hit} days a turn came, {miss} days none came, {pending} days pending",
+      "mini_heading": "{asset} · chance of a medium-or-larger top or bottom within 30 days (last 60 days)",
+      "no_data": "No daily probability record yet"
+    },
+    "forecast": {
+      "heading": "Today's outlook",
+      "question": {
+        "turn30": "A medium-or-larger top or bottom within 30 days",
+        "turn90": "A large-or-larger top or bottom within 90 days",
+        "turn7": "A small peak or trough within 7 days",
+        "move30": "A big move within 30 days"
+      },
+      "role": {
+        "main": "Main",
+        "reference": "Reference"
+      },
+      "today_pct": "Today {pct}%",
+      "usual_pct": "Usual {pct}%",
+      "gap": "Gap from usual {gap}",
+      "prev": "vs. yesterday {delta}",
+      "level": {
+        "above": "more likely than usual",
+        "usual": "about as usual",
+        "below": "less likely than usual"
+      },
+      "sign": {
+        "above": "stronger than usual",
+        "usual": "about as usual",
+        "below": "weaker than usual",
+        "none": "no data"
+      },
+      "line": {
+        "today": "Today's state: the sign of a top or bottom is {turnSign}. The sign of a big move is {moveSign}.",
+        "d7": "Within 7 days: a small peak or trough is {level} (today {today}%, usual {usual}%).",
+        "d30": "Within 30 days: a medium-or-larger top or bottom is {level} (today {today}%, usual {usual}%).",
+        "d30_move": "A big move is {moveLevel} (today {moveToday}%, usual {moveUsual}%).",
+        "d90": "Within 90 days: a large-or-larger top or bottom is {level} (today {today}%, usual {usual}%)."
+      },
+      "trend": {
+        "up": "30 days {r30}%, 90 days {r90}%: an uptrend",
+        "up_30only": "30 days {r30}%: an uptrend",
+        "up_90only": "90 days {r90}%: an uptrend",
+        "down": "30 days {r30}%, 90 days {r90}%: a downtrend",
+        "down_30only": "30 days {r30}%: a downtrend",
+        "down_90only": "90 days {r90}%: a downtrend",
+        "flat": "30 days {r30}%, 90 days {r90}%: sideways",
+        "flat_30only": "30 days {r30}%: sideways",
+        "flat_90only": "90 days {r90}%: sideways"
+      },
+      "note90": "The 90-day question has too little history to check against, so it is not graded.",
+      "note90_gap": "The actual rate over the last 12 months was {rate}% (usual {usual}%).",
+      "question_short": {
+        "turn30": "Top/bottom · 30d",
+        "turn90": "Top/bottom · 90d",
+        "turn7": "Small peak/trough · 7d",
+        "move30": "Big move · 30d"
+      },
+      "evidence_heading": "Score evidence (reference)",
+      "evidence_horizon": "{horizon} evidence"
+    },
+    "ladder": {
+      "heading": "Ladder of strengths",
+      "lead": "The price in the confirmation condition is the rule for counting a top or bottom. It is not a forecast of price moves.",
+      "col_strength": "Strength",
+      "col_last": "Last confirmed",
+      "col_candidate": "Current candidate",
+      "col_condition": "Confirmation condition",
+      "strength": {
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large",
+        "cycle": "Cycle"
+      },
+      "threshold": {
+        "small": "5%",
+        "medium": "15%",
+        "large": "30%",
+        "cycle": "50%"
+      },
+      "kind": {
+        "top": "top",
+        "bottom": "bottom"
+      },
+      "last": "{kind} on {date}: {close} (to now: {pct}%)",
+      "last_nopct": "{kind} on {date}: {close}",
+      "candidate": "Candidate {kind}: {close} on {date}",
+      "condition_top": "Counted as a top after a {threshold} drop from the high = {price} or below ({pct}% from now)",
+      "condition_top_nopct": "Counted as a top after a {threshold} drop from the high = {price} or below",
+      "condition_bottom": "Counted as a bottom after a {threshold} rebound from the low = {price} or above ({pct}% from now)",
+      "condition_bottom_nopct": "Counted as a bottom after a {threshold} rebound from the low = {price} or above",
+      "none": "None confirmed yet",
+      "note_bottom": "It later fell to {close} on {date}, but that is not counted as a bottom of this strength (the rebound has not met the condition)",
+      "note_top": "It later rose to {close} on {date}, but that is not counted as a top of this strength (the drop has not met the condition)"
     }
   },
   "futureAtlas": {

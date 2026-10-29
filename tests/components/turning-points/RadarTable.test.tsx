@@ -99,3 +99,38 @@ describe("RadarTable", () => {
     expect(row.textContent ?? "").toMatch(/B\+/);
   });
 });
+
+describe("RadarTable (確率の列)", () => {
+  const forecast = {
+    BTC: [
+      { event: "turn", horizon: "30D", today_pct: 50.9, usual_pct: 48.3, prev_today_pct: 48.9 },
+      { event: "turn", horizon: "90D", today_pct: 19.3, usual_pct: 15.0 },
+      { event: "turn", horizon: "7D", today_pct: 44.6, usual_pct: 47.3 },
+      { event: "move", horizon: "30D", today_pct: 77.2, usual_pct: 70.8, prev_today_pct: 80.6 },
+    ],
+  } as const;
+
+  it("forecast を渡すと 4 つの問いの列に切り替わる", () => {
+    render(withIntl(<RadarTable assets={sampleAssets} forecast={forecast as never} />));
+    const row = screen.getByTestId("radar-row-BTC");
+    expect(within(row).queryAllByTestId("score-value").length).toBe(0);
+    expect(within(row).queryByTestId("radar-state-BTC")).toBeNull();
+    const cell = screen.getByTestId("radar-forecast-BTC-turn30");
+    expect(cell).toHaveTextContent("50.9%");
+    expect(cell).toHaveTextContent("Usual 48.3%");
+    expect(cell).toHaveTextContent("Gap from usual +2.6");
+    expect(screen.getByTestId("radar-forecast-BTC-turn7")).toHaveTextContent("Gap from usual −2.7");
+    expect(cell).toHaveTextContent("vs. yesterday +2.0");
+    expect(screen.getByTestId("radar-forecast-BTC-turn90")).not.toHaveTextContent("yesterday");
+    expect(screen.getByTestId("radar-forecast-BTC-move30")).toHaveTextContent("−3.4");
+    const heads = screen.getAllByRole("columnheader").map((h) => h.textContent);
+    expect(heads).toEqual(["Asset", "Top/bottom · 30d", "Top/bottom · 90d", "Small peak/trough · 7d", "Big move · 30d"]);
+    expect(screen.getByRole("link", { name: "BTC" })).toHaveAttribute("href", "/turning-points/btc");
+  });
+
+  it("forecast を渡さなければ今の列のまま", () => {
+    render(withIntl(<RadarTable assets={sampleAssets} />));
+    expect(screen.queryByTestId("radar-forecast-BTC-turn30")).toBeNull();
+    expect(screen.getByTestId("radar-state-BTC")).toBeInTheDocument();
+  });
+});

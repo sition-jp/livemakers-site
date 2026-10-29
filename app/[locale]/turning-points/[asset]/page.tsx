@@ -15,6 +15,8 @@ import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
+import { AssetForecastView } from "@/components/turning-points/AssetForecastView";
+import { hasForecastScreen } from "@/lib/pivots/forecast-screen";
 import { TurningPointTimeline } from "@/components/turning-points/TurningPointTimeline";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
@@ -68,7 +70,7 @@ export default async function TurningPointAssetPage({
   const assetParse = AssetSymbolSchema.safeParse(upper);
   if (!assetParse.success) notFound();
 
-  const { h } = await searchParams;
+  const { h } = await searchParams; // ?h= は今の画面 (フォールバック) のときだけ効く
   const horizonRaw = h ?? "30D";
   const horizonParse = HorizonSchema.safeParse(horizonRaw);
   const selectedHorizon: Horizon = horizonParse.success
@@ -89,6 +91,8 @@ export default async function TurningPointAssetPage({
   // T2: each forward window is shaded/leaned by its OWN horizon, not the
   // selected one — so this reads all three horizons' direction_bias, not
   // just `detail`'s (which is scoped to selectedHorizon).
+  const useForecast =
+    result.parseError === null && hasForecastScreen(result.snapshot, assetParse.data);
   const biasByHorizon = {
     "7D": result.snapshot?.detail[detailKey(assetParse.data, "7D")]?.direction_bias ?? null,
     "30D": result.snapshot?.detail[detailKey(assetParse.data, "30D")]?.direction_bias ?? null,
@@ -114,7 +118,7 @@ export default async function TurningPointAssetPage({
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
 
-      <ReadingGuide variant="radar" />
+      <ReadingGuide variant={useForecast ? "forecast" : "radar"} />
 
       <DisclaimerBanner />
 
@@ -122,6 +126,12 @@ export default async function TurningPointAssetPage({
         <UnavailableNotice
           reason={result.parseError}
           testid="detail-unavailable"
+        />
+      ) : useForecast && result.snapshot ? (
+        <AssetForecastView
+          asset={assetParse.data}
+          snapshot={result.snapshot}
+          events={backtestResult.snapshot?.events}
         />
       ) : detail ? (
         <>
