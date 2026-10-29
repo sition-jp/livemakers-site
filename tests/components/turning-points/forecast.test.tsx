@@ -147,6 +147,14 @@ describe("ForecastText", () => {
     expect(screen.queryByTestId("forecast-trend")).toBeNull();
   });
 
+  it("joins the d30 and d30_move sentences per locale", () => {
+    const { unmount } = wrap("en", <ForecastText items={items} trend={trend} />);
+    expect(screen.getByTestId("forecast-line-d30").textContent).toContain("%). A big move is");
+    unmount();
+    wrap("ja", <ForecastText items={items} trend={trend} />);
+    expect(screen.getByTestId("forecast-line-d30").textContent).toContain("%）。大きく動くのは");
+  });
+
   it("uses the 30-day-only trend variant", () => {
     wrap("en", <ForecastText items={items} trend={{ ret_30d_pct: -2.8 }} />);
     expect(screen.getByTestId("forecast-trend").textContent).toBe("30 days −2.8%: sideways");
