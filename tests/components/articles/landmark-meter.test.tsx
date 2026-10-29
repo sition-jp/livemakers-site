@@ -267,6 +267,38 @@ describe("LandmarkMeter — ETH spot ETF row (2026-10-17 evening)", () => {
   });
 });
 
+describe("LandmarkMeter — update time (2026-10-29)", () => {
+  it("shows the newest check time under the title", () => {
+    const { container } = renderMeter(undefined, sectionEve, NOW_EVE);
+    const updated = container.querySelector("[data-landmark-updated]");
+    expect(updated?.textContent).toBe("最終更新 10月17日 19:15");
+    expect(updated?.querySelector("time")?.getAttribute("dateTime")).toBe("2026-10-17T19:15:08+09:00");
+    // 見出しのすぐ下・説明文より上
+    expect(screen.getByRole("heading", { level: 2 }).nextElementSibling).toBe(updated);
+  });
+
+  it("adds no row note when every row comes from the newest check", () => {
+    const { container } = renderMeter(undefined, sectionEve, NOW_EVE);
+    expect(container.querySelector("[data-landmark-checked-behind]")).toBeNull();
+  });
+
+  it("notes the check time only on rows left from an earlier check", () => {
+    const { container } = renderMeter((d) => {
+      d.items[7].checkedAtJst = "2026-10-17T10:15:05+09:00";
+      d.items[8].checkedAtJst = "2026-10-17T10:15:05+09:00";
+    }, sectionEve, NOW_EVE);
+    expect(container.querySelector("[data-landmark-updated]")?.textContent).toBe("最終更新 10月17日 19:15");
+    const noted = [...container.querySelectorAll("[data-landmark-checked-behind]")].map(
+      (note) => note.closest("[data-landmark-row]")!.getAttribute("data-landmark-row"),
+    );
+    expect(noted).toEqual(["stableYoy", "stableAth"]);
+    const yoy = container.querySelector('[data-landmark-row="stableYoy"] [data-landmark-checked-behind]')!;
+    expect(yoy.textContent).toBe("この行は 10月17日 10:15 時点の判定");
+    // データの日付 (何日分の値か) はそのまま残す
+    expect(container.querySelector('[data-landmark-row="stableYoy"]')!.textContent).toContain("（10/16・DefiLlama 集計）");
+  });
+});
+
 describe("LandmarkMeter — sparklines (2026-10-18・core spec 2026-10-17-lvm-landmark-meter-sparkline-design)", () => {
   it("draws one sparkline per row under the name and a legend under the lead", () => {
     const { container } = renderMeter(undefined, sectionSeries, NOW_EVE);

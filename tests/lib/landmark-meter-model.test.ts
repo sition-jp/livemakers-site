@@ -3,7 +3,13 @@ import section from "../fixtures/landmark/section.json";
 import section17 from "../fixtures/landmark/section-2026-10-17.json";
 import sectionEve from "../fixtures/landmark/section-2026-10-17-evening.json";
 import { mapLandmarkMeter, type LandmarkMeterData } from "@/lib/landmark/meter-feed";
-import { buildLandmarkRows, formatLongDate, formatShortDate } from "@/lib/landmark/meter-model";
+import {
+  buildLandmarkRows,
+  formatJstDateTime,
+  formatLongDate,
+  formatShortDate,
+  latestCheckedAt,
+} from "@/lib/landmark/meter-model";
 
 const NOW = new Date("2026-10-16T10:45:00Z"); // 19:45 JST
 const NOW17 = new Date("2026-10-17T01:45:00Z"); // 10:45 JST
@@ -133,9 +139,52 @@ describe("buildLandmarkRows — ETH spot ETF row (2026-10-17 evening)", () => {
   });
 });
 
+describe("update time (2026-10-29)", () => {
+  it("returns the newest check time among the shown rows", () => {
+    const rows = buildLandmarkRows(dataEve(), NOW_EVE)!;
+    expect(latestCheckedAt(rows)).toBe("2026-10-17T19:15:08+09:00");
+    // 新しい判定で取れなかった行が前の回の値のまま残っていても、見出しの時刻は最新の判定
+    const mixed = buildLandmarkRows(
+      dataEve((d) => { d.items[7].checkedAtJst = "2026-10-17T10:15:05+09:00"; }),
+      NOW_EVE,
+    )!;
+    expect(latestCheckedAt(mixed)).toBe("2026-10-17T19:15:08+09:00");
+  });
+
+  it("ignores rows blanked at render time", () => {
+    // 36 時間を過ぎた行は「—」になり、その時刻は見出しに使わない
+    const rows = buildLandmarkRows(
+      dataEve((d) => { d.items[0].checkedAtJst = "2026-10-18T07:00:00+09:00"; d.items[0].barDate = "2026-09-01"; }),
+      NOW_EVE,
+    )!;
+    expect(rows[0].item).toBeNull();
+    expect(latestCheckedAt(rows)).toBe("2026-10-17T19:15:08+09:00");
+  });
+
+  it("marks only the rows checked before the newest check", () => {
+    const same = buildLandmarkRows(dataEve(), NOW_EVE)!;
+    expect(same.some((row) => row.checkedBehind)).toBe(false);
+    const mixed = buildLandmarkRows(
+      dataEve((d) => {
+        d.items[7].checkedAtJst = "2026-10-17T10:15:05+09:00";
+        d.items[8].checkedAtJst = "2026-10-17T10:15:05+09:00";
+      }),
+      NOW_EVE,
+    )!;
+    expect(mixed.filter((row) => row.checkedBehind).map((row) => row.copyKey)).toEqual(["stableYoy", "stableAth"]);
+    const blank = buildLandmarkRows(data(), NOW)!;
+    expect(blank[6].checkedBehind).toBe(false); // feed に無い行
+  });
+});
+
 describe("date formatting", () => {
   it("formats short and long Japanese dates", () => {
     expect(formatShortDate("2026-10-15")).toBe("10/15");
     expect(formatLongDate("2026-06-28")).toBe("2026年6月28日");
+  });
+
+  it("formats a JST timestamp as month, day and time", () => {
+    expect(formatJstDateTime("2026-10-29T10:38:22+09:00")).toBe("10月29日 10:38");
+    expect(formatJstDateTime("2026-11-01T09:05+09:00")).toBe("11月1日 9:05");
   });
 });

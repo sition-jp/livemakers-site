@@ -72,6 +72,8 @@ export interface LandmarkRow {
   /** 月足 MACD の行だけ。feed に `dead` が無ければ null (下抜けは出さない) */
   deadBadge: LandmarkDeadBadge | null;
   staleEmphasis: boolean;
+  /** 最新の判定より前の回の値のまま残っている行 (その回で取得に失敗した指標)。行に判定時刻を添える */
+  checkedBehind: boolean;
 }
 
 const DAY_MS = 86_400_000;
@@ -103,7 +105,16 @@ function rowFor(key: LandmarkRowKey, data: LandmarkMeterData, now: Date, today: 
   const found = data.items.find((candidate) => candidate.key === key);
   const item = found && isFresh(found, cadence, now, today) ? found : null;
   if (!item) {
-    return { key, copyKey, item: null, badge: null, recoverBadge: null, deadBadge: null, staleEmphasis: false };
+    return {
+      key,
+      copyKey,
+      item: null,
+      badge: null,
+      recoverBadge: null,
+      deadBadge: null,
+      staleEmphasis: false,
+      checkedBehind: false,
+    };
   }
   // 足の指標は点灯した足が最新の足である間、日次の指標と ETF は点灯から 7 日間
   const fired =
@@ -128,6 +139,7 @@ function rowFor(key: LandmarkRowKey, data: LandmarkMeterData, now: Date, today: 
     recoverBadge,
     deadBadge,
     staleEmphasis: cadence === "etf" && daysBetween(item.barDate, today) >= LANDMARK_ETF_STALE_DAYS,
+    checkedBehind: false,
   };
 }
 
@@ -136,7 +148,27 @@ export function buildLandmarkRows(data: LandmarkMeterData | null, now: Date): La
   if (!data) return null;
   const today = jstToday(now);
   const rows = LANDMARK_ROW_KEYS.map((key) => rowFor(key, data, now, today));
-  return rows.some((row) => row.item !== null) ? rows : null;
+  const latest = latestCheckedAt(rows);
+  if (latest === null) return null;
+  // 検出器は 1 回の判定で全指標に同じ時刻を付ける。それより前の時刻の行 = その回で取れず前の回の値が残った行
+  const latestMs = Date.parse(latest);
+  return rows.map((row) =>
+    row.item && Date.parse(row.item.checkedAtJst) < latestMs ? { ...row, checkedBehind: true } : row,
+  );
+}
+
+/**
+ * 表に出ている行 (描画時の鮮度を通った行) のうち、いちばん新しい判定時刻。見出しの「最終更新」に使う。
+ * 描画した時刻ではなく判定した時刻を出す — 配信が止まっても古い値に新しい時刻を付けない。
+ */
+export function latestCheckedAt(rows: LandmarkRow[]): string | null {
+  let latest: string | null = null;
+  for (const row of rows) {
+    if (row.item && (latest === null || Date.parse(row.item.checkedAtJst) > Date.parse(latest))) {
+      latest = row.item.checkedAtJst;
+    }
+  }
+  return latest;
 }
 
 /** "2026-10-15" → "10/15" */
@@ -149,4 +181,11 @@ export function formatShortDate(iso: string): string {
 export function formatLongDate(iso: string): string {
   const [year, month, day] = iso.split("-");
   return `${year}年${Number(month)}月${Number(day)}日`;
+}
+
+/** "2026-10-29T10:38:22+09:00" → "10月29日 10:38"。feed の検査で +09:00 に限っているので文字列から読む */
+export function formatJstDateTime(iso: string): string {
+  const [, month, day] = iso.slice(0, 10).split("-");
+  const [hour, minute] = iso.slice(11, 16).split(":");
+  return `${Number(month)}月${Number(day)}日 ${Number(hour)}:${minute}`;
 }

@@ -2,8 +2,10 @@ import type { ReactNode } from "react";
 
 import { LandmarkSparkline } from "@/components/articles/LandmarkSparkline";
 import {
+  formatJstDateTime,
   formatLongDate,
   formatShortDate,
+  latestCheckedAt,
   type LandmarkRow,
 } from "@/lib/landmark/meter-model";
 
@@ -15,6 +17,7 @@ import {
  * 2026-10-17 夜: ETH 現物 ETF の行 (core spec 2026-10-17-lvm-landmark-meter-eth-etf-row-design・BTC の ETF と同じ組み立て)。
  * 2026-10-18: 各カードの名前の下に過去 2 年の推移グラフ (series があるときだけ・core spec
  * 2026-10-17-lvm-landmark-meter-sparkline-design)。グラフは補助で、カードの文字はグラフの有無で変えない。
+ * 2026-10-29: 見出しの下に最終更新 (最新の判定時刻)。前の回の値が残った行にだけ、その行の判定時刻を添える。
  */
 export type LandmarkMeterTranslate = (
   key: string,
@@ -45,10 +48,17 @@ function NowCell({ row, t }: { row: LandmarkRow; t: LandmarkMeterTranslate }) {
   const item = row.item!;
   const asOf = t(`rows.${row.copyKey}.asOf`, { date: formatShortDate(item.barDate) });
   return (
-    <p>
-      <span className="text-text-primary">{t(`rows.${row.copyKey}.now`, item.values)}</span>
-      （{row.staleEmphasis ? <strong className="font-bold text-text-primary">{asOf}</strong> : asOf}）
-    </p>
+    <>
+      <p>
+        <span className="text-text-primary">{t(`rows.${row.copyKey}.now`, item.values)}</span>
+        （{row.staleEmphasis ? <strong className="font-bold text-text-primary">{asOf}</strong> : asOf}）
+      </p>
+      {row.checkedBehind ? (
+        <p data-landmark-checked-behind className="text-text-tertiary">
+          {t("checkedBehind", { datetime: formatJstDateTime(item.checkedAtJst) })}
+        </p>
+      ) : null}
+    </>
   );
 }
 
@@ -230,11 +240,18 @@ export function LandmarkMeter({ rows, t }: { rows: LandmarkRow[]; t: LandmarkMet
         ]
       : [],
   );
+  // rows は新鮮な行を 1 つ以上持つ (buildLandmarkRows が保証) ので null にならない
+  const updatedAt = latestCheckedAt(rows);
   return (
     <section data-landmark-meter aria-labelledby="landmark-meter-title" className="mt-6">
       <h2 id="landmark-meter-title" className="text-lg font-bold text-text-primary">
         {t("title")}
       </h2>
+      {updatedAt ? (
+        <p data-landmark-updated className="mt-1 font-mono text-[11px] tracking-label text-text-tertiary">
+          {t("updated")} <time dateTime={updatedAt}>{formatJstDateTime(updatedAt)}</time>
+        </p>
+      ) : null}
       <p className="mt-1 text-sm text-text-secondary">{t("lead")}</p>
       {rows.some((row) => row.item?.series) ? (
         <p data-landmark-chart-legend className="mt-1 text-[11px] leading-5 text-text-tertiary">
