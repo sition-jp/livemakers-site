@@ -7,6 +7,9 @@ import { DisclaimerBanner } from "@/components/turning-points/DisclaimerBanner";
 import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice";
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
+import { ProbabilityTimeline } from "@/components/turning-points/ProbabilityTimeline";
+import { allForecastScreen } from "@/lib/pivots/forecast-screen";
+import { pickForecast } from "@/lib/pivots/forecast";
 import { TimelineMini } from "@/components/turning-points/TimelineMini";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
@@ -47,6 +50,7 @@ export default async function TurningPointsRadarPage({
   const tBacktest = await getTranslations("turningPoints.backtest");
   const result = await readAssetsSnapshot();
   const snapshot = result.parseError === null ? result.snapshot : null;
+  const useForecast = allForecastScreen(snapshot);
   const todayIso = (snapshot?.generated_at ?? new Date().toISOString()).slice(0, 10);
 
   return (
@@ -63,7 +67,7 @@ export default async function TurningPointsRadarPage({
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />
 
-      <ReadingGuide variant="radar" />
+      <ReadingGuide variant={useForecast ? "forecast" : "radar"} />
 
       <DisclaimerBanner />
 
@@ -80,7 +84,11 @@ export default async function TurningPointsRadarPage({
             testid="radar-unavailable"
           />
         ) : (
-          <RadarTable assets={result.snapshot?.radar ?? []} previous={result.snapshot?.previous ?? null} />
+          <RadarTable
+            assets={result.snapshot?.radar ?? []}
+            previous={result.snapshot?.previous ?? null}
+            forecast={useForecast ? snapshot?.forecast : undefined}
+          />
         )}
       </section>
 
@@ -94,12 +102,23 @@ export default async function TurningPointsRadarPage({
           </h2>
           <div className="grid gap-8 md:grid-cols-2">
             {snapshot.radar.map((asset) => (
-              <TimelineMini
-                key={asset.symbol}
-                asset={asset.symbol}
-                today={todayIso}
-                history={snapshot.history?.[asset.symbol] ?? null}
-              />
+              useForecast ? (
+                <ProbabilityTimeline
+                  key={asset.symbol}
+                  asset={asset.symbol}
+                  history={snapshot.forecast_history?.[asset.symbol] ?? []}
+                  turns={snapshot.turns?.[asset.symbol]}
+                  item={pickForecast(snapshot.forecast?.[asset.symbol], "turn", "30D")}
+                  variant="mini"
+                />
+              ) : (
+                <TimelineMini
+                  key={asset.symbol}
+                  asset={asset.symbol}
+                  today={todayIso}
+                  history={snapshot.history?.[asset.symbol] ?? null}
+                />
+              )
             ))}
           </div>
         </section>
