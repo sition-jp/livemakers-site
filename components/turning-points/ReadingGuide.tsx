@@ -10,6 +10,7 @@ const FORECAST_LINES = [
   "forecast_condition",
   "forecast_backfill",
   "forecast_date",
+  "integrity",
   "freshness",
 ] as const;
 

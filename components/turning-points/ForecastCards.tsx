@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import {
   QUESTIONS,
   forecastLevel,
+  formatPct1,
   formatSignedPct,
   pickForecast,
   type Level,
@@ -22,10 +23,6 @@ const LEVEL_CLASS: Record<Level, string> = {
 };
 
 const GAP_NOTE_PTS = 20;
-
-function fmt1(n: number): string {
-  return (Math.round(n * 10) / 10).toFixed(1);
-}
 
 export function ForecastCards({ items, events, asset }: ForecastCardsProps) {
   const t = useTranslations("turningPoints.forecast");
@@ -62,10 +59,10 @@ export function ForecastCards({ items, events, asset }: ForecastCardsProps) {
               ) : null}
             </div>
             <p className={`text-3xl font-medium ${LEVEL_CLASS[level]}`}>
-              {t("today_pct", { pct: fmt1(item.today_pct) })}
+              {t("today_pct", { pct: formatPct1(item.today_pct) })}
             </p>
             <p className="text-sm text-text-secondary">
-              {t("usual_pct", { pct: fmt1(item.usual_pct) })}
+              {t("usual_pct", { pct: formatPct1(item.usual_pct) })}
               <span className="ml-2">{t("gap", { gap: formatSignedPct(gap) })}</span>
             </p>
             <p className={`text-sm ${LEVEL_CLASS[level]}`}>{t(`level.${level}`)}</p>
@@ -94,7 +91,7 @@ export function ForecastCards({ items, events, asset }: ForecastCardsProps) {
                 <p data-testid={`forecast-note90-${q.id}`}>{t("note90")}</p>
                 {showGap ? (
                   <p data-testid={`forecast-note90-gap-${q.id}`}>
-                    {t("note90_gap", { rate: fmt1(rate as number), usual: fmt1(ev!.usual_pct) })}
+                    {t("note90_gap", { rate: formatPct1(rate as number), usual: formatPct1(ev!.usual_pct) })}
                   </p>
                 ) : null}
               </div>

@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { describeState, scoreDelta } from "@/lib/pivots/describe";
-import { QUESTIONS, forecastLevel, formatSignedPct, pickForecast, type Level } from "@/lib/pivots/forecast";
+import { QUESTIONS, forecastLevel, formatPct1, formatSignedPct, pickForecast, type Level } from "@/lib/pivots/forecast";
 import type { AssetSymbol, ForecastItem, RadarAsset, Horizon, PreviousRadar } from "@/lib/pivots/types";
 import { ScoreBadge } from "./ScoreBadge";
 import { formatDelta } from "./StateBlock";
@@ -10,10 +10,6 @@ const HORIZONS: Horizon[] = ["7D", "30D", "90D"];
 const LEVEL_CLASS: Record<string, string> = { Low: "text-text-tertiary", Medium: "text-pillar-overview", High: "text-pillar-market", Extreme: "text-status-up" };
 
 const FORECAST_LEVEL_CLASS: Record<Level, string> = { above: "text-pillar-market", usual: "text-text-secondary", below: "text-text-tertiary" };
-
-function fmt1(n: number): string {
-  return (Math.round(n * 10) / 10).toFixed(1);
-}
 
 export function RadarTable({
   assets,
@@ -56,8 +52,9 @@ export function RadarTable({
                   const delta = item.prev_today_pct !== undefined ? Math.round((item.today_pct - item.prev_today_pct) * 10) / 10 : null;
                   return (
                     <td key={q.id} className="px-4 py-4 align-top" data-testid={`radar-forecast-${asset.symbol}-${q.id}`}>
-                      <div className={`text-lg font-medium ${FORECAST_LEVEL_CLASS[level]}`}>{fmt1(item.today_pct)}%</div>
-                      <div className="text-xs text-text-secondary">{tf("usual_pct", { pct: fmt1(item.usual_pct) })}</div>
+                      <div className={`text-lg font-medium ${FORECAST_LEVEL_CLASS[level]}`}>{formatPct1(item.today_pct)}%</div>
+                      <div className="text-xs text-text-secondary">{tf("usual_pct", { pct: formatPct1(item.usual_pct) })}</div>
+                      <div className="text-xs text-text-secondary">{tf("gap", { gap: formatSignedPct(item.today_pct - item.usual_pct) })}</div>
                       {delta !== null ? (
                         <div className="text-xs text-text-tertiary">{tf("prev", { delta: formatSignedPct(delta) })}</div>
                       ) : null}

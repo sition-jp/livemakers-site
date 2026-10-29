@@ -1066,7 +1066,8 @@
       "bottom": "Bottom",
       "today": "Today",
       "mini_link": "Details",
-      "aria": "Past {n} days: {hit} days a turn came, {miss} days none came, {pending} days pending",
+      "aria": "{asset}, past {n} days: {hit} days a turn came, {miss} days none came, {pending} days pending",
+      "mini_heading": "{asset} · chance of a medium-or-larger top or bottom within 30 days (last 60 days)",
       "no_data": "No daily probability record yet"
     },
     "forecast": {

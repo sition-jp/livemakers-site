@@ -1066,7 +1066,8 @@
       "bottom": "底",
       "today": "今日",
       "mini_link": "詳しく見る",
-      "aria": "過去 {n} 日・来た日 {hit} 日・来なかった日 {miss} 日・結果待ち {pending} 日",
+      "aria": "{asset}・過去 {n} 日・来た日 {hit} 日・来なかった日 {miss} 日・結果待ち {pending} 日",
+      "mini_heading": "{asset}・30 日以内に中以上の天井か底の確率（直近 60 日）",
       "no_data": "毎日の確率の記録がまだありません"
     },
     "forecast": {
@@ -1139,8 +1140,8 @@
         "cycle": "サイクル級"
       },
       "threshold": {
-        "small": "5%",
-        "medium": "15%",
+        "small": "5% ",
+        "medium": "15% ",
         "large": "3 割",
         "cycle": "5 割"
       },
@@ -1151,10 +1152,10 @@
       "last": "{date} の{kind} {close}（現在まで {pct}%）",
       "last_nopct": "{date} の{kind} {close}",
       "candidate": "{kind}の候補: {date} の {close}",
-      "condition_top": "高値から {threshold} 下げたら天井と数える = {price} 以下（今から {pct}%）",
-      "condition_top_nopct": "高値から {threshold} 下げたら天井と数える = {price} 以下",
-      "condition_bottom": "安値から {threshold} 戻したら底と数える = {price} 以上（今から {pct}%）",
-      "condition_bottom_nopct": "安値から {threshold} 戻したら底と数える = {price} 以上",
+      "condition_top": "高値から {threshold}下げたら天井と数える = {price} 以下（今から {pct}%）",
+      "condition_top_nopct": "高値から {threshold}下げたら天井と数える = {price} 以下",
+      "condition_bottom": "安値から {threshold}戻したら底と数える = {price} 以上（今から {pct}%）",
+      "condition_bottom_nopct": "安値から {threshold}戻したら底と数える = {price} 以上",
       "none": "まだ確定なし",
       "note_bottom": "その後 {date} に {close} まで下げたが、この強さの底とは数えない（戻りが条件に届いていない）",
       "note_top": "その後 {date} に {close} まで上げたが、この強さの天井とは数えない（下げが条件に届いていない）"

@@ -11,6 +11,7 @@ import {
   pctChange,
   formatPrice,
   formatSignedPct,
+  formatPct1,
   formatDay,
 } from "@/lib/pivots/forecast";
 import type { ForecastItem, LadderRow } from "@/lib/pivots/types";
@@ -127,6 +128,11 @@ describe("formatters", () => {
     expect(formatPrice(60633.99999999999)).toBe("60,634");
     expect(formatPrice(999.5)).toBe("999.50");
     expect(formatPrice(0.5)).toBe("0.50");
+  });
+  it("formatPct1 is one decimal without a sign or % mark", () => {
+    expect(formatPct1(48)).toBe("48.0");
+    expect(formatPct1(50.94)).toBe("50.9");
+    expect(formatPct1(0)).toBe("0.0");
   });
   it("formatSignedPct uses U+2212", () => {
     expect(formatSignedPct(2)).toBe("+2.0");

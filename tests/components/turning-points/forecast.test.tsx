@@ -167,8 +167,8 @@ describe("StrengthLadder", () => {
     const rows = screen.getAllByTestId(/^ladder-row-/).map((e) => e.getAttribute("data-testid"));
     expect(rows).toEqual(["ladder-row-cycle", "ladder-row-large", "ladder-row-medium", "ladder-row-small"]);
     // 確定条件: 底の候補 (cycle) は「以上」・天井の候補 (large) は「以下」
-    expect(screen.getByTestId("ladder-row-cycle").textContent).toContain("安値から 5 割 戻したら底と数える = 87,937 以上");
-    expect(screen.getByTestId("ladder-row-large").textContent).toContain("高値から 3 割 下げたら天井と数える = 60,634 以下");
+    expect(screen.getByTestId("ladder-row-cycle").textContent).toContain("安値から 5 割戻したら底と数える = 87,937 以上");
+    expect(screen.getByTestId("ladder-row-large").textContent).toContain("高値から 3 割下げたら天井と数える = 60,634 以下");
     expect(screen.getByTestId("ladder-row-cycle").textContent).toContain("2025/10/6 の天井 124,659");
     // 確定した価格から今までの変化は「現在まで」(「今から」は未来の動きに読める)
     expect(screen.getByTestId("ladder-row-cycle").textContent).toMatch(/2025\/10\/6 の天井 124,659（現在まで −?\d/);

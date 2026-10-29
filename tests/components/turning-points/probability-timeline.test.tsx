@@ -108,8 +108,12 @@ describe("ProbabilityTimeline full", () => {
     expect(screen.getByTestId("probability-legend-backfilled").textContent).toContain("さかのぼり計算");
     const fut = screen.getByTestId("probability-future").textContent ?? "";
     expect(fut).toContain("この先 30 日の窓");
-    expect(fut).toContain("55%");
-    expect(root.textContent).toContain("ふだん 40%");
+    expect(fut).toContain("55.0%");
+    expect(root.textContent).toContain("ふだん 40.0%");
+    const todayText = screen.getByText("55.0%");
+    const usualText = screen.getByText("ふだん 40.0%");
+    expect(usualText.getAttribute("y")).not.toBe(todayText.getAttribute("y"));
+    expect(usualText.getAttribute("x")).toBe(todayText.getAttribute("x"));
   });
 
   it("draws price line, markers, usual line, today line, ticks", () => {
@@ -128,8 +132,16 @@ describe("ProbabilityTimeline full", () => {
   it("puts a count summary on the svg aria-label", () => {
     const { container } = wrap("ja", <ProbabilityTimeline asset="BTC" history={history} turns={turns} item={item} variant="full" />);
     expect(container.querySelector("svg")?.getAttribute("aria-label")).toBe(
-      "過去 20 日・来た日 2 日・来なかった日 3 日・結果待ち 12 日",
+      "BTC・過去 20 日・来た日 2 日・来なかった日 3 日・結果待ち 12 日",
     );
+  });
+
+  it("puts the price caption in HTML, not inside the svg", () => {
+    const { container } = wrap("ja", <ProbabilityTimeline asset="BTC" history={history} turns={turns} item={item} variant="full" />);
+    const cap = screen.getByTestId("probability-price-caption");
+    expect(cap.textContent).toContain("価格（日足の終値）");
+    expect(container.querySelector("svg")?.contains(cap)).toBe(false);
+    expect(container.querySelector("svg")?.textContent).not.toContain("価格（日足の終値）");
   });
 
   it("falls back to turn/30D without an item and omits usual line", () => {
@@ -165,9 +177,29 @@ describe("ProbabilityTimeline mini", () => {
     expect(bars[0].getAttribute("data-date")).toBe(expectedFirst);
   });
 
+  it("names the asset in the heading and aria, and does not mix BTC and ETH", () => {
+    const { container } = wrap(
+      "ja",
+      <>
+        <ProbabilityTimeline asset="BTC" history={history} turns={turns} item={item} variant="mini" />
+        <ProbabilityTimeline asset="ETH" history={history} turns={turns} item={item} variant="mini" />
+      </>,
+    );
+    const btc = screen.getByTestId("probability-mini-BTC");
+    const eth = screen.getByTestId("probability-mini-ETH");
+    expect(btc.textContent).toContain("BTC・30 日以内に中以上の天井か底の確率（直近 60 日）");
+    expect(btc.textContent).not.toContain("ETH");
+    expect(eth.textContent).toContain("ETH・30 日以内");
+    expect(eth.textContent).not.toContain("BTC");
+    expect(btc.querySelector("svg")?.getAttribute("aria-label")).toContain("BTC・");
+    expect(eth.querySelector("svg")?.getAttribute("aria-label")).toContain("ETH・");
+    expect(container).toBeTruthy();
+  });
+
   it("renders a notice when there is no history", () => {
     wrap("ja", <ProbabilityTimeline asset="BTC" history={[]} item={item} variant="mini" />);
     expect(screen.getByTestId("probability-mini-BTC").textContent).toContain("記録がまだありません");
+    expect(screen.getByTestId("probability-mini-BTC").textContent).toContain("BTC・30 日以内");
   });
 });
 

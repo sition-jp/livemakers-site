@@ -106,6 +106,11 @@ export function formatPrice(n: number): string {
   return Math.abs(n) >= 1000 ? PRICE_FMT.format(n) : SMALL_PRICE_FMT.format(n);
 }
 
+/** 確率 (%) を小数 1 桁で (% 記号は付けない)。カード・表・図・予報文で共通。 */
+export function formatPct1(n: number): string {
+  return (Math.round(n * 10) / 10).toFixed(1);
+}
+
 /** 符号付き・小数 1 桁 (% 記号は付けない)。マイナスは U+2212。 */
 export function formatSignedPct(n: number): string {
   const r = Math.round(n * 10) / 10;

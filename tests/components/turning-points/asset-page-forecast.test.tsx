@@ -124,7 +124,7 @@ describe("ReadingGuide (forecast)", () => {
   it("新しい項目を出し、今のガイドは変えない", () => {
     wrap("ja", <ReadingGuide variant="forecast" />);
     const g = screen.getByTestId("reading-guide");
-    expect(g.querySelectorAll("li").length).toBe(9);
+    expect(g.querySelectorAll("li").length).toBe(10);
     expect(g).toHaveTextContent("ふだんの確率");
     expect(g).toHaveTextContent("結果待ち");
     expect(g).toHaveTextContent("値動きの予想ではありません");

@@ -118,6 +118,8 @@ describe("RadarTable (確率の列)", () => {
     const cell = screen.getByTestId("radar-forecast-BTC-turn30");
     expect(cell).toHaveTextContent("50.9%");
     expect(cell).toHaveTextContent("Usual 48.3%");
+    expect(cell).toHaveTextContent("Gap from usual +2.6");
+    expect(screen.getByTestId("radar-forecast-BTC-turn7")).toHaveTextContent("Gap from usual −2.7");
     expect(cell).toHaveTextContent("vs. yesterday +2.0");
     expect(screen.getByTestId("radar-forecast-BTC-turn90")).not.toHaveTextContent("yesterday");
     expect(screen.getByTestId("radar-forecast-BTC-move30")).toHaveTextContent("−3.4");

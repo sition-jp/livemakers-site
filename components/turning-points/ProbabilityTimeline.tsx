@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
 import { Link } from "@/i18n/navigation";
+import { formatPct1 } from "@/lib/pivots/forecast";
 import {
   PROBABILITY_LAYOUT,
   buildProbabilityTimeline,
@@ -37,10 +38,6 @@ const STATUS_OPACITY: Record<BarStatus, number> = {
   today: 1,
 };
 
-function fmtPct(n: number): string {
-  return String(Math.round(n * 10) / 10);
-}
-
 export function ProbabilityTimeline({
   asset,
   history,
@@ -67,14 +64,18 @@ export function ProbabilityTimeline({
 
   if (history.length === 0) {
     return (
-      <p data-testid={testId} className="text-xs text-text-tertiary">
-        {t("no_data")}
-      </p>
+      <section data-testid={testId} className="space-y-1">
+        {!full ? (
+          <p className="text-sm font-medium text-text-primary">{t("mini_heading", { asset })}</p>
+        ) : null}
+        <p className="text-xs text-text-tertiary">{t("no_data")}</p>
+      </section>
     );
   }
 
   const count = (s: BarStatus) => model.bars.filter((b) => b.status === s).length;
   const aria = t("aria", {
+    asset,
     n: model.bars.length + model.gaps.length,
     hit: count("hit"),
     miss: count("miss"),
@@ -137,7 +138,7 @@ export function ProbabilityTimeline({
             </text>
             {model.future.todayPct !== null ? (
               <text x={model.future.x0 + 8} y={52} fontSize={22} fontWeight={600} fill="currentColor">
-                {fmtPct(model.future.todayPct)}%
+                {formatPct1(model.future.todayPct)}%
               </text>
             ) : null}
           </>
@@ -145,13 +146,13 @@ export function ProbabilityTimeline({
       </g>
       {full && model.future.usualPct !== null ? (
         <text
-          x={model.future.x0 + 8 + 56}
-          y={52}
+          x={model.future.x0 + 8}
+          y={70}
           fontSize={11}
           fill="currentColor"
           className="text-text-tertiary"
         >
-          {t("usual", { pct: fmtPct(model.future.usualPct) })}
+          {t("usual", { pct: formatPct1(model.future.usualPct) })}
         </text>
       ) : null}
 
@@ -273,17 +274,13 @@ export function ProbabilityTimeline({
           </text>
         ) : null}
       </g>
-      {full ? (
-        <text x={L.left} y={18} fontSize={11} fill="currentColor" className="text-text-tertiary">
-          {t("price")}
-        </text>
-      ) : null}
     </svg>
   );
 
   if (!full) {
     return (
       <section data-testid={testId} className="space-y-1 text-text-secondary">
+        <p className="text-sm font-medium text-text-primary">{t("mini_heading", { asset })}</p>
         {svg}
         <Link
           href={`/turning-points/${asset.toLowerCase()}`}
@@ -308,6 +305,9 @@ export function ProbabilityTimeline({
     <section data-testid={testId} className="space-y-2 text-text-secondary">
       <h3 className="text-sm font-semibold text-text-primary">{t("heading")}</h3>
       <p className="text-xs text-text-tertiary">{t("notes", { days: futureDays })}</p>
+      <p data-testid="probability-price-caption" className="text-xs text-text-tertiary">
+        {t("price")}
+      </p>
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs">
         {swatch(STATUS_CLASS.hit, 1, t("legend_hit"), "hit")}
         {swatch(STATUS_CLASS.miss, STATUS_OPACITY.miss, t("legend_miss"), "miss")}

@@ -1,6 +1,6 @@
 import { useLocale, useTranslations } from "next-intl";
 
-import { forecastLevel, forecastLines, pickForecast, trendLine } from "@/lib/pivots/forecast";
+import { forecastLevel, forecastLines, formatPct1, pickForecast, trendLine } from "@/lib/pivots/forecast";
 import type { ForecastItem } from "@/lib/pivots/types";
 
 export interface ForecastTextProps {
@@ -27,16 +27,20 @@ export function ForecastText({ items, trend }: ForecastTextProps) {
             moveSign: t(`sign.${v.moveLevel}`),
           });
         } else if (l.key === "d30") {
-          text = t("line.d30", { level: t(`level.${v.level}`), today: v.today, usual: v.usual });
+          text = t("line.d30", { level: t(`level.${v.level}`), today: formatPct1(Number(v.today)), usual: formatPct1(Number(v.usual)) });
           if (m30 && v.moveLevel !== undefined) {
             text += (locale === "en" ? " " : "") + t("line.d30_move", {
               moveLevel: t(`level.${forecastLevel(m30.today_pct, m30.usual_pct)}`),
-              moveToday: v.moveToday,
-              moveUsual: v.moveUsual,
+              moveToday: formatPct1(Number(v.moveToday)),
+              moveUsual: formatPct1(Number(v.moveUsual)),
             });
           }
         } else {
-          text = t(`line.${l.key}`, { level: t(`level.${v.level}`), today: v.today, usual: v.usual });
+          text = t(`line.${l.key}`, {
+            level: t(`level.${v.level}`),
+            today: formatPct1(Number(v.today)),
+            usual: formatPct1(Number(v.usual)),
+          });
         }
         return (
           <div key={l.key} className="space-y-1">
