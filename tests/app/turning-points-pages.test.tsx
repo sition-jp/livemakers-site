@@ -1,6 +1,5 @@
 /* @vitest-environment jsdom */
 import { render, screen } from "@testing-library/react";
-import fs from "node:fs";
 import { NextIntlClientProvider } from "next-intl";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -38,12 +37,63 @@ vi.mock("@/lib/pivots/pivots-reader", () => ({
 import ListPage from "@/app/[locale]/turning-points/page";
 import DetailPage from "@/app/[locale]/turning-points/[asset]/page";
 
-// コミット済みの配信データ (forecast / forecast_history / detail 入り) を土台にする
-function load(): PivotAssetsSnapshot {
-  const raw = JSON.parse(fs.readFileSync("data/pivot_assets.live.json", "utf8"));
-  return PivotAssetsSnapshotSchema.parse(raw);
+// 小さな明示フィクスチャ。data/*.live.json は毎朝の自動 PR で書き換わり、失敗日には forecast が
+// 無いことがあるので、テストは配信データを一切読まない。
+type Sym = "BTC" | "ETH";
+const SYMS: Sym[] = ["BTC", "ETH"];
+const HS = ["7D", "30D", "90D"] as const;
+
+function detailOf(symbol: Sym, horizon: string) {
+  return {
+    asset: { symbol, name: symbol === "BTC" ? "Bitcoin" : "Ethereum" },
+    horizon,
+    timestamp: "2026-10-28T23:00:00Z",
+    scores: { overall: 35, price_pivot: 15, volatility_pivot: 45, confidence: { grade: "B+", score: 82 } },
+    direction_bias: { bullish: 100, bearish: 0, neutral: 0 },
+    evidence: [{ category: "price", direction: "bullish", weight: 0.15, message: "MACD momentum is improving" }],
+    summary: { level: "Low", headline: "headline", explanation: "explanation" },
+  };
 }
-function withoutForecast(s: PivotAssetsSnapshot, asset: "BTC" | "ETH"): PivotAssetsSnapshot {
+const score = { overall: 35, price_pivot: 15, volatility_pivot: 45, confidence_grade: "B+", main_signal: "volatility" };
+
+function forecastFor() {
+  return [
+    { event: "turn", horizon: "7D", today_pct: 44.6, usual_pct: 47.3, prev_today_pct: 44.6 },
+    { event: "turn", horizon: "30D", today_pct: 50.9, usual_pct: 48.3, prev_today_pct: 48.9 },
+    { event: "turn", horizon: "90D", today_pct: 19.3, usual_pct: 15.0 },
+    { event: "move", horizon: "30D", today_pct: 77.2, usual_pct: 70.8 },
+  ];
+}
+const historyFor = () => [
+  { date: "2026-10-27", close: 80000, backfilled: false },
+  { date: "2026-10-28", close: 81174.45, forecast: { turn: { "30D": 50.9 } }, backfilled: false },
+];
+const ladderFor = () => [
+  {
+    strength: "small",
+    decided: true,
+    last_confirmed: { date: "2026-10-01", kind: "top", close: 90000 },
+    candidate: { date: "2026-10-20", kind: "bottom", close: 80000 },
+    confirm_at: 84000,
+  },
+];
+
+function load(): PivotAssetsSnapshot {
+  const detail: Record<string, unknown> = {};
+  for (const s of SYMS) for (const h of HS) detail[`${s}__${h}`] = detailOf(s, h);
+  return PivotAssetsSnapshotSchema.parse({
+    schema_version: "v0.1",
+    generated_at: "2026-10-29T08:00:00+09:00",
+    radar: SYMS.map((symbol) => ({ symbol, scores: { "7D": score, "30D": score, "90D": score } })),
+    detail,
+    forecast: { BTC: forecastFor(), ETH: forecastFor() },
+    trend: { BTC: { ret_30d_pct: -2.8, ret_90d_pct: 25.3 }, ETH: { ret_30d_pct: -12.4, ret_90d_pct: 22.8 } },
+    ladder: { BTC: ladderFor(), ETH: ladderFor() },
+    turns: { BTC: [], ETH: [] },
+    forecast_history: { BTC: historyFor(), ETH: historyFor() },
+  });
+}
+function withoutForecast(s: PivotAssetsSnapshot, asset: Sym): PivotAssetsSnapshot {
   const forecast = { ...s.forecast };
   delete forecast[asset];
   return { ...s, forecast };
