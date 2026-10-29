@@ -1,0 +1,106 @@
+{
+  "sessionId": "2026-10-29-europe-bridge",
+  "date": "2026-10-29",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-29-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-10-29-europe-bridge",
+  "publishedAt": "2026-10-30T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261029_1203_184013ed",
+  "asOfJst": "2026-10-29T13:35:00+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 10月29日 12:03 JST（読み解きのみ）",
+  "bullets": [
+    "米国の大型テック株の一部が高値から 2 割超の下落圏に、Coinbase も名を連ねる",
+    "BTC と ETH が急落、24 時間の先物の強制決済は約 3.35 億ドルに",
+    "Alphabet 株が決算後に 8% 超下落、Microsoft は 5% 超上昇"
+  ],
+  "editorial": {
+    "digestId": "dig_20261029_1335_d90bb640",
+    "crawlAnchorJst": "2026-10-29T12:03:00+09:00",
+    "writtenAtJst": "2026-10-29T13:35:00+09:00",
+    "lead": "FOMC の据え置きから一夜明け、米国のハイテク株は決算で明暗が分かれ、暗号資産は BTC が 8 万ドル近辺まで下げた。日本では通販や委託先システムへの不正アクセスの公表が相次ぎ、円建てステーブルコイン JPYC は訪日客の免税還付という店頭の用途を得た。チェーンの側では BNB Chain の決済専用枠と、XRP Ledger の推奨バリデーターへの Flare の追加という、基盤の作り替えが進む。",
+    "items": [
+      {
+        "headline": "米国の大型テック株の一部が高値から 2 割超の下落圏に、Coinbase も名を連ねる",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2115633389587865993"
+      },
+      {
+        "headline": "BTC と ETH が急落、24 時間の先物の強制決済は約 3.35 億ドルに",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2115626744560734580"
+      },
+      {
+        "headline": "Alphabet 株が決算後に 8% 超下落、Microsoft は 5% 超上昇",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2115535656105496959"
+      },
+      {
+        "headline": "ServiceNow 株が決算後に 2 割近く下落",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2115586211184005139"
+      },
+      {
+        "headline": "BNB Chain、ハードフォーク Jenner を BSC テストネットで稼働 ブロックの 5% を決済用に確保",
+        "sourceUrl": "https://x.com/BNBCHAIN/status/2115638886450053592",
+        "note": "メインネットの時期は公式の続報で確認する段階。"
+      },
+      {
+        "headline": "XRPL Foundation、推奨バリデーター一覧に Flare を追加",
+        "sourceUrl": "https://x.com/XRPLF/status/2115517544467435768"
+      },
+      {
+        "headline": "UPBOND と日本免税、JPYC による訪日客の免税還付を実用化",
+        "sourceUrl": "https://x.com/PRTIMES_STUP/status/2115634009787265322"
+      },
+      {
+        "headline": "Centrifuge、Janus Henderson とナスダック100 連動のトークン化ファンド JQQQ を開始",
+        "sourceUrl": "https://x.com/DefiantNews/status/2115551203517989279"
+      },
+      {
+        "headline": "ブロックチェーンのデータ提供の Allium、セキュリティ侵害を公表",
+        "sourceUrl": "https://x.com/WuBlockchain/status/2115621021369909594"
+      },
+      {
+        "headline": "「ショップサーブ」に不正アクセス、漏えい対象は約 2,335 万 6,000 人",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/29/56620.html"
+      },
+      {
+        "headline": "ベネフィット・ワンの委託先に不正アクセス、セゾン会員向け優待で約 2.9 万人分が漏えい",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2610/29/2000002707/"
+      },
+      {
+        "headline": "メール配信の blastmail に不正アクセス、利用企業側の公表が続く",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/10/29/56615.html"
+      },
+      {
+        "headline": "Intersect が未使用の予算を Cardano のトレジャリーへ返還、2 回の送金で計 11.5 万 ADA 超",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2115554952231915951"
+      },
+      {
+        "headline": "Cardano 財団、2,200 万 ADA の銅の準備金の提案に反対票",
+        "sourceUrl": "https://x.com/LeaderAlphaNews/status/2115617406861394115"
+      },
+      {
+        "headline": "米財務省 OFAC、10 人と 1 団体を制裁対象に指定",
+        "sourceUrl": "https://x.com/USTreasury/status/2115452392690913530"
+      },
+      {
+        "headline": "Rocket Lab の Neutron、第 2 段と推進モジュールがバージニアの射場に到着",
+        "sourceUrl": "https://x.com/RocketLab/status/2115550147862257868"
+      },
+      {
+        "headline": "拡散型の言語モデル Clover-35B-A3B-Preview が公開、生成速度を前面に",
+        "sourceUrl": "https://pc.watch.impress.co.jp/docs/news/2152177.html"
+      }
+    ],
+    "watch": [
+      "Coinbase の決算発表と、暗号資産の下げが同社株にどう跳ね返るか",
+      "BNB Chain の Jenner のメインネット日程と、決済専用枠の実際の使われ方",
+      "通販・委託先の不正アクセスの続報で、対象件数と漏れた項目が確定するか"
+    ]
+  },
+  "observationStatus": "absent"
+}
