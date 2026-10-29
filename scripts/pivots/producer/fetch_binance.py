@@ -14,7 +14,9 @@ recorded bytes; production passes the default urllib-based client.
 """
 from __future__ import annotations
 
+import http.client
 import json
+import ssl
 import time
 import urllib.error
 import urllib.request
@@ -39,14 +41,36 @@ HttpGet = Callable[[str], bytes]
 # Longer outages (e.g. DNS not ready right after the Mac wakes at 08:00) are covered by
 # the whole-run retry in ops.run_daily.
 FETCH_RETRY_WAITS_SECONDS: tuple[float, ...] = (2.0, 5.0)
+# Printed by run_producer when a run failed because of the network (ops.run_daily retries on it).
+NETWORK_FAILURE_MARKER = "[pivots-producer] failure_class=network"
 _TRANSIENT_HTTP_CODES = frozenset({429, 500, 502, 503, 504})
 
 
 def is_transient_network_error(exc: BaseException) -> bool:
-    """True for errors worth retrying: DNS / connection / timeout, HTTP 429 and 5xx."""
+    """True for errors worth retrying: DNS / connection / timeout / dropped or cut-off
+    responses / TLS read errors, HTTP 429 and 5xx.
+
+    Any other URLError (e.g. a certificate error) also counts: right after the Mac wakes,
+    an unsynced clock can make those temporary too.
+    """
     if isinstance(exc, urllib.error.HTTPError):  # subclass of URLError — check first
         return exc.code in _TRANSIENT_HTTP_CODES
-    return isinstance(exc, (urllib.error.URLError, TimeoutError, ConnectionError))
+    return isinstance(
+        exc,
+        (urllib.error.URLError, TimeoutError, ConnectionError, http.client.HTTPException, ssl.SSLError),
+    )
+
+
+def is_network_failure(exc: BaseException) -> bool:
+    """True if `exc` or anything in its cause / context chain is a transient network error."""
+    seen: set[int] = set()
+    cur: BaseException | None = exc
+    while cur is not None and id(cur) not in seen:
+        if is_transient_network_error(cur):
+            return True
+        seen.add(id(cur))
+        cur = cur.__cause__ or cur.__context__
+    return False
 
 
 def get_with_retry(

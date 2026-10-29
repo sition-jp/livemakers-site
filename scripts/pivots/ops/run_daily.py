@@ -27,6 +27,7 @@ from typing import Sequence
 from ops.alert import AlertPayload, dispatch
 from ops.lock import LockBusy, acquire_lock
 from ops.retain import archive, prune
+from producer.fetch_binance import NETWORK_FAILURE_MARKER
 
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
 DEFAULT_ASSETS = REPO_ROOT / "data" / "pivot_assets.live.json"
@@ -37,16 +38,13 @@ DEFAULT_LOG = REPO_ROOT / "scripts" / "pivots" / "ops.log.jsonl"
 DEFAULT_KEEP = 7
 LOCK_PATH = REPO_ROOT / "scripts" / "pivots" / ".run_daily.lock"
 
-# A producer step that failed with a network-looking error is re-run after these waits
-# (2026-10-27: DNS was not ready at 08:00 and the screen stayed a day old). Bounded:
-# at most 3 extra runs, ~17 minutes of waiting. Other failures stop at once as before.
+# A producer step (dry-run, live write) that failed because of the network is re-run after
+# these waits (2026-10-27: DNS was not ready at 08:00 and the screen stayed a day old).
+# The producer decides "network" itself and prints NETWORK_FAILURE_MARKER; soft
+# `*_degraded=` warnings never trigger a retry. Bounded: at most 3 extra runs per step,
+# ~17 minutes of waiting per step (~34 minutes if both steps hit it). Other failures stop
+# at once as before.
 NETWORK_RETRY_WAITS_SECONDS: tuple[int, ...] = (120, 300, 600)
-_NETWORK_FAILURE_RE = re.compile(
-    r"urlopen error|nodename nor servname|name or service not known"
-    r"|temporary failure in name resolution|timed out|connection reset|connection refused"
-    r"|network is unreachable|HTTP Error (?:429|5\d\d)",
-    re.IGNORECASE,
-)
 _sleep = time.sleep
 
 
@@ -117,11 +115,11 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
 
 
 def _looks_like_network_failure(output: str) -> bool:
-    return bool(_NETWORK_FAILURE_RE.search(output))
+    return NETWORK_FAILURE_MARKER in output
 
 
-def _invoke_producer_retrying(args: Sequence[str]) -> tuple[ProducerInvocation, int]:
-    """Run the producer; re-run after a wait while it fails with a network error.
+def _invoke_producer_retrying(args: Sequence[str], label: str) -> tuple[ProducerInvocation, int]:
+    """Run the producer; re-run after a wait while it fails because of the network.
 
     Returns the last result and the number of attempts.
     """
@@ -131,6 +129,7 @@ def _invoke_producer_retrying(args: Sequence[str]) -> tuple[ProducerInvocation, 
         result = _invoke_producer(args)
         if result.returncode == 0 or wait is None or not _looks_like_network_failure(result.output):
             return result, attempts
+        print(f"[run_daily] network failure in {label}; attempt {attempts + 1} in {wait}s", flush=True)
         _sleep(wait)
     raise AssertionError("unreachable")
 
@@ -256,7 +255,7 @@ def _run_inside_lock(
         "--derivatives-history-path", str(derivatives_history_path),
         "--dry-run",
     ]
-    result, dry_attempts = _invoke_producer_retrying(dry_args)
+    result, dry_attempts = _invoke_producer_retrying(dry_args, "dry-run")
     rc = result.returncode
     if rc != 0:
         details = _producer_failure_details("dry-run", result)
@@ -281,7 +280,7 @@ def _run_inside_lock(
         "--backtest-path", str(backtest_path),
         "--derivatives-history-path", str(derivatives_history_path),
     ]
-    live_result, live_attempts = _invoke_producer_retrying(live_args)
+    live_result, live_attempts = _invoke_producer_retrying(live_args, "live-write")
     rc = live_result.returncode
     sidecar_warnings = list(live_result.sidecar_warnings)
     if rc != 0:

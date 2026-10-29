@@ -50,7 +50,7 @@ from producer.derivatives_sidecar import (
     load_derivatives_history_sidecar,
 )
 from producer import daily_series, forecast, price_history_block
-from producer.fetch_binance import BinanceFetcher
+from producer.fetch_binance import NETWORK_FAILURE_MARKER, BinanceFetcher, is_network_failure
 from producer.types import ASSETS, HORIZONS
 
 REPO_ROOT = Path(__file__).resolve().parents[3]  # livemakers-site repo root
@@ -595,6 +595,9 @@ def run_producer(
             assets_payload["previous"] = previous
     except Exception as exc:  # noqa: BLE001
         print(f"[pivots-producer] compose failed: {exc}", file=sys.stderr)
+        if is_network_failure(exc):
+            # ops.run_daily re-runs the step only when it sees this marker.
+            print(NETWORK_FAILURE_MARKER, file=sys.stderr)
         return 1
 
     try:
