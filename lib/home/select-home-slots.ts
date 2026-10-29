@@ -74,6 +74,8 @@ export interface HomeSlots {
   atlasLatest: ArticleMeta | null;
   mkt12WeekendLatest: ArticleMeta | null;
   weeklyBriefLatest: ArticleMeta | null;
+  // 2026-10-29 田平氏 GO: 金融再起動の現在地 (月 1 回) の最新号。索引意味論
+  restartMapLatest: ArticleMeta | null;
   // 資金調達の枠 (入口 ②): 記事の時計より未来を除き新しい順に最大 5 本。索引意味論
   fundingArticles: ArticleMeta[];
 }
@@ -247,7 +249,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   take(deepDives[0]);
 
   // 索引意味論スロット (used に加えない・本体記事の再掲を許す): latestArticles /
-  // atlasLatest / mkt12WeekendLatest / weeklyBriefLatest。
+  // atlasLatest / mkt12WeekendLatest / weeklyBriefLatest / restartMapLatest。
   // 2026-08-14 田平氏指示: 最新の記事は 10 → 20 本。
   // 2026-09-11 Task 13: flash (速報) はホームのヒーロー/最新レールに乗せない
   // (専用シリーズページのみ・SIPO 先行例と同型)。lead は dailyIntel 由来のため
@@ -260,6 +262,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const atlasLatest = latestOf("future-map");
   const mkt12WeekendLatest = latestOf("mkt12-weekend");
   const weeklyBriefLatest = latestOf("weekly-brief");
+  const restartMapLatest = latestOf("restart-map");
   const fundingArticles = input.fundingArticles
     .toSorted((left, right) =>
       right.publishedAtJst.localeCompare(left.publishedAtJst),
@@ -280,6 +283,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     atlasLatest,
     mkt12WeekendLatest,
     weeklyBriefLatest,
+    restartMapLatest,
     fundingArticles,
   };
 }
@@ -287,7 +291,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
 /**
  * 本体 (body) スロットの articleId のみを返す (gate 6 の重複検査対象)。
  * 索引意味論スロット (deepDives[1..] / latestArticles / atlasLatest /
- * mkt12WeekendLatest / weeklyBriefLatest / fundingArticles) は data-index-nav 扱いで
+ * mkt12WeekendLatest / weeklyBriefLatest / restartMapLatest / fundingArticles) は data-index-nav 扱いで
  * 本体記事の再掲を許すため、ここには含めない (D7 索引意味論)。
  */
 export function collectSelectedArticleIds(slots: HomeSlots): string[] {

@@ -159,7 +159,8 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     expect(rail.compareDocumentPosition(body) & Node.DOCUMENT_POSITION_PRECEDING).toBeTruthy();
   });
 
-  it("renders the nine-section rail with the current series first and current article excluded", async () => {
+  // 2026-10-29 田平氏 GO: restart-map (金融再起動の現在地) が常設の枠に加わり 10 カテゴリ
+  it("renders the ten-section rail with the current series first and current article excluded", async () => {
     const { container } = await renderDetail("sig-mid");
     const sections = [...container.querySelectorAll("[data-rail-section]")].map(
       (element) => element.getAttribute("data-rail-section"),
@@ -168,6 +169,7 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
       "signal",
       "session-terminal",
       "daily-intel",
+      "restart-map",
       "latest-articles",
       "mkt12-morning",
       "event-risk-radar",

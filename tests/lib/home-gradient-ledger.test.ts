@@ -36,8 +36,9 @@ describe("gradient ledger", () => {
     ]);
     // 2026-10-26 田平氏 GO: スマホでは Event Risk を「最新の記事」の直前に出す
     // (event-risk-mobile = スマホだけの表現・左の event-risk はスマホで非表示)。
+    // 2026-10-29 田平氏 GO: 金融再起動の現在地 (restart-map) を記事の枠に加える (新着順に混ぜる)。
     expect(REGION_MODULES.lagging).toEqual([
-      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "event-risk-mobile",
+      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "restart-map", "event-risk-mobile",
       "latest-articles", "turning-point-reserved",
     ]);
   });
@@ -45,7 +46,7 @@ describe("gradient ledger", () => {
     expect(INDEX_NAV_MODULES).toEqual([
       "lead-card-mobile", "mkt12-card-mobile",
       "flash-list", "event-risk-mobile",
-      "atlas-entry", "mkt12-weekend", "weekly-brief", "funding", "latest-articles",
+      "atlas-entry", "mkt12-weekend", "weekly-brief", "restart-map", "funding", "latest-articles",
     ]);
   });
 });

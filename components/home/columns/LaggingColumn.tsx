@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { buildAtlasEntry } from "@/lib/home/atlas-entry";
 import { type GradientRegion } from "@/lib/home/gradient-ledger";
 import { orderLaggingModules } from "@/lib/home/lagging-order";
+import { restartStageSummary } from "@/lib/restart-map/stages";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { DeepDiveShelf } from "../DeepDiveShelf";
 import { EventRiskModule } from "../EventRiskModule";
@@ -17,9 +18,9 @@ const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
 
 /**
  * 右カラム = 遅行 (索引) (G44 D7)。モジュールの集合と末尾固定枠は勾配台帳
- * REGION_MODULES.lagging。**記事 4 枠 (Deep Dive / 未来アトラス / 週末の12指標 /
- * Weekly Brief) は各枠の最新記事の公開順に動的に並ぶ** (2026-08-23 田平氏 GO A・
- * `orderLaggingModules`)。Event Risk (スマホ専用の写し・2026-10-26) ⑤ 最新記事
+ * REGION_MODULES.lagging。**記事 5 枠 (Deep Dive / 未来アトラス / 週末の12指標 /
+ * Weekly Brief / 金融再起動の現在地) は各枠の最新記事の公開順に動的に並ぶ**
+ * (2026-08-23 田平氏 GO A・`orderLaggingModules`・restart-map は 2026-10-29 追加)。Event Risk (スマホ専用の写し・2026-10-26) ⑤ 最新記事
  * ⑥ Turning Point 予約席 (非表示) は末尾固定。
  * 台帳順の説明: ① Deep Dive (featured + title 4) ② 未来アトラス入口 (flag-aware)
  * ③ 週末の12指標 ④ Weekly Brief (latest null なら記事ブロック末尾)。②〜④ は
@@ -85,6 +86,22 @@ export function LaggingColumn({
             entryLabel={copy.gradient.viewAll}
             latest={slots.weeklyBriefLatest}
             copy={indexCopy}
+          />
+        );
+      case "restart-map":
+        // 2026-10-29 田平氏 GO (C 案): 新着順に混ぜ、確定した段階の 1 行を添える
+        return (
+          <IndexEntryCard
+            heading={copy.familyLabels["restart-map"]}
+            entryHref="/articles/series/restart-map"
+            entryLabel={copy.gradient.viewAll}
+            latest={slots.restartMapLatest}
+            copy={indexCopy}
+            stageLine={
+              slots.restartMapLatest
+                ? restartStageSummary(slots.restartMapLatest.articleId)
+                : null
+            }
           />
         );
       case "event-risk-mobile":
