@@ -18,6 +18,7 @@ import os
 import re
 import subprocess
 import sys
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -35,6 +36,18 @@ DEFAULT_HISTORY = REPO_ROOT / "data" / "pivots-history"
 DEFAULT_LOG = REPO_ROOT / "scripts" / "pivots" / "ops.log.jsonl"
 DEFAULT_KEEP = 7
 LOCK_PATH = REPO_ROOT / "scripts" / "pivots" / ".run_daily.lock"
+
+# A producer step that failed with a network-looking error is re-run after these waits
+# (2026-10-27: DNS was not ready at 08:00 and the screen stayed a day old). Bounded:
+# at most 3 extra runs, ~17 minutes of waiting. Other failures stop at once as before.
+NETWORK_RETRY_WAITS_SECONDS: tuple[int, ...] = (120, 300, 600)
+_NETWORK_FAILURE_RE = re.compile(
+    r"urlopen error|nodename nor servname|name or service not known"
+    r"|temporary failure in name resolution|timed out|connection reset|connection refused"
+    r"|network is unreachable|HTTP Error (?:429|5\d\d)",
+    re.IGNORECASE,
+)
+_sleep = time.sleep
 
 
 @dataclass(frozen=True)
@@ -101,6 +114,29 @@ def _invoke_producer(args: Sequence[str]) -> ProducerInvocation:
         bulk_warnings=_parse_bulk_warnings(output),
         other_warnings=_parse_other_warnings(output),
     )
+
+
+def _looks_like_network_failure(output: str) -> bool:
+    return bool(_NETWORK_FAILURE_RE.search(output))
+
+
+def _invoke_producer_retrying(args: Sequence[str]) -> tuple[ProducerInvocation, int]:
+    """Run the producer; re-run after a wait while it fails with a network error.
+
+    Returns the last result and the number of attempts.
+    """
+    attempts = 0
+    for wait in (*NETWORK_RETRY_WAITS_SECONDS, None):
+        attempts += 1
+        result = _invoke_producer(args)
+        if result.returncode == 0 or wait is None or not _looks_like_network_failure(result.output):
+            return result, attempts
+        _sleep(wait)
+    raise AssertionError("unreachable")
+
+
+def _attempts_note(label: str, attempts: int) -> str:
+    return f"network retry: {label} {attempts} attempts" if attempts > 1 else ""
 
 
 def _invoke_publisher(args: Sequence[str]) -> PublisherInvocation:
@@ -220,9 +256,12 @@ def _run_inside_lock(
         "--derivatives-history-path", str(derivatives_history_path),
         "--dry-run",
     ]
-    result = _invoke_producer(dry_args)
+    result, dry_attempts = _invoke_producer_retrying(dry_args)
     rc = result.returncode
     if rc != 0:
+        details = _producer_failure_details("dry-run", result)
+        if dry_attempts > 1:
+            details = f"{details} | gave up after {dry_attempts} attempts (network)"
         _alert(
             log_file,
             status="FAILED",
@@ -231,7 +270,7 @@ def _run_inside_lock(
             target_paths=targets,
             previous_snapshot_preserved=True,
             orphan_bak_present=_orphan_bak_present(assets_path, backtest_path),
-            details=_producer_failure_details("dry-run", result),
+            details=details,
             notify_ok=notify_ok,
         )
         return rc
@@ -242,10 +281,13 @@ def _run_inside_lock(
         "--backtest-path", str(backtest_path),
         "--derivatives-history-path", str(derivatives_history_path),
     ]
-    live_result = _invoke_producer(live_args)
+    live_result, live_attempts = _invoke_producer_retrying(live_args)
     rc = live_result.returncode
     sidecar_warnings = list(live_result.sidecar_warnings)
     if rc != 0:
+        details = _producer_failure_details("live-write", live_result)
+        if live_attempts > 1:
+            details = f"{details} | gave up after {live_attempts} attempts (network)"
         _alert(
             log_file,
             status="FAILED",
@@ -254,10 +296,15 @@ def _run_inside_lock(
             target_paths=targets,
             previous_snapshot_preserved=True,
             orphan_bak_present=_orphan_bak_present(assets_path, backtest_path),
-            details=_producer_failure_details("live-write", live_result),
+            details=details,
             notify_ok=notify_ok,
         )
         return rc
+    retry_notes = [
+        note
+        for note in (_attempts_note("dry-run", dry_attempts), _attempts_note("live-write", live_attempts))
+        if note
+    ]
 
     warning_detail = ""
     if sidecar_warnings:
@@ -469,6 +516,8 @@ def _run_inside_lock(
         success_details = f"{success_details} | production publish: {suffix}"
     elif sidecar_blocked:
         success_details += " | production publish: disabled"
+    if retry_notes:
+        success_details += " | " + "; ".join(retry_notes)
 
     _alert(
         log_file,

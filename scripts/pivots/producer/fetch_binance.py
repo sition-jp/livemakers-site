@@ -15,6 +15,8 @@ recorded bytes; production passes the default urllib-based client.
 from __future__ import annotations
 
 import json
+import time
+import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from typing import Callable, Literal
@@ -33,10 +35,44 @@ BINANCE_KLINES_MAX_LIMIT = 1000
 HttpGet = Callable[[str], bytes]
 
 
-def _default_http_get(url: str) -> bytes:
+# Waits between attempts of one request on a transient network error (3 attempts in all).
+# Longer outages (e.g. DNS not ready right after the Mac wakes at 08:00) are covered by
+# the whole-run retry in ops.run_daily.
+FETCH_RETRY_WAITS_SECONDS: tuple[float, ...] = (2.0, 5.0)
+_TRANSIENT_HTTP_CODES = frozenset({429, 500, 502, 503, 504})
+
+
+def is_transient_network_error(exc: BaseException) -> bool:
+    """True for errors worth retrying: DNS / connection / timeout, HTTP 429 and 5xx."""
+    if isinstance(exc, urllib.error.HTTPError):  # subclass of URLError — check first
+        return exc.code in _TRANSIENT_HTTP_CODES
+    return isinstance(exc, (urllib.error.URLError, TimeoutError, ConnectionError))
+
+
+def get_with_retry(
+    url: str,
+    raw_get: HttpGet,
+    *,
+    sleep: Callable[[float], None] = time.sleep,
+) -> bytes:
+    for wait in (*FETCH_RETRY_WAITS_SECONDS, None):
+        try:
+            return raw_get(url)
+        except Exception as exc:
+            if wait is None or not is_transient_network_error(exc):
+                raise
+            sleep(wait)
+    raise AssertionError("unreachable")
+
+
+def _raw_http_get(url: str) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": "livemakers-pivots/0.1"})
     with urllib.request.urlopen(req, timeout=20) as resp:
         return resp.read()
+
+
+def _default_http_get(url: str) -> bytes:
+    return get_with_retry(url, _raw_http_get)
 
 
 def _optional_float(value: object) -> float | None:
