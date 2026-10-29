@@ -6,6 +6,7 @@ import {
   pickForecast,
   forecastLines,
   trendLine,
+  TREND_GAP_PCT,
   ladderRows,
   pctChange,
   formatPrice,
@@ -30,6 +31,10 @@ describe("forecastLevel", () => {
     expect(forecastLevel(59.9, 50)).toBe("usual");
     expect(forecastLevel(40, 50)).toBe("below");
     expect(forecastLevel(40.1, 50)).toBe("usual");
+  });
+  it("is not broken by floating-point error on one-decimal inputs", () => {
+    expect(forecastLevel(20.4, 10.4)).toBe("above");
+    expect(forecastLevel(10.4, 20.4)).toBe("below");
   });
 });
 
@@ -78,21 +83,37 @@ describe("forecastLines", () => {
 });
 
 describe("trendLine", () => {
-  it("prefers 90d", () => {
+  it("prefers 90d and returns the full message key", () => {
     expect(trendLine({ ret_30d_pct: -2.8, ret_90d_pct: 25.3 })).toEqual({
       key: "up",
-      values: { r30: "−2.8", r90: "+25.3" },
+      values: { r30: "\u22122.8", r90: "+25.3" },
     });
     expect(trendLine({ ret_30d_pct: 20, ret_90d_pct: -10 })?.key).toBe("down");
     expect(trendLine({ ret_30d_pct: 20, ret_90d_pct: 9.9 })?.key).toBe("flat");
   });
-  it("falls back to 30d", () => {
-    expect(trendLine({ ret_30d_pct: 10 })).toEqual({ key: "up", values: { r30: "+10.0" } });
-    expect(trendLine({ ret_30d_pct: -3 })?.key).toBe("flat");
+  it("is up at exactly +10 and down at exactly -10 (90d)", () => {
+    expect(trendLine({ ret_30d_pct: 0, ret_90d_pct: 10 })?.key).toBe("up");
+    expect(trendLine({ ret_30d_pct: 0, ret_90d_pct: -10 })?.key).toBe("down");
+    expect(TREND_GAP_PCT).toBe(10);
+  });
+  it("30-only variants", () => {
+    expect(trendLine({ ret_30d_pct: 10 })).toEqual({ key: "up_30only", values: { r30: "+10.0" } });
+    expect(trendLine({ ret_30d_pct: -10 })?.key).toBe("down_30only");
+    expect(trendLine({ ret_30d_pct: -3 })?.key).toBe("flat_30only");
+  });
+  it("90-only variants", () => {
+    expect(trendLine({ ret_90d_pct: 12 })).toEqual({ key: "up_90only", values: { r90: "+12.0" } });
+    expect(trendLine({ ret_90d_pct: -12 })?.key).toBe("down_90only");
+    expect(trendLine({ ret_90d_pct: 1 })?.key).toBe("flat_90only");
   });
   it("is null with neither", () => {
     expect(trendLine({})).toBeNull();
     expect(trendLine(undefined)).toBeNull();
+  });
+  it("every returned key exists in ja and en messages", () => {
+    const keys = ["up","up_30only","up_90only","down","down_30only","down_90only","flat","flat_30only","flat_90only"];
+    for (const m of [ja, en] as unknown as { turningPoints: { forecast: { trend: Record<string, string> } } }[])
+      for (const k of keys) expect(m.turningPoints.forecast.trend[k]).toBeTruthy();
   });
 });
 

@@ -13,7 +13,8 @@ export const SIGNAL_GAP_PTS = 10;
 export type Level = "above" | "usual" | "below";
 
 export function forecastLevel(todayPct: number, usualPct: number): Level {
-  const gap = todayPct - usualPct;
+  // 小数 1 桁の入力で浮動小数の誤差 (20.4 − 10.4 = 9.999…) が境界を割らないよう 1 桁に丸める
+  const gap = Math.round((todayPct - usualPct) * 10) / 10;
   if (gap >= SIGNAL_GAP_PTS) return "above";
   if (gap <= -SIGNAL_GAP_PTS) return "below";
   return "usual";
@@ -121,13 +122,20 @@ export function formatDay(iso: string, locale: "ja" | "en"): string {
 
 // --- トレンド ---
 
+export const TREND_GAP_PCT = 10;
+
+export type TrendKey =
+  | "up" | "up_30only" | "up_90only"
+  | "down" | "down_30only" | "down_90only"
+  | "flat" | "flat_30only" | "flat_90only";
+
 export type TrendLine = {
-  key: "up" | "down" | "flat";
+  key: TrendKey;
   values: { r30?: string; r90?: string };
 };
 
-/** 90 日優先 (±10)。90 日が無ければ 30 日で同じ判定。両方無ければ null。
- *  values は formatSignedPct 済み (% は文言側)。片方しか無いときはそのキーだけ入る。 */
+/** 90 日優先 (±TREND_GAP_PCT)。90 日が無ければ 30 日で同じ判定。両方無ければ null。
+ *  key は文言キーそのもの (片方しか無いときは _30only / _90only)。values は formatSignedPct 済み (% は文言側)。 */
 export function trendLine(
   trend: { ret_30d_pct?: number; ret_90d_pct?: number } | undefined,
 ): TrendLine | null {
@@ -135,11 +143,12 @@ export function trendLine(
   const r90 = trend?.ret_90d_pct;
   const basis = r90 ?? r30;
   if (basis === undefined) return null;
-  const key = basis >= 10 ? "up" : basis <= -10 ? "down" : "flat";
+  const dir = basis >= TREND_GAP_PCT ? "up" : basis <= -TREND_GAP_PCT ? "down" : "flat";
+  const suffix = r30 !== undefined && r90 !== undefined ? "" : r30 !== undefined ? "_30only" : "_90only";
   const values: TrendLine["values"] = {};
   if (r30 !== undefined) values.r30 = formatSignedPct(r30);
   if (r90 !== undefined) values.r90 = formatSignedPct(r90);
-  return { key, values };
+  return { key: `${dir}${suffix}` as TrendKey, values };
 }
 
 // --- 強さのはしご ---
