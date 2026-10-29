@@ -81,9 +81,13 @@ describe("forecast-screen 判定", () => {
     const two = snap({ radar: [{ symbol: "BTC", scores: {} }, { symbol: "ETH", scores: {} }] });
     expect(allForecastScreen(two)).toBe(false);
   });
-  it("今の終値 = 最後の close", () => {
-    expect(nowCloseOf(snap(), "BTC")).toBe(81174.45);
+  it("今の終値 = 最後の行の close・最後の行に close が無ければ null (さかのぼって拾わない)", () => {
+    expect(nowCloseOf(snap(), "BTC")).toBeNull(); // 最後の行 (10/29) に close なし
     expect(nowCloseOf(snap(), "ETH")).toBeNull();
+    const withToday = snap({
+      forecast_history: { BTC: [{ date: "2026-10-28", close: 81174.45, backfilled: false }, { date: "2026-10-29", close: 82000, backfilled: false }] },
+    });
+    expect(nowCloseOf(withToday, "BTC")).toBe(82000);
   });
 });
 
@@ -99,8 +103,9 @@ describe("AssetForecastView", () => {
   });
 
   it("期間切り替え・状態ブロック・旧タイムラインは出さない", () => {
-    wrap("ja", <AssetForecastView asset="BTC" snapshot={snap()} />);
-    expect(screen.queryByTestId("horizon-link-30D")).toBeNull();
+    const { container } = wrap("ja", <AssetForecastView asset="BTC" snapshot={snap()} />);
+    expect(container.querySelector("a[href*='?h=']")).toBeNull();
+    expect(container.querySelector("nav")).toBeNull();
     expect(screen.queryByTestId("state-block")).toBeNull();
     expect(screen.queryByTestId("delta-overall")).toBeNull();
   });

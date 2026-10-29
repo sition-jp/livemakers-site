@@ -1148,7 +1148,7 @@
         "top": "top",
         "bottom": "bottom"
       },
-      "last": "{kind} on {date}: {close} ({pct}% from now)",
+      "last": "{kind} on {date}: {close} (to now: {pct}%)",
       "last_nopct": "{kind} on {date}: {close}",
       "candidate": "Candidate {kind}: {close} on {date}",
       "condition_top": "Counted as a top after a {threshold} drop from the high = {price} or below ({pct}% from now)",

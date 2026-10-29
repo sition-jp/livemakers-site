@@ -170,6 +170,9 @@ describe("StrengthLadder", () => {
     expect(screen.getByTestId("ladder-row-cycle").textContent).toContain("安値から 5 割 戻したら底と数える = 87,937 以上");
     expect(screen.getByTestId("ladder-row-large").textContent).toContain("高値から 3 割 下げたら天井と数える = 60,634 以下");
     expect(screen.getByTestId("ladder-row-cycle").textContent).toContain("2025/10/6 の天井 124,659");
+    // 確定した価格から今までの変化は「現在まで」(「今から」は未来の動きに読める)
+    expect(screen.getByTestId("ladder-row-cycle").textContent).toMatch(/2025\/10\/6 の天井 124,659（現在まで −?\d/);
+    expect(screen.getByTestId("ladder-row-cycle").textContent).not.toMatch(/124,659（今から/);
     // Review Focus 5 の注記
     expect(screen.getByTestId("ladder-note-large").textContent).toContain("この強さの底とは数えない");
     expect(screen.queryByTestId("ladder-note-small")).toBeNull();

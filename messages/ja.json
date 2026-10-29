@@ -1148,7 +1148,7 @@
         "top": "天井",
         "bottom": "底"
       },
-      "last": "{date} の{kind} {close}（今から {pct}%）",
+      "last": "{date} の{kind} {close}（現在まで {pct}%）",
       "last_nopct": "{date} の{kind} {close}",
       "candidate": "{kind}の候補: {date} の {close}",
       "condition_top": "高値から {threshold} 下げたら天井と数える = {price} 以下（今から {pct}%）",

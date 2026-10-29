@@ -16,12 +16,7 @@ export function allForecastScreen(snapshot: PivotAssetsSnapshot | null | undefin
   return snapshot.radar.every((a) => hasForecastScreen(snapshot, a.symbol));
 }
 
-/** 「今」の終値 = forecast_history の最後の close。無ければ null。 */
+/** 「今」の終値 = forecast_history の最後の行 (今日の行) の close。close が無ければ null (「今から ○%」を出さない)。 */
 export function nowCloseOf(snapshot: PivotAssetsSnapshot, asset: AssetSymbol): number | null {
-  const h = snapshot.forecast_history?.[asset] ?? [];
-  for (let i = h.length - 1; i >= 0; i--) {
-    const c = h[i].close;
-    if (c !== undefined) return c;
-  }
-  return null;
+  return snapshot.forecast_history?.[asset]?.at(-1)?.close ?? null;
 }
