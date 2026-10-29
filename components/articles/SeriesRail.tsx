@@ -2,10 +2,11 @@ import { Link } from "@/i18n/navigation";
 import type { ArticleFamily, ArticleMeta } from "@/lib/articles/article-model";
 import { ArticleRow } from "@/components/home/ArticleRow";
 import { buildAtlasEntry } from "@/lib/home/atlas-entry";
+import { restartStageSummary } from "@/lib/restart-map/stages";
 
 /**
- * 記事詳細の 9 カテゴリ索引レール (G44 D9)。並び順は spec §4 で固定し、現在記事の
- * シリーズ枠だけを「このシリーズの他の記事」として先頭へ移す (9 カテゴリ総数は不変)。
+ * 記事詳細のカテゴリ索引レール (G44 D9・2026-10-29 から 10 カテゴリ)。並び順は spec §4 で固定し、現在記事の
+ * シリーズ枠だけを「このシリーズの他の記事」として先頭へ移す (カテゴリ総数は不変)。
  * - ① Session Terminal は入口リンクのみ (session family 記事は catalog に無い前提・P3-8)。
  * - ⑦ 未来アトラスは D4 と同じ flag 単一導出 (buildAtlasEntry・G46 §11.3)。
  * - ④ 最新の記事 = 全 family 更新順 20 本 (2026-08-21 田平氏指示で Deep Dive 常設枠を
@@ -14,12 +15,16 @@ import { buildAtlasEntry } from "@/lib/home/atlas-entry";
  *   先頭へ 5 本の枠が立つ (置換前の挙動を維持)。
  * - 件数 = 最新の記事 20 本・current Deep Dive 5 本・他は各 1 本。
  *   全リンクは索引意味論 (data-index-nav)。
+ * - 金融再起動の現在地 (restart-map) は 2026-10-29 田平氏 GO で常設の枠に (10 カテゴリ)。
+ *   月 1 回の号を見落とさないよう Signal の後・最新の記事 20 本の前に置き、確定した
+ *   段階の 1 行 (lib/restart-map/stages) を添える。
  */
 
 export const RAIL_SECTIONS = [
   "session-terminal",
   "daily-intel",
   "signal",
+  "restart-map",
   "latest-articles",
   "mkt12-morning",
   "event-risk-radar",
@@ -29,7 +34,7 @@ export const RAIL_SECTIONS = [
 ] as const;
 // deep-dive は常設枠から外れたが current series の hoist 先としては残る。
 // landmark (節目シグナル・2026-10-03) も常設枠を持たず、閲覧中だけ current series として先頭に立つ
-export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive" | "landmark" | "restart-map";
+export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive" | "landmark";
 
 const LATEST_ARTICLES_COUNT = 20;
 
@@ -178,6 +183,11 @@ export function SeriesRail({
                         : [])
                   : ofFamily(family!, count, isCurrent);
 
+          const stageLine =
+            section === "restart-map" && rows[0]
+              ? restartStageSummary(rows[0].articleId)
+              : null;
+
           return (
             <section
               key={section}
@@ -200,6 +210,14 @@ export function SeriesRail({
                 ) : null}
               </div>
               <RailArticleList articles={rows} copy={copy} />
+              {stageLine ? (
+                <p
+                  data-restart-stages=""
+                  className="mt-2 text-xs font-semibold leading-relaxed text-text-secondary"
+                >
+                  {stageLine}
+                </p>
+              ) : null}
             </section>
           );
         })}

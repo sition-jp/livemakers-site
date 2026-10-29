@@ -11,6 +11,7 @@ import { LeadingColumn } from "@/components/home/columns/LeadingColumn";
 import { REGION_MODULES } from "@/lib/home/gradient-ledger";
 import {
   orderLaggingModules,
+  LAGGING_ARTICLE_MODULES,
   laggingModuleLatest,
 } from "@/lib/home/lagging-order";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
@@ -360,7 +361,7 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     );
   }
 
-  it("renders the four article modules newest-first, then the fixed ledger tail (2026-08-23 田平氏 GO A)", () => {
+  it("renders the article modules newest-first, then the fixed ledger tail (2026-08-23 田平氏 GO A)", () => {
     const { container } = renderLagging();
     const rendered = [
       ...container.querySelectorAll("[data-column-module]"),
@@ -374,12 +375,12 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     ]);
     // the article block really is in publishedAtJst descending order
     const stamps = rendered
-      .slice(0, 4)
+      .slice(0, LAGGING_ARTICLE_MODULES.length)
       .map(
         (module) =>
           laggingModuleLatest(
             props.slots,
-            module as "deep-dive" | "atlas-entry" | "mkt12-weekend" | "weekly-brief",
+            module as (typeof LAGGING_ARTICLE_MODULES)[number],
           )?.publishedAtJst ?? "",
       )
       .filter((stamp) => stamp !== "");
@@ -416,6 +417,60 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
     ]);
   });
 
+  // 2026-10-29 田平氏 GO: 金融再起動の現在地は新着順に混ぜ、枠の中に段階の 1 行を添える
+  const restartIssue = (articleId: string) => ({
+    ...props.slots.latestArticles[0]!,
+    articleId,
+    family: "restart-map" as const,
+    titleJa: "🗺️ 金融再起動の現在地 #1｜米国の利払い費、税収の 19.47% に",
+    publishedAtJst: "2026-07-10T23:30:00+09:00",
+    href: `/articles/${articleId}`,
+  });
+
+  it("renders restart-map with the series entry and the confirmed stage line", () => {
+    const { container } = render(
+      <LaggingColumn
+        slots={{
+          ...props.slots,
+          restartMapLatest: restartIssue("restart-map-20261026-3539f54e"),
+        }}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    const rendered = [
+      ...container.querySelectorAll("[data-column-module]"),
+    ].map((el) => el.getAttribute("data-column-module"));
+    expect(rendered[0]).toBe("restart-map");
+    const card = container.querySelector('[data-column-module="restart-map"]')!;
+    expect(card.textContent).toContain("金融再起動の現在地");
+    expect(
+      card.querySelector('a[href*="/articles/series/restart-map"]'),
+    ).not.toBeNull();
+    expect(
+      card.querySelector('[data-article-id="restart-map-20261026-3539f54e"]'),
+    ).not.toBeNull();
+    expect(card.querySelector("[data-restart-stages]")?.textContent).toBe(
+      "③ 旧システムの負荷 = 緊張 ／ ほか 6 系統は兆し〜実験",
+    );
+  });
+
+  it("omits the stage line for an issue whose stages are not confirmed in the table", () => {
+    const { container } = render(
+      <LaggingColumn
+        slots={{
+          ...props.slots,
+          restartMapLatest: restartIssue("restart-map-20261126-deadbeef"),
+        }}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    const card = container.querySelector('[data-column-module="restart-map"]')!;
+    expect(card.querySelector("[data-article-id]")).not.toBeNull();
+    expect(card.querySelector("[data-restart-stages]")).toBeNull();
+  });
+
   it("treats only the deep-dive featured article as body content", () => {
     const { container } = renderLagging();
     const deepDive = container.querySelector(
@@ -433,6 +488,7 @@ describe("LaggingColumn (gradient lagging, D7)", () => {
       "atlas-entry",
       "mkt12-weekend",
       "weekly-brief",
+      "restart-map",
       "latest-articles",
     ]) {
       const el = container.querySelector(`[data-column-module="${module}"]`)!;

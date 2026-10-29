@@ -410,6 +410,30 @@ describe("home slot selection (B+)", () => {
     );
     expect(slots.atlasLatest?.articleId).toBe("future-map-financial-reset-3");
     expect(slots.weeklyBriefLatest?.articleId).toBe("weekly-brief-001");
+    // fixture に restart-map は無い → 枠は入口だけ
+    expect(slots.restartMapLatest).toBeNull();
+  });
+
+  it("picks the newest restart-map issue without consuming it (index semantics)", () => {
+    const issue = (id: string, at: string): ArticleMeta => ({
+      articleId: id,
+      family: "restart-map",
+      titleJa: id,
+      publishedAtJst: at,
+      publishedLabel: at.slice(5, 16),
+      lanes: [],
+      href: `/articles/${id}`,
+    });
+    const slots = selectHomeSlots({
+      ...input(),
+      articles: [
+        issue("restart-map-2", "2026-07-08T20:00:00+09:00"),
+        issue("restart-map-1", "2026-06-08T20:00:00+09:00"),
+        ...input().articles,
+      ],
+    });
+    expect(slots.restartMapLatest?.articleId).toBe("restart-map-2");
+    expect(collectSelectedArticleIds(slots)).not.toContain("restart-map-2");
   });
 
   it("fundingArticles: drops future-dated, newest first, max 5 (empty by default)", () => {

@@ -32,15 +32,18 @@ const saturday: LaggingLatestSlots = {
   atlasLatest: mk("fm-0822", "future-map", "2026-08-22T10:37:00+09:00"),
   mkt12WeekendLatest: mk("we-0822", "mkt12-weekend", "2026-08-22T09:38:00+09:00"),
   weeklyBriefLatest: mk("wb-0822", "weekly-brief", "2026-08-22T07:55:00+09:00"),
+  // 月 1 回の号は、公開から日が経つと記事の枠の下へ沈む (2026-10-29 田平氏 GO・C 案)
+  restartMapLatest: mk("rm-0801", "restart-map", "2026-08-01T20:42:00+09:00"),
 };
 
-describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・末尾 2 枠固定)", () => {
-  it("names exactly the four article modules of the lagging ledger", () => {
+describe("lagging-order (2026-08-23 田平氏 GO A: 記事の枠は新着順・末尾の枠は固定)", () => {
+  it("names exactly the five article modules of the lagging ledger", () => {
     expect([...LAGGING_ARTICLE_MODULES]).toEqual([
       "deep-dive",
       "atlas-entry",
       "mkt12-weekend",
       "weekly-brief",
+      "restart-map",
     ]);
     for (const module of LAGGING_ARTICLE_MODULES) {
       expect(REGION_MODULES.lagging).toContain(module);
@@ -52,16 +55,18 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・�
     expect(laggingModuleLatest(saturday, "atlas-entry")?.articleId).toBe("fm-0822");
     expect(laggingModuleLatest(saturday, "mkt12-weekend")?.articleId).toBe("we-0822");
     expect(laggingModuleLatest(saturday, "weekly-brief")?.articleId).toBe("wb-0822");
+    expect(laggingModuleLatest(saturday, "restart-map")?.articleId).toBe("rm-0801");
     expect(laggingModuleLatest({ ...saturday, deepDives: [] }, "deep-dive")).toBeNull();
   });
 
   // 2026-10-26: 末尾の固定枠に event-risk-mobile (スマホ専用) が最新記事の直前で加わる
-  it("orders the four article modules newest-first and keeps the ledger tail fixed", () => {
+  it("orders the article modules newest-first and keeps the ledger tail fixed", () => {
     expect(orderLaggingModules(saturday)).toEqual([
       "atlas-entry",
       "mkt12-weekend",
       "weekly-brief",
       "deep-dive",
+      "restart-map",
       "event-risk-mobile",
       "latest-articles",
       "turning-point-reserved",
@@ -83,6 +88,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・�
     expect(orderLaggingModules(sparse)).toEqual([
       "mkt12-weekend",
       "deep-dive",
+      "restart-map",
       "atlas-entry",
       "weekly-brief",
       "event-risk-mobile",
@@ -98,6 +104,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・�
       atlasLatest: mk("fm", "future-map", same),
       mkt12WeekendLatest: mk("we", "mkt12-weekend", same),
       weeklyBriefLatest: mk("wb", "weekly-brief", same),
+      restartMapLatest: mk("rm", "restart-map", same),
     };
     expect(orderLaggingModules(tied)).toEqual([...REGION_MODULES.lagging]);
   });
@@ -108,8 +115,17 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事 4 枠は新着順・�
       atlasLatest: null,
       mkt12WeekendLatest: null,
       weeklyBriefLatest: null,
+      restartMapLatest: null,
     };
     expect(orderLaggingModules(empty)).toEqual([...REGION_MODULES.lagging]);
+  });
+
+  it("puts a fresh restart-map issue at the top on its publication day", () => {
+    const fresh = {
+      ...saturday,
+      restartMapLatest: mk("rm-0822", "restart-map", "2026-08-22T20:42:00+09:00"),
+    };
+    expect(orderLaggingModules(fresh)[0]).toBe("restart-map");
   });
 
   it("does not mutate the ledger", () => {

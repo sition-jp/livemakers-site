@@ -57,7 +57,8 @@ const sectionsOf = (container: HTMLElement): string[] =>
   );
 
 describe("SeriesRail (G44 D9)", () => {
-  it("renders nine sections with the current series hoisted to the front", () => {
+  // 2026-10-29 田平氏 GO: 金融再起動の現在地を常設の枠に (Signal の後・最新の記事 20 本の前)
+  it("renders ten sections with the current series hoisted to the front", () => {
     const { container } = render(
       <SeriesRail articles={catalog} current={current} surfacePublished={false} copy={copy} />,
     );
@@ -65,6 +66,7 @@ describe("SeriesRail (G44 D9)", () => {
       "signal",
       "session-terminal",
       "daily-intel",
+      "restart-map",
       "latest-articles",
       "mkt12-morning",
       "event-risk-radar",
@@ -93,7 +95,7 @@ describe("SeriesRail (G44 D9)", () => {
       />,
     );
     expect(sectionsOf(container)[0]).toBe("session-terminal");
-    expect(sectionsOf(container)).toHaveLength(9);
+    expect(sectionsOf(container)).toHaveLength(10);
   });
 
   it("shows every latest article except the current one and one article for other series", () => {
@@ -125,14 +127,14 @@ describe("SeriesRail (G44 D9)", () => {
     ).toHaveLength(20);
   });
 
-  it("hoists deep dive as the current series with five rows while keeping the nine standing sections", () => {
+  it("hoists deep dive as the current series with five rows while keeping the ten standing sections", () => {
     const ddCurrent = catalog.find((entry) => entry.articleId === "dd-1")!;
     const { container } = render(
       <SeriesRail articles={catalog} current={ddCurrent} surfacePublished={false} copy={copy} />,
     );
     const sections = sectionsOf(container);
     expect(sections[0]).toBe("deep-dive");
-    expect(sections).toHaveLength(10);
+    expect(sections).toHaveLength(11);
     const ddSection = container.querySelector('[data-rail-section="deep-dive"]')!;
     expect(ddSection.textContent).toContain(copy.currentSeriesTitle);
     expect(ddSection.querySelectorAll("[data-article-id]")).toHaveLength(5);
@@ -173,6 +175,34 @@ describe("SeriesRail (G44 D9)", () => {
     const section = container.querySelector('[data-rail-section="weekly-brief"]')!;
     expect(section.querySelector('a[href="/articles/series/weekly-brief"]')).not.toBeNull();
     expect(section.querySelectorAll("[data-article-id]")).toHaveLength(0);
+  });
+
+  it("shows the newest restart-map issue with its confirmed stage line", () => {
+    const issue = article("restart-map-20261026-3539f54e", "restart-map", "2026-07-02T20:42:00+09:00");
+    const { container } = render(
+      <SeriesRail
+        articles={[...catalog, issue]}
+        current={current}
+        surfacePublished={false}
+        copy={copy}
+      />,
+    );
+    const section = container.querySelector('[data-rail-section="restart-map"]')!;
+    expect(section.textContent).toContain("金融再起動の現在地");
+    expect(section.querySelector('a[href="/articles/series/restart-map"]')).not.toBeNull();
+    expect(section.querySelector(`[data-article-id="${issue.articleId}"]`)).not.toBeNull();
+    expect(section.querySelector("[data-restart-stages]")?.textContent).toBe(
+      "③ 旧システムの負荷 = 緊張 ／ ほか 6 系統は兆し〜実験",
+    );
+  });
+
+  it("keeps restart-map as an entry without a stage line when there is no issue", () => {
+    const { container } = render(
+      <SeriesRail articles={catalog} current={current} surfacePublished={false} copy={copy} />,
+    );
+    const section = container.querySelector('[data-rail-section="restart-map"]')!;
+    expect(section.querySelector('a[href="/articles/series/restart-map"]')).not.toBeNull();
+    expect(section.querySelector("[data-restart-stages]")).toBeNull();
   });
 
   it("marks every rail link as index navigation", () => {

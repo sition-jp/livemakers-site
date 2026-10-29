@@ -3,11 +3,12 @@ import type { HomeSlots } from "@/lib/home/select-home-slots";
 import { REGION_MODULES } from "./gradient-ledger";
 
 /**
- * 右カラム (lagging) の記事 4 枠を「各枠の最新記事の公開順」に並べる
- * (2026-08-23 田平氏 GO・A 案 = 4 枠すべて新着順)。
+ * 右カラム (lagging) の記事の枠を「各枠の最新記事の公開順」に並べる
+ * (2026-08-23 田平氏 GO・A 案 = すべて新着順)。2026-10-29 田平氏 GO (C 案) で
+ * restart-map (金融再起動の現在地) が 5 つ目の枠として加わった。
  *
  * - 台帳 (REGION_MODULES.lagging) は「枠の集合 + 末尾固定枠の順」の正本として
- *   不変。本関数はその記事 4 枠だけを publishedAtJst 降順に並べ替え、末尾の
+ *   不変。本関数はその記事の枠だけを publishedAtJst 降順に並べ替え、末尾の
  *   索引枠 (latest-articles / turning-point-reserved) は台帳順のまま後ろに付ける
  * - 記事が無い枠は記事ブロックの末尾 (複数なら台帳順)・同時刻は台帳順
  * - DOM 順で並べるのでモバイル縦積み・スクリーンリーダーも自動で一致する
@@ -18,13 +19,18 @@ export const LAGGING_ARTICLE_MODULES = [
   "atlas-entry",
   "mkt12-weekend",
   "weekly-brief",
+  "restart-map",
 ] as const;
 
 export type LaggingArticleModule = (typeof LAGGING_ARTICLE_MODULES)[number];
 
 export type LaggingLatestSlots = Pick<
   HomeSlots,
-  "deepDives" | "atlasLatest" | "mkt12WeekendLatest" | "weeklyBriefLatest"
+  | "deepDives"
+  | "atlasLatest"
+  | "mkt12WeekendLatest"
+  | "weeklyBriefLatest"
+  | "restartMapLatest"
 >;
 
 export function isLaggingArticleModule(
@@ -47,6 +53,8 @@ export function laggingModuleLatest(
       return slots.mkt12WeekendLatest;
     case "weekly-brief":
       return slots.weeklyBriefLatest;
+    case "restart-map":
+      return slots.restartMapLatest;
   }
 }
 

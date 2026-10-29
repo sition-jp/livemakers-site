@@ -13,6 +13,8 @@ export interface IndexEntryCopy {
  * 最新 1 本は Deep Dive の featured と同じ ArticleCardSmall (16:9 サムネ + 抜粋) で
  * 描く (2026-08-23 田平氏指示 — 旧 ArticleRow はサムネなし)。サムネ未取得時は
  * family 色の同高さ placeholder 帯 (CLS ゼロ・ArticleThumbnail の判断)。
+ * `stageLine` は金融再起動の現在地 (restart-map) の段階の 1 行 (2026-10-29 田平氏 GO)。
+ * 最新 1 本の下に文字で添える (データ図は小さいと読めないので画像にしない)。
  */
 export function IndexEntryCard({
   heading,
@@ -20,12 +22,14 @@ export function IndexEntryCard({
   entryLabel,
   latest,
   copy,
+  stageLine = null,
 }: {
   heading: string;
   entryHref: string;
   entryLabel: string;
   latest: ArticleMeta | null;
   copy: IndexEntryCopy;
+  stageLine?: string | null;
 }) {
   return (
     <section className="rounded-lg border border-border-primary bg-bg-secondary p-4">
@@ -46,6 +50,14 @@ export function IndexEntryCard({
             familyLabel={copy.familyLabels[latest.family]}
             indexNav
           />
+          {stageLine ? (
+            <p
+              data-restart-stages=""
+              className="mt-2 text-xs font-semibold leading-relaxed text-text-secondary"
+            >
+              {stageLine}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </section>

@@ -67,11 +67,14 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   (lib/home/lagging-order.ts)。ここに書く順は「集合 + 同時刻/記事なし時の
   //   tie-break 順」で、末尾 2 枠 (latest-articles / turning-point-reserved) は固定
   //   2026-10-26: event-risk-mobile (スマホ専用) も末尾側の固定枠で最新記事の直前
+  //   2026-10-29 田平氏 GO (C 案): restart-map (金融再起動の現在地・月 1 回) を記事の
+  //   枠に加える。固定にせず新着順に混ぜ、公開直後だけ自然に上へ来る
   lagging: [
     "deep-dive",
     "atlas-entry",
     "mkt12-weekend",
     "weekly-brief",
+    "restart-map",
     "event-risk-mobile",
     "latest-articles",
     "turning-point-reserved",
@@ -81,7 +84,7 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
 /**
  * data-index-nav 扱いのモジュール (articleId 重複検査から除外 = gate 6)。
  * スマホの Daily Intel・12指標カード + 索引系 (速報リスト / 未来アトラス入口 /
- * 週末12指標 / Weekly Brief / 最新記事)。速報リストは速報帯の 1 本を再掲し得るため
+ * 週末12指標 / Weekly Brief / 金融再起動の現在地 / 最新記事)。速報リストは速報帯の 1 本を再掲し得るため
  * 索引扱い。event-risk-mobile は PC の event-risk (本体) のスマホ用の写しなので索引扱い。
  * DeepDiveShelf の featured 1 本は本体扱いのため含めない (残り 4 本の title 行が
  * data-index-nav なのはコンポーネント側で付与する)。
@@ -94,6 +97,7 @@ export const INDEX_NAV_MODULES: readonly string[] = [
   "atlas-entry",
   "mkt12-weekend",
   "weekly-brief",
+  "restart-map",
   "funding",
   "latest-articles",
 ] as const;
