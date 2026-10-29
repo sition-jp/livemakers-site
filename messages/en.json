@@ -1043,7 +1043,7 @@
     },
     "probability": {
       "heading": "Chance of a medium-or-larger top or bottom within 30 days: daily record and results",
-      "notes": "One bar = one day (that morning's chance). Thin vertical lines mark each Monday. The orange vertical line = today; the right edge = {days} days ahead",
+      "notes": "One bar = one day (that morning's chance). Thin vertical lines mark each Monday. The thick vertical line = today; the right edge = {days} days ahead",
       "legend_hit": "A top or bottom came within 30 days",
       "legend_miss": "None came",
       "legend_pending": "Result pending (window still open)",

@@ -25,10 +25,10 @@ const MINI_PAST_DAYS = 60;
 
 // Colours follow the site tokens (dark theme aware) via currentColor.
 const STATUS_CLASS: Record<BarStatus, string> = {
-  hit: "text-status-up",
+  hit: "text-status-live",
   miss: "text-text-tertiary",
   pending: "text-pillar-overview",
-  today: "text-pillar-market",
+  today: "text-pillar-projects",
 };
 const STATUS_OPACITY: Record<BarStatus, number> = {
   hit: 1,
@@ -116,12 +116,12 @@ export function ProbabilityTimeline({
       className="w-full h-auto"
     >
       <defs>
-        <pattern id={hatchId} width={4} height={4} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+        <pattern id={hatchId} width={4} height={4} patternUnits="userSpaceOnUse" patternTransform="rotate(45)" className="text-text-primary">
           <line x1={0} y1={0} x2={0} y2={4} stroke="currentColor" strokeWidth={1.5} />
         </pattern>
       </defs>
 
-      <g className="text-pillar-market" data-testid="probability-future">
+      <g className="text-pillar-projects" data-testid="probability-future">
         <rect
           x={model.future.x0}
           y={20}
@@ -183,7 +183,7 @@ export function ProbabilityTimeline({
             fillOpacity={STATUS_OPACITY[b.status]}
           />
           {b.backfilled ? (
-            <g className="text-text-primary" opacity={0.35}>
+            <g opacity={0.35}>
               <rect
                 data-testid="probability-hatch"
                 x={b.x}
@@ -251,13 +251,13 @@ export function ProbabilityTimeline({
           textAnchor="middle"
           dominantBaseline="middle"
           fill="currentColor"
-          className={m.kind === "top" ? "text-status-down" : "text-status-up"}
+          className={m.kind === "top" ? "text-pillar-risk" : "text-status-live"}
         >
           {m.kind === "top" ? "▼" : "▲"}
         </text>
       ))}
 
-      <g className="text-pillar-market">
+      <g className="text-pillar-projects">
         <line
           data-testid="probability-today-line"
           x1={model.todayX}
@@ -313,6 +313,14 @@ export function ProbabilityTimeline({
         {swatch(STATUS_CLASS.miss, STATUS_OPACITY.miss, t("legend_miss"), "miss")}
         {swatch(STATUS_CLASS.pending, STATUS_OPACITY.pending, t("legend_pending"), "pending")}
         {swatch(STATUS_CLASS.today, 1, t("legend_today"), "today")}
+        <span className="inline-flex items-center gap-1.5" data-testid="probability-legend-top">
+          <span className="text-pillar-risk">▼</span>
+          {t("top")}
+        </span>
+        <span className="inline-flex items-center gap-1.5" data-testid="probability-legend-bottom">
+          <span className="text-status-live">▲</span>
+          {t("bottom")}
+        </span>
         <span data-testid="probability-legend-backfilled">{t("legend_backfilled")}</span>
       </div>
       {svg}

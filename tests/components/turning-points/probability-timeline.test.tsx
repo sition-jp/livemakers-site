@@ -81,13 +81,15 @@ describe("ProbabilityTimeline full", () => {
     expect(bars.filter((b) => b.getAttribute("data-status") === "today")).toHaveLength(1);
     expect(bars.filter((b) => b.getAttribute("data-status") === "hit")).toHaveLength(2);
     expect(bars.filter((b) => b.getAttribute("data-status") === "miss")).toHaveLength(3);
-    expect(bars[0].parentElement?.getAttribute("class")).toContain("text-status-up");
+    expect(bars[0].parentElement?.getAttribute("class")).toContain("text-status-live");
   });
 
   it("uses a per-instance hatch pattern id", () => {
     const { container } = wrap("ja", <ProbabilityTimeline asset="BTC" history={history} turns={turns} item={item} variant="full" />);
     expect(container.querySelector("pattern#pt-hatch-BTC-full")).not.toBeNull();
     expect(screen.getAllByTestId("probability-hatch")[0].getAttribute("fill")).toBe("url(#pt-hatch-BTC-full)");
+    expect(container.querySelector("pattern#pt-hatch-BTC-full")?.getAttribute("class")).toContain("text-text-primary");
+    expect(container.innerHTML).not.toMatch(/status-up|status-down/);
   });
 
   it("labels each gap run once", () => {
@@ -115,8 +117,8 @@ describe("ProbabilityTimeline full", () => {
     expect(screen.getByTestId("probability-price")).toBeTruthy();
     const markers = screen.getAllByTestId("probability-marker");
     expect(markers.map((m) => m.textContent)).toEqual(["▼", "▲"]);
-    expect(markers[0].getAttribute("class")).toContain("text-status-down");
-    expect(markers[1].getAttribute("class")).toContain("text-status-up");
+    expect(markers[0].getAttribute("class")).toContain("text-pillar-risk");
+    expect(markers[1].getAttribute("class")).toContain("text-status-live");
     expect(Number(markers[1].getAttribute("font-size"))).toBeGreaterThan(Number(markers[0].getAttribute("font-size")));
     expect(screen.getByTestId("probability-usual-line")).toBeTruthy();
     expect(screen.getByTestId("probability-today-line")).toBeTruthy();
@@ -146,7 +148,21 @@ describe("ProbabilityTimeline mini", () => {
     expect(screen.queryByTestId("probability-legend-hit")).toBeNull();
     expect(screen.queryByTestId("probability-gap-label")).toBeNull();
     expect(screen.queryByText("10/12")).toBeNull();
-    expect(screen.getAllByTestId("probability-bar")).toHaveLength(18);
+  });
+
+  it("keeps only the last 60 calendar days of a long history", () => {
+    const long: ForecastHistoryEntry[] = [];
+    const start = Date.parse("2026-07-01T00:00:00Z");
+    for (let i = 0; i < 120; i++) {
+      const d = new Date(start + i * 86400000).toISOString().slice(0, 10);
+      long.push(day(d, 30 + (i % 10), { out: i === 119 ? undefined : "miss", close: 100 + i }));
+    }
+    const today = long[119].date;
+    wrap("ja", <ProbabilityTimeline asset="BTC" history={long} item={item} variant="mini" />);
+    const bars = screen.getAllByTestId("probability-bar");
+    expect(bars).toHaveLength(60);
+    const expectedFirst = new Date(Date.parse(`${today}T00:00:00Z`) - 59 * 86400000).toISOString().slice(0, 10);
+    expect(bars[0].getAttribute("data-date")).toBe(expectedFirst);
   });
 
   it("renders a notice when there is no history", () => {
