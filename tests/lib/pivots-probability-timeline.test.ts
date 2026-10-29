@@ -170,6 +170,51 @@ describe("buildProbabilityTimeline", () => {
     expect(m90.future.endDate).toBe(addDays("2026-10-26", 90));
   });
 
+  it("a missing calendar day keeps date-based x, Monday ticks and todayX", () => {
+    const full = mkHistory(10, "2026-10-26");
+    const holey = full.filter((_, i) => i !== 4);
+    const a = buildProbabilityTimeline({ ...base, history: full });
+    const b = buildProbabilityTimeline({ ...base, history: holey });
+    expect(b.bars).toHaveLength(9);
+    for (const bar of b.bars) {
+      expect(bar.x).toBeCloseTo(a.bars.find((x) => x.date === bar.date)!.x, 9);
+    }
+    expect(b.todayX).toBeCloseTo(a.todayX, 9);
+    expect(b.future.x0).toBeCloseTo(a.future.x0, 9);
+    expect(b.ticks).toEqual(a.ticks);
+    for (const t of b.ticks) expect(new Date(`${t.date}T00:00:00Z`).getUTCDay()).toBe(1);
+  });
+
+  it("a gap entry in the middle does not shift later bars", () => {
+    const full = mkHistory(6);
+    const withGap = full.map((e, i) =>
+      i === 2 ? { date: e.date, close: e.close, backfilled: false } : e,
+    );
+    const a = buildProbabilityTimeline({ ...base, history: full });
+    const b = buildProbabilityTimeline({ ...base, history: withGap });
+    for (const bar of b.bars) {
+      expect(bar.x).toBeCloseTo(a.bars.find((x) => x.date === bar.date)!.x, 9);
+    }
+  });
+
+  it("a gap on today's own row yields no bar and no today status", () => {
+    const h = mkHistory(5);
+    h[4] = { date: h[4].date, close: h[4].close, backfilled: false };
+    const m = buildProbabilityTimeline({ ...base, history: h });
+    expect(m.bars).toHaveLength(4);
+    expect(m.bars.some((b) => b.status === "today")).toBe(false);
+    expect(m.gaps.map((g) => g.date)).toContain(h[4].date);
+    expect(m.todayX).toBeGreaterThan(m.gaps[0].x - 1);
+  });
+
+  it("pastDays counts calendar days back from today", () => {
+    const full = mkHistory(20);
+    const holey = full.filter((_, i) => i !== 15);
+    const m = buildProbabilityTimeline({ ...base, history: holey, pastDays: 10 });
+    expect(m.bars[0].date).toBe(addDays("2026-10-26", -9));
+    expect(m.bars).toHaveLength(9);
+  });
+
   it("empty history does not throw", () => {
     const m = buildProbabilityTimeline({ ...base, history: [] });
     expect(m.bars).toEqual([]);

@@ -105,6 +105,12 @@ function addDays(iso: string, n: number): string {
   return d.toISOString().slice(0, 10);
 }
 
+function dayDiff(from: string, to: string): number {
+  return Math.round(
+    (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86400000,
+  );
+}
+
 function isMonday(iso: string): boolean {
   return new Date(`${iso}T00:00:00Z`).getUTCDay() === 1;
 }
@@ -119,23 +125,30 @@ export function buildProbabilityTimeline(
   const L = PROBABILITY_LAYOUT;
   const { event, horizon } = input;
   const all = input.history;
-  const shown =
-    input.pastDays !== undefined && input.pastDays < all.length
-      ? all.slice(all.length - Math.max(0, input.pastDays))
-      : all;
+  const todayDate = all.length > 0 ? all[all.length - 1].date : "";
+  // pastDays = calendar days back from today (entries older than that are dropped).
+  const firstDate =
+    all.length === 0
+      ? ""
+      : input.pastDays !== undefined
+        ? addDays(todayDate, -(Math.max(1, input.pastDays) - 1))
+        : all[0].date;
+  const shown = all.filter((e) => e.date >= firstDate);
   const futureDays = input.futureDays ?? HORIZON_DAYS[horizon];
-  const totalSlots = Math.max(1, shown.length + futureDays);
+  const pastSlots = all.length === 0 ? 0 : dayDiff(firstDate, todayDate) + 1;
+  const totalSlots = Math.max(1, pastSlots + futureDays);
   const slot = (L.right - L.left) / totalSlots;
   const slotStart = (i: number) => L.left + i * slot;
   const slotCenter = (i: number) => L.left + (i + 0.5) * slot;
   const barGap = Math.max(slot * BAR_GAP_RATIO, 0);
   const barWidth = Math.max(slot - barGap, MIN_BAR_WIDTH);
   const barBand = L.barBottom - L.barTop;
-  const todayIdx = shown.length - 1;
+  const slotOf = (date: string) => dayDiff(firstDate, date);
 
   const bars: ProbabilityBar[] = [];
   const gaps: ProbabilityGap[] = [];
-  shown.forEach((e, i) => {
+  shown.forEach((e) => {
+    const i = slotOf(e.date);
     const pct = e.forecast?.[event]?.[horizon];
     if (pct === undefined) {
       gaps.push({ date: e.date, x: slotCenter(i) });
@@ -143,7 +156,7 @@ export function buildProbabilityTimeline(
     }
     const height = (pct / 100) * barBand;
     const status: BarStatus =
-      i === todayIdx ? "today" : (e.outcome?.[event]?.[horizon] ?? "pending");
+      e.date === todayDate ? "today" : (e.outcome?.[event]?.[horizon] ?? "pending");
     bars.push({
       date: e.date,
       x: slotStart(i) + barGap / 2,
@@ -158,7 +171,7 @@ export function buildProbabilityTimeline(
 
   // Price line: only days with a close; needs at least 2.
   const closes = shown
-    .map((e, i) => ({ i, date: e.date, close: e.close }))
+    .map((e) => ({ i: slotOf(e.date), date: e.date, close: e.close }))
     .filter((p): p is { i: number; date: string; close: number } => p.close !== undefined);
   let price: ProbabilityTimelineModel["price"] = null;
   const yByDate = new Map<string, number>();
@@ -199,15 +212,14 @@ export function buildProbabilityTimeline(
   markers.sort((a, b) => a.x - b.x);
 
   const ticks: ProbabilityTick[] = [];
-  if (shown.length > 0) {
-    const first = shown[0].date;
+  if (all.length > 0) {
+    const first = firstDate;
     for (let i = 0; i < totalSlots; i++) {
       const date = addDays(first, i);
       if (isMonday(date)) ticks.push({ date, x: slotStart(i), label: mdLabel(date) });
     }
   }
 
-  const todayDate = shown.length > 0 ? shown[todayIdx].date : "";
   const usualY =
     input.usualPct === null
       ? null
@@ -219,9 +231,9 @@ export function buildProbabilityTimeline(
     price,
     markers,
     ticks,
-    todayX: shown.length > 0 ? slotCenter(todayIdx) : L.left,
+    todayX: all.length > 0 ? slotCenter(pastSlots - 1) : L.left,
     future: {
-      x0: slotStart(shown.length),
+      x0: slotStart(pastSlots),
       x1: L.right,
       endDate: todayDate ? addDays(todayDate, futureDays) : "",
       todayPct: input.todayPct,
