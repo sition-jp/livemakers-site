@@ -1042,6 +1042,7 @@
       "mini_link": "See details"
     },
     "forecast": {
+      "heading": "Today's outlook",
       "question": {
         "turn30": "A medium-or-larger top or bottom within 30 days",
         "turn90": "A large-or-larger top or bottom within 90 days",
