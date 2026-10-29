@@ -1041,6 +1041,25 @@
       "mini_heading": "{asset} の推移（{h} のスコア）",
       "mini_link": "詳しく見る"
     },
+    "probability": {
+      "heading": "30 日以内に中以上の天井か底が来る確率 ― 毎朝の推移と答え合わせ",
+      "notes": "棒 1 本 = 1 日（その朝の確率）。縦の細線は毎週月曜。オレンジの縦線 = 今日、右端 = {days} 日後",
+      "legend_hit": "その後 30 日以内に天井か底が来た日",
+      "legend_miss": "来なかった日",
+      "legend_pending": "結果待ち（窓がまだ開いている）",
+      "legend_backfilled": "斜線 = さかのぼり計算（当時の画面ではない）",
+      "legend_today": "今日とこの先の窓",
+      "gap": "記録なし",
+      "future": "この先 {days} 日の窓",
+      "usual": "ふだん {pct}%",
+      "price": "価格（日足の終値）と、あとから確定した天井・底",
+      "top": "天井",
+      "bottom": "底",
+      "today": "今日",
+      "mini_link": "詳しく見る",
+      "aria": "過去 {n} 日・来た日 {hit} 日・来なかった日 {miss} 日・結果待ち {pending} 日",
+      "no_data": "毎日の確率の記録がまだありません"
+    },
     "forecast": {
       "heading": "今日の予報",
       "question": {

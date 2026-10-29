@@ -1041,6 +1041,25 @@
       "mini_heading": "{asset} history ({h} score)",
       "mini_link": "See details"
     },
+    "probability": {
+      "heading": "Chance of a medium-or-larger top or bottom within 30 days: daily record and results",
+      "notes": "One bar = one day (that morning's chance). Thin vertical lines mark each Monday. The orange vertical line = today; the right edge = {days} days ahead",
+      "legend_hit": "A top or bottom came within 30 days",
+      "legend_miss": "None came",
+      "legend_pending": "Result pending (window still open)",
+      "legend_backfilled": "Hatched = recomputed after the fact (not what was shown at the time)",
+      "legend_today": "Today and the window ahead",
+      "gap": "No record",
+      "future": "Next {days} days",
+      "usual": "Usual {pct}%",
+      "price": "Price (daily close) and tops and bottoms confirmed later",
+      "top": "Top",
+      "bottom": "Bottom",
+      "today": "Today",
+      "mini_link": "Details",
+      "aria": "Past {n} days: {hit} days a turn came, {miss} days none came, {pending} days pending",
+      "no_data": "No daily probability record yet"
+    },
     "forecast": {
       "heading": "Today's outlook",
       "question": {
