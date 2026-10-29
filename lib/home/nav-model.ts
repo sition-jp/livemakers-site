@@ -31,17 +31,16 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
     { key: "deepDive", href: seriesHref("deep-dive") },
     { key: "mkt12Morning", href: seriesHref("mkt12-morning") },
     { key: "mkt12Weekend", href: seriesHref("mkt12-weekend") },
-    // 2026-10-03 田平氏 GO: 節目シグナル (数年に一度の節目を検証つきで出す Signal の独立シリーズ)。
-    // 2026-10-16 田平氏: Signal 直後 → Deep Dive の後ろ (#271) → 週末の12指標の後ろへ。メニューは
-    // 更新の多い順で、年に数本のシリーズは毎日の 12 指標より後ろ・指標の列の隣に置く
-    { key: "landmark", href: seriesHref("landmark") },
-    // 2026-10-26: 金融再起動の現在地 (月次の定点観測・節目シグナルの隣)
-    { key: "restartMap", href: seriesHref("restart-map") },
     { key: "eventRiskRadar", href: seriesHref("event-risk-radar") },
     { key: "weeklyBrief", href: seriesHref("weekly-brief") },
     ...(surfacePublished
       ? []
       : [{ key: "futureMap", href: seriesHref("future-map") }]),
+    // 2026-10-29 田平氏: 金融再起動の現在地 (月次の定点観測) を次の時代の地図の後ろへ、
+    // 節目シグナル (2026-10-03 GO・数年に一度の節目) をさらにその後ろへ。
+    // 旧: 週末の12指標の後ろに 節目シグナル → 金融再起動の現在地 (2026-10-16 / 10-26)
+    { key: "restartMap", href: seriesHref("restart-map") },
+    { key: "landmark", href: seriesHref("landmark") },
   ];
 
   // 2026-08-14 Phase 3 (田平氏 GO): メニュー順 = Intelligence Terminal →
@@ -61,18 +60,23 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
  * フラット 1 列ナビ (2026-08-14 田平氏指示 — dropdown 廃止・左揃え)。
  * ヘッダ 1 段目・モバイルパネル・フッタが同一順で共有する:
  * トップ → Intelligence Terminal → 速報 → Daily Intel → Signal → Deep Dive →
- * 朝の12指標 → 週末の12指標 → 節目シグナル → Event Risk Radar → Weekly Brief →
- * 次の時代の地図 (published 時は 未来アトラス) → About
+ * 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
+ * 次の時代の地図 (published 時は同じ位置に 未来アトラス) → 金融再起動の現在地 →
+ * 節目シグナル → About
  */
 export function buildFlatNav(surfacePublished: boolean): NavItem[] {
   const { articlesGroup } = buildNavModel(surfacePublished);
+  const articles = surfacePublished
+    ? articlesGroup.flatMap((item) =>
+        item.key === "weeklyBrief"
+          ? [item, { key: "futureAtlas", href: "/future-atlas" }]
+          : [item],
+      )
+    : articlesGroup;
   return [
     { key: "overview", href: "/" },
     { key: "sessionTerminal", href: "/sessions/archive" },
-    ...articlesGroup,
-    ...(surfacePublished
-      ? [{ key: "futureAtlas", href: "/future-atlas" }]
-      : []),
+    ...articles,
     { key: "about", href: "/about" },
   ];
 }

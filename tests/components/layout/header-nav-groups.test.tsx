@@ -57,13 +57,12 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     "/articles/series/deep-dive",
     "/articles/series/mkt12-morning",
     "/articles/series/mkt12-weekend",
-    // 2026-10-16 田平氏: 節目シグナルは週末の12指標の後ろ (更新が少ないので 12 指標より後に)
-    "/articles/series/landmark",
-    // 2026-10-26: 金融再起動の現在地 (月次・節目シグナルの隣)
-    "/articles/series/restart-map",
     "/articles/series/event-risk-radar",
     "/articles/series/weekly-brief",
     "/articles/series/future-map",
+    // 2026-10-29 田平氏: 金融再起動の現在地は次の時代の地図の後ろ・節目シグナルはその後ろ
+    "/articles/series/restart-map",
+    "/articles/series/landmark",
     "/about",
   ];
 
@@ -89,8 +88,12 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
       a.getAttribute("href"),
     );
     expect(hrefs).not.toContain("/articles/series/future-map");
-    expect(hrefs.indexOf("/future-atlas")).toBe(hrefs.length - 2);
-    expect(hrefs[hrefs.length - 1]).toBe("/about");
+    // 次の時代の地図と同じ位置 (Weekly Brief の後・金融再起動の現在地の前)
+    expect(hrefs).toEqual(
+      EXPECTED_UNPUBLISHED.map((href) =>
+        href === "/articles/series/future-map" ? "/future-atlas" : href,
+      ),
+    );
   });
 
   it("exposes a mobile disclosure with the same flat order", () => {

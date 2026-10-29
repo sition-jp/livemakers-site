@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { buildNavModel } from "@/lib/home/nav-model";
 
 describe("buildNavModel", () => {
-  it("keeps 11 dropdown items (flash first, landmark after mkt12Weekend) and no top-level atlas while unpublished (G46 §11.3)", () => {
+  it("keeps 11 dropdown items (flash first, restart-map and landmark after future-map) and no top-level atlas while unpublished (G46 §11.3)", () => {
     const nav = buildNavModel(false);
     expect(nav.articlesGroup.map((i) => i.key)).toEqual([
       "flash",
@@ -11,11 +11,11 @@ describe("buildNavModel", () => {
       "deepDive",
       "mkt12Morning",
       "mkt12Weekend",
-      "landmark",
-      "restartMap",
       "eventRiskRadar",
       "weeklyBrief",
       "futureMap",
+      "restartMap",
+      "landmark",
     ]);
     expect(nav.articlesGroup.find((i) => i.key === "futureMap")?.href).toBe(
       "/articles/series/future-map",
