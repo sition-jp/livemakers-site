@@ -1040,6 +1040,87 @@
       "gap": "記録なし",
       "mini_heading": "{asset} の推移（{h} のスコア）",
       "mini_link": "詳しく見る"
+    },
+    "forecast": {
+      "question": {
+        "turn30": "30 日以内に中以上の天井か底",
+        "turn90": "90 日以内に大以上の天井か底",
+        "turn7": "7 日以内に小さな山か谷",
+        "move30": "30 日以内に大きく動く"
+      },
+      "role": {
+        "main": "主役",
+        "reference": "参考"
+      },
+      "today_pct": "今日 {pct}%",
+      "usual_pct": "ふだん {pct}%",
+      "gap": "ふだんとの差 {gap}",
+      "prev": "前日比 {delta}",
+      "level": {
+        "above": "いつもより起きやすい",
+        "usual": "いつも並み",
+        "below": "いつもより起きにくい"
+      },
+      "sign": {
+        "above": "ふだんより強い",
+        "usual": "ふだん並み",
+        "below": "ふだんより弱い",
+        "none": "データなし"
+      },
+      "line": {
+        "today": "今日の状態: 天井・底の兆しは{turnSign}。大きく動く兆しは{moveSign}。",
+        "d7": "7 日以内: 小さな山か谷は{level}（今日 {today}%・ふだん {usual}%）。",
+        "d30": "30 日以内: 中以上の天井か底は{level}（今日 {today}%・ふだん {usual}%）。",
+        "d30_move": "大きく動くのは{moveLevel}（今日 {moveToday}%・ふだん {moveUsual}%）。",
+        "d90": "90 日以内: 大以上の天井か底は{level}（今日 {today}%・ふだん {usual}%）。"
+      },
+      "trend": {
+        "up": "30 日 {r30}%・90 日 {r90}% の上昇基調",
+        "up_30only": "30 日 {r30}% の上昇基調",
+        "up_90only": "90 日 {r90}% の上昇基調",
+        "down": "30 日 {r30}%・90 日 {r90}% の下降基調",
+        "down_30only": "30 日 {r30}% の下降基調",
+        "down_90only": "90 日 {r90}% の下降基調",
+        "flat": "30 日 {r30}%・90 日 {r90}% の横ばい",
+        "flat_30only": "30 日 {r30}% の横ばい",
+        "flat_90only": "90 日 {r90}% の横ばい"
+      },
+      "note90": "90 日は答え合わせの材料が少ないため、合否を付けていません。",
+      "note90_gap": "直近 12 か月の実際の発生率は {rate}%（ふだん {usual}%）。"
+    },
+    "ladder": {
+      "heading": "強さのはしご",
+      "lead": "確定する条件の価格は、天井・底と数えるためのルールです。値動きの予想ではありません。",
+      "col_strength": "強さ",
+      "col_last": "直近に確定",
+      "col_candidate": "いまの候補",
+      "col_condition": "確定する条件",
+      "strength": {
+        "small": "小",
+        "medium": "中",
+        "large": "大",
+        "cycle": "サイクル級"
+      },
+      "threshold": {
+        "small": "5%",
+        "medium": "15%",
+        "large": "3 割",
+        "cycle": "5 割"
+      },
+      "kind": {
+        "top": "天井",
+        "bottom": "底"
+      },
+      "last": "{date} の{kind} {close}（今から {pct}%）",
+      "last_nopct": "{date} の{kind} {close}",
+      "candidate": "{kind}の候補: {date} の {close}",
+      "condition_top": "高値から {threshold} 下げたら天井と数える = {price} 以下（今から {pct}%）",
+      "condition_top_nopct": "高値から {threshold} 下げたら天井と数える = {price} 以下",
+      "condition_bottom": "安値から {threshold} 戻したら底と数える = {price} 以上（今から {pct}%）",
+      "condition_bottom_nopct": "安値から {threshold} 戻したら底と数える = {price} 以上",
+      "none": "まだ確定なし",
+      "note_bottom": "その後 {date} に {close} まで下げたが、この強さの底とは数えない（戻りが条件に届いていない）",
+      "note_top": "その後 {date} に {close} まで上げたが、この強さの天井とは数えない（下げが条件に届いていない）"
     }
   },
   "futureAtlas": {
