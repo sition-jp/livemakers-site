@@ -1,0 +1,94 @@
+{
+  "sessionId": "2026-10-30-global-close",
+  "date": "2026-10-30",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-30-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-30-global-close",
+  "publishedAt": "2026-10-31T02:30:06+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261030_2303_502b44e3",
+  "asOfJst": "2026-10-30T23:03:05+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月30日 23:03 JST",
+  "bullets": [
+    "BTC/USD $80,290 → $76,865（-4.27%）",
+    "変動幅上位: Coinbase（perp） -12.1% / BTCボラティリティ（BVIV） +10.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261030_2349_ca4680f8",
+    "crawlAnchorJst": "2026-10-30T23:03:00+09:00",
+    "writtenAtJst": "2026-10-30T23:49:16+09:00",
+    "lead": "この日の主役は Binance の流出だ。同社は初期調査で開発運用担当者の端末が侵害された可能性を示し、資産の回収に動き出した。同じ日に Cursor でも開発ツールの配布経路を突く事案が表に出た。狙われているのは鍵そのものより、それを扱う人と道具の側だ。",
+    "items": [
+      {
+        "headline": "Binance、初期調査で開発運用担当者の端末が侵害された可能性を公表",
+        "sourceUrl": "https://x.com/binance/status/2115993361517891592",
+        "note": "秘密鍵が流出した証拠はないとしている。"
+      },
+      {
+        "headline": "Binance、被害を受けた資産の回収を開始 法執行機関と連携を継続",
+        "sourceUrl": "https://x.com/binance/status/2116121748555153621"
+      },
+      {
+        "headline": "Binance、凍結額をめぐり食い違う数字が出回っていると注意を促す",
+        "sourceUrl": "https://x.com/binance/status/2115947325617299903",
+        "note": "数字は同社の公式発表で確かめる段階にある。"
+      },
+      {
+        "headline": "Cursor、マーケット経由の改ざんされた Claude Code 拡張によるセキュリティ事案を公表",
+        "sourceUrl": "https://x.com/cursor_ai/status/2116074289053175808",
+        "note": "AI 開発ツールの配布経路が攻撃面になった。"
+      },
+      {
+        "headline": "Intel 株が約 30% 下落 決算後の米市場でナスダックも下げる",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dow-jones-sp-500-nasdaq-nasdaq-rutscht-ab-intel-aktie-verliert-28-prozent/100266181.html"
+      },
+      {
+        "headline": "金の現物が 1 オンス 3,950 ドル、銀が 50 ドルを割り込む",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2116158382881038840"
+      },
+      {
+        "headline": "Strategy、7〜9 月期の営業利益 210 億ドルで四半期として過去最大",
+        "sourceUrl": "https://x.com/saylor/status/2115897719449403879"
+      },
+      {
+        "headline": "Cardano の Strike、24 時間取引高 3,000 万ドルで過去最高",
+        "sourceUrl": "https://x.com/strikeperps/status/2116168939680219166"
+      },
+      {
+        "headline": "IOG 週次開発報告、Leios の証明書チェックと Hydra 2.4.2 を報告",
+        "sourceUrl": "https://x.com/IOGroup/status/2116153156329685293"
+      },
+      {
+        "headline": "イープラスが不正アクセスと個人情報の漏えいを公表",
+        "sourceUrl": "https://x.com/piyokango/status/2116125127436042672"
+      },
+      {
+        "headline": "ライフネット生命への不正アクセスで KDDI の顧客情報が漏えいした可能性",
+        "sourceUrl": "https://x.com/piyokango/status/2116119152100610229"
+      },
+      {
+        "headline": "無印良品、不正アクセスで最大 2,726 万件の個人情報が流出のおそれ",
+        "sourceUrl": "https://x.com/nhk_news/status/2116055012283732172"
+      },
+      {
+        "headline": "松屋のアプリに不正アクセス、約 238 万件の個人情報が漏えい",
+        "sourceUrl": "https://x.com/itmedia_news/status/2116037424443015665"
+      },
+      {
+        "headline": "米中央軍司令官が最新の状況を公表",
+        "sourceUrl": "https://x.com/CENTCOM/status/2116128769190859099"
+      }
+    ],
+    "watch": [
+      "Binance が被害額・凍結額・回収額を公式に確定させるか",
+      "Intel の急落が半導体全体の見直しに広がるか",
+      "国内で相次ぐ漏えいの公表に、続報と補償の発表が続くか"
+    ]
+  }
+}
