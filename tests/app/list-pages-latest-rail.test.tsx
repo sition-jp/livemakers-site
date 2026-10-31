@@ -70,6 +70,16 @@ vi.mock("@/lib/articles/article-inflow-feed", () => ({
   })),
 }));
 
+// 動画の記事 (2026-10-31): content/videos の実データに左右されないよう、混ぜる動画は
+// テストごとに決める (既定 = 無し)
+const { videos } = vi.hoisted(() => ({
+  videos: { items: [] as import("@/lib/videos").VideoCardData[] },
+}));
+vi.mock("@/lib/videos", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/videos")>()),
+  getPostedVideoCards: () => videos.items,
+}));
+
 const { surface } = vi.hoisted(() => ({ surface: { published: false } }));
 vi.mock("@/lib/future-atlas/surface", () => ({
   loadEffectiveSurfacePublished: vi.fn(async () => surface.published),
@@ -89,6 +99,7 @@ import FutureAtlasPage from "@/app/[locale]/future-atlas/page";
 import ArticleSeriesPage from "@/app/[locale]/articles/series/[series]/page";
 import SessionArchivePage from "@/app/[locale]/sessions/archive/page";
 import SessionArchivePastPage from "@/app/[locale]/sessions/archive/past/page";
+import VideosIndexPage from "@/app/[locale]/videos/page";
 
 const railRowIds = (): string[] =>
   Array.from(
@@ -165,5 +176,46 @@ describe("list pages carry the latest-articles rail", () => {
   it("About page", async () => {
     render(await AboutPage({ params: Promise.resolve({ locale: "ja" }) }));
     expectHomeEquivalentRail();
+  });
+
+  // 2026-10-31 田平氏 GO: 動画の一覧にもシリーズ一覧と同じ右レール
+  it("Videos page", async () => {
+    render(
+      <NextIntlClientProvider locale="ja" messages={ja}>
+        {await VideosIndexPage({ params: Promise.resolve({ locale: "ja" }) })}
+      </NextIntlClientProvider>,
+    );
+    expectHomeEquivalentRail();
+    expect(document.querySelector("main [data-video-card]")).not.toBeNull();
+  });
+
+  // 2026-10-31 田平氏 GO: YouTube に上がった動画の記事も公開日時で混ぜる (サムネなし・本数は 20 のまま)
+  it("mixes a posted video into the rail by its publication time", async () => {
+    videos.items = [
+      {
+        slug: "ep001-x",
+        href: "/videos/ep001-x",
+        titleJa: "金融は再起動している",
+        durationSeconds: 2303,
+        publishedAtJst: "2026-09-21T12:24:07+09:00",
+      },
+    ];
+    try {
+      render(await AboutPage({ params: Promise.resolve({ locale: "ja" }) }));
+      const rows = [...document.querySelectorAll("[data-latest-articles-rail] a[data-index-nav]")];
+      expect(rows).toHaveLength(20);
+      const keys = rows.map(
+        (row) => row.getAttribute("data-article-id") ?? `video:${row.getAttribute("data-video-row")}`,
+      );
+      // wb-1 (09-26) > sig-21 (09-22) > 動画 (09-21 12:24) > sig-20 (09-21 08:00)
+      expect(keys.slice(0, 4)).toEqual(["wb-1", "sig-21", "video:ep001-x", "sig-20"]);
+      const video = rows[2];
+      expect(video).toHaveAttribute("href", "/videos/ep001-x");
+      expect(video.querySelector("img")).toBeNull();
+      expect(video.textContent).toContain("rowLabel");
+      expect(video.textContent).toContain("09-21 12:24 公開");
+    } finally {
+      videos.items = [];
+    }
   });
 });

@@ -195,15 +195,15 @@ export function groupSourcesByChapter(
     .filter((group) => group.sources.length > 0);
 }
 
-/** 右レーン・右列の動画の窓に渡す最小の形 */
+/** 右レーン・右列の動画の窓に渡す最小の形 (publishedAtJst はトップ右列の新着順に使う) */
 export type VideoCardData = Pick<
   Video,
-  "slug" | "href" | "titleJa" | "subtitleJa" | "durationSeconds" | "eyecatch"
+  "slug" | "href" | "titleJa" | "subtitleJa" | "durationSeconds" | "eyecatch" | "publishedAtJst"
 >;
 
 function toCard(video: Video): VideoCardData {
-  const { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch } = video;
-  return { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch };
+  const { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch, publishedAtJst } = video;
+  return { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch, publishedAtJst };
 }
 
 /**
@@ -212,6 +212,16 @@ function toCard(video: Video): VideoCardData {
  */
 function postedVideos(options: VideoLoadOptions): Video[] {
   return getAllVideos(options).filter((video) => video.youtubeVideoId);
+}
+
+/**
+ * 「最新の記事」のリストに混ぜる動画 (2026-10-31 田平氏 GO): YouTube に上がり、
+ * 公開日時がある回。並びは混ぜる側 (mergeLatestEntries) が公開日時で決める。
+ */
+export function getPostedVideoCards(options: VideoLoadOptions = {}): VideoCardData[] {
+  return postedVideos(options)
+    .filter((video) => video.publishedAtJst)
+    .map(toCard);
 }
 
 /** トップ右列・記事の右レーン下の「最新の動画」 */

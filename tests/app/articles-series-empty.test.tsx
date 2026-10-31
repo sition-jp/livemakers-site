@@ -47,6 +47,12 @@ vi.mock("@/lib/articles/article-inflow-feed", () => ({
   })),
 }));
 
+// 在庫ゼロの前提: 右レールに混ぜる動画の記事 (content/videos の実データ) も無しにする
+vi.mock("@/lib/videos", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@/lib/videos")>()),
+  getPostedVideoCards: () => [],
+}));
+
 vi.mock("@/lib/future-atlas/surface", () => ({
   // T4-2: 実効 surface は config 値へ縮退させる (feed 照会は結合対象外)
   loadEffectiveSurfacePublished: vi.fn(

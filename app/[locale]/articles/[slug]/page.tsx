@@ -41,7 +41,7 @@ import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas, type FutureAtlasData } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { X_HANDLE } from "@/lib/site";
-import { getLatestPostedVideo, getPostedVideoForArticle } from "@/lib/videos";
+import { getLatestPostedVideo, getPostedVideoCards, getPostedVideoForArticle } from "@/lib/videos";
 
 export const dynamicParams = true;
 // 2026-08-21 田平氏 GO (ISR コスト): 記事詳細 (~270 paths) が ISR Writes の
@@ -320,6 +320,7 @@ export default async function ArticleDetailPage({
             ? { video: latestVideo, heading: tVideos("railLatestHeading"), watchLabel }
             : null
         }
+        latestVideoRows={{ items: getPostedVideoCards(), label: tVideos("rowLabel") }}
       />
     </div>
   );

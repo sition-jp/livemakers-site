@@ -1,6 +1,9 @@
 import { Link } from "@/i18n/navigation";
 import type { ArticleFamily, ArticleMeta } from "@/lib/articles/article-model";
 import { ArticleRow } from "@/components/home/ArticleRow";
+import type { LatestVideoRows } from "@/components/home/LatestArticlesCard";
+import { LatestEntryRows } from "@/components/home/LatestEntryRows";
+import { mergeLatestEntries } from "@/lib/articles/latest-articles";
 import { buildAtlasEntry } from "@/lib/home/atlas-entry";
 import { restartStageSummary } from "@/lib/restart-map/stages";
 import { VideoRailCard, type VideoRailCardProps } from "@/components/videos/VideoRailCard";
@@ -106,6 +109,7 @@ export function SeriesRail({
   copy,
   relatedVideo = null,
   latestVideo = null,
+  latestVideoRows = null,
 }: {
   articles: ArticleMeta[];
   current: ArticleMeta;
@@ -113,6 +117,7 @@ export function SeriesRail({
   copy: SeriesRailCopy;
   relatedVideo?: Omit<VideoRailCardProps, "placement"> | null;
   latestVideo?: Omit<VideoRailCardProps, "placement"> | null;
+  latestVideoRows?: LatestVideoRows | null;
 }) {
   const byNewest = (left: ArticleMeta, right: ArticleMeta): number =>
     right.publishedAtJst.localeCompare(left.publishedAtJst);
@@ -221,7 +226,18 @@ export function SeriesRail({
                   </Link>
                 ) : null}
               </div>
-              <RailArticleList articles={rows} copy={copy} />
+              {section === "latest-articles" && latestVideoRows ? (
+                // 2026-10-31 田平氏 GO: 動画の記事も公開日時で混ぜる (本数は 20 のまま)
+                <div className="mt-1 border-t border-border-primary">
+                  <LatestEntryRows
+                    entries={mergeLatestEntries(rows, latestVideoRows.items, LATEST_ARTICLES_COUNT)}
+                    familyLabels={copy.familyLabels}
+                    videoLabel={latestVideoRows.label}
+                  />
+                </div>
+              ) : (
+                <RailArticleList articles={rows} copy={copy} />
+              )}
               {stageLine ? (
                 <p
                   data-restart-stages=""

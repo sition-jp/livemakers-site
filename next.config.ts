@@ -47,13 +47,24 @@ const nextConfig = {
   // (content/articles/<slug>/ja.md) を実行時に読む。記事ページとは別の関数に
   // なるので、本文ファイルを確実に同梱する
   outputFileTracingIncludes: {
-    "/[locale]/search": ["./content/articles/**/*.md"],
+    "/[locale]/search": ["./content/articles/**/*.md", "./content/videos/**/*"],
     // sitemap は 1 時間ごとに実行時に作り直す。動画の一覧 (content/videos) を
     // 実行時にも読めるよう同梱する (動画のページ自体はビルド時に静的生成)
     "/sitemap.xml": ["./content/videos/**/*"],
     // トップ (ISR 300s) と記事詳細 (ISR 3600s) も右の動画の窓のために実行時に読む
     "/[locale]": ["./content/videos/**/*"],
     "/[locale]/articles/[slug]": ["./content/videos/**/*"],
+    // 「最新の記事」の右レール (LatestArticlesRailLayout) は動画の記事も混ぜる
+    // (2026-10-31)。ISR で作り直すページも content/videos を実行時に読む
+    "/[locale]/about": ["./content/videos/**/*"],
+    "/[locale]/future-atlas": ["./content/videos/**/*"],
+    "/[locale]/sessions/archive": ["./content/videos/**/*"],
+    "/[locale]/sessions/archive/past": ["./content/videos/**/*"],
+    "/[locale]/topics/[topic]": ["./content/videos/**/*"],
+    "/[locale]/topics/[topic]/page/[page]": ["./content/videos/**/*"],
+    "/[locale]/articles/series/[series]": ["./content/videos/**/*"],
+    "/[locale]/articles/series/[series]/page/[page]": ["./content/videos/**/*"],
+    "/[locale]/videos": ["./content/videos/**/*"],
   },
   async redirects() {
     return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
