@@ -3,6 +3,7 @@ import type { ArticleFamily, ArticleMeta } from "@/lib/articles/article-model";
 import { ArticleRow } from "@/components/home/ArticleRow";
 import { buildAtlasEntry } from "@/lib/home/atlas-entry";
 import { restartStageSummary } from "@/lib/restart-map/stages";
+import { VideoRailCard, type VideoRailCardProps } from "@/components/videos/VideoRailCard";
 
 /**
  * 記事詳細のカテゴリ索引レール (G44 D9・2026-10-29 から 10 カテゴリ)。並び順は spec §4 で固定し、現在記事の
@@ -18,6 +19,8 @@ import { restartStageSummary } from "@/lib/restart-map/stages";
  * - 金融再起動の現在地 (restart-map) は 2026-10-29 田平氏 GO で常設の枠に (10 カテゴリ)。
  *   月 1 回の号を見落とさないよう Signal の後・最新の記事 20 本の前に置き、確定した
  *   段階の 1 行 (lib/restart-map/stages) を添える。
+ * - 動画の窓 (2026-10-31 田平氏 GO・YouTube に上がった回だけ): この記事を関連記事に
+ *   挙げている回があれば先頭に「この記事の解説動画」、無ければ末尾に「最新の動画」。
  */
 
 export const RAIL_SECTIONS = [
@@ -101,11 +104,15 @@ export function SeriesRail({
   current,
   surfacePublished,
   copy,
+  relatedVideo = null,
+  latestVideo = null,
 }: {
   articles: ArticleMeta[];
   current: ArticleMeta;
   surfacePublished: boolean;
   copy: SeriesRailCopy;
+  relatedVideo?: Omit<VideoRailCardProps, "placement"> | null;
+  latestVideo?: Omit<VideoRailCardProps, "placement"> | null;
 }) {
   const byNewest = (left: ArticleMeta, right: ArticleMeta): number =>
     right.publishedAtJst.localeCompare(left.publishedAtJst);
@@ -136,6 +143,11 @@ export function SeriesRail({
       className="mt-12 min-w-0 border-t border-border-primary pt-6 lg:mt-0 lg:border-t-0 lg:pt-0"
       aria-label={copy.railTitle}
     >
+      {relatedVideo ? (
+        <div className="mb-6">
+          <VideoRailCard {...relatedVideo} placement="related" />
+        </div>
+      ) : null}
       <p className="mb-3 text-[11px] font-bold tracking-label text-text-tertiary">
         {copy.railTitle}
       </p>
@@ -221,6 +233,9 @@ export function SeriesRail({
             </section>
           );
         })}
+        {latestVideo && !relatedVideo ? (
+          <VideoRailCard {...latestVideo} placement="latest" />
+        ) : null}
       </div>
     </aside>
   );

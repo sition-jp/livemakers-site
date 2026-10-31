@@ -240,6 +240,9 @@
     "sourcesNoteWithDate": "動画で使った出典の全件。章ごとに、その章で初めて引いた順に並べた。参照日はすべて {date}。",
     "accessed": "参照 {date}",
     "relatedHeading": "関連記事",
+    "railLatestHeading": "最新の動画",
+    "railRelatedHeading": "この記事の解説動画",
+    "railWatch": "動画を見る",
     "backToList": "← 動画の一覧"
   },
   "brief": {

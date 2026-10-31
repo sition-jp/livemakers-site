@@ -51,6 +51,9 @@ const nextConfig = {
     // sitemap は 1 時間ごとに実行時に作り直す。動画の一覧 (content/videos) を
     // 実行時にも読めるよう同梱する (動画のページ自体はビルド時に静的生成)
     "/sitemap.xml": ["./content/videos/**/*"],
+    // トップ (ISR 300s) と記事詳細 (ISR 3600s) も右の動画の窓のために実行時に読む
+    "/[locale]": ["./content/videos/**/*"],
+    "/[locale]/articles/[slug]": ["./content/videos/**/*"],
   },
   async redirects() {
     return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [

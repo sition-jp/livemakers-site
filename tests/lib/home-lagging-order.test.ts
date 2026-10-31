@@ -60,6 +60,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事の枠は新着順・�
   });
 
   // 2026-10-26: 末尾の固定枠に event-risk-mobile (スマホ専用) が最新記事の直前で加わる
+  // 2026-10-31: 記事の枠の直後に video (最新の動画) の固定枠
   it("orders the article modules newest-first and keeps the ledger tail fixed", () => {
     expect(orderLaggingModules(saturday)).toEqual([
       "atlas-entry",
@@ -67,6 +68,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事の枠は新着順・�
       "weekly-brief",
       "deep-dive",
       "restart-map",
+      "video",
       "event-risk-mobile",
       "latest-articles",
       "turning-point-reserved",
@@ -91,6 +93,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事の枠は新着順・�
       "restart-map",
       "atlas-entry",
       "weekly-brief",
+      "video",
       "event-risk-mobile",
       "latest-articles",
       "turning-point-reserved",

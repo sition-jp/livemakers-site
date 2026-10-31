@@ -41,6 +41,7 @@ import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas, type FutureAtlasData } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { X_HANDLE } from "@/lib/site";
+import { getLatestPostedVideo, getPostedVideoForArticle } from "@/lib/videos";
 
 export const dynamicParams = true;
 // 2026-08-21 田平氏 GO (ISR コスト): 記事詳細 (~270 paths) が ISR Writes の
@@ -102,6 +103,7 @@ export default async function ArticleDetailPage({
   const t = await getTranslations("articles");
   const tFollow = await getTranslations("follow");
   const tTopics = await getTranslations("topics");
+  const tVideos = await getTranslations("videos");
 
   const language = locale === "en" ? "en" : "ja";
   const detail = await loadPublicArticleInflowDetail(slug, language);
@@ -141,6 +143,11 @@ export default async function ArticleDetailPage({
     atlasUnpublishedHeading: t("detail.atlasUnpublishedHeading"),
     familyLabels,
   };
+
+  // 右レーンの動画の窓 (2026-10-31 田平氏 GO・YouTube に上がった回だけ)
+  const relatedVideo = getPostedVideoForArticle(`/articles/${article.articleId}`);
+  const latestVideo = relatedVideo ? null : getLatestPostedVideo();
+  const watchLabel = tVideos("railWatch");
 
   // 出典節のカード化 (2026-10-05 source-link-cards)。remark 段階で項目に目印を
   // 付け、筆頭の出典を大きいカード用に集める
@@ -303,6 +310,16 @@ export default async function ArticleDetailPage({
         current={article}
         surfacePublished={surfacePublished}
         copy={railCopy}
+        relatedVideo={
+          relatedVideo
+            ? { video: relatedVideo, heading: tVideos("railRelatedHeading"), watchLabel }
+            : null
+        }
+        latestVideo={
+          latestVideo
+            ? { video: latestVideo, heading: tVideos("railLatestHeading"), watchLabel }
+            : null
+        }
       />
     </div>
   );

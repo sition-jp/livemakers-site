@@ -240,6 +240,9 @@
     "sourcesNoteWithDate": "Every source used in the video, grouped by the chapter that first cites it. All accessed on {date}.",
     "accessed": "accessed {date}",
     "relatedHeading": "Related articles",
+    "railLatestHeading": "Latest video",
+    "railRelatedHeading": "Video for this article",
+    "railWatch": "Watch the video",
     "backToList": "← All videos"
   },
   "brief": {
