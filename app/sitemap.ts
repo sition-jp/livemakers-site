@@ -4,6 +4,7 @@ import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-fe
 import { fetchArticleTopicIndex } from "@/lib/articles/article-inflow-v2";
 import { SERIES_SLUGS } from "@/lib/articles/article-model";
 import { SITE_URL } from "@/lib/site";
+import { getAllVideos } from "@/lib/videos";
 
 /**
  * G3 (2026-09-11 田平氏 GO): sitemap.xml が 404 だった穴を塞ぐ。
@@ -42,6 +43,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ? [{ url: `${SITE_URL}/ja/topics/funding` }]
       : [];
 
+  // 動画 (YouTube @LiveMakersCom の受け皿): 一覧 + 各回の記事 (出典の全件の正本)
+  const videos = getAllVideos();
+  const videoEntries: MetadataRoute.Sitemap =
+    videos.length > 0
+      ? [
+          { url: `${SITE_URL}/ja/videos` },
+          ...videos.map((video) => ({
+            url: `${SITE_URL}/ja${video.href}`,
+            ...(video.publishedAtJst ? { lastModified: video.publishedAtJst } : {}),
+          })),
+        ]
+      : [];
+
   const staticEntries: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/ja` },
     { url: `${SITE_URL}/ja/about` },
@@ -50,5 +64,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/ja/privacy` },
   ];
 
-  return [...staticEntries, ...seriesEntries, ...topicEntries, ...articleEntries];
+  return [
+    ...staticEntries,
+    ...seriesEntries,
+    ...topicEntries,
+    ...videoEntries,
+    ...articleEntries,
+  ];
 }

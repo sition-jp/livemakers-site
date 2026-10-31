@@ -16,6 +16,7 @@
  * request-time rendering yields identical content for a given deployment.
  */
 import { getAllBriefs } from "@/lib/briefs";
+import { getAllVideos } from "@/lib/videos";
 import { readAndParseIntents, resolveIntentsPath } from "@/lib/intents-reader";
 import { readAndParseSignals, resolveSignalsPath } from "@/lib/signals-reader";
 import { TerminalAsset } from "@/lib/terminal/asset-summary";
@@ -23,6 +24,10 @@ import { AssetSymbolSchema } from "@/lib/pivots/types";
 
 export function briefSlugParams(): Array<{ slug: string }> {
   return getAllBriefs().map((b) => ({ slug: b.slug }));
+}
+
+export function videoSlugParams(): Array<{ slug: string }> {
+  return getAllVideos().map((v) => ({ slug: v.slug }));
 }
 
 export function signalIdParams(): Array<{ id: string }> {

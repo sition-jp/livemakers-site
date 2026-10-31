@@ -221,6 +221,25 @@
     "boundaryBody": "Static preview only. No real data connection, production publication, or site log mutation.",
     "sourceLedgerTitle": "Source ledger"
   },
+  "videos": {
+    "title": "VIDEOS",
+    "intro": "Videos from the LiveMakers YouTube channel. Each one bundles the site's articles by theme and shows, with diagrams and plain words, where scattered news fits in the larger shift.",
+    "channelLink": "YouTube channel @{handle}",
+    "empty": "No videos yet.",
+    "episodeLabel": "EP {number}",
+    "comingSoon": "COMING SOON",
+    "comingSoonBody": "This video will be published on YouTube soon. Once it is live, it will play on this page.",
+    "watchOnYoutube": "Watch on YouTube",
+    "asOf": "As of {date}",
+    "chapterCount": "{count} chapters",
+    "chapterLabel": "Ch. {number}",
+    "chaptersHeading": "Chapters",
+    "sourcesHeading": "Sources ({count})",
+    "sourcesNote": "Every source used in the video, grouped by the chapter that first cites it.",
+    "sourcesNoteWithDate": "Every source used in the video, grouped by the chapter that first cites it. All accessed on {date}.",
+    "accessed": "accessed {date}",
+    "backToList": "← All videos"
+  },
   "brief": {
     "title": "WEEKLY BRIEFS",
     "issuePrefix": "Issue #",

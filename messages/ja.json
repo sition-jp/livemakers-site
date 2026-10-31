@@ -221,6 +221,25 @@
     "boundaryBody": "静的 preview のみ。実データ接続、本番公開、site log mutation はありません。",
     "sourceLedgerTitle": "ソース台帳"
   },
+  "videos": {
+    "title": "動画",
+    "intro": "LiveMakers の YouTube チャンネルの動画。サイトの記事をテーマごとに束ね、ばらばらに見えるニュースが大きな流れのどこに当たるのかを、図と言葉でほどく。",
+    "channelLink": "YouTube チャンネル @{handle}",
+    "empty": "まだ動画はない。",
+    "episodeLabel": "第{number}回",
+    "comingSoon": "近日公開",
+    "comingSoonBody": "動画は YouTube で近日公開する。公開後は、このページで再生できるようにする。",
+    "watchOnYoutube": "YouTube で見る",
+    "asOf": "{date} 時点",
+    "chapterCount": "{count} 章",
+    "chapterLabel": "第{number}章",
+    "chaptersHeading": "チャプター",
+    "sourcesHeading": "出典 (全 {count} 件)",
+    "sourcesNote": "動画で使った出典の全件。章ごとに、その章で初めて引いた順に並べた。",
+    "sourcesNoteWithDate": "動画で使った出典の全件。章ごとに、その章で初めて引いた順に並べた。参照日はすべて {date}。",
+    "accessed": "参照 {date}",
+    "backToList": "← 動画の一覧"
+  },
   "brief": {
     "title": "ウィークリー・ブリーフ",
     "issuePrefix": "Issue #",

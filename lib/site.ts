@@ -32,6 +32,9 @@ export const X_PROFILE_URL = `https://x.com/${X_HANDLE}`;
 /** 押すとフォロー確認画面が開く (X の埋め込みスクリプトは読まない)。 */
 export const X_FOLLOW_URL = `https://x.com/intent/follow?screen_name=${X_HANDLE}`;
 
+/** YouTube チャンネル (2026-10-28 開設・ハンドルは X と同じ)。動画一覧と動画の記事が参照する。 */
+export const YOUTUBE_CHANNEL_URL = `https://www.youtube.com/@${X_HANDLE}`;
+
 /**
  * Google 検索の「優先ソース」(トップニュースで優先表示)。Google ニュースの
  * 媒体ページ (フォロー) は自動生成のみで、livemakers.com にはまだ無い

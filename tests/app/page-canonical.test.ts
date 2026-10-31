@@ -80,6 +80,12 @@ const STATIC_PAGES: Array<[string, string, Record<string, string>?]> = [
   ],
   ["@/app/[locale]/sessions/archive/page", "/sessions/archive"],
   ["@/app/[locale]/sessions/archive/past/page", "/sessions/archive/past"],
+  ["@/app/[locale]/videos/page", "/videos"],
+  [
+    "@/app/[locale]/videos/[slug]/page",
+    "/videos/ep001-finance-reboot",
+    { slug: "ep001-finance-reboot" },
+  ],
 ];
 
 describe("root metadata no longer makes every page claim to be the top page", () => {
