@@ -21,6 +21,8 @@ vi.mock("next-mdx-remote/rsc", () => ({
 }));
 
 const EP001 = getVideoBySlug("ep001-finance-reboot")!;
+// 投稿前・投稿後の表示は、content の状態に左右されないよう fixture で固定する
+const UNPOSTED: Video = { ...EP001, youtubeVideoId: undefined };
 const POSTED: Video = { ...EP001, youtubeVideoId: "dQw4w9WgXcQ" };
 
 function renderJa(node: React.ReactNode) {
@@ -33,7 +35,7 @@ function renderJa(node: React.ReactNode) {
 
 describe("動画の記事 (投稿前)", () => {
   it("埋め込みの代わりに近日公開とチャンネルへのリンクを出す", () => {
-    const { container } = renderJa(<VideoArticle video={EP001} />);
+    const { container } = renderJa(<VideoArticle video={UNPOSTED} />);
     expect(container.querySelector("iframe")).toBeNull();
     expect(container.querySelector('[data-video-status="coming-soon"]')).not.toBeNull();
     expect(screen.getByRole("link", { name: "YouTube チャンネル @LiveMakersCom" })).toHaveAttribute(
@@ -43,7 +45,7 @@ describe("動画の記事 (投稿前)", () => {
   });
 
   it("チャプターは時刻を出すがリンクにしない", () => {
-    const { container } = renderJa(<VideoArticle video={EP001} />);
+    const { container } = renderJa(<VideoArticle video={UNPOSTED} />);
     const chapters = container.querySelectorAll("[data-video-chapter]");
     expect(chapters).toHaveLength(8);
     expect(within(chapters[1] as HTMLElement).queryByRole("link")).toBeNull();
@@ -93,11 +95,20 @@ describe("動画の記事 (投稿後 — youtubeVideoId が入った状態)", ()
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=259s",
     );
   });
+
+  it("ep001 は @LiveMakersCom に上がった動画 (vH3e7BCWLsI) を埋め込む", () => {
+    expect(EP001.youtubeVideoId).toBe("vH3e7BCWLsI");
+    const { container } = renderJa(<VideoArticle video={EP001} />);
+    expect(container.querySelector("iframe")).toHaveAttribute(
+      "src",
+      "https://www.youtube-nocookie.com/embed/vH3e7BCWLsI",
+    );
+  });
 });
 
 describe("動画の一覧", () => {
   it("回ごとのカードが記事へ飛び、投稿前の回に近日公開を付ける", () => {
-    const { container } = renderJa(<VideoList videos={[POSTED, { ...EP001, slug: "ep000-x", href: "/videos/ep000-x" }]} />);
+    const { container } = renderJa(<VideoList videos={[POSTED, { ...UNPOSTED, slug: "ep000-x", href: "/videos/ep000-x" }]} />);
     const cards = container.querySelectorAll("[data-video-card]");
     expect(cards).toHaveLength(2);
     expect(cards[0].querySelector("[data-video-card-link]")).toHaveAttribute(
