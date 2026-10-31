@@ -23,7 +23,8 @@
     "sessionTerminal": "Intelligence Terminal",
     "flash": "速報",
     "landmark": "節目シグナル",
-    "restartMap": "金融再起動の現在地"
+    "restartMap": "金融再起動の現在地",
+    "videos": "動画"
   },
   "assets": {
     "dashboard": {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildNavModel } from "@/lib/home/nav-model";
+import { buildFlatNav, buildNavModel } from "@/lib/home/nav-model";
 
 describe("buildNavModel", () => {
   it("keeps 11 dropdown items (flash first, restart-map and landmark after future-map) and no top-level atlas while unpublished (G46 §11.3)", () => {
@@ -46,5 +46,15 @@ describe("buildNavModel", () => {
         "/articles/series/weekly-brief",
       );
     }
+  });
+});
+
+describe("buildFlatNav", () => {
+  it("places 動画 between 節目シグナル and About (2026-10-31 田平氏指示)", () => {
+    for (const surfacePublished of [false, true]) {
+      const keys = buildFlatNav(surfacePublished).map((i) => i.key);
+      expect(keys.slice(-3)).toEqual(["landmark", "videos", "about"]);
+    }
+    expect(buildFlatNav(false).find((i) => i.key === "videos")?.href).toBe("/videos");
   });
 });
