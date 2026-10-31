@@ -1,0 +1,94 @@
+{
+  "sessionId": "2026-10-31-ny-open",
+  "date": "2026-10-31",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-31-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-10-31-ny-open",
+  "publishedAt": "2026-11-01T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261031_1803_3c0e67c2",
+  "asOfJst": "2026-10-31T18:03:06+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 10月31日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,655.60 → 7,576.40（-1.03%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +8.9% / Coinbase（perp） -5.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261031_1905_49d6a309",
+    "crawlAnchorJst": "2026-10-31T18:03:00+09:00",
+    "writtenAtJst": "2026-10-31T19:05:00+09:00",
+    "lead": "夕方の焦点は Binance 流出の後始末だ。盗まれた資金の追跡と凍結が続き、事件の規模は上場企業や国家の保有に並ぶところまで見えてきた。一方で米 CFTC は AI エージェント取引を公開の場の議題に乗せ、規制の次の論点を先に置いた。OpenAI の調達が目標に届かなかったとの報道は、AI に流れる資金の勢いを測る材料になる。",
+    "items": [
+      {
+        "headline": "CFTC、AI と超知能を議題にした初の Frontier Forum を開いた",
+        "sourceUrl": "https://x.com/CFTC/status/2115889269835440183",
+        "note": "新しい規則は出していない。AI エージェントによる取引をどう監督するかを、当局が公開の場で論点に乗せた段階だ。"
+      },
+      {
+        "headline": "Chainalysis、Binance から盗まれた資金に前例のない洗浄の手口を観測",
+        "sourceUrl": "https://x.com/chainalysis/status/2116110357601095710",
+        "note": "流出資金の追跡は続いている。手口が新しいほど、凍結や回収の網をくぐる時間が延びる。"
+      },
+      {
+        "headline": "Binance から盗まれた BTC、Tesla の保有量を上回りエルサルバドルの準備の2倍超",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/31/bitcoin-stolen-from-binance-tops-tesla-s-holdings-and-is-over-twice-el-salvador-s-reserve",
+        "note": "CoinDesk の比較。1 件の流出が、上場企業や国家の保有規模に並ぶ大きさだと示している。"
+      },
+      {
+        "headline": "Arbitrum のセキュリティ評議会、Binance 流出に絡む約3,050万ドルを凍結",
+        "sourceUrl": "https://x.com/zachxbt/status/2115960582230913357",
+        "note": "調査者 ZachXBT の報告。チェーンの運営側が資金を止める権限を実際に使った例になる。"
+      },
+      {
+        "headline": "Coinbase プレミアムが4年ぶりの低水準",
+        "sourceUrl": "https://x.com/ki_young_ju/status/2116093579256791231",
+        "note": "CryptoQuant の Ki Young Ju 氏の指摘。前回この水準だったのは FTX 破綻直後の2022年11月だという。"
+      },
+      {
+        "headline": "OpenAI の資金調達、目標300億ドルに対し110億ドルにとどまったと報道",
+        "sourceUrl": "https://the-decoder.com/openai-raises-just-11-billion-of-its-30-billion-target-as-big-investors-lose-their-ai-appetite/",
+        "note": "The Decoder の報道で、OpenAI 自身の発表はまだ無い。大口投資家の AI への姿勢が変わったのかが焦点になる。"
+      },
+      {
+        "headline": "Gemini 4 Carbon、エージェント性能の評価 APEX-Agents で首位",
+        "sourceUrl": "https://x.com/mercor/status/2116226723968872959",
+        "note": "評価を運営する Mercor の発表。Carbon は一般向けには広く公開されていない。"
+      },
+      {
+        "headline": "Zcash Foundation、ノードソフト Zebra の試験版 7.1.0-alpha.0 を公開",
+        "sourceUrl": "https://x.com/ZcashFoundation/status/2116378169624207675",
+        "note": "マイナーの要望を受けて処理を速めたとする試験版。ネットワークの仕様は変わらない。"
+      },
+      {
+        "headline": "香港の通信会社、圧力を受けて米国での事業停止に合意",
+        "sourceUrl": "https://www.straitstimes.com/world/hong-kong-telecom-company-agrees-to-halt-us-operations-under-pressure",
+        "note": "Straits Times の報道。米中の通信インフラの切り離しが、また一段進んだ。"
+      },
+      {
+        "headline": "ECB 総裁の後任、オランダとスペインの候補による一騎打ちの見方",
+        "sourceUrl": "https://www.nzz.ch/wirtschaft/die-nachfolge-von-christine-lagarde-an-der-spitze-der-ezb-wird-wohl-zum-duell-zweier-kandidaten-spanier-gegen-niederlaender-ld.10049327",
+        "note": "NZZ の観測記事。金融政策の路線をめぐり、タカ派とハト派の選択として語られている。"
+      },
+      {
+        "headline": "グッドスマイルカンパニー、不正アクセスの第4報を公表",
+        "sourceUrl": "https://x.com/gsc_goodsmile/status/2116089892442706124",
+        "note": "公式ショップの会員情報が流出したおそれがある件の続報。自分が対象かどうかは公式の告知ページで確かめる。"
+      },
+      {
+        "headline": "Cardano の予測市場 Bodega、Champions League と NBA の市場を追加",
+        "sourceUrl": "https://x.com/BodegaCardano/status/2116405082602504621"
+      }
+    ],
+    "watch": [
+      "Binance 流出資金の凍結・回収の続報と、各チェーンの運営側が止める権限をどこまで使うか",
+      "OpenAI の調達をめぐる公式発表の有無",
+      "CFTC が AI エージェント取引について具体的な指針に進むか"
+    ]
+  }
+}
