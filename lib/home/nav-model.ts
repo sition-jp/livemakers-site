@@ -62,7 +62,8 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
  * トップ → Intelligence Terminal → 速報 → Daily Intel → Signal → Deep Dive →
  * 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
  * 次の時代の地図 (published 時は同じ位置に 未来アトラス) → 金融再起動の現在地 →
- * 節目シグナル → About
+ * 節目シグナル → 動画 → About
+ * 動画 (2026-10-31 田平氏指示): YouTube @LiveMakersCom の受け皿 /videos を 節目シグナルと About の間へ
  */
 export function buildFlatNav(surfacePublished: boolean): NavItem[] {
   const { articlesGroup } = buildNavModel(surfacePublished);
@@ -77,6 +78,7 @@ export function buildFlatNav(surfacePublished: boolean): NavItem[] {
     { key: "overview", href: "/" },
     { key: "sessionTerminal", href: "/sessions/archive" },
     ...articles,
+    { key: "videos", href: "/videos" },
     { key: "about", href: "/about" },
   ];
 }

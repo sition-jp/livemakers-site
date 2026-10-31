@@ -23,7 +23,8 @@
     "sessionTerminal": "INTELLIGENCE TERMINAL",
     "flash": "FLASH",
     "landmark": "LANDMARK",
-    "restartMap": "RESTART MAP"
+    "restartMap": "RESTART MAP",
+    "videos": "VIDEOS"
   },
   "assets": {
     "dashboard": {
