@@ -6,7 +6,7 @@ import { getVideoBySlug, type Video } from "@/lib/videos";
 const EP001 = getVideoBySlug("ep001-finance-reboot")!;
 const POSTED: Video = {
   ...EP001,
-  youtubeVideoId: "vH3e7BCWLsI",
+  youtubeVideoId: "PlMDhxjz13k",
   publishedAtJst: "2026-10-31T12:24:07+09:00",
 };
 
@@ -24,12 +24,12 @@ describe("lib/seo/video-json-ld", () => {
     );
     expect(json.description).toBe(POSTED.excerptJa);
     expect(json.uploadDate).toBe("2026-10-31T12:24:07+09:00");
-    expect(json.duration).toBe("PT38M23S");
-    expect(json.embedUrl).toBe("https://www.youtube-nocookie.com/embed/vH3e7BCWLsI");
-    expect(json.url).toBe("https://www.youtube.com/watch?v=vH3e7BCWLsI");
+    expect(json.duration).toBe("PT41M25S");
+    expect(json.embedUrl).toBe("https://www.youtube-nocookie.com/embed/PlMDhxjz13k");
+    expect(json.url).toBe("https://www.youtube.com/watch?v=PlMDhxjz13k");
     expect(json.thumbnailUrl).toEqual([
       "https://livemakers.com/thumbnails/video-ep001-finance-reboot.jpg",
-      "https://i.ytimg.com/vi/vH3e7BCWLsI/hqdefault.jpg",
+      "https://i.ytimg.com/vi/PlMDhxjz13k/hqdefault.jpg",
     ]);
     expect(json.mainEntityOfPage).toEqual({
       "@type": "WebPage",
@@ -45,11 +45,11 @@ describe("lib/seo/video-json-ld", () => {
       "@type": "Clip",
       name: "金融が、静かに再起動している",
       startOffset: 0,
-      endOffset: 259,
-      url: "https://www.youtube.com/watch?v=vH3e7BCWLsI",
+      endOffset: 389,
+      url: "https://www.youtube.com/watch?v=PlMDhxjz13k",
     });
-    expect(clips[1]).toMatchObject({ startOffset: 259, endOffset: 538, url: "https://www.youtube.com/watch?v=vH3e7BCWLsI&t=259s" });
-    expect(clips[7]).toMatchObject({ startOffset: 2038, endOffset: 2303 });
+    expect(clips[1]).toMatchObject({ startOffset: 389, endOffset: 667, url: "https://www.youtube.com/watch?v=PlMDhxjz13k&t=389s" });
+    expect(clips[7]).toMatchObject({ startOffset: 2167, endOffset: 2485 });
   });
 
   it("1 時間以上の長さも ISO 8601 で書く", () => {

@@ -56,15 +56,15 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.href).toBe(`/videos/${EP001}`);
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
       "00:00",
-      "04:19",
-      "08:58",
-      "14:16",
-      "19:46",
-      "24:36",
-      "29:40",
-      "33:58",
+      "06:29",
+      "11:07",
+      "16:25",
+      "21:55",
+      "26:45",
+      "31:50",
+      "36:07",
     ]);
-    expect(video!.durationSeconds).toBe(38 * 60 + 23);
+    expect(video!.durationSeconds).toBe(41 * 60 + 25);
     // 概要欄に入りきらない出典の正本。件数は台本の写し (sources.json) と一致する
     const raw = JSON.parse(
       fs.readFileSync(path.join(process.cwd(), "content", "videos", EP001, "sources.json"), "utf8"),
