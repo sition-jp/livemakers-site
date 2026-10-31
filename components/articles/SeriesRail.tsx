@@ -22,6 +22,8 @@ import { VideoRailCard, type VideoRailCardProps } from "@/components/videos/Vide
  * - 金融再起動の現在地 (restart-map) は 2026-10-29 田平氏 GO で常設の枠に (10 カテゴリ)。
  *   月 1 回の号を見落とさないよう Signal の後・最新の記事 20 本の前に置き、確定した
  *   段階の 1 行 (lib/restart-map/stages) を添える。
+ * - 動画の記事 (/videos/<slug>) にも同じレールを置く (2026-10-31 田平氏 GO)。記事では
+ *   ないので current = null (先頭へ移す枠なし・カテゴリは spec §4 の順のまま)。
  * - 動画の窓 (2026-10-31 田平氏 GO・YouTube に上がった回だけ): この記事を関連記事に
  *   挙げている回があれば先頭に「この記事の解説動画」、無ければ末尾に「最新の動画」。
  */
@@ -112,7 +114,8 @@ export function SeriesRail({
   latestVideoRows = null,
 }: {
   articles: ArticleMeta[];
-  current: ArticleMeta;
+  /** 閲覧中の記事。記事でないページ (動画の記事など) は null — 先頭へ移す枠も除外もしない */
+  current: ArticleMeta | null;
   surfacePublished: boolean;
   copy: SeriesRailCopy;
   relatedVideo?: Omit<VideoRailCardProps, "placement"> | null;
@@ -126,12 +129,12 @@ export function SeriesRail({
       .filter(
         (candidate) =>
           candidate.family === family &&
-          (!excludeCurrent || candidate.articleId !== current.articleId),
+          (!excludeCurrent || candidate.articleId !== current?.articleId),
       )
       .toSorted(byNewest)
       .slice(0, count);
 
-  const currentSection = sectionForFamily(current.family);
+  const currentSection = current ? sectionForFamily(current.family) : null;
   const order: RailSection[] = currentSection
     ? [currentSection, ...RAIL_SECTIONS.filter((section) => section !== currentSection)]
     : [...RAIL_SECTIONS];
@@ -189,7 +192,7 @@ export function SeriesRail({
               ? []
               : section === "latest-articles"
                 ? articles
-                    .filter((candidate) => candidate.articleId !== current.articleId)
+                    .filter((candidate) => candidate.articleId !== current?.articleId)
                     .toSorted(byNewest)
                     .slice(0, LATEST_ARTICLES_COUNT)
                 : section === "future-atlas"

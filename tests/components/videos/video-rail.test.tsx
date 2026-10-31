@@ -133,6 +133,29 @@ describe("記事の右レーンの動画の窓", () => {
   });
 });
 
+describe("動画の記事の右レール (current = null・2026-10-31 田平氏 GO)", () => {
+  it("先頭へ移す枠を作らず、記事を除外せず、カテゴリを既定の順で出す", () => {
+    const { container } = render(
+      <SeriesRail
+        articles={catalog}
+        current={null}
+        surfacePublished={false}
+        copy={railCopy}
+        latestVideoRows={{ items: [], label: "動画" }}
+      />,
+    );
+    const sections = [...container.querySelectorAll("[data-rail-section]")].map((section) =>
+      section.getAttribute("data-rail-section"),
+    );
+    expect(sections[0]).toBe("session-terminal");
+    expect(container.textContent).not.toContain(railCopy.currentSeriesTitle);
+    const latest = container.querySelector('[data-rail-section="latest-articles"]')!;
+    expect(
+      [...latest.querySelectorAll("a[data-article-id]")].map((row) => row.getAttribute("data-article-id")),
+    ).toEqual(["sig-1", "intel-1"]);
+  });
+});
+
 describe("トップ右列⑤「最新の記事」の動画の行", () => {
   it("公開日時で記事と同じ新しい順に入り、本数は増やさない", () => {
     const { container } = render(

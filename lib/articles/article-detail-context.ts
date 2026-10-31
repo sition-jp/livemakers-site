@@ -91,20 +91,44 @@ export async function loadArticleDetailContext(
       )
     : { prev: null, next: null };
 
-  const inflowRail = rail
-    ? withoutDuplicates([...rail.latest, ...Object.values(rail.byFamily).flat()])
-    : [];
-  const railArticles = withoutDuplicates([...repository, ...inflowRail]).toSorted((left, right) =>
-    right.publishedAtJst.localeCompare(left.publishedAtJst),
-  );
+  const { railArticles, surfacePublished } = railContextFrom(rail, repository, config);
 
   return {
     neighbors,
     related: rail ? getRelatedArticles(railArticles, article) : [],
     railArticles,
-    surfacePublished: effectiveSurfacePublished(config, inflowRail),
+    surfacePublished,
     topics: fundingIndex?.articles.some((entry) => entry.articleId === article.articleId)
       ? ["funding"]
       : [],
   };
+}
+
+type RailContext = Pick<ArticleDetailContext, "railArticles" | "surfacePublished">;
+
+function railContextFrom(
+  rail: Awaited<ReturnType<typeof fetchArticleRail>>,
+  repository: ArticleMeta[],
+  config: Parameters<typeof effectiveSurfacePublished>[0],
+): RailContext {
+  const inflowRail = rail
+    ? withoutDuplicates([...rail.latest, ...Object.values(rail.byFamily).flat()])
+    : [];
+  return {
+    railArticles: withoutDuplicates([...repository, ...inflowRail]).toSorted((left, right) =>
+      right.publishedAtJst.localeCompare(left.publishedAtJst),
+    ),
+    surfacePublished: effectiveSurfacePublished(config, inflowRail),
+  };
+}
+
+/**
+ * 記事でないページ (動画の記事・2026-10-31) の右レール用: 記事詳細と同じ rail +
+ * リポジトリの記事と、未来アトラスの表示判定だけを組む。rail が取れなければ
+ * リポジトリの記事だけで描く (投げない)。
+ */
+export async function loadRailContext(
+  config: Parameters<typeof effectiveSurfacePublished>[0],
+): Promise<RailContext> {
+  return railContextFrom(await fetchArticleRail(), repositoryArticles(), config);
 }

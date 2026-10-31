@@ -65,6 +65,7 @@ const nextConfig = {
     "/[locale]/articles/series/[series]": ["./content/videos/**/*"],
     "/[locale]/articles/series/[series]/page/[page]": ["./content/videos/**/*"],
     "/[locale]/videos": ["./content/videos/**/*"],
+    "/[locale]/videos/[slug]": ["./content/videos/**/*"],
   },
   async redirects() {
     return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
