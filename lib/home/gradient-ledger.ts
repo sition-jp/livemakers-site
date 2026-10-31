@@ -69,12 +69,16 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
   //   2026-10-26: event-risk-mobile (スマホ専用) も末尾側の固定枠で最新記事の直前
   //   2026-10-29 田平氏 GO (C 案): restart-map (金融再起動の現在地・月 1 回) を記事の
   //   枠に加える。固定にせず新着順に混ぜ、公開直後だけ自然に上へ来る
+  //   2026-10-31 田平氏 GO: video (最新の動画・YouTube に上がった回だけ) を記事の枠の
+  //   直後の固定枠に。投稿前の回しか無いあいだは枠ごと非表示。記事を載せない枠なので
+  //   INDEX_NAV_MODULES (記事 id の重複検査の除外) には入れず、窓自身が data-index-nav を持つ
   lagging: [
     "deep-dive",
     "atlas-entry",
     "mkt12-weekend",
     "weekly-brief",
     "restart-map",
+    "video",
     "event-risk-mobile",
     "latest-articles",
     "turning-point-reserved",

@@ -86,6 +86,7 @@ import { collectSelectedArticleIds } from "@/lib/home/select-home-slots";
 import {
   isAllowedChromeExternalLink,
   isAllowedChromeRoute,
+  isAllowedVideoRoute,
   isAllowedPublishedArticleRoute,
 } from "@/lib/livemakers-terminal-preview/public-topology";
 import { getSessionRecord } from "@/lib/sessions/session-content";
@@ -394,7 +395,8 @@ describe("G44 safety gates with validated Production feed overlay", () => {
           anchor.closest("[data-index-nav]"),
           `gradient non-article link must be index-nav: ${href}`,
         ).not.toBeNull();
-        expect(isAllowedChromeRoute(href), `gradient:${href}`).toBe(true);
+        // 2026-10-31: 動画の窓 (索引扱い) は動画の記事 /videos/<slug> へ飛ぶ
+        expect(isAllowedChromeRoute(href) || isAllowedVideoRoute(href), `gradient:${href}`).toBe(true);
       }
     }
     // 2026-08-23: 来歴帯の言語トグル (strip バケット) を 4 つ目として加算

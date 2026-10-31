@@ -9,6 +9,7 @@ import { DeepDiveShelf } from "../DeepDiveShelf";
 import { EventRiskModule } from "../EventRiskModule";
 import { IndexEntryCard } from "../IndexEntryCard";
 import { LatestArticlesCard } from "../LatestArticlesCard";
+import { VideoRailCard } from "@/components/videos/VideoRailCard";
 
 const REGION = "lagging" satisfies GradientRegion;
 
@@ -29,13 +30,14 @@ const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
  */
 export type LaggingColumnProps = Pick<
   HomeCompositionProps,
-  "slots" | "surfacePublished" | "copy"
+  "slots" | "surfacePublished" | "copy" | "videoCard"
 >;
 
 export function LaggingColumn({
   slots,
   surfacePublished,
   copy,
+  videoCard = null,
 }: LaggingColumnProps) {
   const atlas = buildAtlasEntry(surfacePublished, slots.atlasLatest);
   const indexCopy = { familyLabels: copy.familyLabels };
@@ -104,6 +106,9 @@ export function LaggingColumn({
             }
           />
         );
+      case "video":
+        // 2026-10-31 田平氏 GO: 最新の動画 (YouTube に上がった回だけ・押すと動画の記事へ)
+        return videoCard ? <VideoRailCard {...videoCard} placement="latest" /> : null;
       case "event-risk-mobile":
         // 2026-10-26 田平氏 GO: スマホでは Event Risk を最新記事の直前に出す
         // (左列の event-risk はスマホで非表示・この写しは PC で非表示・索引扱い)
@@ -138,7 +143,8 @@ export function LaggingColumn({
       className="min-w-0 space-y-6"
     >
       {modules.map((module) =>
-        module === "turning-point-reserved" ? (
+        module === "turning-point-reserved" ||
+        (module === "video" && !videoCard) ? (
           <div
             key={module}
             data-column-module={module}

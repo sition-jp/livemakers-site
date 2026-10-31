@@ -38,7 +38,7 @@ describe("gradient ledger", () => {
     // (event-risk-mobile = スマホだけの表現・左の event-risk はスマホで非表示)。
     // 2026-10-29 田平氏 GO: 金融再起動の現在地 (restart-map) を記事の枠に加える (新着順に混ぜる)。
     expect(REGION_MODULES.lagging).toEqual([
-      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "restart-map", "event-risk-mobile",
+      "deep-dive", "atlas-entry", "mkt12-weekend", "weekly-brief", "restart-map", "video", "event-risk-mobile",
       "latest-articles", "turning-point-reserved",
     ]);
   });

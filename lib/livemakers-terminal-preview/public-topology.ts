@@ -93,6 +93,14 @@ export function isAllowedPublishedArticleRoute(href: string): boolean {
   return allowedPublishedArticleRoutes.some((pattern) => pattern.test(href));
 }
 
+/**
+ * 動画の記事 (/videos/<slug>)。トップ右列・記事の右レーンの動画の窓 (索引扱い)
+ * の飛び先 (2026-10-31)。実在の確認は呼び出し側 (lib/videos) で行う。
+ */
+export function isAllowedVideoRoute(href: string): boolean {
+  return /^\/videos\/[a-z0-9-]+$/.test(href);
+}
+
 export function isAllowedChromeRoute(href: string): boolean {
   return (PAGE_CHROME_ROUTES as readonly string[]).includes(href);
 }

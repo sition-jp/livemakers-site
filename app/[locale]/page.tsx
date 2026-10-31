@@ -14,6 +14,7 @@ import {
 } from "@/lib/sessions/next-session";
 import { READER_SESSIONS } from "@/lib/sessions/session-registry";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
+import { getLatestPostedVideo } from "@/lib/videos";
 
 export const revalidate = 300;
 
@@ -70,6 +71,16 @@ export default async function OverviewPage({
     },
   );
 
+  const tVideos = await getTranslations("videos");
+  const latestVideo = getLatestPostedVideo();
+  const videoCard = latestVideo
+    ? {
+        video: latestVideo,
+        heading: tVideos("railLatestHeading"),
+        watchLabel: tVideos("railWatch"),
+      }
+    : null;
+
   return (
     <>
       <OrganizationJsonLd />
@@ -112,6 +123,7 @@ export default async function OverviewPage({
         locale={locale}
         copy={copy}
         surfacePublished={surfacePublished}
+        videoCard={videoCard}
       />
     </>
   );

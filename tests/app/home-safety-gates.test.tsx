@@ -37,6 +37,7 @@ import { collectSelectedArticleIds } from "@/lib/home/select-home-slots";
 import {
   isAllowedChromeExternalLink,
   isAllowedChromeRoute,
+  isAllowedVideoRoute,
   isAllowedPublishedArticleRoute,
 } from "@/lib/livemakers-terminal-preview/public-topology";
 import { getSessionRecord } from "@/lib/sessions/session-content";
@@ -290,7 +291,8 @@ describe("G44 gradient safety regression gates (page-wide, fail-closed)", () => 
           anchor.closest("[data-index-nav]"),
           `gradient non-article link must be index-nav: ${href}`,
         ).not.toBeNull();
-        expect(isAllowedChromeRoute(href), `gradient:${href}`).toBe(true);
+        // 2026-10-31: 動画の窓 (索引扱い) は動画の記事 /videos/<slug> へ飛ぶ
+        expect(isAllowedChromeRoute(href) || isAllowedVideoRoute(href), `gradient:${href}`).toBe(true);
       }
     }
 

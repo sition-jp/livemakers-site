@@ -194,3 +194,42 @@ export function groupSourcesByChapter(
     }))
     .filter((group) => group.sources.length > 0);
 }
+
+/** 右レーン・右列の動画の窓に渡す最小の形 */
+export type VideoCardData = Pick<
+  Video,
+  "slug" | "href" | "titleJa" | "subtitleJa" | "durationSeconds" | "eyecatch"
+>;
+
+function toCard(video: Video): VideoCardData {
+  const { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch } = video;
+  return { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch };
+}
+
+/**
+ * 動画の窓は YouTube に上がった回 (youtubeVideoId あり) だけを出す
+ * (2026-10-31 田平氏 GO)。投稿前の「近日公開」で目立つ枠を使わない。
+ */
+function postedVideos(options: VideoLoadOptions): Video[] {
+  return getAllVideos(options).filter((video) => video.youtubeVideoId);
+}
+
+/** トップ右列・記事の右レーン下の「最新の動画」 */
+export function getLatestPostedVideo(options: VideoLoadOptions = {}): VideoCardData | null {
+  const latest = postedVideos(options)[0];
+  return latest ? toCard(latest) : null;
+}
+
+/**
+ * 記事の右レーン上の「この記事の解説動画」: その記事を relatedArticles に
+ * 挙げている回 (新しい回が先)。articleHref は "/articles/<id>"。
+ */
+export function getPostedVideoForArticle(
+  articleHref: string,
+  options: VideoLoadOptions = {},
+): VideoCardData | null {
+  const video = postedVideos(options).find((candidate) =>
+    candidate.relatedArticles.some((article) => article.href === articleHref),
+  );
+  return video ? toCard(video) : null;
+}

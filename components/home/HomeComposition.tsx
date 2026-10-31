@@ -5,6 +5,7 @@ import type {
 } from "@/lib/home/build-home-props";
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeCatalogSource } from "@/lib/home/load-home-composition";
+import type { VideoRailCardProps } from "@/components/videos/VideoRailCard";
 import { FlashBand } from "./FlashBand";
 import { CoincidentColumn } from "./columns/CoincidentColumn";
 import { LaggingColumn } from "./columns/LaggingColumn";
@@ -23,6 +24,8 @@ export type HomeCompositionProps = ReturnType<
   showSessionEditorial?: boolean;
   /** 2026-09-21: 速報帯の表示言語 (page.tsx の locale)。省略時 ja。 */
   locale?: string;
+  /** 2026-10-31: 右列の「最新の動画」(YouTube に上がった回が無ければ null)。 */
+  videoCard?: Omit<VideoRailCardProps, "placement"> | null;
 };
 
 /**
@@ -55,6 +58,7 @@ export function HomeComposition({
   sessionsSource = "repo",
   showSessionEditorial = true,
   locale = "ja",
+  videoCard = null,
 }: HomeCompositionProps) {
   return (
     <div
@@ -95,6 +99,7 @@ export function HomeComposition({
           slots={slots}
           surfacePublished={surfacePublished}
           copy={copy}
+          videoCard={videoCard}
         />
       </div>
     </div>

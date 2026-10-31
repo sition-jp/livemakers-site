@@ -7,6 +7,8 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   formatDurationJa,
   getAllVideos,
+  getLatestPostedVideo,
+  getPostedVideoForArticle,
   getVideoBySlug,
   groupSourcesByChapter,
   timestampToSeconds,
@@ -19,6 +21,18 @@ const tempDirs: string[] = [];
 afterEach(() => {
   for (const dir of tempDirs.splice(0)) fs.rmSync(dir, { recursive: true, force: true });
 });
+
+/** ep001 を一時ディレクトリへ写し、video.json / sources.json を書き換えた contentDir を返す */
+function mutatedDir(mutate: (meta: Record<string, unknown>) => void): string {
+  const contentDir = fs.mkdtempSync(path.join(os.tmpdir(), "videos-"));
+  tempDirs.push(contentDir);
+  const to = path.join(contentDir, EP001);
+  fs.cpSync(path.join(process.cwd(), "content", "videos", EP001), to, { recursive: true });
+  const meta = JSON.parse(fs.readFileSync(path.join(to, "video.json"), "utf8"));
+  mutate(meta);
+  fs.writeFileSync(path.join(to, "video.json"), JSON.stringify(meta));
+  return contentDir;
+}
 
 /** ep001 を一時ディレクトリへ写し、video.json / sources.json を書き換えて読む */
 function loadMutated(mutate: (meta: Record<string, unknown>, sources: Record<string, unknown>) => void) {
@@ -148,5 +162,24 @@ describe("lib/videos の補助関数", () => {
     expect(youtubeWatchUrl("dQw4w9WgXcQ", 259)).toBe(
       "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=259s",
     );
+  });
+});
+
+describe("動画の窓に出す回 (YouTube に上がった回だけ)", () => {
+  it("投稿前の回しか無ければ窓に出すものは無い", () => {
+    const contentDir = mutatedDir((meta) => delete meta.youtubeVideoId);
+    expect(getLatestPostedVideo({ contentDir })).toBeNull();
+    expect(
+      getPostedVideoForArticle("/articles/future-map-20261031-2ac42693", { contentDir }),
+    ).toBeNull();
+  });
+
+  it("投稿後は最新の回と、関連記事に挙げた記事の解説動画を返す", () => {
+    const contentDir = mutatedDir((meta) => (meta.youtubeVideoId = "dQw4w9WgXcQ"));
+    expect(getLatestPostedVideo({ contentDir })?.href).toBe(`/videos/${EP001}`);
+    expect(
+      getPostedVideoForArticle("/articles/future-map-20261031-2ac42693", { contentDir })?.slug,
+    ).toBe(EP001);
+    expect(getPostedVideoForArticle("/articles/unrelated", { contentDir })).toBeNull();
   });
 });

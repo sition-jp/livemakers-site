@@ -14,6 +14,7 @@ import {
 import {
   isAllowedChromeRoute,
   isAllowedPublishedArticleRoute,
+  isAllowedVideoRoute,
 } from "@/lib/livemakers-terminal-preview/public-topology";
 import ja from "@/messages/ja.json";
 import en from "@/messages/en.json";
@@ -336,7 +337,8 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     for (const anchor of anchors) {
       const href = anchor.getAttribute("href")!;
       expect(
-        isAllowedPublishedArticleRoute(href) || isAllowedChromeRoute(href),
+        // 右レーンの動画の窓は動画の記事 (/videos/<slug>) へ飛ぶ
+        isAllowedPublishedArticleRoute(href) || isAllowedChromeRoute(href) || isAllowedVideoRoute(href),
         `link outside ledgers: ${href}`,
       ).toBe(true);
     }

@@ -130,6 +130,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
       .map((element) => element.getAttribute("data-column-module"));
 
   // 資金調達が 0 本なら枠は hidden (列の余白を取らない) — 見える並びから外す
+  // 動画の窓 (video) も YouTube に上がった回が無ければ hidden。この fixture には無い
   const funding = props.slots.fundingArticles.length > 0 ? ["funding"] : [];
 
   // 2026-10-26 田平氏 GO (2 回目): スマホも Intelligence Terminal を先頭に PC と同じ
@@ -138,7 +139,8 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
   it("stacks the mobile page: Intelligence Terminal → Daily Intel → 12 indicators → … → Event Risk → latest articles", () => {
     const { container } = renderHome();
     const lagging = orderLaggingModules(props.slots).filter(
-      (module) => !["event-risk-mobile", "latest-articles", "turning-point-reserved"].includes(module),
+      (module) =>
+        !["video", "event-risk-mobile", "latest-articles", "turning-point-reserved"].includes(module),
     );
     expect(visibleModules(container, "mobile")).toEqual([
       "session-now",
@@ -175,7 +177,7 @@ describe("gradient home composition (doctrine §4 gradient ledger, G44)", () => 
   it("keeps the desktop columns unchanged by the mobile order", () => {
     const { container } = renderHome();
     const lagging = orderLaggingModules(props.slots).filter(
-      (module) => !["event-risk-mobile", "turning-point-reserved"].includes(module),
+      (module) => !["video", "event-risk-mobile", "turning-point-reserved"].includes(module),
     );
     expect(visibleModules(container, "xl")).toEqual([
       "session-now",
