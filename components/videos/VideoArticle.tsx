@@ -102,6 +102,26 @@ export function VideoArticle({ video }: { video: Video }) {
         <MDXRemote source={video.bodyJa} options={mdxOptions} />
       </div>
 
+      {video.relatedArticles.length > 0 ? (
+        <section className="mt-14" aria-labelledby="video-related" data-video-related>
+          <h2 id="video-related" className="mb-4 text-2xl font-light tracking-title">
+            {t("relatedHeading")}
+          </h2>
+          <ul className="space-y-3">
+            {video.relatedArticles.map((article) => (
+              <li key={article.href}>
+                <Link
+                  href={article.href}
+                  className="block border border-border-primary bg-bg-secondary px-4 py-3 text-sm text-text-primary transition-colors hover:border-border-hover hover:text-pillar-overview"
+                >
+                  {article.titleJa}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <section className="mt-14" aria-labelledby="video-chapters">
         <h2 id="video-chapters" className="mb-6 text-2xl font-light tracking-title">
           {t("chaptersHeading")}

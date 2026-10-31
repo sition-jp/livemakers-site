@@ -238,6 +238,7 @@
     "sourcesNote": "動画で使った出典の全件。章ごとに、その章で初めて引いた順に並べた。",
     "sourcesNoteWithDate": "動画で使った出典の全件。章ごとに、その章で初めて引いた順に並べた。参照日はすべて {date}。",
     "accessed": "参照 {date}",
+    "relatedHeading": "関連記事",
     "backToList": "← 動画の一覧"
   },
   "brief": {

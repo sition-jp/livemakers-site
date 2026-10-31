@@ -55,6 +55,15 @@ export const VideoMetaSchema = z
       })
       .optional(),
     chapters: z.array(VideoChapterSchema).min(1),
+    /** この動画と関係のあるサイトの記事 (台本の `related` と同じ並び) */
+    relatedArticles: z
+      .array(
+        z.strictObject({
+          titleJa: z.string().min(1),
+          href: z.string().regex(/^\/articles\/[a-z0-9-]+$/),
+        }),
+      )
+      .default([]),
   })
   .superRefine((meta, context) => {
     const starts = meta.chapters.map((chapter) => timestampToSeconds(chapter.start));

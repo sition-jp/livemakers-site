@@ -31,42 +31,58 @@ export function VideoList({ videos }: { videos: Video[] }) {
       ) : (
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {videos.map((video) => (
-            <Link
+            <div
               key={video.slug}
-              href={video.href}
               data-video-card={video.slug}
-              className="group block overflow-hidden border border-border-primary bg-bg-secondary transition-colors hover:border-border-hover"
+              className="flex flex-col overflow-hidden border border-border-primary bg-bg-secondary transition-colors hover:border-border-hover"
             >
-              {video.eyecatch ? (
-                <div className="aspect-[16/9] overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={video.eyecatch.src}
-                    alt={video.eyecatch.alt}
-                    width={video.eyecatch.width}
-                    height={video.eyecatch.height}
-                    className="h-full w-full object-cover"
-                  />
+              <Link href={video.href} data-video-card-link className="group block">
+                {video.eyecatch ? (
+                  <div className="aspect-[16/9] overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={video.eyecatch.src}
+                      alt={video.eyecatch.alt}
+                      width={video.eyecatch.width}
+                      height={video.eyecatch.height}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : null}
+                <div className="p-6">
+                  <div className="mb-4 flex flex-wrap items-center gap-2">
+                    <TagLabel>{t("episodeLabel", { number: String(video.episodeNumber) })}</TagLabel>
+                    {video.youtubeVideoId ? null : <TagLabel>{t("comingSoon")}</TagLabel>}
+                  </div>
+                  <h2 className="mb-2 text-lg font-bold leading-snug text-text-primary group-hover:text-pillar-overview">
+                    {video.titleJa}
+                  </h2>
+                  {video.subtitleJa ? (
+                    <p className="mb-3 text-sm leading-snug text-text-secondary">{video.subtitleJa}</p>
+                  ) : null}
+                  <p className="mb-4 line-clamp-3 text-sm text-text-secondary">{video.excerptJa}</p>
+                  <div className="flex items-center justify-between text-[10px] tracking-label text-text-tertiary">
+                    <span>{formatDurationJa(video.durationSeconds)}</span>
+                    <span>{t("chapterCount", { count: String(video.chapters.length) })}</span>
+                  </div>
+                </div>
+              </Link>
+              {/* 関連記事はカードの記事リンクの外 (a の入れ子を避ける) */}
+              {video.relatedArticles.length > 0 ? (
+                <div className="border-t border-border-primary px-6 py-4" data-video-related>
+                  <p className="mb-2 text-[10px] tracking-label text-text-tertiary">{t("relatedHeading")}</p>
+                  <ul className="space-y-1.5 text-xs leading-snug">
+                    {video.relatedArticles.map((article) => (
+                      <li key={article.href}>
+                        <Link href={article.href} className="text-text-secondary hover:text-pillar-overview hover:underline">
+                          {article.titleJa}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               ) : null}
-              <div className="p-6">
-                <div className="mb-4 flex flex-wrap items-center gap-2">
-                  <TagLabel>{t("episodeLabel", { number: String(video.episodeNumber) })}</TagLabel>
-                  {video.youtubeVideoId ? null : <TagLabel>{t("comingSoon")}</TagLabel>}
-                </div>
-                <h2 className="mb-2 text-lg font-bold leading-snug text-text-primary group-hover:text-pillar-overview">
-                  {video.titleJa}
-                </h2>
-                {video.subtitleJa ? (
-                  <p className="mb-3 text-sm leading-snug text-text-secondary">{video.subtitleJa}</p>
-                ) : null}
-                <p className="mb-4 line-clamp-3 text-sm text-text-secondary">{video.excerptJa}</p>
-                <div className="flex items-center justify-between text-[10px] tracking-label text-text-tertiary">
-                  <span>{formatDurationJa(video.durationSeconds)}</span>
-                  <span>{t("chapterCount", { count: String(video.chapters.length) })}</span>
-                </div>
-              </div>
-            </Link>
+            </div>
           ))}
         </div>
       )}

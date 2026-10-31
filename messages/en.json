@@ -238,6 +238,7 @@
     "sourcesNote": "Every source used in the video, grouped by the chapter that first cites it.",
     "sourcesNoteWithDate": "Every source used in the video, grouped by the chapter that first cites it. All accessed on {date}.",
     "accessed": "accessed {date}",
+    "relatedHeading": "Related articles",
     "backToList": "← All videos"
   },
   "brief": {

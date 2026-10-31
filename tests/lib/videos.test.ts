@@ -98,6 +98,14 @@ describe("lib/videos の検証", () => {
     expect(() => loadMutated((meta) => (meta.durationSeconds = 60))()).toThrow(/ends/);
   });
 
+  it("関連記事はサイト内の /articles/ だけを通す", () => {
+    expect(() =>
+      loadMutated((meta) => {
+        meta.relatedArticles = [{ titleJa: "外部", href: "https://example.com/x" }];
+      })(),
+    ).toThrow();
+  });
+
   it("同じ URL の出典が 2 件あれば落とす", () => {
     expect(() =>
       loadMutated((_meta, sources) => {

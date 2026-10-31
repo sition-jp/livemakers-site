@@ -68,6 +68,17 @@ describe("動画の記事 (投稿前)", () => {
   });
 });
 
+describe("動画の記事の関連記事", () => {
+  it("台本の related と同じ並びでサイトの記事へリンクする", () => {
+    const { container } = renderJa(<VideoArticle video={EP001} />);
+    const links = within(container.querySelector("[data-video-related]") as HTMLElement).getAllByRole("link");
+    expect(links.map((link) => link.getAttribute("href"))).toEqual([
+      "/articles/future-map-20261031-2ac42693",
+      "/articles/restart-map-20261026-3539f54e",
+    ]);
+  });
+});
+
 describe("動画の記事 (投稿後 — youtubeVideoId が入った状態)", () => {
   it("youtube-nocookie で埋め込み、チャプターが該当時刻へのリンクになる", () => {
     const { container } = renderJa(<VideoArticle video={POSTED} />);
@@ -89,7 +100,17 @@ describe("動画の一覧", () => {
     const { container } = renderJa(<VideoList videos={[POSTED, { ...EP001, slug: "ep000-x", href: "/videos/ep000-x" }]} />);
     const cards = container.querySelectorAll("[data-video-card]");
     expect(cards).toHaveLength(2);
-    expect(cards[0]).toHaveAttribute("href", "/videos/ep001-finance-reboot");
+    expect(cards[0].querySelector("[data-video-card-link]")).toHaveAttribute(
+      "href",
+      "/videos/ep001-finance-reboot",
+    );
+    // 関連記事はカードから辿れる (記事リンクの外に置き、a を入れ子にしない)
+    const related = within(cards[0].querySelector("[data-video-related]") as HTMLElement);
+    expect(related.getByRole("link", { name: /次の時代の地図 #25/ })).toHaveAttribute(
+      "href",
+      "/articles/future-map-20261031-2ac42693",
+    );
+    expect(cards[0].querySelector("a a")).toBeNull();
     expect(cards[0].textContent).not.toContain("近日公開");
     expect(cards[1].textContent).toContain("近日公開");
   });
