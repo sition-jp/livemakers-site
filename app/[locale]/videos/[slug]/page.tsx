@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
+import { VideoJsonLd } from "@/components/seo/VideoJsonLd";
 import { VideoArticle } from "@/components/videos/VideoArticle";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { videoSlugParams } from "@/lib/static-params";
@@ -68,5 +69,10 @@ export default async function VideoDetailPage({
   const video = getVideoBySlug(slug);
   if (!video) notFound();
 
-  return <VideoArticle video={video} />;
+  return (
+    <>
+      <VideoJsonLd video={video} lang={locale === "en" ? "en" : "ja"} />
+      <VideoArticle video={video} />
+    </>
+  );
 }
