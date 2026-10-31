@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     template: "%s | LiveMakers",
   },
   description:
-    "LiveMakers is the intelligence terminal of SITION for the financial reboot, powered by SDE — integrating crypto assets and blockchains, AI and robotics, quantum, synthetic biology, and macro/regulation into leading-indicator signals, forecasts, and actionable decisions.",
+    "LiveMakers is the intelligence terminal of SITION for the financial reboot, powered by SDE — integrating crypto assets and blockchains, AI and robotics, quantum, synthetic biology, nanotechnology, and macro/regulation into leading-indicator signals, forecasts, and actionable decisions.",
   // canonical / hreflang はここで既定値を持たない (2026-10-19)。以前は
   // `canonical: "/ja"` を置いていたため、独自の alternates を宣言しない
   // 全ページが「トップの重複」を名乗り、Google 検索でトップが上に出なく
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
     description:
-      "Crypto, AI, quantum, and synthetic biology are rebuilding finance — observed from the field by SITION (DRep #13 · SPO ×3 · Midnight Ambassador).",
+      "Crypto, AI, quantum, synthetic biology, and nanotechnology are rebuilding finance — observed from the field by SITION (DRep #13 · SPO ×3 · Midnight Ambassador).",
     type: "website",
     locale: "en_US",
     alternateLocale: "ja_JP",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
     description:
-      "Crypto, AI, quantum, and synthetic biology are rebuilding finance — observed from the field by SITION (DRep #13 · SPO ×3 · Midnight Ambassador).",
+      "Crypto, AI, quantum, synthetic biology, and nanotechnology are rebuilding finance — observed from the field by SITION (DRep #13 · SPO ×3 · Midnight Ambassador).",
     images: [HOME_OG_IMAGE.url],
   },
 };
