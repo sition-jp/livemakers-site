@@ -38,6 +38,8 @@ export const PAGE_CHROME_ROUTES = [
   // 資金調達の棚 (トップ右の列の枠・Signal 一覧のリンクの飛び先)。ヘッダには置かない
   "/topics/funding",
   "/sessions/archive",
+  // 動画 (YouTube @LiveMakersCom の受け皿・2026-10-31 田平氏指示でメニューへ)
+  "/videos",
   "/future-atlas",
   "/future-atlas/ledger",
   "/future-atlas/methodology",

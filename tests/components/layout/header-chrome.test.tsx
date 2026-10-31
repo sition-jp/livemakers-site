@@ -202,11 +202,12 @@ describe("G41 page chrome", () => {
       expect(atlas).toBeGreaterThanOrEqual(0);
       expect(links[atlas]).toEqual({ href: "/future-atlas", text: "FUTURE ATLAS" });
       // 2026-08-14 フラットナビ: atlas は旧 futureMap の位置。2026-10-29 田平氏:
-      // その後ろに 金融再起動の現在地 → 節目シグナル → About
+      // その後ろに 金融再起動の現在地 → 節目シグナル → 動画 (2026-10-31) → About
       expect(links[atlas - 1]?.href).toBe("/articles/series/weekly-brief");
       expect(links.slice(atlas + 1).map((link) => link.href)).toEqual([
         "/articles/series/restart-map",
         "/articles/series/landmark",
+        "/videos",
         "/about",
       ]);
       expect(links.some((link) => link.href === "/sessions/archive")).toBe(true);
