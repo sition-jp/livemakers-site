@@ -49,7 +49,7 @@ describe("動画の記事 (投稿前)", () => {
     const chapters = container.querySelectorAll("[data-video-chapter]");
     expect(chapters).toHaveLength(8);
     expect(within(chapters[1] as HTMLElement).queryByRole("link")).toBeNull();
-    expect(chapters[1].textContent).toContain("04:19");
+    expect(chapters[1].textContent).toContain("06:29");
   });
 
   it("出典を全件、通し番号で、新しいタブで開くリンクとして出す", () => {
@@ -89,19 +89,19 @@ describe("動画の記事 (投稿後 — youtubeVideoId が入った状態)", ()
       "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
     );
     expect(container.querySelector('[data-video-status="coming-soon"]')).toBeNull();
-    const chapter = container.querySelector('[data-video-chapter="04:19"]') as HTMLElement;
-    expect(within(chapter).getByRole("link", { name: "04:19" })).toHaveAttribute(
+    const chapter = container.querySelector('[data-video-chapter="06:29"]') as HTMLElement;
+    expect(within(chapter).getByRole("link", { name: "06:29" })).toHaveAttribute(
       "href",
-      "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=259s",
+      "https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=389s",
     );
   });
 
-  it("ep001 は @LiveMakersCom に上がった動画 (vH3e7BCWLsI) を埋め込む", () => {
-    expect(EP001.youtubeVideoId).toBe("vH3e7BCWLsI");
+  it("ep001 は @LiveMakersCom に上がった作り直し版の動画 (PlMDhxjz13k) を埋め込む", () => {
+    expect(EP001.youtubeVideoId).toBe("PlMDhxjz13k");
     const { container } = renderJa(<VideoArticle video={EP001} />);
     expect(container.querySelector("iframe")).toHaveAttribute(
       "src",
-      "https://www.youtube-nocookie.com/embed/vH3e7BCWLsI",
+      "https://www.youtube-nocookie.com/embed/PlMDhxjz13k",
     );
   });
 });
