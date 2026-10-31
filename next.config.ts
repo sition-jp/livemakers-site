@@ -48,6 +48,9 @@ const nextConfig = {
   // なるので、本文ファイルを確実に同梱する
   outputFileTracingIncludes: {
     "/[locale]/search": ["./content/articles/**/*.md"],
+    // sitemap は 1 時間ごとに実行時に作り直す。動画の一覧 (content/videos) を
+    // 実行時にも読めるよう同梱する (動画のページ自体はビルド時に静的生成)
+    "/sitemap.xml": ["./content/videos/**/*"],
   },
   async redirects() {
     return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [

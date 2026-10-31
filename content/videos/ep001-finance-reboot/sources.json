@@ -1,0 +1,628 @@
+{
+  "episodeId": "ep001",
+  "sources": [
+    {
+      "key": "ripple_occ",
+      "title": "Ripple — Ripple Receives Final OCC Approval to Establish National Trust Bank",
+      "url": "https://ripple.com/ripple-press/ripple-receives-final-occ-approval-to-establish-national-trust-bank/",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "theblock_ripple",
+      "title": "The Block — Ripple gains final OCC approval (報道)",
+      "url": "https://www.theblock.co/news/regulation/2026-10-26-ripple-gains-final-occ-approval-rlusd-431810",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "occ_community",
+      "title": "OCC — GENIUS Act Community Bank Fact Sheet",
+      "url": "https://www.occ.gov/topics/charters-and-licensing/genius-act/community-bank-fact-sheet.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "occ_bulletin",
+      "title": "OCC Bulletin 2026-51",
+      "url": "https://www.occ.gov/news-issuances/bulletins/2026/bulletin-2026-51.html",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "sbi_blackrock",
+      "title": "SBI ホールディングス — BlackRock との基本合意 (2026-10-27)",
+      "url": "https://www.sbigroup.co.jp/news/2026/1027_16682.html",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "ripple_robinhood",
+      "title": "Ripple — Ripple and Robinhood Partner to Power the Next Generation of Finance",
+      "url": "https://ripple.com/ripple-press/ripple-and-robinhood-partner-to-power-the-next-generation-of-finance/",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "ripple_bny",
+      "title": "Ripple — Ripple Expands Collaboration with BNY",
+      "url": "https://ripple.com/ripple-press/ripple-expands-collaboration-with-bny-across-custody-and-tokenized-trade-finance/",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "mts",
+      "title": "米財務省 — Monthly Treasury Statement",
+      "url": "https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "omb",
+      "title": "ホワイトハウス予算局 — Historical Tables",
+      "url": "https://www.whitehouse.gov/omb/information-resources/budget/historical-tables/",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "restart_map",
+      "title": "LiveMakers — 金融再起動の現在地 #1",
+      "url": "https://livemakers.com/ja/articles/restart-map-20261026-3539f54e",
+      "accessed": "2026-10-28",
+      "chapter": 1
+    },
+    {
+      "key": "bny_repo",
+      "title": "BNY — Tokenized US Treasury Triparty Repo Workflow with Citadel Securities",
+      "url": "https://www.bny.com/corporate/global/en/about-us/newsroom/press-release/bny-completes-tokenized-us-treasury-triparty-repo-workflow-with-citadel-securities.html",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "jpm_mmf",
+      "title": "J.P. Morgan Asset Management — Tokenized Money Market Funds on Solana",
+      "url": "https://www.prnewswire.com/news-releases/jp-morgan-asset-management-expands-access-to-its-tokenized-money-market-funds-on-solana-302917188.html",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "aviva",
+      "title": "Aviva Investors — Sterling Liquidity Fund Tokenised Share Class",
+      "url": "https://ripple.com/ripple-press/aviva-investors-expands-its-tokenised-offering-with-the-launch-of-a-sterling-liquidity-fund-tokenised-share-class/",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "chainalysis",
+      "title": "Chainalysis — North America Crypto Adoption 2026",
+      "url": "https://www.chainalysis.com/blog/north-america-crypto-adoption-2026/",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "robinhood_tokens",
+      "title": "Robinhood — Stock Tokens",
+      "url": "https://docs.robinhood.com/chain/stock-tokens/",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "morpho",
+      "title": "Morpho 公式 X の告知 (2026-10-22)",
+      "url": "https://x.com/Morpho/status/2113269057965404398",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "uniswap",
+      "title": "Uniswap 公式 X の告知 (2026-10-25)",
+      "url": "https://x.com/Uniswap/status/2114404903330443560",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "fsb",
+      "title": "FSB — Global Stablecoin Arrangements, Cross-border Vulnerabilities",
+      "url": "https://www.fsb.org/2026/10/global-stablecoin-arrangements-cross-border-vulnerabilities-and-financial-stability-monitoring/",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "genius",
+      "title": "米議会 — GENIUS Act (Public Law 119-27)",
+      "url": "https://www.govinfo.gov/app/details/PLAW-119publ27",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "occ_final",
+      "title": "OCC — GENIUS Act 最終規則 (NR 2026-92)",
+      "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92.html",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "circle_occ",
+      "title": "Circle — Circle Receives Final OCC Approval to Establish National Trust Bank",
+      "url": "https://www.circle.com/pressroom/circle-receives-final-occ-approval-to-establish-national-trust-bank",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "coinbase_report",
+      "title": "Coinbase / The Block Research — The Always-On Dollar",
+      "url": "https://www.tbstat.com/wp/uploads/2026/10/The-Always-On-Dollar-Money-for-an-Economy-that-Doesnt-Close.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "bis_wp",
+      "title": "BIS Working Paper No 1382 — Are stablecoins and bank deposits substitutes?",
+      "url": "https://www.bis.org/publications/working-paper-1382-are-stablecoins-and-bank-deposits-substitutes",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "megabanks",
+      "title": "3 メガバンク — 共同発行ステーブルコインの実証 (PR TIMES)",
+      "url": "https://prtimes.jp/main/html/rd/p/000000384.000036656.html",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "jpyc_sbj",
+      "title": "JPYC — SBJ銀行・LINE NEXT との覚書 (PR TIMES)",
+      "url": "https://prtimes.jp/main/html/rd/p/000000333.000054018.html",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "fsa_forum",
+      "title": "金融庁 — AI 時代を見据えたオンチェーン金融フォーラム 議事録 (2026-09-30)",
+      "url": "https://www.fsa.go.jp/singi/ai_onchain/gijiroku/20260930.html",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "ecb_lagarde",
+      "title": "ECB — Lagarde 総裁の IMFC 声明 (2026-10-17)",
+      "url": "https://www.ecb.europa.eu/press/key/date/2026/html/ecb.sp261017~7015ea3099.en.html",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "riksbank",
+      "title": "Sveriges Riksbank — デジタルクローナに関する国会あての書簡",
+      "url": "https://www.riksbank.se/en-gb/press-and-published/notices-and-press-releases/notices/2026/official-communication-information-on-developments-that-bring-the-issue-of-a-digital-krona-back-into-focus/",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "openai_terra",
+      "title": "OpenAI — Introducing GPT-6.1 Terra",
+      "url": "https://openai.com/index/introducing-gpt-6-1-terra/",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "anthropic_duet",
+      "title": "Anthropic — Claude Duet",
+      "url": "https://claude.com/product/claude-duet",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "circle_kits",
+      "title": "Circle — Agent Stack Starter Kits (GitHub)",
+      "url": "https://github.com/circlefin/agent-stack-starter-kits",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "mastra_template",
+      "title": "Mastra — Agent Wallet with Circle (GitHub)",
+      "url": "https://github.com/mastra-ai/template-circle",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "x402_foundation",
+      "title": "Linux Foundation — x402 Foundation の本格始動",
+      "url": "https://x402.org/linux-foundation-announces-operational-launch-of-x402-foundation-to-standardize-internet-native-payments-for-ai-agents-and-applications/",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "mastercard_agentpay",
+      "title": "Mastercard — Agent Pay for Machines in action",
+      "url": "https://www.mastercard.com/us/en/news-and-trends/press/2026/october/Mastercard-Agent-Pay-for-Machines-in-action.html",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "mastercard_bvnk",
+      "title": "Mastercard and BVNK — Global Money Platform",
+      "url": "https://s25.q4cdn.com/479285134/files/doc_news/Mastercard-and-BVNK-Launch-Global-Money-Platform-to-Power-a-Multi-Money-World-2026.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "tether_aisa",
+      "title": "Tether — Tether invests in AIsa",
+      "url": "https://tether.io/news/tether-invests-in-aisa-to-expand-its-push-into-ai-powered-payments-and-programmable-money/",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "openai_wallet",
+      "title": "OpenAI Alignment — Using a funded test cryptocurrency wallet without authorization",
+      "url": "https://alignment.openai.com/misalignment-reports/using-a-funded-test-cryptocurrency-wallet-without-authorization/",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "meta_fwp",
+      "title": "Meta — 株式による資金調達の計画 (SEC 提出書類)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526431036/d116268dfwp.htm",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "senate_vote",
+      "title": "米上院 — 記録投票 (2026-09-15・H.R. 3633)",
+      "url": "https://www.senate.gov/legislative/LIS/roll_call_votes/vote1192/vote_119_2_00234.htm",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "polymarket",
+      "title": "Polymarket — CLARITY Act signed into law in 2026 (相場データ)",
+      "url": "https://polymarket.com/event/clarity-act-signed-into-law-in-2026",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "lummis",
+      "title": "ルミス上院議員の X 投稿 (2026-10-26)",
+      "url": "https://x.com/SenLummis/status/2114727751856914898",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "sec_proposal",
+      "title": "SEC — SEC Proposes New Regulation Crypto Assets (2026-76)",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-76-sec-proposes-new-regulation-crypto-assets",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "cftc_anprm",
+      "title": "CFTC — Press Release 9307-26",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9307-26",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "sec_quorum",
+      "title": "米官報 — Commission Quorum Requirement (SEC)",
+      "url": "https://www.federalregister.gov/documents/2026/10/02/2026-20262/commission-quorum-requirement",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "sec_commissioners",
+      "title": "SEC — Commissioners",
+      "url": "https://www.sec.gov/about/sec-commissioners",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "cftc_nba",
+      "title": "CFTC — Press Release 9314-26 (NBA との覚書)",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9314-26",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "nfl_brief",
+      "title": "米連邦最高裁 — NFL の意見書 (No. 26-299)",
+      "url": "https://www.supremecourt.gov/DocketPDF/26/26-299/428826/20261008053543625_NFL%20Amicus%20Brief.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "fsa_study",
+      "title": "金融庁 — デジタル・分散型金融への対応のあり方等に関する研究会 (2026-10-20)",
+      "url": "https://www.fsa.go.jp/singi/digital_2026/shiryo/20261020.html",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "france_tax",
+      "title": "フランス国民議会 — 修正案 I-3898",
+      "url": "https://www.assemblee-nationale.fr/dyn/17/amendements/3210A/AN/3898",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "gmo12",
+      "title": "GMO インターネットグループ — お名前.com デスクトップクラウドの件 (第12報)",
+      "url": "https://group.gmo/info/alert/2026102705/",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "gmo_onamae",
+      "title": "お名前.com — 障害と不正アクセスのお知らせ",
+      "url": "https://www.onamae.com/news/article/11584",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "gmo4",
+      "title": "GMO インターネットグループ — 能動的サイバー防御の要請 (第4報)",
+      "url": "https://group.gmo/info/alert/20261024/",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "cyber_act",
+      "title": "国家サイバー統括室 — アクセス・無害化措置の施行 (2026-10-01)",
+      "url": "https://www.cyber.go.jp/pdf/press/houdou_20261001.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "sonet",
+      "title": "So-net — 不正アクセスによる個人情報の漏えい (2026-10-27)",
+      "url": "https://www.so-net.ne.jp/info/2026/20261027_0001.html",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "giftee",
+      "title": "ギフティ — 不正アクセスと特別損失の見込み (適時開示)",
+      "url": "https://contents.xj-storage.jp/xcontents/AS04721/9cd22cba/ef69/4403/bd9a/59025ae1c745/20261026193119181s.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "keystone",
+      "title": "Keystone 公式 X の告知 (2026-10-26)",
+      "url": "https://x.com/KeystoneWallet/status/2114719318722404578",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "microsoft",
+      "title": "Microsoft Security — Storm-0940 uses ARTEX agentic AI",
+      "url": "https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "jpcert",
+      "title": "JPCERT/CC — Web API を狙う攻撃 (2026-10-15)",
+      "url": "https://blogs.jpcert.or.jp/ja/2026/10/web_api_attacks.html",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "agora",
+      "title": "BIS — Project Agorá",
+      "url": "https://www.bis.org/project/agora",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "anthropic_quantum",
+      "title": "Anthropic — Designing efficient quantum circuits",
+      "url": "https://www.anthropic.com/research/designing-efficient-quantum-circuits",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "quantum_alliance",
+      "title": "Quantum Alliance",
+      "url": "https://quantumalliance.io/",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "debt",
+      "title": "米財務省 — Debt to the Penny",
+      "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "ust_yield",
+      "title": "米財務省 — Daily Treasury Par Yield Curve Rates",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value=2026",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "jgb",
+      "title": "財務省 — 国債金利情報",
+      "url": "https://www.mof.go.jp/jgbs/reference/interest_rate/index.htm",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "mof_statement",
+      "title": "財務省 — 財務大臣談話 (2026-08-03)",
+      "url": "https://www.mof.go.jp/public_relations/statement/other/20260803072806.html",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "mof_intervention",
+      "title": "財務省 — 外国為替平衡操作の実施状況 (2026-08-28)",
+      "url": "https://www.mof.go.jp/policy/international_policy/reference/feio/data/monthly/20260828.html",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "ecb_fx",
+      "title": "ECB — Euro foreign exchange reference rates",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "france_10y",
+      "title": "CNBC — France 10 Year (相場データ)",
+      "url": "https://www.cnbc.com/quotes/FR10Y-FR",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "cofer",
+      "title": "IMF — COFER",
+      "url": "https://data.imf.org/en/datasets/IMF.STA:COFER",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "future_map_15",
+      "title": "LiveMakers — 次の時代の地図 #15",
+      "url": "https://livemakers.com/ja/articles/future-map-20260822-49e1a6b4",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "mkt12",
+      "title": "LiveMakers — 10月28日朝のマーケット｜12指標 (金は Hyperliquid の金連動先物)",
+      "url": "https://livemakers.com/ja/articles/mkt12-morning-20261028-5d2cfd58",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "fed_genius",
+      "title": "米官報 — 連邦準備制度の GENIUS 法の規則案 (2026-09-29)",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-09-29/html/2026-19860.htm",
+      "accessed": "2026-10-28",
+      "chapter": 8
+    },
+    {
+      "key": "cftc_fr",
+      "title": "米官報 — CFTC の事前規則案公告 (2026-10-13)",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-10-13/pdf/2026-20888.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "congress_hr3633",
+      "title": "congress.gov — H.R. 3633 の審議経過",
+      "url": "https://www.congress.gov/bill/119th-congress/house-bill/3633/all-actions",
+      "accessed": "2026-10-28",
+      "chapter": 8
+    },
+    {
+      "key": "lummis_bill",
+      "title": "LiveMakers — ルミス議員、CLARITY 法案の SEC 認定取り消し権限で民主党に反論",
+      "url": "https://livemakers.com/ja/articles/signal-20261027-bd9f56cd",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "auctions",
+      "title": "米財務省 — Treasury Securities Auctions Data",
+      "url": "https://fiscaldata.treasury.gov/datasets/treasury-securities-auctions-data/",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "rwa_stocks",
+      "title": "rwa.xyz — Tokenized Stocks",
+      "url": "https://app.rwa.xyz/stocks",
+      "accessed": "2026-10-28",
+      "chapter": 2
+    },
+    {
+      "key": "occ_final_detail",
+      "title": "OCC — GENIUS Act 最終規則の本文 (NR 2026-92a)",
+      "url": "https://www.occ.gov/news-issuances/news-releases/2026/nr-occ-2026-92a.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "hsbc_redcoin",
+      "title": "HSBC Hong Kong — HSBC RedCoin launches today",
+      "url": "https://www.about.hsbc.com.hk/news-and-media/hsbc-redcoin-launches-today",
+      "accessed": "2026-10-28",
+      "chapter": 3
+    },
+    {
+      "key": "grok45",
+      "title": "SpaceXAI — Grok 4.5",
+      "url": "https://x.ai/news/grok-4-5",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "meta_q3",
+      "title": "Meta — Third Quarter 2026 Results",
+      "url": "https://investor.atmeta.com/investor-news/press-release-details/2026/Meta-Reports-Third-Quarter-2026-Results/default.aspx",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "future_map_9",
+      "title": "LiveMakers — 次の時代の地図 #9",
+      "url": "https://livemakers.com/ja/articles/future-map-execution-infrastructure-agency",
+      "accessed": "2026-10-28",
+      "chapter": 4
+    },
+    {
+      "key": "sec_comment",
+      "title": "SEC — 6 団体の連名の意見書 (S7-2026-27)",
+      "url": "https://www.sec.gov/comments/S7-2026-27/s7202627-1102859-3882366.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "sec_tsv",
+      "title": "SEC 取引市場部 — Innovation Exemption (届け出た取引の場の一覧)",
+      "url": "https://www.sec.gov/about/divisions-offices/division-trading-markets/innovation-exemption",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "okxice_notice",
+      "title": "OKXICE — Tokenized Securities Venue Public Notice (2026-10-23)",
+      "url": "https://www.okx.com/cdn/assets/okfe/web3-activities/okxicetsv/notices/OKXICE_Tokenized_Securities_Venue_Public_Notice_26.10.23.pdf",
+      "accessed": "2026-10-28",
+      "chapter": 5
+    },
+    {
+      "key": "sec_exam",
+      "title": "SEC — Fiscal Year 2027 Examination Priorities",
+      "url": "https://www.sec.gov/newsroom/press-releases/2026-109-sec-announces-fiscal-year-2027-examination-priorities",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "glassnode",
+      "title": "Glassnode — Measuring Bitcoin's Quantum-Exposed Supply",
+      "url": "https://research.glassnode.com/measuring-bitcoins-quantum-exposed-supply/",
+      "accessed": "2026-10-28",
+      "chapter": 6
+    },
+    {
+      "key": "hcfp",
+      "title": "財政高等評議会 (HCFP) — 意見書 2026-5",
+      "url": "https://www.hcfp.fr/liste-avis/avis-ndeg2026-5-lois-de-finances-2027",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    },
+    {
+      "key": "france_ecb",
+      "title": "ECB Data Portal — フランスの長期金利 (月次)",
+      "url": "https://data.ecb.europa.eu/data/datasets/IRS/IRS.M.FR.L.L40.CI.0000.EUR.N.Z",
+      "accessed": "2026-10-28",
+      "chapter": 7
+    }
+  ]
+}

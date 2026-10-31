@@ -52,6 +52,8 @@ describe("app/sitemap.ts", () => {
     expect(urls).toContain("https://livemakers.com/ja/contact");
     expect(urls).toContain("https://livemakers.com/ja/privacy");
     expect(urls).toContain("https://livemakers.com/ja/articles/series/daily-intel");
+    expect(urls).toContain("https://livemakers.com/ja/videos");
+    expect(urls).toContain("https://livemakers.com/ja/videos/ep001-finance-reboot");
     expect(urls).toContain(
       "https://livemakers.com/ja/articles/daily-intel-20260911-abc123",
     );
