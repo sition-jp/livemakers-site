@@ -195,15 +195,15 @@ export function groupSourcesByChapter(
     .filter((group) => group.sources.length > 0);
 }
 
-/** 右レーン・右列の動画の窓に渡す最小の形 */
+/** 右レーン・右列の動画の窓に渡す最小の形 (publishedAtJst はトップ右列の新着順に使う) */
 export type VideoCardData = Pick<
   Video,
-  "slug" | "href" | "titleJa" | "subtitleJa" | "durationSeconds" | "eyecatch"
+  "slug" | "href" | "titleJa" | "subtitleJa" | "durationSeconds" | "eyecatch" | "publishedAtJst"
 >;
 
 function toCard(video: Video): VideoCardData {
-  const { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch } = video;
-  return { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch };
+  const { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch, publishedAtJst } = video;
+  return { slug, href, titleJa, subtitleJa, durationSeconds, eyecatch, publishedAtJst };
 }
 
 /**

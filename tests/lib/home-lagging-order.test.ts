@@ -60,7 +60,7 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事の枠は新着順・�
   });
 
   // 2026-10-26: 末尾の固定枠に event-risk-mobile (スマホ専用) が最新記事の直前で加わる
-  // 2026-10-31: 記事の枠の直後に video (最新の動画) の固定枠
+  // 2026-10-31: video (最新の動画) は公開日時が無いと記事の枠の直後 (日時ありは下のテスト)
   it("orders the article modules newest-first and keeps the ledger tail fixed", () => {
     expect(orderLaggingModules(saturday)).toEqual([
       "atlas-entry",
@@ -129,6 +129,35 @@ describe("lagging-order (2026-08-23 田平氏 GO A: 記事の枠は新着順・�
       restartMapLatest: mk("rm-0822", "restart-map", "2026-08-22T20:42:00+09:00"),
     };
     expect(orderLaggingModules(fresh)[0]).toBe("restart-map");
+  });
+
+  // 2026-10-31 田平氏 GO: 動画の枠も記事の枠と同じく新着順に混ぜる (固定の枠をやめる)
+  it("puts a freshly posted video at the top, by its YouTube publication time", () => {
+    const ordered = orderLaggingModules(saturday, {
+      videoPublishedAtJst: "2026-08-22T12:24:07+09:00",
+    });
+    expect(ordered.slice(0, 3)).toEqual(["video", "atlas-entry", "mkt12-weekend"]);
+    expect(ordered.slice(-3)).toEqual([
+      "event-risk-mobile",
+      "latest-articles",
+      "turning-point-reserved",
+    ]);
+  });
+
+  it("sinks an older video below newer article modules", () => {
+    expect(
+      orderLaggingModules(saturday, { videoPublishedAtJst: "2026-08-20T12:00:00+09:00" }),
+    ).toEqual([
+      "atlas-entry",
+      "mkt12-weekend",
+      "weekly-brief",
+      "video",
+      "deep-dive",
+      "restart-map",
+      "event-risk-mobile",
+      "latest-articles",
+      "turning-point-reserved",
+    ]);
   });
 
   it("does not mutate the ledger", () => {

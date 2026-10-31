@@ -119,7 +119,7 @@ describe("トップ右列の動画の窓", () => {
       (element) => element.getAttribute("data-column-module"),
     );
 
-  it("記事の枠の直後・スマホの Event Risk の前に「最新の動画」を出す", () => {
+  it("公開日時が無ければ、記事の枠の後・スマホの Event Risk の前に「最新の動画」を出す", () => {
     const { container } = render(
       <HomeComposition {...props} surfacePublished={false} copy={copy} videoCard={LATEST} />,
     );
@@ -131,6 +131,18 @@ describe("トップ右列の動画の窓", () => {
     );
     const modules = modulesOf(container);
     expect(modules.indexOf("video")).toBe(modules.indexOf("event-risk-mobile") - 1);
+  });
+
+  // 2026-10-31 田平氏 GO (同日 2 回目): 動画の枠も記事の枠と同じ新着順に混ざる
+  it("どの記事の枠より新しく公開した動画は右列の一番上に出る", () => {
+    const fresh = {
+      ...LATEST,
+      video: { ...VIDEO, publishedAtJst: "2026-07-10T12:24:07+09:00" },
+    };
+    const { container } = render(
+      <HomeComposition {...props} surfacePublished={false} copy={copy} videoCard={fresh} />,
+    );
+    expect(modulesOf(container)[0]).toBe("video");
   });
 
   it("YouTube に上がった回が無ければ枠ごと隠す", () => {
