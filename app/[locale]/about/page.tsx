@@ -59,7 +59,7 @@ export default async function AboutPage({
           </p>
         </section>
 
-        {/* Section 3 — what we observe (金融再起動の 5 テーマ) */}
+        {/* Section 3 — what we observe (金融再起動の 6 テーマ) */}
         <section className="mb-16">
           <h2 className="mb-6 text-2xl font-light tracking-title">
             {t("themesTitle")}
@@ -74,6 +74,7 @@ export default async function AboutPage({
                 "themeAI",
                 "themeQuantum",
                 "themeBio",
+                "themeNano",
                 "themeMacro",
               ] as const
             ).map((key) => (
