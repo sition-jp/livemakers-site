@@ -37,7 +37,7 @@ export function VideoArticle({ video }: { video: Video }) {
   let sourceNumber = 0;
 
   return (
-    <article className="mx-auto max-w-4xl px-6 py-16" data-video-article={video.slug}>
+    <article className="mx-auto w-full min-w-0 max-w-4xl" data-video-article={video.slug}>
       <header className="mb-10">
         <div className="mb-4 flex flex-wrap items-center gap-3 text-[10px] tracking-label text-text-tertiary">
           <Link href="/videos" className="hover:text-text-primary">
