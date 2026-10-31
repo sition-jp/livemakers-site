@@ -7,13 +7,15 @@ import { formatDurationJa, type Video } from "@/lib/videos";
 /**
  * 動画の一覧 (YouTube チャンネル @LiveMakersCom)。新しい回が先。
  * カードは記事 (/videos/<slug>) へ飛ぶ。投稿前の回は「近日公開」を付ける。
+ * 2026-10-31 田平氏 GO: シリーズ一覧と同じく右に「最新の記事」のレールを置く
+ * (page 側の LatestArticlesRailLayout)。本体は左カラムの main。
  */
 export function VideoList({ videos }: { videos: Video[] }) {
   const t = useTranslations("videos");
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16">
-      <h1 className="mb-6 text-4xl font-light tracking-title">{t("title")}</h1>
+    <main className="min-w-0">
+      <h1 className="mb-6 text-3xl font-bold text-text-primary">{t("title")}</h1>
       <p className="mb-4 max-w-3xl text-sm leading-relaxed text-text-secondary">{t("intro")}</p>
       <p className="mb-12 text-sm">
         <a
@@ -29,7 +31,7 @@ export function VideoList({ videos }: { videos: Video[] }) {
       {videos.length === 0 ? (
         <p className="text-sm text-text-tertiary">{t("empty")}</p>
       ) : (
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {videos.map((video) => (
             <div
               key={video.slug}
@@ -86,6 +88,6 @@ export function VideoList({ videos }: { videos: Video[] }) {
           ))}
         </div>
       )}
-    </section>
+    </main>
   );
 }

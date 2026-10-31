@@ -1,6 +1,9 @@
 import { getTranslations } from "next-intl/server";
 
-import type { LatestArticlesCopy } from "@/components/home/LatestArticlesCard";
+import type {
+  LatestArticlesCopy,
+  LatestVideoRows,
+} from "@/components/home/LatestArticlesCard";
 import {
   ARTICLE_FAMILIES,
   type ArticleFamily,
@@ -9,10 +12,13 @@ import {
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { selectLatestArticles } from "@/lib/articles/latest-articles";
 import { resolveTodayJst } from "@/lib/home/resolve-today";
+import { getPostedVideoCards } from "@/lib/videos";
 
 export interface LatestArticlesRailData {
   articles: ArticleMeta[];
   copy: LatestArticlesCopy;
+  /** YouTube に上がった動画の記事 (2026-10-31 田平氏 GO・公開日時で記事に混ぜる) */
+  videos: LatestVideoRows;
 }
 
 /**
@@ -32,6 +38,7 @@ export async function loadLatestArticlesRail({
     articles ?? (await loadPublicArticleInflowCatalog()).articles;
   const tHome = await getTranslations({ locale, namespace: "home" });
   const tArticles = await getTranslations({ locale, namespace: "articles" });
+  const tVideos = await getTranslations({ locale, namespace: "videos" });
   const familyLabels = Object.fromEntries(
     ARTICLE_FAMILIES.map((family) => [family, tArticles(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;
@@ -41,6 +48,7 @@ export async function loadLatestArticlesRail({
       catalogArticles,
       resolveTodayJst(new Date()),
     ),
+    videos: { items: getPostedVideoCards(), label: tVideos("rowLabel") },
     copy: {
       title: tHome("gradient.latestTitle"),
       familyLabels,

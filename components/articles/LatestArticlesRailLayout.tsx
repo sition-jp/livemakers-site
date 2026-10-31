@@ -27,7 +27,7 @@ export function LatestArticlesRailLayout({
         aria-label={rail.copy.title}
         className="mt-12 min-w-0 lg:mt-0"
       >
-        <LatestArticlesCard articles={rail.articles} copy={rail.copy} />
+        <LatestArticlesCard articles={rail.articles} copy={rail.copy} videos={rail.videos} />
       </aside>
     </div>
   );

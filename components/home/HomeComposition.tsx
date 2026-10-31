@@ -6,6 +6,7 @@ import type {
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeCatalogSource } from "@/lib/home/load-home-composition";
 import type { VideoRailCardProps } from "@/components/videos/VideoRailCard";
+import type { LatestVideoRows } from "./LatestArticlesCard";
 import { FlashBand } from "./FlashBand";
 import { CoincidentColumn } from "./columns/CoincidentColumn";
 import { LaggingColumn } from "./columns/LaggingColumn";
@@ -26,6 +27,8 @@ export type HomeCompositionProps = ReturnType<
   locale?: string;
   /** 2026-10-31: 右列の「最新の動画」(YouTube に上がった回が無ければ null)。 */
   videoCard?: Omit<VideoRailCardProps, "placement"> | null;
+  /** 2026-10-31: 右列⑤「最新の記事」に混ぜる動画の記事 (YouTube に上がった回)。 */
+  latestVideoRows?: LatestVideoRows | null;
 };
 
 /**
@@ -59,6 +62,7 @@ export function HomeComposition({
   showSessionEditorial = true,
   locale = "ja",
   videoCard = null,
+  latestVideoRows = null,
 }: HomeCompositionProps) {
   return (
     <div
@@ -100,6 +104,7 @@ export function HomeComposition({
           surfacePublished={surfacePublished}
           copy={copy}
           videoCard={videoCard}
+          latestVideoRows={latestVideoRows}
         />
       </div>
     </div>

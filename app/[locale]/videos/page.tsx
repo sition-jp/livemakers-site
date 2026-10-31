@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { LatestArticlesRailLayout } from "@/components/articles/LatestArticlesRailLayout";
 import { VideoList } from "@/components/videos/VideoList";
+import { loadLatestArticlesRail } from "@/lib/articles/latest-articles-rail";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { getAllVideos } from "@/lib/videos";
+
+// 右レール「最新の記事」をシリーズ一覧と同じ間隔で新しくする (2026-10-31 田平氏 GO)
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -25,5 +30,10 @@ export default async function VideosIndexPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <VideoList videos={getAllVideos()} />;
+  const rail = await loadLatestArticlesRail({ locale });
+  return (
+    <LatestArticlesRailLayout rail={rail}>
+      <VideoList videos={getAllVideos()} />
+    </LatestArticlesRailLayout>
+  );
 }

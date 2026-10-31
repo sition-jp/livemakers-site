@@ -214,6 +214,16 @@ function postedVideos(options: VideoLoadOptions): Video[] {
   return getAllVideos(options).filter((video) => video.youtubeVideoId);
 }
 
+/**
+ * 「最新の記事」のリストに混ぜる動画 (2026-10-31 田平氏 GO): YouTube に上がり、
+ * 公開日時がある回。並びは混ぜる側 (mergeLatestEntries) が公開日時で決める。
+ */
+export function getPostedVideoCards(options: VideoLoadOptions = {}): VideoCardData[] {
+  return postedVideos(options)
+    .filter((video) => video.publishedAtJst)
+    .map(toCard);
+}
+
 /** トップ右列・記事の右レーン下の「最新の動画」 */
 export function getLatestPostedVideo(options: VideoLoadOptions = {}): VideoCardData | null {
   const latest = postedVideos(options)[0];

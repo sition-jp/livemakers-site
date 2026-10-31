@@ -31,7 +31,7 @@ const MODULE_CLASSNAMES: Readonly<Record<string, string>> = {
  */
 export type LaggingColumnProps = Pick<
   HomeCompositionProps,
-  "slots" | "surfacePublished" | "copy" | "videoCard"
+  "slots" | "surfacePublished" | "copy" | "videoCard" | "latestVideoRows"
 >;
 
 export function LaggingColumn({
@@ -39,6 +39,7 @@ export function LaggingColumn({
   surfacePublished,
   copy,
   videoCard = null,
+  latestVideoRows = null,
 }: LaggingColumnProps) {
   const atlas = buildAtlasEntry(surfacePublished, slots.atlasLatest);
   const indexCopy = { familyLabels: copy.familyLabels };
@@ -127,6 +128,7 @@ export function LaggingColumn({
         return (
           <LatestArticlesCard
             articles={slots.latestArticles}
+            videos={latestVideoRows}
             copy={{
               title: copy.gradient.latestTitle,
               familyLabels: copy.familyLabels,

@@ -7,6 +7,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import { SeriesRail, buildTestSeriesRailCopy } from "@/components/articles/SeriesRail";
 import { HomeComposition } from "@/components/home/HomeComposition";
+import { LatestArticlesCard } from "@/components/home/LatestArticlesCard";
 import { VideoRailCard } from "@/components/videos/VideoRailCard";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 import { buildHomeCompositionProps } from "@/lib/home/build-home-props";
@@ -104,6 +105,72 @@ describe("記事の右レーンの動画の窓", () => {
       <SeriesRail articles={catalog} current={catalog[0]} surfacePublished={false} copy={railCopy} />,
     );
     expect(container.querySelector("[data-video-rail]")).toBeNull();
+  });
+
+  it("「最新の記事」に動画の記事を公開日時で混ぜる (サムネなし)", () => {
+    const { container } = render(
+      <SeriesRail
+        articles={catalog}
+        current={catalog[0]}
+        surfacePublished={false}
+        copy={railCopy}
+        latestVideoRows={{
+          items: [{ ...VIDEO, publishedAtJst: "2026-07-09T07:30:00+09:00" }],
+          label: "動画",
+        }}
+      />,
+    );
+    const section = container.querySelector('[data-rail-section="latest-articles"]')!;
+    const rows = [...section.querySelectorAll("a[data-index-nav]")];
+    // sig-1 は現在の記事なので除外 → 動画 (07:30) > intel-1 (07:00)
+    expect(rows.map((row) => row.getAttribute("data-video-row") ?? row.getAttribute("data-article-id"))).toEqual([
+      "ep001-finance-reboot",
+      "intel-1",
+    ]);
+    expect(rows[0]).toHaveAttribute("href", "/videos/ep001-finance-reboot");
+    expect(rows[0].querySelector("img")).toBeNull();
+    expect(rows[0].textContent).toContain("動画");
+  });
+});
+
+describe("トップ右列⑤「最新の記事」の動画の行", () => {
+  it("公開日時で記事と同じ新しい順に入り、本数は増やさない", () => {
+    const { container } = render(
+      <LatestArticlesCard
+        articles={catalog}
+        copy={{
+          title: "最新の記事",
+          familyLabels: railCopy.familyLabels,
+          laneLabels: { macro: "MACRO", crypto: "CRYPTO", rwa: "RWA" },
+        }}
+        videos={{
+          items: [{ ...VIDEO, publishedAtJst: "2026-07-09T07:30:00+09:00" }],
+          label: "動画",
+        }}
+      />,
+    );
+    const rows = [...container.querySelectorAll("a[data-index-nav]")];
+    expect(rows.map((row) => row.getAttribute("data-video-row") ?? row.getAttribute("data-article-id"))).toEqual([
+      "sig-1",
+      "ep001-finance-reboot",
+    ]);
+    expect(rows[1].textContent).toContain("07-09 07:30 公開");
+  });
+
+  it("公開日時の無い動画は載せない", () => {
+    const { container } = render(
+      <LatestArticlesCard
+        articles={catalog}
+        copy={{
+          title: "最新の記事",
+          familyLabels: railCopy.familyLabels,
+          laneLabels: { macro: "MACRO", crypto: "CRYPTO", rwa: "RWA" },
+        }}
+        videos={{ items: [VIDEO], label: "動画" }}
+      />,
+    );
+    expect(container.querySelector("[data-video-row]")).toBeNull();
+    expect(container.querySelectorAll("a[data-index-nav]")).toHaveLength(2);
   });
 });
 

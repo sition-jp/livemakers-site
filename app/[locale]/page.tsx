@@ -14,7 +14,7 @@ import {
 } from "@/lib/sessions/next-session";
 import { READER_SESSIONS } from "@/lib/sessions/session-registry";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
-import { getLatestPostedVideo } from "@/lib/videos";
+import { getLatestPostedVideo, getPostedVideoCards } from "@/lib/videos";
 
 export const revalidate = 300;
 
@@ -80,6 +80,7 @@ export default async function OverviewPage({
         watchLabel: tVideos("railWatch"),
       }
     : null;
+  const latestVideoRows = { items: getPostedVideoCards(), label: tVideos("rowLabel") };
 
   return (
     <>
@@ -124,6 +125,7 @@ export default async function OverviewPage({
         copy={copy}
         surfacePublished={surfacePublished}
         videoCard={videoCard}
+        latestVideoRows={latestVideoRows}
       />
     </>
   );
