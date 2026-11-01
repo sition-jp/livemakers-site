@@ -1,0 +1,362 @@
+{
+  "episodeId": "ep002",
+  "sources": [
+    {
+      "key": "binance_u1",
+      "title": "Binance — Security Incident Update (2026-10-30)",
+      "url": "https://www.binance.com/en/support/announcement/detail/c5a8729a97ac486d963784d96c5642d7",
+      "accessed": "2026-11-01",
+      "chapter": 1
+    },
+    {
+      "key": "binance_u2",
+      "title": "Binance — Security Incident Update #2 (2026-10-30)",
+      "url": "https://www.binance.com/en/support/announcement/detail/d3306d9dca5243548c813b605e1d1751",
+      "accessed": "2026-11-01",
+      "chapter": 1
+    },
+    {
+      "key": "binance_u3",
+      "title": "Binance — Recovery Update #3: 90% of Stolen Assets Replenished; Proof of Reserves Snapshot Provided",
+      "url": "https://www.binance.com/en/support/announcement/detail/1fdf1f61559c401da0435895ffcccb62",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "ecb_rate",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-10-30・USD 1.1172 / JPY 175.68)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-01",
+      "chapter": 1
+    },
+    {
+      "key": "circle_freeze",
+      "title": "Circle の Jeremy Allaire CEO — USDC の凍結の告知 (X・2026-10-29)",
+      "url": "https://x.com/jerallaire/status/2115916207463481846",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "tether_freeze",
+      "title": "Tether の Paolo Ardoino CEO — USDT の凍結の告知 (X・2026-10-29)",
+      "url": "https://x.com/paoloardoino/status/2115918000373346709",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "coinbase_x",
+      "title": "Coinbase の Brian Armstrong CEO — Binance の事案についての投稿 (X・2026-10-30)",
+      "url": "https://x.com/brian_armstrong/status/2115976950376210483",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "arbitrum_sc",
+      "title": "Arbitrum Foundation — Security Council Emergency Action (2026-10-30)",
+      "url": "https://forum.arbitrum.foundation/t/security-council-emergency-action-30-10-2026/31625",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "bnbchain",
+      "title": "BNB Chain 公式 X — Binance の事案についての声明 (2026-10-30)",
+      "url": "https://x.com/BNBCHAIN/status/2116146028013396245",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "binance_japan",
+      "title": "Binance Japan — 暗号資産の入出庫の一時停止のお知らせ (2026-10-30)",
+      "url": "https://www.binance.com/ja/support/announcement/detail/06bddbb3624a479093c2e524490732d9",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "dd_binance",
+      "title": "LiveMakers — Deep Dive｜Binance の 63 億ドル流出、入口は DevOps 担当者のノート PC",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261031-3adc6660",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "wb13",
+      "title": "LiveMakers — LVM Weekly Brief #13｜Binance から約63億ドル流出、凍結は約30億ドル",
+      "url": "https://livemakers.com/ja/articles/weekly-brief-20261031-a1baaa98",
+      "accessed": "2026-11-01",
+      "chapter": 2
+    },
+    {
+      "key": "gmo_2",
+      "title": "GMO インターネット — お名前.com デスクトップクラウドへの不正アクセス (第 2 報・2026-10-22)",
+      "url": "https://internet.gmo/news/article/247/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "gmo_3",
+      "title": "GMO インターネット — お名前.com デスクトップクラウドへの不正アクセス (第 3 報・2026-10-23)",
+      "url": "https://internet.gmo/news/article/248/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "gmo_4",
+      "title": "GMO インターネット — お名前.com デスクトップクラウドへの不正アクセス (第 4 報・2026-10-24)",
+      "url": "https://internet.gmo/news/article/249/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "gmo_7",
+      "title": "GMO インターネット — お名前.com デスクトップクラウドへの不正アクセス (第 7 報・2026-10-26)",
+      "url": "https://internet.gmo/news/article/253/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "gmo_12",
+      "title": "GMO インターネット — お名前.com デスクトップクラウドへの不正アクセス (第 12 報・2026-10-27)",
+      "url": "https://internet.gmo/news/article/258/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "gmo_14",
+      "title": "GMO インターネット — お名前.com デスクトップクラウドへの不正アクセス (第 14 報・2026-10-28)",
+      "url": "https://internet.gmo/news/article/260/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "kumagai",
+      "title": "熊谷正寿 (GMO インターネットグループ代表) のブログ (2026-10-25)",
+      "url": "https://www.kumagai.com/?eid=19600",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "dd_onamae",
+      "title": "LiveMakers — Deep Dive｜お名前.com 侵害、70社超の口座を人質にした恐喝",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261028-b23989b0",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "polymarket_status",
+      "title": "Polymarket — ステータスページの障害の記録 (2026-10-29)",
+      "url": "https://status.polymarket.com/cmvtuswgi00221bkzps7w21pt",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "polymarket_tos",
+      "title": "Polymarket — 利用規約 (国際版)",
+      "url": "https://polymarket.com/tos",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "dd_polymarket",
+      "title": "LiveMakers — Deep Dive｜Polymarket、画面に載る他社コードから今年 2 度目の資金流出",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261031-ef430e88",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "sagawa",
+      "title": "佐川急便 — 不正アクセスによる個人情報の流出のおそれ (第 5 報・2026-10-23)",
+      "url": "https://www2.sagawa-exp.co.jp/information/detail/430/",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "cuenote",
+      "title": "ユミルリンク — Cuenote への不正アクセス (第二報・2026-10-26)",
+      "url": "https://www.cuenote.jp/information/news/unauthorizedaccess2.html",
+      "accessed": "2026-11-01",
+      "chapter": 3
+    },
+    {
+      "key": "map25",
+      "title": "LiveMakers — 次の時代の地図 #25：暗号・台帳・AI エージェントが引き継ぎ始めた仲介者の三役",
+      "url": "https://livemakers.com/ja/articles/future-map-20261031-2ac42693",
+      "accessed": "2026-11-01",
+      "chapter": 1
+    },
+    {
+      "key": "fbi_bybit",
+      "title": "FBI — North Korea Responsible for $1.5 Billion Bybit Hack (PSA・2025-02-26)",
+      "url": "https://www.ic3.gov/psa/2025/psa250226",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "chainalysis",
+      "title": "Chainalysis — Security incident (2026-10-30)",
+      "url": "https://www.chainalysis.com/blog/security-incident-october-30/",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "chainalysis_company",
+      "title": "Chainalysis — Company",
+      "url": "https://www.chainalysis.com/company/",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "embrace",
+      "title": "Forever Security — EMBRACE: hacking 5 AI assistants' embedded browsers (2026-10-29)",
+      "url": "https://forever.security/blog/embrace-hacking-5-ai-assistants-embedded-browsers",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "dd_embrace",
+      "title": "LiveMakers — Deep Dive｜AI 開発ツール 5 製品の内蔵ブラウザに穴、Codex と VS Code は未修正",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261031-70736cfa",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "cursor_notice",
+      "title": "Cursor — Claude Code extension security notice",
+      "url": "https://cursor.com/blog/claude-code-extension-security-notice",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "cursor_x",
+      "title": "Cursor 公式 X — 改ざんされた拡張の影響の告知 (2026-10-30)",
+      "url": "https://x.com/cursor_ai/status/2116074289053175808",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "map23",
+      "title": "LiveMakers — 次の時代の地図 #23：AI が下げた攻撃の値段、狙われる理由は「持っていること」に",
+      "url": "https://livemakers.com/ja/articles/future-map-20261017-0b998c46",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "lummis",
+      "title": "ルミス上院議員 — CLARITY 法についての投稿 (X・2026-10-30)",
+      "url": "https://x.com/SenLummis/status/2116218196659515574",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "clarity_bill",
+      "title": "米議会 — H.R. 3633 (上院銀行委員会の報告版) 第 305 条",
+      "url": "https://www.govinfo.gov/content/pkg/BILLS-119hr3633rs/html/BILLS-119hr3633rs.htm",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "sig_clarity",
+      "title": "LiveMakers — Signal｜CLARITY 法案の凍結条項、中身は最長30日の一時保留と免責",
+      "url": "https://livemakers.com/ja/articles/signal-20261031-8d4217e3",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "cftc_selig",
+      "title": "CFTC — Selig 委員長の基調講演 (Frontier Forum on Super Intelligence・2026-10-28)",
+      "url": "https://www.cftc.gov/PressRoom/SpeechesTestimony/opaselig14",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "cftc_anprm",
+      "title": "CFTC — Release 9307-26 (暗号資産の取引と市場の事前規則案公告・2026-10-05)",
+      "url": "https://www.cftc.gov/PressRoom/PressReleases/9307-26",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "cftc_fr",
+      "title": "米官報 — CFTC の事前規則案公告 (2026-10-13・意見の締め切り 2026-12-14)",
+      "url": "https://www.govinfo.gov/content/pkg/FR-2026-10-13/pdf/2026-20888.pdf",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "aave_agents",
+      "title": "Aave — Aave for Agents",
+      "url": "https://aave.com/agents",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "sec_custody",
+      "title": "米官報 — SEC の投資顧問と規制下のファンドの暗号資産保管規則案 (2026-10-06・意見の締め切り 2026-12-07)",
+      "url": "https://www.federalregister.gov/documents/2026/10/06/2026-20466/adviser-and-regulated-fund-custody-rules-crypto-custody-rules",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "map24",
+      "title": "LiveMakers — 次の時代の地図 #24：後から読む確認から、中身を見せずに示す証明へ",
+      "url": "https://livemakers.com/ja/articles/future-map-20261024-aec84157",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "eth_protocol",
+      "title": "Ethereum Foundation — Protocol priorities (2026-09-07)",
+      "url": "https://blog.ethereum.org/2026/09/07/protocol-priorities",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "dd_pq",
+      "title": "LiveMakers — Deep Dive｜耐量子署名、イーサリアムはハッシュで Tron は格子に",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261012-3381fa7a",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "anthropic_quantum",
+      "title": "Anthropic — Designing efficient quantum circuits",
+      "url": "https://www.anthropic.com/research/designing-efficient-quantum-circuits",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "dd_anthropic_quantum",
+      "title": "LiveMakers — Deep Dive｜Anthropic、NIST 曲線の種の解明と量子回路の研究を同日公開",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261019-8c2e310d",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "kantei",
+      "title": "首相官邸 — サイバーセキュリティに関する関係閣僚会議 (2026-10-26)",
+      "url": "https://www.kantei.go.jp/jp/105/actions/202610/26kaigi_cyber.html",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    },
+    {
+      "key": "bip360",
+      "title": "Bitcoin BIPs — BIP-360 (Status Draft)",
+      "url": "https://github.com/bitcoin/bips/blob/master/bip-0360.mediawiki",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "glassnode",
+      "title": "Glassnode — Measuring Bitcoin's quantum-exposed supply",
+      "url": "https://research.glassnode.com/measuring-bitcoins-quantum-exposed-supply/",
+      "accessed": "2026-11-01",
+      "chapter": 6
+    },
+    {
+      "key": "fbi_binance",
+      "title": "FBI — North Korea Responsible for $6 Billion+ Binance Attack (2026-10-31)",
+      "url": "https://www.fbi.gov/investigate/cyber/alerts/2026/north-korea-responsible-for-6-billion-binance-attack",
+      "accessed": "2026-11-01",
+      "chapter": 4
+    }
+  ]
+}
