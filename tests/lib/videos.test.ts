@@ -74,10 +74,27 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.bodyJa.length).toBeGreaterThan(0);
   });
 
+  it("ep002 は 6 章・YouTube 概要欄と同じ時刻・出典 51 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep002-who-holds-the-key");
+    expect(video).not.toBeNull();
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "03:12",
+      "07:51",
+      "12:53",
+      "17:59",
+      "23:00",
+    ]);
+    expect(video!.durationSeconds).toBe(28 * 60 + 50);
+    expect(video!.sources).toHaveLength(51);
+    expect(getLatestPostedVideo()?.slug).toBe("ep002-who-holds-the-key");
+  });
+
   it("出典は全件がどこかの章に入る (取りこぼしなし)", () => {
-    const video = getVideoBySlug(EP001)!;
-    const grouped = groupSourcesByChapter(video).flatMap((group) => group.sources);
-    expect(grouped).toHaveLength(video.sources.length);
+    for (const video of getAllVideos()) {
+      const grouped = groupSourcesByChapter(video).flatMap((group) => group.sources);
+      expect(grouped).toHaveLength(video.sources.length);
+    }
   });
 
   it("アイキャッチは public/ に実在する", () => {
