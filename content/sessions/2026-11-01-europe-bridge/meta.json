@@ -1,0 +1,88 @@
+{
+  "sessionId": "2026-11-01-europe-bridge",
+  "date": "2026-11-01",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-01-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-01-europe-bridge",
+  "publishedAt": "2026-11-02T02:30:05+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261101_1203_98260fbc",
+  "asOfJst": "2026-11-01T12:03:05+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月1日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1153 → 1.1168（+0.13%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -1.5% / ETH/USD +0.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261101_1305_07d96c0d",
+    "crawlAnchorJst": "2026-11-01T12:03:00+09:00",
+    "writtenAtJst": "2026-11-01T13:05:00+09:00",
+    "lead": "Binance の63億ドル規模の流出は、FBI が北朝鮮の犯行と名指ししたことで、取引所の事故から国家の窃取の問題に変わった。FBI は DeFi の側にも、資金が流れた BTC・ETH・SOL のアドレスを止めるよう求めている。凍結の権限を誰が持つのかという論点が、市場構造法の議論に戻ってくる。米国の住宅販売と貯蓄率は、家計の余力が細っていることを示した。",
+    "items": [
+      {
+        "headline": "FBI、Binance から盗まれた60億ドル超の暗号資産は北朝鮮によるものと発表",
+        "sourceUrl": "https://x.com/FBICyberBranch/status/2116660730745299426",
+        "note": "FBI のサイバー部門が公式アカウントで公表した。窃取額は60億ドルを超えるとしている。"
+      },
+      {
+        "headline": "FBI、DeFi の運営者に流出資金の BTC・ETH・SOL のアドレスを遮断するよう要請（CoinDesk）",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/10/31/fbi-confirms-north-korea-s-role-in-usd6-billion-binance-hack-asks-defi-community-to-block-btc-eth-sol-addresses"
+      },
+      {
+        "headline": "北朝鮮のハッカー集団 TraderTraitor とは、Straits Times が5つの要点で整理",
+        "sourceUrl": "https://www.straitstimes.com/world/five-things-to-know-about-north-koreas-tradertraitor-hackers"
+      },
+      {
+        "headline": "NHK、Binance へのサイバー攻撃に北朝鮮が関与と FBI が指摘したと報道",
+        "sourceUrl": "https://x.com/nhk_news/status/2116726181957648814"
+      },
+      {
+        "headline": "トランプ大統領、Binance の流出について「心配していない」「北朝鮮と話す」と発言（Watcher Guru）",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2116686738093392259"
+      },
+      {
+        "headline": "Binance、流出で不足した資産の9割を補塡し、BTC・ETH など10銘柄は全額を準備で裏付け",
+        "sourceUrl": "https://x.com/TedPillows/status/2116544734663455187"
+      },
+      {
+        "headline": "米国の9月の新築一戸建て販売は前月比0.6%減の年率67万6,000戸（セントルイス連銀・国勢調査局）",
+        "sourceUrl": "https://x.com/stlouisfed/status/2116719630911713288"
+      },
+      {
+        "headline": "米国の9月の個人貯蓄率は4.2%に低下し、2022年10月以来の低さ（The Kobeissi Letter）",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2116630555135517067"
+      },
+      {
+        "headline": "Ethereum 公式、AI の進歩で量子計算の脅威の時期が早まっているとして専門家の会合を報告",
+        "sourceUrl": "https://x.com/ethereum/status/2116576765506437319"
+      },
+      {
+        "headline": "Canton Network の10月、Uber の24時間の資金管理の試験や DTCC のトークン化サービス開始など初の事例が続いた",
+        "sourceUrl": "https://x.com/CantonNetwork/status/2116633055360090435"
+      },
+      {
+        "headline": "Cardano の Intersect、ノードの運営者に Linux カーネルの重大な脆弱性への対処を呼びかけ（BeInCrypto）",
+        "sourceUrl": "https://x.com/beincrypto/status/2116724587669156231"
+      },
+      {
+        "headline": "Cardano の今週の CIP、耐量子の署名検証と規制対応ステーブルコインの共通規格が新しい提案に",
+        "sourceUrl": "https://x.com/Cardano/status/2116727931313459513"
+      },
+      {
+        "headline": "Google DeepMind、英国の建築・改修の審査を速める PlanAssist を紹介",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2116524000977285321"
+      }
+    ],
+    "watch": [
+      "Binance の出金再開が予定どおり11月1日中に進むか。FBI の要請を受けて DeFi の側が実際にアドレスを止めるか。",
+      "米国がイランへの空爆の再開に備えているとの WSJ の報道が伝わっている。米政府の公式の発表があるかを見る。",
+      "楽天証券の社債購入者の情報流出は、委託先のプラットフォームを使う他の証券会社にも広がるかが焦点。"
+    ]
+  }
+}
