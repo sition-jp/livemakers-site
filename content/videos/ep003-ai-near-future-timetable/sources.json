@@ -1,0 +1,82 @@
+{
+  "episodeId": "ep003",
+  "sources": [
+    {
+      "key": "s1",
+      "title": "Anthropic, PBC — Form S-1 Registration Statement (SEC EDGAR・2026-10-26・accession 0001628280-26-067168)",
+      "url": "https://www.sec.gov/Archives/edgar/data/0002130357/000162828026067168/anthropicpbc-sx1.htm",
+      "accessed": "2026-11-02",
+      "chapter": 1
+    },
+    {
+      "key": "edgar_anthropic",
+      "title": "SEC EDGAR — Anthropic, PBC の提出書類の一覧 (2026-11-02 時点で S-1/A なし)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357&type=S-1&dateb=&owner=include&count=40",
+      "accessed": "2026-11-02",
+      "chapter": 6
+    },
+    {
+      "key": "ecb_rate",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-10-30・USD 1.1172 / JPY 175.68)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-02",
+      "chapter": 1
+    },
+    {
+      "key": "jpl_mars",
+      "title": "NASA JPL — NASA's Perseverance Rover Completes First AI-Planned Drive on Mars (2026-01-30)",
+      "url": "https://www.jpl.nasa.gov/news/nasas-perseverance-rover-completes-first-ai-planned-drive-on-mars/",
+      "accessed": "2026-11-02",
+      "chapter": 3
+    },
+    {
+      "key": "broadcom_reuters",
+      "title": "Khaleej Times (Reuters 配信) — Wall Street banks, Blackstone line up $63 billion to finance Broadcom AI chips for Anthropic (2026-10-27)",
+      "url": "https://www.khaleejtimes.com/business/wall-street-banks-blackstone-line-up-63-billion-to-finance-broadcom-ai-chips-for-anthropic",
+      "accessed": "2026-11-02",
+      "chapter": 5
+    },
+    {
+      "key": "spdji",
+      "title": "S&P Dow Jones Indices — Consultation on Treatment of MegaCap Companies – Results (2026-06-04)",
+      "url": "https://press.spglobal.com/2026-06-04-S-P-Dow-Jones-Indices-Consultation-on-Treatment-of-MegaCap-Companies-Results",
+      "accessed": "2026-11-02",
+      "chapter": 2
+    },
+    {
+      "key": "spacex_s1",
+      "title": "Space Exploration Technologies Corp. — Form S-1 Registration Statement (SEC EDGAR・2026-05-20)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm",
+      "accessed": "2026-11-02",
+      "chapter": 5
+    },
+    {
+      "key": "iposcoop",
+      "title": "IPO Scoop — SpaceX (SPCX) Climbs 19 Percent in NASDAQ Debut After Record IPO (2026-06-12)",
+      "url": "https://www.iposcoop.com/the-ipo-buzz-spacex-spcx-jumps-on-nasdaq-opens-at-150-up-11-1-pct-after-record-ipo/",
+      "accessed": "2026-11-02",
+      "chapter": 5
+    },
+    {
+      "key": "dd_anthropic",
+      "title": "LiveMakers — Deep Dive｜赤字12.7兆円の Anthropic、4〜6月期は営業黒字",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261102-1e566630",
+      "accessed": "2026-11-02",
+      "chapter": 2
+    },
+    {
+      "key": "sig_revenue",
+      "title": "LiveMakers — Signal｜Anthropic の S-1、上半期売上162億ドルで前年の14倍",
+      "url": "https://livemakers.com/ja/articles/signal-20261027-d2c26b3f",
+      "accessed": "2026-11-02",
+      "chapter": 3
+    },
+    {
+      "key": "sig_risk",
+      "title": "LiveMakers — Signal｜Anthropic の S-1、人類存亡のリスクをリスク要因に明記",
+      "url": "https://livemakers.com/ja/articles/signal-20261027-8799482d",
+      "accessed": "2026-11-02",
+      "chapter": 6
+    }
+  ]
+}

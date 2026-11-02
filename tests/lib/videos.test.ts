@@ -74,7 +74,23 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.bodyJa.length).toBeGreaterThan(0);
   });
 
-  it("ep002 は 6 章・YouTube 概要欄と同じ時刻・出典 51 件を持ち、最新の投稿になる", () => {
+  it("ep003 は 6 章・YouTube 概要欄と同じ時刻・出典 11 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep003-ai-near-future-timetable");
+    expect(video).not.toBeNull();
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "03:21",
+      "06:09",
+      "09:06",
+      "13:02",
+      "15:54",
+    ]);
+    expect(video!.durationSeconds).toBe(22 * 60 + 4);
+    expect(video!.sources).toHaveLength(11);
+    expect(getLatestPostedVideo()?.slug).toBe("ep003-ai-near-future-timetable");
+  });
+
+  it("ep002 は 6 章・YouTube 概要欄と同じ時刻・出典 51 件を持つ", () => {
     const video = getVideoBySlug("ep002-who-holds-the-key");
     expect(video).not.toBeNull();
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
@@ -87,7 +103,6 @@ describe("content/videos (repo の実データ)", () => {
     ]);
     expect(video!.durationSeconds).toBe(28 * 60 + 50);
     expect(video!.sources).toHaveLength(51);
-    expect(getLatestPostedVideo()?.slug).toBe("ep002-who-holds-the-key");
   });
 
   it("出典は全件がどこかの章に入る (取りこぼしなし)", () => {
