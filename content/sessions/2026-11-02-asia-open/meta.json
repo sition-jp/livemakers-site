@@ -1,0 +1,58 @@
+{
+  "sessionId": "2026-11-02-asia-open",
+  "date": "2026-11-02",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-02-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-02-asia-open",
+  "publishedAt": "2026-11-03T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261102_0730_2466509b",
+  "asOfJst": "2026-11-02T07:30:05+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月2日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 62,154 → 62,545（+0.63%）",
+    "変動幅上位: 米10年金利 -0.8% / 日経225（perp） +0.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261102_0551_049f55f7",
+    "crawlAnchorJst": "2026-11-02T05:03:00+09:00",
+    "writtenAtJst": "2026-11-02T05:51:46+09:00",
+    "lead": "週末の暗号資産は、Binance の大規模流出の後始末と米中間選挙の前夜が重なった。出金再開直後の純流出は運用資産の約2%にとどまり、取り付けには至っていない。一方で FBI が北朝鮮の集団を名指しし、流出は CLARITY 法案の議論を投票の直前へ押し出した。",
+    "items": [
+      {
+        "headline": "Binance、出金再開後の9時間半で純流出36億4,000万ドル（運用資産の2.1%）",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-01-binance-sees-3-64-billion-in-net-outflows-after-reopening-withdrawals-following-record-hack-432259",
+        "note": "出金46億5,000万ドル・入金10億1,000万ドル。10月31日時点の準備金の証明は月曜に公表される見通し。"
+      },
+      {
+        "headline": "FBI、Binance の流出を北朝鮮の TraderTraitor と認定し THORChain 運営者に遮断を要請",
+        "sourceUrl": "https://www.theblock.co/news/defi/2026-11-01-north-korean-hackers-launder-242-million-of-binance-loot-via-tron-as-fbi-presses-thorchain-analyst-432257",
+        "note": "盗まれた資金のうち約2億4,200万ドルが2日間で Tron を経由して洗浄されたと分析家が指摘した。"
+      },
+      {
+        "headline": "ルミス上院議員、CLARITY 法案に事業者と捜査当局の情報共有の試行があると投稿",
+        "sourceUrl": "https://x.com/SenLummis/status/2116920933625593975"
+      },
+      {
+        "headline": "Strategy、優先株 STRC の配当を11月2日から毎日払いに変更",
+        "sourceUrl": "https://x.com/Strategy/status/2116918421925527712"
+      },
+      {
+        "headline": "米大手4社の7〜9月期の設備投資、合計2,019億ドルで過去最大",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2116900354717589597",
+        "note": "前の期から369億ドル増え、12か月で2倍を超えた（Kobeissi Letter の集計）。"
+      }
+    ],
+    "watch": [
+      "11月3日の米中間選挙: オハイオ州の上院選と上院の多数派が、銀行委員会の委員長と CLARITY 法案の行方を決める。",
+      "Binance の10月31日時点の準備金の証明と、出金再開2日目以降の資金の流れ。"
+    ]
+  }
+}
