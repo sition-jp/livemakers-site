@@ -1,0 +1,84 @@
+{
+  "sessionId": "2026-11-02-ny-open",
+  "date": "2026-11-02",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-02-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-02-ny-open",
+  "publishedAt": "2026-11-03T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261102_1803_18a8bbf9",
+  "asOfJst": "2026-11-02T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月2日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,592.80 → 7,608.20（+0.20%）",
+    "変動幅上位: WTI（perp） -2.9% / BTCボラティリティ（BVIV） -2.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261102_1917_3db2ab8c",
+    "crawlAnchorJst": "2026-11-02T18:03:00+09:00",
+    "writtenAtJst": "2026-11-02T19:17:49+09:00",
+    "lead": "国内の大型の情報流出が一日に重なった。アットコスメ約300万人、ノジマ約700万件、サントリーの社員と取引先約10万人が同じ日に公表され、GMO には警視庁が捜査本部を置いた。暗号資産では Binance の出金再開後の流出と米ビットコイン ETF の資金流出が続き、市場は中間選挙前の一週間に入る。",
+    "items": [
+      {
+        "headline": "アットコスメに不正アクセス、会員約300万人分が流出",
+        "sourceUrl": "https://x.com/nhk_news/status/2117135884093112796",
+        "note": "アイスタイルの発表。氏名・住所・生年月日に加え肌質と髪質も対象で、パスワードとカード情報は含まれない。"
+      },
+      {
+        "headline": "ノジマオンラインと中古スマホ買取サイトから会員約700万件が流出",
+        "sourceUrl": "https://x.com/ENETJP/status/2117165512946024953",
+        "note": "11月1日に検知し、暗号化されたパスワードも対象。カード情報は保持しておらず、両サイトは休止中。"
+      },
+      {
+        "headline": "サントリーHD、社員と取引先など約10万人分の氏名とメールが流出",
+        "sourceUrl": "https://x.com/nhk_news/status/2117156018652365186",
+        "note": "クラウドのファイル共有サービスへの不正アクセス。新卒の応募者約7,000人も含む。"
+      },
+      {
+        "headline": "GMO の不正アクセス、警視庁が捜査本部を設置",
+        "sourceUrl": "https://x.com/47news_official/status/2117180927298376100",
+        "note": "熊谷社長は発覚後初の会見で謝罪し、子会社からの指摘を生かせなかったと認めた。"
+      },
+      {
+        "headline": "金融庁、デジタル・分散型金融の研究会 第2回の資料を公表",
+        "sourceUrl": "https://www.fsa.go.jp/singi/digital_2026/shiryo/20261102.html"
+      },
+      {
+        "headline": "金融庁、FATF の10月プレナリー声明を掲載",
+        "sourceUrl": "https://www.fsa.go.jp/inter/fatf/20261102/20261102.html",
+        "note": "資金洗浄対策で非協力的な国・地域の一覧に関する声明。"
+      },
+      {
+        "headline": "日銀、展望レポート（2026年10月）の全文を公表",
+        "sourceUrl": "https://x.com/Bank_of_Japan_e/status/2117166077104804112"
+      },
+      {
+        "headline": "米ビットコイン現物 ETF、金曜に6.43億ドルの純流出",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/02/bitcoin-etfs-lost-usd643-million-in-outflows-friday-and-2026-is-barely-green-now",
+        "note": "Binance の流出事件後で最大級の1日流出となり、年初来の純流入はわずかなプラスまで縮んだ。"
+      },
+      {
+        "headline": "Binance、出金再開後の流出は約60億ドル 保有総額の4%未満",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/02/live-updates-binance-records-usd6-billion-outflows-after-starting-withdrawals-less-then-4-of-total-holdings"
+      },
+      {
+        "headline": "BTCPay、ウォレットが抜かれた報告を受けてサーバー停止を呼びかけ",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/11/02/btcpay-a-bitcoin-payment-tool-tells-users-to-switch-off-their-servers-after-reports-of-drained-wallets"
+      },
+      {
+        "headline": "ドイツで保管する銅25トンを裏付けにしたトークンが発行",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/02/metals-io-issues-tokens-backed-by-25-tonnes-of-physical-copper-stored-in-germany"
+      }
+    ],
+    "watch": [
+      "アットコスメは11月6日までに本人へ個別連絡する予定。届くメールの送信元ドメインが案内どおりかを確かめる",
+      "米中間選挙の結果と週後半の雇用統計が、ビットコイン ETF の資金の流れを変えるか"
+    ]
+  }
+}
