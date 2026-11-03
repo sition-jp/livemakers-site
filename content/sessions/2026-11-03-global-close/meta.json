@@ -1,0 +1,117 @@
+{
+  "sessionId": "2026-11-03-global-close",
+  "date": "2026-11-03",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-03-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-03-global-close",
+  "publishedAt": "2026-11-04T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261103_2303_401f4479",
+  "asOfJst": "2026-11-03T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月3日 23:03 JST",
+  "bullets": [
+    "BTC/USD $77,932 → $77,118（-1.04%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +4.4% / WTI（perp） -2.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261103_0005_380faf13",
+    "crawlAnchorJst": "2026-11-03T23:03:00+09:00",
+    "writtenAtJst": "2026-11-04T00:05:00+09:00",
+    "lead": "米中間選挙の投票日、市場はリスクを落としたまま開票を待つ。ナスダック100は10月の最高値から10%下げて調整局面に入り、ビットコインは7万7,000ドルを割った。それでも保有の積み増しは止まらない。Tether は約15万BTC、Coinbase は1万8,000BTCを公表し、売り手と買い手の顔ぶれが入れ替わる局面に入った。",
+    "items": [
+      {
+        "headline": "ナスダック100、10月の最高値から10%下落し調整局面入り",
+        "sourceUrl": "https://x.com/zerohedge/status/2117361480547094865"
+      },
+      {
+        "headline": "ビットコインが7万7,000ドル割れ、イーサは2,250ドル割れ",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2117314045758091718",
+        "note": "選挙前のリスク回避が暗号資産にも及んだ。"
+      },
+      {
+        "headline": "米BTC現物ETF、11月2日は純流出3.986億ドル IBIT が4.053億ドルの流出",
+        "sourceUrl": "https://x.com/FarsideUK/status/2117478621439016981"
+      },
+      {
+        "headline": "Tether、約15万BTC（約115億ドル）を保有とCEOが明かす",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/03/tether-holds-150-000-bitcoin-worth-usd11-5-billion-ceo-paolo-ardoino-says"
+      },
+      {
+        "headline": "Coinbase、保有ビットコインが1万8,000枚に",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2117274804432867598",
+        "note": "Brian Armstrong CEO が本人の投稿で明かした。"
+      },
+      {
+        "headline": "Binance、流出後の純流出は53億ドル CEO は回復を強調",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/03/binance-net-outflows-reach-usd5-3b-after-record-hack-though-ceo-cites-recovery"
+      },
+      {
+        "headline": "ブラジルの Mercado Bitcoin、約3,800万ドルが流出 うち1,100万ドルを凍結",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2117429188009316624"
+      },
+      {
+        "headline": "韓国の金融当局、取引所に顧客資産のコールドウォレット保管を増やすよう求める",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2117435699465212120"
+      },
+      {
+        "headline": "ニュージャージー州、Coinbase へのステーキング訴訟を取り下げ",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2117342354021417068"
+      },
+      {
+        "headline": "オーストラリア準備銀行、政策金利を4.85%へ 18年ぶりの水準",
+        "sourceUrl": "https://x.com/zerohedge/status/2117459546083901946"
+      },
+      {
+        "headline": "米軍がイランのケシュム島を攻撃とWSJが報道",
+        "sourceUrl": "https://x.com/zerohedge/status/2117422064256622742",
+        "note": "米当局者の話として伝えた。選挙前夜の軍事行動となる。"
+      },
+      {
+        "headline": "トランプ大統領、イスラエルへの年40億ドルの支払いを2026年末で終えるとネタニヤフ首相と合意したと発言",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2117612995069001944",
+        "note": "発言の報道段階で、政府文書での確認はまだない。"
+      },
+      {
+        "headline": "ロシアとウクライナの和平協議、米国の仲介で11月10〜11日にアブダビで開催と報道",
+        "sourceUrl": "https://x.com/Polymarket/status/2117409490169385323"
+      },
+      {
+        "headline": "Anthropic、IPO を前に8,954億ドルの契約上の支出義務を開示と報道",
+        "sourceUrl": "https://x.com/Polymarket/status/2117342177730961738"
+      },
+      {
+        "headline": "Marvell、Lumentum を株式交換で買収 企業価値1,150億ドル",
+        "sourceUrl": "https://x.com/ICODrops/status/2117286778130567601"
+      },
+      {
+        "headline": "Devcon がムンバイで開幕 Vitalik Buterin は形式検証やプライバシーを軸に Ethereum の方向を示す",
+        "sourceUrl": "https://x.com/OKX_Ventures/status/2117618654271652080"
+      },
+      {
+        "headline": "Ethereum のL2 Aztec、Tierra V6 へ更新 プライベートなアプリの処理を速く",
+        "sourceUrl": "https://www.theblock.co/news/defi/2026-11-03-ethereum-l2-aztec-tierra-v6-upgrade-private-apps-432399"
+      },
+      {
+        "headline": "Cardano の試験網 DijkstraNet、11月2日にプロトコルバージョン12へ移行",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2117587472477532239",
+        "note": "Leios を除いた形での移行。SPO と dApp に早めの統合テストを呼びかけている。"
+      },
+      {
+        "headline": "横浜市の電子申請システム、メール送信サービスに不正アクセス 登録は約82万件",
+        "sourceUrl": "https://x.com/livedoornews/status/2117557403327569957",
+        "note": "漏えいの有無は調査中。北陸電力などと同じメール配信事業者への侵害が起点。"
+      }
+    ],
+    "watch": [
+      "米中間選挙の開票。上院の主導権がどちらに傾くかで、暗号資産の市場構造法案の日程が動く。",
+      "ナスダック100の調整とビットコインETFの資金の流れ。IBIT の流出が続くか。",
+      "Binance の出金と純流出の推移、北朝鮮の関与をめぐる米当局の次の手。"
+    ]
+  }
+}
