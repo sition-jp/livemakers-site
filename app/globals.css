@@ -242,6 +242,23 @@
   letter-spacing: 0.02em;
 }
 
+/* 表の 1 列目 (見出し列) の最低幅 (2026-11-04 田平氏要望)。
+   table-layout:auto は列幅を min-content から配るため、2 列目に長い文が入ると
+   1 列目が日本語の 1〜2 字幅まで潰れ、「戦争 / とエ / ネル / ギー」のように
+   折れていた (deep-dive-20261104-1ce8bf40・375px で 34px 幅を実測)。
+   min-width は min-content より広い列には効かない (既存の広い列は不変)。
+   `word-break: keep-all` は採らない — 1 列目に空白のない長いラベル
+   (公開済み 340 セル中、最長 24 字) があり、375px で表がはみ出す。 */
+.prose:lang(ja) :where(table) :where(th, td):first-child {
+  min-width: 6em;
+}
+
+@media (min-width: 640px) {
+  .prose:lang(ja) :where(table) :where(th, td):first-child {
+    min-width: 8em;
+  }
+}
+
 .prose:lang(ja) :where(h1, h2, h3, h4) {
   line-height: 1.5;
   letter-spacing: 0.01em;
