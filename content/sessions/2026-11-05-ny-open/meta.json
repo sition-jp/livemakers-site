@@ -1,0 +1,129 @@
+{
+  "sessionId": "2026-11-05-ny-open",
+  "date": "2026-11-05",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-05-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-05-ny-open",
+  "publishedAt": "2026-11-06T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261105_1803_82d6127e",
+  "asOfJst": "2026-11-05T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月5日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,584.60 → 7,679.60（+1.25%）",
+    "変動幅上位: WTI（perp） -8.4% / ETH/USD +4.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261105_1855_78ffd817",
+    "crawlAnchorJst": "2026-11-05T18:03:00+09:00",
+    "writtenAtJst": "2026-11-05T18:55:00+09:00",
+    "lead": "今日の焦点は、日本で続く個人情報の流出が金融に届いたことだ。メール配信を請け負うアララへの不正アクセスを起点に、三井住友銀行や暗号資産交換業の Zaif までがメールアドレスの流出を公表し、三井住友系の保証会社では年収など与信に関わる情報まで漏れた。政府は国家サイバー統括室の注意喚起と官民チームの創設で、連鎖を政策の課題に引き上げた。市場では、中間選挙後の反発でビットコインが8万ドル台を保っている。",
+    "items": [
+      {
+        "headline": "三井住友系の保証会社、最大32万人分の個人情報が漏えい 住所や年収も",
+        "sourceUrl": "https://x.com/nhk_news/status/2118252490554790022",
+        "note": "カードローンの契約額など与信に関わる情報が含まれるとされる。"
+      },
+      {
+        "headline": "三井住友銀行、メール配信委託先アララ経由でメールアドレス22万件が流出",
+        "sourceUrl": "https://x.com/nikkei/status/2118222071155040602",
+        "note": "委託先1社を起点にした流出の公表が、銀行にも及んだ。"
+      },
+      {
+        "headline": "Zaif、登録メールアドレス38万536件の流出を公表 流出はメールアドレスのみ",
+        "sourceUrl": "https://x.com/zaifdotjp/status/2117940182154633481",
+        "note": "同じアララ経由。便乗した不審メールへの注意を呼びかけた。"
+      },
+      {
+        "headline": "アララ経由の流出公表が相次ぐ モス・ワークマン・IIJmio など",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2611/05/2000002907/"
+      },
+      {
+        "headline": "国家サイバー統括室、相次ぐ情報漏えいを受け事業者に新たな注意喚起",
+        "sourceUrl": "https://x.com/cyber_forecast/status/2118257084886347822",
+        "note": "設定不備や既知の脆弱性の放置が原因とみられる事例を複数確認し、攻撃の調査や侵入に AI が使われている可能性が高いとした。"
+      },
+      {
+        "headline": "政府、サイバー攻撃対策で官民チームを創設へ",
+        "sourceUrl": "https://x.com/47news_official/status/2118157108512526493"
+      },
+      {
+        "headline": "ドコモ、5G SA の音声・データ・SMS が全国で使いづらい状態 4G への切り替えで回復する場合も",
+        "sourceUrl": "https://x.com/docomo/status/2118238200141582811",
+        "note": "ドコモは不正アクセスやサイバー攻撃の形跡は確認されていないとしている。"
+      },
+      {
+        "headline": "ドコモ、会員向けサイトとオンラインショップを緊急メンテナンス 外部からの不正アクセスの可能性",
+        "sourceUrl": "https://x.com/itmedia_news/status/2118191632222937484"
+      },
+      {
+        "headline": "消費者庁、「個人情報流出に関するFAQ」を掲載",
+        "sourceUrl": "https://www.caa.go.jp/notice/entry/048046/"
+      },
+      {
+        "headline": "損保ジャパン、委託先への不正アクセスで顧客情報6.5万件が漏えいの可能性",
+        "sourceUrl": "https://x.com/nikkei/status/2118211500670128428"
+      },
+      {
+        "headline": "仏 Crédit Mutuel Arkéa、サイバー攻撃を確認 不正取引の資金は暗号資産に換えられた疑い",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-04-french-bank-confirms-cyberattack-434372"
+      },
+      {
+        "headline": "Trump Media、約3.4億ドル分のビットコインを交換所クリプトドットコムへ移動 ブロックチェーンのデータで判明",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/05/trump-media-moves-usd434-million-in-bitcoin-to-crypto-com-blockchain-data-show",
+        "note": "移動であり、売却かどうかは会社の開示で確かめる段階。"
+      },
+      {
+        "headline": "ビットコインは8万ドル台を維持、中間選挙後の反発で Zcash は12%高",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/05/bitcoin-holds-above-usd80-000-as-zcash-jumps-12-in-post-election-crypto-rebound"
+      },
+      {
+        "headline": "Zcash、最古のプライバシープールにある約1,600万ドルを凍結へ",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/11/05/zcash-is-about-to-freeze-usd16-million-in-its-oldest-privacy-pool"
+      },
+      {
+        "headline": "XRP Ledger、承認済みの焼却権限者が新しいトークンを作れたバグを修正",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/05/xrp-ledger-closes-bug-that-let-approved-token-burners-create-new-tokens"
+      },
+      {
+        "headline": "ナスダック、初のステーキング付き INJ ETF の上場を承認",
+        "sourceUrl": "https://x.com/injective/status/2118213690621407347"
+      },
+      {
+        "headline": "アーカンソー州、Kalshi を違法賭博で提訴",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-05-arkansas-sues-kalshi-434407"
+      },
+      {
+        "headline": "エリック・トランプ氏の American Bitcoin、7〜9月期は1.26億ドルの黒字に転換",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-05-american-bitcoin-swings-to-profit-434413"
+      },
+      {
+        "headline": "ゆうちょ銀行、松井証券に約2割出資を正式発表 アプリで株の売買を仲介",
+        "sourceUrl": "https://x.com/nikkei/status/2117872267530998269"
+      },
+      {
+        "headline": "独 DAX が最高値を更新、コメルツ銀行は9か月で過去最高益",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-dax-steigt-auf-neuen-rekord-drei-treiber-fuer-den-leitindex/100267493.html"
+      },
+      {
+        "headline": "民主党が主導する議会は、トランプ政権の対外政策に歯止めをかける公算",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/05/democrats-trump-foreign-policy-analysis"
+      },
+      {
+        "headline": "英国、防衛と AI に必要な重要鉱物で中国への依存が「危険な水準」",
+        "sourceUrl": "https://www.theguardian.com/world/2026/nov/05/uk-dangerously-reliant-on-china-critical-minerals-military-ai-renewable-energy"
+      }
+    ],
+    "watch": [
+      "アララ経由の流出を公表する企業がどこまで広がるか、金融機関の続報",
+      "ドコモ 5G SA 障害の復旧時刻と原因の発表",
+      "Trump Media のビットコイン移動が売却か、会社の開示"
+    ]
+  }
+}
