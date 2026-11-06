@@ -1,30 +1,30 @@
 {
   "schema_version": "v0.1",
-  "generated_at": "2026-11-04T23:00:25Z",
+  "generated_at": "2026-11-06T23:19:17Z",
   "radar": [
     {
       "symbol": "BTC",
       "scores": {
         "7D": {
-          "overall": 52.0,
+          "overall": 30.0,
           "price_pivot": 50.0,
-          "volatility_pivot": 45.0,
-          "confidence_grade": "A",
-          "main_signal": "mixed"
+          "volatility_pivot": 0.0,
+          "confidence_grade": "B",
+          "main_signal": "price"
         },
         "30D": {
-          "overall": 29.0,
-          "price_pivot": 15.0,
-          "volatility_pivot": 30.0,
+          "overall": 18.0,
+          "price_pivot": 20.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "volatility"
+          "main_signal": "price"
         },
         "90D": {
-          "overall": 35.0,
-          "price_pivot": 15.0,
-          "volatility_pivot": 45.0,
-          "confidence_grade": "B+",
-          "main_signal": "volatility"
+          "overall": 9.0,
+          "price_pivot": 0.0,
+          "volatility_pivot": 0.0,
+          "confidence_grade": "A",
+          "main_signal": "mixed"
         }
       }
     },
@@ -32,25 +32,25 @@
       "symbol": "ETH",
       "scores": {
         "7D": {
-          "overall": 45.0,
-          "price_pivot": 50.0,
-          "volatility_pivot": 30.0,
+          "overall": 18.0,
+          "price_pivot": 20.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "A",
           "main_signal": "price"
         },
         "30D": {
-          "overall": 23.0,
-          "price_pivot": 15.0,
-          "volatility_pivot": 15.0,
+          "overall": 18.0,
+          "price_pivot": 20.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "mixed"
+          "main_signal": "price"
         },
         "90D": {
-          "overall": 29.0,
-          "price_pivot": 15.0,
-          "volatility_pivot": 30.0,
+          "overall": 10.0,
+          "price_pivot": 0.0,
+          "volatility_pivot": 0.0,
           "confidence_grade": "A",
-          "main_signal": "volatility"
+          "main_signal": "mixed"
         }
       }
     }
@@ -62,14 +62,14 @@
         "name": "Bitcoin"
       },
       "horizon": "7D",
-      "timestamp": "2026-11-04T23:00:25Z",
+      "timestamp": "2026-11-06T23:19:17Z",
       "scores": {
-        "overall": 52.0,
+        "overall": 30.0,
         "price_pivot": 50.0,
-        "volatility_pivot": 45.0,
+        "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "A",
-          "score": 92.0
+          "grade": "B",
+          "score": 74.0
         }
       },
       "direction_bias": {
@@ -83,13 +83,14 @@
           "direction": "neutral",
           "weight": 0.15,
           "message": "Price is far from its short moving average (top 20% of recent range)",
-          "raw_value": 0.022102935187598528
+          "raw_value": 0.025957101156408372
         },
         {
           "category": "price",
-          "direction": "bullish",
+          "direction": "neutral",
           "weight": 0.15,
-          "message": "MACD momentum is improving"
+          "message": "Price is far from its long moving average (top 20% of recent range)",
+          "raw_value": 0.04822029401423336
         },
         {
           "category": "price",
@@ -100,43 +101,15 @@
         {
           "category": "volatility",
           "direction": "volatility",
-          "weight": 0.15,
-          "message": "ATR is rising from a low-volatility area",
-          "raw_value": 2163.9492857142855
-        },
-        {
-          "category": "funding",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Funding is skewed to one side (top 20% of lookback)",
-          "raw_value": 0.0001
-        },
-        {
-          "category": "volume",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Volume expanded sharply versus the 30D average",
-          "raw_value": 1.5525919893979312
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 2.5651
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.3173968261927253
+          "raw_value": 0.3206087495518555
         }
       ],
       "summary": {
-        "level": "Medium",
-        "headline": "Medium turning point conditions in BTC 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 8."
+        "level": "Low",
+        "headline": "Low turning point conditions in BTC 7D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 4."
       }
     },
     "BTC__30D": {
@@ -145,14 +118,14 @@
         "name": "Bitcoin"
       },
       "horizon": "30D",
-      "timestamp": "2026-11-04T23:00:25Z",
+      "timestamp": "2026-11-06T23:19:17Z",
       "scores": {
-        "overall": 29.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 30.0,
+        "overall": 18.0,
+        "price_pivot": 20.0,
+        "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
-          "score": 88.0
+          "score": 86.0
         }
       },
       "direction_bias": {
@@ -163,43 +136,22 @@
       "evidence": [
         {
           "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
-        {
-          "category": "funding",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Funding is skewed to one side (top 20% of lookback)",
-          "raw_value": 0.0001
-        },
-        {
-          "category": "volume",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Volume expanded sharply versus the 30D average",
-          "raw_value": 1.5525919893979312
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
+          "direction": "neutral",
           "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 2.5651
+          "message": "Price is near a recent range boundary"
         },
         {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.3173968261927253
+          "raw_value": 0.3206087495518555
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 5."
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 2."
       }
     },
     "BTC__90D": {
@@ -208,14 +160,14 @@
         "name": "Bitcoin"
       },
       "horizon": "90D",
-      "timestamp": "2026-11-04T23:00:25Z",
+      "timestamp": "2026-11-06T23:19:17Z",
       "scores": {
-        "overall": 35.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 45.0,
+        "overall": 9.0,
+        "price_pivot": 0.0,
+        "volatility_pivot": 0.0,
         "confidence": {
-          "grade": "B+",
-          "score": 81.0
+          "grade": "A",
+          "score": 93.0
         }
       },
       "direction_bias": {
@@ -225,51 +177,17 @@
       },
       "evidence": [
         {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "ATR is rising from a low-volatility area",
-          "raw_value": 2163.9492857142855
-        },
-        {
-          "category": "funding",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Funding is skewed to one side (top 20% of lookback)",
-          "raw_value": 0.0001
-        },
-        {
-          "category": "volume",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Volume expanded sharply versus the 30D average",
-          "raw_value": 1.5525919893979312
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Long/short positioning is crowded, increasing squeeze sensitivity",
-          "raw_value": 2.5651
-        },
-        {
           "category": "volatility",
           "direction": "volatility",
           "weight": 0.2,
           "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.3173968261927253
+          "raw_value": 0.3206087495518555
         }
       ],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in BTC 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 6."
+        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 1."
       }
     },
     "ETH__7D": {
@@ -278,11 +196,11 @@
         "name": "Ethereum"
       },
       "horizon": "7D",
-      "timestamp": "2026-11-04T23:00:25Z",
+      "timestamp": "2026-11-06T23:19:17Z",
       "scores": {
-        "overall": 45.0,
-        "price_pivot": 50.0,
-        "volatility_pivot": 30.0,
+        "overall": 18.0,
+        "price_pivot": 20.0,
+        "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
           "score": 87.0
@@ -297,48 +215,14 @@
         {
           "category": "price",
           "direction": "neutral",
-          "weight": 0.15,
-          "message": "Price is far from its short moving average (top 20% of recent range)",
-          "raw_value": 0.056058249466963
-        },
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
-        {
-          "category": "price",
-          "direction": "neutral",
           "weight": 0.2,
           "message": "Price is near a recent range boundary"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "ATR is rising from a low-volatility area",
-          "raw_value": 86.75928571428565
-        },
-        {
-          "category": "funding",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Funding is skewed to one side (top 20% of lookback)",
-          "raw_value": 0.0001
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5010694488206259
         }
       ],
       "summary": {
-        "level": "Medium",
-        "headline": "Medium turning point conditions in ETH 7D",
-        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 6."
+        "level": "Low",
+        "headline": "Low turning point conditions in ETH 7D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 1."
       }
     },
     "ETH__30D": {
@@ -347,11 +231,46 @@
         "name": "Ethereum"
       },
       "horizon": "30D",
-      "timestamp": "2026-11-04T23:00:25Z",
+      "timestamp": "2026-11-06T23:19:17Z",
       "scores": {
-        "overall": 23.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 15.0,
+        "overall": 18.0,
+        "price_pivot": 20.0,
+        "volatility_pivot": 0.0,
+        "confidence": {
+          "grade": "A",
+          "score": 88.0
+        }
+      },
+      "direction_bias": {
+        "bullish": 100.0,
+        "bearish": 0.0,
+        "neutral": 0.0
+      },
+      "evidence": [
+        {
+          "category": "price",
+          "direction": "neutral",
+          "weight": 0.2,
+          "message": "Price is near a recent range boundary"
+        }
+      ],
+      "summary": {
+        "level": "Low",
+        "headline": "Low turning point conditions in ETH 30D",
+        "explanation": "Direction bias leans bullish; main driver appears to be price reversal. Evidence count: 1."
+      }
+    },
+    "ETH__90D": {
+      "asset": {
+        "symbol": "ETH",
+        "name": "Ethereum"
+      },
+      "horizon": "90D",
+      "timestamp": "2026-11-06T23:19:17Z",
+      "scores": {
+        "overall": 10.0,
+        "price_pivot": 0.0,
+        "volatility_pivot": 0.0,
         "confidence": {
           "grade": "A",
           "score": 96.0
@@ -362,115 +281,38 @@
         "bearish": 0.0,
         "neutral": 0.0
       },
-      "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
-        {
-          "category": "funding",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Funding is skewed to one side (top 20% of lookback)",
-          "raw_value": 0.0001
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5010694488206259
-        }
-      ],
-      "summary": {
-        "level": "Low",
-        "headline": "Low turning point conditions in ETH 30D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 3."
-      }
-    },
-    "ETH__90D": {
-      "asset": {
-        "symbol": "ETH",
-        "name": "Ethereum"
-      },
-      "horizon": "90D",
-      "timestamp": "2026-11-04T23:00:25Z",
-      "scores": {
-        "overall": 29.0,
-        "price_pivot": 15.0,
-        "volatility_pivot": 30.0,
-        "confidence": {
-          "grade": "A",
-          "score": 90.0
-        }
-      },
-      "direction_bias": {
-        "bullish": 100.0,
-        "bearish": 0.0,
-        "neutral": 0.0
-      },
-      "evidence": [
-        {
-          "category": "price",
-          "direction": "bullish",
-          "weight": 0.15,
-          "message": "MACD momentum is improving"
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "ATR is rising from a low-volatility area",
-          "raw_value": 86.75928571428565
-        },
-        {
-          "category": "funding",
-          "direction": "volatility",
-          "weight": 0.15,
-          "message": "Funding is skewed to one side (top 20% of lookback)",
-          "raw_value": 0.0001
-        },
-        {
-          "category": "volatility",
-          "direction": "volatility",
-          "weight": 0.2,
-          "message": "Top trader positioning diverges from broader account positioning",
-          "raw_value": 0.5010694488206259
-        }
-      ],
+      "evidence": [],
       "summary": {
         "level": "Low",
         "headline": "Low turning point conditions in ETH 90D",
-        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 4."
+        "explanation": "Direction bias leans bullish; main driver appears to be volatility. Evidence count: 0."
       }
     }
   },
   "previous": {
-    "generated_at": "2026-11-03T23:00:25Z",
+    "generated_at": "2026-11-05T23:06:43Z",
     "radar": [
       {
         "symbol": "BTC",
         "scores": {
           "7D": {
-            "overall": 37.0,
+            "overall": 45.0,
             "price_pivot": 50.0,
-            "volatility_pivot": 15.0,
-            "confidence_grade": "B+",
+            "volatility_pivot": 30.0,
+            "confidence_grade": "A",
             "main_signal": "price"
           },
           "30D": {
-            "overall": 33.0,
-            "price_pivot": 15.0,
-            "volatility_pivot": 40.0,
-            "confidence_grade": "B+",
-            "main_signal": "volatility"
+            "overall": 38.0,
+            "price_pivot": 35.0,
+            "volatility_pivot": 30.0,
+            "confidence_grade": "A",
+            "main_signal": "mixed"
           },
           "90D": {
-            "overall": 33.0,
-            "price_pivot": 15.0,
-            "volatility_pivot": 40.0,
+            "overall": 22.0,
+            "price_pivot": 0.0,
+            "volatility_pivot": 30.0,
             "confidence_grade": "B+",
             "main_signal": "volatility"
           }
@@ -480,23 +322,23 @@
         "symbol": "ETH",
         "scores": {
           "7D": {
-            "overall": 23.0,
-            "price_pivot": 15.0,
+            "overall": 25.0,
+            "price_pivot": 20.0,
             "volatility_pivot": 15.0,
             "confidence_grade": "A",
             "main_signal": "mixed"
           },
           "30D": {
-            "overall": 23.0,
-            "price_pivot": 15.0,
+            "overall": 25.0,
+            "price_pivot": 20.0,
             "volatility_pivot": 15.0,
             "confidence_grade": "A",
             "main_signal": "mixed"
           },
           "90D": {
-            "overall": 33.0,
-            "price_pivot": 15.0,
-            "volatility_pivot": 40.0,
+            "overall": 16.0,
+            "price_pivot": 0.0,
+            "volatility_pivot": 15.0,
             "confidence_grade": "A",
             "main_signal": "volatility"
           }
@@ -1975,6 +1817,34 @@
           "30D": 100.0,
           "90D": 100.0
         }
+      },
+      {
+        "date": "2026-11-05",
+        "close": 75428.13,
+        "overall": {
+          "7D": 45.0,
+          "30D": 38.0,
+          "90D": 22.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-11-06",
+        "close": 75918.95,
+        "overall": {
+          "7D": 30.0,
+          "30D": 18.0,
+          "90D": 9.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
       }
     ],
     "ETH": [
@@ -3447,6 +3317,34 @@
           "30D": 100.0,
           "90D": 100.0
         }
+      },
+      {
+        "date": "2026-11-05",
+        "close": 2216.53,
+        "overall": {
+          "7D": 25.0,
+          "30D": 25.0,
+          "90D": 16.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
+      },
+      {
+        "date": "2026-11-06",
+        "close": 2236.85,
+        "overall": {
+          "7D": 18.0,
+          "30D": 18.0,
+          "90D": 10.0
+        },
+        "lean": {
+          "7D": 100.0,
+          "30D": 100.0,
+          "90D": 100.0
+        }
       }
     ]
   },
@@ -3462,9 +3360,9 @@
       {
         "event": "turn",
         "horizon": "30D",
-        "today_pct": 50.9,
+        "today_pct": 52.5,
         "usual_pct": 48.3,
-        "prev_today_pct": 50.9
+        "prev_today_pct": 52.5
       },
       {
         "event": "turn",
@@ -3476,39 +3374,39 @@
       {
         "event": "move",
         "horizon": "7D",
-        "today_pct": 55.8,
+        "today_pct": 56.9,
         "usual_pct": 59.0,
-        "prev_today_pct": 56.9
+        "prev_today_pct": 64.3
       },
       {
         "event": "move",
         "horizon": "30D",
-        "today_pct": 69.7,
+        "today_pct": 67.9,
         "usual_pct": 70.8,
-        "prev_today_pct": 77.2
+        "prev_today_pct": 69.7
       },
       {
         "event": "move",
         "horizon": "90D",
-        "today_pct": 71.4,
+        "today_pct": 65.4,
         "usual_pct": 68.4,
-        "prev_today_pct": 71.4
+        "prev_today_pct": 70.7
       }
     ],
     "ETH": [
       {
         "event": "turn",
         "horizon": "7D",
-        "today_pct": 60.1,
+        "today_pct": 55.8,
         "usual_pct": 57.4,
         "prev_today_pct": 55.8
       },
       {
         "event": "turn",
         "horizon": "30D",
-        "today_pct": 57.7,
+        "today_pct": 69.9,
         "usual_pct": 60.1,
-        "prev_today_pct": 57.7
+        "prev_today_pct": 69.9
       },
       {
         "event": "turn",
@@ -3520,7 +3418,7 @@
       {
         "event": "move",
         "horizon": "7D",
-        "today_pct": 75.7,
+        "today_pct": 68.9,
         "usual_pct": 72.8,
         "prev_today_pct": 68.9
       },
@@ -3534,9 +3432,9 @@
       {
         "event": "move",
         "horizon": "90D",
-        "today_pct": 83.1,
+        "today_pct": 92.1,
         "usual_pct": 87.5,
-        "prev_today_pct": 77.8
+        "prev_today_pct": 92.1
       }
     ]
   },
@@ -3546,12 +3444,12 @@
   },
   "trend": {
     "BTC": {
-      "ret_30d_pct": -6.0,
-      "ret_90d_pct": 25.3
+      "ret_30d_pct": -8.9,
+      "ret_90d_pct": 16.9
     },
     "ETH": {
-      "ret_30d_pct": -10.3,
-      "ret_90d_pct": 27.7
+      "ret_30d_pct": -13.1,
+      "ret_90d_pct": 16.7
     }
   },
   "ladder": {
@@ -3610,11 +3508,11 @@
           "close": 86620.0
         },
         "candidate": {
-          "date": "2026-11-02",
+          "date": "2026-11-05",
           "kind": "bottom",
-          "close": 76816.0
+          "close": 76088.01
         },
-        "confirm_at": 80656.8
+        "confirm_at": 79892.4105
       }
     ],
     "ETH": [
@@ -3657,26 +3555,26 @@
           "close": 2776.19
         },
         "candidate": {
-          "date": "2026-10-30",
+          "date": "2026-11-05",
           "kind": "bottom",
-          "close": 2245.54
+          "close": 2238.01
         },
-        "confirm_at": 2582.3709999999996
+        "confirm_at": 2573.7115
       },
       {
         "strength": "small",
         "decided": true,
         "last_confirmed": {
-          "date": "2026-09-21",
+          "date": "2026-11-04",
           "kind": "top",
-          "close": 2776.19
+          "close": 2424.61
         },
         "candidate": {
-          "date": "2026-10-30",
+          "date": "2026-11-05",
           "kind": "bottom",
-          "close": 2245.54
+          "close": 2238.01
         },
-        "confirm_at": 2357.817
+        "confirm_at": 2349.9105000000004
       }
     ]
   },
@@ -3905,69 +3803,23 @@
         "kind": "top",
         "strength": "medium",
         "close": 2776.19
+      },
+      {
+        "date": "2026-10-30",
+        "kind": "bottom",
+        "strength": "small",
+        "close": 2245.54
+      },
+      {
+        "date": "2026-11-04",
+        "kind": "top",
+        "strength": "small",
+        "close": 2424.61
       }
     ]
   },
   "forecast_history": {
     "BTC": [
-      {
-        "date": "2026-07-08",
-        "close": 62290.0,
-        "forecast": {
-          "turn": {
-            "7D": 53.3,
-            "30D": 50.9,
-            "90D": 19.3
-          },
-          "move": {
-            "7D": 53.0,
-            "30D": 67.9,
-            "90D": 65.4
-          }
-        },
-        "outcome": {
-          "turn": {
-            "7D": "miss",
-            "30D": "miss",
-            "90D": "pending"
-          },
-          "move": {
-            "7D": "miss",
-            "30D": "miss",
-            "90D": "hit"
-          }
-        },
-        "backfilled": true
-      },
-      {
-        "date": "2026-07-09",
-        "close": 63230.0,
-        "forecast": {
-          "turn": {
-            "7D": 44.6,
-            "30D": 50.9,
-            "90D": 19.3
-          },
-          "move": {
-            "7D": 55.8,
-            "30D": 67.9,
-            "90D": 65.4
-          }
-        },
-        "outcome": {
-          "turn": {
-            "7D": "miss",
-            "30D": "miss",
-            "90D": "pending"
-          },
-          "move": {
-            "7D": "miss",
-            "30D": "miss",
-            "90D": "hit"
-          }
-        },
-        "backfilled": true
-      },
       {
         "date": "2026-07-10",
         "close": 64161.72,
@@ -5639,7 +5491,7 @@
         "outcome": {
           "turn": {
             "7D": "miss",
-            "30D": "pending",
+            "30D": "miss",
             "90D": "pending"
           },
           "move": {
@@ -5668,7 +5520,7 @@
         "outcome": {
           "turn": {
             "7D": "miss",
-            "30D": "pending",
+            "30D": "miss",
             "90D": "pending"
           },
           "move": {
@@ -6972,7 +6824,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "miss",
             "30D": "pending",
             "90D": "pending"
           },
@@ -7001,7 +6853,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "miss",
             "30D": "pending",
             "90D": "pending"
           },
@@ -7181,7 +7033,7 @@
           },
           "move": {
             "7D": "hit",
-            "30D": "pending",
+            "30D": "hit",
             "90D": "pending"
           }
         },
@@ -7209,7 +7061,7 @@
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "miss",
             "30D": "pending",
             "90D": "pending"
           }
@@ -7238,7 +7090,7 @@
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -7325,7 +7177,7 @@
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -7354,7 +7206,7 @@
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -7363,7 +7215,7 @@
       },
       {
         "date": "2026-11-04",
-        "close": 80595.3,
+        "close": 80504.01,
         "forecast": {
           "turn": {
             "7D": 44.3,
@@ -7383,6 +7235,64 @@
             "90D": "pending"
           },
           "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": false
+      },
+      {
+        "date": "2026-11-05",
+        "close": 76088.01,
+        "forecast": {
+          "turn": {
+            "7D": 44.3,
+            "30D": 52.5,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 64.3,
+            "30D": 69.7,
+            "90D": 70.7
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": false
+      },
+      {
+        "date": "2026-11-06",
+        "close": 75918.95,
+        "forecast": {
+          "turn": {
+            "7D": 44.3,
+            "30D": 52.5,
+            "90D": 19.3
+          },
+          "move": {
+            "7D": 56.9,
+            "30D": 67.9,
+            "90D": 65.4
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
             "7D": "pending",
             "30D": "pending",
             "90D": "pending"
@@ -7392,64 +7302,6 @@
       }
     ],
     "ETH": [
-      {
-        "date": "2026-07-08",
-        "close": 1743.54,
-        "forecast": {
-          "turn": {
-            "7D": 55.8,
-            "30D": 57.7,
-            "90D": 52.5
-          },
-          "move": {
-            "7D": 75.7,
-            "30D": 78.9,
-            "90D": 83.1
-          }
-        },
-        "outcome": {
-          "turn": {
-            "7D": "miss",
-            "30D": "miss",
-            "90D": "pending"
-          },
-          "move": {
-            "7D": "hit",
-            "30D": "hit",
-            "90D": "hit"
-          }
-        },
-        "backfilled": true
-      },
-      {
-        "date": "2026-07-09",
-        "close": 1745.16,
-        "forecast": {
-          "turn": {
-            "7D": 55.8,
-            "30D": 57.7,
-            "90D": 52.5
-          },
-          "move": {
-            "7D": 75.7,
-            "30D": 78.9,
-            "90D": 83.1
-          }
-        },
-        "outcome": {
-          "turn": {
-            "7D": "miss",
-            "30D": "miss",
-            "90D": "pending"
-          },
-          "move": {
-            "7D": "hit",
-            "30D": "hit",
-            "90D": "hit"
-          }
-        },
-        "backfilled": true
-      },
       {
         "date": "2026-07-10",
         "close": 1796.85,
@@ -10112,7 +9964,7 @@
           },
           "move": {
             "7D": "miss",
-            "30D": "pending",
+            "30D": "hit",
             "90D": "pending"
           }
         },
@@ -10454,7 +10306,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "miss",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10483,7 +10335,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "miss",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10512,7 +10364,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10541,7 +10393,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10570,7 +10422,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10599,7 +10451,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10628,7 +10480,7 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
@@ -10657,12 +10509,12 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "miss",
             "30D": "pending",
             "90D": "pending"
           }
@@ -10686,12 +10538,12 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -10715,12 +10567,12 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -10744,12 +10596,12 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -10773,12 +10625,12 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -10802,12 +10654,12 @@
         },
         "outcome": {
           "turn": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           },
           "move": {
-            "7D": "pending",
+            "7D": "hit",
             "30D": "pending",
             "90D": "pending"
           }
@@ -10831,6 +10683,64 @@
         },
         "outcome": {
           "turn": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": false
+      },
+      {
+        "date": "2026-11-04",
+        "close": 2424.61,
+        "forecast": {
+          "turn": {
+            "7D": 60.1,
+            "30D": 57.7,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 75.7,
+            "30D": 87.9,
+            "90D": 83.1
+          }
+        },
+        "outcome": {
+          "turn": {
+            "7D": "pending",
+            "30D": "pending",
+            "90D": "pending"
+          },
+          "move": {
+            "7D": "hit",
+            "30D": "pending",
+            "90D": "pending"
+          }
+        },
+        "backfilled": false
+      },
+      {
+        "date": "2026-11-05",
+        "close": 2238.01,
+        "forecast": {
+          "turn": {
+            "7D": 55.8,
+            "30D": 69.9,
+            "90D": 52.5
+          },
+          "move": {
+            "7D": 68.9,
+            "30D": 87.9,
+            "90D": 92.1
+          }
+        },
+        "outcome": {
+          "turn": {
             "7D": "pending",
             "30D": "pending",
             "90D": "pending"
@@ -10844,18 +10754,18 @@
         "backfilled": false
       },
       {
-        "date": "2026-11-04",
-        "close": 2432.02,
+        "date": "2026-11-06",
+        "close": 2236.86,
         "forecast": {
           "turn": {
-            "7D": 60.1,
-            "30D": 57.7,
+            "7D": 55.8,
+            "30D": 69.9,
             "90D": 52.5
           },
           "move": {
-            "7D": 75.7,
+            "7D": 68.9,
             "30D": 87.9,
-            "90D": 83.1
+            "90D": 92.1
           }
         },
         "outcome": {
