@@ -74,7 +74,7 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.bodyJa.length).toBeGreaterThan(0);
   });
 
-  it("ep005 は 6 章・YouTube 概要欄と同じ時刻・出典 108 件を持つ", () => {
+  it("ep005 は 6 章・YouTube 概要欄と同じ時刻・出典 108 件を持ち、最新の投稿になる", () => {
     const video = getVideoBySlug("ep005-destruction-and-creation");
     expect(video).not.toBeNull();
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
@@ -87,9 +87,10 @@ describe("content/videos (repo の実データ)", () => {
     ]);
     expect(video!.durationSeconds).toBe(25 * 60 + 12);
     expect(video!.sources).toHaveLength(108);
+    expect(getLatestPostedVideo()?.slug).toBe("ep005-destruction-and-creation");
   });
 
-  it("ep004 は 5 章・YouTube 概要欄と同じ時刻・出典 51 件を持ち、最新の投稿になる", () => {
+  it("ep004 は 5 章・YouTube 概要欄と同じ時刻・出典 51 件を持つ", () => {
     const video = getVideoBySlug("ep004-what-to-believe");
     expect(video).not.toBeNull();
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
@@ -101,7 +102,6 @@ describe("content/videos (repo の実データ)", () => {
     ]);
     expect(video!.durationSeconds).toBe(16 * 60 + 54);
     expect(video!.sources).toHaveLength(51);
-    expect(getLatestPostedVideo()?.slug).toBe("ep004-what-to-believe");
   });
 
   it("ep003 は 6 章・YouTube 概要欄と同じ時刻・出典 11 件を持つ", () => {
