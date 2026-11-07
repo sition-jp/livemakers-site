@@ -1,0 +1,362 @@
+{
+  "episodeId": "ep004",
+  "sources": [
+    {
+      "key": "nikkei_smbccf",
+      "title": "日本経済新聞 — 最大188金融機関で新規カードローン停止 保証会社への不正アクセス (2026-11-06)",
+      "url": "https://www.nikkei.com/article/DGXZQOUB063J40W6A101C2000000/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "jiji_arara",
+      "title": "時事通信 — アララ、メアドの追加流出確認 計8100万件に (2026-11-06)",
+      "url": "https://news.yahoo.co.jp/articles/6f6c8aabed9e7fe4505de2182b5472186209a844",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "piyolog_arara",
+      "title": "piyolog — アララのメール配信サービス「アララ メッセージ」への不正アクセスについてまとめてみた",
+      "url": "https://piyolog.hatenadiary.jp/entry/2026/11/05/015717",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_ley",
+      "title": "Última Hora — Peña promulga ley para adelantar pagos a ahorristas (2026-11-04)",
+      "url": "https://www.ultimahora.com/pena-promulga-ley-para-adelantar-pagos-a-ahorristas-en-menor-tiempo-posible",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_claves",
+      "title": "Infobae — Una por una, las claves para entender el escándalo del Ueno Bank (2026-11-06)",
+      "url": "https://www.infobae.com/economia/2026/11/06/una-por-una-las-claves-para-entender-el-escandalo-del-ueno-bank-en-paraguay-que-derivo-en-una-fuerte-crisis-politica/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_abc_bcp",
+      "title": "ABC Color — Todos los comunicados del BCP sobre Ueno Bank",
+      "url": "https://www.abc.com.py/economia/2026/11/04/todos-los-comunicados-del-bcp-sobre-ueno-bank/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_abc_pena",
+      "title": "ABC Color — Juicio político a Santiago Peña, Senado destituye al presidente (2026-11-06)",
+      "url": "https://www.abc.com.py/politica/2026/11/06/en-vivo-juicio-politico-a-pena-senado-retoma-proceso-en-medio-de-renuncia-trabada-y-pedido-de-prorroga/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "fed_svb",
+      "title": "Federal Reserve — Review of the Federal Reserve's Supervision and Regulation of Silicon Valley Bank (2023-04-28)",
+      "url": "https://www.federalreserve.gov/publications/files/svb-review-20230428.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "us_joint_svb",
+      "title": "Joint Statement by the Department of the Treasury, Federal Reserve, and FDIC (2023-03-12)",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20230312b.htm",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "ec_cyprus",
+      "title": "European Commission — The Economic Adjustment Programme for Cyprus, Occasional Papers 149 (2013-05)",
+      "url": "https://ec.europa.eu/economy_finance/publications/occasional_paper/2013/pdf/ocp149_en.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "arkea",
+      "title": "Crédit Mutuel Arkéa — Informations complémentaires suite à l'attaque dont le Crédit Mutuel Arkéa a été victime (2026-11-04)",
+      "url": "https://www.cm-arkea.com/arkea/banque/assurances/pa_38386/fr/informations-complementaires-suite-a-l-attaque-dont-le-credit-mutuel-arkea-a-ete-victime",
+      "accessed": "2026-11-06",
+      "chapter": 1
+    },
+    {
+      "key": "coindesk_zach",
+      "title": "CoinDesk — ZachXBT names French bank Crédit Mutuel Arkéa in $133M crypto exchange theft (2026-11-04)",
+      "url": "https://www.coindesk.com/business/2026/11/04/zachxbt-names-french-bank-credit-mutuel-arkea-as-suspected-victim-of-usd133-million-crypto-theft",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "theblock_arkea",
+      "title": "The Block — Crédit Mutuel Arkéa confirms cyberattack after ZachXBT flags $133M in suspected losses (2026-11-04)",
+      "url": "https://www.theblock.co/news/business/2026-11-04-french-bank-confirms-cyberattack-434372",
+      "accessed": "2026-11-06",
+      "chapter": 5
+    },
+    {
+      "key": "ecb_rate",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-11-05・USD 1.1224 / JPY 177.85)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "smbccf",
+      "title": "SMBC コンシューマーファイナンス — 当社保証システムへの不正アクセスによるお客さま情報の漏えいについて (2026-11-05)",
+      "url": "https://www.smbc-cf.com/news/data/2026/11/news_20261105.pdf",
+      "accessed": "2026-11-06",
+      "chapter": 1
+    },
+    {
+      "key": "netbk",
+      "title": "ドコモ SMTB ネット銀行 — SMBC コンシューマーファイナンス (保証提携先) への不正アクセスによる当社カードローンのお客さま情報の漏えいについて (2026-11-05)",
+      "url": "https://www.netbk.co.jp/contents/company/info/2026/1105_006601.html",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "dhbk",
+      "title": "第四北越銀行 — SMBC コンシューマーファイナンスへの不正アクセスに関するお知らせ (2026-11-05)",
+      "url": "https://www.dhbk.co.jp/important/1202858_2311.html",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "hokuyo",
+      "title": "北洋銀行 — カードローン「スーパーアルカ」の外部保証会社における個人情報の漏えいについて (2026-11-05)",
+      "url": "https://www.hokuyobank.co.jp/announcement/pdf/20261105_076991.pdf",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "fukuoka",
+      "title": "福岡銀行 — SMBC コンシューマーファイナンス株式会社の保証システムへの不正アクセスによるお客さま情報の漏えいについて (2026-11-05)",
+      "url": "https://www.fukuokabank.co.jp/announcement/important/y2026/1105.html",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "lab_banks",
+      "title": "セキュリティ対策 Lab — SMBC コンシューマーファイナンスへの不正アクセスのまとめ (提携銀行の集計)",
+      "url": "https://rocket-boys.co.jp/security-measures-lab/smbc_cf_guarantee_bank_affected_14_institutions_roundup_20261106_updated/",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "arara",
+      "title": "アララ — 当社が提供する「アララメッセージ」への不正アクセスによる情報流出およびサービス停止について (第 2 報・2026-11-02)",
+      "url": "https://www.arara.com/dcms_media/other/arara_20261102__.pdf",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "smbc",
+      "title": "三井住友銀行 — メール配信委託先への不正アクセスによる情報漏えいについて (2026-11-05)",
+      "url": "https://www.smbc.co.jp/news/pdf/j20261105_02.pdf",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "zaif",
+      "title": "あたらしい経済 — 国内暗号資産取引所 Zaif、委託先への不正アクセスで顧客のメルアド 38 万 536 件流出",
+      "url": "https://www.neweconomy.jp/posts/624098",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "mos",
+      "title": "セキュリティ対策 Lab — モスバーガー「モス WEB 会員」751 万 7,087 件の情報流出を確認 (公式 PDF へのリンクあり)",
+      "url": "https://rocket-boys.co.jp/security-measures-lab/mos_food_service_web_member_7517087_arara_repica_data_breach/",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "yumilink",
+      "title": "INTERNET Watch — ユミルリンク「Cuenote FC」不正アクセスの影響広がる",
+      "url": "https://internet.watch.impress.co.jp/docs/news/2151621.html",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "ueno_infobae_1106",
+      "title": "Infobae — Crisis en Paraguay: el Banco Central comenzó a devolver los depósitos de los clientes de Ueno Bank (2026-11-06)",
+      "url": "https://www.infobae.com/america/america-latina/2026/11/06/crisis-en-paraguay-el-banco-central-comenzo-a-devolver-los-depositos-de-los-clientes-de-ueno-bank-tras-su-intervencion-por-insolvencia/",
+      "accessed": "2026-11-06",
+      "chapter": 1
+    },
+    {
+      "key": "ueno_infobae_1103",
+      "title": "Infobae — Escándalo en Paraguay: la intervención del Ueno Bank congeló depósitos del Instituto de Previsión Social y el Ministerio de Economía (2026-11-03)",
+      "url": "https://www.infobae.com/america/america-latina/2026/11/03/escandalo-en-paraguay-por-la-intervencion-al-ueno-bank-la-entidad-que-digiria-el-actual-presidente-del-banco-central/",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_asuncion",
+      "title": "Asunción Times — Paraguay's Central Bank Begins Ueno Bank Resolution: What Happens To Depositors?",
+      "url": "https://asunciontimes.com/paraguay-news/national-news/paraguays-central-bank-begins-ueno-bank-resolution-what-happens-to-depositors/",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_lanacion",
+      "title": "La Nación — \"Tuve que pedir plata prestada\": el drama de los ahorristas que no pueden acceder a su dinero (2026-11-04)",
+      "url": "https://www.lanacion.com.ar/economia/tuve-que-pedir-plata-prestada-el-drama-de-los-ahorristas-que-no-pueden-acceder-a-su-dinero-nid04112026/",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "ueno_emol",
+      "title": "Emol — En qué consiste la crisis de Ueno Bank que terminó con la renuncia del Presidente de Paraguay (2026-11-05)",
+      "url": "https://www.emol.com/noticias/Internacional/2026/11/05/1216227/paraguay-ueno-bank-santiago-pena.html",
+      "accessed": "2026-11-06",
+      "chapter": 2
+    },
+    {
+      "key": "situsamc",
+      "title": "The Star (Reuters 配信) — JPMorgan, Citi, Morgan Stanley client data may be exposed by vendor's hack, NYT reports (2025-11-23)",
+      "url": "https://www.thestar.com.my/tech/tech-news/2025/11/23/major-banks-including-jpmorgan-and-citi-warned-of-data-exposure-after-hack-nyt-reports",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "shinkin",
+      "title": "信金中央金庫・しんきん共同センター — しんきん共同センターのシステム障害による信用金庫の一部サービス休止について (2026-11-06)",
+      "url": "https://shinkinkyodo.org/wp-content/uploads/2026/11/しんきん共同センターのシステム障害による信用金庫の一部サービス休止について.pdf",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "nikkei_shinkin",
+      "title": "日本経済新聞 — 西日本の 128 信用金庫で ATM・窓口取引できず 共同システムで障害 (2026-11-06)",
+      "url": "https://www.nikkei.com/article/DGXZQOUB066EH0W6A101C2000000/",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "mythos_reuters",
+      "title": "The Star (Reuters 配信) — Bessent, Powell warned bank CEOs about Anthropic model risks, sources say (2026-04-10)",
+      "url": "https://www.thestar.com.my/tech/tech-news/2026/04/10/bessent-powell-warn-bank-ceos-about-anthropic-model-risks-bloomberg-news-reports",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "ecb_elderson",
+      "title": "Insurance Journal — ECB Urges Banks to Quickly Prepare for AI-Assisted Cyberattacks (2026-05-13)",
+      "url": "https://www.insurancejournal.com/news/international/2026/05/13/869682.htm",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "dora_19",
+      "title": "Finance Magnates — EU Regulators Advance Third-Party ICT Oversight Under DORA (2026-04-24)",
+      "url": "https://www.financemagnates.com/cryptocurrency/eu-regulators-advance-third-party-ict-oversight-under-dora-and-reiterate-crypto-warnings/",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "uk_ctp",
+      "title": "Morrison Foerster — UK Announces List of First Critical Third Parties (2026-07-16)",
+      "url": "https://www.mofo.com/resources/insights/260716-uk-announces-list-of-first-critical-third-parties",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "fsa_oct",
+      "title": "Japan Security Summit — 金融庁、不正アクセス相次ぎ金融機関に対策強化を要請 本人確認は IC チップ方式への早期移行求める (2026-10)",
+      "url": "https://japansecuritysummit.org/2026/10/15034/",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "fsa_ic",
+      "title": "CODE (商事法務) — 金融庁、金融機関にサイバー対策の緊急点検を要請 本人確認「IC チップ一本化」は 2027 年 4 月を待たず前倒しを",
+      "url": "https://code.shojihomu.jp/document/01a11ec7b357b5af4ccedb24",
+      "accessed": "2026-11-06",
+      "chapter": 4
+    },
+    {
+      "key": "fsa_securities",
+      "title": "金融庁 — インターネット取引サービスへの不正アクセス・不正取引の発生状況 (2025 年 1 月〜2026 年 9 月・暫定値)",
+      "url": "https://www.fsa.go.jp/ordinary/chuui/chuui_phishing/20261009.pdf",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "lac_securities",
+      "title": "LAC — 急増する金融犯罪の手口を FC3 マトリクスで読み解く (3)「口座乗っ取り (証券)」編 (2026-06-22)",
+      "url": "https://www.lac.co.jp/lacwatch/service/20260622_004814.html",
+      "accessed": "2026-11-06",
+      "chapter": 3
+    },
+    {
+      "key": "gl1",
+      "title": "あたらしい経済 — 三菱 UFJ 銀行など 5 機関、トークン化金融市場の標準化へ新組織「GL1 Org」設立 (2026-11)",
+      "url": "https://www.neweconomy.jp/posts/624134",
+      "accessed": "2026-11-06",
+      "chapter": 4
+    },
+    {
+      "key": "megabank_sc",
+      "title": "CoinPost — 3 メガバンクなどのステーブルコイン共同発行の実証 (2026-10-16 発表)",
+      "url": "https://coinpost.jp/?p=743371",
+      "accessed": "2026-11-06",
+      "chapter": 4
+    },
+    {
+      "key": "payoff",
+      "title": "大和証券 金融・証券用語解説 — ペイオフ",
+      "url": "https://www.daiwa.jp/glossary/YST2257.html",
+      "accessed": "2026-11-06",
+      "chapter": 5
+    },
+    {
+      "key": "dic_reserve",
+      "title": "預金保険機構 — 付保対象預金〈被保険預金〉残高と責任準備金の推移 (令和 6 年度末)",
+      "url": "https://www.dic.go.jp/kikotoha/page_000815.html",
+      "accessed": "2026-11-06",
+      "chapter": 5
+    },
+    {
+      "key": "binance_u1",
+      "title": "Binance — Security Incident Update (2026-10-30)",
+      "url": "https://www.binance.com/en/support/announcement/detail/c5a8729a97ac486d963784d96c5642d7",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "circle_freeze",
+      "title": "Circle の Jeremy Allaire CEO — USDC の凍結の告知 (X・2026-10-29)",
+      "url": "https://x.com/jerallaire/status/2115916207463481846",
+      "accessed": "2026-11-01",
+      "chapter": 5
+    },
+    {
+      "key": "svb_usdc",
+      "title": "Yahoo Finance — USDC stablecoin breaks dollar peg following Silicon Valley Bank collapse (2023-03)",
+      "url": "https://autos.yahoo.com/usdc-stablecoin-breaks-dollar-peg-following-silicon-valley-bank-collapse-232052571.html",
+      "accessed": "2026-11-06",
+      "chapter": 5
+    },
+    {
+      "key": "svb_circle",
+      "title": "The Block — Circle says $3.3 billion of USDC reserves are with Silicon Valley Bank (2023-03-10)",
+      "url": "https://www.theblock.co/news/business/2023-03-10-circle-says-3-3-billion-of-usdc-reserves-are-with-silicon-valley-bank-218971",
+      "accessed": "2026-11-06",
+      "chapter": 5
+    },
+    {
+      "key": "defi_oct",
+      "title": "Startup Fortune — October 2026 Becomes DeFi's Costliest Month (Chainalysis のデータ・Blockworks の報道を引用)",
+      "url": "https://startupfortune.com/october-2026-becomes-defis-costliest-month-as-hackers-launder-through-dai/",
+      "accessed": "2026-11-06",
+      "chapter": 5
+    },
+    {
+      "key": "habs_photo",
+      "title": "Wikimedia Commons — Safe deposit vault door, Anglo and London Paris National Bank, San Francisco (HABS CAL,38-SANFRA,144-18)",
+      "url": "https://commons.wikimedia.org/wiki/File:INTERIOR,_BASEMENT,_SAFE_DEPOSIT_VAULT_DOOR_-_Anglo_and_London_Paris_National_Bank,_One_Sansome_Street,_San_Francisco,_San_Francisco_County,_CA_HABS_CAL,38-SANFRA,144-18.tif",
+      "accessed": "2026-11-06",
+      "chapter": 1
+    }
+  ]
+}
