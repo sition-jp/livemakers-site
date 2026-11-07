@@ -1,0 +1,94 @@
+{
+  "sessionId": "2026-11-07-ny-open",
+  "date": "2026-11-07",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-07-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-07-ny-open",
+  "publishedAt": "2026-11-08T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261107_1803_0214aead",
+  "asOfJst": "2026-11-07T18:03:21+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月7日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,375.50 → 7,390.60（+0.20%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -2.5% / Coinbase（perp） -1.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261107_1905_c3ad0f73",
+    "crawlAnchorJst": "2026-11-07T18:03:00+09:00",
+    "writtenAtJst": "2026-11-07T19:05:00+09:00",
+    "lead": "イランをめぐる外交と軍事が同時に動いている。米国は11月6日にケシュム島へ再び攻撃を加え、トランプ氏は「小規模な攻撃はする」と述べた一方、カタールは核査察と引き換えにホルムズ海峡を開く案を描く。国内ではアララのメール配信サービスを起点にした流出が音楽ファンクラブへ広がり、運営会社が対象を10月31日時点の登録者と特定した。",
+    "items": [
+      {
+        "headline": "トランプ氏「小規模な攻撃はする」 11月6日にケシュム島へミサイル、選挙後で初めて",
+        "sourceUrl": "https://www.cnbc.com/2026/11/07/trump-us-minor-strikes-iran-qeshm-island.html",
+        "note": "CNBC によると、着弾はイランの Tasnim 通信が伝えた。トランプ氏は島の名前には触れず、イランは合意を強く望んでいると語った。"
+      },
+      {
+        "headline": "カタール案、イランの核査察と引き換えにホルムズ海峡の再開を描く",
+        "sourceUrl": "https://www.theguardian.com/world/2026/nov/07/strait-of-hormuz-qatar-plan-iran-nuclear-inspections",
+        "note": "Guardian の報道。合意か追加攻撃かの判断が近いとされる中での仲介案になる。"
+      },
+      {
+        "headline": "Fanplus 運営のファンクラブ、流出の対象は10月31日時点の登録メールアドレスと続報",
+        "sourceUrl": "https://x.com/sakanaction/status/2118946828804907274",
+        "note": "サカナクションの NF member の続報。漏えいが確認されたのはメールアドレスのみで、配信システムは切り替え済みとしている。"
+      },
+      {
+        "headline": "Aimer の公式ファンクラブ NIGHT OWLS も、アララ経由のメールアドレス流出を告知",
+        "sourceUrl": "https://x.com/Aimer_and_staff/status/2118946554429997064",
+        "note": "詳細と問い合わせ窓口は運営会社 Fanplus のお知らせに案内している。"
+      },
+      {
+        "headline": "THE ORAL CIGARETTES、公式サイトと FC 会員のメールアドレス漏えいを報告",
+        "sourceUrl": "https://x.com/oral_official/status/2118987714230210966",
+        "note": "外部のメール配信サービス「アララメッセージ」への不正アクセスによるもの。"
+      },
+      {
+        "headline": "金融庁、漏えいの多発を受けて利用者に対策を呼びかけ",
+        "sourceUrl": "https://x.com/fsa_JAPAN/status/2118633662199804177",
+        "note": "メール内のリンクを安易に開かない、パスワードを使い回さない、多要素認証を使う、身に覚えのない取引は金融機関へ連絡する、の4点。"
+      },
+      {
+        "headline": "りそな、過去のローン顧客の情報漏えいを公表（共同の速報）",
+        "sourceUrl": "https://x.com/47news_official/status/2118680557752369618"
+      },
+      {
+        "headline": "Strive、7〜9月期の純利益5.09億ドルを開示 ビットコインの買い増しを続ける",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2118825975723200590",
+        "note": "SEC に出した決算資料では、7〜9月に8,136 BTC、10月1〜30日に15,124 BTC を取得した。"
+      },
+      {
+        "headline": "米失業率、10月は4.1%に低下（セントルイス連銀）",
+        "sourceUrl": "https://x.com/stlouisfed/status/2118942024971747622"
+      },
+      {
+        "headline": "Midnight のアップグレードがメインネットに反映、前倒しで完了",
+        "sourceUrl": "https://x.com/SebastienGllmt/status/2118903560167674121"
+      },
+      {
+        "headline": "Cardano のウォレット Lace、拡張機能 2.5.1 を公開",
+        "sourceUrl": "https://github.com/input-output-hk/lace/releases/tag/lace-extension%402.5.1"
+      },
+      {
+        "headline": "セルビア当局、3億5,000万フランが消えた銀行を閉鎖し頭取を拘束（NZZ）",
+        "sourceUrl": "https://www.nzz.ch/international/350-millionen-franken-verschwunden-serbiens-behoerden-schliessen-bank-und-nehmen-deren-chef-mit-naehe-zu-vucic-fest-ld.10054909"
+      },
+      {
+        "headline": "ニュージーランド総選挙、開票が進む中で国民党と労働党が拮抗",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/nov/07/nz-general-election-2026-live-updates-results-new-zealand-polls"
+      }
+    ],
+    "watch": [
+      "トランプ氏がイランとの合意と追加攻撃のどちらを選ぶか、カタール案への双方の反応",
+      "アララ経由の流出で、ファンクラブ各社が対象件数と問い合わせ窓口をどこまで出すか",
+      "ニュージーランド総選挙の確定結果と、連立の鍵を握る少数政党の動き"
+    ]
+  }
+}
