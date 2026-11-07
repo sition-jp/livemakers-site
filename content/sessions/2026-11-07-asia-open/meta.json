@@ -1,0 +1,128 @@
+{
+  "sessionId": "2026-11-07-asia-open",
+  "date": "2026-11-07",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-07-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-07-asia-open",
+  "publishedAt": "2026-11-08T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261107_0730_c9d42ebe",
+  "asOfJst": "2026-11-07T07:30:43+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月7日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 57,119 → 58,033（+1.60%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -3.1% / 米テック100（perp） +1.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261107_0555_7d8b5874",
+    "crawlAnchorJst": "2026-11-07T05:03:00+09:00",
+    "writtenAtJst": "2026-11-07T05:55:22+09:00",
+    "lead": "AI の売りは株から融資と社債へ広がった。データセンター向け融資と AI 関連債の売りが報じられ、Oracle と Anthropic の評価にも圧力がかかる。半導体株の買い戻しと強い雇用統計が同じ日に出ても、信用の側で売りが続くなら建設資金の問題に変わる。",
+    "items": [
+      {
+        "headline": "Microsoft が Oracle から AI の計算能力を借りる契約を更新せず、段階的に終えると報じられた",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2118761153866482032"
+      },
+      {
+        "headline": "WSJ が、Anthropic の新規上場で投資家が想定評価額1.5兆ドルに難色を示していると報道",
+        "sourceUrl": "https://decrypt.co/382716/anthropic-ipo-valuation-could-fall-to-1-trillion-after-ai-stock-rout-report"
+      },
+      {
+        "headline": "トランプ大統領がミラー次席補佐官を首席補佐官に起用すると発表",
+        "sourceUrl": "https://www.cnbc.com/2026/11/06/trump-stephen-miller-wiles-chief-of-staff.html"
+      },
+      {
+        "headline": "米労働省の 401(k) の規則案がホワイトハウスの審査に入った",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-06-trump-administration-moves-closer-allowing-crypto-401k-retirement-plans-435939"
+      },
+      {
+        "headline": "トランプ氏がイランとの判断を「まもなく」下すと述べた局面で、イスラエルをめぐる発言も続いた",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/6/trump-says-israel-would-not-exist-today-hadnt-attacked-iran/"
+      },
+      {
+        "headline": "ベセント財務長官とグリア USTR 代表が中国の何立峰副首相と協議し、釜山での取り決めの完全な履行を求めた",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2118757944007201255"
+      },
+      {
+        "headline": "Aave Labs が固定金利貸付の Avon のチームと技術を取得した",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-06-aave-labs-buys-avon-team-in-fixed-rate-lending-push-435901"
+      },
+      {
+        "headline": "Circle の Arc で、メインネット公開以来300億ドル超の USDC が動いた",
+        "sourceUrl": "https://x.com/circle/status/2118750257173635142"
+      },
+      {
+        "headline": "ナイジェリアの外貨建てステーブルコイン発行者に最低資本1,116万ドル",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2118667434806641004"
+      },
+      {
+        "headline": "政権の政敵を調べていた連邦検事が辞任",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/6/jason-reding-quinones-us-attorney-heading-probe-trumps-foes-resigns/"
+      },
+      {
+        "headline": "ミシシッピ州の上院選、残る票数が不明",
+        "sourceUrl": "https://www.npr.org/2026/11/06/nx-s1-6030645/mississippi-senate-results-provisional-ballots"
+      },
+      {
+        "headline": "米民主党が AI 規制法案を多数提出へ",
+        "sourceUrl": "https://x.com/ReutersJapan/status/2118672497289658797"
+      },
+      {
+        "headline": "りそな、過去のローン顧客の情報漏えい",
+        "sourceUrl": "https://x.com/47news_official/status/2118680557752369618"
+      },
+      {
+        "headline": "岡部氏、静岡の大道芸で JPYC の投げ銭の実証",
+        "sourceUrl": "https://x.com/noritaka_okabe/status/2118308282943291516"
+      },
+      {
+        "headline": "ラミス上院議員が CLARITY の条項の投票で民主党を批判",
+        "sourceUrl": "https://x.com/SenLummis/status/2118730878721368100"
+      },
+      {
+        "headline": "Coinbase が PAXG を担保に USDC を借りられるように",
+        "sourceUrl": "https://x.com/coinbase/status/2118727681886105975"
+      },
+      {
+        "headline": "Strategy の STRC が BlackRock の PFF と VanEck の PFXF の最大保有に",
+        "sourceUrl": "https://x.com/Strategy/status/2118727717722218662"
+      },
+      {
+        "headline": "Solana が10月21日に Alpenglow をメインネットで稼働",
+        "sourceUrl": "https://x.com/solana/status/2118713466349552092"
+      },
+      {
+        "headline": "OpenAI と Frontier Model Forum がサイバー被害の評価枠組み",
+        "sourceUrl": "https://x.com/OpenAI/status/2118795218099253606"
+      },
+      {
+        "headline": "OpenAI の盗聴事件で Alfozan 被告が無罪を主張",
+        "sourceUrl": "https://www.cnbc.com/2026/11/06/openai-bugging-alfozan-saudi.html"
+      },
+      {
+        "headline": "Anthropic が科学モデリングの変化を解説",
+        "sourceUrl": "https://x.com/AnthropicAI/status/2118792930211107115"
+      },
+      {
+        "headline": "BYD の Yangwang U9 Xtreme が時速503.17km",
+        "sourceUrl": "https://x.com/coinbureau/status/2118784230335385774"
+      },
+      {
+        "headline": "テスラのサイバートラック生産縮小",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2118759900155121981"
+      }
+    ],
+    "watch": [
+      "データセンター融資の売却の広がりと、Oracle・CoreWeave の資金調達の条件",
+      "トランプ氏のイランをめぐる判断と原油",
+      "ミラー新首席補佐官の体制と、新議会での CLARITY の扱い"
+    ]
+  }
+}
