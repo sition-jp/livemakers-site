@@ -1,0 +1,761 @@
+{
+  "episodeId": "ep005",
+  "sources": [
+    {
+      "key": "nbc_senate",
+      "title": "NBC News — 2026 Senate election results (集計・認定前)",
+      "url": "https://www.nbcnews.com/politics/2026-elections/senate-results",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "nbc_house",
+      "title": "NBC News — 2026 House election results (集計・認定前)",
+      "url": "https://www.nbcnews.com/politics/2026-elections/house-results",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "nbc_control",
+      "title": "NBC News — Democrats capture full control of Congress (2026-11)",
+      "url": "https://www.nbcnews.com/politics/2026-election/democrats-capture-full-control-congress-nbc-news-projects-fueled-victo-rcna607042",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "oil_nov4",
+      "title": "47NEWS (共同通信) — WTI の終値 88.12 ドル (2026-11-04)",
+      "url": "https://www.47news.jp/15185097.html",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "oilprice_nov4",
+      "title": "OilPrice — Oil Crashes 9% as Trump and Vance Blame Iran War for Midterm Rout",
+      "url": "https://oilprice.com/Latest-Energy-News/World-News/Oil-Crashes-9-as-Trump-and-Vance-Blame-Iran-War-for-Midterm-Rout.html",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "gold_nov4",
+      "title": "investingLive — stocks rebound, gold soars as dollar tumbles after blue sweep in US midterms (2026-11-04)",
+      "url": "https://investinglive.com/news/investinglive-european-session-wrap-stocks-rebound-gold-soars-as-dollar-tumbles-after-blue-sweep-in-us-midterms",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "ndx",
+      "title": "Nasdaq — NASDAQ-100 の日次終値 (2026-11-04 / 11-05)",
+      "url": "https://www.nasdaq.com/market-activity/index/ndx/historical",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "cnbc_miller",
+      "title": "CNBC — Trump replaces chief of staff Wiles with Stephen Miller (2026-11-06)",
+      "url": "https://www.cnbc.com/2026/11/06/trump-stephen-miller-wiles-chief-of-staff.html",
+      "accessed": "2026-11-07",
+      "chapter": 1
+    },
+    {
+      "key": "nbc_miller",
+      "title": "NBC News — Trump, Stephen Miller, Susie Wiles, White House chief of staff (2026-11)",
+      "url": "https://www.nbcnews.com/politics/donald-trump/trump-stephen-miller-susie-wiles-white-house-chief-of-staff-rcna607892",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "abc_miller",
+      "title": "ABC News — Trump chief of staff Susie Wiles, Miller to replace (2026-11)",
+      "url": "https://abcnews.com/Politics/trump-chief-staff-susie-wiles-miller-replace/story?id=137921244",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "reuters_noncongress",
+      "title": "News Tribune (Reuters 配信) — Trump White House maps path to govern without Congress if Democrats win (2026-11-02)",
+      "url": "https://www.newstribune.com/news/2026/nov/02/trump-white-house-maps-path-to-govern-without-congress-if-democrats-win/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "slaughter",
+      "title": "NBC Washington (AP 配信) — Supreme Court Slaughter decision, independent agency board members (2026-06-29)",
+      "url": "https://www.nbcwashington.com/news/national-international/supreme-court-slaughter-trump-independent-agency-board-members-decision/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "cbs_trump",
+      "title": "CBS News — Trump interview after midterm election (2026-11)",
+      "url": "https://www.cbsnews.com/news/trump-midterm-election-2026-interview/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "fox_funding",
+      "title": "Fox News — Trump signs government funding bill, avoiding shutdown ahead of midterms (2026-09)",
+      "url": "https://www.foxnews.com/politics/trump-signs-government-funding-bill-avoiding-shutdown-ahead-midterms",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "debt_penny",
+      "title": "米財務省 — Debt to the Penny (2026-11-05)",
+      "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "crs_debt",
+      "title": "米議会調査局 — The Debt Limit (IF10292・2026-09-21)",
+      "url": "https://www.everycrsreport.com/files/2026-09-21_IF10292_c2e7be2cbda8c7c7acfafd40d64a2f6fc9b45aa8.html",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "mts",
+      "title": "米財務省 — Monthly Treasury Statement (2026 年 9 月・2026 年度の累計)",
+      "url": "https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "mt_iran",
+      "title": "Military Times — White House asks Congress for $87.6 billion, mostly for Iran war (2026-06-24)",
+      "url": "https://www.militarytimes.com/news/pentagon-congress/2026/06/24/white-house-asks-congress-for-876-billion-mostly-for-iran-war/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "cbs_iran",
+      "title": "CBS News — Iran war cost, CENTCOM (2026-10-27)",
+      "url": "https://www.cbsnews.com/news/iran-war-cost-centcom-47-billion/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "politifact_veto",
+      "title": "PolitiFact — US midterms, Democrat control, Trump, president, veto (2026-11-04)",
+      "url": "https://politifact.com/article/2026/nov/04/us-midterms-democrat-control-trump-president-veto/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "ucsb_veto",
+      "title": "The American Presidency Project (UCSB) — Presidential Vetoes",
+      "url": "https://www.presidency.ucsb.edu/statistics/data/presidential-vetoes",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "scotus_ieepa",
+      "title": "米最高裁 — Learning Resources v. Trump, No. 24-1287 (2026-02-20)",
+      "url": "https://www.supremecourt.gov/opinions/25pdf/24-1287_4gcj.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "taxfoundation_tariff",
+      "title": "Tax Foundation — Trump Tariffs, the Economic Impact of the Trump Trade War (2026-09-10 更新)",
+      "url": "https://taxfoundation.org/research/all/federal/trump-tariffs-trade-war/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "defiant_clarity",
+      "title": "The Defiant — Senate blocks CLARITY Act 49-50 with no Democratic votes to proceed (2026-09-15)",
+      "url": "https://thedefiant.io/news/regulation/senate-blocks-clarity-act-49-50-with-no-democratic-votes-to-proceed",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "lvm_clarity",
+      "title": "LiveMakers — Deep Dive｜CLARITY 法は振り出しに、民主党の議会で暗号資産は規則と調査の年 (2026-11-06)",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261106-f1758231",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "fortune_pac",
+      "title": "Fortune — Crypto PACs spent $170 million on the midterms and came up dry (2026-11-04)",
+      "url": "https://fortune.com/2026/11/04/crypto-pacs-170-million-midterms-came-up-dry/",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "mayer_genius",
+      "title": "Mayer Brown — OCC finalizes GENIUS Act rulemaking (2026-11)",
+      "url": "https://www.mayerbrown.com/en/insights/publications/2026/11/occ-finalizes-genius-act-rulemaking",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "cnbc_datacenter",
+      "title": "CNBC — Qualcomm earnings, chip stocks, election (2026-11-05・データセンターの住民投票)",
+      "url": "https://www.cnbc.com/2026/11/05/qualcomm-earnings-chip-stocks-election.html",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "nixon_address",
+      "title": "The American Presidency Project — Address to the Nation Outlining a New Economic Policy (1971-08-15)",
+      "url": "https://www.presidency.ucsb.edu/documents/address-the-nation-outlining-new-economic-policy-the-challenge-peace",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "state_nixon_shock",
+      "title": "米国務省 歴史室 — Nixon and the End of the Bretton Woods System, 1971–1973",
+      "url": "https://history.state.gov/milestones/1969-1976/nixon-shock",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "state_china",
+      "title": "米国務省 歴史室 — Rapprochement with China, 1972",
+      "url": "https://history.state.gov/milestones/1969-1976/rapprochement-china",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "nss",
+      "title": "ホワイトハウス — National Security Strategy of the United States (2025-12)",
+      "url": "https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "defenseone_c5",
+      "title": "Defense One — Make Europe Great Again and more, a longer version of the National Security Strategy (2025-12-09)",
+      "url": "https://www.defenseone.com/policy/2025/12/make-europe-great-again-and-more-longer-version-national-security-strategy/410038",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "koreatimes_quad",
+      "title": "The Korea Times — Quad not anti-China, says Rubio, as first summit in two years set before Trump-Xi talks (2026-11-02)",
+      "url": "https://koreatimes.co.kr/world/20261102/quad-not-anti-china-says-rubio-as-first-summit-in-two-years-set-before-trump-xi-talks",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "outlook_apec",
+      "title": "Outlook India — China confirms Trump-Putin-Xi meeting at APEC summit in Shenzhen (2026-11-04)",
+      "url": "https://www.outlookindia.com/international/china-confirms-trump-putin-xi-meeting-at-apec-summit-in-shenzhen",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "upi_apec",
+      "title": "UPI — APEC 2026 Shenzhen, Donald Trump, Xi Jinping (2026-10-18)",
+      "url": "https://www.upi.com/Top_News/World-News/2026/10/18/apec-2026-shenzhen-donald-trump-xi-jinping/3011792364819/",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "aljazeera_israel",
+      "title": "Al Jazeera — Trump announces that US will stop paying Israel after year end (2026-11-03)",
+      "url": "https://www.aljazeera.com/news/2026/11/3/trump-announces-that-us-will-stop-paying-israel-after-year-end",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "abc_israel",
+      "title": "ABC News — Trump, Israel aid to end this year, citing political reasons (2026-11)",
+      "url": "https://abcnews.com/Politics/trump-israel-aid-end-year-citing-political-reasons/story?id=137809564",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "ji_israel",
+      "title": "Jewish Insider — Jewish groups split over Trump's announcement ending Israel aid (2026-11)",
+      "url": "https://jewishinsider.com/2026/11/jewish-groups-split-over-trumps-announcement-ending-israel-aid/",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "npr_dsa",
+      "title": "WAMC (NPR 配信) — 6 DSA candidates are elected to the House in a historic night for their movement (2026-11-03)",
+      "url": "https://www.wamc.org/2026-11-03/6-dsa-candidates-are-elected-to-the-house-in-a-historic-night-for-their-movement",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "newsweek_schumer",
+      "title": "Newsweek — Full list of Democrats rallying against Chuck Schumer (2026-08)",
+      "url": "https://www.newsweek.com/full-list-democrats-rallying-against-chuck-schumer-senate-12315442",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "kpbs_jeffries",
+      "title": "KPBS (NPR 配信) — DSA candidates are elected to the House (2026-11-03)",
+      "url": "https://www.kpbs.org/news/politics/2026/11/03/5-dsa-candidates-are-elected-to-the-house-in-a-historic-night-for-their-movement",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "splc_poll",
+      "title": "Brewminate (SPLC の転載) — The radical right Great Replacement theory is believed by half of Americans (2022 年の調査)",
+      "url": "https://brewminate.com/the-radical-right-great-replacement-theory-is-believed-by-half-of-americans/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "ucdavis_2026",
+      "title": "PsyPost — Support for political violence drops across the board (UC Davis 2026 年の調査・査読前)",
+      "url": "https://www.psypost.org/support-for-political-violence-drops-across-the-board-though-maga-supporters-remain-the-most-likely-to-justify-it/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "csis_civilwar",
+      "title": "CSIS — Is the United States headed toward civil war? (2025-09-16)",
+      "url": "https://www.csis.org/analysis/united-states-headed-toward-civil-war",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "walter_kpbs",
+      "title": "KPBS — San Diego political expert details steps that could lead to US civil war (2025-07-09)",
+      "url": "https://www.kpbs.org/news/politics/2025/07/09/san-diego-political-expert-details-steps-that-could-lead-to-us-civil-war",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "treasury_yield",
+      "title": "米財務省 — Daily Treasury Par Yield Curve Rates (2026-11-06)",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value=2026",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "cnbc_jobs",
+      "title": "CNBC — Treasury yields, jobs data, CME FedWatch (2026-11-06)",
+      "url": "https://www.cnbc.com/2026/11/06/treasury-yields-inch-lower-as-investors-look-ahead-to-key-jobs-data-.html",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "fomc_press",
+      "title": "FRB — FOMC Press Conference (2026-10-28)",
+      "url": "https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20261028.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "tesla_q3",
+      "title": "Drive Tesla Canada — Tesla Q3 2026, Optimus production (2026-10-21)",
+      "url": "https://driveteslacanada.ca/?p=126159",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "yale_budget",
+      "title": "Yale Budget Lab — Tracking the impact of AI on the labor market (2026-10-14 更新)",
+      "url": "https://budgetlab.yale.edu/research/tracking-impact-ai-labor-market",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "stanford_canaries",
+      "title": "Stanford Digital Economy Lab — Canaries in the Coal Mine (2026-08-12 改訂)",
+      "url": "https://digitaleconomy.stanford.edu/publications/canaries-in-the-coal-mine/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "cnbc_dividend",
+      "title": "CNBC — Trump dividend, midterms, GOP (2026-09-10)",
+      "url": "https://www.cnbc.com/2026/09/10/trump-dividend-midterms-gop.html",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "axios_incometax",
+      "title": "Axios — Trump promised to replace taxes with tariffs. Here's what it would cost (2026-02-25)",
+      "url": "https://axios.com/2026/02/25/trump-state-of-the-union-taxes-tariffs",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "aei_incometax",
+      "title": "AEI — Tariffs cannot fully replace the income tax",
+      "url": "https://cosm.aei.org/tariffs-cannot-fully-replace-the-income-tax/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "rollcall_sanders",
+      "title": "Roll Call — Sovereign wealth fund tax on AI companies unveiled by Sanders (2026-06-18)",
+      "url": "https://rollcall.com/2026/06/18/sovereign-wealth-fund-tax-on-ai-companies-unveiled-by-sanders/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "tnw_openai",
+      "title": "The Next Web — OpenAI robot taxes, wealth fund, superintelligence policy (2026-04)",
+      "url": "https://thenextweb.com/news/openai-robot-taxes-wealth-fund-superintelligence-policy?type=AI",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "bi_amodei",
+      "title": "Basic Income Earth Network (Bloomberg Tax の転載) — Anthropic CEO floats tax on AI firms to fund universal income (2026-07)",
+      "url": "https://basicincome.org/news/2026/07/anthropic-ceo-floats-tax-on-ai-firms-to-fund-universal-income/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "nber_ubi",
+      "title": "NBER — The Employment Effects of a Guaranteed Income (w32719)",
+      "url": "https://www.nber.org/papers/w32719",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "eo14412",
+      "title": "ホワイトハウス — Securing the Nation Against Advanced Cryptographic Attacks (大統領令 14412・2026-06-22)",
+      "url": "https://www.whitehouse.gov/presidential-actions/2026/06/securing-the-nation-against-advanced-cryptographic-attacks/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "nist_8547",
+      "title": "NIST — IR 8547 Transition to Post-Quantum Cryptography Standards (2026-10-27)",
+      "url": "https://nvlpubs.nist.gov/nistpubs/ir/2026/NIST.IR.8547.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "google_quantum",
+      "title": "Google Research — Safeguarding cryptocurrency by disclosing quantum vulnerabilities responsibly (2026-03-31)",
+      "url": "https://research.google/blog/safeguarding-cryptocurrency-by-disclosing-quantum-vulnerabilities-responsibly/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "ndl_murayama",
+      "title": "国立国会図書館 — 村山節『文明の研究 歴史の法則と未来予測』(1984)",
+      "url": "https://ndlsearch.ndl.go.jp/en/books/R100000002-I000001696231",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "ndl_murayama2",
+      "title": "国立国会図書館 — 村山節『波動進化する世界文明 人類最初の普遍史 近づく危機と日本人の選択』(1980)",
+      "url": "https://ndlsearch.ndl.go.jp/en/books/R100000002-I000001468234",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "fukkan_murayama",
+      "title": "復刊ドットコム — 村山節『文明の研究』の復刊要望 (説の紹介)",
+      "url": "https://www.fukkan.com/fk/VoteDetail?no=52800",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "meiji_chitsuroku",
+      "title": "秩禄処分の解説 (落合弘樹らの研究の引用)",
+      "url": "https://www.ne.jp/asahi/puff/mdg/jp/Jcp187.html",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "jsps_yayoi",
+      "title": "日本学術振興会 — 弥生農耕の起源と東アジア (西本豊弘ほか・研究成果の報告)",
+      "url": "https://www.jsps.go.jp/file/storage/grants/j-grantsinaid/18_sousei/data/g_hyouka_shiryou21/jigo02_nishimoto.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "jgb_csv",
+      "title": "財務省 — 国債金利情報 (ヒストリカルデータ)",
+      "url": "https://www.mof.go.jp/jgbs/reference/interest_rate/index.htm",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "boj_sj",
+      "title": "日本銀行 — 資金循環統計 参考図表 (2026 年 6 月末)",
+      "url": "https://www.boj.or.jp/statistics/sj/sjexp.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "mou_japan",
+      "title": "内閣官房 — 日米間の投資に関する覚書 (仮訳)",
+      "url": "https://www.cas.go.jp/jp/seisaku/tariff_measures/houmon/pdf/MOU(JP).pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "jetro_oil",
+      "title": "ジェトロ — 日本の原油調達の変化 (2026)",
+      "url": "https://www.jetro.go.jp/biz/areareports/special/2026/0501/bbdf8eef23bb46ab.html",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "maff_food",
+      "title": "農林水産省 — 令和 7 年度 食料自給率 (概算・2026-08-07)",
+      "url": "https://www.maff.go.jp/j/press/kanbo/anpo/260807.html",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "stat_aged",
+      "title": "総務省統計局 — 統計からみた我が国の高齢者 (2026-09)",
+      "url": "https://www.stat.go.jp/data/topics/pdf/topics149.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "mof_iip",
+      "title": "財務省 — 主要国の対外純資産 (2025 年末)",
+      "url": "https://www.mof.go.jp/policy/international_policy/reference/iip/data/2025_g3.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "tic",
+      "title": "米財務省 — Major Foreign Holders of Treasury Securities (2026 年 8 月末)",
+      "url": "https://ticdata.treasury.gov/resource-center/data-chart-center/tic/Documents/slt_table5.html",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "stlfed_eurodollar",
+      "title": "セントルイス連銀 — Bretton Woods and the Growth of the Eurodollar Market (2022)",
+      "url": "https://www.stlouisfed.org/on-the-economy/2022/january/bretton-woods-growth-eurodollar-market",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "tohoku_london",
+      "title": "東北大学 — 菅原歩 ユーロダラー市場とロンドンの論文 (2016)",
+      "url": "https://www.econ.tohoku.ac.jp/wp/wp-content/uploads/2021/03/tmarg126.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "boe_bigbang",
+      "title": "イングランド銀行 — Change in the Stock Exchange and regulation of the City (1987)",
+      "url": "https://www.bankofengland.co.uk/-/media/boe/files/quarterly-bulletin/1987/change-in-the-stock-exchange-and-regulation-of-the-city.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "boe_fx",
+      "title": "イングランド銀行 — BIS triennial survey of foreign exchange (2025-09)",
+      "url": "https://www.bankofengland.co.uk/news/2025/september/bis-triennial-survey-of-foreign-exchange-and-over-the-counter-interest-rate-derivatives-markets",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "boj_fx",
+      "title": "日本銀行 — 外国為替およびデリバティブに関する中央銀行サーベイ (2025 年 4 月)",
+      "url": "https://www.boj.or.jp/statistics/bis/deri/deri2504.htm",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "fsa_bigbang",
+      "title": "金融庁 — 金融システム改革の評価の要旨 (2008)",
+      "url": "https://www.fsa.go.jp/seisaku/20_s_yousi.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "gfci40",
+      "title": "Long Finance — The Global Financial Centres Index 40 (2026-09-16)",
+      "url": "https://www.longfinance.net/documents/4481/GFCI_40_Report_2026.09.16_v1.2.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "pwc_crypto",
+      "title": "PwC — 金融商品取引法・資金決済法の改正 (2026-07)",
+      "url": "https://www.pwc.com/jp/ja/knowledge/news/assets/pdf/legal-20260728-4.pdf",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "impress_megabank",
+      "title": "Impress Watch — 3 メガバンクのステーブルコイン (2026-06-10)",
+      "url": "https://www.watch.impress.co.jp/docs/news/2116013.html",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "brandfinance",
+      "title": "Brand Finance — Global Soft Power Index 2026, Japan overtakes the UK to rank 3rd globally",
+      "url": "https://brandfinance.com/press-releases/brand-finance-global-soft-power-index-2026-japan-overtakes-the-uk-to-rank-3rd-globally",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "iseas",
+      "title": "ISEAS — The State of Southeast Asia 2026 (発表の報告)",
+      "url": "https://www.iseas.edu.sg/media/event-highlights/e-launch-and-discussion-of-the-state-of-southeast-asia-2026-survey-report/",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "anime_market",
+      "title": "公募ガイド (日本動画協会の発表) — アニメ産業市場 2025 年 (速報・2026-10-30)",
+      "url": "https://koubo.jp/article/136865",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "wef_gender",
+      "title": "nippon.com — 男女平等の順位 117 位 (WEF・2026-09-16)",
+      "url": "https://www.nippon.com/en/news/yjj2026091601114/",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "rsf_press",
+      "title": "nippon.com — 報道の自由の順位 62 位 (RSF・2026-05)",
+      "url": "https://www.nippon.com/en/news/yjj2026050100683/",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "maff_restaurant",
+      "title": "農林水産省 — 海外における日本食レストランの数 (2025-11-28)",
+      "url": "https://www.maff.go.jp/j/press/yusyutu_kokusai/kaitaku/251128.html",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "jnto_2026",
+      "title": "トラベルボイス (JNTO の発表) — 訪日客 2026 年 1〜9 月 (2026-10-21)",
+      "url": "https://www.travelvoice.jp/20261021-160712",
+      "accessed": "2026-11-07",
+      "chapter": 6
+    },
+    {
+      "key": "rollcall_debt",
+      "title": "Roll Call — Unsustainable fiscal path, debt limit fight awaits Congress (2026-09-09)",
+      "url": "https://rollcall.com/2026/09/09/unsustainable-fiscal-path-debt-limit-fight-awaits-congress/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "bloomberg_ai_credit",
+      "title": "Bloomberg Japan — AI 関連の融資と社債の売り (X の投稿・2026-11-06)",
+      "url": "https://x.com/BloombergJapan/status/2118452063981973605",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "lvm_di_1107",
+      "title": "LiveMakers — Daily Intel 11/7｜AI の売り、株から融資と社債へ",
+      "url": "https://livemakers.com/ja/articles/daily-intel-20261107-4821d50a",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "fox_miller",
+      "title": "Fox News — Trump's move from Wiles to Miller signals major tactical shift, governing without Congress (2026-11)",
+      "url": "https://www.foxnews.com/politics/trumps-move-wiles-miller-signals-major-tactical-shift-governing-without-congress",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "ap_deport",
+      "title": "AP (Click On Detroit 配信) — Deportations climb under Trump but fall short of White House target (2026-10-22)",
+      "url": "https://www.clickondetroit.com/news/politics/2026/10/22/deportations-climb-under-trump-but-fall-short-of-white-house-target-a-new-report-finds/",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "ezekiel38",
+      "title": "旧約聖書 エゼキエル書 38 章",
+      "url": "https://www.biblegateway.com/passage/?search=Ezekiel%2038&version=NIV",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "premier_iran",
+      "title": "Premier Christianity — Is the Iran war an outworking of biblical prophecy? (2026)",
+      "url": "https://www.premierchristianity.com/news-analysis/is-the-iran-war-an-outworking-of-biblical-prophecy/21189.article",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "ird_iran",
+      "title": "Juicy Ecumenism — Christians divided on Iran war cite alarm, prophecy (2026-03-05)",
+      "url": "https://juicyecumenism.com/2026/03/05/christians-iran-war/",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "pew_2013",
+      "title": "Pew Research — More white evangelicals than American Jews say God gave Israel to the Jewish people (2013-10-03)",
+      "url": "https://www.pewresearch.org/short-reads/2013/10/03/more-white-evangelicals-than-american-jews-say-god-gave-israel-to-the-jewish-people/",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "britannica_zionism",
+      "title": "Britannica — Zionism",
+      "url": "https://www.britannica.com/topic/Zionism",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "php_murayama",
+      "title": "PHP研究所 — 文明法則史学と 800 年周期の紹介 (書籍の紹介文)",
+      "url": "https://www.php.co.jp/books/detail.php?isbn=978-4-569-80860-4",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "mof_budget",
+      "title": "財務省 — 一般会計歳入歳出 決算の推移 (第 1 表)",
+      "url": "https://www.mof.go.jp/policy/budget/reference/statistics/01.xlsx",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "utokyo_yayoi",
+      "title": "東京大学 — 土井ヶ浜の古代ゲノムの解析 (2024-10-15)",
+      "url": "https://www.s.u-tokyo.ac.jp/ja/press/10527/",
+      "accessed": "2026-11-07",
+      "chapter": 5
+    },
+    {
+      "key": "cnn_miller",
+      "title": "KVIA (CNN 配信) — Stephen Miller の役割 (2025-02)",
+      "url": "https://kvia.com/?p=1347444",
+      "accessed": "2026-11-07",
+      "chapter": 2
+    },
+    {
+      "key": "nixon_china_speech",
+      "title": "The American Presidency Project — Remarks to the Nation Announcing Acceptance of an Invitation To Visit the People's Republic of China (1971-07-15)",
+      "url": "https://www.presidency.ucsb.edu/documents/remarks-the-nation-announcing-acceptance-invitation-visit-the-peoples-republic-china",
+      "accessed": "2026-11-07",
+      "chapter": 3
+    },
+    {
+      "key": "sanders_fund",
+      "title": "サンダース上院議員の事務所 — American AI Sovereign Wealth Fund Act の発表 (2026-06-18)",
+      "url": "https://www.sanders.senate.gov/?p=102111",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    },
+    {
+      "key": "fox_jeffries",
+      "title": "WFMD (Fox News 配信) — Jeffries, DSA (2026-08-16)",
+      "url": "https://www.wfmd.com/?p=73341",
+      "accessed": "2026-11-07",
+      "chapter": 4
+    }
+  ]
+}
