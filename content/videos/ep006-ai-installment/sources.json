@@ -1,0 +1,341 @@
+{
+  "episodeId": "ep006",
+  "sources": [
+    {
+      "key": "ndx",
+      "title": "Nasdaq — NASDAQ-100 の日次終値 (2026-10-06 / 11-04 / 11-05)",
+      "url": "https://www.nasdaq.com/market-activity/index/ndx/historical",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "fred_ndx",
+      "title": "FRED — NASDAQ 100 Index (NASDAQ100)",
+      "url": "https://fred.stlouisfed.org/series/NASDAQ100",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "goog_8k",
+      "title": "Alphabet — 2026 年 7〜9 月期の決算 (8-K 別紙 99.1・2026-10-28)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000080/googexhibit991q32026.htm",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "goog_px",
+      "title": "Nasdaq — GOOGL の日次終値 (2026-10-28 / 10-29)",
+      "url": "https://www.nasdaq.com/market-activity/stocks/googl/historical",
+      "accessed": "2026-11-08",
+      "chapter": 2
+    },
+    {
+      "key": "goog_capex",
+      "title": "Outlook Business — Alphabet の 2026 年の設備投資の見通し 1,950〜2,050 億ドル (2026-10)",
+      "url": "https://www.outlookbusiness.com/corporate/google-parent-alphabet-doubles-down-on-ai-plans-up-to-205-billion-in-2026-capex",
+      "accessed": "2026-11-08",
+      "chapter": 2
+    },
+    {
+      "key": "goog_fwp",
+      "title": "Alphabet — ユーロ建て社債の条件 (FWP・2026-11-02)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000119312526443857/d134038dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "amzn_8k",
+      "title": "Amazon — 2026 年 7〜9 月期の決算 (8-K 別紙 99.1・2026-10-29)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000038/amzn-20260930xex991.htm",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "amzn_10q",
+      "title": "Amazon — 四半期報告書 10-Q (2026-10-30・債務の注記)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000040/amzn-20260930.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "meta_fwp_plan",
+      "title": "Meta — 資金調達の計画と 2026 年の設備投資の見通し (FWP・2026-10-26)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526431036/d116268dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 2
+    },
+    {
+      "key": "meta_fwp_equity",
+      "title": "Meta — 普通株と優先株の条件 (FWP・2026-10-27)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526432549/d382225dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "meta_fwp_usd",
+      "title": "Meta — ドル建て社債の条件 (FWP・2026-11-03)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526445646/d186765dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "meta_fwp_eur",
+      "title": "Meta — ユーロ建て社債の条件 (FWP・2026-11-04)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000119312526447522/d154804dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "msft_fwp",
+      "title": "Microsoft — 社債 10 本の条件 (FWP・取引日 2026-10-29)",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526439794/d799291dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "oracle_ir",
+      "title": "Oracle — Investor Day の発表 (8-K 別紙 99.1・2026-10-28)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526435853/d75538dex991.htm",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "oracle_fwp",
+      "title": "Oracle — 社債 5 本の条件 (FWP・2026-11-02)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526443918/d87441dfwp.htm",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "oracle_8k",
+      "title": "Oracle — 株と社債の発行の完了 (8-K・2026-11-04)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1341439/000119312526447507/d131790d8k.htm",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "sp_meta",
+      "title": "The Star (Reuters 配信) — S&P Global revises outlook on Meta to negative on cashflow concerns (2026-10-31)",
+      "url": "https://www.thestar.com.my/tech/tech-news/2026/10/31/sp-global-revises-outlook-on-meta-to-negative-on-cashflow-concerns",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "cnbc_meta",
+      "title": "CNBC — Meta outlook revised to negative by S&P (2026-10-30)",
+      "url": "https://www.cnbc.com/2026/10/30/meta-outlook-to-revised-to-negative-by-sp-after-cash-flow-negative.html",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "openai_ft",
+      "title": "The Next Web (FT の報道の要約) — OpenAI funding round target cut to $20bn (2026-10-30)",
+      "url": "https://thenextweb.com/news/openai-funding-round-20bn-target-cut-ft",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "openai_wsj",
+      "title": "The Decoder (WSJ の報道の要約) — OpenAI raises just $11 billion of its $30 billion target (2026-10)",
+      "url": "https://the-decoder.com/openai-raises-just-11-billion-of-its-30-billion-target-as-big-investors-lose-their-ai-appetite/",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "fred_ig",
+      "title": "FRED — ICE BofA US Corporate Index Option-Adjusted Spread (BAMLC0A0CM)",
+      "url": "https://fred.stlouisfed.org/series/BAMLC0A0CM",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "fred_bbb",
+      "title": "FRED — ICE BofA BBB US Corporate Index Option-Adjusted Spread (BAMLC0A4CBBB)",
+      "url": "https://fred.stlouisfed.org/series/BAMLC0A4CBBB",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "fed_z1",
+      "title": "FRB — Financial Accounts of the United States (Z.1)・表 F3.5.s 社債の保有者 (2026 年 4〜6 月期末・2026-09-11 公表・134 ページ)",
+      "url": "https://www.federalreserve.gov/releases/z1/20260911/z1.pdf",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "dol_401k",
+      "title": "OIRA — 指定投資選択肢の選定における受託者の義務 (RIN 1210-AC38・最終規則の審査)",
+      "url": "https://www.reginfo.gov/public/do/eoDetails?rrid=1591871",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "fr_401k",
+      "title": "連邦官報 — Fiduciary Duties in Selecting Designated Investment Alternatives (規則案・2026-03-31)",
+      "url": "https://www.federalregister.gov/documents/2026/03/31/2026-06178/fiduciary-duties-in-selecting-designated-investment-alternatives",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "anthropic_jp",
+      "title": "Khaleej Times (Reuters 配信) — Anthropic plans to sell $3.5 billion of shares to Japan investors in IPO, filing shows (2026-11-02)",
+      "url": "https://www.khaleejtimes.com/business/anthropic-plans-to-sell-35-billion-of-shares-to-japan-investors-in-ipo-filing-shows",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "anthropic_wsj",
+      "title": "Decrypt (WSJ の報道の転載) — Anthropic IPO valuation could fall to $1 trillion (2026-11-06)",
+      "url": "https://decrypt.co/382716/anthropic-ipo-valuation-could-fall-to-1-trillion-after-ai-stock-rout-report",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "coindesk_btc",
+      "title": "CoinDesk — Bitcoin, crypto stocks caught in AI trade meltdown (2026-11-05)",
+      "url": "https://www.coindesk.com/markets/2026/11/05/bitcoin-crypto-stocks-caught-in-ai-trade-meltdown-but-wintermute-trader-sees-glass-half-full",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "hayes",
+      "title": "Arthur Hayes — D is for Dilution (2026-11-05)",
+      "url": "https://cryptohayes.substack.com/p/d-is-for-dilution",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "nvidia_blog",
+      "title": "NVIDIA Blog — Computex 2024, Jensen Huang keynote (\"one-year rhythm\"・2024-06-02)",
+      "url": "https://blogs.nvidia.com/blog/computex-2024-jensen-huang/",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "amzn_10k25",
+      "title": "Amazon — 年次報告書 10-K (2025 年度・サーバーの耐用年数の注記)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1018724/000101872426000004/amzn-20251231.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "meta_10k25",
+      "title": "Meta — 年次報告書 10-K (2025 年度・サーバーの耐用年数の注記)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "goog_10k25",
+      "title": "Alphabet — 年次報告書 10-K (2025 年度・サーバーの耐用年数の注記)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1652044/000165204426000018/goog-20251231.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "msft_10k26",
+      "title": "Microsoft — 年次報告書 10-K (2026 年 6 月期・耐用年数の注記)",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526323660/msft-20260630.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "msft_10q",
+      "title": "Microsoft — 四半期報告書 10-Q (2026 年 7〜9 月期)",
+      "url": "https://www.sec.gov/Archives/edgar/data/789019/000119312526436133/msft-20260930.htm",
+      "accessed": "2026-11-08",
+      "chapter": 3
+    },
+    {
+      "key": "fomc_0916",
+      "title": "FRB — FOMC の声明 (2026-09-16・0.25% の利上げ)",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "fomc_1028",
+      "title": "FRB — FOMC の声明 (2026-10-28・据え置き)",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "fomc_cal",
+      "title": "FRB — FOMC の日程",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "bls_jobs",
+      "title": "米労働統計局 — The Employment Situation (2026 年 10 月分)",
+      "url": "https://www.bls.gov/news.release/empsit.nr0.htm",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "cnbc_fedwatch",
+      "title": "CNBC — Treasury yields, December hike odds (CME FedWatch・2026-11-06)",
+      "url": "https://www.cnbc.com/2026/11/06/treasury-yields-inch-lower-as-investors-look-ahead-to-key-jobs-data-.html",
+      "accessed": "2026-11-08",
+      "chapter": 4
+    },
+    {
+      "key": "odlyzko_rail",
+      "title": "Andrew Odlyzko — Collective hallucinations and inefficient markets — The British Railway Mania of the 1840s",
+      "url": "https://www-users.cse.umn.edu/~odlyzko/doc/hallucinations.pdf",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    },
+    {
+      "key": "campbell_rail",
+      "title": "Gareth Campbell — The Railway Mania and the crisis of 1847 (Queen's University Belfast)",
+      "url": "https://pureadmin.qub.ac.uk/ws/files/18161511/RailwayCrisis.pdf",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    },
+    {
+      "key": "dallasfed_fiber",
+      "title": "ダラス連銀 — Southwest Economy 2002 (光ファイバーの過剰投資)",
+      "url": "https://www.dallasfed.org/~/media/documents/research/swe/2002/swe0201c.pdf",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    },
+    {
+      "key": "richmondfed_fiber",
+      "title": "リッチモンド連銀 — Econ Focus 2003 Winter (回線の値下がり・TeleGeography のデータ)",
+      "url": "https://www.richmondfed.org/publications/research/econ_focus/2003/winter/cover",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    },
+    {
+      "key": "pbs_worldcom",
+      "title": "PBS NewsHour — WorldCom files for bankruptcy (2002-07-21)",
+      "url": "https://www.pbs.org/newshour/economy/business-july-dec02-worldcom_07-2",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    },
+    {
+      "key": "anthropic_support",
+      "title": "Anthropic — 日本の個人投資家向けの案内 (サポートページ)",
+      "url": "https://support.claude.com/ja/articles/17889756",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "bi_anthropic",
+      "title": "Business Insider Japan — Anthropic の IPO の買い方 (2026-11)",
+      "url": "https://www.businessinsider.jp/article/2611-anthropic-ipo-guide/",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    },
+    {
+      "key": "nvidia_q3",
+      "title": "NVIDIA — Sets Conference Call for Third-Quarter Financial Results (2026-11-17)",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    }
+  ]
+}
