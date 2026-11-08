@@ -1,0 +1,109 @@
+{
+  "sessionId": "2026-11-08-ny-open",
+  "date": "2026-11-08",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-08-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-08-ny-open",
+  "publishedAt": "2026-11-09T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261108_1803_8ef19377",
+  "asOfJst": "2026-11-08T18:03:03+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月8日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,391.20 → 7,377.30（-0.19%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +3.3% / WTI（perp） +0.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261108_1841_f7b10a83",
+    "crawlAnchorJst": "2026-11-08T18:03:00+09:00",
+    "writtenAtJst": "2026-11-08T18:41:44+09:00",
+    "lead": "週末の市場は、AI に偏っていた資金が向かう先を探している。アジア株では中国・インドへの資金の戻りが報じられ、データセンターへの反発は米国の住民投票から欧州の街頭へ広がった。暗号資産では米財務省が MEXC を金融システムから締め出し、取引所の側が送金経路の見直しに動いた。来週は米 CPI が、金利と AI 相場の両方の向きを決める。",
+    "items": [
+      {
+        "headline": "米財務省、暗号資産取引所 MEXC を米金融システムから排除",
+        "sourceUrl": "https://x.com/coin_post/status/2118810691079733564",
+        "note": "違法取引への関与を理由にした措置。OKX は MEXC からの直接送金を避けるよう利用者に呼びかけた。"
+      },
+      {
+        "headline": "OKX、MEXC からの直接送金の回避を呼びかけ",
+        "sourceUrl": "https://x.com/coin_post/status/2119308917507502506",
+        "note": "米財務省の措置を受けた取引所側の対応。取引所間の資金の通り道が規制で細る局面だ。"
+      },
+      {
+        "headline": "Keplr、Google・Apple ログインの利用者に入金停止と資産移動を要請",
+        "sourceUrl": "https://x.com/coin_post/status/2119309378058916259",
+        "note": "ソーシャルログイン型ウォレットの不正送金を受けた対応。鍵の管理を外部ログインに預ける設計の弱点が表に出た。"
+      },
+      {
+        "headline": "AI 相場の失速でアジア株の投資戦略を見直し、中国・インドに資金が戻る",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2119290084729970884",
+        "note": "AI・半導体に集中していた資金の行き先が地域ごとに入れ替わり始めた。"
+      },
+      {
+        "headline": "欧州各地で AI データセンターへの反対デモ、ダブリンで約 2,000 人が行進",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2119327828432793811",
+        "note": "米国の住民投票に続き、電力と土地をめぐる反発が欧州にも広がる。"
+      },
+      {
+        "headline": "米国、ブラックリストに載る中国企業の空き事務所へ Nvidia の半導体販売を許していた",
+        "sourceUrl": "https://www.theverge.com/ai-artificial-intelligence/1029483/nvidia-ai-chips-china-blacklist-government",
+        "note": "輸出管理の運用の穴を指摘する報道。"
+      },
+      {
+        "headline": "中国発のオープン型 AI モデルをハッカーが悪用、安全装置を外して攻撃を低コスト化",
+        "sourceUrl": "https://x.com/jijicom/status/2119323057810723135",
+        "note": "公開モデルの重みが攻撃側の道具になる構図。"
+      },
+      {
+        "headline": "ソフトバンク G と ABB、ロボット企業の中国事業の分離を検討（米報道）",
+        "sourceUrl": "https://x.com/nikkei/status/2119326348816658904"
+      },
+      {
+        "headline": "プーチン氏、12 月に米国で開く G20 への参加を検討か",
+        "sourceUrl": "https://x.com/nikkei/status/2119324837352989022"
+      },
+      {
+        "headline": "消費税減税法案、11 日から参院で審議入り 公明・岡本代表は賛成を否定せず",
+        "sourceUrl": "https://x.com/Sankei_news/status/2119288785024487713",
+        "note": "衆院の採決では石破前首相らが退席し、自民執行部が説明を求めている。"
+      },
+      {
+        "headline": "トランプ政権の親イスラエル外交が岐路に 有権者の 51% が「援助しすぎ」",
+        "sourceUrl": "https://x.com/Sankei_news/status/2119274864221782199",
+        "note": "中間選挙の大敗を受けた見直しの観測。"
+      },
+      {
+        "headline": "サウジ連合軍、フーシ派のミサイルを迎撃と発表 リヤドで爆発音",
+        "sourceUrl": "https://x.com/Sankei_news/status/2119355137898741964"
+      },
+      {
+        "headline": "イラン、米国抜きの湾岸の地域秩序づくりを進める（NZZ）",
+        "sourceUrl": "https://www.nzz.ch/international/neue-zeiten-am-golf-waehrend-trump-wie-gelaehmt-scheint-baut-iran-an-einer-regionalen-ordnung-ohne-die-usa-ld.10054110"
+      },
+      {
+        "headline": "宇宙がウクライナ戦争の均衡を左右する最前線に（ガーディアン）",
+        "sourceUrl": "https://www.theguardian.com/science/ng-interactive/2026/nov/08/ukraine-space-critical-war-starlink"
+      },
+      {
+        "headline": "GeroWallet、Midnight の更新後に NIGHT の送金と DUST の登録を一時停止",
+        "sourceUrl": "https://x.com/GeroWallet/status/2119345764295934421",
+        "note": "11/6 のネットワーク更新にウォレット側の対応が追いつくまでの措置。資金はチェーン上にあり失われていないと説明。"
+      },
+      {
+        "headline": "今週の市場: 日経平均は底入れで反発か、原油価格は高止まり",
+        "sourceUrl": "https://x.com/nikkei/status/2119355035997864337"
+      }
+    ],
+    "watch": [
+      "11/10（火）22:30 の米 10 月消費者物価指数 — 金利の見通しと AI 相場の戻りを同時に試す",
+      "11 日からの参院での消費税減税法案の審議 — 公明党の賛否と自民党内の造反の扱い",
+      "MEXC 排除を受けた他の取引所の対応と、Keplr の不正送金の原因の公表"
+    ]
+  }
+}
