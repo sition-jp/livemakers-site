@@ -1,0 +1,71 @@
+{
+  "sessionId": "2026-11-08-global-close",
+  "date": "2026-11-08",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-08-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-08-global-close",
+  "publishedAt": "2026-11-09T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261108_2303_4bbff4a2",
+  "asOfJst": "2026-11-08T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月8日 23:03 JST",
+  "bullets": [
+    "BTC/USD $75,913 → $75,905（-0.01%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +2.0% / WTI（perp） +0.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261108_0005_76b1000a",
+    "crawlAnchorJst": "2026-11-08T23:03:00+09:00",
+    "writtenAtJst": "2026-11-09T00:05:00+09:00",
+    "lead": "米国は中間選挙後もイランへの圧力を緩めていない。海上の封鎖に陸路の遮断と暗号資産の送金経路への制裁が加わり、包囲は面で広がっている。議会では多数を得た民主党が関税の巻き戻しを最初の争点に据え、通商の前提が動き出した。暗号資産はアルトコインから資金が抜け、地合いの弱さが続く。",
+    "items": [
+      {
+        "headline": "米軍、イランの兵器の陸上輸送ルートを断つ専門チームを新設",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2119086241282961798",
+        "note": "海上の封鎖に続き、陸路にも圧力を広げる。"
+      },
+      {
+        "headline": "米軍、オマーン湾で貨物船を航行不能に 対イランの封鎖を強める",
+        "sourceUrl": "https://x.com/ReutersJapan/status/2119188700538052912"
+      },
+      {
+        "headline": "米財務省、イラン関連の取引でカナダの暗号資産企業 8 社を制裁",
+        "sourceUrl": "https://x.com/WuBlockchain/status/2119393875232227791",
+        "note": "暗号資産の送金経路も制裁の対象に入っている。"
+      },
+      {
+        "headline": "民主党、トランプ関税の撤廃をカナダ向けから始める構え",
+        "sourceUrl": "https://www.cnbc.com/2026/11/08/trump-tariffs-democrats-congress-canada.html",
+        "note": "議会の多数を得た民主党が、最初の標的に対カナダ関税を選んだ。"
+      },
+      {
+        "headline": "民主党の次の 2 年は医療と関税 弾劾は前面に出さない",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/08/democrats-congress-trump-midterms"
+      },
+      {
+        "headline": "Binance の CFO が退任へ 後任はジャスティン・イェク氏",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2119112685241397753"
+      },
+      {
+        "headline": "アルトコインの時価総額、約 2,000 億ドル減",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2119294026910183792"
+      },
+      {
+        "headline": "Midnight node 2.1.101 が正式公開 Ledger 9 の本番版",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-node/releases/tag/node-2.1.101",
+        "note": "運用者は runtime 更新の前にノードを上げる必要があり、db-sync への接続は TLS が必須になった。"
+      }
+    ],
+    "watch": [
+      "ユーログループが 11/9 に ECB 次期総裁の候補を審議する。クノット氏とエルナンデス・デ・コス氏の争いになる",
+      "米国がイランとの合意か追加攻撃かをいつ判断するか",
+      "民主党の関税撤廃案がカナダ向けからどこまで広がるか"
+    ]
+  }
+}

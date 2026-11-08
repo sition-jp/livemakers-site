@@ -1,0 +1,116 @@
+{
+  "sessionId": "2026-11-08-europe-bridge",
+  "date": "2026-11-08",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-08-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-08-europe-bridge",
+  "publishedAt": "2026-11-09T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261108_1203_dfcbf7ef",
+  "asOfJst": "2026-11-08T12:03:05+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月8日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1154 → 1.1155（+0.01%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +3.3% / 米10年金利 +0.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261108_1244_466d63cc",
+    "crawlAnchorJst": "2026-11-08T12:03:00+09:00",
+    "writtenAtJst": "2026-11-08T12:44:46+09:00",
+    "lead": "中間選挙の大敗から数日で、米国の政治は人事と規制の組み替えに入った。報道官人事の打診、上院の接戦、規制派の当選がAI投資の前提を揺らす一方、FRBは雇用の強さを理由に12月の追加利上げへ傾く。イスラエルではネタニヤフ氏以外に組閣が託され、中東の交渉の相手も変わり始めた。国内では消費減税法案が参院へ移り、財源の議論が続く。",
+    "items": [
+      {
+        "headline": "NASA、月面基地の輸送網を一括発注 8社に10年・上限100億ドル",
+        "sourceUrl": "https://www.nasa.gov/news-release/nasa-awards-moon-base-transportation-technology-science-projects/",
+        "note": "SpaceX・Blue Origin・Intuitive Machines・ispace の米法人などが月面への貨物輸送を担う。核電源の探査車や月周回の通信衛星も同時に選ばれた。"
+      },
+      {
+        "headline": "イスラエル大統領、野党党首アイゼンコット氏に組閣を指示",
+        "sourceUrl": "https://x.com/nikkei/status/2119232734379807088",
+        "note": "ネタニヤフ氏ではなく第2党の党首に組閣が託された。連立交渉は難航が見込まれる。"
+      },
+      {
+        "headline": "トランプ氏、UFC代表のダナ・ホワイト氏に報道官就任を打診",
+        "sourceUrl": "https://www.cbsnews.com/news/trump-offers-white-house-press-secretary-role-dana-white/",
+        "note": "中間選挙の大敗後、政権の人事が動き始めた。"
+      },
+      {
+        "headline": "米中間選挙、上院2州で接戦続く 結果判明に数週間か",
+        "sourceUrl": "https://x.com/Sankei_news/status/2119228685358334252",
+        "note": "アラスカなどで開票が続く。トランプ氏は不正があったと主張している。"
+      },
+      {
+        "headline": "FRB、12月の追加利上げの公算 雇用の急増で物価の安定を優先",
+        "sourceUrl": "https://x.com/jijicom/status/2119189514614890521",
+        "note": "時事通信の報道。利下げ局面からの転換が意識される。"
+      },
+      {
+        "headline": "AI相場の先行きに暗雲 中間選挙で規制派が当選、ドル売り圧力も",
+        "sourceUrl": "https://x.com/jijicom/status/2119201094131994634",
+        "note": "データセンター規制を掲げる候補の当選が、AI投資の前提を揺らしている。"
+      },
+      {
+        "headline": "消費減税法案、11日に参院で審議入り 少数与党で多数派工作",
+        "sourceUrl": "https://x.com/jijicom/status/2119189263053213782",
+        "note": "衆院は通過したが、参院の特別委は野党が過半を占める。"
+      },
+      {
+        "headline": "日銀のETF売却益、官民投資へ 「年1兆円」の長期想定",
+        "sourceUrl": "https://x.com/nikkei/status/2119169815977795822",
+        "note": "消費減税の財源には充てない方針の裏側を日経が報じた。"
+      },
+      {
+        "headline": "製造業の27年3月期、半数が純利益を上方修正 値上げと円安が追い風",
+        "sourceUrl": "https://x.com/nikkei/status/2119113453239443850"
+      },
+      {
+        "headline": "ラミス議員、民主党が求めた相場操縦の規則を CLARITY 法案へ",
+        "sourceUrl": "https://x.com/SenLummis/status/2119153915958542471",
+        "note": "下院案に無かった規則を上院の法案に加えたと投稿した。"
+      },
+      {
+        "headline": "カタール「米国とイランの対話は今も続いている」",
+        "sourceUrl": "https://x.com/nhk_news/status/2119176832545415537",
+        "note": "米国のイラン攻撃と制裁が同時に進むなかでの仲介国の発言。"
+      },
+      {
+        "headline": "ウクライナの人道支援拠点へのロシアの空爆、死者55人に",
+        "sourceUrl": "https://x.com/nhk_news/status/2119172550051954835",
+        "note": "キーウでは発電所への攻撃で停電が10時間に及んだ。"
+      },
+      {
+        "headline": "佐川急便、5323万件が外部に流出した可能性 被害状況を調査中",
+        "sourceUrl": "https://x.com/nhk_news/status/2118640799697260611",
+        "note": "今週相次ぐ委託先経由の侵害が物流にも及んだ。"
+      },
+      {
+        "headline": "オープンなAIモデル、安全装置を外してハッカーが悪用 サイバー攻撃が低コスト化",
+        "sourceUrl": "https://x.com/jijicom/status/2119189766352830929"
+      },
+      {
+        "headline": "政府、年末改定の国家防衛戦略に「継戦能力」の強化を明記へ",
+        "sourceUrl": "https://x.com/Sankei_news/status/2119059211862855732",
+        "note": "弾薬の備蓄と増産体制の整備を盛り込む。"
+      },
+      {
+        "headline": "タイ、ウイグル人の中国への送還を検討 当事者は「奴隷のようになる」",
+        "sourceUrl": "https://www.theguardian.com/global-development/2026/nov/08/uyghurs-thailand-china-forced-deportation"
+      },
+      {
+        "headline": "ニュージーランド総選挙、与党が先行も過半数は微妙 確定は今月下旬",
+        "sourceUrl": "https://x.com/jijicom/status/2119183221305032806"
+      }
+    ],
+    "watch": [
+      "11日に参院で審議入りする消費減税法案の修正協議",
+      "FRBの12月会合に向けた当局者の発言と雇用統計",
+      "イスラエルの連立交渉の行方と、米国・イランの対話への影響"
+    ]
+  }
+}
