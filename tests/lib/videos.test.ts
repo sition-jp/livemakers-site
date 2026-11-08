@@ -90,6 +90,21 @@ describe("content/videos (repo の実データ)", () => {
     expect(getLatestPostedVideo()?.slug).toBe("ep005-destruction-and-creation");
   });
 
+  it("ep006 は 6 章・YouTube 概要欄と同じ時刻・出典 48 件を持つ", () => {
+    const video = getVideoBySlug("ep006-ai-installment");
+    expect(video).not.toBeNull();
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "01:43",
+      "04:07",
+      "06:56",
+      "09:57",
+      "12:10",
+    ]);
+    expect(video!.durationSeconds).toBe(15 * 60 + 11);
+    expect(video!.sources).toHaveLength(48);
+  });
+
   it("ep004 は 5 章・YouTube 概要欄と同じ時刻・出典 51 件を持つ", () => {
     const video = getVideoBySlug("ep004-what-to-believe");
     expect(video).not.toBeNull();
