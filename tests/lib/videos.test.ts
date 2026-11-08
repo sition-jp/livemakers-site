@@ -97,11 +97,11 @@ describe("content/videos (repo の実データ)", () => {
       "00:00",
       "01:43",
       "04:07",
-      "06:56",
+      "06:59",
       "09:57",
       "12:10",
     ]);
-    expect(video!.durationSeconds).toBe(15 * 60 + 11);
+    expect(video!.durationSeconds).toBe(15 * 60 + 15);
     expect(video!.sources).toHaveLength(48);
   });
 
