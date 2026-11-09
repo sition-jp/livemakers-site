@@ -95,8 +95,12 @@ const nextConfig = {
     // 正規ページを選択」112 件・URL 検査で確認)。対象は公開している区分だけ —
     // プレビュー・検索・登録などの内部の区分は proxy に任せる。個別の旧 URL
     // (ARTICLE_LANE_REDIRECTS) が先に当たるよう、最後に置く。
+    // path の各区切りは「.」を含まないものだけ — redirects は public/ より先に
+    // 評価されるので、「.」を許すと public/brief/<号>/thumbnail-*.png (Weekly Brief の
+    // og:image) まで /ja/… へ送られて 404 になる。proxy の matcher (拡張子つきを
+    // 除く) と同じ線引き。
     const unprefixedRedirect = {
-      source: `/:section(${UNPREFIXED_PUBLIC_SECTIONS.join("|")})/:path*`,
+      source: `/:section(${UNPREFIXED_PUBLIC_SECTIONS.join("|")})/:path([^/.]+)*`,
       destination: "/ja/:section/:path*",
       permanent: true,
     };
