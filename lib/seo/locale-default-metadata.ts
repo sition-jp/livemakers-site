@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { SITE_NAME, X_SITE_HANDLE } from "@/lib/site";
+import { HOME_OG_IMAGE_PATH, SITE_NAME, X_SITE_HANDLE } from "@/lib/site";
 
 /**
  * 日本語ページの既定のメタ情報 (2026-11-09 到達の第 0 段)。
@@ -13,7 +13,7 @@ import { SITE_NAME, X_SITE_HANDLE } from "@/lib/site";
  */
 
 const HOME_OG_IMAGE = {
-  url: "/og-home.jpg",
+  url: HOME_OG_IMAGE_PATH,
   width: 1200,
   height: 630,
   alt: SITE_NAME,
