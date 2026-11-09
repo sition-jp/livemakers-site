@@ -11,6 +11,7 @@ import { loadSeriesRailCopy } from "@/lib/articles/series-rail-copy";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
+import { X_SITE_HANDLE } from "@/lib/site";
 import { videoSlugParams } from "@/lib/static-params";
 import { getLatestPostedVideo, getPostedVideoCards, getVideoBySlug } from "@/lib/videos";
 
@@ -60,6 +61,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      site: X_SITE_HANDLE,
       title,
       description: video.excerptJa,
       ...(images ? { images: [images[0].url] } : {}),

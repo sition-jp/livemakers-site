@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { stripMarkdown, truncate } from "@/lib/brief-metadata";
 import type { ArticleMeta } from "@/lib/articles/article-model";
+import { X_SITE_HANDLE } from "@/lib/site";
 
 /**
  * 記事詳細ページの OG / Twitter Card metadata を組む (2026-08-07).
@@ -108,11 +109,12 @@ export function buildArticleMetadata({
   const twitter: Metadata["twitter"] = article.thumbnailUrl
     ? {
         card: "summary_large_image",
+        site: X_SITE_HANDLE,
         title,
         description,
         images: [article.thumbnailUrl],
       }
-    : { card: "summary", title, description };
+    : { card: "summary", site: X_SITE_HANDLE, title, description };
 
   return {
     title,

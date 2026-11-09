@@ -13,6 +13,7 @@ import { ArticleJsonLd } from "@/components/seo/ArticleJsonLd";
 import { createArticleMdxComponents } from "@/components/articles/ArticleBodyComponents";
 import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
 import { FollowBox } from "@/components/articles/FollowBox";
+import { ShareButtons } from "@/components/articles/ShareButtons";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { SeriesRail, type SeriesRailCopy } from "@/components/articles/SeriesRail";
@@ -40,7 +41,7 @@ import { createSourceCardCollector } from "@/lib/articles/source-links";
 import { extractToc } from "@/lib/articles/toc";
 import { loadFutureAtlas, type FutureAtlasData } from "@/lib/future-atlas/load";
 import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
-import { X_HANDLE } from "@/lib/site";
+import { SITE_URL, X_HANDLE } from "@/lib/site";
 import { getLatestPostedVideo, getPostedVideoCards, getPostedVideoForArticle } from "@/lib/videos";
 
 export const dynamicParams = true;
@@ -102,6 +103,7 @@ export default async function ArticleDetailPage({
   setRequestLocale(locale);
   const t = await getTranslations("articles");
   const tFollow = await getTranslations("follow");
+  const tShare = await getTranslations("share");
   const tTopics = await getTranslations("topics");
   const tVideos = await getTranslations("videos");
 
@@ -284,6 +286,17 @@ export default async function ArticleDetailPage({
             }}
           />
         </div>
+        {/* 2026-11-09 到達の第 0 段: 本文の直後にシェアボタン (X・LINE・はてブ) */}
+        <ShareButtons
+          url={`${SITE_URL}/${language}/articles/${article.articleId}`}
+          title={title}
+          copy={{
+            heading: tShare("heading"),
+            x: tShare("x"),
+            line: tShare("line"),
+            hatena: tShare("hatena"),
+          }}
+        />
         {/* 2026-10-12 田平氏 GO: 本文の直後・前後記事の前に X / Google のフォロー枠 */}
         <FollowBox
           copy={{

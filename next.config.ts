@@ -68,7 +68,13 @@ const nextConfig = {
     "/[locale]/videos/[slug]": ["./content/videos/**/*"],
   },
   async redirects() {
-    return ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
+    // 2026-11-09 到達の第 0 段: "/" → "/ja" を恒久 (308) にする。proxy (next-intl)
+    // のままだと 307 (一時) になり、検索エンジンが "/" と "/ja" のどちらを
+    // トップとして扱うか決めきれない。トップ = 日本語固定は 2026-08-21 田平氏 GO
+    // (i18n/routing.ts) なので、恒久扱いにして問題ない。redirects は proxy より
+    // 先に評価されるため、"/" だけがここで 1 ホップで送られる。
+    const rootRedirect = { source: "/", destination: "/ja", permanent: true };
+    return [rootRedirect, ...ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
       // locale 付き (X 告知が指しているのはこちら)
       {
         source: `/:locale(ja|en)${from}`,
@@ -77,7 +83,7 @@ const nextConfig = {
       },
       // locale なし — proxy の /ja 付与を待たず 1 ホップで送る
       { source: from, destination: `/ja${to}`, permanent: true },
-    ]);
+    ])];
   },
   env: {
     NEXT_PUBLIC_APP_VERSION: pkg.version,

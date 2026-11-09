@@ -1,4 +1,5 @@
 import {
+  ORGANIZATION_SAME_AS,
   SITE_LOGO_HEIGHT,
   SITE_LOGO_URL,
   SITE_LOGO_WIDTH,
@@ -22,6 +23,8 @@ export function buildHomeJsonLd() {
           width: SITE_LOGO_WIDTH,
           height: SITE_LOGO_HEIGHT,
         },
+        // 2026-11-09 到達の第 0 段: 公式の X と YouTube を検索エンジンへ示す
+        sameAs: [...ORGANIZATION_SAME_AS],
       },
       {
         "@type": "WebSite",
