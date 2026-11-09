@@ -38,6 +38,14 @@ describe("app/robots.ts", () => {
       ]),
     );
   });
+
+  it("keeps Googlebot off Next.js RSC payload URLs but not off the pages themselves", async () => {
+    const { default: robots } = await import("@/app/robots");
+    const rules = robots().rules as { allow: string; disallow: string[] };
+    expect(rules.disallow).toEqual(expect.arrayContaining(["/*?_rsc=", "/*&_rsc="]));
+    expect(rules.allow).toBe("/");
+    expect(rules.disallow).not.toContain("/ja/articles/");
+  });
 });
 
 describe("app/sitemap.ts", () => {
