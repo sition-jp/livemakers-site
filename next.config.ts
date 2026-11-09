@@ -42,6 +42,21 @@ const ARTICLE_LANE_REDIRECTS = [
   },
 ] as const;
 
+// 接頭辞なしで来たら `/ja/…` へ恒久で送る区分 (app/[locale] の下の、公開している区分)
+const UNPREFIXED_PUBLIC_SECTIONS = [
+  "about",
+  "articles",
+  "brief",
+  "contact",
+  "editorial-policy",
+  "future-atlas",
+  "privacy",
+  "sessions",
+  "topics",
+  "turning-points",
+  "videos",
+] as const;
+
 const nextConfig = {
   // サイト内検索 第2段階 (2026-10-02): 検索ページは repo 記事の本文
   // (content/articles/<slug>/ja.md) を実行時に読む。記事ページとは別の関数に
@@ -74,6 +89,17 @@ const nextConfig = {
     // (i18n/routing.ts) なので、恒久扱いにして問題ない。redirects は proxy より
     // 先に評価されるため、"/" だけがここで 1 ホップで送られる。
     const rootRedirect = { source: "/", destination: "/ja", permanent: true };
+    // 2026-11-10 サイト流入 第 1 段: 接頭辞なしの URL (`/articles/<slug>` など) も
+    // 恒久 (308) で `/ja/…` へ送る。proxy のままだと 307 (一時) で、Google が転送元の
+    // `/articles/<slug>` を正規 URL に選んでいた (Search Console「重複。Google が別の
+    // 正規ページを選択」112 件・URL 検査で確認)。対象は公開している区分だけ —
+    // プレビュー・検索・登録などの内部の区分は proxy に任せる。個別の旧 URL
+    // (ARTICLE_LANE_REDIRECTS) が先に当たるよう、最後に置く。
+    const unprefixedRedirect = {
+      source: `/:section(${UNPREFIXED_PUBLIC_SECTIONS.join("|")})/:path*`,
+      destination: "/ja/:section/:path*",
+      permanent: true,
+    };
     return [rootRedirect, ...ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
       // locale 付き (X 告知が指しているのはこちら)
       {
@@ -83,7 +109,7 @@ const nextConfig = {
       },
       // locale なし — proxy の /ja 付与を待たず 1 ホップで送る
       { source: from, destination: `/ja${to}`, permanent: true },
-    ])];
+    ]), unprefixedRedirect];
   },
   env: {
     NEXT_PUBLIC_APP_VERSION: pkg.version,
