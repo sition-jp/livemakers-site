@@ -1,0 +1,166 @@
+{
+  "episodeId": "ep007",
+  "sources": [
+    {
+      "key": "s1",
+      "title": "Anthropic, PBC — Form S-1 Registration Statement (SEC EDGAR・2026-10-26)",
+      "url": "https://www.sec.gov/Archives/edgar/data/0002130357/000162828026067168/anthropicpbc-sx1.htm",
+      "accessed": "2026-11-09",
+      "chapter": 2
+    },
+    {
+      "key": "s1a",
+      "title": "Anthropic, PBC — Form S-1/A Amendment No. 1 (SEC EDGAR・2026-11-02)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026068676/anthropicpbc-sx1ax1.htm",
+      "accessed": "2026-11-09",
+      "chapter": 2
+    },
+    {
+      "key": "edgar_list",
+      "title": "SEC EDGAR — Anthropic, PBC の提出書類の一覧 (CIK 0002130357)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357",
+      "accessed": "2026-11-09",
+      "chapter": 2
+    },
+    {
+      "key": "series_h",
+      "title": "Anthropic — Series H の発表 (2026-05-28・評価額 9,650 億ドル)",
+      "url": "https://www.anthropic.com/news/series-h",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "roadshow",
+      "title": "Crypto Briefing (Bloomberg の報道の要約) — Anthropic prepares to kick off IPO roadshow next week",
+      "url": "https://cryptobriefing.com/anthropic-prepares-to-kick-off-ipo-roadshow-next-week-report-says/",
+      "accessed": "2026-11-09",
+      "chapter": 1
+    },
+    {
+      "key": "yahoo_ipo",
+      "title": "Yahoo Finance — Everything you need to know ahead of Anthropic's IPO",
+      "url": "https://finance.yahoo.com/technology/ai/article/anthropic-ipo-what-we-know-143321078.html",
+      "accessed": "2026-11-09",
+      "chapter": 2
+    },
+    {
+      "key": "forbes_val",
+      "title": "Forbes — Anthropic IPO valuation talk falls to $1.3 trillion after the AI stock rout (2026-11-07・Bloomberg と FT の報道を引く)",
+      "url": "https://www.forbes.com/sites/jonmarkman/2026/11/07/anthropic-ipo-valuation-talk-falls-to-13-trillion-after-the-ai-stock-rout/",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "anthropic_wsj",
+      "title": "Decrypt (WSJ の報道の転載) — Anthropic IPO valuation could fall to $1 trillion (2026-11-06)",
+      "url": "https://decrypt.co/382716/anthropic-ipo-valuation-could-fall-to-1-trillion-after-ai-stock-rout-report",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "edinet_jp",
+      "title": "EDINET — アンソロピック・ピービーシー 有価証券届出書 (通常方式・関東財務局・2026-11-02)",
+      "url": "https://disclosure2.edinet-fsa.go.jp/WZEK0040.aspx?S100ZB6R",
+      "accessed": "2026-11-09",
+      "chapter": 4
+    },
+    {
+      "key": "nikkei_jp",
+      "title": "日本経済新聞 — Anthropic、日本で最大 35 億ドル分の株を募集 (2026-11-02)",
+      "url": "https://www.nikkei.com/article/DGXZQOUB020LO0S6A101C2000000/",
+      "accessed": "2026-11-09",
+      "chapter": 4
+    },
+    {
+      "key": "anthropic_support",
+      "title": "Anthropic — Anthropic IPO international retail brokers and selling agents (ヘルプページ)",
+      "url": "https://support.claude.com/en/articles/17889756-anthropic-ipo-international-retail-brokers-and-selling-agents",
+      "accessed": "2026-11-09",
+      "chapter": 4
+    },
+    {
+      "key": "rakuten_ipo",
+      "title": "楽天証券 — Anthropic, PBC の米国株式 IPO の取扱い (2026-11-04 現在)",
+      "url": "https://www.rakuten-sec.co.jp/web/info/info20261102-02.html",
+      "accessed": "2026-11-09",
+      "chapter": 1
+    },
+    {
+      "key": "sbi_ipo",
+      "title": "SBI 証券 — Anthropic の米国株式 IPO の取扱いのお知らせ (PR TIMES・2026-11-04)",
+      "url": "https://prtimes.jp/main/html/rd/p/000000965.000007957.html",
+      "accessed": "2026-11-09",
+      "chapter": 1
+    },
+    {
+      "key": "ondo_kucoin",
+      "title": "KuCoin News — Ondo to offer tokenized Anthropic shares from IPO day (2026-11-06)",
+      "url": "https://www.kucoin.com/news/flash/ondo-to-offer-tokenized-anthropic-shares-from-ipo-day",
+      "accessed": "2026-11-09",
+      "chapter": 5
+    },
+    {
+      "key": "ondo_phemex",
+      "title": "Phemex News — Ondo plans IPO-day Anthropic tokens backed by shares, excluding US persons",
+      "url": "https://phemex.com/news/article/ondo-plans-ipoday-anthropic-tokens-backed-by-shares-excluding-us-persons-102671",
+      "accessed": "2026-11-09",
+      "chapter": 5
+    },
+    {
+      "key": "lvm_ondo",
+      "title": "LiveMakers — Signal｜Ondo、Anthropic の上場初日にトークン化株を提供へ (2026-11-08)",
+      "url": "https://livemakers.com/ja/articles/signal-20261108-a197053f",
+      "accessed": "2026-11-09",
+      "chapter": 5
+    },
+    {
+      "key": "ondo_docs",
+      "title": "Ondo Finance — Ondo Global Markets の技術の説明 (対応するチェーン)",
+      "url": "https://docs.ondo.finance/ondo-global-markets/technical",
+      "accessed": "2026-11-09",
+      "chapter": 5
+    },
+    {
+      "key": "breakingviews",
+      "title": "Reuters Breakingviews — Tech wreckage now hinges on Anthropic IPO (2026-11-05)",
+      "url": "https://www.breakingviews.com/columns/breaking-view/tech-wreckage-now-hinges-anthropic-ipo-2026-11-05/",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "fsa_nisa",
+      "title": "金融庁 — NISA 特設ウェブサイト (成長投資枠は年間 240 万円)",
+      "url": "https://www.fsa.go.jp/policy/nisa2/about/index.html",
+      "accessed": "2026-11-09",
+      "chapter": 4
+    },
+    {
+      "key": "ndx",
+      "title": "Nasdaq — NASDAQ-100 の日次終値 (2026-11-04 / 11-05)",
+      "url": "https://www.nasdaq.com/market-activity/index/ndx/historical",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "fred_ndx",
+      "title": "FRED — NASDAQ 100 Index (NASDAQ100)",
+      "url": "https://fred.stlouisfed.org/series/NASDAQ100",
+      "accessed": "2026-11-08",
+      "chapter": 1
+    },
+    {
+      "key": "lvm_nikkei",
+      "title": "LiveMakers — Signal｜日経平均 3,643 円安、下げ幅は過去 3 番目で 6 万円割れ (2026-11-08・共同通信と MINKABU PRESS の報道にもとづく)",
+      "url": "https://livemakers.com/ja/articles/signal-20261108-fe4fc5c3",
+      "accessed": "2026-11-09",
+      "chapter": 1
+    },
+    {
+      "key": "nvidia_q3",
+      "title": "NVIDIA — Sets Conference Call for Third-Quarter Financial Results (2026-11-17)",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873",
+      "accessed": "2026-11-08",
+      "chapter": 6
+    }
+  ]
+}
