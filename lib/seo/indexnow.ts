@@ -58,8 +58,14 @@ export async function submitIndexNow(
       }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
+    if (!response.ok) {
+      // 403 = 鍵ファイルを確かめられない・422 = URL と host が合わない・429 = 送りすぎ。
+      // 失敗は応答には出さないが、気づけるようログに 1 行残す
+      console.warn(`[indexnow] not accepted: status=${response.status} urls=${urls.length}`);
+    }
     return { sent: response.ok ? urls.length : 0, status: response.status };
-  } catch {
+  } catch (error) {
+    console.warn(`[indexnow] request failed: ${error instanceof Error ? error.name : "unknown"} urls=${urls.length}`);
     return { sent: 0, status: null };
   }
 }

@@ -19,6 +19,9 @@ const URL_JA = `https://livemakers.com/ja/articles/${SLUG}`;
 
 afterEach(() => {
   mocks.after.mockClear();
+  vi.unstubAllEnvs();
+  vi.unstubAllGlobals();
+  vi.restoreAllMocks();
 });
 
 describe("indexNowUrlsFromPaths", () => {
@@ -101,6 +104,59 @@ describe("notifyIndexNowAfterResponse", () => {
     notifyIndexNowAfterResponse([`/ja/articles/${SLUG}`, `/en/articles/${SLUG}`]);
     expect(mocks.after).toHaveBeenCalledTimes(1);
     expect(typeof mocks.after.mock.calls[0][0]).toBe("function");
+  });
+});
+
+describe("the scheduled submission (signal → canonical URL → IndexNow)", () => {
+  it("posts the canonical URL when the scheduled callback runs in production", async () => {
+    vi.stubEnv("VERCEL_ENV", "production");
+    const fetchMock = vi.fn<typeof fetch>(async () => new Response(null, { status: 202 }));
+    vi.stubGlobal("fetch", fetchMock);
+    notifyIndexNowAfterResponse([`/ja/articles/${SLUG}`, `/en/articles/${SLUG}`]);
+    expect(mocks.after).toHaveBeenCalledTimes(1);
+    await mocks.after.mock.calls[0][0]();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls[0][0]).toBe(INDEXNOW_ENDPOINT);
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body)).urlList).toEqual([URL_JA]);
+  });
+
+  it("does not post from a preview deployment even when the callback runs", async () => {
+    vi.stubEnv("VERCEL_ENV", "preview");
+    const fetchMock = vi.fn<typeof fetch>(async () => new Response(null, { status: 202 }));
+    vi.stubGlobal("fetch", fetchMock);
+    notifyIndexNowAfterResponse([`/ja/articles/${SLUG}`, `/en/articles/${SLUG}`]);
+    await mocks.after.mock.calls[0][0]();
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+});
+
+describe("failures are visible in the logs", () => {
+  it("warns once when the endpoint does not accept the submission", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const fetchImpl = vi.fn<typeof fetch>(async () => new Response(null, { status: 403 }));
+    await submitIndexNow([URL_JA], { fetchImpl, env: "production" });
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0][0])).toContain("[indexnow]");
+    expect(String(warn.mock.calls[0][0])).toContain("403");
+  });
+
+  it("warns once when the request fails or times out", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const fetchImpl = vi.fn<typeof fetch>(async () => {
+      throw new Error("down");
+    });
+    await submitIndexNow([URL_JA], { fetchImpl, env: "production" });
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(String(warn.mock.calls[0][0])).toContain("[indexnow]");
+  });
+
+  it("stays quiet when the submission is accepted or not attempted", async () => {
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const accepted = vi.fn<typeof fetch>(async () => new Response(null, { status: 202 }));
+    await submitIndexNow([URL_JA], { fetchImpl: accepted, env: "production" });
+    await submitIndexNow([URL_JA], { fetchImpl: accepted, env: "preview" });
+    await submitIndexNow([], { fetchImpl: accepted, env: "production" });
+    expect(warn).not.toHaveBeenCalled();
   });
 });
 
