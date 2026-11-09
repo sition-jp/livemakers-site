@@ -1,0 +1,98 @@
+{
+  "sessionId": "2026-11-09-asia-open",
+  "date": "2026-11-09",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-09-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-09-asia-open",
+  "publishedAt": "2026-11-10T02:30:25+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261109_0730_f5e2d19e",
+  "asOfJst": "2026-11-09T07:30:11+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月9日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 58,128 → 58,145（+0.03%）",
+    "変動幅上位: ETH/USD -4.9% / BTCボラティリティ（BVIV） +2.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261109_0606_66463f9e",
+    "crawlAnchorJst": "2026-11-09T05:03:00+09:00",
+    "writtenAtJst": "2026-11-09T06:06:37+09:00",
+    "lead": "中間選挙で議会の主導権を握る民主党は、トランプ関税の撤回とヘグセス国防長官の責任追及を最初の争点に据えた。一方のトランプ氏は、イランの核協議が進めば軍事作戦の再開は「非常に低い」と語り、湾岸では攻撃と拿捕が続く。今週は 10 日の CPI が、関税と利上げ観測の組み合わせを試す最初の材料になる。",
+    "items": [
+      {
+        "headline": "トランプ氏、イラン作戦の再開は核協議が進めば「非常に低い」と発言と伝えられる",
+        "sourceUrl": "https://x.com/Polymarket/status/2119496932372644152",
+        "note": "選挙後の言葉の歩み寄りと、湾岸での実力行使が並走している。"
+      },
+      {
+        "headline": "イランのアラグチ外相、中間選挙の結果を受け「2 日間の提案」は有効と声明",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2119490391653196227"
+      },
+      {
+        "headline": "トランプ氏、選挙後の電話でネタニヤフ首相にガザ和平案を進めるよう求めたと Axios",
+        "sourceUrl": "https://x.com/axios/status/2119490652215951556"
+      },
+      {
+        "headline": "下院、共和党の敗北を受けてヘグセス国防長官の弾劾に動く構えと Axios",
+        "sourceUrl": "https://x.com/axios/status/2119413887783039252"
+      },
+      {
+        "headline": "民主党、選挙後に政権との対決姿勢を鮮明に",
+        "sourceUrl": "https://x.com/coinbureau/status/2119461702064558570"
+      },
+      {
+        "headline": "トランプ氏、中間選挙の結果を「大きな後退」と表現",
+        "sourceUrl": "https://x.com/Kalshi/status/2119445661191958722"
+      },
+      {
+        "headline": "エヌビディアのフアン CEO に超党派の議会の追及、中国の情報機関との関係をめぐり",
+        "sourceUrl": "https://www.cnbc.com/2026/11/08/jensen-huang-nvidia-china-spy-congress.html",
+        "note": "2 日の報道から一段進み、議会の調査の段階に入った。"
+      },
+      {
+        "headline": "今週の米国は 10 日の CPI、13 日の PPI、FRB 高官の発言 17 回",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2119436396020600848"
+      },
+      {
+        "headline": "世界の中央銀行の約 45% が利上げ局面にあると The Kobeissi Letter",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2119498184615440538"
+      },
+      {
+        "headline": "集合住宅向け商業用不動産ローン担保証券の延滞率が上昇",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2119452131488838051"
+      },
+      {
+        "headline": "データセンターの建設を早める超党派の上院法案が浮上",
+        "sourceUrl": "https://x.com/Polymarket/status/2119469707224920528"
+      },
+      {
+        "headline": "SpaceX、Starbase に 240 億ドルの AI スーパーコンピューターを計画と報道",
+        "sourceUrl": "https://x.com/Kalshi/status/2119512528917086403"
+      },
+      {
+        "headline": "テスラ、ロボタクシーの運行を 1 日 21 時間に拡大",
+        "sourceUrl": "https://x.com/Kalshi/status/2119482833362182163"
+      },
+      {
+        "headline": "国内で不正アクセスによる漏えいの公表が続く、ロート製薬・ブックオフ・使えるねっとなど",
+        "sourceUrl": "https://x.com/piyokango/status/2119489319970967566"
+      },
+      {
+        "headline": "バイナンス創業者、資産流出の経験で業界は「より強固・安全に」と発言（日経）",
+        "sourceUrl": "https://x.com/nikkei/status/2119522640201175120"
+      }
+    ],
+    "watch": [
+      "10 日 22:30（日本時間）の米 10 月 CPI。上振れなら 12 月の利上げ観測が再燃する",
+      "民主党の関税撤回の初手と、カナダ向け関税をめぐる議会の手続き",
+      "イランの「2 日間の提案」への米側の応答と湾岸の船舶の動き"
+    ]
+  }
+}

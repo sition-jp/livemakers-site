@@ -1,0 +1,113 @@
+{
+  "sessionId": "2026-11-09-europe-bridge",
+  "date": "2026-11-09",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-09-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-09-europe-bridge",
+  "publishedAt": "2026-11-10T02:30:25+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261109_1203_0be67d02",
+  "asOfJst": "2026-11-09T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月9日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1158 → 1.1158（0.00%）",
+    "変動幅上位: ETH/USD -4.0% / 日経225（perp） +2.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261109_1255_bef4d6ae",
+    "crawlAnchorJst": "2026-11-09T12:03:00+09:00",
+    "writtenAtJst": "2026-11-09T12:55:00+09:00",
+    "lead": "週明けの市場を最初に揺らしたのはエヌビディアだ。フアン CEO をめぐる報道で同社が調査に入り、株式の先物とビットコインが先に動いた。中東ではホワイトハウスが対イランの新しい作戦名を掲げる一方、トランプ氏は攻撃再開の可能性を低いと言い、圧力と交渉が同時に走っている。国内では銀座の偽基地局の摘発が、通信網そのものを使った詐欺の手口を表に出した。",
+    "items": [
+      {
+        "headline": "エヌビディア、フアン CEO の調査を開始",
+        "sourceUrl": "https://www.politico.com/news/2026/11/08/nvidia-investigation-chinese-spy-effort-jensen-huang-01155747",
+        "note": "中国の情報当局の標的になったとの報道を受け、同社が調査を始めた。本人は社内向けの文書で関係を認めて謝罪した。"
+      },
+      {
+        "headline": "フアン CEO の社内メモ全文",
+        "sourceUrl": "https://www.theverge.com/ai-artificial-intelligence/1029595/full-text-jensen-huang-affair-memo-nvidia",
+        "note": "謝罪と、取締役会による調査への協力を伝える内容。"
+      },
+      {
+        "headline": "エヌビディアの先物、報道を受けて下落",
+        "sourceUrl": "https://www.theblock.co/news/defi/2026-11-08-nvidia-perps-slide-jensen-huang-436047",
+        "note": "オンチェーンで取引される株式の先物が週明け前に先に反応した。"
+      },
+      {
+        "headline": "ビットコイン、急落のあと持ち直す",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/09/bitcoin-drops-then-pops-as-nvidia-cheating-scandal-and-failed-iran-talks-trigger-volatility",
+        "note": "エヌビディアの報道とイラン協議の行き詰まりが重なり、値動きが荒れた。"
+      },
+      {
+        "headline": "ホワイトハウス、対イランの「Task Force Iron Gate」発動を表明",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2119533527809003582",
+        "note": "中身の範囲は政府の発表でまだ確かめられていない。"
+      },
+      {
+        "headline": "トランプ氏、イランへの攻撃再開は「極めて低い」",
+        "sourceUrl": "https://www.cnbc.com/2026/11/08/trump-iran-strikes-unlikely-talks-hormuz.html",
+        "note": "協議が進めばとの条件付き。攻撃の可能性自体は残した。"
+      },
+      {
+        "headline": "トランプ氏、APEC で習氏・プーチン氏と会うとの見通し",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-thinks-he-will-meet-xi-and-putin-at-china-apec-summit"
+      },
+      {
+        "headline": "トランプ氏、強制送還は「厳しすぎた」と中間選挙の敗因に言及",
+        "sourceUrl": "https://www.nbcnews.com/politics/trump-administration/trump-says-deportations-tough-hurt-midterms-rcna608208"
+      },
+      {
+        "headline": "中間選挙後のホワイトハウス、議会との対決に向けた布陣へ",
+        "sourceUrl": "https://www.npr.org/2026/11/08/nx-s1-6034003/trump-staffing-changes-post-midterms-signal-hes-battle-ready"
+      },
+      {
+        "headline": "ロシア大統領府、米選挙後もウクライナ交渉は変わらないことを期待",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/8/moscow-hopes-us-election-shake-wont-shift-trumps-negotiations-ukraine/"
+      },
+      {
+        "headline": "米国の AI 安全性の研究機関、職員がホワイトハウスに報告する体制に",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/8/us-center-ai-safetys-staff-reporting-white-house-raising-independence/",
+        "note": "独立性を懸念する声が出ている。"
+      },
+      {
+        "headline": "銀座で「偽基地局」、中国籍の男を電波法違反の疑いで逮捕",
+        "sourceUrl": "https://x.com/jijicom/status/2119599455888695477",
+        "note": "携帯の基地局を装う無線局で、詐欺のメッセージを送っていた疑い。"
+      },
+      {
+        "headline": "偽基地局の狙いは中国人観光客への詐欺メールか",
+        "sourceUrl": "https://x.com/nikkei/status/2119627834951893318"
+      },
+      {
+        "headline": "ドコモへの不正アクセス、公表内容のまとめ",
+        "sourceUrl": "https://piyolog.hatenadiary.jp/entry/2026/11/09/090504",
+        "note": "本人確認書類の番号も流出の対象に含まれる。"
+      },
+      {
+        "headline": "Midnight Indexer 4.4.101 を公開",
+        "sourceUrl": "https://github.com/midnightntwrk/midnight-indexer/releases/tag/v4.4.101"
+      },
+      {
+        "headline": "Jackery、手のひらサイズのポータブル電源に新モデル",
+        "sourceUrl": "https://www.gizmodo.jp/article/2611-jackery-explorer-100d-portable-power-station/"
+      },
+      {
+        "headline": "SIE、ワイヤレススピーカー「PULSE Elevate」の発売を延期",
+        "sourceUrl": "https://av.watch.impress.co.jp/docs/news/2154734.html",
+        "note": "品質テストで製造上の問題が見つかったため。"
+      }
+    ],
+    "watch": [
+      "東京時間の株式市場で、エヌビディアの報道が半導体株にどう波及するか",
+      "「Task Force Iron Gate」の範囲を示す政府の発表と、原油相場の反応",
+      "偽基地局について、総務省と携帯各社が利用者向けの注意喚起を出すか"
+    ]
+  }
+}
