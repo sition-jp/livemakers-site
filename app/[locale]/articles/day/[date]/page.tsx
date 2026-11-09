@@ -19,6 +19,13 @@ import { Link } from "@/i18n/navigation";
 // digest job warms the previous day's page.
 export const revalidate = 300;
 
+// Empty array (not omitted): a dynamic route without generateStaticParams is
+// rendered on every request and `revalidate` has no effect. With [] each date
+// is built on first visit, then cached (ISR).
+export function generateStaticParams() {
+  return [];
+}
+
 export async function generateMetadata({
   params,
 }: {

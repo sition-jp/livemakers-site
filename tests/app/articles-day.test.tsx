@@ -42,7 +42,7 @@ vi.mock("@/components/home/ArticleRow", () => ({
   ),
 }));
 
-import DayArticlesPage, { revalidate } from "@/app/[locale]/articles/day/[date]/page";
+import DayArticlesPage, { generateStaticParams, revalidate } from "@/app/[locale]/articles/day/[date]/page";
 
 function article(articleId: string, publishedAtJst: string) {
   return {
@@ -85,6 +85,10 @@ const render_ = async (date: string) =>
 describe("Day articles page", () => {
   it("revalidates every 5 minutes so an early 404 does not linger", () => {
     expect(revalidate).toBe(300);
+  });
+
+  it("exports an empty generateStaticParams so the route is ISR, not dynamic", () => {
+    expect(generateStaticParams()).toEqual([]);
   });
 
   it("renders only that day's articles with count attribute", async () => {
