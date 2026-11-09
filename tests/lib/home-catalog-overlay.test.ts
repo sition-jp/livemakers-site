@@ -142,6 +142,8 @@ describe("home catalog overlay (P2-LVM-HOME-G1)", () => {
       "coreCells",
       "focusSeries",
       "focusSessionSlug",
+      // 2026-11-10: 昨夜の米国株 (配信の heatmap・無ければ null)
+      "heatmap",
       "laneCells",
       "laneProvenance",
       "live",

@@ -52,6 +52,7 @@ export function HomeComposition({
   laneCells,
   laneProvenance,
   alt20,
+  heatmap,
   mkt12Provenance,
   sessionProvenance,
   copy,
@@ -96,6 +97,7 @@ export function HomeComposition({
           laneCells={laneCells}
           laneProvenance={laneProvenance}
           alt20={alt20}
+          heatmap={heatmap}
           mkt12Provenance={mkt12Provenance}
           copy={copy}
         />

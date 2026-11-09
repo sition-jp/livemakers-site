@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "livemakers_us_heatmap_v0.1",
+  "listVersion": "v1",
+  "asOfJst": "2026-11-10T06:20:00+09:00",
+  "sessionDate": "2026-11-09",
+  "source": "hyperliquid_perp",
+  "headline": "半導体が全体を押し上げ",
+  "subline": "上がった 2・下がった 1・時価総額 +0.34 兆ドル（概算）・11/9 の米国市場",
+  "summary": { "count": 3, "up": 2, "down": 1, "flat": 0, "capChangeLabel": "+0.34 兆ドル" },
+  "sectors": [
+    {
+      "name": "半導体", "changeLabel": "+5.50%", "direction": "up", "rect": [0.0, 0.0, 0.5102, 1.0],
+      "items": [
+        { "symbol": "NVDA", "changeLabel": "+5.50%", "direction": "up", "rect": [0.0, 0.06, 0.5102, 0.94] }
+      ]
+    },
+    {
+      "name": "テック", "changeLabel": "+2.11%", "direction": "up", "rect": [0.5102, 0.0, 0.4082, 1.0],
+      "items": [
+        { "symbol": "AAPL", "changeLabel": "+2.11%", "direction": "up", "rect": [0.5102, 0.06, 0.4082, 0.94] }
+      ]
+    },
+    {
+      "name": "ヘルスケア", "changeLabel": "-0.50%", "direction": "down", "rect": [0.9184, 0.0, 0.0816, 1.0],
+      "items": [
+        { "symbol": "LLY", "changeLabel": "-0.50%", "direction": "down", "rect": [0.9184, 0.06, 0.0816, 0.94] }
+      ]
+    }
+  ]
+}

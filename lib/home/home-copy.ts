@@ -9,6 +9,7 @@ import type { SessionNowCopy } from "@/components/home/SessionNowCard";
 import type { SessionScheduleCopy } from "@/components/home/SessionScheduleCard";
 import type { TopMoversCopy } from "@/components/home/TopMoversCard";
 import type { Alt20GridCopy } from "@/components/home/Alt20Grid";
+import type { UsHeatmapCardCopy } from "@/components/home/UsHeatmapCard";
 import type { ProvenanceLabels } from "@/components/home/WindowProvenanceRow";
 import type { LaneId } from "./instruments";
 
@@ -98,6 +99,7 @@ export interface HomeCopy {
     subtitle: string;
     alt20: Alt20GridCopy;
   };
+  usHeatmap: UsHeatmapCardCopy;
 }
 
 export function buildHomeCopy(
@@ -262,6 +264,11 @@ export function buildHomeCopy(
           }),
         unavailable: translate("alt20.unavailable"),
       },
+    },
+    usHeatmap: {
+      title: translate("usHeatmap.title"),
+      tooltip: (symbol, changeLabel) =>
+        translate("usHeatmap.tooltip", { symbol, change: changeLabel }),
     },
   };
 }

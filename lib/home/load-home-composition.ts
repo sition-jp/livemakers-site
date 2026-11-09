@@ -100,6 +100,7 @@ export const loadHomeCompositionProps = cache(async () => {
       feedSessions: feed?.sessions ?? null,
       rwaLive: extractRwaLive(feed),
       alt20: feed?.alt20 ?? null,
+      heatmap: feed?.heatmap ?? null,
       articles: inflow.articles,
       fundingArticles,
       sessionRecords,

@@ -595,6 +595,10 @@
       "summary": "{count}銘柄中 {up}上昇・{down}下落｜中央値 {median}",
       "unavailable": "—"
     },
+    "usHeatmap": {
+      "title": "昨夜の米国株",
+      "tooltip": "{symbol} {change}"
+    },
     "library": {
       "title": "記事ライブラリ — 横断・シリーズ",
       "archiveTitle": "セッション記事アーカイブ — 朝昼夕夜の全記録",

@@ -22,6 +22,7 @@ import {
 import {
   formatAsOfLabel,
   type Alt20Data,
+  type HeatmapData,
   type RadarFeedData,
   type ReviewedHomeData,
   type SessionsFeedData,
@@ -74,6 +75,8 @@ export interface BuildHomeCompositionArgs {
   } | null;
   /** 配信の主要アルトコイン20 (Task 7 mapTerminalFeed)。無ければ null (UI は「—」)。 */
   alt20?: Alt20Data | null;
+  /** 配信の昨夜の米国株 (mapTerminalFeed)。無ければ null (UI は枠ごと出さない)。 */
+  heatmap?: HeatmapData | null;
   /** Test injection — highest priority when either is provided. */
   radar?: readonly RadarObservation[];
   promotions?: Readonly<Record<string, string>>;
@@ -723,6 +726,7 @@ export function buildHomeCompositionProps(
     tickerItems,
     laneProvenance,
     alt20: args.alt20 ?? null,
+    heatmap: args.heatmap ?? null,
     pageProvenance,
     mkt12Provenance,
     sessionProvenance,
