@@ -5,7 +5,11 @@ import path from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { UsHeatmapCard, heatmapTileColors } from "@/components/home/UsHeatmapCard";
+import {
+  UsHeatmapCard,
+  heatmapTextVisibility,
+  heatmapTileColors,
+} from "@/components/home/UsHeatmapCard";
 import type { HeatmapData } from "@/lib/terminal/live-market-feed";
 
 const section = JSON.parse(
@@ -68,15 +72,87 @@ describe("UsHeatmapCard", () => {
     expect(rects[2].getAttribute("fill")).toBe("#ffc2c7");
   });
 
-  it("writes the sector header in white", () => {
+  it("writes the sector header in white, hiding it on narrow cards", () => {
     const { container } = render(<UsHeatmapCard heatmap={heatmap} copy={copy} />);
     const headers = Array.from(container.querySelectorAll("text[data-us-heatmap-sector]"));
-    expect(headers.map((t) => t.textContent)).toEqual([
+    // ヘルスケアの帯は幅が狭く 11 単位 → どの幅でも 9px に届かないので描かない (凡例が担う)
+    expect(headers.map((t) => t.textContent)).toEqual(["半導体 +5.50%", "テック +2.11%"]);
+    expect(headers.every((t) => t.getAttribute("fill") === "#ffffff")).toBe(true);
+    // 28 単位 → 9px に要るカード幅 514px → 640px 未満で隠す
+    expect(headers.map((t) => t.getAttribute("class"))).toEqual([
+      "@max-[640px]:hidden",
+      "@max-[640px]:hidden",
+    ]);
+  });
+
+  it("hides the sector header when the band is under 8 units", () => {
+    const thin: HeatmapData = structuredClone(heatmap);
+    // 帯 = min(max(0.06*0.02, 0.035), 0.5*0.02) * 700 = 7 単位
+    thin.sectors[1].rect = [0.5102, 0, 0.4082, 0.02];
+    thin.sectors[1].items[0].rect = [0.5102, 0.01, 0.4082, 0.01];
+    const { container } = render(<UsHeatmapCard heatmap={thin} copy={copy} />);
+    const headers = Array.from(container.querySelectorAll("text[data-us-heatmap-sector]"));
+    expect(headers.map((t) => t.textContent)).toEqual(["半導体 +5.50%"]);
+  });
+
+  it("shows the symbol but hides the label when the label font is too small", () => {
+    const short: HeatmapData = structuredClone(heatmap);
+    // 高さ 60 単位 → 銘柄 20 単位 (960px 未満で隠す)・% は 14 単位 → 描かない
+    short.sectors[1].items[0].rect = [0.5102, 0.06, 0.4082, 0.09];
+    const { container } = render(<UsHeatmapCard heatmap={short} copy={copy} />);
+    const symbols = Array.from(container.querySelectorAll("text[data-us-heatmap-symbol]"));
+    const aapl = symbols.find((t) => t.textContent === "AAPL")!;
+    expect(aapl.getAttribute("class")).toBe("@max-[960px]:hidden");
+    const labels = Array.from(container.querySelectorAll("text[data-us-heatmap-label]")).map(
+      (t) => t.textContent,
+    );
+    expect(labels).not.toContain("+2.11%");
+    expect(labels).toContain("+5.50%");
+  });
+
+  it("gives small-font text the card-width class that keeps it at 9px or more", () => {
+    const { container } = render(<UsHeatmapCard heatmap={heatmap} copy={copy} />);
+    const classOf = (selector: string, text: string) =>
+      Array.from(container.querySelectorAll(selector))
+        .find((t) => t.textContent === text)
+        ?.getAttribute("class") ?? null;
+    // NVDA 64 単位 → 225px で 9px → 常に出す (class なし)
+    expect(classOf("text[data-us-heatmap-symbol]", "NVDA")).toBeNull();
+    // LLY 31.9 単位 → 451px → 480px 未満で隠す
+    expect(classOf("text[data-us-heatmap-symbol]", "LLY")).toBe("@max-[480px]:hidden");
+    // LLY の % 22.3 単位 → 645px → 960px 未満で隠す
+    expect(classOf("text[data-us-heatmap-label]", "-0.50%")).toBe("@max-[960px]:hidden");
+    expect(container.querySelector("section")?.className).toContain("@container");
+  });
+
+  it.each([
+    [45, ""],
+    [44.9, "@max-[480px]:hidden"],
+    [30, "@max-[480px]:hidden"],
+    [29.9, "@max-[640px]:hidden"],
+    [22.5, "@max-[640px]:hidden"],
+    [22.4, "@max-[960px]:hidden"],
+    [15, "@max-[960px]:hidden"],
+    [14.9, null],
+  ])("maps a %s-unit font to %j", (size, expected) => {
+    expect(heatmapTextVisibility(size)).toBe(expected);
+  });
+
+  it("renders a sector legend chip per sector in payload order", () => {
+    const { container } = render(<UsHeatmapCard heatmap={heatmap} copy={copy} />);
+    const legend = container.querySelector("[data-us-heatmap-legend]")!;
+    expect(legend.closest("svg")).toBeNull();
+    const chips = Array.from(legend.querySelectorAll("[data-us-heatmap-legend-chip]")) as HTMLElement[];
+    expect(chips.map((c) => c.textContent)).toEqual([
       "半導体 +5.50%",
       "テック +2.11%",
       "ヘルスケア -0.50%",
     ]);
-    expect(headers.every((t) => t.getAttribute("fill") === "#ffffff")).toBe(true);
+    expect(chips.map((c) => [c.style.backgroundColor, c.style.color])).toEqual([
+      ["rgb(0, 168, 107)", "rgb(255, 255, 255)"],
+      ["rgb(54, 209, 127)", "rgb(11, 42, 28)"],
+      ["rgb(255, 194, 199)", "rgb(58, 13, 18)"],
+    ]);
   });
 
   it("draws no text on a tile under 8px", () => {
