@@ -622,6 +622,9 @@
       "restart-map": "金融再起動の現在地"
     },
     "todayTitle": "本日の記事一覧",
+    "dayTitle": "{month}月{day}日の記事（{count} 本）",
+    "dayPrev": "← 前の日",
+    "dayNext": "次の日 →",
     "seriesPagedTitle": "{series}（{page}ページ目）",
     "todayEmpty": "本日の記事はこれから公開されます",
     "latestTitle": "最近の記事",
