@@ -622,6 +622,9 @@
       "restart-map": "Financial Restart Map"
     },
     "todayTitle": "Today's articles",
+    "dayTitle": "Articles on {month}/{day} ({count})",
+    "dayPrev": "← Previous day",
+    "dayNext": "Next day →",
     "seriesPagedTitle": "{series} — page {page}",
     "todayEmpty": "Today's articles will be published shortly.",
     "latestTitle": "Recent articles",
