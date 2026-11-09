@@ -37,6 +37,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@LiveMakersCom",
     title: "LiveMakers — Intelligence Terminal for the Financial Reboot",
     description:
       "Crypto, AI, quantum, synthetic biology, and nanotechnology are rebuilding finance — observed from the field by SITION (DRep #13 · SPO ×3 · Midnight Ambassador).",

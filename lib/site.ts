@@ -42,3 +42,18 @@ export const YOUTUBE_CHANNEL_URL = `https://www.youtube.com/@${X_HANDLE}`;
  */
 export const GOOGLE_PREFERRED_SOURCE_URL =
   "https://www.google.com/preferences/source?q=livemakers.com";
+
+/** `twitter:site` (X のカードに「この媒体のアカウント」として出る)。2026-11-09 到達の第 0 段。 */
+export const X_SITE_HANDLE = `@${X_HANDLE}`;
+
+/**
+ * Organization の sameAs — 検索エンジンに「この媒体の公式アカウント」を示す
+ * (2026-11-09 到達の第 0 段)。X と YouTube の 2 つ。
+ */
+export const ORGANIZATION_SAME_AS = [X_PROFILE_URL, YOUTUBE_CHANNEL_URL] as const;
+
+/**
+ * RSS の自動検出 (`<link rel="alternate" type="application/rss+xml">`) が指す先。
+ * フィードは日本語版だけ (`app/ja/feed.xml`)。2026-11-09 到達の第 0 段。
+ */
+export const RSS_FEED_URL = `${SITE_URL}/ja/feed.xml`;

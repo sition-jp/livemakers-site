@@ -9,6 +9,9 @@ import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { loadChromeProps } from "@/lib/home/load-home-composition";
 import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { pickClientMessages } from "@/lib/i18n/client-messages";
+import { localeDefaultMetadata } from "@/lib/seo/locale-default-metadata";
+import { RSS_FEED_URL, SITE_NAME } from "@/lib/site";
+import type { Metadata } from "next";
 
 // Self-hosted via next/font so the design typeface renders identically on
 // every device (2026-07-04 review: system fallbacks drifted to serif when
@@ -37,6 +40,15 @@ const notoSansJp = Noto_Sans_JP({
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return localeDefaultMetadata(locale);
 }
 
 export default async function LocaleLayout({
@@ -71,6 +83,17 @@ export default async function LocaleLayout({
       className={`${inter.variable} ${notoSansJp.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* 2026-11-09 到達の第 0 段: RSS の自動検出。フィードリーダーやニュース
+            アプリがページから購読先を見つけられるようにする。metadata の
+            alternates はページごとに丸ごと上書きされるので、ここで直接置く */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={SITE_NAME}
+          href={RSS_FEED_URL}
+        />
+      </head>
       <body>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         {/* ISR コスト doctrine (2026-10-26): 全ページに焼き込まれるので

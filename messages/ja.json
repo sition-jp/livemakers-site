@@ -176,6 +176,12 @@
     "contact": "お問い合わせ",
     "privacy": "プライバシーポリシー"
   },
+  "share": {
+    "heading": "この記事をシェア",
+    "x": "X でポスト",
+    "line": "LINE で送る",
+    "hatena": "はてなブックマーク"
+  },
   "follow": {
     "heading": "LiveMakers をフォロー",
     "body": "新しい記事は X でお知らせしています。Google 検索の優先ソースに追加すると、トップニュースで LiveMakers の記事が表示されやすくなります。",

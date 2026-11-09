@@ -205,12 +205,20 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     expect(edgeNav.querySelector("[data-next]")).toBeNull();
   });
 
-  it("places the follow box right after the body and before the prev/next nav (2026-10-12)", async () => {
+  it("places share buttons right after the body, then the follow box, then the prev/next nav (2026-10-12・2026-11-09)", async () => {
     const { container } = await renderDetail("sig-mid");
     const body = container.querySelector('[data-testid="article-inflow-public-body"]')!;
+    const share = container.querySelector("[data-share-buttons]")!;
     const follow = container.querySelector("[data-follow-box]")!;
+    expect(share).not.toBeNull();
     expect(follow).not.toBeNull();
-    expect(body.nextElementSibling).toBe(follow);
+    expect(body.nextElementSibling).toBe(share);
+    expect(share.nextElementSibling).toBe(follow);
+    // シェア先は記事の canonical URL
+    const xLink = share.querySelector('a[href^="https://x.com/intent/post"]')!;
+    expect(decodeURIComponent(xLink.getAttribute("href")!)).toContain(
+      "https://livemakers.com/ja/articles/",
+    );
     expect(follow.nextElementSibling).toBe(
       container.querySelector("[data-article-prev-next]"),
     );

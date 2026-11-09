@@ -176,6 +176,12 @@
     "contact": "Contact",
     "privacy": "Privacy Policy"
   },
+  "share": {
+    "heading": "Share this article",
+    "x": "Post on X",
+    "line": "Send on LINE",
+    "hatena": "Hatena Bookmark"
+  },
   "follow": {
     "heading": "Follow LiveMakers",
     "body": "New articles are announced on X. Add LiveMakers as a preferred source on Google Search to see more of our stories in Top Stories.",

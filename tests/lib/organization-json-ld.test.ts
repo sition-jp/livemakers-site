@@ -25,4 +25,15 @@ describe("lib/seo/organization-json-ld", () => {
     };
     expect(org.logo.url).toBe("https://livemakers.com/apple-icon.png");
   });
+
+  it("lists the official X and YouTube accounts in sameAs", () => {
+    const json = buildHomeJsonLd();
+    const org = json["@graph"].find((entry) => entry["@type"] === "Organization")! as {
+      sameAs: string[];
+    };
+    expect(org.sameAs).toEqual([
+      "https://x.com/LiveMakersCom",
+      "https://www.youtube.com/@LiveMakersCom",
+    ]);
+  });
 });

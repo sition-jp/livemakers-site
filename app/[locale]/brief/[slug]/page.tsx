@@ -9,6 +9,7 @@ import {
   truncate,
 } from "@/lib/brief-metadata";
 import { BriefArticle } from "@/components/brief/BriefArticle";
+import { X_SITE_HANDLE } from "@/lib/site";
 
 // ISR cost doctrine (2026-08-01): prerender every published brief at build;
 // unknown slugs 404 statically without invoking a function.
@@ -53,6 +54,7 @@ export async function generateMetadata({
 
   const twitter: Metadata["twitter"] = {
     card: "summary_large_image",
+    site: X_SITE_HANDLE,
     title,
     description,
   };
