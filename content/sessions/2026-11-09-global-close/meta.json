@@ -1,0 +1,77 @@
+{
+  "sessionId": "2026-11-09-global-close",
+  "date": "2026-11-09",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-09-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-09-global-close",
+  "publishedAt": "2026-11-10T02:30:25+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261109_2303_8bfafc62",
+  "asOfJst": "2026-11-09T23:03:03+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月9日 23:03 JST",
+  "bullets": [
+    "BTC/USD $75,913 → $74,569（-1.77%）",
+    "変動幅上位: ETH/USD -5.2% / WTI（perp） -4.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261109_2356_d1f0d79a",
+    "crawlAnchorJst": "2026-11-09T23:03:00+09:00",
+    "writtenAtJst": "2026-11-09T23:56:50+09:00",
+    "lead": "エヌビディアのフアン CEO をめぐる問題がハイテク株を押し下げ、暗号資産の主要銘柄にも売りが及んだ。ビットコインは 50 週移動平均を割り込み、ロングの清算が膨らんだ。一方で制度の側は前に進む。Coinbase は連邦の信託銀行の正式な認可を得て、NYSE はトークン化株式の決済に Avalanche を使う計画が報じられた。",
+    "items": [
+      {
+        "headline": "フアン CEO の問題で米中の対立に火種、トランプ氏は擁護",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/9/trump-stands-nvidia-ceo-jensen-huang-who-affair-woman-suspected/",
+        "note": "トランプ大統領はフアン氏を擁護し、中国は諜報の関与を中傷だと否定した。"
+      },
+      {
+        "headline": "エヌビディアの諜報疑惑、AI 半導体の輸出規制をめぐるフアン氏の働きかけを弱める",
+        "sourceUrl": "https://the-decoder.com/nvidia-espionage-scandal-weakens-huangs-lobby-against-tighter-ai-chip-export-controls/"
+      },
+      {
+        "headline": "エヌビディア主導のハイテク売りが暗号資産の主要銘柄に波及",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/09/tech-selloff-weighs-on-crypto-majors"
+      },
+      {
+        "headline": "ビットコインが 50 週移動平均を割り込み、24 時間のロング清算は 10 億ドル超",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-11-09-bitcoin-loses-50-week-moving-average-as-24-hour-crypto-long-liquidations-top-1-billion-436102"
+      },
+      {
+        "headline": "Coinbase、連邦の銀行当局から信託銀行の正式な認可を取得",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/11/09/coinbase-gets-full-u-s-trust-charter-from-federal-banking-regulator"
+      },
+      {
+        "headline": "NYSE、計画中の 24 時間市場でトークン化株式の決済に Avalanche を使う",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-09-nyse-settle-tokenized-stocks-avalanche-planned-24-7-market-436208",
+        "note": "CoinDesk と The Block が報じた。取引所側の正式な発表はまだ確認できていない。"
+      },
+      {
+        "headline": "Formation、Solana で初のトークン化証券の取引所の運営を SEC に届け出",
+        "sourceUrl": "https://www.theblock.co/news/defi/2026-11-09-formation-tokenized-securities-solana-436060"
+      },
+      {
+        "headline": "Strategy、ビットコインを 1,036 BTC 追加取得",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-09-connecting-the-dots-michael-saylor-strategy-bitcoin-436094"
+      },
+      {
+        "headline": "グーグル、1 年で TPU を 4 種類投入 エヌビディアとの競争を強める",
+        "sourceUrl": "https://the-decoder.com/google-ships-four-tpu-variants-in-one-year-as-it-ramps-up-competition-with-nvidia/"
+      },
+      {
+        "headline": "中間選挙で共和党が敗れたあとの議会が再開、トランプ氏は新しい首席補佐官を任命",
+        "sourceUrl": "https://www.npr.org/2026/11/09/g-s1-152627/up-first-newsletter-stephen-miller-trump-congress-nvidia-cop31"
+      }
+    ],
+    "watch": [
+      "エヌビディア取締役会の調査の範囲と、輸出規制の議論への波及",
+      "10 日の米 CPI と、50 週移動平均を割ったビットコインの戻り",
+      "NYSE・ICE がトークン化株式の決済の基盤を正式に発表するか"
+    ]
+  }
+}
