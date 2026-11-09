@@ -89,7 +89,7 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(108);
   });
 
-  it("ep006 は 6 章・YouTube 概要欄と同じ時刻・出典 48 件を持ち、最新の投稿になる", () => {
+  it("ep006 は 6 章・YouTube 概要欄と同じ時刻・出典 48 件を持つ", () => {
     const video = getVideoBySlug("ep006-ai-installment");
     expect(video).not.toBeNull();
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
@@ -102,7 +102,22 @@ describe("content/videos (repo の実データ)", () => {
     ]);
     expect(video!.durationSeconds).toBe(15 * 60 + 15);
     expect(video!.sources).toHaveLength(48);
-    expect(getLatestPostedVideo()?.slug).toBe("ep006-ai-installment");
+  });
+
+  it("ep007 は 6 章・YouTube 概要欄と同じ時刻・出典 23 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep007-anthropic-ipo-lottery");
+    expect(video).not.toBeNull();
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "01:23",
+      "03:45",
+      "06:28",
+      "08:59",
+      "10:29",
+    ]);
+    expect(video!.durationSeconds).toBe(13 * 60 + 41);
+    expect(video!.sources).toHaveLength(23);
+    expect(getLatestPostedVideo()?.slug).toBe("ep007-anthropic-ipo-lottery");
   });
 
   it("ep004 は 5 章・YouTube 概要欄と同じ時刻・出典 51 件を持つ", () => {
