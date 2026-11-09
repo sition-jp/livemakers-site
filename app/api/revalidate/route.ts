@@ -12,6 +12,7 @@ import {
   decideRevalidate,
   pagePathTag,
 } from "@/lib/revalidate";
+import { notifyIndexNowAfterResponse } from "@/lib/seo/indexnow";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,13 @@ export async function POST(request: Request) {
         await Promise.all(slugs.map((slug) => fetchArticleRecord(slug)));
       });
     }
+  }
+  // 2026-11-10 (サイト流入 第 1 段): 記事の URL を IndexNow (Bing ほか) に知らせる。
+  // 応答のあとで送る。予約に失敗しても、合図の応答 (ページの作り直し) は変えない
+  try {
+    notifyIndexNowAfterResponse(decision.paths);
+  } catch {
+    // 知らせの失敗は読者にも応答にも出さない
   }
   return Response.json({ ok: true, revalidated: decision.paths });
 }

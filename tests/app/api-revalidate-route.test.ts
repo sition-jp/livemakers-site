@@ -5,6 +5,7 @@ const mocks = vi.hoisted(() => ({
   after: vi.fn(),
   v2Enabled: true,
   fetchArticleRecord: vi.fn(async () => ({ kind: "missing" as const })),
+  notifyIndexNow: vi.fn(),
 }));
 
 vi.mock("next/cache", () => ({ revalidateTag: mocks.revalidateTag }));
@@ -14,6 +15,8 @@ vi.mock("@/lib/articles/article-inflow-v2", () => ({
   fetchArticleRecord: mocks.fetchArticleRecord,
   isArticleInflowV2Enabled: () => mocks.v2Enabled,
 }));
+
+vi.mock("@/lib/seo/indexnow", () => ({ notifyIndexNowAfterResponse: mocks.notifyIndexNow }));
 
 import { POST } from "@/app/api/revalidate/route";
 
@@ -36,6 +39,7 @@ afterEach(() => {
   mocks.revalidateTag.mockClear();
   mocks.after.mockClear();
   mocks.fetchArticleRecord.mockClear();
+  mocks.notifyIndexNow.mockReset();
   mocks.v2Enabled = true;
 });
 
@@ -64,5 +68,33 @@ describe("/api/revalidate and the v2 article records (段 2a)", () => {
     process.env.LIVEMAKERS_REVALIDATE_TOKEN = TOKEN;
     await POST(request(["/ja", "/en/articles"]));
     expect(mocks.after).not.toHaveBeenCalled();
+  });
+});
+
+describe("/api/revalidate and IndexNow (2026-11-10)", () => {
+  it("hands the accepted paths to IndexNow, whether or not v2 is enabled", async () => {
+    process.env.LIVEMAKERS_REVALIDATE_TOKEN = TOKEN;
+    mocks.v2Enabled = false;
+    const response = await POST(request(["/ja", `/ja/articles/${SLUG}`]));
+    expect(response.status).toBe(200);
+    expect(mocks.notifyIndexNow).toHaveBeenCalledTimes(1);
+    expect(mocks.notifyIndexNow).toHaveBeenCalledWith(["/ja", `/ja/articles/${SLUG}`]);
+  });
+
+  it("does not notify IndexNow when the token is wrong", async () => {
+    process.env.LIVEMAKERS_REVALIDATE_TOKEN = "another-token";
+    const response = await POST(request([`/ja/articles/${SLUG}`]));
+    expect(response.status).toBe(401);
+    expect(mocks.notifyIndexNow).not.toHaveBeenCalled();
+  });
+
+  it("still answers 200 when scheduling the notification throws", async () => {
+    process.env.LIVEMAKERS_REVALIDATE_TOKEN = TOKEN;
+    mocks.notifyIndexNow.mockImplementation(() => {
+      throw new Error("after() unavailable");
+    });
+    const response = await POST(request([`/ja/articles/${SLUG}`]));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ ok: true, revalidated: [`/ja/articles/${SLUG}`] });
   });
 });
