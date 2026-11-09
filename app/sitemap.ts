@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { loadPublicArticleInflowCatalog } from "@/lib/articles/article-inflow-feed";
 import { fetchArticleTopicIndex } from "@/lib/articles/article-inflow-v2";
 import { SERIES_SLUGS } from "@/lib/articles/article-model";
+import { isSearchIndexableFamily } from "@/lib/articles/search-visibility";
 import { SITE_URL } from "@/lib/site";
 import { getAllVideos } from "@/lib/videos";
 
@@ -25,14 +26,17 @@ export const revalidate = 3600;
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const catalog = await loadPublicArticleInflowCatalog();
 
-  const articleEntries: MetadataRoute.Sitemap = catalog.articles.map(
-    (article) => ({
+  // 速報など検索に出さない種類は載せない (lib/articles/search-visibility.ts)
+  const articleEntries: MetadataRoute.Sitemap = catalog.articles
+    .filter((article) => isSearchIndexableFamily(article.family))
+    .map((article) => ({
       url: `${SITE_URL}/ja${article.href}`,
       lastModified: article.publishedAtJst,
-    }),
-  );
+    }));
 
-  const seriesEntries: MetadataRoute.Sitemap = SERIES_SLUGS.map((slug) => ({
+  const seriesEntries: MetadataRoute.Sitemap = SERIES_SLUGS.filter((slug) =>
+    isSearchIndexableFamily(slug),
+  ).map((slug) => ({
     url: `${SITE_URL}/ja/articles/series/${slug}`,
   }));
 

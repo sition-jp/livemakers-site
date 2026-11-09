@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { stripMarkdown, truncate } from "@/lib/brief-metadata";
 import type { ArticleMeta } from "@/lib/articles/article-model";
+import { isSearchIndexableFamily } from "@/lib/articles/search-visibility";
 import { X_SITE_HANDLE } from "@/lib/site";
 
 /**
@@ -32,7 +33,7 @@ export type ArticleMetadataSource = Pick<
   ArticleMeta,
   "articleId" | "titleJa" | "publishedAtJst"
 > &
-  Partial<Pick<ArticleMeta, "titleEn" | "excerptJa" | "thumbnailUrl">>;
+  Partial<Pick<ArticleMeta, "titleEn" | "excerptJa" | "thumbnailUrl" | "family">>;
 
 /**
  * 素のラベル行と本文を分ける下限。Daily Intel の B'' ブロック見出し
@@ -79,6 +80,7 @@ export function buildArticleMetadata({
     : undefined;
 
   const url = `/${lang}/articles/${article.articleId}`;
+  const indexable = isSearchIndexableFamily(article.family);
 
   // 画像が無い記事 (mirror lane 例外) では images を宣言しない。
   // 存在しない URL を渡すより、X には画像なしのカードを組ませる。
@@ -134,11 +136,12 @@ export function buildArticleMetadata({
       },
     },
     // G3: Discover / News 向けに画像・スニペットのプレビュー上限を外す。
+    // 速報など検索に出さない種類は noindex (リンクはたどらせる・2026-11-10)。
     robots: {
-      index: true,
+      index: indexable,
       follow: true,
       googleBot: {
-        index: true,
+        index: indexable,
         follow: true,
         "max-image-preview": "large",
         "max-snippet": -1,

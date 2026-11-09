@@ -13,6 +13,16 @@ const mockCatalog = vi.hoisted(() => ({
         href: "/articles/daily-intel-20260911-abc123",
         source: "inflow",
       },
+      {
+        articleId: "flash-20260911-def456",
+        family: "flash",
+        titleJa: "🚨速報｜テスト",
+        publishedAtJst: "2026-09-11T06:10:00+09:00",
+        publishedLabel: "09-11 06:10 公開",
+        lanes: [],
+        href: "/articles/flash-20260911-def456",
+        source: "inflow",
+      },
     ],
     feedChecksum: null,
     feedPresent: true,
@@ -64,5 +74,13 @@ describe("app/sitemap.ts", () => {
       entry.url.endsWith("/articles/daily-intel-20260911-abc123"),
     )!;
     expect(article.lastModified).toBe("2026-09-11T05:50:00+09:00");
+  });
+
+  it("leaves flash articles and the flash series page out of the sitemap (2026-11-10)", async () => {
+    const { default: sitemap } = await import("@/app/sitemap");
+    const urls = (await sitemap()).map((entry) => entry.url);
+    expect(urls.some((url) => url.includes("/articles/flash-"))).toBe(false);
+    expect(urls).not.toContain("https://livemakers.com/ja/articles/series/flash");
+    expect(urls).toContain("https://livemakers.com/ja/articles/series/signal");
   });
 });

@@ -37,6 +37,17 @@ describe("lib/articles/news-sitemap", () => {
       expect(selected).toEqual([fresh]);
     });
 
+    it("leaves out flash articles (not shown in search since 2026-11-10)", () => {
+      const signal = article({ family: "signal", publishedAtJst: "2026-09-11T10:00:00+09:00" });
+      const flash = article({
+        articleId: "flash-20260911-abc",
+        family: "flash",
+        href: "/articles/flash-20260911-abc",
+        publishedAtJst: "2026-09-11T10:00:00+09:00",
+      });
+      expect(selectNewsSitemapArticles([signal, flash], NOW)).toEqual([signal]);
+    });
+
     it("caps at 1000 URLs", () => {
       const many = Array.from({ length: NEWS_SITEMAP_MAX_URLS + 50 }, (_, i) =>
         article({ articleId: `daily-intel-2026091${i}` }),
