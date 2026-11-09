@@ -307,6 +307,38 @@ describe("detail body fetch over catalog v1", () => {
     expect(detail).toBeNull();
     expect(warning).toHaveBeenCalled();
   });
+
+  // 2026-11-09: 本文が取れないときに 404 (ISR に残る) にしない。作り直しを
+  // 中断し (500・キャッシュされない)、前の正常なページがあればそれを保つ
+  it.each([
+    ["403", () => ({ ok: false, status: 403 }) as unknown as Response],
+    ["503", () => ({ ok: false, status: 503 }) as unknown as Response],
+    ["timeout", () => { throw new DOMException("timed out", "TimeoutError"); }],
+  ])("throws instead of notFound when the body blob is unavailable (%s)", async (_label, bodyRoute) => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    delete process.env.NEXT_PHASE;
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", routedFetcher({
+      [CATALOG_URL]: () => jsonResponse(catalogPayload()),
+      [BODY_URL]: bodyRoute,
+    }));
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).rejects.toBeInstanceOf(
+      ArticleInflowUnavailableError,
+    );
+  });
+
+  it("still degrades to null during next build when the body blob is unavailable", async () => {
+    enablePublic();
+    process.env[ARTICLE_INFLOW_PRODUCTION_CATALOG_ENV_KEY] = CATALOG_URL;
+    process.env.NEXT_PHASE = "phase-production-build";
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    vi.stubGlobal("fetch", routedFetcher({
+      [CATALOG_URL]: () => jsonResponse(catalogPayload()),
+      [BODY_URL]: () => ({ ok: false, status: 403 }) as unknown as Response,
+    }));
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).resolves.toBeNull();
+  });
 });
 
 // 2026-10-26 (PR-A): Vercel 上では記事カタログの取得が 1 日中たびたび 403 で

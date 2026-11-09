@@ -114,6 +114,68 @@ describe("loadPublicArticleInflowDetail (v2)", () => {
     await expect(loadPublicArticleInflowDetail(SLUG, "ja")).resolves.toBeNull();
   });
 
+  // 2026-11-09: 取れないとき (403・5xx・タイムアウト) は 404 にしない。404 は ISR に
+  // 1 時間残り、10/24〜26 に Googlebot が新しい記事で 404 を受けてクロールが止まった
+  it.each([
+    ["503", () => json({}, 503)],
+    ["timeout", (): Response => { throw new DOMException("timed out", "TimeoutError"); }],
+  ])("throws (not notFound) when the record is unavailable (%s)", async (_label, route) => {
+    enableV2();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    routed({ [`${BASE}/records/${SLUG}.json`]: route });
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).rejects.toBeInstanceOf(
+      ArticleInflowUnavailableError,
+    );
+  });
+
+  it.each([
+    ["403", () => json({}, 403)],
+    ["500", () => json({}, 500)],
+    // 記録がある記事の本文が無い = 公開直後の配信の遅れか不整合。「記事が無い」ではない
+    ["404", () => json({}, 404)],
+    ["timeout", (): Response => { throw new DOMException("timed out", "TimeoutError"); }],
+  ])("throws (not notFound) when the record is found but the body is unavailable (%s)", async (_label, route) => {
+    enableV2();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    routed({ [`${BASE}/records/${SLUG}.json`]: recordRoute, [BODY_URL]: route });
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).rejects.toBeInstanceOf(
+      ArticleInflowUnavailableError,
+    );
+  });
+
+  it("returns null (→ notFound) when the body fails its checksum (retrying does not help)", async () => {
+    enableV2();
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    routed({
+      [`${BASE}/records/${SLUG}.json`]: recordRoute,
+      [BODY_URL]: () => json({
+        schema_version: ARTICLE_INFLOW_BODY_SCHEMA_VERSION, slug: SLUG, body_checksum: CHECKSUM, body: "# 改変\n",
+      }),
+    });
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).resolves.toBeNull();
+  });
+
+  it("returns null (→ notFound) when the record says the article was withdrawn", async () => {
+    enableV2();
+    routed({
+      [`${BASE}/records/${SLUG}.json`]: () => json({
+        schema_version: "livemakers_article_record_v1",
+        environment: "production",
+        slug: SLUG,
+        withdrawn: true,
+      }),
+    });
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).resolves.toBeNull();
+  });
+
+  it("degrades to null during next build when the body is unavailable", async () => {
+    enableV2();
+    process.env.NEXT_PHASE = "phase-production-build";
+    vi.spyOn(console, "warn").mockImplementation(() => undefined);
+    routed({ [`${BASE}/records/${SLUG}.json`]: recordRoute, [BODY_URL]: () => json({}, 403) });
+    await expect(loadPublicArticleInflowDetail(SLUG, "ja")).resolves.toBeNull();
+  });
+
   it("serves a repository article without fetching anything", async () => {
     enableV2();
     const repository = getAllArticles()[0];
