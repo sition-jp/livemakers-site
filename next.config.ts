@@ -100,8 +100,16 @@ const nextConfig = {
     // og:image) まで /ja/… へ送られて 404 になる。proxy の matcher (拡張子つきを
     // 除く) と同じ線引き。
     const unprefixedRedirect = {
-      source: `/:section(${UNPREFIXED_PUBLIC_SECTIONS.join("|")})/:path([^/.]+)*`,
+      source: `/:section(${UNPREFIXED_PUBLIC_SECTIONS.join("|")})/:path([^/.]+)+`,
       destination: "/ja/:section/:path*",
+      permanent: true,
+    };
+    // 区分のトップ (`/about` など) は専用の規則で送る。上の規則に path なしも任せると、
+    // 本番 (Vercel) では行き先の末尾にスラッシュが付き (`/ja/about/`)、もう 1 回 308 で
+    // `/ja/about` へ送られる 2 段の転送になっていた (2026-11-10 merge 後に本番で実測)。
+    const unprefixedRootRedirect = {
+      source: `/:section(${UNPREFIXED_PUBLIC_SECTIONS.join("|")})`,
+      destination: "/ja/:section",
       permanent: true,
     };
     return [rootRedirect, ...ARTICLE_LANE_REDIRECTS.flatMap(({ from, to }) => [
@@ -113,7 +121,7 @@ const nextConfig = {
       },
       // locale なし — proxy の /ja 付与を待たず 1 ホップで送る
       { source: from, destination: `/ja${to}`, permanent: true },
-    ]), unprefixedRedirect];
+    ]), unprefixedRootRedirect, unprefixedRedirect];
   },
   env: {
     NEXT_PUBLIC_APP_VERSION: pkg.version,

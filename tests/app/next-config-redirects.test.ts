@@ -24,7 +24,7 @@ describe("next.config redirects", () => {
     expect(index).toBeGreaterThan(-1);
     expect(redirects[index]).toEqual({
       source:
-        "/:section(about|articles|brief|contact|editorial-policy|future-atlas|privacy|sessions|topics|turning-points|videos)/:path([^/.]+)*",
+        "/:section(about|articles|brief|contact|editorial-policy|future-atlas|privacy|sessions|topics|turning-points|videos)/:path([^/.]+)+",
       destination: "/ja/:section/:path*",
       permanent: true,
     });
@@ -46,16 +46,34 @@ describe("next.config redirects", () => {
     return pathToRegexp(general.source) as RegExp;
   };
 
+  // 本番 (Vercel) では、区分のトップ (`/about`) を `/ja/:section/:path*` で送ると path が空の
+  // ぶん末尾にスラッシュが付き (`/ja/about/`)、そこからもう 1 回 308 で `/ja/about` へ送られていた
+  // (2026-11-10 merge 後に本番で実測)。区分のトップは専用の規則で 1 回で送る。
+  it("sends a section root in one hop, with its own rule placed before the general one", async () => {
+    const redirects = await loadRedirects();
+    const rootIndex = redirects.findIndex((rule) => rule.destination === "/ja/:section");
+    const generalIndex = redirects.findIndex((rule) => rule.destination === "/ja/:section/:path*");
+    expect(rootIndex).toBeGreaterThan(-1);
+    expect(rootIndex).toBeLessThan(generalIndex);
+    expect(redirects[rootIndex].permanent).toBe(true);
+    const root = pathToRegexp(redirects[rootIndex].source) as RegExp;
+    const general = await loadGeneral();
+    for (const path of ["/about", "/articles", "/privacy", "/videos"]) {
+      expect(root.test(path), `root ${path}`).toBe(true);
+      expect(general.test(path), `general ${path}`).toBe(false);
+    }
+    for (const path of ["/about-us", "/search", "/ja", "/api", "/brief/2026-W20-brief", "/articles.xml"]) {
+      expect(root.test(path), `root ${path}`).toBe(false);
+    }
+  });
+
   it("matches unprefixed pages of the public sections", async () => {
     const general = await loadGeneral();
     for (const path of [
-      "/articles",
       "/articles/signal-20260808-89911b15",
       "/articles/series/signal/page/3",
-      "/about",
       "/sessions/2026-08-21-global-close",
       "/brief/2026-W20-brief",
-      "/privacy",
     ]) {
       expect(general.test(path), path).toBe(true);
     }
