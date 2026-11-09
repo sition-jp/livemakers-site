@@ -14,8 +14,10 @@ import { resolveTodayJst } from "@/lib/home/resolve-today";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 import { Link } from "@/i18n/navigation";
 
-// The previous day's page is re-warmed at 12:30 JST by the X digest job.
-export const revalidate = 3600;
+// 5 min, same as /articles/today: a not-yet-populated day's 404 must not stick
+// for an hour. Repeat loads stay fast via stale-while-revalidate, and the 12:30
+// digest job warms the previous day's page.
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
