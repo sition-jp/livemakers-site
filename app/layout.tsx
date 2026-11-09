@@ -1,11 +1,13 @@
 import "./globals.css";
 import type { Metadata } from "next";
 
+import { HOME_OG_IMAGE_PATH } from "@/lib/site";
+
 // トップ (と openGraph を自前で宣言しない面) のリンクカード用画像。
 // 記事詳細は article-metadata.ts が openGraph を丸ごと置き換えるので、
 // サムネ付き記事はサムネ、サムネ無し記事 (mirror lane) は画像なしのまま。
 const HOME_OG_IMAGE = {
-  url: "/og-home.jpg",
+  url: HOME_OG_IMAGE_PATH,
   width: 1200,
   height: 630,
   alt: "LiveMakers",

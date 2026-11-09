@@ -14,6 +14,14 @@ export const SITE_LOGO_WIDTH = 180;
 export const SITE_LOGO_HEIGHT = 180;
 
 export const SITE_NAME = "LiveMakers";
+
+/**
+ * トップ (と独自の og:image を持たない面) のリンクカード画像 (1200×630)。
+ * 2026-11-10 田平氏: X のヘッダー (地平線の文字盤) と同じ絵に替えた。
+ * X などはカード画像を URL ごとに長く覚えるので、絵を替えるときはファイル名も変える。
+ * 元データ = sition-core `08_DOCS/reports/x_profiles/2026-11-10-lvm-og-home/`。
+ */
+export const HOME_OG_IMAGE_PATH = "/og-home-horizon.jpg";
 export const EDITORIAL_DESK_NAME = "LiveMakers 編集デスク";
 export const ABOUT_URL = `${SITE_URL}/ja/about`;
 
