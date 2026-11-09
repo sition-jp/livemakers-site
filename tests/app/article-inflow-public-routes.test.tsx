@@ -142,6 +142,19 @@ describe("public article inflow routes", () => {
     })).rejects.toThrow("NEXT_NOT_FOUND");
   });
 
+  // 2026-11-09: データが取れないときは notFound (404・ISR に残る) にせず、エラーを
+  // そのまま上げる (500・キャッシュされない・前の正常なページがあれば保たれる)
+  it("lets a data-unavailable error through instead of returning not found", async () => {
+    const unavailable = Object.assign(new Error("production article feed unavailable"), {
+      name: "ArticleInflowUnavailableError",
+    });
+    mocks.loadDetail.mockRejectedValue(unavailable);
+    await expect(ArticleDetailPage({
+      params: Promise.resolve({ locale: "ja", slug: "signal-20261109-21bf1ba1" }),
+    })).rejects.toBe(unavailable);
+    expect(mocks.notFound).not.toHaveBeenCalled();
+  });
+
   it("shows repository and inflow rows together on Today", async () => {
     render(await TodayArticlesPage({ params: Promise.resolve({ locale: "ja" }) }));
     expect(screen.getByText("Repository article")).toHaveAttribute("href", "/articles/repo-owned");

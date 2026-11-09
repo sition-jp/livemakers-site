@@ -297,16 +297,35 @@ export async function fetchProductionArticleInflowFeed(
 export const ARTICLE_INFLOW_BODY_FETCH_TIMEOUT_MS = 4_000;
 
 /**
+ * 本文の取得の結果。"rejected" = 取れたが契約に合わない (retry しても変わらない・
+ * その記事は「見つからない」)。"unavailable" = 取れなかった (403・5xx・404・
+ * タイムアウト・読めない JSON)。
+ */
+type ArticleInflowBodyResult =
+  | { kind: "found"; body: string }
+  | { kind: "rejected" }
+  | { kind: "unavailable" };
+
+/**
  * FEEDSPLIT T7: body blob は content-addressed (URL に checksum) で不変 —
  * force-cache で恒久キャッシュしてよい。1 記事 ~5-20KB なので data cache の
- * 2MB 上限とは無縁。失敗はその 1 記事の詳細だけ notFound に落ち、catalog と
+ * 2MB 上限とは無縁。失敗はその 1 記事の詳細だけに留まり、catalog と
  * 一覧は生存する (v0 の「1 記事の欠陥が feed 全体を落とす」より故障半径が狭い)。
+ *
+ * 2026-11-09: 取れなかった (403 など) ときは "unavailable" を返し、呼び側で
+ * 作り直しを中断する。以前は notFound (404) に落としていて、その 404 が ISR に
+ * 1 時間残った。10/24〜26 に Googlebot が新しい記事で 404 を約 190 回受け、
+ * 新しい記事のクロールが止まった (sition-core
+ * 08_DOCS/reports/growth/2026-11-09-lvm-google-impressions-drop-root-cause.md)。
+ * 本文の Blob の 404 も "unavailable" に入れる — 記録がある記事の本文が
+ * 無いのは公開直後の配信の遅れか不整合で、「記事が無い」ではない。
  */
 async function fetchArticleInflowBody(
   bodyUrl: string,
   expected: { slug: string; bodyChecksum: string },
   fetcher: typeof fetch = fetch,
-): Promise<string | null> {
+): Promise<ArticleInflowBodyResult> {
+  let lastFailure = "unknown";
   for (let attempt = 1; attempt <= 2; attempt += 1) {
     try {
       const response = await fetcher(bodyUrl, {
@@ -320,17 +339,19 @@ async function fetchArticleInflowBody(
           // contract 拒否は retry しても変わらない
           console.warn(
             `[article-inflow] body blob rejected for slug=${expected.slug}`);
-          return null;
+          return { kind: "rejected" };
         }
-        return body;
+        return { kind: "found", body };
       }
-    } catch {
-      // fetch レベルの失敗のみ retry 対象
+      lastFailure = `status ${response.status}`;
+    } catch (error) {
+      // fetch レベルの失敗 (タイムアウト・読めない JSON) のみ retry 対象
+      lastFailure = error instanceof Error ? error.name : String(error);
     }
   }
   console.warn(
-    `[article-inflow] body fetch failed for slug=${expected.slug}`);
-  return null;
+    `[article-inflow] body fetch failed for slug=${expected.slug} (${lastFailure})`);
+  return { kind: "unavailable" };
 }
 
 export async function loadArticleInflowPreviewCatalog(): Promise<ArticleInflowPreviewCatalog> {
@@ -411,19 +432,38 @@ async function loadArticleInflowDetail(
   return loadDetailForArticle(article, slug, locale);
 }
 
+/**
+ * 取れなかったときは null (notFound = 404) にせず、作り直しを中断する。
+ * 404 は ISR に残り、Google は新しい URL の 404 を処理せずクロールを減らす。
+ * 中断した描画は 500 になるがキャッシュされず、前の正常なページがあればそれが
+ * 出続ける (#318)。Next.js 16 のページは 503 を返せない (404/401/403/
+ * リダイレクト/500 だけ) — Google は 500 と 503 を同じに扱う (クロールを
+ * 一時的に減らし、URL はすぐには外さない)。ビルド中は従来どおり null。
+ */
+function articleInflowUnavailable(): null {
+  if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) return null;
+  throw new ArticleInflowUnavailableError();
+}
+
+async function loadInflowBody(article: ArticleInflowPreviewArticle): Promise<string | null> {
+  if (article.inflowBody != null) return article.inflowBody;
+  if (!article.bodyUrl || !article.declaredBodyChecksum) return null;
+  const result = await fetchArticleInflowBody(article.bodyUrl, {
+    slug: article.articleId,
+    bodyChecksum: article.declaredBodyChecksum,
+  });
+  if (result.kind === "found") return result.body;
+  if (result.kind === "rejected") return null;
+  return articleInflowUnavailable();
+}
+
 async function loadDetailForArticle(
   article: ArticleInflowPreviewArticle,
   slug: string,
   locale: "ja" | "en",
 ): Promise<ArticleInflowPreviewDetail | null> {
   const body = article.source === "inflow"
-    ? article.inflowBody
-      ?? (article.bodyUrl && article.declaredBodyChecksum
-        ? await fetchArticleInflowBody(article.bodyUrl, {
-            slug: article.articleId,
-            bodyChecksum: article.declaredBodyChecksum,
-          })
-        : null)
+    ? await loadInflowBody(article)
     : getArticleBody(slug, locale);
   if (body == null) return null;
   const renderedBodyChecksum = calculateArticleBodyChecksum(body);
@@ -469,9 +509,6 @@ async function loadPublicArticleDetailV2(
   }
   const record = await fetchArticleRecord(slug);
   if (record.kind === "missing") return null;
-  if (record.kind === "unavailable") {
-    if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) return null;
-    throw new ArticleInflowUnavailableError();
-  }
+  if (record.kind === "unavailable") return articleInflowUnavailable();
   return loadDetailForArticle(record.article, slug, locale);
 }
