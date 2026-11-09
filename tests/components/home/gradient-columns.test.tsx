@@ -1,4 +1,5 @@
 /* @vitest-environment jsdom */
+import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import { render, screen, within } from "@testing-library/react";
@@ -293,6 +294,42 @@ describe("CoincidentColumn (gradient coincident, D6)", () => {
     );
     const lane = withAlt.container.querySelector('[data-lane="crypto"]')!;
     expect(lane.querySelectorAll('[data-testid="alt20-tile"]')).toHaveLength(1);
+  });
+
+  // 2026-11-10: 昨夜の米国株は 12指標のマスの直後 (同じ mkt12-tiles 枠の末尾)。
+  // 台帳は変えず、スマホでも 12指標 → 昨夜の米国株 → 主要アルトコイン20 の順になる
+  it("places the US heatmap between the 12 indicators and the alt20 grid", () => {
+    expect(renderCoincident().container.querySelector("[data-us-heatmap]")).toBeNull();
+    const heatmap = JSON.parse(
+      readFileSync(path.join(process.cwd(), "tests/fixtures/us-heatmap/section.json"), "utf8"),
+    );
+    const { container } = render(
+      <CoincidentColumn
+        slots={props.slots}
+        snapshot={props.snapshot}
+        coreCells={props.coreCells}
+        laneCells={props.laneCells}
+        laneProvenance={props.laneProvenance}
+        alt20={{
+          asOfJst: "2026-10-12T05:03:00+09:00",
+          listVersion: "2026-10-11",
+          items: [{ rank: 1, symbol: "BNB", changeLabel: "+0.10%", direction: "up" }],
+          summary: { count: 1, up: 1, down: 0, flat: 0, medianChangeLabel: "+0.10%" },
+        }}
+        heatmap={heatmap}
+        mkt12Provenance={props.mkt12Provenance}
+        copy={copy}
+      />,
+    );
+    const tiles = container.querySelector('[data-column-module="mkt12-tiles"]')!;
+    const card = container.querySelector("[data-us-heatmap]")!;
+    const alt = container.querySelector('[data-testid="alt20-tile"]')!;
+    expect(card.closest("[data-column-module]")).toBe(tiles);
+    expect(tiles.lastElementChild?.contains(card)).toBe(true);
+    expect(card.querySelector("h3")?.textContent).toBe(copy.usHeatmap.title);
+    expect(card.compareDocumentPosition(alt) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(card.textContent).toContain("11/9 の米国市場");
+    expect(card.querySelector("title")?.textContent).toBe("NVDA +5.50%");
   });
 
   it("does not render the retired pair-section joint glyph", () => {

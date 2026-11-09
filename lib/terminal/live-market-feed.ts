@@ -692,6 +692,106 @@ function mapAlt20(section: unknown): Alt20Data | null {
 }
 
 /**
+ * 2026-11-10: 昨夜の米国株 (feed 最上位 heatmap・SDE us_heatmap_copy.home_payload の形)。
+ * SDE export_validator.validate_heatmap と同じ制約 + changeLabel の書式 (色を決めるため)。
+ * alt20 と同じく独立検査: 不正なら heatmap だけ null にし、home / alt20 は巻き込まない。
+ * rect は図の領域 (16:7) に対する 0〜1 の [x, y, w, h]。
+ */
+const HEATMAP_RECT_TOLERANCE = 1.0001;
+
+const heatmapRectSchema = z
+  .tuple([
+    z.number().min(0).max(1),
+    z.number().min(0).max(1),
+    z.number().min(0).max(1),
+    z.number().min(0).max(1),
+  ])
+  .refine(
+    ([x, y, w, h]) => x + w <= HEATMAP_RECT_TOLERANCE && y + h <= HEATMAP_RECT_TOLERANCE,
+    { message: "rect must fit inside the chart" },
+  );
+
+const heatmapChangeLabelSchema = z.string().regex(/^(0\.00%|[+-]\d+\.\d{2}%)$/);
+const heatmapDirectionSchema = z.enum(["up", "down", "flat"]);
+
+const heatmapItemSchema = z
+  .object({
+    symbol: z.string().min(1),
+    changeLabel: heatmapChangeLabelSchema,
+    direction: heatmapDirectionSchema,
+    rect: heatmapRectSchema,
+  })
+  .strict();
+
+const heatmapSectorSchema = z
+  .object({
+    name: z.string().min(1),
+    changeLabel: heatmapChangeLabelSchema,
+    direction: heatmapDirectionSchema,
+    rect: heatmapRectSchema,
+    items: z.array(heatmapItemSchema),
+  })
+  .strict();
+
+const heatmapSchema = z
+  .object({
+    schemaVersion: z.literal("livemakers_us_heatmap_v0.1"),
+    listVersion: z.string().min(1),
+    asOfJst: z.string().min(1),
+    sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    source: z.literal("hyperliquid_perp"),
+    headline: z.string().min(1),
+    subline: z.string().min(1),
+    summary: z
+      .object({
+        count: z.number().int().min(0),
+        up: z.number().int().min(0),
+        down: z.number().int().min(0),
+        flat: z.number().int().min(0),
+        capChangeLabel: z.string(),
+      })
+      .strict(),
+    sectors: z.array(heatmapSectorSchema).min(1).max(10),
+  })
+  .strict()
+  .superRefine((section, ctx) => {
+    const symbols = section.sectors.flatMap((sector) => sector.items.map((item) => item.symbol));
+    if (symbols.length < 1 || symbols.length > 150) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "items must be 1..150 in total" });
+    }
+    if (new Set(symbols).size !== symbols.length) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "duplicate symbol" });
+    }
+  });
+
+type HeatmapDirection = "up" | "down" | "flat";
+type HeatmapRect = [number, number, number, number];
+
+export interface HeatmapData {
+  asOfJst: string;
+  listVersion: string;
+  /** 米国の取引日 (YYYY-MM-DD)。subline の「M/D の米国市場」と同じ日。 */
+  sessionDate: string;
+  headline: string;
+  subline: string;
+  summary: { count: number; up: number; down: number; flat: number; capChangeLabel: string };
+  sectors: {
+    name: string;
+    changeLabel: string;
+    direction: HeatmapDirection;
+    rect: HeatmapRect;
+    items: { symbol: string; changeLabel: string; direction: HeatmapDirection; rect: HeatmapRect }[];
+  }[];
+}
+
+function mapHeatmap(section: unknown): HeatmapData | null {
+  const parsed = heatmapSchema.safeParse(section);
+  if (!parsed.success) return null;
+  const { asOfJst, listVersion, sessionDate, headline, subline, summary, sectors } = parsed.data;
+  return { asOfJst, listVersion, sessionDate, headline, subline, summary, sectors };
+}
+
+/**
  * G43-e (S2): the feed `sessions` bundle (site-first live-session consumer).
  * A top-level v0.3-only section, same independent-degradation posture as
  * radar/home/liveRadar/published: an invalid bundle nulls only `sessions`,
@@ -934,6 +1034,7 @@ export interface LiveMarketData {
   radar: RadarFeedData | null;
   sessions: SessionsFeedData | null;
   alt20: Alt20Data | null;
+  heatmap: HeatmapData | null;
   landmark: LandmarkMeterData | null;
 }
 
@@ -1162,6 +1263,13 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
           })
         : null,
     alt20: mapAlt20((parsed.data as Record<string, unknown>).alt20),
+    // 2026-11-10: 昨夜の米国株。SDE の validator と同じく v0.2 以上だけ読む
+    heatmap:
+      schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V03 ||
+      schemaVersion === TERMINAL_FEED_SCHEMA_V04
+        ? mapHeatmap((parsed.data as Record<string, unknown>).heatmap)
+        : null,
     // 2026-10-16: 節目の計器盤。home と同じく v0.2 以上だけ読む (lib/landmark/meter-feed.ts)
     landmark:
       schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||

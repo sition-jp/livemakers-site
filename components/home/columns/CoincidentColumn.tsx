@@ -13,6 +13,7 @@ import { LeadArticleCard } from "../LeadArticleCard";
 import { mkt12ReadingText } from "../mkt12-reading-text";
 import { SignalTimeline } from "../SignalTimeline";
 import { TopMoversCard } from "../TopMoversCard";
+import { UsHeatmapCard } from "../UsHeatmapCard";
 
 const REGION = "coincident" satisfies GradientRegion;
 
@@ -35,7 +36,9 @@ export type CoincidentColumnProps = Pick<
   | "alt20"
   | "mkt12Provenance"
   | "copy"
->;
+> &
+  // 2026-11-10: 昨夜の米国株 (無い日は枠ごと出さない)
+  Partial<Pick<HomeCompositionProps, "heatmap">>;
 
 // 2026-10-26 田平氏 GO: スマホでは Daily Intel と今朝の12指標を左列の Intelligence
 // Terminal の下 (lead-card-mobile / mkt12-card-mobile) に出すので、この 2 欄は PC 専用。
@@ -51,6 +54,7 @@ export function CoincidentColumn({
   laneCells,
   laneProvenance,
   alt20,
+  heatmap = null,
   mkt12Provenance,
   copy,
 }: CoincidentColumnProps) {
@@ -149,6 +153,10 @@ export function CoincidentColumn({
               provenance={mkt12Provenance}
               copy={copy.mkt12.movers}
             />
+            {/* 2026-11-10: 昨夜の米国株は 12指標のマスの直後 (台帳は変えない)。
+                直後の lane-values に主要アルトコイン20 があるので、スマホでも
+                12指標 → 昨夜の米国株 → アルト20 の順 */}
+            <UsHeatmapCard heatmap={heatmap} copy={copy.usHeatmap} />
           </div>
         );
       case "signal-timeline":

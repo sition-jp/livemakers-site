@@ -595,6 +595,10 @@
       "summary": "{up} of {count} up, {down} down | median {median}",
       "unavailable": "—"
     },
+    "usHeatmap": {
+      "title": "US stocks last night",
+      "tooltip": "{symbol} {change}"
+    },
     "library": {
       "title": "Article Library — Cross-Series",
       "archiveTitle": "Session Article Archive — Morning, Midday, Evening, Night",

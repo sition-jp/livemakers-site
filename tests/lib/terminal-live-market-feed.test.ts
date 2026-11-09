@@ -1542,6 +1542,88 @@ describe("alt20 section", () => {
   });
 });
 
+describe("heatmap section", () => {
+  const heatmap = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "tests/fixtures/us-heatmap/section.json"), "utf8"),
+  ) as Record<string, any>;
+  const alt20 = {
+    schemaVersion: "livemakers_alt20_v0.1", listVersion: "2026-10-11",
+    asOfJst: "2026-10-12T05:03:00+09:00", source: "hyperliquid_perp",
+    items: [{ rank: 1, symbol: "BNB", changeLabel: "+0.10%", direction: "up" }],
+    summary: { count: 1, up: 1, down: 0, flat: 0, medianChangeLabel: "+0.10%" },
+  };
+
+  it("parses a valid heatmap", () => {
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), heatmap });
+    expect(feed?.heatmap).toEqual({
+      asOfJst: "2026-11-10T06:20:00+09:00",
+      listVersion: "v1",
+      sessionDate: "2026-11-09",
+      headline: "半導体が全体を押し上げ",
+      subline: "上がった 2・下がった 1・時価総額 +0.34 兆ドル（概算）・11/9 の米国市場",
+      summary: { count: 3, up: 2, down: 1, flat: 0, capChangeLabel: "+0.34 兆ドル" },
+      sectors: heatmap.sectors,
+    });
+    expect(feed?.home).not.toBeNull();
+  });
+
+  it("returns null for a broken heatmap without touching alt20", () => {
+    const bad = structuredClone(heatmap);
+    bad.sectors[0].items[0].rect[0] = 1.2;
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), alt20, heatmap: bad });
+    expect(feed?.heatmap).toBeNull();
+    expect(feed?.alt20?.items).toHaveLength(1);
+    expect(feed?.home).not.toBeNull();
+  });
+
+  it.each<[string, (h: Record<string, any>) => void]>([
+    ["x + w beyond the chart", (h) => { h.sectors[1].rect[2] = 0.6; }],
+    ["y + h beyond the chart", (h) => { h.sectors[0].items[0].rect[3] = 0.95; }],
+    ["a negative rect value", (h) => { h.sectors[0].rect[1] = -0.01; }],
+    ["a rect of 3 numbers", (h) => { h.sectors[0].items[0].rect = [0, 0.06, 0.5]; }],
+    ["duplicate symbol", (h) => { h.sectors[1].items[0].symbol = "NVDA"; }],
+    ["bad direction", (h) => { h.sectors[0].direction = "sideways"; }],
+    ["bad changeLabel format", (h) => { h.sectors[0].items[0].changeLabel = "5.5"; }],
+    ["an extra key", (h) => { h.sectors[0].items[0].color = "#00a86b"; }],
+    ["unknown schemaVersion", (h) => { h.schemaVersion = "livemakers_us_heatmap_v0.2"; }],
+    ["a different source", (h) => { h.source = "yahoo"; }],
+    ["a malformed sessionDate", (h) => { h.sessionDate = "2026/11/09"; }],
+    ["no sectors", (h) => { h.sectors = []; }],
+    ["11 sectors", (h) => {
+      h.sectors = Array.from({ length: 11 }, (_, i) => ({
+        ...h.sectors[0],
+        items: [{ ...h.sectors[0].items[0], symbol: `S${i}` }],
+      }));
+    }],
+    ["151 items in total", (h) => {
+      h.sectors[0].items = Array.from({ length: 151 }, (_, i) => ({ ...h.sectors[0].items[0], symbol: `S${i}` }));
+      h.sectors = [h.sectors[0]];
+    }],
+  ])("drops only heatmap on %s", (_name, mutate) => {
+    const bad = structuredClone(heatmap);
+    mutate(bad);
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), heatmap: bad });
+    expect(feed?.heatmap).toBeNull();
+    expect(feed?.home).not.toBeNull();
+  });
+
+  it("accepts rect sums within the 1.0001 tolerance", () => {
+    const ok = structuredClone(heatmap);
+    ok.sectors[2].rect[2] = 0.0817; // 0.9184 + 0.0817 = 1.0001
+    expect(mapTerminalFeed({ ...sampleHomeV03(), heatmap: ok })?.heatmap?.sectors).toHaveLength(3);
+  });
+
+  it("is null when absent", () => {
+    expect(mapTerminalFeed(sampleHomeV03())?.heatmap).toBeNull();
+  });
+
+  it("is never read from a v0.1 feed", () => {
+    const v01 = { ...sampleHomeV03(), schema_version: TERMINAL_FEED_SCHEMA_V01, heatmap };
+    delete (v01 as Record<string, unknown>).home;
+    expect(mapTerminalFeed(v01)?.heatmap ?? null).toBeNull();
+  });
+});
+
 describe("landmark section", () => {
   const landmark = JSON.parse(
     fs.readFileSync(path.join(process.cwd(), "tests/fixtures/landmark/section.json"), "utf8"),
