@@ -1,0 +1,143 @@
+{
+  "sessionId": "2026-11-10-ny-open",
+  "date": "2026-11-10",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-10-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-10-ny-open",
+  "publishedAt": "2026-11-11T02:30:16+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261110_1803_721e1f11",
+  "asOfJst": "2026-11-10T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月10日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,408.90 → 7,551.50（+1.92%）",
+    "変動幅上位: WTI（perp） -5.7% / BTCボラティリティ（BVIV） -4.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261110_1905_5d07da7d",
+    "crawlAnchorJst": "2026-11-10T18:03:00+09:00",
+    "writtenAtJst": "2026-11-10T19:05:00+09:00",
+    "lead": "欧州が動き出した夕方、焦点は戦争の出口と国内の流出の連鎖だ。アブダビでは米国が仲介するロシア・ウクライナの協議が始まり、トランプ氏はイランとの戦争も近く終わると語った。国内ではイオンとエディオンが相次いで流出を公表し、暗号資産では上場企業の決算に BTC の評価益と売却が並んだ。今夜 22時30分には米国の10月の消費者物価が出る。",
+    "items": [
+      {
+        "headline": "米ロ・ウクライナ、アブダビで新たな和平協議 米側は戦争の「最終的な終結」を求める",
+        "sourceUrl": "https://www.theguardian.com/world/2026/nov/10/us-officials-russia-ukraine-war-abu-dhabi-talks",
+        "note": "米当局者は協議で戦争の終結を目指すと述べた。"
+      },
+      {
+        "headline": "トランプ氏、ロシア・ウクライナの戦争を終わらせる「強い意向」と発言",
+        "sourceUrl": "https://www.cnbc.com/2026/11/10/trump-russia-ukraine-abu-dhabi-war-talks.html"
+      },
+      {
+        "headline": "トランプ氏、イランとの戦争は「かなり早く」終わると発言 新たな攻撃の可能性は小さいと示唆",
+        "sourceUrl": "https://www.cnbc.com/2026/11/10/trump-iran-war-hormuz-.html"
+      },
+      {
+        "headline": "イオン、グループ各社の Web サイトへの不正アクセスで個人情報の流出を確認",
+        "sourceUrl": "https://x.com/piyokango/status/2120064156632334686",
+        "note": "10月21日に検知を公表した件。流出の項目は各社が個別に知らせる。"
+      },
+      {
+        "headline": "エディオン、EC サイトへの不正アクセスで個人情報が漏えい 各種サービスを緊急停止",
+        "sourceUrl": "https://x.com/piyokango/status/2120040388950196480",
+        "note": "決済処理に不正なプログラムが組み込まれていたことも判明した。"
+      },
+      {
+        "headline": "ソフトバンクグループの中間決算、7,680億円の最終赤字",
+        "sourceUrl": "https://x.com/nhk_news/status/2120051090058367119"
+      },
+      {
+        "headline": "トランプ・メディア、第3四半期は約4.1億ドルの黒字 デジタル資産の評価益が押し上げ",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-09-trump-media-q3-profit-436964",
+        "note": "9月末の BTC 保有は約1万5,649枚。"
+      },
+      {
+        "headline": "マイニング大手 MARA、6週間で 1万3,597 BTC を約11億ドルで売却",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/10/bitcoin-miner-mara-sold-13-597-btc-for-usd1-1-billion-in-six-weeks-plans-to-sell-more"
+      },
+      {
+        "headline": "XRP Ledger、耐量子の鍵へ移る道筋を公表 基本手数料は据え置き",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/11/10/xrp-ledger-maps-out-quantum-proof-accounts-with-no-extra-fees-for-users"
+      },
+      {
+        "headline": "Coinbase・Kalshi・Kraken の親会社、個別株の無期限先物をめぐる訴訟で CFTC を支持",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/11/10/coinbase-kalshi-kraken-parent-back-cftc-in-legal-fight-over-stock-perpetual-futures"
+      },
+      {
+        "headline": "BitGo、第3四半期の売上が前年比51%減 取引の鈍化が響く",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-10-bitgo-revenue-falls-q3-436986"
+      },
+      {
+        "headline": "Circle、USYC の裏付けファンドを翌日物レポから長めの運用へ移行",
+        "sourceUrl": "https://x.com/circle/status/2119869752273436891"
+      },
+      {
+        "headline": "米共和党議員の一部、Nvidia の対中販売をめぐりトランプ氏と距離",
+        "sourceUrl": "https://www.politico.com/news/2026/11/09/republicans-trump-china-nvidia-scandal-01157896"
+      },
+      {
+        "headline": "テキサス州の次期知事の電気料金凍結案、法的な権限に疑問の声",
+        "sourceUrl": "https://www.foxnews.com/politics/texas-governor-elect-plan-freeze-electricity-prices-raises-questions-legal-authority"
+      },
+      {
+        "headline": "ドイツ株 DAX、最高値に迫る",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/marktberichte/dax-aktuell-auf-rekordjagd-dax-notiert-deutlich-ueber-26.000-punkten/100268632.html"
+      },
+      {
+        "headline": "EU の製造業、2030年までに中国との競争をあきらめかねないと在中 EU 商工会議所会頭が警告",
+        "sourceUrl": "https://www.theguardian.com/business/2026/nov/10/eu-manufacturers-china-jens-eskelund"
+      },
+      {
+        "headline": "化石燃料由来の CO2 排出がわずかに減少 イランとの戦争で再エネへの移行が加速",
+        "sourceUrl": "https://www.theguardian.com/environment/2026/nov/10/slight-fall-in-carbon-emissions-from-fossil-fuels-as-iran-war-drives-renewables-push"
+      },
+      {
+        "headline": "内閣府、10月の景気ウォッチャー調査を公表",
+        "sourceUrl": "https://www5.cao.go.jp/keizai3/watcher_index.html"
+      },
+      {
+        "headline": "個人向け国債、発行額が8兆円を超える",
+        "sourceUrl": "https://x.com/YahooNewsTopics/status/2119923991326654471"
+      },
+      {
+        "headline": "証券取引等監視委員会、無登録の投資助言業者らに違反行為の禁止を求め裁判所に申し立て",
+        "sourceUrl": "https://x.com/SESC_JAPAN/status/2120067500067205514"
+      },
+      {
+        "headline": "匿名・流動型犯罪グループ対策で通信内容を遠隔で把握する法案、衆院を通過",
+        "sourceUrl": "https://x.com/nhk_news/status/2120045552629109111"
+      },
+      {
+        "headline": "北朝鮮、日本海で新型魚雷の発射実験",
+        "sourceUrl": "https://x.com/nhk_news/status/2120046059032576346"
+      },
+      {
+        "headline": "高市首相、16日からフィリピンと中国を訪問 ASEAN と APEC の首脳会議に出席",
+        "sourceUrl": "https://x.com/Sankei_news/status/2120007540809593146"
+      },
+      {
+        "headline": "Apple、iOS 27.2.1 などで一斉にセキュリティ更新 Bluetooth と AirPlay のペアリングに脆弱性",
+        "sourceUrl": "https://forest.watch.impress.co.jp/docs/news/2155045.html"
+      },
+      {
+        "headline": "Instagram、年齢を偽った10代を AI で検出 日本でも保護機能の適用を開始",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2611/10/2000003056/"
+      },
+      {
+        "headline": "Cardano のフルノード型ウォレット Daedalus 11.6.2 が公開 Windows の更新の不具合を修正",
+        "sourceUrl": "https://x.com/se7en_labs/status/2119896679553929557"
+      }
+    ],
+    "watch": [
+      "今夜22時30分の米10月 CPI。利下げ観測と BTC の値動きへの波及",
+      "アブダビ協議の続報と、カタールが仲介するイランとの交渉の行方",
+      "イオングループ各社が順に出す流出の詳細（対象サービスと項目）"
+    ]
+  }
+}
