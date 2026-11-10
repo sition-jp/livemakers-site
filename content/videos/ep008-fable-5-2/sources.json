@@ -1,0 +1,243 @@
+{
+  "episodeId": "ep008",
+  "sources": [
+    {
+      "key": "fable_page",
+      "title": "Anthropic — Claude Fable 5.2 and Claude Mythos 5.2 (発表・2026-11-09)",
+      "url": "https://www.anthropic.com/claude-fable-and-mythos-5-2",
+      "accessed": "2026-11-10",
+      "chapter": 1
+    },
+    {
+      "key": "pricing",
+      "title": "Claude Platform — Pricing (Fable 5.2・Fable 5.1・Opus 5.5 の値段)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "accessed": "2026-11-10",
+      "chapter": 1
+    },
+    {
+      "key": "bloomberg_ipo",
+      "title": "Yahoo Finance (Bloomberg) — Anthropic launches powerful models ahead of Wall Street debut (2026-11-09)",
+      "url": "https://finance.yahoo.com/technology/ai/articles/anthropic-launches-powerful-models-ahead-191625170.html",
+      "accessed": "2026-11-10",
+      "chapter": 1
+    },
+    {
+      "key": "system_card",
+      "title": "Anthropic — Claude Fable 5.2 / Mythos 5.2 System Card (説明書・264 ページ・2026-11-09)",
+      "url": "https://www.anthropic.com/document/claude-fable-5-2-mythos-5-2-system-card",
+      "accessed": "2026-11-10",
+      "chapter": 2
+    },
+    {
+      "key": "x_post",
+      "title": "Claude (@claudeai) — Fable 5.2 と Mythos 5.2 の発表の投稿 (2026-11-10 03:58 JST)",
+      "url": "https://x.com/claudeai/status/2119867114450268322",
+      "accessed": "2026-11-10",
+      "chapter": 2
+    },
+    {
+      "key": "s1",
+      "title": "Anthropic, PBC — Form S-1 Registration Statement (SEC EDGAR・2026-10-26)",
+      "url": "https://www.sec.gov/Archives/edgar/data/0002130357/000162828026067168/anthropicpbc-sx1.htm",
+      "accessed": "2026-11-09",
+      "chapter": 2
+    },
+    {
+      "key": "fermat",
+      "title": "Wikipedia — フェルマーの最終定理 (1637 年ごろの書き込み・1995 年にワイルズの証明が発表)",
+      "url": "https://ja.wikipedia.org/wiki/フェルマーの最終定理",
+      "accessed": "2026-11-10",
+      "chapter": 2
+    },
+    {
+      "key": "cyber_program",
+      "title": "Anthropic — Cyber Verification Program (2026 年 10 月更新)",
+      "url": "https://support.claude.com/en/articles/14604842-cyber-verification-program",
+      "accessed": "2026-11-10",
+      "chapter": 4
+    },
+    {
+      "key": "venturebeat_carbon",
+      "title": "VentureBeat — Google unveils Gemini 4 Carbon (access is limited)",
+      "url": "https://venturebeat.com/technology/google-unveils-gemini-4-carbon-retaking-the-worlds-no-1-spot-on-updated-harder-benchmarks-but-access-is-limited",
+      "accessed": "2026-11-10",
+      "chapter": 4
+    },
+    {
+      "key": "fable_access",
+      "title": "Anthropic — Fable 5 と Mythos 5 の提供の一時停止 (2026-06)",
+      "url": "https://www.anthropic.com/news/fable-mythos-access",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "redeploy",
+      "title": "Anthropic — Redeploying Fable 5 (2026-06-30)",
+      "url": "https://www.anthropic.com/news/redeploying-fable-5",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "semafor",
+      "title": "Semafor — White House move to limit Anthropic linked to concerns about Chinese access to Mythos (2026-06-13)",
+      "url": "https://semafor.com/article/06/13/2026/white-house-move-to-limit-anthropic-linked-to-concerns-about-chinese-access-to-mythos",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "eo14409",
+      "title": "The White House — Promoting Advanced Artificial Intelligence Innovation and Security (大統領令 14409・2026-06-02)",
+      "url": "https://www.whitehouse.gov/presidential-actions/2026/06/promoting-advanced-artificial-intelligence-innovation-and-security/",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "threat_report",
+      "title": "Anthropic — Threat Intelligence Report (2026 年 9 月)",
+      "url": "https://www.anthropic.com/threat-intelligence-report-september-2026",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "distill_defense",
+      "title": "Anthropic — Distillation defenses (2026-10-12)",
+      "url": "https://www.anthropic.com/news/distillation-defenses",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "cisa",
+      "title": "CISA・NSA・FBI — AA26-251A China-Based AI Companies Conducting Industrial-Scale Distillation Campaigns (2026-09-08)",
+      "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-251a",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "ap_china",
+      "title": "AP — China hits back at US claims of malicious AI distillation (2026-09-09)",
+      "url": "https://www.clickondetroit.com/business/2026/09/09/china-hits-back-at-us-claims-of-malicious-ai-distillation-ahead-of-planned-trump-xi-talks/",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "eweek",
+      "title": "eWeek (FT の報道を引く) — Anthropic Mythos 5.1 と英国の事前試験 (2026-09-10)",
+      "url": "https://www.eweek.com/news/anthropic-mythos-5-1-uk-testing-emea/",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "nextgov",
+      "title": "Nextgov — Anthropic の「供給網のリスク」指定をめぐる裁判 (2026-09)",
+      "url": "https://www.nextgov.com/acquisition/2026/09/anthropic-lawsuit-supply-chain-risk/416255/",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "morganlewis",
+      "title": "Morgan Lewis — BIS revises export review policy for advanced AI chips destined for China and Macau (2026-01)",
+      "url": "https://www.morganlewis.com/pubs/2026/01/bis-revises-export-review-policy-for-advanced-ai-chips-destined-for-china-and-macau",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "tnw_chips",
+      "title": "The Next Web — US curbs on Nvidia and AMD chips for China-based subsidiaries (2026-05)",
+      "url": "https://thenextweb.com/news/us-nvidia-amd-china-subsidiary-chip-curbs",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "register_china",
+      "title": "The Register — 中国の大型モデル (Qwen 3.8・Kimi K3) の公開",
+      "url": "https://www.theregister.com/a/5282526",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "fsa_boj",
+      "title": "金融庁・日本銀行 — 「フロンティアAIによる脅威変化を踏まえた金融機関等の短期的な対応」に係る要請 (2026-05-22)",
+      "url": "https://www.fsa.go.jp/news/r7/sonota/20260522-5/01.pdf",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "dcd_ntt",
+      "title": "DatacenterDynamics (日経の報道を引く) — NTT to build $6.3bn data center for Anthropic in Japan (2026-10)",
+      "url": "https://datacenterdynamics.com/en/news/ntt-to-build-63bn-data-center-for-anthropic-in-japan-report",
+      "accessed": "2026-11-10",
+      "chapter": 5
+    },
+    {
+      "key": "edgar_json",
+      "title": "SEC EDGAR — Anthropic, PBC の提出書類 (CIK 0002130357・最新は 2026-11-02 の S-1/A)",
+      "url": "https://data.sec.gov/submissions/CIK0002130357.json",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "bt_india",
+      "title": "Business Today — Infosys, TCS, Coforge shares fall after Anthropic IPO filing (2026-10-27)",
+      "url": "https://www.businesstoday.in/markets/stocks/story/infosys-tcs-coforge-shares-it-stocks-fall-after-anthropic-ipo-filing-heres-why-563856-2026-10-27",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "nikkei_1027",
+      "title": "日本経済新聞 — 日経平均 1,078 円高 (2026-10-27)",
+      "url": "https://www.nikkei.com/article/DGXZQOUB270H9TX21C26A0000000/",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "fred_ndx",
+      "title": "FRED — NASDAQ 100 Index (NASDAQ100・2026-11-04 / 11-05)",
+      "url": "https://fred.stlouisfed.org/series/NASDAQ100",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "cnbc",
+      "title": "CNBC — Anthropic releases Claude Fable 5.2 and Mythos 5.2 (2026-11-09)",
+      "url": "https://www.cnbc.com/2026/11/09/anthropic-claude-fable-5-2-mythos-5-2.html",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "yahoo_live",
+      "title": "Yahoo Finance — Stock market today, Monday November 9 (取引中の速報)",
+      "url": "https://finance.yahoo.com/markets/live/stock-market-today-monday-november-9-dow-sp-500-nasdaq-nvidia-090535419.html",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "nasdaq_ndx",
+      "title": "Nasdaq — NASDAQ-100 (NDX) の 11 月 9 日の終値 27,907.63 (前日比 +3.40%)",
+      "url": "https://www.nasdaq.com/market-activity/index/ndx",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "reuters_retract",
+      "title": "ロイター (Infoseek 転載) — Anthropic、上場の価格情報を銀行に送付後に撤回 (2026-11-10)",
+      "url": "https://news.infoseek.co.jp/article/10reutersJAPAN_KCN3WL09T/",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "lvm_retract",
+      "title": "LiveMakers — Signal｜Anthropic、1株70〜80ドルの価格帯を送付後に撤回 (2026-11-10)",
+      "url": "https://livemakers.com/ja/articles/signal-20261110-0a1523cc",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    },
+    {
+      "key": "astra_price",
+      "title": "OpenRouter — GPT-6 Astra の値段 (第三者の料金ページ)",
+      "url": "https://openrouter.ai/openai/gpt-6-astra",
+      "accessed": "2026-11-10",
+      "chapter": 6
+    }
+  ]
+}
