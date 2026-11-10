@@ -191,4 +191,23 @@ describe("lib/articles/article-metadata", () => {
       });
     });
   });
+
+  describe("search visibility (2026-11-10)", () => {
+    it("marks flash articles noindex but keeps links followable", () => {
+      const meta = buildArticleMetadata({
+        article: { ...BASE, articleId: "flash-20261109-62992aa5", family: "flash" },
+        lang: "ja",
+      });
+      expect(meta.robots).toMatchObject({
+        index: false,
+        follow: true,
+        googleBot: { index: false, follow: true },
+      });
+    });
+
+    it("keeps Signal articles indexable", () => {
+      const meta = buildArticleMetadata({ article: { ...BASE, family: "signal" }, lang: "ja" });
+      expect(meta.robots).toMatchObject({ index: true, googleBot: { index: true } });
+    });
+  });
 });
