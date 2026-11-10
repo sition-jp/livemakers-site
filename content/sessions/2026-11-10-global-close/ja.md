@@ -1,0 +1,34 @@
+米10月の物価が予想を上回り、利上げ観測が夜の市場を動かした。総合は前月比0.4%、コアも3か月続けて0.3%と高止まりし、ビットコインは株と逆行して下げた。欧州でもECBの主任エコノミストが追加利上げに言及し、インフレ再燃への警戒が日米欧で同時に強まっている。
+
+## 数値スナップショット
+
+- BTC/USD $74,702 → $73,830（-1.17%）
+- 変動幅上位: BTCボラティリティ（BVIV） -3.2% / WTI（perp） -2.9%
+
+| 指標 | 起点 | 現値 | 変化率 |
+| --- | --- | --- | --- |
+| BTC/USD | $74,702 | $73,830 | -1.17%（24h） |
+| Gold（perp） | $4,127.60 | $4,063.00 | -1.57%（24h） |
+
+## 一次情報ハイライト
+
+- [米10月CPIは前月比0.4%上昇、予想の0.3%を上回った](https://www.coindesk.com/markets/2026/11/10/u-s-cpi-rose-stronger-than-expected-0-4-in-october-core-rate-rose-0-3) — コアは0.3%上昇。発表後、市場は12月の利上げを意識し、ビットコインと金は下げた。
+- [ビットコインは株と逆行して下落、ETFからの流出が続く](https://www.coindesk.com/daybook-us/2026/11/10/bitcoin-breaks-with-stocks-declines-as-etf-outflows-mount-mara-sells-holdings) — マイナーのMARAも保有BTCを減らした。
+- [ECBのレーン主任エコノミスト、追加利上げに市場を備えさせる発言](https://www.handelsblatt.com/finanzen/geldpolitik/ezb-chefvolkswirt-lane-stimmt-maerkte-auf-weitere-zinserhoehung-ein/100268748.html)
+- [Anthropic、新規株式公開のロードショーを開始](https://www.anthropic.com/news/roadshow-launch)
+- [NEAR AI、推論エンジンSGLangの脆弱性を突かれ約100人の会員情報が流出](https://www.theblock.co/news/defi/2026-11-10-near-ai-security-breach-437002) — 旧サービスの内部系統まで侵入された。NEARのチェーン本体の話ではない。
+- [米下院中国特別委のムーレナー委員長、エヌビディアCEOを巡る疑惑で説明を要求](https://www.cnbc.com/2026/11/10/moolenaar-nvidia-jensen-huang-affair-chinese-spy.html)
+- [ロシアとウクライナのアブダビ協議、ルビオ国務長官は「非常に生産的」](https://www.theguardian.com/world/live/2026/nov/10/ukraine-russia-war-us-talks-abu-dhabi-europe-latest-news-updates)
+- [米空軍、イランの脅威を理由に英国の基地から空中給油機を退避](https://www.washingtontimes.com/news/2026/nov/10/us-air-force-evacuates-refueling-tankers-base-england-due-iran-threat/)
+- [フランス、スーパーの冷蔵設備へのサイバー攻撃をイランによるものと指摘し制裁を検討](https://www.cnbc.com/2026/11/10/iran-fridge-cyberattacks-france.html)
+- [ヘグセス国防長官、弾劾の動きに反論しイラン戦争の対応を擁護](https://www.cnbc.com/2026/11/10/pete-hegseth-impeachment-massie-iran.html)
+- [中間選挙で敗れた下院共和党、新たな指導部を選出へ](https://www.npr.org/2026/11/10/nx-s1-6030988/gop-leadership-election-steve-scalise-jim-jordan)
+- [eToroの7〜9月期利益は74%減、暗号資産の取引減が響く](https://www.theblock.co/news/business/2026-11-10-etoros-q3-profit-plunges-74-as-weaker-crypto-trading-weighs-on-earnings-437192)
+- [Bitdeerの7〜9月期は売上高が過去最高、純損失は1億2,550万ドルに拡大](https://www.theblock.co/news/business/2026-11-10-bitdeer-reports-record-q3-revenue-as-net-loss-widens-to-125-5-million-437217)
+- [日商簿記の受験者98万人分の情報が流出した可能性（共同通信の速報）](https://x.com/47news_official/status/2120083802408263851) — 主催団体の公表はまだ確認できていない。
+
+## 次の見どころ
+
+- 米PPIと週内のFRB高官発言で、12月利上げの織り込みがどこまで進むか
+- ビットコインETFの資金流出が止まるか、マイナーの売却が続くか
+- アブダビでの米ロ・ウクライナ協議の2日目の中身
