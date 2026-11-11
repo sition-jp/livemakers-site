@@ -42,6 +42,13 @@ vi.mock("@/lib/articles/article-inflow-feed", () => ({
   loadPublicArticleInflowCatalog: mocks.loadCatalog,
   loadPublicArticleInflowDetail: mocks.loadDetail,
 }));
+vi.mock("@/lib/videos", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@/lib/videos")>();
+  // 「最新の記事」は 20 本までで、動画も 1 本に数える。実データの動画が増えるたびに
+  // 記事が 1 本押し出されるので、このテストでは動画の行を空にして記事の本数だけを見る
+  // (動画が混ざる並びは tests/components/videos/video-rail.test.tsx が確かめる)。
+  return { ...actual, getPostedVideoCards: () => [] };
+});
 vi.mock("@/lib/future-atlas/surface", () => ({
   // T4-2: 実効 surface は config 値へ縮退させる (feed 照会は結合対象外)
   loadEffectiveSurfacePublished: vi.fn(
