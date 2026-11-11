@@ -1,0 +1,132 @@
+{
+  "sessionId": "2026-11-11-asia-open",
+  "date": "2026-11-11",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-11-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-11-asia-open",
+  "publishedAt": "2026-11-12T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261111_0730_8b920ab8",
+  "asOfJst": "2026-11-11T07:30:08+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月11日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 60,773 → 60,135（-1.05%）",
+    "変動幅上位: Coinbase（perp） -3.6% / ETH/USD -3.6%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261111_0606_b6a09b51",
+    "crawlAnchorJst": "2026-11-11T05:03:00+09:00",
+    "writtenAtJst": "2026-11-11T06:06:02+09:00",
+    "lead": "米国の10月の物価が予想を上回り、12月のFRBの判断は利上げをするかではなく幅の問題に移った。短期金利が上がり、BTCは7万4千ドルを割った。同じ日にAnthropicが上場の条件を正式に示し、Nvidiaは時価総額でMicrosoftに抜かれた。金利とAIの資金の流れが、市場の向きを一緒に決めている。",
+    "items": [
+      {
+        "headline": "CPIの後、12月の0.5%利上げに賭ける動きが増えた",
+        "sourceUrl": "https://x.com/zerohedge/status/2120148724223525122"
+      },
+      {
+        "headline": "米10月CPIは前月比0.4%上昇、コアも0.3%で予想を上回った",
+        "sourceUrl": "https://x.com/zerohedge/status/2120147082891956558",
+        "note": "昨年10月の調査が無いため、前年比の多くは公表されていない。"
+      },
+      {
+        "headline": "BTCがCPIの後に7万4千ドルを割る",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-11-10-bitcoin-price-cpi-inflation-73000-support-437301",
+        "note": "7万ドルまでの下げを警戒する声が出た。"
+      },
+      {
+        "headline": "CPIの発表から1時間で暗号資産の買い持ち1億7,800万ドルが清算",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2120150174152393061"
+      },
+      {
+        "headline": "MicrosoftがNvidiaを抜き時価総額で世界2位に",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2120198760076865693"
+      },
+      {
+        "headline": "個別株の永久先物の裁判、暗号資産の業界が米政府側に",
+        "sourceUrl": "https://www.coindesk.com/news-analysis/2026/11/10/crypto-teams-up-with-u-s-government-to-defend-stock-perps-in-legal-fight"
+      },
+      {
+        "headline": "Paradigmが個別株の永久先物を支持する意見書を提出",
+        "sourceUrl": "https://www.paradigm.xyz/writing/paradigm-files-amicus-brief-in-support-of-equity-perpetuals"
+      },
+      {
+        "headline": "ルミス上院議員、CLARITY法案は規約での証券法逃れを封じると主張",
+        "sourceUrl": "https://x.com/SenLummis/status/2120183198135308717"
+      },
+      {
+        "headline": "SolanaでHeliusのPrivacy Ringsがメインネット稼働",
+        "sourceUrl": "https://x.com/solana/status/2120167874182435145"
+      },
+      {
+        "headline": "Aave V4の貸し出し残高が6億ドルを超えた",
+        "sourceUrl": "https://x.com/aave/status/2120192222779834527"
+      },
+      {
+        "headline": "10月のCardano DEX取引額は6,570万ドルで14%増",
+        "sourceUrl": "https://x.com/SundaeSwap/status/2120187069465325990",
+        "note": "ADAが22%下げるなか取引件数は29%増。NIGHTが全体の44%。"
+      },
+      {
+        "headline": "Midnight Foundation、Blockenfyを正式なエコシステムパートナーに",
+        "sourceUrl": "https://x.com/midnightfdn/status/2120185689861927198"
+      },
+      {
+        "headline": "Google DeepMindがロボット向けAI「Gemini Robotics 2.5」を発表",
+        "sourceUrl": "https://x.com/GoogleDeepMind/status/2120169787896525104",
+        "note": "洗濯物をたたむ作業から部品の仕分けまで数百の技能を学べるという。"
+      },
+      {
+        "headline": "OpenAI、ChatGPTの中に事業者のページと客対応のAIを試験導入",
+        "sourceUrl": "https://x.com/OpenAI/status/2120216592395174382"
+      },
+      {
+        "headline": "Starlinkが持ち運べる端末Mini 2を発表、最大4.5時間",
+        "sourceUrl": "https://x.com/Starlink/status/2120206875581186293"
+      },
+      {
+        "headline": "米10年債の利回りが再び5%台に",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2120199304392700371"
+      },
+      {
+        "headline": "予想を上回る物価で米国の重要な国債利回りが上昇（Handelsblatt）",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/usa-hohe-inflation-treibt-wichtige-anleiherendite-ueber-zwei-jahres-hoch/100268295.html"
+      },
+      {
+        "headline": "Anthropicが上場の売り出し条件を公表、1株70〜78ドル",
+        "sourceUrl": "https://x.com/zerohedge/status/2120146565604274473"
+      },
+      {
+        "headline": "Anthropicの上場、完全希薄化ベースで評価額1.4兆ドルを目指す（ブルームバーグ）",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2120158472687739321"
+      },
+      {
+        "headline": "仏スーパーへのサイバー攻撃、仏政府はイランを名指しし強い対応を示した（NZZ）",
+        "sourceUrl": "https://www.nzz.ch/international/cyberattacke-auf-supermaerkte-paris-droht-iran-mit-harter-antwort-ld.10059822"
+      },
+      {
+        "headline": "米ロ・ウクライナのアブダビ協議、初日は「非常に生産的」とルビオ国務長官",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/10/us-russia-ukraine-conclude-first-day-productive-meeting-abu-dhabi/"
+      },
+      {
+        "headline": "下院共和党がNvidiaのフアンCEOへの召喚状を検討",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2120242016432910631"
+      },
+      {
+        "headline": "イラン、ホルムズ海峡は7つの条件が満たされるまで閉じたままと表明（伝聞・一次未確認）",
+        "sourceUrl": "https://x.com/Kalshi/status/2120189201220346190"
+      }
+    ],
+    "watch": [
+      "FRB高官の発言と金利先物。0.5%の利上げの見方が広がるか",
+      "Anthropicの値決めと取引開始の日程",
+      "イランが示す条件とホルムズ海峡、仏へのサイバー攻撃へのEUの対応"
+    ]
+  }
+}
