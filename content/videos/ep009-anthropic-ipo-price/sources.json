@@ -1,0 +1,82 @@
+{
+  "episodeId": "ep009",
+  "sources": [
+    {
+      "key": "s1a2",
+      "title": "Anthropic, PBC — Form S-1/A Amendment No. 2 (SEC EDGAR・2026-11-10)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072484/anthropicpbc-sx1ax2.htm",
+      "accessed": "2026-11-11",
+      "chapter": 1
+    },
+    {
+      "key": "roadshow_news",
+      "title": "Anthropic — Anthropic launches roadshow for proposed initial public offering (2026-11-10)",
+      "url": "https://www.anthropic.com/news/roadshow-launch",
+      "accessed": "2026-11-11",
+      "chapter": 1
+    },
+    {
+      "key": "ecb_fx",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-11-10・USD 1.1214 / JPY 177.38)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-11",
+      "chapter": 2
+    },
+    {
+      "key": "rakuten_ipo",
+      "title": "楽天証券 — Anthropic, PBC の米国株式 IPO の取扱い (2026-11-04 現在の記載・2026-11-11 に閲覧)",
+      "url": "https://www.rakuten-sec.co.jp/web/info/info20261102-02.html",
+      "accessed": "2026-11-11",
+      "chapter": 2
+    },
+    {
+      "key": "fsa_nisa",
+      "title": "金融庁 — NISA 特設ウェブサイト (成長投資枠は年間 240 万円)",
+      "url": "https://www.fsa.go.jp/policy/nisa2/about/index.html",
+      "accessed": "2026-11-09",
+      "chapter": 2
+    },
+    {
+      "key": "series_h",
+      "title": "Anthropic — Series H の発表 (2026-05-28・評価額 9,650 億ドル)",
+      "url": "https://www.anthropic.com/news/series-h",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "forbes_val",
+      "title": "Forbes — Anthropic IPO valuation talk falls to $1.3 trillion after the AI stock rout (2026-11-07・Bloomberg と FT の報道を引く)",
+      "url": "https://www.forbes.com/sites/jonmarkman/2026/11/07/anthropic-ipo-valuation-talk-falls-to-13-trillion-after-the-ai-stock-rout/",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "retract",
+      "title": "investingLive — Anthropic retracts IPO pricing details sent to bankers (2026-11-10・Reuters と WSJ の報道を引く)",
+      "url": "https://investinglive.com/stocks/anthropic-retracts-ipo-pricing-details-sent-to-bankers-says-figures-were-inaccurate/",
+      "accessed": "2026-11-11",
+      "chapter": 3
+    },
+    {
+      "key": "lvm_signal",
+      "title": "LiveMakers — Signal｜Anthropic、上場の価格帯を1株70〜78ドルに (2026-11-11)",
+      "url": "https://livemakers.com/ja/articles/signal-20261111-44d961b0",
+      "accessed": "2026-11-11",
+      "chapter": 3
+    },
+    {
+      "key": "edgar_list",
+      "title": "SEC EDGAR — Anthropic, PBC の提出書類の一覧 (CIK 0002130357)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357",
+      "accessed": "2026-11-11",
+      "chapter": 5
+    },
+    {
+      "key": "nvidia_q3",
+      "title": "NVIDIA — Sets Conference Call for Third-Quarter Financial Results (2026-11-17)",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873",
+      "accessed": "2026-11-08",
+      "chapter": 5
+    }
+  ]
+}
