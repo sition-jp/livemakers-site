@@ -1,0 +1,86 @@
+{
+  "sessionId": "2026-11-12-asia-open",
+  "date": "2026-11-12",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-12-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-12-asia-open",
+  "publishedAt": "2026-11-13T02:30:13+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261112_0730_8162b7a5",
+  "asOfJst": "2026-11-12T07:30:07+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月12日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 60,115 → 61,850（+2.89%）",
+    "変動幅上位: 日経225（perp） +2.9% / Coinbase（perp） +2.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261112_0602_c0ab5a48",
+    "crawlAnchorJst": "2026-11-12T05:03:00+09:00",
+    "writtenAtJst": "2026-11-12T06:02:06+09:00",
+    "lead": "米国の政治と外交が同時に動いた朝だ。上院の共和党は多数派が民主党へ移る前の会期に人事の承認と予算を詰め込む方針を固め、トランプ大統領はイランについて勝利を語った。政権の中では、Nvidia の半導体の対中輸出をめぐる対応が問われている。暗号資産では、欧州の銀行による保管や日本国債のトークン化など、機関の入口を広げる動きが続いた。",
+    "items": [
+      {
+        "headline": "トランプ大統領、退役軍人の日の演説で「イランで勝った」と発言",
+        "sourceUrl": "https://www.foxnews.com/politics/trump-defends-iran-war-during-veterans-day-address-says-making-world-safer",
+        "note": "イランとの戦争を擁護した。バンス副大統領に直接交渉を委ねたとの報道も伝えられている。"
+      },
+      {
+        "headline": "ネタニヤフ首相とトランプ氏、イラン再攻撃をめぐり電話で激しい口論と報道",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/11/netanyahu-trump-screaming-phone-call-iran-war-report/",
+        "note": "イスラエルの報道として伝えられた。"
+      },
+      {
+        "headline": "ベッセント財務長官、Megaspeed の規制リスト入りを商務長官に迫る",
+        "sourceUrl": "https://x.com/axios/status/2120535941043646555",
+        "note": "Axios が、中間選挙後のホワイトハウスの会議でのやり取りを報じた。"
+      },
+      {
+        "headline": "ルミス上院議員、CLARITY 法に入れた 126 の条項を挙げ民主党を批判",
+        "sourceUrl": "https://x.com/SenLummis/status/2120546089518706829",
+        "note": "民主党の求めで入れた条項に、民主党が反対したと主張した。"
+      },
+      {
+        "headline": "ドイツ銀行、欧州の機関向けに暗号資産の保管を開始と報道",
+        "sourceUrl": "https://x.com/BitcoinNews/status/2120521958643106043",
+        "note": "ビットコイン、イーサ、3 種類のステーブルコインが対象と伝えられた。"
+      },
+      {
+        "headline": "Apex Group が Hedera の運営評議会に参加",
+        "sourceUrl": "https://x.com/hedera/status/2120532577245122805",
+        "note": "3.5 兆ドル超の資産を扱う金融サービス会社で、トークン化での利用を探る。"
+      },
+      {
+        "headline": "Progmat、トークン化した日本国債で Canton Network に対応へ",
+        "sourceUrl": "https://x.com/CantonNetwork/status/2120543573016002709",
+        "note": "Canton を開発する Digital Asset と覚書を結んだ。"
+      },
+      {
+        "headline": "ロシアとウクライナ、アブダビの協議で捕虜の交換に合意",
+        "sourceUrl": "https://x.com/Polymarket/status/2120520244892741998",
+        "note": "2 月以来の直接の和平協議で合意したと伝えられた。"
+      },
+      {
+        "headline": "ステーブルコインの供給が 142 億ドル減少",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2120569845460721839",
+        "note": "2022 年以来の大きな減少と伝えられた。"
+      },
+      {
+        "headline": "S&P 500 が 7,600 を超える",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2120525198776754351",
+        "note": "ハイテク株に買い戻しが入り、最高値まで 3% に近づいた。"
+      }
+    ],
+    "watch": [
+      "米上院の指名の承認の日程と、財政調整法案の案の中身",
+      "イランとの直接交渉の報道に、イランと米政権がどう応じるか",
+      "MSCI が示す、暗号資産を持つ企業の指数での扱い"
+    ]
+  }
+}
