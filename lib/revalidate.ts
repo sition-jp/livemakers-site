@@ -2,6 +2,7 @@ import { createHash, timingSafeEqual } from "node:crypto";
 
 import { NEXT_CACHE_IMPLICIT_TAG_ID } from "next/dist/lib/constants";
 
+import { ARTICLE_OPTIONAL_CACHE_TAG } from "@/lib/articles/article-inflow-v2";
 import { TERMINAL_FEED_CACHE_TAG } from "@/lib/terminal/live-market-feed";
 
 /**
@@ -147,7 +148,8 @@ export function decideCronRefresh(
   return {
     ok: true,
     paths: ["/ja", "/en", "/ja/sessions/archive", "/en/sessions/archive"],
-    tags: [TERMINAL_FEED_CACHE_TAG],
+    // 記事詳細の rail・前後リンク・棚の一覧も、ここで新しくする (保存は 1 日)
+    tags: [TERMINAL_FEED_CACHE_TAG, ARTICLE_OPTIONAL_CACHE_TAG],
   };
 }
 

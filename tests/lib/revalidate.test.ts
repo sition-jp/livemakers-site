@@ -9,6 +9,7 @@ import {
   pagePathTag,
   pageRouteTag,
 } from "@/lib/revalidate";
+import { ARTICLE_OPTIONAL_CACHE_TAG } from "@/lib/articles/article-inflow-v2";
 import { TERMINAL_FEED_CACHE_TAG } from "@/lib/terminal/live-market-feed";
 
 const TOKEN = "test-revalidate-token";
@@ -162,7 +163,7 @@ describe("cron refresh backstop decision (Phase 1, 2026-08-14)", () => {
     expect(decideCronRefresh(TOKEN, AUTH)).toEqual({
       ok: true,
       paths: ["/ja", "/en", "/ja/sessions/archive", "/en/sessions/archive"],
-      tags: [TERMINAL_FEED_CACHE_TAG],
+      tags: [TERMINAL_FEED_CACHE_TAG, ARTICLE_OPTIONAL_CACHE_TAG],
     });
   });
 });

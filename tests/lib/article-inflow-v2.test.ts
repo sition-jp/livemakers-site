@@ -141,7 +141,7 @@ describe("fetchArticleRecord", () => {
 });
 
 describe("fetchArticleRail / fetchArticleFamilyIndex", () => {
-  it("maps the rail and revalidates it hourly", async () => {
+  it("maps the rail and keeps it for a day (the cron tag refreshes it)", async () => {
     enable();
     const article = catalogArticle();
     const fetcher = fetcherReturning(json({
@@ -156,7 +156,7 @@ describe("fetchArticleRail / fetchArticleFamilyIndex", () => {
     expect(rail?.byFamily.signal?.[0]?.href).toBe(`/articles/${SLUG}`);
     const [url, init] = fetcher.mock.calls[0];
     expect(String(url)).toBe(`${BASE}/rail.json`);
-    expect((init as { next?: { revalidate?: number } }).next?.revalidate).toBe(3600);
+    expect((init as { next?: { revalidate?: number } }).next?.revalidate).toBe(86400);
   });
 
   it("returns null instead of throwing when the rail is unavailable", async () => {
@@ -211,7 +211,7 @@ describe("fetchArticleTopicIndex", () => {
     expect(index?.articles[0]?.href).toBe("/articles/signal-20261028-aaaaaaaa");
     const [url, init] = fetcher.mock.calls[0];
     expect(String(url)).toBe(`${BASE}/topics/funding.json`);
-    expect((init as { next?: { revalidate?: number } }).next?.revalidate).toBe(3600);
+    expect((init as { next?: { revalidate?: number } }).next?.revalidate).toBe(86400);
   });
 
   it("null on 403, 404, wrong schema, staging, topic mismatch", async () => {

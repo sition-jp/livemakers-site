@@ -2,9 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
+import { ARTICLE_INFLOW_CATALOG_REVALIDATE_SECONDS } from "@/lib/articles/article-inflow-feed";
+import {
+  ARTICLE_OPTIONAL_CACHE_TAG,
+  OPTIONAL_REVALIDATE_SECONDS,
+} from "@/lib/articles/article-inflow-v2";
+import { decideCronRefresh } from "@/lib/revalidate";
 import {
   TERMINAL_FEED_CACHE_TAG,
   TERMINAL_FEED_ENV_KEY,
+  TERMINAL_FEED_REVALIDATE_SECONDS,
   fetchLiveMarketData,
 } from "@/lib/terminal/live-market-feed";
 
@@ -102,5 +109,24 @@ describe("ISR intervals (段 1・2026-11-12 入れ直し)", () => {
       next?: { tags?: string[] };
     };
     expect(init.next?.tags).toEqual([TERMINAL_FEED_CACHE_TAG]);
+  });
+
+  // ページの作り直し間隔は、そのページが読む取得の保存期間の最小値になる
+  // (2026-11-12 手元ビルドで実測: 取得が 3600 のままだと全ページが 1h だった)。
+  // 取得側を短くすると、ページに書いた 6 時間・1 日が黙って効かなくなる
+  it("keeps fetch lifetimes from undercutting the page intervals", () => {
+    // 共通の枠 (全ページ) と記事詳細の補助ファイル: 記事詳細の 1 日以上
+    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBeGreaterThanOrEqual(86400);
+    expect(OPTIONAL_REVALIDATE_SECONDS).toBeGreaterThanOrEqual(86400);
+    // 記事カタログ (一覧系): 一覧系の 6 時間以上
+    expect(ARTICLE_INFLOW_CATALOG_REVALIDATE_SECONDS).toBeGreaterThanOrEqual(21600);
+  });
+
+  it("refreshes the long-lived fetches from the cron", () => {
+    const decision = decideCronRefresh("secret", "Bearer secret");
+    expect(decision).toMatchObject({
+      ok: true,
+      tags: [TERMINAL_FEED_CACHE_TAG, ARTICLE_OPTIONAL_CACHE_TAG],
+    });
   });
 });

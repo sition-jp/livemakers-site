@@ -21,7 +21,8 @@ describe("overview page B+ composition wiring", () => {
     // 2026-10-26: 共通の枠は記事カタログを読まない loader を使う
     expect(layoutSource).toContain("await loadChromeProps()");
     expect(layoutSource).not.toContain("loadHomeCompositionProps");
-    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(3600);
+    // 段 1 (2026-11-12): 保存は 1 日。鮮度は合図 (毎時の配信の path・cron のタグ) が担う
+    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(86400);
     // 2026-08-14: ticker + 来歴帯は SiteChrome (全ページ共通 chrome) へ移設
     const siteChromeSource = fs.readFileSync(
       "components/layout/SiteChrome.tsx", "utf-8");

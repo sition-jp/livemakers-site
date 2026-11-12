@@ -212,7 +212,8 @@ describe("article inflow server boundary", () => {
       "https://example.test/production.json",
       expect.objectContaining({
         headers: { Accept: "application/json" },
-        next: { revalidate: 3600 },
+        // 段 1 (2026-11-12): 一覧系の 6 時間に合わせる
+        next: { revalidate: 21600 },
       }),
     );
   });
@@ -376,7 +377,7 @@ describe("article inflow feed — transient failure retry (2026-08-23)", () => {
       RequestInit & { next?: { revalidate?: number } },
     ];
     expect(init.signal).toBeInstanceOf(AbortSignal);
-    expect(init.next?.revalidate).toBe(3600);
+    expect(init.next?.revalidate).toBe(21600);
     expect(init.headers).toEqual({ Accept: "application/json" });
     expect(ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS).toBeGreaterThan(0);
     // #106 と同じ予算観: 2 attempts × timeout ≤ 9s (terminal feed と並列に走る)

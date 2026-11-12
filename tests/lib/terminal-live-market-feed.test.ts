@@ -220,7 +220,7 @@ describe("fetchLiveMarketData", () => {
     vi.stubGlobal("fetch", fetchMock);
     expect(await fetchLiveMarketData()).toBeNull();
     expect(fetchMock).not.toHaveBeenCalled();
-    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(3600);
+    expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(86400);
   });
 
   it("returns mapped data for a valid delivered payload", async () => {
