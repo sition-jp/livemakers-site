@@ -9,7 +9,9 @@ import { redirect } from "@/i18n/navigation";
 import { parseSeriesPageParam } from "@/lib/articles/series-pagination";
 import { isArticleTopic, topicPageHref } from "@/lib/articles/topics";
 
-export const revalidate = 300;
+// 段 1 (2026-11-12): 時間での作り直しは保険 (6 時間)。記事の公開の合図で作り直す
+// (lib/revalidate.ts の ARTICLE_LISTING_ROUTES)
+export const revalidate = 21600;
 
 // ページ数は記事の増加で変わるため事前生成しない (初回アクセス時に生成し
 // revalidate 300 で更新)。

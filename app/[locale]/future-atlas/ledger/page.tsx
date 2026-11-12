@@ -7,7 +7,7 @@ import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { buildLedgerSummary, currentJstDate } from "@/lib/future-atlas/snapshot";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
-export const revalidate = 300;
+export const revalidate = 21600;
 
 export async function generateMetadata({
   params,

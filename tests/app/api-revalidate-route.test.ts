@@ -95,6 +95,35 @@ describe("/api/revalidate and IndexNow (2026-11-10)", () => {
     });
     const response = await POST(request([`/ja/articles/${SLUG}`]));
     expect(response.status).toBe(200);
-    expect(await response.json()).toEqual({ ok: true, revalidated: [`/ja/articles/${SLUG}`] });
+    // 段 1 (2026-11-12): 記事の合図は RSS・sitemap と一覧の種類も作り直す
+    expect(await response.json()).toMatchObject({ ok: true, revalidated: [`/ja/articles/${SLUG}`] });
+  });
+});
+
+// 段 1 (2026-11-12 入れ直し): 記事の合図で一覧の種類と RSS・sitemap も作り直す。
+// どれも「前のページを保つ」送り方 (revalidateTag(…, "max")) で送る
+describe("/api/revalidate and the listing routes (段 1)", () => {
+  it("marks listing route types and feeds stale on an article signal", async () => {
+    process.env.LIVEMAKERS_REVALIDATE_TOKEN = TOKEN;
+    mocks.v2Enabled = false;
+    const response = await POST(request(["/ja/articles", `/ja/articles/${SLUG}`]));
+    expect(response.status).toBe(200);
+    const calls = mocks.revalidateTag.mock.calls.map(([tag, profile]) => [String(tag), profile]);
+    expect(calls).toContainEqual(["_N_T_/[locale]/page", "max"]);
+    expect(calls).toContainEqual(["_N_T_/[locale]/articles/series/[series]/page", "max"]);
+    expect(calls).toContainEqual(["_N_T_/sitemap-news.xml", "max"]);
+    expect(calls).toContainEqual([`_N_T_/ja/articles/${SLUG}`, "max"]);
+    // 記事詳細の種類は送らない (全記事が一斉に作り直しになる)
+    expect(calls.map(([tag]) => tag)).not.toContain("_N_T_/[locale]/articles/[slug]/page");
+    expect(calls.every(([, profile]) => profile === "max")).toBe(true);
+    // IndexNow には送られてきた path だけ
+    expect(mocks.notifyIndexNow).toHaveBeenCalledWith(["/ja/articles", `/ja/articles/${SLUG}`]);
+  });
+
+  it("does not touch listing routes for the market-feed push", async () => {
+    process.env.LIVEMAKERS_REVALIDATE_TOKEN = TOKEN;
+    await POST(request(["/ja", "/en"]));
+    const tags = mocks.revalidateTag.mock.calls.map(([tag]) => String(tag));
+    expect(tags).toEqual(["_N_T_/ja", "_N_T_/en"]);
   });
 });

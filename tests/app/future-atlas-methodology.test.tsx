@@ -25,7 +25,7 @@ describe("Future Atlas methodology route", () => {
 
   it("is ISR-backed and independent of surfacePublished", () => {
     const source = read("app/[locale]/future-atlas/methodology/page.tsx");
-    expect(source).toContain("export const revalidate = 300");
+    expect(source).toContain("export const revalidate = 21600");
     expect(source).toContain("MDXRemote");
     expect(source).toContain("remarkGfm");
     expect(source).not.toContain("surfacePublished");
