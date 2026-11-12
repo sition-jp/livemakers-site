@@ -76,7 +76,20 @@ export const TERMINAL_FEED_SCHEMA_VERSION = TERMINAL_FEED_SCHEMA_V01;
 // 3600s matches the actual delivery cadence and cuts ISR writes ~12x.
 // Client-side live surfaces (/api/dashboard/live no-store,
 // SWR polling) are unaffected.
-export const TERMINAL_FEED_REVALIDATE_SECONDS = 3600;
+// 段 1 (2026-11-12 入れ直し): ページの作り直し間隔は、そのページが読む取得の
+// 保存期間の最小値になる。3600 のままだと `export const revalidate = 86400` と
+// 書いた記事詳細も 1 時間で作り直されていた (ビルドログで実測)。保存は 1 日にして、
+// 鮮度は合図に任せる — トップ・セッションは毎時の配信が path で合図し、ほかの
+// ページの枠は cron が TERMINAL_FEED_CACHE_TAG で合図する。
+// 合図で作り直すとき、ページは保存済みの古い feed ではなく新しい feed で描かれる
+// (2026-11-12 手元の本番モードで実測: feed を差し替えて path の合図 → トップが
+// 新しい値・cron → about と記事詳細も新しい値)。
+export const TERMINAL_FEED_REVALIDATE_SECONDS = 86400;
+// 2026-10-26 段 1: 全ページ共通の枠 (ティッカー) がこの feed を読むので、セッション
+// 時刻の cron はこのタグで合図し、全ページの枠を次のアクセス時に新しくする。
+// feed は 131KB でデータキャッシュに載るのでタグがページに記録される (1.6MB の
+// 記事カタログはキャッシュに載らずタグが記録されない — 2026-10-26 手元で実測)
+export const TERMINAL_FEED_CACHE_TAG = "lvm-terminal-feed";
 
 const localizedTextSchema = z.object({ en: z.string(), ja: z.string() });
 
@@ -1335,7 +1348,10 @@ export async function fetchLiveMarketData(): Promise<LiveMarketData | null> {
   for (let attempt = 1; attempt <= TERMINAL_FEED_FETCH_ATTEMPTS; attempt += 1) {
     try {
       const response = await fetch(url, {
-        next: { revalidate: TERMINAL_FEED_REVALIDATE_SECONDS },
+        next: {
+          revalidate: TERMINAL_FEED_REVALIDATE_SECONDS,
+          tags: [TERMINAL_FEED_CACHE_TAG],
+        },
         signal: AbortSignal.timeout(TERMINAL_FEED_FETCH_TIMEOUT_MS),
       });
       if (response.ok) return mapTerminalFeed(await response.json());

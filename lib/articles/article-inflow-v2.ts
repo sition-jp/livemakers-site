@@ -32,7 +32,11 @@ import { stripUnverifiedThumbnails } from "@/lib/articles/thumbnail-verification
 export const ARTICLE_INFLOW_V2_BASE_URL_ENV_KEY = "LIVEMAKERS_ARTICLE_INFLOW_V2_BASE_URL";
 const FETCH_ATTEMPTS = 2;
 const FETCH_TIMEOUT_MS = 4_000;
-const OPTIONAL_REVALIDATE_SECONDS = 3600;
+// 段 1 (2026-11-12 入れ直し): rail・前後リンク・棚の一覧は記事詳細が読むので、
+// ここの値が記事詳細の作り直し間隔の上限になる。記事詳細の 1 日に合わせ、
+// cron (1 日 6 回) が ARTICLE_OPTIONAL_CACHE_TAG で合図して新しくする
+export const OPTIONAL_REVALIDATE_SECONDS = 86400;
+export const ARTICLE_OPTIONAL_CACHE_TAG = "lvm-article-optional";
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const HREF_BASE = "/articles";
 // 手元の確認 (Task 7) のための配信サーバーだけを Blob 以外に許す。
@@ -156,7 +160,7 @@ export async function fetchArticleRail(
   if (!base) return null;
   const payload = await fetchJson(
     `${base}/rail.json`,
-    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS } },
+    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS, tags: [ARTICLE_OPTIONAL_CACHE_TAG] } },
     fetcher,
   );
   const rail = payload && payload !== "missing" ? parseArticleRail(payload) : null;
@@ -178,7 +182,7 @@ export async function fetchArticleFamilyIndex(
   if (!base || !SLUG_PATTERN.test(family)) return null;
   const payload = await fetchJson(
     `${base}/families/${family}.json`,
-    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS } },
+    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS, tags: [ARTICLE_OPTIONAL_CACHE_TAG] } },
     fetcher,
   );
   const index = payload && payload !== "missing" ? parseArticleFamilyIndex(payload) : null;
@@ -204,7 +208,7 @@ export async function fetchArticleTopicIndex(
   if (!base || !isArticleInflowV2Enabled() || !isArticleTopic(topic)) return null;
   const payload = await fetchJson(
     `${base}/topics/${topic}.json`,
-    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS } },
+    { next: { revalidate: OPTIONAL_REVALIDATE_SECONDS, tags: [ARTICLE_OPTIONAL_CACHE_TAG] } },
     fetcher,
   );
   const index = payload && payload !== "missing" ? parseArticleTopicIndex(payload) : null;

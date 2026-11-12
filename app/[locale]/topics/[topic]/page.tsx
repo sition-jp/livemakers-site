@@ -6,7 +6,9 @@ import {
 } from "@/components/articles/TopicListPage";
 import { ARTICLE_TOPICS } from "@/lib/articles/topics";
 
-export const revalidate = 300;
+// 段 1 (2026-11-12): 時間での作り直しは保険 (6 時間)。記事の公開の合図で作り直す
+// (lib/revalidate.ts の ARTICLE_LISTING_ROUTES)
+export const revalidate = 21600;
 
 export function generateStaticParams() {
   return ARTICLE_TOPICS.map((topic) => ({ topic }));

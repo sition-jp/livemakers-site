@@ -202,6 +202,8 @@ function describeFailure(error: unknown): string {
   return error instanceof Error ? `${error.name}: ${error.message}` : String(error);
 }
 
+export const ARTICLE_INFLOW_CATALOG_REVALIDATE_SECONDS = 21600;
+
 async function fetchValidatedArticleInflowFeed(
   url: string,
   fetcher: typeof fetch,
@@ -221,7 +223,10 @@ async function fetchValidatedArticleInflowFeed(
         // 全記事ページの実効 ISR 間隔を 5 分へ引き戻し、ISR Writes 42万回/11日
         // + Fluid CPU 38h の主因になっていた。鮮度は公開レーンの on-demand
         // revalidate (push purge) が担うため 3600s で読者影響なし。
-        next: { revalidate: 3600 },
+        // 段 1 (2026-11-12 入れ直し): ここの値は一覧系ページの作り直し間隔の
+        // 上限になる (カタログは 2MB を超えて保存されないが、値は効く)。一覧系の
+        // 6 時間に合わせる。鮮度は公開の合図 (ARTICLE_LISTING_ROUTES) が担う
+        next: { revalidate: ARTICLE_INFLOW_CATALOG_REVALIDATE_SECONDS },
         signal: AbortSignal.timeout(ARTICLE_INFLOW_FEED_FETCH_TIMEOUT_MS),
       });
       if (!response.ok) {

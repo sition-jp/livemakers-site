@@ -11,6 +11,7 @@ import {
   articleSlugsFromPaths,
   decideRevalidate,
   pagePathTag,
+  pageRouteTag,
 } from "@/lib/revalidate";
 import { notifyIndexNowAfterResponse } from "@/lib/seo/indexnow";
 
@@ -41,7 +42,7 @@ export async function POST(request: Request) {
   }
   // 2026-10-26 (PR-A): 古いページを出しながら裏で作り直す。作り直しに失敗
   // しても前のページが残る (revalidatePath は即時に捨てるので 500 になった)
-  for (const path of decision.paths) {
+  for (const path of [...decision.paths, ...(decision.feeds ?? [])]) {
     revalidateTag(pagePathTag(path), "max");
   }
   // 2026-10-27 (段 2a): 記事ページはカタログ v2 の記録を期限なしで保存する。
@@ -65,5 +66,19 @@ export async function POST(request: Request) {
   } catch {
     // 知らせの失敗は読者にも応答にも出さない
   }
-  return Response.json({ ok: true, revalidated: decision.paths });
+  // 段 1 (2026-11-12 入れ直し): ページの種類ごとの作り直しとタグの合図。
+  // path の合図と同じく、古いページを出しながら裏で作り直す
+  for (const route of decision.routes ?? []) {
+    revalidateTag(pageRouteTag(route), "max");
+  }
+  for (const tag of decision.tags ?? []) {
+    revalidateTag(tag, "max");
+  }
+  return Response.json({
+    ok: true,
+    revalidated: decision.paths,
+    feeds: decision.feeds ?? [],
+    routes: decision.routes ?? [],
+    tags: decision.tags ?? [],
+  });
 }

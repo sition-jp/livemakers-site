@@ -21,7 +21,7 @@ import { getAllVideos } from "@/lib/videos";
  * 載せると、Google に重複コンテンツとして扱われる URL を自ら増やすだけに
  * なるため、真の翻訳が入るまでは ja のみとする。
  */
-export const revalidate = 3600;
+export const revalidate = 86400;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const catalog = await loadPublicArticleInflowCatalog();
