@@ -1,0 +1,201 @@
+{
+  "episodeId": "ep012",
+  "sources": [
+    {
+      "key": "boj_fx",
+      "title": "日本銀行 — 外国為替市況 (2026-11-12・17 時 159 円 70〜71 銭・値幅 159 円 49 銭〜159 円 93 銭)",
+      "url": "https://www.boj.or.jp/statistics/market/forex/fxdaily/fxlist/fx261112.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "boj_fx_0729",
+      "title": "日本銀行 — 外国為替市況 (2026-07-29・17 時 163 円 68〜70 銭)",
+      "url": "https://www.boj.or.jp/statistics/market/forex/fxdaily/fxlist/fx260729.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "boj_fx_0803",
+      "title": "日本銀行 — 外国為替市況 (2026-08-03・17 時 156 円 76〜78 銭)",
+      "url": "https://www.boj.or.jp/statistics/market/forex/fxdaily/fxlist/fx260803.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "boj_fx_0902",
+      "title": "日本銀行 — 外国為替市況 (2026-09-02・値幅の上端 160 円 39 銭)",
+      "url": "https://www.boj.or.jp/statistics/market/forex/fxdaily/fxlist/fx260902.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "boj_1219",
+      "title": "日本銀行 — 金融市場調節方針の変更について (2025-12-19・0.75% 程度)",
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2025/k251219a.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "boj_0616",
+      "title": "日本銀行 — 金融市場調節方針の変更について (2026-06-16・1.0% 程度・賛成 7 反対 1)",
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2026/k260616a.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "boj_0918",
+      "title": "日本銀行 — 金融市場調節方針の変更について (2026-09-18・1.25% 程度・賛成 7 反対 2)",
+      "url": "https://www.boj.or.jp/mopo/mpmdeci/mpr_2026/k260918a.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "mof_feio_2q",
+      "title": "財務省 — 外国為替平衡操作の実施状況 (2026 年 4〜6 月・計 11 兆 7,349 億円)",
+      "url": "https://www.mof.go.jp/policy/international_policy/reference/feio/data/quarter/2026_2Q.html",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "mof_feio_3q",
+      "title": "財務省 — 外国為替平衡操作の実施状況 (2026 年 7〜9 月・計 15 兆 3,993 億円)",
+      "url": "https://www.mof.go.jp/policy/international_policy/reference/feio/data/quarter/2026_3Q.html",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "mof_feio_idx",
+      "title": "財務省 — 外国為替平衡操作の実施状況 (公表予定・2026-11-30 午後 7 時に 10/29〜11/26 の分)",
+      "url": "https://www.mof.go.jp/policy/international_policy/reference/feio/index.html",
+      "accessed": "2026-11-13",
+      "chapter": 7
+    },
+    {
+      "key": "mof_jgb",
+      "title": "財務省 — 国債金利情報 (日次・2026-01-05 / 10-07 / 11-12 の 2 年と 10 年)",
+      "url": "https://www.mof.go.jp/jgbs/reference/interest_rate/index.htm",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "ust",
+      "title": "米財務省 — Daily Treasury Par Yield Curve Rates (2026-01-05 / 11-12 の 2 年)",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve&field_tdr_date_value=2026",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "frb_0916",
+      "title": "FRB — FOMC statement (2026-09-16・0.25 ポイント上げて 3.75〜4.00%)",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "frb_1028",
+      "title": "FRB — FOMC statement (2026-10-28・据え置き・10 対 2・2 人が利上げを求めて反対)",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "frb_cal",
+      "title": "FRB — FOMC Meeting calendars (2026-12-08〜09)",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "ecb_fx",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-01-02 は USD 1.1721 / JPY 183.94・2026-11-12 は USD 1.1081 / JPY 176.96)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "tanaka_gold",
+      "title": "田中貴金属工業 — 日次金価格推移 (店頭小売価格・税込・1 グラム。2026-01-05 は 24,491 円・2026-11-12 は 22,658 円)",
+      "url": "https://gold.tanaka.co.jp/commodity/souba/d-gold.php",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "mof_bop",
+      "title": "財務省 — 令和 8 年度上期中 国際収支状況 (速報) の概要 (2026-11-10)",
+      "url": "https://www.mof.go.jp/policy/international_policy/reference/balance_of_payments/preliminary/pg2026hfy.htm",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "stat_cpi",
+      "title": "総務省統計局 — 消費者物価指数 全国 2026 年 9 月分 (2026-10-23・総合 2.1%・生鮮食品を除く総合 2.1%)",
+      "url": "https://www.stat.go.jp/data/cpi/sokuhou/tsuki/index-z.html",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "estat_cpi_cal",
+      "title": "e-Stat — 消費者物価指数の公表予定 (10 月分 = 2026-11-20・11 月分 = 2026-12-18)",
+      "url": "https://www.e-stat.go.jp/release-calendar/statistics/00200573",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "boj_cgpi",
+      "title": "日本銀行 — 企業物価指数 (2026 年 10 月速報・2026-11-12)",
+      "url": "https://www.boj.or.jp/statistics/pi/cgpi_release/cgpi2610.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "boj_opinion",
+      "title": "日本銀行 — 金融政策決定会合における主な意見 (2026 年 10 月 29・30 日開催分・2026-11-10)",
+      "url": "https://www.boj.or.jp/mopo/mpmsche_minu/opinion_2026/opi261030.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "boj_asada",
+      "title": "日本銀行 — 浅田審議委員「わが国の経済・物価情勢と金融政策」長崎県金融経済懇談会における挨拶要旨 (2026-11-12)",
+      "url": "https://www.boj.or.jp/about/press/koen_2026/ko261112a.htm",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "jhf",
+      "title": "住宅金融支援機構 — 住宅ローン利用者の実態調査 (2026 年 6 月調査・2026-11-06)",
+      "url": "https://www.jhf.go.jp/files/topics/4955_ext_99_9.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 5
+    },
+    {
+      "key": "mof_debt",
+      "title": "財務省 — 国債及び借入金並びに政府保証債務現在高 (2026 年 9 月末・2026-11-10)",
+      "url": "https://www.mof.go.jp/jgbs/reference/gbb/202609.html",
+      "accessed": "2026-11-13",
+      "chapter": 5
+    },
+    {
+      "key": "mof_budget",
+      "title": "財務省 — 令和 8 年度予算のポイント (利払費 13.0 兆円・積算金利 3.0%)",
+      "url": "https://www.mof.go.jp/policy/budget/budger_workflow/budget/fy2026/seifuan2026/01.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 5
+    },
+    {
+      "key": "boj_sche",
+      "title": "日本銀行 — 金融政策決定会合の運営 (2026-12-17〜18)",
+      "url": "https://www.boj.or.jp/mopo/mpmsche_minu/index.htm",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "boj_discount",
+      "title": "日本銀行 — 基準割引率および基準貸付利率の推移 (1989 年は 5 月・10 月・12 月の 3 回)",
+      "url": "https://www.boj.or.jp/statistics/boj/other/discount/discount.htm",
+      "accessed": "2026-11-13",
+      "chapter": 7
+    }
+  ]
+}
