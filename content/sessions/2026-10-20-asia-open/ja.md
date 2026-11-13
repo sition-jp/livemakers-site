@@ -1,0 +1,66 @@
+日本では、使い道を決めた給付金にステーブルコインやトークン化預金を使う検討が、デジタル庁の発言として議事録に載った。海外では JPMorgan の預金トークンがイーサリアムの本体に広がり、Visa と Mastercard もステーブルコインの入口と守りを整えた。欧州ではフランスの国債の利回りが10月1日の高値に近づき、外交の見出しが続く一方で原油は高いままだ。国内では企業への不正アクセスの公表が相次ぎ、攻撃の自動化に守りが追いつくかが問われている。
+
+## 数値スナップショット
+
+- 日経225（perp） 63,972 → 64,801（+1.30%）
+- 変動幅上位: BTCボラティリティ（BVIV） -2.4% / Coinbase（perp） -2.0%
+
+| 指標 | 起点 | 現値 | 変化率 |
+| --- | --- | --- | --- |
+| 日経225（perp） | 63,972 | 64,801 | +1.30%（24h） |
+| USD/JPY（perp） | 157.860 | 158.430 | +0.36%（24h） |
+| BTC/USD | $81,529 | $82,114 | +0.72%（24h） |
+
+## 一次情報ハイライト
+
+- [Mesh が Visa と組み、ウォレットの中の暗号資産やステーブルコインを、別のカードなしで世界の1億7500万超の加盟店で使えるようにした](https://www.theblock.co/news/business/2026-10-19-mesh-visa-partner-spend-crypto-stablecoins-421058)
+- [Mastercard が、ステーブルコインの支払いを詐欺や制裁のリスクの面から調べる道具を出した](https://www.theblock.co/news/business/2026-10-19-mastercard-unveils-stablecoin-security-tool-to-screen-payments-for-fraud-and-sanctions-risks-420658)
+- [通貨監督庁（OCC）が GENIUS 法の最終規則を月末までに出す見通しで、ニューヨーク州とワイオミング州は暗号資産の規制で協力すると伝えられた](https://x.com/EleanorTerrett/status/2112221834259124452)
+- [ブレント原油が110ドルを超え、5月19日以来の高さになった](https://x.com/Kalshi/status/2112232930315583904)
+- [Anthropic が、エヌビディアが出資するデータセンターの Nscale から450億ドルの計算資源を買う交渉をしていると伝えられた](https://x.com/KobeissiLetter/status/2112266859303076186)
+- [S&P 500 のプットオプションの取引額が16日に過去最大の3.3兆ドルになった](https://x.com/KobeissiLetter/status/2112211168664367229)
+- [Tenstorrent が、オープンな AI の半導体を広げるための資金調達で、評価額62億ドルになった](https://techcrunch.com/2026/10/19/tenstorrent-hits-6-2b-valuation-to-scale-open-weight-ai-chips/)
+- [Canary が、ステーキングした INJ の ETF の申請を示し「近日登場」とした](https://x.com/CanaryFunds/status/2112254202043093119)
+- [UNI が、DeFi のトークンとして初めて CME の先物の対象になった](https://x.com/Uniswap/status/2112230593320854007)
+- [無期限先物をめぐる争いで、CFTC が CME の法的な立場を退けた](https://www.coindesk.com/policy/2026/10/19/u-s-cftc-rebuffs-cme-legal-stance-in-consequential-fight-over-perpetual-futures)
+- [Solana の7〜9月期の投票以外の取引は89.2億件で、2025年10〜12月期から104%増えた](https://x.com/solana/status/2112251409924280535)
+- [DTCC が今月始めるトークン化のサービスに、Ripple Prime を含む50超の会社が加わった](https://x.com/coinbureau/status/2112242378903822621)
+- [Coinbase が Thunes と組み、ステーブルコインの基盤を各国の銀行口座やモバイルウォレットにつなぐ](https://x.com/coinbase/status/2112218427586670984)
+- [Circle が Proof と組み、エージェントが誰の代理かを x401 で示し、USDC で支払う実演を Money20/20 で見せる](https://x.com/circle/status/2112212996659527772)
+- [Euronet と Fireblocks が、ステーブルコインを原資にするカードの発行で組む](https://www.finextra.com/pressarticle/111344/euronet-and-fireblocks-team-on-stablecoin-funded-card-issuing?utm_medium=rssfinextra&utm_source=finextrafeed)
+- [Cosmos が、銀行がトークン化預金を Jack Henry の勘定系とつなげる仕組みを出した](https://x.com/cosmos/status/2112195665573073330)
+- [Zerohash が、ウォレットのアドレスを写さずに暗号資産を送れる道具を出した](https://www.coindesk.com/business/2026/10/19/zerohash-rolls-out-a-new-tool-to-move-crypto-without-copying-wallet-addresses)
+- [AnchorWatch が、顧客ごとに最大3億7000万ドルの保険をつけたビットコインの保管を始めた](https://www.theblock.co/news/business/2026-10-19-anchorwatch-bitcoin-custody-insurance-421011)
+- [Chainlink のイベントに、毎月8兆ドルのオンチェーンのレポを処理する Broadridge の幹部が登壇する](https://x.com/chainlink/status/2112255266234466400)
+- [イスラエルの警察が、ヨルダン川西岸の入植者への珍しい捜索で10人を拘束した](https://www.theguardian.com/world/2026/oct/19/israeli-police-detain-10-people-in-rare-raid-against-west-bank-settlers)
+- [バークシャーが2週間ほぼ毎日 Lennar を買い、持ち分は12%になった](https://x.com/Kalshi/status/2112257475017605159)
+- [世界のテクノロジー株のファンドから、10月14日までの週に48億ドルが流出した](https://x.com/KobeissiLetter/status/2112226771454009422)
+- [半導体指数と S&P 500 の比率が4月以来の低さになった](https://x.com/KobeissiLetter/status/2112240612749574359)
+- [AI アシスタントの Town が、立ち上げから4か月で評価額10億ドルを超えた](https://techcrunch.com/2026/10/19/ai-assistant-startup-town-nabs-unicorn-valuation-four-months-after-launch/)
+- [Galaxy の AI データセンターの事業は過小評価されていると StoneX がみる](https://www.theblock.co/news/markets/2026-10-19-galaxy-digital-glxy-stonex-buy-coreweave-helios-ai-data-center-421045)
+- [Salesforce の論文が、Claude Code や Codex などを使った2,500超のエージェント同士の対話から20の失敗の型を示した](https://x.com/stretchcloud/status/2112265024190259539)
+- [Tesla が、年次の株主総会を12月3日に開くと確認した](https://x.com/Kalshi/status/2112265526634500136)
+- [Apple が10月28日に発表会を開く](https://x.com/Polymarket/status/2112218390399963351) — 初のタッチ画面の MacBook Pro を出すと伝えられた
+- [トランプ大統領と夫人が、NIH に女性の健康の部門を作る大統領令に署名した](https://x.com/WhiteHouse/status/2112188114252759485)
+- [連邦の捜査員が、カリフォルニア州で有権者の不正をめぐる捜索を始めた](https://x.com/Kalshi/status/2112192043254534373)
+- [米最高裁が、9.11の首謀者とされるハリド・シェイク・モハメド被告との司法取引を復活させなかった](https://www.washingtontimes.com/news/2026/oct/19/supreme-court-wont-revive-plea-deal-khalid-shaikh-mohammad-911/)
+- [米宇宙軍が、特殊作戦の司令部の部隊を作った](https://www.washingtontimes.com/news/2026/oct/19/us-space-force-establishes-special-operations-command-unit/)
+- [カナダが、兵士4人が亡くなった軍の基地の火災に50人の調査官を送った](https://www.washingtontimes.com/news/2026/oct/19/50-investigators-deployed-probe-canada-military-base-fire-killed-4/)
+- [Metaplanet が Super League を2,100 BTC と250万ドルで買い、米国に上場するビットコインのトレジャリーの拠点を得る](https://x.com/BitcoinMagazine/status/2112218012740956347)
+- [glassnode によると](https://x.com/glassnode/status/2112213058970148913)
+- [Multicoin Capital のヘッジファンドで、HYPE が最大の保有になった](https://x.com/coinbureau/status/2112203103537889741)
+- [Altitude が、米国の支払い用 QR の新しい規格 X9.150 を使い、請求書を Solana 上の USDC で決済する実演を見せる](https://x.com/solana/status/2112220647308828727)
+- [Aave V4 の Arc での貸し出しが1億ドルを超えた](https://x.com/aave/status/2112237092407316534)
+- [Lighter で、バイナリーオプションが始まった](https://x.com/Lighter_xyz/status/2112230899668644212)
+- [Coinbase で、AI のエージェントに無期限先物を取引させられるようになった](https://x.com/brian_armstrong/status/2112197034866315327)
+- [Polygon が、閉じた Besu のチェーンをほかのチェーンにつなぐ CDK Besu を出した](https://x.com/0xPolygon/status/2112227693865681365)
+- [Tether が、上院議員の調査はイランとの取引量を減らした取り組みを見落としていると反論した](https://www.coindesk.com/policy/2026/10/19/tether-senator-s-investigation-misses-positive-work-that-s-led-to-lower-iran-volumes)
+- [PENGU が、SoFi で売り買いできるようになった](https://x.com/pudgypenguins/status/2112235358138044552)
+- [「ココナラスキルマーケット」に不正アクセスがあり、履歴書などが流出した](https://www.security-next.com/191329)
+- [交通系 IC「nimoca」の利用の履歴を調べるサービスで、個人情報が流出した](https://www.security-next.com/191145)
+
+## 次の見どころ
+
+- フランスの10年国債の利回りが10月1日の高値（約4.99%）を超えるか
+- 米国とイランの合意の発表の有無と、ブレント原油が110ドル台を保つか
+- OCC の GENIUS 法の最終規則の公表と、国内のステーブルコインの給付への活用の検討の進み
