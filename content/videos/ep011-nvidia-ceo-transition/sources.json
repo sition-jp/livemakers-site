@@ -1,0 +1,145 @@
+{
+  "episodeId": "ep011",
+  "sources": [
+    {
+      "key": "nvda_8k",
+      "title": "NVIDIA Corporation — Form 8-K (SEC EDGAR・2026-11-12 提出・Item 5.02 役員の退任と選任)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "nvda_pr",
+      "title": "NVIDIA — NVIDIA Announces CEO Transition (2026-11-12・8-K の添付 99.1)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvidiaannouncesceotransiti.htm",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "nvda_10q",
+      "title": "NVIDIA Corporation — Form 10-Q (SEC EDGAR・2026-08-26 提出・2026 年 7 月 26 日までの四半期)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000075/nvda-20260726.htm",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "nvda_cfo",
+      "title": "NVIDIA — CFO Commentary on Second Quarter Fiscal 2027 Results (2026-08-26・8-K の添付)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000073/q2fy27cfocommentary.htm",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "s1a2",
+      "title": "Anthropic, PBC — Form S-1/A Amendment No. 2 (SEC EDGAR・2026-11-10)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072484/anthropicpbc-sx1ax2.htm",
+      "accessed": "2026-11-13",
+      "chapter": 5
+    },
+    {
+      "key": "ipo_site",
+      "title": "Anthropic, PBC — 上場の案内サイトの写し (SEC に Form FWP で提出・値決め 11/18・売買開始 11/19 の見込み)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072949/anthropicpbc-fwpipowebsi.htm",
+      "accessed": "2026-11-13",
+      "chapter": 6
+    },
+    {
+      "key": "nasdaq_nvda",
+      "title": "Nasdaq — NVDA の日ごとの値段と売買高 (2026-11-12 まで)",
+      "url": "https://www.nasdaq.com/market-activity/stocks/nvda/historical",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "ecb_fx",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-11-12・USD 1.1081 / JPY 176.96)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "cnbc_live",
+      "title": "CNBC — Nvidia CEO Jensen Huang resigns (速報のまとめ・2026-11-12)",
+      "url": "https://www.cnbc.com/2026/11/12/nvidia-jensen-huang-ceo-live-updates.html",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "lvm_signal",
+      "title": "LiveMakers — Signal｜Nvidia のフアン CEO が即日辞任、クレス CFO が暫定 CEO に (2026-11-13)",
+      "url": "https://livemakers.com/ja/articles/signal-20261113-060a6d36",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "lvm_di",
+      "title": "LiveMakers — Daily Intel 11/13｜Nvidia のトップ交代、AI 相場の資金の出し手が揺らぐ (2026-11-13)",
+      "url": "https://livemakers.com/ja/articles/daily-intel-20261113-78614145",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "house_letter",
+      "title": "米下院 外交委員会・中国特別委員会・情報特別委員会の委員長 — NVIDIA のフアン氏あての書簡 (2026-11-04)",
+      "url": "https://foreignaffairs.house.gov/sites/evo-subsites/republicans-foreignaffairs.house.gov/files/evo-media-document/11.4.26nvidialetter.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "rasa_roll",
+      "title": "米下院 書記官 — Roll Call 13・H.R. 2683 Remote Access Security Act (2026-01-12・賛成 369 / 反対 22)",
+      "url": "https://clerk.house.gov/evs/2026/roll013.xml",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "rasa_pr",
+      "title": "米下院 中国特別委員会 — House Passes Bipartisan Legislation to Limit Adversaries' Remote Access to Critical Technology (2026-01-12)",
+      "url": "https://chinaselectcommittee.house.gov/media/press-releases/house-passes-bipartisan-legislation-to-limit-adversaries-remote-access-to-critical-technology",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "mfa_1112",
+      "title": "中国外務省 — Foreign Ministry Spokesperson Mao Ning's Regular Press Conference on November 12, 2026",
+      "url": "https://www.mfa.gov.cn/eng/xw/fyrbt/lxjzh/202611/t20261112_12058413.html",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "huang_computex",
+      "title": "Bloomberg (BNN Bloomberg 掲載) — Nvidia CEO praises Trump move to scrap some AI export curbs (2025-05-21・台北の Computex での会見)",
+      "url": "https://www.bnnbloomberg.ca/business/technology/2025/05/21/nvidia-ceo-praises-trump-move-to-scrap-some-ai-export-curbs/",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "atlantic",
+      "title": "Atlantic Council — Beyond the spy scandal - What the Nvidia-Megaspeed case reveals about export controls (2026-11-12)",
+      "url": "https://www.atlanticcouncil.org/dispatches/beyond-the-spy-scandal-what-the-nvidia-megaspeed-case-reveals-about-export-controls/",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "megaspeed_stmt",
+      "title": "NBC News — Megaspeed, chip firm at center of Nvidia scandal, pledges to cooperate with U.S. investigation (2026-11-12)",
+      "url": "https://www.nbcnews.com/tech/tech-news/megaspeed-statement-nvidia-jensen-huang-alice-us-exports-chips-china-rcna608939",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    },
+    {
+      "key": "reed_reuters",
+      "title": "Reuters — US Democratic senator wants assessment of whether Nvidia is 'too big to fail' (2026-11-12・David Shepardson)",
+      "url": "https://www.usnews.com/news/top-news/articles/2026-11-12/us-democratic-senator-wants-assessment-of-whether-nvidia-is-too-big-to-fail",
+      "accessed": "2026-11-13",
+      "chapter": 5
+    },
+    {
+      "key": "nasdaq_rivals",
+      "title": "Nasdaq — AMD と AVGO (Broadcom) の日ごとの終値 (2026-11-06〜11-12)",
+      "url": "https://www.nasdaq.com/market-activity/stocks/amd/historical",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    }
+  ]
+}

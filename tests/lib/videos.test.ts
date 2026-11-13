@@ -104,7 +104,25 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(48);
   });
 
-  it("ep009 は 5 章・YouTube 概要欄と同じ時刻・出典 11 件を持ち、最新の投稿になる", () => {
+  it("ep011 は第 10 回・6 章・YouTube 概要欄と同じ時刻・出典 20 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep011-nvidia-ceo-transition");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep011");
+    expect(video!.episodeNumber).toBe(10);
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "01:17",
+      "02:20",
+      "04:59",
+      "07:03",
+      "09:20",
+    ]);
+    expect(video!.durationSeconds).toBe(11 * 60 + 3);
+    expect(video!.sources).toHaveLength(20);
+    expect(getLatestPostedVideo()?.slug).toBe("ep011-nvidia-ceo-transition");
+  });
+
+  it("ep009 は 5 章・YouTube 概要欄と同じ時刻・出典 11 件を持つ", () => {
     const video = getVideoBySlug("ep009-anthropic-ipo-price");
     expect(video).not.toBeNull();
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
@@ -116,7 +134,6 @@ describe("content/videos (repo の実データ)", () => {
     ]);
     expect(video!.durationSeconds).toBe(8 * 60 + 28);
     expect(video!.sources).toHaveLength(11);
-    expect(getLatestPostedVideo()?.slug).toBe("ep009-anthropic-ipo-price");
   });
 
   it("ep008 は 7 章・YouTube 概要欄と同じ時刻・出典 34 件を持つ", () => {
