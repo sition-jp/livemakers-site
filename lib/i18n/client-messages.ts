@@ -25,7 +25,6 @@ export const CLIENT_MESSAGE_SCOPES = {
   signals: ["signals"],
   intents: ["intents"],
   assets: ["assets"],
-  subscribe: ["subscribe"],
 } as const satisfies Record<string, readonly string[]>;
 
 export type ClientMessageScope = keyof typeof CLIENT_MESSAGE_SCOPES;

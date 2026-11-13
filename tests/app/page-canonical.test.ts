@@ -60,7 +60,6 @@ type MetadataFn = (args: { params: Promise<Record<string, string>> }) => Promise
 const STATIC_PAGES: Array<[string, string, Record<string, string>?]> = [
   ["@/app/[locale]/brief/page", "/brief"],
   ["@/app/[locale]/about/page", "/about"],
-  ["@/app/[locale]/subscribe/page", "/subscribe"],
   ["@/app/[locale]/signals/page", "/signals"],
   ["@/app/[locale]/assets/page", "/assets"],
   ["@/app/[locale]/assets/[asset]/page", "/assets/btc", { asset: "btc" }],
