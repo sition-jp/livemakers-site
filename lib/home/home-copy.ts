@@ -269,6 +269,14 @@ export function buildHomeCopy(
       title: translate("usHeatmap.title"),
       tooltip: (symbol, changeLabel) =>
         translate("usHeatmap.tooltip", { symbol, change: changeLabel }),
+      themesTitle: translate("usHeatmap.themesTitle"),
+      themeTooltip: (name, changeLabel, members) =>
+        translate("usHeatmap.themeTooltip", {
+          name,
+          change: changeLabel,
+          members: members.join("・"),
+          count: members.length,
+        }),
     },
   };
 }

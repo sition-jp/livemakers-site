@@ -1563,7 +1563,50 @@ describe("heatmap section", () => {
       subline: "上がった 2・下がった 1・時価総額 +0.34 兆ドル（概算）・11/9 の米国市場",
       summary: { count: 3, up: 2, down: 1, flat: 0, capChangeLabel: "+0.34 兆ドル" },
       sectors: heatmap.sectors,
+      themes: [],
     });
+    expect(feed?.home).not.toBeNull();
+  });
+
+  // 2026-11-14 テーマの段 (core spec 2026-11-14-us-heatmap-theme-row-design §5.3)
+  const heatmapV02 = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "tests/fixtures/us-heatmap/section-v02.json"), "utf8"),
+  ) as Record<string, any>;
+
+  it("parses v0.2 themes", () => {
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), heatmap: heatmapV02 });
+    expect(feed?.heatmap?.themes).toEqual([
+      { name: "AI関連", changeLabel: "+5.50%", direction: "up", members: ["NVDA", "AAPL"] },
+      { name: "電力", changeLabel: "-0.50%", direction: "down", members: ["AAPL", "LLY"] },
+    ]);
+    expect(feed?.heatmap?.sectors).toHaveLength(3);
+  });
+
+  it("accepts v0.2 with no themes", () => {
+    const ok = structuredClone(heatmapV02);
+    ok.themes = [];
+    expect(mapTerminalFeed({ ...sampleHomeV03(), heatmap: ok })?.heatmap?.themes).toEqual([]);
+  });
+
+  it.each<[string, (h: Record<string, any>) => void]>([
+    ["v0.2 without themes", (h) => { delete h.themes; }],
+    ["v0.1 with themes", (h) => { h.schemaVersion = "livemakers_us_heatmap_v0.1"; }],
+    ["9 themes", (h) => {
+      h.themes = Array.from({ length: 9 }, (_, i) => ({ ...h.themes[0], name: `T${i}` }));
+    }],
+    ["a theme of 1 member", (h) => { h.themes[0].members = ["NVDA"]; }],
+    ["a member not on the chart", (h) => { h.themes[0].members = ["NVDA", "SPCX"]; }],
+    ["a duplicate member", (h) => { h.themes[0].members = ["NVDA", "NVDA"]; }],
+    ["a duplicate theme name", (h) => { h.themes[1].name = "AI関連"; }],
+    ["a theme name over 16 chars", (h) => { h.themes[0].name = "あ".repeat(17); }],
+    ["a bad theme changeLabel", (h) => { h.themes[0].changeLabel = "5.5"; }],
+    ["a bad theme direction", (h) => { h.themes[0].direction = "sideways"; }],
+    ["an extra theme key", (h) => { h.themes[0].color = "#00a86b"; }],
+  ])("drops only heatmap on %s", (_name, mutate) => {
+    const bad = structuredClone(heatmapV02);
+    mutate(bad);
+    const feed = mapTerminalFeed({ ...sampleHomeV03(), heatmap: bad });
+    expect(feed?.heatmap).toBeNull();
     expect(feed?.home).not.toBeNull();
   });
 
@@ -1585,7 +1628,7 @@ describe("heatmap section", () => {
     ["bad direction", (h) => { h.sectors[0].direction = "sideways"; }],
     ["bad changeLabel format", (h) => { h.sectors[0].items[0].changeLabel = "5.5"; }],
     ["an extra key", (h) => { h.sectors[0].items[0].color = "#00a86b"; }],
-    ["unknown schemaVersion", (h) => { h.schemaVersion = "livemakers_us_heatmap_v0.2"; }],
+    ["unknown schemaVersion", (h) => { h.schemaVersion = "livemakers_us_heatmap_v0.3"; }],
     ["a different source", (h) => { h.source = "yahoo"; }],
     ["a malformed sessionDate", (h) => { h.sessionDate = "2026/11/09"; }],
     ["no sectors", (h) => { h.sectors = []; }],
