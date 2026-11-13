@@ -5,7 +5,6 @@
     "articles": "記事",
     "archive": "アーカイブ",
     "signals": "SIGNALS",
-    "subscribe": "SUBSCRIBE",
     "about": "About",
     "futureAtlas": "未来アトラス",
     "snapshot": "SNAPSHOT",
@@ -260,17 +259,6 @@
     "downloadPdf": "PDFをダウンロード",
     "nextIssue": "次号 →",
     "previousIssue": "← 前号"
-  },
-  "subscribe": {
-    "title": "購読登録",
-    "subtitle": "金融再起動を読む週次インテリジェンス。毎週金曜 12:00 JST に livemakers.com で公開します。",
-    "emailLabel": "メールアドレス",
-    "emailPlaceholder": "you@example.com",
-    "submit": "登録する",
-    "pending": "登録ありがとうございます。確認メールをお送りしました。届かない場合は迷惑メールフォルダもご確認ください。Weekly Brief は毎週金曜 12:00 JST に livemakers.com で公開し、メール配信の準備ができ次第こちらのアドレスへお届けします。",
-    "alreadySubscribed": "すでに登録済みです。ありがとうございます。",
-    "error": "エラーが発生しました。再度お試しください。",
-    "privacyNote": "配信には Resend を使用します。スパムは送りません。登録解除はいつでも可能です。"
   },
   "about": {
     "title": "LiveMakers について",

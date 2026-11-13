@@ -5,7 +5,6 @@
     "articles": "ARTICLES",
     "archive": "ARCHIVE",
     "signals": "SIGNALS",
-    "subscribe": "SUBSCRIBE",
     "about": "ABOUT",
     "futureAtlas": "FUTURE ATLAS",
     "snapshot": "SNAPSHOT",
@@ -260,17 +259,6 @@
     "downloadPdf": "Download PDF",
     "nextIssue": "Next →",
     "previousIssue": "← Previous"
-  },
-  "subscribe": {
-    "title": "SUBSCRIBE",
-    "subtitle": "Weekly intelligence on the financial reboot. Published every Friday 12:00 JST at livemakers.com.",
-    "emailLabel": "Email address",
-    "emailPlaceholder": "you@example.com",
-    "submit": "SIGN UP",
-    "pending": "Thank you for signing up. A confirmation email is on the way — please check your spam folder if it doesn't arrive. The Weekly Brief publishes every Friday 12:00 JST at livemakers.com and will be delivered to this address once email distribution is live.",
-    "alreadySubscribed": "You are already on the list — thank you.",
-    "error": "Something went wrong. Please try again.",
-    "privacyNote": "We use Resend for email delivery. No spam, and you can unsubscribe anytime."
   },
   "about": {
     "title": "ABOUT LIVEMAKERS",
