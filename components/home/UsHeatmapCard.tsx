@@ -11,6 +11,8 @@ import type { HeatmapData } from "@/lib/terminal/live-market-feed";
  * 縮むので、viewBox の単位のままだとスマホでは 1〜2px になる。カードを @container にし、
  * 文字ごとに「9px で描ける最小のカード幅」から @max-[…]:hidden の段を選ぶ。
  * 図の下には業種の凡例 (HTML) を常に出す — スマホで帯の文字が隠れても業種が読める。
+ * その下にテーマの段 (2026-11-14・core spec 2026-11-14-us-heatmap-theme-row-design)。
+ * テーマは区分をまたぐ銘柄群の単純平均で、色は区分のチップと同じ。テーマが無い日は段ごと出さない。
  */
 const CHART_W = 1600;
 const CHART_H = 700;
@@ -38,6 +40,10 @@ export const CARD_WIDTH_STEPS: readonly { maxCardPx: number; className: string }
 export interface UsHeatmapCardCopy {
   title: string;
   tooltip: (symbol: string, changeLabel: string) => string;
+  /** テーマの段の見出し (2026-11-14・「テーマ（単純平均）」)。 */
+  themesTitle: string;
+  /** テーマのチップの title (平均に入った銘柄を見せる)。 */
+  themeTooltip: (name: string, changeLabel: string, members: string[]) => string;
 }
 
 /** "+2.11%" / "-0.50%" / "0.00%" → 塗りと文字の色 (境界 ≥+5・≥+2・≥0・>−2・>−5・それ以下)。 */
@@ -98,6 +104,8 @@ export function UsHeatmapCard({
   copy: UsHeatmapCardCopy;
 }) {
   if (!heatmap) return null;
+  // v0.1 の形の data (themes 無し) を直接渡されても落ちない
+  const themes = heatmap.themes ?? [];
   return (
     <section
       data-us-heatmap
@@ -237,6 +245,27 @@ export function UsHeatmapCard({
           );
         })}
       </ul>
+      {themes.length > 0 ? (
+        <div data-us-heatmap-themes className="mt-2">
+          <p className="text-[10px] font-bold text-text-secondary">{copy.themesTitle}</p>
+          <ul className="mt-1 flex flex-wrap gap-1.5">
+            {themes.map((theme) => {
+              const { fill, ink } = heatmapTileColors(theme.changeLabel);
+              return (
+                <li
+                  key={theme.name}
+                  data-us-heatmap-theme-chip
+                  title={copy.themeTooltip(theme.name, theme.changeLabel, theme.members)}
+                  className="rounded-sm px-1.5 py-0.5 text-[11px] font-bold"
+                  style={{ backgroundColor: fill, color: ink }}
+                >
+                  {theme.name} {theme.changeLabel}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
     </section>
   );
 }

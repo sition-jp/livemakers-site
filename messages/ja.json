@@ -597,7 +597,9 @@
     },
     "usHeatmap": {
       "title": "昨夜の米国株",
-      "tooltip": "{symbol} {change}"
+      "tooltip": "{symbol} {change}",
+      "themesTitle": "テーマ（単純平均）",
+      "themeTooltip": "{name} {change}（{count} 社の単純平均: {members}）"
     },
     "library": {
       "title": "記事ライブラリ — 横断・シリーズ",

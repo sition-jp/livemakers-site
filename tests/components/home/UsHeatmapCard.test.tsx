@@ -24,11 +24,15 @@ const heatmap: HeatmapData = {
   subline: section.subline,
   summary: section.summary,
   sectors: section.sectors,
+  themes: [],
 };
 
 const copy = {
   title: "昨夜の米国株",
   tooltip: (symbol: string, changeLabel: string) => `${symbol} ${changeLabel}`,
+  themesTitle: "テーマ（単純平均）",
+  themeTooltip: (name: string, changeLabel: string, members: string[]) =>
+    `${name} ${changeLabel}: ${members.join("・")}`,
 };
 
 function tiles(container: HTMLElement) {
@@ -181,5 +185,46 @@ describe("UsHeatmapCard", () => {
     ["-5.00%", "#e8323f", "#ffffff"],
   ])("colours %s as %s on %s", (label, fill, ink) => {
     expect(heatmapTileColors(label)).toEqual({ fill, ink });
+  });
+
+  // 2026-11-14 テーマの段 (core spec 2026-11-14-us-heatmap-theme-row-design §5.4)
+  describe("theme row", () => {
+    const withThemes: HeatmapData = {
+      ...structuredClone(heatmap),
+      themes: [
+        { name: "AI関連", changeLabel: "+5.50%", direction: "up", members: ["NVDA", "AAPL"] },
+        { name: "電力", changeLabel: "-0.50%", direction: "down", members: ["AAPL", "LLY"] },
+      ],
+    };
+
+    it("draws a chip per theme under the sector legend, with its title", () => {
+      const { container } = render(<UsHeatmapCard heatmap={withThemes} copy={copy} />);
+      const row = container.querySelector("[data-us-heatmap-themes]");
+      expect(row).not.toBeNull();
+      expect(row?.textContent).toContain("テーマ（単純平均）");
+      // 区分の凡例の後ろに置く
+      const legend = container.querySelector("[data-us-heatmap-legend]");
+      expect(legend?.compareDocumentPosition(row as Node)).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
+      const chips = Array.from(
+        container.querySelectorAll<HTMLElement>("[data-us-heatmap-theme-chip]"),
+      );
+      expect(chips.map((c) => c.textContent)).toEqual(["AI関連 +5.50%", "電力 -0.50%"]);
+      expect(chips.map((c) => c.getAttribute("title"))).toEqual([
+        "AI関連 +5.50%: NVDA・AAPL",
+        "電力 -0.50%: AAPL・LLY",
+      ]);
+      // 色は区分のチップと同じ関数
+      const probe = document.createElement("div");
+      probe.style.backgroundColor = heatmapTileColors("+5.50%").fill;
+      probe.style.color = heatmapTileColors("+5.50%").ink;
+      expect(chips[0].style.backgroundColor).toBe(probe.style.backgroundColor);
+      expect(chips[0].style.color).toBe(probe.style.color);
+    });
+
+    it("draws no theme row when there are no themes", () => {
+      const { container } = render(<UsHeatmapCard heatmap={heatmap} copy={copy} />);
+      expect(container.querySelector("[data-us-heatmap-themes]")).toBeNull();
+      expect(container.textContent).not.toContain("テーマ（単純平均）");
+    });
   });
 });

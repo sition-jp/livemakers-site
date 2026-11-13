@@ -597,7 +597,9 @@
     },
     "usHeatmap": {
       "title": "US stocks last night",
-      "tooltip": "{symbol} {change}"
+      "tooltip": "{symbol} {change}",
+      "themesTitle": "Themes (equal-weighted)",
+      "themeTooltip": "{name} {change} (equal-weighted average of {count}: {members})"
     },
     "library": {
       "title": "Article Library — Cross-Series",

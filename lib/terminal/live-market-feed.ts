@@ -746,27 +746,50 @@ const heatmapSectorSchema = z
   })
   .strict();
 
-const heatmapSchema = z
+const heatmapBaseShape = {
+  listVersion: z.string().min(1),
+  asOfJst: z.string().min(1),
+  sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  source: z.literal("hyperliquid_perp"),
+  headline: z.string().min(1),
+  subline: z.string().min(1),
+  summary: z
+    .object({
+      count: z.number().int().min(0),
+      up: z.number().int().min(0),
+      down: z.number().int().min(0),
+      flat: z.number().int().min(0),
+      capChangeLabel: z.string(),
+    })
+    .strict(),
+  sectors: z.array(heatmapSectorSchema).min(1).max(10),
+};
+
+/**
+ * 2026-11-14: テーマの段 (core spec 2026-11-14-us-heatmap-theme-row-design §5.3)。
+ * 区分をまたぐ銘柄群の単純平均。members はすべて図 (sectors の items) にいる銘柄。
+ * SDE export_validator._validate_heatmap_themes と同じ制約。
+ */
+const heatmapThemeSchema = z
   .object({
-    schemaVersion: z.literal("livemakers_us_heatmap_v0.1"),
-    listVersion: z.string().min(1),
-    asOfJst: z.string().min(1),
-    sessionDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-    source: z.literal("hyperliquid_perp"),
-    headline: z.string().min(1),
-    subline: z.string().min(1),
-    summary: z
+    name: z.string().min(1).max(16),
+    changeLabel: heatmapChangeLabelSchema,
+    direction: heatmapDirectionSchema,
+    members: z.array(z.string().min(1)).min(2).max(20),
+  })
+  .strict();
+
+const heatmapSchema = z
+  .discriminatedUnion("schemaVersion", [
+    z.object({ schemaVersion: z.literal("livemakers_us_heatmap_v0.1"), ...heatmapBaseShape }).strict(),
+    z
       .object({
-        count: z.number().int().min(0),
-        up: z.number().int().min(0),
-        down: z.number().int().min(0),
-        flat: z.number().int().min(0),
-        capChangeLabel: z.string(),
+        schemaVersion: z.literal("livemakers_us_heatmap_v0.2"),
+        ...heatmapBaseShape,
+        themes: z.array(heatmapThemeSchema).max(8),
       })
       .strict(),
-    sectors: z.array(heatmapSectorSchema).min(1).max(10),
-  })
-  .strict()
+  ])
   .superRefine((section, ctx) => {
     const symbols = section.sectors.flatMap((sector) => sector.items.map((item) => item.symbol));
     if (symbols.length < 1 || symbols.length > 150) {
@@ -775,10 +798,32 @@ const heatmapSchema = z
     if (new Set(symbols).size !== symbols.length) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, message: "duplicate symbol" });
     }
+    if (section.schemaVersion !== "livemakers_us_heatmap_v0.2") return;
+    const onChart = new Set(symbols);
+    const names = section.themes.map((theme) => theme.name);
+    if (new Set(names).size !== names.length) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "duplicate theme name" });
+    }
+    for (const theme of section.themes) {
+      if (new Set(theme.members).size !== theme.members.length) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "duplicate theme member" });
+      }
+      if (!theme.members.every((member) => onChart.has(member))) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: "theme member not on the chart" });
+      }
+    }
   });
 
 type HeatmapDirection = "up" | "down" | "flat";
 type HeatmapRect = [number, number, number, number];
+
+export interface HeatmapTheme {
+  name: string;
+  changeLabel: string;
+  direction: HeatmapDirection;
+  /** 平均に入った銘柄 (すべて図にいる)。 */
+  members: string[];
+}
 
 export interface HeatmapData {
   asOfJst: string;
@@ -795,13 +840,16 @@ export interface HeatmapData {
     rect: HeatmapRect;
     items: { symbol: string; changeLabel: string; direction: HeatmapDirection; rect: HeatmapRect }[];
   }[];
+  /** テーマの段 (v0.2)。v0.1 の配信では空。 */
+  themes: HeatmapTheme[];
 }
 
 function mapHeatmap(section: unknown): HeatmapData | null {
   const parsed = heatmapSchema.safeParse(section);
   if (!parsed.success) return null;
   const { asOfJst, listVersion, sessionDate, headline, subline, summary, sectors } = parsed.data;
-  return { asOfJst, listVersion, sessionDate, headline, subline, summary, sectors };
+  const themes = parsed.data.schemaVersion === "livemakers_us_heatmap_v0.2" ? parsed.data.themes : [];
+  return { asOfJst, listVersion, sessionDate, headline, subline, summary, sectors, themes };
 }
 
 /**
