@@ -64,7 +64,7 @@ export function NetworkPulse({ snapshot }: { snapshot: TickerSnapshot }) {
               <div
                 className={
                   "mt-1 text-xs " +
-                  (card.deltaUp ? "text-status-up" : "text-status-down")
+                  (card.deltaUp ? "text-market-up" : "text-market-down")
                 }
               >
                 {card.delta}

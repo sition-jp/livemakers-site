@@ -351,8 +351,8 @@ export function ReaderIntelligenceTerminal({
                         <span
                           className={`ml-2 text-sm tabular-nums ${
                             delta.startsWith("-")
-                              ? "text-status-down"
-                              : "text-status-up"
+                              ? "text-market-down"
+                              : "text-market-up"
                           }`}
                         >
                           {delta}

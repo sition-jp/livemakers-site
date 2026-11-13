@@ -103,8 +103,8 @@ export function SessionFocusChart({
                   <span
                     className={
                       item.changeFromBasePct >= 0
-                        ? "text-status-up"
-                        : "text-status-down"
+                        ? "text-market-up"
+                        : "text-market-down"
                     }
                   >
                     {item.changeFromBasePct >= 0 ? "+" : ""}

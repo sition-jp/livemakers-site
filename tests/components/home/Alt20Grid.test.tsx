@@ -22,8 +22,8 @@ describe("Alt20Grid", () => {
     render(<Alt20Grid alt20={alt20} copy={copy} />);
     const tiles = screen.getAllByTestId("alt20-tile");
     expect(tiles.map((t) => t.textContent)).toEqual(["BNB+0.10%", "XRP-0.20%"]);
-    expect(tiles[0].className).toContain("status-up");
-    expect(tiles[1].className).toContain("status-down");
+    expect(tiles[0].className).toContain("market-up");
+    expect(tiles[1].className).toContain("market-down");
     expect(screen.getByText("2銘柄中 1上昇・中央値 -0.05%")).toBeTruthy();
   });
 
