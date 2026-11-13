@@ -51,7 +51,7 @@ export function ETHExtensionPanel({ extension }: ETHExtensionPanelProps) {
           </dt>
           <dd
             className={`text-2xl font-light tracking-title ${
-              flowPositive ? "text-status-up" : "text-status-down"
+              flowPositive ? "text-market-up" : "text-market-down"
             }`}
           >
             {flowPositive ? "+" : ""}

@@ -138,7 +138,7 @@ export function PriceCard({
   }
 
   const changePos = effectivePrice.change_24h_pct >= 0;
-  const changeColor = changePos ? "text-status-up" : "text-status-down";
+  const changeColor = changePos ? "text-market-up" : "text-market-down";
   const changeSign = changePos ? "+" : "";
 
   return (

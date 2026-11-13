@@ -75,7 +75,7 @@ function btcMetrics(summary: AssetSummary, t: ReturnType<typeof useTranslations>
     {
       label: t("btc_weekly_flow"),
       value: `${flowPos ? "+" : ""}${formatCompactUSD(Math.abs(ext.etf.weekly_flow_usd))}`,
-      color: flowPos ? "text-status-up" : "text-status-down",
+      color: flowPos ? "text-market-up" : "text-market-down",
     },
   ];
 }
@@ -186,7 +186,7 @@ export function AssetDashboardCard({ summary }: AssetDashboardCardProps) {
             </div>
             <div
               className={`mt-1 text-sm ${
-                changePos ? "text-status-up" : "text-status-down"
+                changePos ? "text-market-up" : "text-market-down"
               }`}
             >
               {changePos ? "+" : ""}

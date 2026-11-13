@@ -41,9 +41,9 @@ export function TickerBar({
         {items.map((item) => {
           const delta = formatDelta(item.deltaPct);
           const deltaColor = delta.startsWith("-")
-            ? "text-status-down"
+            ? "text-market-down"
             : delta.startsWith("+")
-              ? "text-status-up"
+              ? "text-market-up"
               : "text-text-tertiary";
           return (
             <div

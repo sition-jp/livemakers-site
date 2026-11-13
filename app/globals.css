@@ -72,6 +72,10 @@
   --lmk-status-down: #2563a8;
   --lmk-status-live: #0e6b5c;
 
+  /* 2026-11-14 田平氏: 値動きは 上げ=緑 / 下げ=赤 (status-up/down は警告・免責など値動き以外にも使うので別の色にした) */
+  --lmk-market-up: #15803d;
+  --lmk-market-down: #c2402a;
+
   --lmk-staleness-live: #177a50;
   --lmk-staleness-warn: #9a6b12;
   --lmk-staleness-stale: #9a5b0b;
@@ -117,6 +121,10 @@
   --lmk-status-down: #82b8ec;
   --lmk-status-live: #54b9a4;
 
+  /* 2026-11-14 田平氏: 値動きは 上げ=緑 / 下げ=赤 (status-up/down は警告・免責など値動き以外にも使うので別の色にした) */
+  --lmk-market-up: #4ade80;
+  --lmk-market-down: #f87171;
+
   /* Staleness tiers (spec 2026-04-30-sde-terminal-live-snapshot-v0.1.md §4.3) */
   --lmk-staleness-live: #22c55e;   /* < 60s   — fresh */
   --lmk-staleness-warn: #fbbf24;   /* 60-180s — slightly stale */
@@ -159,6 +167,8 @@
   --color-status-up: var(--lmk-status-up);
   --color-status-down: var(--lmk-status-down);
   --color-status-live: var(--lmk-status-live);
+  --color-market-up: var(--lmk-market-up);
+  --color-market-down: var(--lmk-market-down);
 
   --color-staleness-live: var(--lmk-staleness-live);
   --color-staleness-warn: var(--lmk-staleness-warn);

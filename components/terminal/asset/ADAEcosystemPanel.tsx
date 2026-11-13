@@ -52,8 +52,8 @@ export function ADAEcosystemPanel({ extension }: ADAEcosystemPanelProps) {
               <span
                 className={`text-[11px] uppercase tracking-label ${
                   defi.tvl_change_7d_pct >= 0
-                    ? "text-status-up"
-                    : "text-status-down"
+                    ? "text-market-up"
+                    : "text-market-down"
                 }`}
               >
                 {defi.tvl_change_7d_pct >= 0 ? "+" : ""}

@@ -1,8 +1,8 @@
 import type { Alt20Data } from "@/lib/terminal/live-market-feed";
 
 const TILE_TONE: Record<"up" | "down" | "flat", string> = {
-  up: "text-status-up bg-status-up/10",
-  down: "text-status-down bg-status-down/10",
+  up: "text-market-up bg-market-up/10",
+  down: "text-market-down bg-market-down/10",
   flat: "text-text-secondary bg-bg-tertiary",
 };
 
