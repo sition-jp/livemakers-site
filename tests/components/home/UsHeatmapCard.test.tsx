@@ -27,7 +27,7 @@ const heatmap: HeatmapData = {
 };
 
 const copy = {
-  title: "昨夜の米国株",
+  title: "昨夜の米国市場",
   tooltip: (symbol: string, changeLabel: string) => `${symbol} ${changeLabel}`,
 };
 
@@ -43,7 +43,7 @@ describe("UsHeatmapCard", () => {
 
   it("renders session date label", () => {
     render(<UsHeatmapCard heatmap={heatmap} copy={copy} />);
-    expect(screen.getByText("昨夜の米国株")).toBeTruthy();
+    expect(screen.getByText("昨夜の米国市場")).toBeTruthy();
     expect(screen.getByText("半導体が全体を押し上げ")).toBeTruthy();
     const subline = screen.getByText(/11\/9 の米国市場/);
     // 見出し・subline は SVG の外の普通の文字

@@ -1,7 +1,7 @@
 import type { HeatmapData } from "@/lib/terminal/live-market-feed";
 
 /**
- * 昨夜の米国株 (2026-11-10 田平氏承認)。X の PNG と同じ図を SVG で描く。
+ * 昨夜の米国市場 (2026-11-10 田平氏承認)。X の PNG と同じ図を SVG で描く。
  * 図の領域は 1600x700 (16:7・controller R1) で、rect (0〜1) × 1600/700。
  * 見出し・subline は SVG の外の普通の文字 (subline に「M/D の米国市場」が入る)。
  * 色は changeLabel の数値から 6 段 (米国式: 上げ=緑 / 下げ=赤)。

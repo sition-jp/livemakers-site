@@ -37,7 +37,7 @@ export type CoincidentColumnProps = Pick<
   | "mkt12Provenance"
   | "copy"
 > &
-  // 2026-11-10: 昨夜の米国株 (無い日は枠ごと出さない)
+  // 2026-11-10: 昨夜の米国市場 (無い日は枠ごと出さない)
   Partial<Pick<HomeCompositionProps, "heatmap">>;
 
 // 2026-10-26 田平氏 GO: スマホでは Daily Intel と今朝の12指標を左列の Intelligence
@@ -153,9 +153,9 @@ export function CoincidentColumn({
               provenance={mkt12Provenance}
               copy={copy.mkt12.movers}
             />
-            {/* 2026-11-10: 昨夜の米国株は 12指標のマスの直後 (台帳は変えない)。
+            {/* 2026-11-10: 昨夜の米国市場は 12指標のマスの直後 (台帳は変えない)。
                 直後の lane-values に主要アルトコイン20 があるので、スマホでも
-                12指標 → 昨夜の米国株 → アルト20 の順 */}
+                12指標 → 昨夜の米国市場 → アルト20 の順 */}
             <UsHeatmapCard heatmap={heatmap} copy={copy.usHeatmap} />
           </div>
         );

@@ -705,7 +705,7 @@ function mapAlt20(section: unknown): Alt20Data | null {
 }
 
 /**
- * 2026-11-10: 昨夜の米国株 (feed 最上位 heatmap・SDE us_heatmap_copy.home_payload の形)。
+ * 2026-11-10: 昨夜の米国市場 (feed 最上位 heatmap・SDE us_heatmap_copy.home_payload の形)。
  * SDE export_validator.validate_heatmap と同じ制約 + changeLabel の書式 (色を決めるため)。
  * alt20 と同じく独立検査: 不正なら heatmap だけ null にし、home / alt20 は巻き込まない。
  * rect は図の領域 (16:7) に対する 0〜1 の [x, y, w, h]。
@@ -1276,7 +1276,7 @@ export function mapTerminalFeed(payload: unknown): LiveMarketData | null {
           })
         : null,
     alt20: mapAlt20((parsed.data as Record<string, unknown>).alt20),
-    // 2026-11-10: 昨夜の米国株。SDE の validator と同じく v0.2 以上だけ読む
+    // 2026-11-10: 昨夜の米国市場。SDE の validator と同じく v0.2 以上だけ読む
     heatmap:
       schemaVersion === TERMINAL_FEED_SCHEMA_V02 ||
       schemaVersion === TERMINAL_FEED_SCHEMA_V03 ||

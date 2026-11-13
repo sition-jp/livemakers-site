@@ -596,7 +596,7 @@
       "unavailable": "—"
     },
     "usHeatmap": {
-      "title": "昨夜の米国株",
+      "title": "昨夜の米国市場",
       "tooltip": "{symbol} {change}"
     },
     "library": {
