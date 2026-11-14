@@ -9,6 +9,13 @@
       "chapter": 1
     },
     {
+      "key": "boj_fx_1113",
+      "title": "日本銀行 — 外国為替市況 (2026-11-13・17 時 159 円 84〜86 銭・値幅 159 円 66 銭〜160 円 19 銭)",
+      "url": "https://www.boj.or.jp/statistics/market/forex/fxdaily/fxlist/fx261113.pdf",
+      "accessed": "2026-11-14",
+      "chapter": 1
+    },
+    {
       "key": "boj_fx_0729",
       "title": "日本銀行 — 外国為替市況 (2026-07-29・17 時 163 円 68〜70 銭)",
       "url": "https://www.boj.or.jp/statistics/market/forex/fxdaily/fxlist/fx260729.pdf",
