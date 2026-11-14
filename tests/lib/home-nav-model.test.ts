@@ -50,10 +50,13 @@ describe("buildNavModel", () => {
 });
 
 describe("buildFlatNav", () => {
-  it("places 動画 between 節目シグナル and About (2026-10-31 田平氏指示)", () => {
+  it("places 動画 between Deep Dive and 朝の12指標 (2026-11-14 田平氏指示)", () => {
     for (const surfacePublished of [false, true]) {
       const keys = buildFlatNav(surfacePublished).map((i) => i.key);
-      expect(keys.slice(-3)).toEqual(["landmark", "videos", "about"]);
+      const at = keys.indexOf("videos");
+      expect(keys.slice(at - 1, at + 2)).toEqual(["deepDive", "videos", "mkt12Morning"]);
+      expect(keys.filter((k) => k === "videos")).toHaveLength(1);
+      expect(keys.slice(-2)).toEqual(["landmark", "about"]);
     }
     expect(buildFlatNav(false).find((i) => i.key === "videos")?.href).toBe("/videos");
   });
