@@ -55,6 +55,9 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     "/articles/series/daily-intel",
     "/articles/series/signal",
     "/articles/series/deep-dive",
+    // 2026-11-14 田平氏指示: 動画 (YouTube の受け皿) は Deep Dive と 朝の12指標の間
+    // (旧 2026-10-31: 節目シグナルと About の間)
+    "/videos",
     "/articles/series/mkt12-morning",
     "/articles/series/mkt12-weekend",
     "/articles/series/event-risk-radar",
@@ -63,8 +66,6 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     // 2026-10-29 田平氏: 金融再起動の現在地は次の時代の地図の後ろ・節目シグナルはその後ろ
     "/articles/series/restart-map",
     "/articles/series/landmark",
-    // 2026-10-31 田平氏指示: 動画 (YouTube の受け皿) は 節目シグナルと About の間
-    "/videos",
     "/about",
   ];
 

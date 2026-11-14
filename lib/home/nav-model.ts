@@ -59,11 +59,12 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
 /**
  * フラット 1 列ナビ (2026-08-14 田平氏指示 — dropdown 廃止・左揃え)。
  * ヘッダ 1 段目・モバイルパネル・フッタが同一順で共有する:
- * トップ → Intelligence Terminal → 速報 → Daily Intel → Signal → Deep Dive →
+ * トップ → Intelligence Terminal → 速報 → Daily Intel → Signal → Deep Dive → 動画 →
  * 朝の12指標 → 週末の12指標 → Event Risk Radar → Weekly Brief →
  * 次の時代の地図 (published 時は同じ位置に 未来アトラス) → 金融再起動の現在地 →
- * 節目シグナル → 動画 → About
- * 動画 (2026-10-31 田平氏指示): YouTube @LiveMakersCom の受け皿 /videos を 節目シグナルと About の間へ
+ * 節目シグナル → About
+ * 動画 (YouTube @LiveMakersCom の受け皿 /videos): 2026-11-14 田平氏指示で Deep Dive と
+ * 朝の12指標の間へ (旧 2026-10-31: 節目シグナルと About の間)
  */
 export function buildFlatNav(surfacePublished: boolean): NavItem[] {
   const { articlesGroup } = buildNavModel(surfacePublished);
@@ -74,11 +75,13 @@ export function buildFlatNav(surfacePublished: boolean): NavItem[] {
           : [item],
       )
     : articlesGroup;
+  const withVideos = articles.flatMap((item) =>
+    item.key === "deepDive" ? [item, { key: "videos", href: "/videos" }] : [item],
+  );
   return [
     { key: "overview", href: "/" },
     { key: "sessionTerminal", href: "/sessions/archive" },
-    ...articles,
-    { key: "videos", href: "/videos" },
+    ...withVideos,
     { key: "about", href: "/about" },
   ];
 }
