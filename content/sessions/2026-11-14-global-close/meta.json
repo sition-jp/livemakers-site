@@ -1,0 +1,94 @@
+{
+  "sessionId": "2026-11-14-global-close",
+  "date": "2026-11-14",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-14-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-14-global-close",
+  "publishedAt": "2026-11-15T02:30:26+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261114_2303_cea1c82d",
+  "asOfJst": "2026-11-14T23:03:03+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月14日 23:03 JST",
+  "bullets": [
+    "BTC/USD $69,548 → $66,484（-4.41%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +5.4% / ETH/USD -4.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261114_2353_cd17ca0f",
+    "crawlAnchorJst": "2026-11-14T23:03:00+09:00",
+    "writtenAtJst": "2026-11-14T23:53:08+09:00",
+    "lead": "週末の夜、目立ったのは日本の大規模な情報流出と、暗号資産の資金の細りだ。京成電鉄はスカイライナーの予約システムへの不正アクセスで最大約337万件の会員情報が取られた可能性を公表し、ヤマダデンキの最大350万件に続いた。ステーブルコインの供給は1か月で約170億ドル減り、2022年以来の速さで縮んでいる。一方でStarshipは15回目の飛行でStarlink V3衛星26基を軌道に置いた。",
+    "items": [
+      {
+        "headline": "京成電鉄、スカイライナー座席予約システムに不正アクセス 会員情報最大約337万件",
+        "sourceUrl": "https://x.com/nhk_news/status/2121451822519128130",
+        "note": "会社の公表では、ユーザーID・暗号化されたパスワード・カナ氏名・電話番号・メールアドレスが取得された可能性がある。予約システムは全面停止し、駅の窓口と券売機で発売を続ける。"
+      },
+      {
+        "headline": "ヤマダデンキ、リフォーム顧客情報に不正アクセス 最大350万件",
+        "sourceUrl": "https://x.com/nikkei/status/2121454192850047470"
+      },
+      {
+        "headline": "マネックス証券でマイナンバーカードや運転免許証の画像が漏えいした可能性と共同通信",
+        "sourceUrl": "https://x.com/kyodo_official/status/2121249869205848447",
+        "note": "会社の公表文はまだ確認できていない。10月には口座開設の委託先へのアクセスの形跡を公表し、新規受付を止めていた。"
+      },
+      {
+        "headline": "ステーブルコインの供給、1か月で約170億ドル減 2022年以来の速い縮小",
+        "sourceUrl": "https://x.com/glassnode/status/2121571367216722381"
+      },
+      {
+        "headline": "Jane Street、ビットコイン現物ETFの保有を9月末に約19億ドルへほぼ倍増",
+        "sourceUrl": "https://x.com/BitcoinMagazine/status/2121273992254541943",
+        "note": "米SECに出た保有報告による。マーケットメイカーの保有報告はヘッジを含み、純粋な買い越しを示すものではない。"
+      },
+      {
+        "headline": "Starship 15回目の飛行、Starlink V3衛星26基をすべて軌道へ投入",
+        "sourceUrl": "https://x.com/SpaceX/status/2121394268652839309"
+      },
+      {
+        "headline": "Rocket Lab の小型ロケット Electron、100回目の打ち上げ",
+        "sourceUrl": "https://x.com/RocketLab/status/2121501709285638267"
+      },
+      {
+        "headline": "米FAA、通信障害で全米の出発便を一時停止",
+        "sourceUrl": "https://x.com/FAANews/status/2121363171361575176"
+      },
+      {
+        "headline": "テスラ、選ばれた顧客に Cybercab の個人向け購入の案内を開始",
+        "sourceUrl": "https://x.com/robotaxi/status/2121384435241402737"
+      },
+      {
+        "headline": "中国が深圳で米中ロ首脳の3者会談を調整と伝えられる",
+        "sourceUrl": "https://www.nzz.ch/international/dreiergipfel-in-shenzhen-peking-organisiert-ein-treffen-zwischen-donald-trump-xi-jinping-und-wladimir-putin-ld.10063910"
+      },
+      {
+        "headline": "マスク氏、フアン氏の Nvidia CEO 復帰を求める請願に署名すると表明",
+        "sourceUrl": "https://x.com/elonmusk/status/2121345211959804234"
+      },
+      {
+        "headline": "OpenAI、AIエージェントに買い物を任せる ChatGPT Wallet を公開",
+        "sourceUrl": "https://decrypt.co/383278/openai-chatgpt-wallet-ai-agents-shop-without-crypto"
+      },
+      {
+        "headline": "米軍の船舶攻撃を生き延びたエクアドルの漁師が米政府を提訴",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/14/ecuadorian-fishermen-lawsuit-trump-boat-strike"
+      },
+      {
+        "headline": "米国がはしかの排除状態の認定を失ったとWSJ",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2121445558283903219"
+      }
+    ],
+    "watch": [
+      "マネックス証券が漏えいの範囲を公表するか。本人確認書類の画像が含まれるなら影響は大きい",
+      "京成電鉄の予約システムの再開時期と、対象者への個別連絡の進み方",
+      "ステーブルコインの縮小が止まるか。ビットコイン現物ETFの資金流出と同時に進んでいる"
+    ]
+  }
+}
