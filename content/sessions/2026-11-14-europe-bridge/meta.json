@@ -1,0 +1,140 @@
+{
+  "sessionId": "2026-11-14-europe-bridge",
+  "date": "2026-11-14",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-14-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-14-europe-bridge",
+  "publishedAt": "2026-11-15T02:30:26+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261114_1203_8edc007d",
+  "asOfJst": "2026-11-14T12:03:03+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月14日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1065 → 1.1030（-0.32%）",
+    "変動幅上位: ETH/USD -4.1% / BTC/USD -3.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261114_1257_e17211bb",
+    "crawlAnchorJst": "2026-11-14T12:03:00+09:00",
+    "writtenAtJst": "2026-11-14T12:57:52+09:00",
+    "lead": "米中ロの首脳が 19 日に中国で初めてそろって会う。議題は核削減とイランで、ウクライナは外し、欧州は和平交渉の席に別に加わる。米国では管制の通信障害で全空港の出発が止まり、夜に解除された。米長期金利は 5% 台にとどまり、インフレへの警戒が続いている。",
+    "items": [
+      {
+        "headline": "米中ロの首脳が 19 日に中国で初の 3 者会談、ホワイトハウスが発表",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/13/trump-attend-trilateral-meeting-xi-putin-china-white-house-confirms/",
+        "note": "APEC の開催地・深圳で開く。3 か国の首脳がそろって会うのは初めて。"
+      },
+      {
+        "headline": "3 者会談の議題は核削減とイラン、ウクライナは取り上げない",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-to-raise-nuclear-arms-cuts-with-putin-xi-on-thursday-white-house-says",
+        "note": "米高官の説明。ウクライナの和平は別の枠組みで扱う。"
+      },
+      {
+        "headline": "トランプ氏の訪中にマスク氏が同行",
+        "sourceUrl": "https://x.com/47news_official/status/2121393947520233502",
+        "note": "共同通信の速報。フィリピンと中国を回る日程も発表された。"
+      },
+      {
+        "headline": "欧州 5 か国がウクライナ和平交渉に参加へ",
+        "sourceUrl": "https://x.com/nhk_news/status/2121429174380532136",
+        "note": "英仏独などの首脳が合意。米ロ中心だった交渉の席が広がる。"
+      },
+      {
+        "headline": "米国の全空港の出発停止、米東部午後 8 時 15 分に解除",
+        "sourceUrl": "https://x.com/SecDuffy/status/2121426698172293310",
+        "note": "ダフィー運輸長官が停止から解除までの時系列を公表した。"
+      },
+      {
+        "headline": "出発停止の原因、FBI はサイバー攻撃の可能性は低いとの見方",
+        "sourceUrl": "https://x.com/47news_official/status/2121371035794907211",
+        "note": "共同通信の速報。管制の通信障害の詳しい原因はまだ調べている。"
+      },
+      {
+        "headline": "Microsoft 365 の障害、約 20 時間で広く復旧 報告書を公表へ",
+        "sourceUrl": "https://x.com/nikkei/status/2121385722930237788",
+        "note": "容量を増やした際の問題が設定変更をきっかけに表に出たと説明した。"
+      },
+      {
+        "headline": "FRB が金融安定報告を公表",
+        "sourceUrl": "https://x.com/federalreserve/status/2121352077041635385",
+        "note": "FRB 理事会が金融システムの弱点とリスクの見立てをまとめた年 2 回の報告。"
+      },
+      {
+        "headline": "米長期金利が 5% 台にとどまる 関税発表以来の週間の上げ幅",
+        "sourceUrl": "https://x.com/nikkei/status/2121347993626362294",
+        "note": "インフレの再燃が意識され、債券が売られた。"
+      },
+      {
+        "headline": "防衛費、5 年で 50 兆〜60 兆円台で財務・防衛両省が調整",
+        "sourceUrl": "https://x.com/nikkei/status/2121407888501428435",
+        "note": "当初の 70 兆〜80 兆円程度の見積もりから絞り込む。"
+      },
+      {
+        "headline": "バンス副大統領、2028 年の大統領選への出馬見送りを検討",
+        "sourceUrl": "https://x.com/nikkei/status/2121373661894504762",
+        "note": "CNN の報道。中間選挙での共和党の大敗を受けたもの。"
+      },
+      {
+        "headline": "米国とイスラエルの情報機関トップが会談、イランへの再攻撃を協議か",
+        "sourceUrl": "https://x.com/jijicom/status/2121378903638061445",
+        "note": "時事通信。イスラエルの情報機関トップがワシントンを訪れた。"
+      },
+      {
+        "headline": "Starship 15 回目の飛行、Starlink V3 衛星 26 基をすべて軌道へ",
+        "sourceUrl": "https://x.com/SpaceX/status/2121394268652839309",
+        "note": "船は 2 度目の地球周回軌道に入った。ブースターは回収をやめメキシコ湾に着水した。"
+      },
+      {
+        "headline": "Rocket Lab の 100 機目の Electron、発射台に立つ",
+        "sourceUrl": "https://x.com/RocketLab/status/2121443002002682366",
+        "note": "最初の打ち上げと同じニュージーランドの発射台から上がる。"
+      },
+      {
+        "headline": "ヤマダデンキ、不正アクセスで最大 350 万件に影響の可能性",
+        "sourceUrl": "https://x.com/nhk_news/status/2121252004827980211",
+        "note": "NHK の報道。会社の公表文で対象と項目を確かめたい。"
+      },
+      {
+        "headline": "50 年住宅ローンで融資の引き締めが始まる 金融庁が問題視",
+        "sourceUrl": "https://x.com/nikkei/status/2121338430785286462",
+        "note": "日経の報道。超長期のローンの貸し方が見直される。"
+      },
+      {
+        "headline": "予測市場カルシ、トランプ氏の長男との契約を終了",
+        "sourceUrl": "https://x.com/nikkei/status/2121338429426290742",
+        "note": "日経の報道。議会の調査を気にしたとみられる。"
+      },
+      {
+        "headline": "農林中金が半導体株の ETF に投資",
+        "sourceUrl": "https://x.com/nikkei/status/2121377739647119442",
+        "note": "AI 銘柄の値動きがさえない中での買い。"
+      },
+      {
+        "headline": "FCC、中帯域の 160MHz 幅の周波数オークションを来年 4 月に開始",
+        "sourceUrl": "https://x.com/BrendanCarrFCC/status/2121345031932129644",
+        "note": "カー委員長が発表した。"
+      },
+      {
+        "headline": "Strike Finance、BTC の預け入れが 200 万ドルに",
+        "sourceUrl": "https://x.com/strikeperps/status/2121349080488292763",
+        "note": "Cardano の先物取引所が流動性の追加を発表した。"
+      },
+      {
+        "headline": "トルコとカタールが共同防衛協定に署名",
+        "sourceUrl": "https://x.com/jijicom/status/2121363548307907024",
+        "note": "有事の安全保障協力を強める。"
+      }
+    ],
+    "watch": [
+      "19 日の米中ロ首脳会談で核削減の枠組みがどこまで具体化するか",
+      "Starship の船が周回の後に無事帰還するか",
+      "米長期金利 5% 台の中で週明けの株式と円相場がどう動くか"
+    ]
+  }
+}
