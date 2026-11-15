@@ -158,14 +158,18 @@ export function buildRangeBand(history: { date: string; close: number }[], band:
   };
 }
 
-const widthPct1 = (threshold: number) => Math.round(threshold * 1000) / 10;
+/** 文に出す小数 1 桁の % (文字列。2.0 を "2" にしない)。 */
+const fmt1 = (v: number) => (Math.round(v * 10) / 10).toFixed(1);
+const widthPct1 = (threshold: number) => fmt1(threshold * 100);
 
+/** 文に出す数はすべて整形済みの文字列 (価格 = formatPrice・% = 小数 1 桁)。メッセージは {x} をそのまま使う。 */
 export interface LegendItem {
   id: "b7" | "b30";
-  lo: number;
-  hi: number;
+  days: 7 | 30;
+  lo: string;
+  hi: string;
   /** ± の % (小数 1 桁・しきい値 × 100)。 */
-  widthPct: number;
+  widthPct: string;
   usualPct: number;
   tenN: number;
 }
@@ -181,8 +185,9 @@ export function legendItems(band: RangeBandOne): LegendItem[] {
     if (!it || !e) continue;
     out.push({
       id,
-      lo: e.lo,
-      hi: e.hi,
+      days: id === "b7" ? 7 : 30,
+      lo: formatPrice(e.lo),
+      hi: formatPrice(e.hi),
       widthPct: widthPct1(it.threshold),
       usualPct: Math.round(it.usual_pct),
       tenN: tenScale(it.usual_pct),
@@ -195,9 +200,9 @@ export interface UpDownRow {
   id: "up7" | "down7" | "up30" | "down30";
   side: "up" | "down";
   horizonDays: number;
-  widthPct: number;
-  /** 上の線 / 下の線の値段。 */
-  price: number;
+  widthPct: string;
+  /** 上の線 / 下の線の値段 (formatPrice)。 */
+  price: string;
   usualPct: number;
   tenN: number;
 }
@@ -216,7 +221,7 @@ export function upDownRows(band: RangeBandOne): UpDownRow[] {
       side: it.side,
       horizonDays: it.horizon_days,
       widthPct: widthPct1(it.threshold),
-      price,
+      price: formatPrice(price),
       usualPct: Math.round(it.usual_pct),
       tenN: tenScale(it.usual_pct),
     });
@@ -224,33 +229,30 @@ export function upDownRows(band: RangeBandOne): UpDownRow[] {
   return rows;
 }
 
-/** 「今日の数字で読むと」(§4.5) の 1〜5 の値。7 日の幅の手順。 */
+/** 「今日の数字で読むと」(§4.5) の 1〜5 の値。7 日の幅の手順。メッセージが使う名前の平らな文字列・整数。 */
 export function workedExample(band: RangeBandOne, asset: string, closeDate: string) {
   const it = band.items.find((i) => i.id === "either7");
   const e = edges(band, "either7");
   if (!it || !e) throw new Error("either7 item missing");
-  const r1 = (v: number) => Math.round(v * 10) / 10;
   const tenN = tenScale(it.usual_pct);
   return {
     asset,
     closeDate,
     closeMonth: Number(closeDate.split("-")[1]),
     closeDay: Number(closeDate.split("-")[2]),
-    close: band.close,
-    dailyPct: r1((band.realized_vol_30d / Math.sqrt(365)) * 100),
+    close: formatPrice(band.close),
+    dailyPct: fmt1((band.realized_vol_30d / Math.sqrt(365)) * 100),
     annualPct: Math.round(band.realized_vol_30d * 100),
-    sqrtN: r1(Math.sqrt(it.horizon_days)),
+    sqrtN: fmt1(Math.sqrt(it.horizon_days)),
     k: it.k,
     widthPct: widthPct1(it.threshold),
-    lo: e.lo,
-    hi: e.hi,
+    lo: formatPrice(e.lo),
+    hi: formatPrice(e.hi),
     usualPct: Math.round(it.usual_pct),
     tenN,
     restN: 10 - tenN,
-    range365: {
-      minPct: r1(band.threshold_7d_365.min * 100),
-      maxPct: r1(band.threshold_7d_365.max * 100),
-      position: band.threshold_7d_365.position,
-    },
+    minPct: fmt1(band.threshold_7d_365.min * 100),
+    maxPct: fmt1(band.threshold_7d_365.max * 100),
+    position: band.threshold_7d_365.position,
   };
 }

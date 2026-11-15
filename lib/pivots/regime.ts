@@ -108,6 +108,16 @@ export function headlineParts(r: RegimeOne, layer: LayerId): Part[] {
   return parts;
 }
 
+/** 戻りの途中の補足の末尾「最高値 {ath} ドルから {pct}%。{月} 月 {日} 日から」(承認済みの試作) の値。 */
+function fromAth(l: LongBlock, since: { m: number; d: number }) {
+  return {
+    ath: formatPrice(l.ath.close),
+    pct: signedIntPct(l.ath.pct_from_ath),
+    sinceMonth: since.m,
+    sinceDay: since.d,
+  };
+}
+
 function longChip(l: LongBlock): Chip {
   const since = monthDay(l.since_week);
   let note: Part;
@@ -131,10 +141,13 @@ function longChip(l: LongBlock): Chip {
   } else if (l.trough) {
     note = {
       key: "chip.note.long.recovering",
-      values: { troughMonth: monthDay(l.trough.week).m, w100: formatPrice(l.w100) },
+      values: { troughMonth: monthDay(l.trough.week).m, w100: formatPrice(l.w100), ...fromAth(l, since) },
     };
   } else {
-    note = { key: "chip.note.long.recovering_notrough", values: { w100: formatPrice(l.w100) } };
+    note = {
+      key: "chip.note.long.recovering_notrough",
+      values: { w100: formatPrice(l.w100), ...fromAth(l, since) },
+    };
   }
   return {
     label: { key: "chip.label.long", values: {} },
@@ -213,6 +226,17 @@ export function overviewParts(byAsset: Partial<Record<string, RegimeOne>>): Part
           first: longs[0][0],
           last: longs[longs.length - 1][0],
           state: longs[0][1].long!.state,
+        },
+      });
+    } else if (longs.length === 2) {
+      // 違う状態の 2 資産: 「BTC は大きな流れで下げ相場、ETH は下げ相場からの戻りの途中。」(設計書 §3)
+      parts.push({
+        key: "overview.long.pair",
+        values: {
+          first: longs[0][0],
+          firstState: longs[0][1].long!.state,
+          last: longs[1][0],
+          lastState: longs[1][1].long!.state,
         },
       });
     } else {

@@ -175,10 +175,13 @@ describe("chipParts", () => {
     const withT = chipParts(make({ long: longOf("recovering") })).long!;
     expect(withT.note).toEqual({
       key: "chip.note.long.recovering",
-      values: { troughMonth: 2, w100: "88,000" },
+      values: { troughMonth: 2, w100: "88,000", ath: "124,659", pct: "−45", sinceMonth: 2, sinceDay: 1 },
     });
     const noT = chipParts(make({ long: longOf("recovering", { trough: null }) })).long!;
-    expect(noT.note).toEqual({ key: "chip.note.long.recovering_notrough", values: { w100: "88,000" } });
+    expect(noT.note).toEqual({
+      key: "chip.note.long.recovering_notrough",
+      values: { w100: "88,000", ath: "124,659", pct: "−45", sinceMonth: 2, sinceDay: 1 },
+    });
   });
   it("long null -> null chip, others stay", () => {
     const c = chipParts(make({ long: null }));
@@ -264,11 +267,18 @@ describe("overviewParts", () => {
       { key: "overview.near.same", values: { kind: "down" } },
     ]);
   });
+  it("three assets with different states fall back to each", () => {
+    const eth = make({ long: longOf("recovering") });
+    const parts = overviewParts({ BTC: btc, ETH: eth, SOL: make({ long: longOf("up") }) });
+    expect(parts.filter((p) => p.key === "overview.long.each")).toHaveLength(3);
+  });
   it("different states", () => {
     const eth = make({ long: longOf("recovering"), near: nearOf("down", -20) });
     expect(overviewParts({ BTC: btc, ETH: eth })).toEqual([
-      { key: "overview.long.each", values: { asset: "BTC", state: "down" } },
-      { key: "overview.long.each", values: { asset: "ETH", state: "recovering" } },
+      {
+        key: "overview.long.pair",
+        values: { first: "BTC", firstState: "down", last: "ETH", lastState: "recovering" },
+      },
       { key: "overview.near.same", values: { kind: "down" } },
     ]);
     const eth2 = make({ long: longOf("down"), near: nearOf("up", 5) });

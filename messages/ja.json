@@ -1212,7 +1212,7 @@
         "mid": {
           "state": "ここ 1〜3 か月は{state, select, range {レンジ相場} calm {凪の相場} up {上昇相場} down {下落相場} crash {暴落} surge {急騰} other {}}です。",
           "note": "{long, select, down {{state, select, range {下げ相場の中で、向きのはっきりしない時期} calm {下げ相場の中で、値動きが小さい時期} up {下げ相場の中の戻り} down {下げ相場の中の下げ} other {}}} up {{state, select, range {上げ相場の中で、向きのはっきりしない時期} calm {上げ相場の中で、値動きが小さい時期} up {上げ相場の中の上げ} down {上げ相場の中の下げ} other {}}} recovering {{state, select, range {戻りの途中で、向きのはっきりしない時期} calm {戻りの途中で、値動きが小さい時期} up {戻りの途中で、上げが続いている時期} down {戻りの途中で、下げが続いている時期} other {}}} other {{state, select, range {向きのはっきりしない時期} calm {値動きが小さい時期} up {上げが続いている時期} down {下げが続いている時期} other {}}}}が {days} 日目です。",
-          "shock": "{state, select, crash {ここ数日、ふだんの何倍もの下げ} other {ここ数日、ふだんの何倍もの上げ}}がありました（{days} 日目）。"
+          "shock": "{state, select, crash {ここ数日、ふだんの何倍もの下げ} other {ここ数日、ふだんの何倍もの上げ}}が出ています（{days} 日目）。"
         },
         "near": {
           "sentence": "この 30 日は{kind, select, up {上げています} flat {横ばいです} other {下げています}}{pct, select, none {} other {（{pct}%）}}。",
@@ -1251,8 +1251,8 @@
             "down": "最高値 {ath} ドル（{athYear} 年 {athMonth} 月 {athDay} 日）から {pct}%。{sinceMonth} 月 {sinceDay} 日から",
             "down_newhigh": "最高値 {ath} ドル（{athYear} 年 {athMonth} 月 {athDay} 日）と同じか、それより上。{sinceMonth} 月 {sinceDay} 日から",
             "up": "100 週線（約 2 年の平均）より上。{sinceMonth} 月 {sinceDay} 日から",
-            "recovering": "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。{troughMonth} 月の底から 5 割戻しましたが、まだ 100 週線（約 2 年の平均・{w100} ドル）より下",
-            "recovering_notrough": "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。まだ 100 週線（約 2 年の平均・{w100} ドル）より下"
+            "recovering": "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。{troughMonth} 月の底から 5 割戻しましたが、まだ 100 週線（約 2 年の平均・{w100} ドル）より下。最高値 {ath} ドルから {pct}%。{sinceMonth} 月 {sinceDay} 日から",
+            "recovering_notrough": "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。まだ 100 週線（約 2 年の平均・{w100} ドル）より下。最高値 {ath} ドルから {pct}%。{sinceMonth} 月 {sinceDay} 日から"
           },
           "near": "30 日前 {from} ドル → 今 {to} ドル（{days} 日目）",
           "near_nofrom": "今 {to} ドル（{days} 日目）"
@@ -1300,6 +1300,7 @@
       "overview": {
         "long": {
           "same": "{first} も {last} も、いまは{state, select, up {上げ相場} down {下げ相場} other {戻りの途中}}。",
+          "pair": "{first} は大きな流れで{firstState, select, up {上げ相場} down {下げ相場} other {下げ相場からの戻りの途中}}、{last} は{lastState, select, up {上げ相場} down {下げ相場} other {下げ相場からの戻りの途中}}。",
           "each": "{state, select, up {{asset} は大きな流れで上げ相場。} down {{asset} は大きな流れで下げ相場。} other {{asset} は下げ相場からの戻りの途中。}}"
         },
         "near": {
@@ -1328,7 +1329,7 @@
         "summary": "上と下に分けると",
         "colUp": "上の線に届く",
         "colDown": "下の線に届く",
-        "rowDays": "{days} 日",
+        "rowDays": "{horizonDays} 日",
         "cellUp": "+{widthPct}%（{price}）",
         "cellDown": "−{widthPct}%（{price}）",
         "note": "上と下の線は、帯より少し内側に引いています（帯 = 荒さの 1.25 倍・1.5 倍、上下の線 = 1.0 倍）。上と下で割合が違うのは、過去に上げた時期と下げた時期の長さが違うためで、今日の向きの予想ではありません。"
@@ -1364,7 +1365,7 @@
         "s2": "この 30 日の値動きの荒さは、1 日あたり約 {dailyPct}%（1 年あたりに直すと {annualPct}%）。",
         "s3": "7 日の幅 = {dailyPct}% × √7（約 {sqrtN}）× {k} ≒ {widthPct}%。だから {lo}〜{hi} ドル。",
         "s4": "2021 年 12 月から毎日、その日の荒さで同じ幅を引いてみると、7 日のうちに終値が幅の外へ出た日は {usualPct}%。だいたい 10 回に {tenN} 回くらい。",
-        "s5": "直近 1 年の {asset} の 7 日の幅は ±{minPct}〜{maxPct}% のあいだで動いてきました。いまの ±{widthPct}% は、{position, select, low {下の方} mid {真ん中あたり} other {上の方}}です。",
+        "s5": "直近 1 年の {asset} の 7 日の幅は ±{minPct}〜{maxPct}% のあいだで動いてきました。いまの ±{widthPct}% は、その{position, select, low {下の方} mid {真ん中あたり} other {上の方}}です。",
         "closing": "つまり「この先 7 日のどこかで、終値が {lo} ドルを下回るか {hi} ドルを上回る」ことは、ふだんなら 10 回に {tenN} 回くらい起きる、ということです。残りの {restN} 回は幅の中で終わります。"
       },
       "turnCards": {
@@ -1403,6 +1404,8 @@
         },
         "nowAfterTop": "{month} 月 {day} 日の{size, select, mid {天井} other {山}}（{price} ドル）から下げている途中です。",
         "nowAfterBottom": "{month} 月 {day} 日の{size, select, mid {底} other {谷}}（{price} ドル）から上げている途中です。",
+        "nowNoTurnTop": "{month} 月 {day} 日の山（{price} ドル）から、5% 戻す日がないまま {days} 日下げています。",
+        "nowNoTurnBottom": "{month} 月 {day} 日の谷（{price} ドル）から、5% 下げる日がないまま {days} 日上げています。",
         "confirmedTop": "{month} 月 {day} 日に、そこから {pct}% 下げて{size, select, mid {天井} other {山}}と決まりました。次に数えるのは「{size, select, mid {底} other {谷}}」です。",
         "confirmedBottom": "{month} 月 {day} 日に、そこから {pct}% 戻して{size, select, mid {底} other {谷}}と決まりました。次に数えるのは「{size, select, mid {天井} other {山}}」です。",
         "countBottom": "{size, select, mid {これから先につける安値から {pct}% 以上戻すこと。いまの {now} ドルから数えるなら {price} ドル。安値が下がれば、その分だけこの値段も下がります。} other {これから先の安値から {pct}% 戻すこと。いまの {now} ドルから数えるなら {price} ドル。}}",

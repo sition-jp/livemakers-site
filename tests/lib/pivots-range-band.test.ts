@@ -129,8 +129,8 @@ describe("buildRangeBand", () => {
 describe("legendItems", () => {
   it("7d and 30d with +-pct from threshold (1 decimal) and ten-scale", () => {
     expect(legendItems(band)).toEqual([
-      { id: "b7", lo: 63767, hi: 72861, widthPct: 6.7, usualPct: 27, tenN: 3 },
-      { id: "b30", lo: 57019, hi: 79609, widthPct: 16.5, usualPct: 27, tenN: 3 },
+      { id: "b7", days: 7, lo: "63,767", hi: "72,861", widthPct: "6.7", usualPct: 27, tenN: 3 },
+      { id: "b30", days: 30, lo: "57,019", hi: "79,609", widthPct: "16.5", usualPct: 27, tenN: 3 },
     ]);
   });
 });
@@ -139,8 +139,8 @@ describe("upDownRows", () => {
   it("four questions, up/down lines", () => {
     const rows = upDownRows(band);
     expect(rows.map((r) => r.id)).toEqual(["up7", "down7", "up30", "down30"]);
-    expect(rows[0]).toMatchObject({ side: "up", horizonDays: 7, widthPct: 5.3, price: 71955, usualPct: 14, tenN: 1 });
-    expect(rows[1]).toMatchObject({ side: "down", price: 64673, usualPct: 18, tenN: 2 });
+    expect(rows[0]).toMatchObject({ side: "up", horizonDays: 7, widthPct: "5.3", price: "71,955", usualPct: 14, tenN: 1 });
+    expect(rows[1]).toMatchObject({ side: "down", price: "64,673", usualPct: 18, tenN: 2 });
   });
   it("missing items are skipped", () => {
     const b = { ...band, items: band.items.slice(0, 2) };
@@ -156,28 +156,45 @@ describe("workedExample", () => {
       closeDate: "2026-11-13",
       closeMonth: 11,
       closeDay: 13,
-      close: 68314.01,
-      dailyPct: 2.0,
+      close: "68,314",
+      dailyPct: "2.0",
       annualPct: 38,
-      sqrtN: 2.6,
+      sqrtN: "2.6",
       k: 1.25,
-      widthPct: 6.7,
-      lo: 63767,
-      hi: 72861,
+      widthPct: "6.7",
+      lo: "63,767",
+      hi: "72,861",
       usualPct: 27,
       tenN: 3,
       restN: 7,
-      range365: { minPct: 4.6, maxPct: 9.0, position: "mid" },
+      minPct: "4.6",
+      maxPct: "9.0",
+      position: "mid",
     });
   });
   it("width steps are consistent: daily x sqrtN x k ~ width", () => {
     const w = workedExample(band, "BTC", "2026-11-13");
-    expect(Math.abs(w.dailyPct * w.sqrtN * w.k - w.widthPct)).toBeLessThan(0.3);
+    expect(Math.abs(Number(w.dailyPct) * Number(w.sqrtN) * w.k - Number(w.widthPct))).toBeLessThan(0.3);
   });
   it("falls back to close*(1-+threshold) when lo/hi absent", () => {
     const b = { ...band, items: band.items.map((i) => ({ ...i, lo: undefined, hi: undefined })) };
     const w = workedExample(b, "BTC", "2026-11-13");
-    expect(w.lo).toBeCloseTo(68314.01 * (1 - 0.0666), 4);
-    expect(w.hi).toBeCloseTo(68314.01 * (1 + 0.0666), 4);
+    expect(w.lo).toBe("63,764");
+    expect(w.hi).toBe("72,864");
+  });
+  it("numbers in prose are pre-formatted strings (2.0 / 9.0 / 7.0 / 11.0 keep the .0, floats are rounded with commas)", () => {
+    const b = {
+      ...band,
+      realized_vol_30d: 0.3820,
+      items: band.items.map((i) =>
+        i.id === "either7" ? { ...i, threshold: 0.07, lo: 63767.4321, hi: 72861.5 } : i.id === "up30" ? { ...i, threshold: 0.11 } : i,
+      ),
+      threshold_7d_365: { min: 0.046, max: 0.09, position: "high" as const },
+    };
+    const w = workedExample(b, "BTC", "2026-11-13");
+    expect(w).toMatchObject({ widthPct: "7.0", maxPct: "9.0", lo: "63,767", hi: "72,862", close: "68,314" });
+    expect(legendItems(b)[0]).toMatchObject({ widthPct: "7.0", lo: "63,767" });
+    expect(upDownRows(b).find((r) => r.id === "up30")!.widthPct).toBe("11.0");
+    expect(workedExample(b, "BTC", "2026-11-13").dailyPct).toBe("2.0");
   });
 });

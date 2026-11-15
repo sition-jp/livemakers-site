@@ -1212,7 +1212,7 @@
         "mid": {
           "state": "The past 1–3 months: {state, select, range {a range-bound market} calm {a calm market} up {an uptrend} down {a downtrend} crash {a crash} surge {a surge} other {}}.",
           "note": "{long, select, down {{state, select, range {Within a bear market, a stretch with no clear direction} calm {Within a bear market, a stretch of small moves} up {A rebound within a bear market} down {A further decline within a bear market} other {}}} up {{state, select, range {Within a bull market, a stretch with no clear direction} calm {Within a bull market, a stretch of small moves} up {A further advance within a bull market} down {A pullback within a bull market} other {}}} recovering {{state, select, range {During the recovery, a stretch with no clear direction} calm {During the recovery, a stretch of small moves} up {During the recovery, a stretch of steady gains} down {During the recovery, a stretch of steady declines} other {}}} other {{state, select, range {A stretch with no clear direction} calm {A stretch of small moves} up {A stretch of steady gains} down {A stretch of steady declines} other {}}}} (day {days}).",
-          "shock": "{state, select, crash {In the last few days, a drop several times larger than usual} other {In the last few days, a jump several times larger than usual}} (day {days})."
+          "shock": "{state, select, crash {In the last few days there has been a drop several times larger than usual} other {In the last few days there has been a jump several times larger than usual}} (day {days})."
         },
         "near": {
           "sentence": "The last 30 days have been {kind, select, up {up} flat {flat} other {down}}{pct, select, none {} other { ({pct}%)}}.",
@@ -1251,8 +1251,8 @@
             "down": "{pct}% from the high of {ath} dollars ({athMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {athDay}, {athYear}). Since {sinceMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {sinceDay}",
             "down_newhigh": "At or above the high of {ath} dollars ({athMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {athDay}, {athYear}). Since {sinceMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {sinceDay}",
             "up": "Above the 100-week average (about 2 years). Since {sinceMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {sinceDay}",
-            "recovering": "Recovering from the bear market low (too early to call it a bull market). Up 50% from the {troughMonth, select, 1 {January} 2 {February} 3 {March} 4 {April} 5 {May} 6 {June} 7 {July} 8 {August} 9 {September} 10 {October} 11 {November} 12 {December} other {}} low, but still below the 100-week average (about 2 years, {w100} dollars)",
-            "recovering_notrough": "Recovering from the bear market low (too early to call it a bull market). Still below the 100-week average (about 2 years, {w100} dollars)"
+            "recovering": "Recovering from the bear market low (too early to call it a bull market). Up 50% from the {troughMonth, select, 1 {January} 2 {February} 3 {March} 4 {April} 5 {May} 6 {June} 7 {July} 8 {August} 9 {September} 10 {October} 11 {November} 12 {December} other {}} low, but still below the 100-week average (about 2 years, {w100} dollars). {pct}% from the high of {ath} dollars. Since {sinceMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {sinceDay}",
+            "recovering_notrough": "Recovering from the bear market low (too early to call it a bull market). Still below the 100-week average (about 2 years, {w100} dollars). {pct}% from the high of {ath} dollars. Since {sinceMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {sinceDay}"
           },
           "near": "{from} dollars 30 days ago → {to} dollars now (day {days})",
           "near_nofrom": "{to} dollars now (day {days})"
@@ -1275,10 +1275,10 @@
             "surge": "In the last few days, a jump several times larger than usual (day {days})"
           },
           "recovering": {
-            "range": "During the recovery, a stretch with no clear direction (day {days})",
-            "calm": "During the recovery, a stretch of small moves (day {days})",
-            "up": "During the recovery, a stretch of steady gains (day {days})",
-            "down": "During the recovery, a stretch of steady declines (day {days})",
+            "range": "A stretch with no clear direction (day {days})",
+            "calm": "A stretch of small moves (day {days})",
+            "up": "A stretch of steady gains (day {days})",
+            "down": "A stretch of steady declines (day {days})",
             "crash": "In the last few days, a drop several times larger than usual (day {days})",
             "surge": "In the last few days, a jump several times larger than usual (day {days})"
           },
@@ -1300,6 +1300,7 @@
       "overview": {
         "long": {
           "same": "Both {first} and {last} are in {state, select, up {a bull market} down {a bear market} other {a recovery in progress}} right now.",
+          "pair": "For {first} the big picture is {firstState, select, up {a bull market} down {a bear market} other {a recovery in progress after a bear market}}; {last} is in {lastState, select, up {a bull market} down {a bear market} other {a recovery in progress after a bear market}}.",
           "each": "{state, select, up {{asset}: the big picture is a bull market.} down {{asset}: the big picture is a bear market.} other {{asset}: a recovery in progress after a bear market.}}"
         },
         "near": {
@@ -1328,7 +1329,7 @@
         "summary": "Split into upper and lower",
         "colUp": "Reaches the upper line",
         "colDown": "Reaches the lower line",
-        "rowDays": "{days} days",
+        "rowDays": "{horizonDays} days",
         "cellUp": "+{widthPct}% ({price})",
         "cellDown": "−{widthPct}% ({price})",
         "note": "The upper and lower lines are drawn a little inside the range (range = 1.25 times and 1.5 times the usual size of moves, upper and lower lines = 1.0 times). The shares differ between upper and lower because past up periods and down periods had different lengths. It says nothing about the direction today."
@@ -1403,10 +1404,12 @@
         },
         "nowAfterTop": "On the way down from the {size, select, mid {top} other {peak}} of {price} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}.",
         "nowAfterBottom": "On the way up from the {size, select, mid {bottom} other {trough}} of {price} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}.",
+        "nowNoTurnTop": "Since the peak of {price} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, there has been no 5% rebound in {days} days of declines.",
+        "nowNoTurnBottom": "Since the trough of {price} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, there has been no 5% drop in {days} days of gains.",
         "confirmedTop": "On {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, a {pct}% drop from it made it a {size, select, mid {top} other {peak}}. Next to count is a {size, select, mid {bottom} other {trough}}.",
         "confirmedBottom": "On {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, a {pct}% rebound from it made it a {size, select, mid {bottom} other {trough}}. Next to count is a {size, select, mid {top} other {peak}}.",
-        "countBottom": "{size, select, mid {A rebound of {pct}% or more from the low set from now on. Counting from today's {now} dollars, that is {price} dollars. If the low gets lower, this price gets lower by the same amount.} other {A rebound of {pct}% from a low set from now on. Counting from today's {now} dollars, that is {price} dollars.}}",
-        "countTop": "{size, select, mid {A drop of {pct}% or more from the high set from now on. Counting from today's {now} dollars, that is {price} dollars. If the high gets higher, this price gets higher by the same amount.} other {A drop of {pct}% from a high set from now on. Counting from today's {now} dollars, that is {price} dollars.}}",
+        "countBottom": "{size, select, mid {A rebound of {pct}% or more from the low set from now on. Counting from today's {now} dollars, that is {price} dollars. If the low gets lower, this price moves lower with it.} other {A rebound of {pct}% from a low set from now on. Counting from today's {now} dollars, that is {price} dollars.}}",
+        "countTop": "{size, select, mid {A drop of {pct}% or more from the high set from now on. Counting from today's {now} dollars, that is {price} dollars. If the high gets higher, this price moves higher with it.} other {A drop of {pct}% from a high set from now on. Counting from today's {now} dollars, that is {price} dollars.}}",
         "freqMid": "For {asset}, usually about {perYear} times a year (roughly once every {weeks} weeks, since December 2021). {recent} times in the past year.",
         "freqSmall": "Usually about {perYear} times a year (roughly once every {days} days).",
         "note": "These 2 cards are only about whether a turn comes. They do not say top or bottom (higher or lower), when, or at what price. They are not a trading signal."
@@ -1436,7 +1439,7 @@
       },
       "pickHint": "Press a card and the headline above switches to how that period reads.",
       "updated": {
-        "line": "Updated at 8:00 on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} (through the close of {closeMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {closeDay})",
+        "line": "Updated at 8:00 JST on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} (through the close of {closeMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {closeDay})",
         "week": "The long term is decided by weekly candles (through the week of {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}).",
         "flip": "{asset}: if the weekly close on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} is {price} dollars or {dir, select, below {lower} other {higher}}, the next morning it changes to \"{state, select, down {Bear market} up {Bull market} other {Recovery in progress}}\"."
       }
