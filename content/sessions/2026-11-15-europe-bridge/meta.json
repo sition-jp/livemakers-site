@@ -1,0 +1,75 @@
+{
+  "sessionId": "2026-11-15-europe-bridge",
+  "date": "2026-11-15",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-15-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-15-europe-bridge",
+  "publishedAt": "2026-11-16T02:30:26+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261115_1203_96ffb03b",
+  "asOfJst": "2026-11-15T12:03:03+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月15日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1030 → 1.1026（-0.04%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +7.8% / Coinbase（perp） -4.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261115_1238_6565fcc6",
+    "crawlAnchorJst": "2026-11-15T12:03:00+09:00",
+    "writtenAtJst": "2026-11-15T12:38:53+09:00",
+    "lead": "週末の暗号資産は下げが止まらず、XRP は 2024 年 11 月以来の安値まで落ちた。ビットコインより主要アルトの傷が深く、資金が市場の外へ抜けている形だ。同じ朝、SpaceX は軌道から戻った Starship の船を発射塔で受け止め、機体を丸ごと使い回す段階へ進んだ。米国では選挙の集計が続き、議会の勢力図が固まりつつある。",
+    "items": [
+      {
+        "headline": "XRP、2024 年 11 月以来の安値 暗号資産から資金が流出",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/15/xrp-crashes-to-its-lowest-since-november-2024-as-money-leaves-crypto",
+        "note": "週末の急落でビットコインに比べ主要アルトの下げが大きい。"
+      },
+      {
+        "headline": "SpaceX、軌道から戻った Starship の船を発射塔のアームで初めて受け止める",
+        "sourceUrl": "https://x.com/SpaceX/status/2121715216597827756",
+        "note": "15 回目の飛行で軌道上に約 22 時間とどまった後に帰還した。上段の回収は初めてで、機体を丸ごと再使用する前提が実証された。"
+      },
+      {
+        "headline": "ホワイトハウス、ダークウェブの一斉摘発「Operation TorNado」を過去最大の省庁横断の取り締まりと発信",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2121719148187189750"
+      },
+      {
+        "headline": "Kava Lend がハッキングで約 380 万ドルを失い、KAVA は 4 割近く下落",
+        "sourceUrl": "https://www.theblock.co/news/defi/2026-11-14-kava-lend-loses-roughly-3-8-million-to-hack-sending-kava-token-down-nearly-40-440350"
+      },
+      {
+        "headline": "Avalanche 上の Aave v4、預け入れが 2 億 2,500 万ドルを超える",
+        "sourceUrl": "https://x.com/avax/status/2121244190873162106",
+        "note": "10 月末からの伸びは約 3 倍。v4 にとって Ethereum 以外で最初の展開先。"
+      },
+      {
+        "headline": "アラスカ州の上院選、民主党のペルトラ氏が当選の見通し",
+        "sourceUrl": "https://www.nbcnews.com/politics/2026-election/democrat-mary-peltola-likely-win-alaska-senate-race-rcna608673",
+        "note": "開票は続いており、上院の勢力図を左右する 1 議席になる。"
+      },
+      {
+        "headline": "米国、欧州とロシアの直接の対話を仲介",
+        "sourceUrl": "https://www.cbsnews.com/news/us-europe-russia-engagement-ukraine-war/"
+      },
+      {
+        "headline": "CFTC 委員候補の指名公聴会、11 月 17 日午後に設定",
+        "sourceUrl": "https://x.com/ElleBeyoud/status/2121698076465439146"
+      },
+      {
+        "headline": "不正アクセスを受けたセガのアーケード向けネットワークサービス、一部タイトルが稼働を再開",
+        "sourceUrl": "https://automaton-media.com/articles/newsjp/20261115-479328/"
+      }
+    ],
+    "watch": [
+      "ビットコインが 6 万ドル台前半で下げ止まるか、アルトの下げがさらに深まるか。",
+      "Cardano の銅の備蓄の国庫案は 11 月 16 日朝のエポック境界で結果が確定する。",
+      "17 日の CFTC 候補、19 日の SEC 候補の公聴会で、暗号資産の監督の方針がどう語られるか。"
+    ]
+  }
+}
