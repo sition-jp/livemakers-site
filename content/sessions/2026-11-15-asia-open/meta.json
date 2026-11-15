@@ -1,0 +1,108 @@
+{
+  "sessionId": "2026-11-15-asia-open",
+  "date": "2026-11-15",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-15-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-15-asia-open",
+  "publishedAt": "2026-11-16T02:30:26+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261115_0730_0568cb67",
+  "asOfJst": "2026-11-15T07:30:08+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月15日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 60,705 → 60,529（-0.29%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +14.7% / ETH/USD -8.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261115_0603_c868e4ac",
+    "crawlAnchorJst": "2026-11-15T05:03:00+09:00",
+    "writtenAtJst": "2026-11-15T06:03:11+09:00",
+    "lead": "週末の 48 時間は、米国の基幹インフラと市場の両方に負荷がかかった。13 日の午後には FAA が通信障害で全米の出発を止め、マイクロソフト 365 の障害も約 1 日続いた。暗号資産は BTC が 6 万 6,000 ドルを割って 3 か月ぶりの安値圏に入り、XRP も 1 年ぶりの水準まで下げた。規制の面では CFTC が州の裁判所の差し止めに対してルイジアナ州を提訴し、予測市場をめぐる連邦と州の対立が一段深まった。",
+    "items": [
+      {
+        "headline": "FAA は 13 日の午後、通信障害で全米の空港の出発を止め、米東部の午後 8 時 15 分に解除した。",
+        "sourceUrl": "https://x.com/axios/status/2121649875452416069"
+      },
+      {
+        "headline": "ダフィー運輸長官は管制の刷新に 500 億ドルを議会に求めた。",
+        "sourceUrl": "https://x.com/Kalshi/status/2121621676819615991"
+      },
+      {
+        "headline": "FRB の金融安定報告で、市場関係者への調査で最も多く挙げられたリスクは AI だった。",
+        "sourceUrl": "https://x.com/Kalshi/status/2121614127374258457"
+      },
+      {
+        "headline": "BTC は 6 万 6,000 ドルを割り、3 か月ぶりの安値の 6 万 5,000 ドル近くまで下げた。",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2121615059113619473"
+      },
+      {
+        "headline": "カンボジアの中央銀行が、SBI ホールディングスとの実証で Canton の上でトークン化した国債を試している。",
+        "sourceUrl": "https://x.com/CantonNetwork/status/2121663451911340515"
+      },
+      {
+        "headline": "CFTC は、州の裁判所が CFTC の監督する取引所を止めたことを受けてルイジアナ州を提訴した。同州の司法長官は CFTC の委員長を強く批判した",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-14-louisiana-ag-calls-cftc-chair-an-obsequious-standard-bearer-for-prediction-markets-following-agency-lawsuit-440342"
+      },
+      {
+        "headline": "ラミス上院議員は、株に似た権利をトークンに見せかける抜け穴を閉じる条文に民主党が反対したと述べ、CLARITY 法案が証券と経済的・機能的に同じものを対象にす…",
+        "sourceUrl": "https://x.com/SenLummis/status/2121611358827389268"
+      },
+      {
+        "headline": "マイクロソフト 365 の障害は約 1 日で全面復旧、ネットワークの容量の増強時の問題が設定の変更で表に出たと説明",
+        "sourceUrl": "https://x.com/Kalshi/status/2121651817184743737"
+      },
+      {
+        "headline": "マイクロソフトの障害を装った偽のメールによるフィッシングを同社の脅威情報チームが確認",
+        "sourceUrl": "https://x.com/coinbureau/status/2121672511977066712"
+      },
+      {
+        "headline": "ホワイトハウスは離陸停止の経過と運航の再開を説明",
+        "sourceUrl": "https://x.com/SecDuffy/status/2121601591178342868"
+      },
+      {
+        "headline": "MAGA の支持層の一部がスパイ疑惑でラトニック商務長官に背を向ける",
+        "sourceUrl": "https://x.com/axios/status/2121585692866150862"
+      },
+      {
+        "headline": "Nvidia のスパイ疑惑が米国の安全保障の穴を示したと CBS",
+        "sourceUrl": "https://www.cbsnews.com/video/nvidia-scandal-exposes-potential-holes-in-us-national-security/"
+      },
+      {
+        "headline": "XRP が 2024 年 11 月以来はじめて 0.95 ドルを割った",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2121646772271329481"
+      },
+      {
+        "headline": "Coinbase は相場の荒れを理由にシステムの保守を延期",
+        "sourceUrl": "https://x.com/CoinbasePltfrm/status/2121649734070739417"
+      },
+      {
+        "headline": "Coinbase のアームストロング CEO はステーブルコインがドルの基軸通貨の地位を強めたと述べた",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2121663426342928821"
+      },
+      {
+        "headline": "カザフスタンが来年 1〜3 月に国債のトークン化を計画",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/14/kazakhstan-plans-tokenized-government-bonds-in-first-quarter-after-usd22-million-note-sale"
+      },
+      {
+        "headline": "NEAR Intents の 10 月の収入が過去最高",
+        "sourceUrl": "https://x.com/NEARProtocol/status/2121694860734595484"
+      },
+      {
+        "headline": "民主党は上院の議事妨害の廃止を検討",
+        "sourceUrl": "https://www.foxnews.com/politics/democrats-eye-killing-senate-filibuster-lawmaker-warns-move-could-double-edged-sword"
+      }
+    ],
+    "watch": [
+      "19 日に深圳で予定される米中ロ首脳会談の議題と、17 日のクアッド首脳会合の成果",
+      "CFTC 対ルイジアナ州の訴訟の初期手続きと、他州の予測市場への対応",
+      "BTC の 6 万 5,000 ドル近辺と、現物 ETF の流出が続くかどうか"
+    ]
+  }
+}

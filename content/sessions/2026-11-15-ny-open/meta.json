@@ -1,0 +1,77 @@
+{
+  "sessionId": "2026-11-15-ny-open",
+  "date": "2026-11-15",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-15-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-15-ny-open",
+  "publishedAt": "2026-11-16T02:30:26+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261115_1803_aecfd5b9",
+  "asOfJst": "2026-11-15T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月15日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,537.90 → 7,514.40（-0.31%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +7.1% / ETH/USD -4.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261115_1837_53b9adba",
+    "crawlAnchorJst": "2026-11-15T18:03:00+09:00",
+    "writtenAtJst": "2026-11-15T18:37:02+09:00",
+    "lead": "日曜の市場はビットコインの急落が主役だった。現物 ETF からの資金流出が続くなか一時 6.2 万ドルを割り込み、4 か月ぶりの安値をつけた。政治では米中ロ 3 首脳の中国での会談をロシア側も確認し、16 日から高市首相もフィリピンと中国へ向かう。来週は APEC を軸に、通商と安全保障の言葉が市場の地合いを左右する。",
+    "items": [
+      {
+        "headline": "ビットコインが 4 か月ぶりの安値、現物 ETF からの資金流出が続く",
+        "sourceUrl": "https://thedefiant.io/news/markets/bitcoin-hits-four-month-low-as-etf-outflows-persist",
+        "note": "週末の急落で一時 6.2 万ドルを割り込み、その後 6.5 万ドル台まで戻した。"
+      },
+      {
+        "headline": "ロシア側も米中ロ 3 首脳の中国での会談を確認",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/moscow-confirms-trump-xi-putin-meeting-in-china"
+      },
+      {
+        "headline": "高市首相、16 日からフィリピンと中国を訪問 日中首脳会談は困難との見方",
+        "sourceUrl": "https://x.com/jijicom/status/2121836678235197725"
+      },
+      {
+        "headline": "横田めぐみさんの拉致から 49 年、高市首相が「一刻も早く祖国に」と投稿",
+        "sourceUrl": "https://x.com/nikkei/status/2121815072137724380"
+      },
+      {
+        "headline": "高市内閣の支持率は 50% で横ばい（共同通信の世論調査）",
+        "sourceUrl": "https://x.com/47news_official/status/2121872360475443601"
+      },
+      {
+        "headline": "強いエルニーニョの兆しが COP31 に影を落とす",
+        "sourceUrl": "https://www.theguardian.com/environment/2026/nov/15/el-nino-cop31-turkey-climate",
+        "note": "気候のパターンが世界の災害を増幅する「リスクの乗数」になるとの見方。"
+      },
+      {
+        "headline": "米連邦判事、ワシントンの歴史的なゴルフ場を改修する大統領の計画を差し止め",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/15/us-judge-blocks-trumps-plan-to-renovate-historic-dc-golf-course"
+      },
+      {
+        "headline": "フランスの学生の抗議が 8 週目に入る",
+        "sourceUrl": "https://www.theguardian.com/world/2026/nov/15/we-need-to-get-back-to-class-some-teachers-lose-patience-as-france-enters-its-eighth-week-of-student-protests"
+      },
+      {
+        "headline": "Netflix が日本で値上げ 広告つきは月 990 円、4K のプレミアムは 2,590 円に",
+        "sourceUrl": "https://av.watch.impress.co.jp/docs/news/2156523.html"
+      },
+      {
+        "headline": "アルツハイマー病、記憶が衰える前に脳の 2 つの部位が縮み始める可能性（ジョンズ・ホプキンス大の研究）",
+        "sourceUrl": "https://www.sciencedaily.com/releases/2026/11/261114202130.htm"
+      }
+    ],
+    "watch": [
+      "19 日の米中ロ 3 首脳の会談で、核の削減とイランがどこまで具体的に語られるか",
+      "週明けの現物 ETF の資金の出入りが、ビットコインの 6 万ドル台の下値を支えるか",
+      "高市首相の訪中で日中首脳会談が実現するか"
+    ]
+  }
+}
