@@ -63,7 +63,9 @@ def test_ladder_json_decided_rows_have_candidate_and_confirm_price():
     assert [r["strength"] for r in rows] == ["cycle", "large", "medium", "small"]
     cycle = rows[0]
     assert cycle["decided"] is True
-    assert cycle["last_confirmed"] == {"date": dates[1], "kind": "top", "close": 124.659}
+    assert cycle["last_confirmed"] == {
+        "date": dates[1], "kind": "top", "close": 124.659, "confirmed_date": dates[2],
+    }
     assert cycle["candidate"] == {"date": dates[2], "kind": "bottom", "close": 58.625}
     assert cycle["confirm_at"] == pytest.approx(87.9375)
     json.dumps(rows)

@@ -490,3 +490,112 @@ def test_shock_history_surge_side():
     assert got["n"] == len(ref) >= 1
     assert got["new_extreme_30d"] == sum(e["new_extreme_30d"] for e in ref) >= 1
     assert got["higher_30d"] == sum(e["higher_30d"] for e in ref)
+
+
+# ---- regime_json (Task 6) ----
+def _split_today(days, c):
+    return days[:-1], c[:-1], days, c
+
+
+def test_regime_json_keys_and_types():
+    c = noisy(900, 0.0004, amp=0.01)
+    days = day_list(900)
+    out = regime.regime_json(*_split_today(days, c))
+    assert out["as_of"] == days[-1]
+    assert set(out) >= {"as_of", "long", "mid", "near"}
+    assert out["mid"]["state"] in ("up", "down", "range", "calm", "crash", "surge")
+    assert out["mid"]["days"] >= 1
+    assert out["mid"]["since"] <= days[-1]
+    assert out["near"]["state"] in ("up", "flat", "down")
+    assert out["long"] is not None
+    assert out["long"]["state"] in ("up", "down", "recovering")
+
+
+def test_regime_json_days_count_from_since_inclusive():
+    c = noisy(900, 0.0004, amp=0.01)
+    days = day_list(900)
+    out = regime.regime_json(*_split_today(days, c))
+    for key in ("mid", "near"):
+        d0 = date.fromisoformat(out[key]["since"])
+        assert out[key]["days"] == (date.fromisoformat(days[-1]) - d0).days + 1
+
+
+def test_regime_json_near_fields_and_rounding():
+    c = noisy(400, 0.001, amp=0.01)
+    days = day_list(400)
+    out = regime.regime_json(*_split_today(days, c))
+    near = out["near"]
+    assert near["close"] == c[-1]
+    assert near["close_30d_ago"] == c[-31]
+    assert near["ret_30d_pct"] == round((c[-1] / c[-31] - 1) * 100, 1)
+
+
+def test_regime_json_long_none_on_short_series():
+    c = noisy(300, 0.001, amp=0.01)  # 週足 100 本に満たない
+    days = day_list(300)
+    out = regime.regime_json(*_split_today(days, c))
+    assert out["long"] is None
+    assert out["mid"] is not None
+    assert "shock" not in out or out["shock"] is None
+
+
+def test_regime_json_short_series_has_no_states():
+    c = noisy(20, 0.001)
+    days = day_list(20)
+    out = regime.regime_json(*_split_today(days, c))
+    assert out["mid"] is None and out["near"] is None and out["long"] is None
+
+
+def test_regime_json_long_uses_closed_bars_but_ath_pct_uses_today():
+    c = noisy(900, 0.0004, amp=0.01)
+    days = day_list(900)
+    c[-1] = c[-2] * 0.9  # 今日の仮の価格だけ大きく下げる
+    closed_only = regime.long_detail(days[:-1], c[:-1])
+    out = regime.regime_json(*_split_today(days, c))
+    lg = out["long"]
+    assert lg["state"] == closed_only["state"]
+    assert lg["since_week"] == closed_only["since_week"]
+    assert lg["last_week"] == closed_only["last_week"]
+    assert lg["ath"]["close"] == closed_only["ath"]["close"]
+    assert lg["ath"]["pct_from_ath"] == pytest.approx(100 * (c[-1] / lg["ath"]["close"] - 1))
+    assert lg["ath"]["pct_from_ath"] != pytest.approx(closed_only["ath"]["pct_from_ath"])
+
+
+def _long_crash_series():
+    """1000 日・500 日目と 980 日目 (今日の 3 日前) に急落。"""
+    c = noisy(1000, 0.0005, amp=0.004)
+    f = 1.0
+    for t in range(1000):
+        if t in (500, 980):
+            f *= 0.25
+        c[t] *= f
+    return c
+
+
+def test_regime_json_shock_only_on_crash_or_surge_day():
+    c = _long_crash_series()[:983]  # 今日 = 急落の 4 日目
+    days = day_list(983)
+    out = regime.regime_json(*_split_today(days, c))
+    assert out["long"] is not None
+    assert out["mid"]["state"] == "crash"
+    assert out["shock"]["kind"] == "crash"
+    assert out["shock"]["start_day"] == days[980]
+    assert out["shock"]["long_state"] in ("up", "down", "recovering")
+    quiet = noisy(900, 0.0004, amp=0.01)
+    q = regime.regime_json(*_split_today(day_list(900), quiet))
+    assert q["mid"]["state"] not in ("crash", "surge")
+    assert "shock" not in q
+
+
+def test_regime_json_no_shock_when_long_state_unavailable():
+    c = shock_series()[:383]  # 週足が 100 本ない
+    out = regime.regime_json(*_split_today(day_list(383), c))
+    assert out["mid"]["state"] == "crash"
+    assert out["long"] is None
+    assert "shock" not in out
+
+
+def test_regime_json_is_json_serialisable():
+    import json
+    c = noisy(900, 0.0004, amp=0.01)
+    json.dumps(regime.regime_json(*_split_today(day_list(900), c)))

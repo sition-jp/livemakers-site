@@ -259,7 +259,8 @@ SHOCK_H = 30
 
 def shock_history(dates, closes, mid_labels, long_daily, kind, long_state, today_index):
     """過去の同じ種類の回のうち、起点 + 30 日 ≤ today_index で、起点の日の長期の状態が
-    long_state と同じ回だけを数える。今日の回自身は数えない。"""
+    long_state と同じ回だけを数える。今日の回を明示的に除いてはいない — 今日の回の起点は
+    今日から 30 日以内なので、起点 + 30 ≤ today_index の条件で自然に外れる。"""
     lab = mid_labels
     n = 0
     new_extreme = higher = 0
@@ -281,3 +282,52 @@ def shock_history(dates, closes, mid_labels, long_daily, kind, long_state, today
         start_day = dates[run_start(lab, today_index)]
     return {"kind": kind, "long_state": long_state, "n": n,
             "new_extreme_30d": new_extreme, "higher_30d": higher, "start_day": start_day}
+
+
+# ---------------------------------------------------------------- 画面用のブロック
+def regime_json(closed_dates, closed_closes, dates, closes):
+    """画面用の regime ブロック。
+
+    closed_* = 確定した日足だけ (長期の週足はこれだけで作る)。dates/closes = 今日の価格を
+    末尾に足した系列 (1〜3 か月・足元・今日の長期の状態の引き当てに使う)。
+    長期が出せない (週足 100 本未満など) ときは long = None。shock は mid が crash|surge の日だけ。
+    """
+    n = len(closes)
+    t = n - 1
+    out = {"as_of": dates[-1], "long": None, "mid": None, "near": None}
+
+    mid = classify_mid(closes)
+    labels = mid["label"]
+    near_lab = near_states(mid["z30"])
+
+    def _run(lab):
+        s = run_start(lab, t)
+        since = dates[s]
+        return {"state": lab[t], "since": since,
+                "days": (date.fromisoformat(dates[t]) - date.fromisoformat(since)).days + 1}
+
+    if labels[t] is not None:
+        out["mid"] = _run(labels)
+    if near_lab[t] is not None:
+        near = _run(near_lab)
+        if t >= 30:
+            near["ret_30d_pct"] = round((closes[t] / closes[t - 30] - 1) * 100, 1)
+            near["close_30d_ago"] = closes[t - 30]
+        near["close"] = closes[t]
+        out["near"] = near
+
+    detail = long_detail(closed_dates, closed_closes)
+    if detail is not None:
+        # 画面の数字は全部同じ「今日」の価格で測る (最高値からの % も今日の価格)
+        detail["ath"]["pct_from_ath"] = 100 * (closes[t] / detail["ath"]["close"] - 1)
+        out["long"] = detail
+
+    if labels[t] in ("crash", "surge"):
+        wd, wc = weekly(closed_dates, closed_closes)
+        if len(wc) >= 100:
+            lab, _ = long_states(wc)
+            long_daily = to_daily(dates, wd, lab)
+            if long_daily[t] is not None:
+                out["shock"] = shock_history(
+                    dates, closes, labels, long_daily, labels[t], long_daily[t], t)
+    return out
