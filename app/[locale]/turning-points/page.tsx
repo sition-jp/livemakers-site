@@ -64,7 +64,7 @@ export default async function TurningPointsRadarPage({
         <h1 className="text-4xl font-light tracking-title text-text-primary">
           {t("page_title")}
         </h1>
-        <p className="text-text-secondary">{t("page_subtitle")}</p>
+        <p className="text-text-secondary">{t(useV2 ? "page_subtitle_v2" : "page_subtitle")}</p>
         <p className="text-xs text-text-tertiary max-w-2xl leading-relaxed">
           {t("research_note")}
         </p>
@@ -77,7 +77,10 @@ export default async function TurningPointsRadarPage({
       <DisclaimerBanner />
 
       {useV2 && snapshot ? (
-        <section data-testid="list-overview" aria-label={t("page_title")} className="space-y-6">
+        <section data-testid="list-overview" aria-labelledby="overview-heading" className="space-y-6">
+          <h2 id="overview-heading" className="text-sm uppercase tracking-label text-text-secondary">
+            {t("overview_heading")}
+          </h2>
           <p className="text-lg text-text-primary">
             {overviewParts(snapshot.regime ?? {})
               .map((p) => tv2(p.key, p.values))
@@ -87,6 +90,11 @@ export default async function TurningPointsRadarPage({
             {snapshot.radar.map((a) => {
               const regime = snapshot.regime?.[a.symbol];
               const band = snapshot.range_band?.[a.symbol];
+              const headline = regime
+                ? headlineParts(regime, "long")
+                    .map((p) => tv2(p.key, p.values))
+                    .join("")
+                : "";
               const b7 = band ? legendItems(band).find((l) => l.id === "b7") : undefined;
               return (
                 <li
@@ -99,24 +107,16 @@ export default async function TurningPointsRadarPage({
                       {a.symbol}
                     </Link>
                   </h3>
-                  <p data-testid={`list-headline-${a.symbol}`} className="text-text-primary">
-                    {regime
-                      ? headlineParts(regime, "long")
-                          .map((p) => tv2(p.key, p.values))
-                          .join("")
-                      : null}
-                  </p>
+                  {headline ? (
+                    <p data-testid={`list-headline-${a.symbol}`} className="text-text-primary">
+                      {headline}
+                    </p>
+                  ) : null}
                   {b7 ? (
                     <p data-testid={`list-oneline-${a.symbol}`} className="text-sm text-text-secondary">
                       {tv2("band.oneLine", { lo: b7.lo, hi: b7.hi, tenN: b7.tenN, usualPct: b7.usualPct })}
                     </p>
                   ) : null}
-                  <Link
-                    href={`/turning-points/${a.symbol.toLowerCase()}`}
-                    className="text-sm text-pillar-market hover:underline"
-                  >
-                    {a.symbol} →
-                  </Link>
                 </li>
               );
             })}

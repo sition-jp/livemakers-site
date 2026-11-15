@@ -830,6 +830,8 @@
   "turningPoints": {
     "page_title": "AI ターニングポイント検出ダッシュボード",
     "page_subtitle": "マーケット状態の分析 · BTC / ETH · 7日 / 30日 / 90日",
+    "overview_heading": "全体の見立て",
+    "page_subtitle_v2": "マーケット状態の分析 · BTC / ETH · 7日 / 30日",
     "research_note": "本ダッシュボードはリサーチ用途です。マーケット状態と転換点の状況を分析するもので、投資助言ではありません。",
     "disclaimer": {
       "label": "投資助言ではありません",

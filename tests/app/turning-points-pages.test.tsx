@@ -188,6 +188,7 @@ describe("v2 の並び (ページ)", () => {
     expect(screen.getByTestId("regime-headline-BTC")).toBeInTheDocument();
     expect(screen.queryByTestId("forecast-cards")).toBeNull();
     expect(screen.queryByTestId("score-evidence-90D")).toBeNull();
+    expect(screen.getByText("page_subtitle_v2")).toBeInTheDocument();
   });
 
   it("詳細: v2 のブロックが無ければ今の画面のまま", async () => {
@@ -196,12 +197,16 @@ describe("v2 の並び (ページ)", () => {
     expect(screen.getByTestId("asset-forecast-view").getAttribute("data-layout")).toBe("legacy");
     expect(screen.getByTestId("forecast-card-turn90")).toBeInTheDocument();
     expect(screen.queryByTestId("regime-headline-BTC")).toBeNull();
+    expect(screen.getByText("page_subtitle")).toBeInTheDocument();
   });
 
   it("一覧: 全資産に v2 があれば全体の 1 行・資産ごとの見出しと帯の 1 行・詳細へのリンク・90 日の列なし", async () => {
     setAssets(withV2(load()));
     ui(await ListPage(listProps));
     expect(screen.getByTestId("list-overview")).toBeInTheDocument();
+    expect(screen.getByText("page_subtitle_v2")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "overview_heading" })).toBeInTheDocument();
+    expect(screen.getByTestId("list-asset-BTC").querySelectorAll("a").length).toBe(1);
     for (const a of ["BTC", "ETH"]) {
       expect(screen.getByTestId(`list-headline-${a}`).textContent).not.toBe("");
       expect(screen.getByTestId(`list-oneline-${a}`).textContent).toContain("band.oneLine");
@@ -217,6 +222,7 @@ describe("v2 の並び (ページ)", () => {
     setAssets(withV2(load(), ["BTC"]));
     ui(await ListPage(listProps));
     expect(screen.queryByTestId("list-overview")).toBeNull();
+    expect(screen.getByText("page_subtitle")).toBeInTheDocument();
     expect(screen.getByTestId("radar-forecast-BTC-turn90")).toBeInTheDocument();
     expect(screen.getByTestId("radar-forecast-ETH-move30")).toBeInTheDocument();
   });

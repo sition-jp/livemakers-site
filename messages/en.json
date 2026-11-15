@@ -830,6 +830,8 @@
   "turningPoints": {
     "page_title": "AI Turning Point Detector",
     "page_subtitle": "Market state analysis · BTC / ETH · 7D / 30D / 90D",
+    "overview_heading": "Overview",
+    "page_subtitle_v2": "Market state analysis · BTC / ETH · 7D / 30D",
     "research_note": "This is a research dashboard. It analyses market state and turning point conditions; it is not investment advice.",
     "disclaimer": {
       "label": "Not financial advice",
