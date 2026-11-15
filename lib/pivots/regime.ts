@@ -144,7 +144,13 @@ function longChip(l: LongBlock): Chip {
         ? { key: "chip.note.long.down_newhigh", values: base }
         : { key: "chip.note.long.down", values: { ...base, pct: signedIntPct(l.ath.pct_from_ath) } };
   } else if (l.state === "up") {
-    note = { key: "chip.note.long.up", values: { sinceMonth: since.m, sinceDay: since.d } };
+    note =
+      l.last_close !== undefined && l.last_close <= l.w100
+        ? {
+            key: "chip.note.long.up_below",
+            values: { w100: formatPrice(l.w100), sinceMonth: since.m, sinceDay: since.d },
+          }
+        : { key: "chip.note.long.up", values: { sinceMonth: since.m, sinceDay: since.d } };
   } else if (l.trough) {
     note = {
       key: "chip.note.long.recovering",

@@ -229,6 +229,7 @@ export const RegimeLongSchema = z.object({
   last_week: IsoDate,
   ath: z.object({ date: IsoDate, close: z.number().positive(), pct_from_ath: z.number() }),
   w100: z.number().positive(),
+  last_close: z.number().positive().optional(), // 最後に確定した週足の終値 (「100 週線より上」の言い切りの確認用)
   trough: WeekPointSchema.nullable(),
   peak: WeekPointSchema.nullable(),
   line_to_down: z.number().positive().nullable(),

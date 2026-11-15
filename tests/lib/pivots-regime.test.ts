@@ -172,6 +172,15 @@ describe("chipParts", () => {
     expect(c.note.key).toBe("chip.note.long.up");
     expect(c.note.values).toMatchObject({ sinceMonth: 2, sinceDay: 2 });
   });
+  it("long up but last weekly close at or below the 100-week line", () => {
+    const c = chipParts(make({ long: longOf("up", { last_close: 80000 }) })).long!;
+    expect(c.note).toEqual({
+      key: "chip.note.long.up_below",
+      values: { w100: "88,000", sinceMonth: 2, sinceDay: 2 },
+    });
+    const above = chipParts(make({ long: longOf("up", { last_close: 95000 }) })).long!;
+    expect(above.note.key).toBe("chip.note.long.up");
+  });
   it("long recovering with / without trough", () => {
     const withT = chipParts(make({ long: longOf("recovering") })).long!;
     expect(withT.note).toEqual({

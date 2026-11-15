@@ -229,7 +229,7 @@ def long_detail(dates, closes):
         "state": state, "since_week": wd[s], "last_week": wd[-1],
         "ath": {"date": dates[ath_i], "close": closes[ath_i],
                 "pct_from_ath": 100 * (closes[-1] / closes[ath_i] - 1)},
-        "w100": m[-1], "trough": None, "peak": None,
+        "w100": m[-1], "last_close": wc[-1], "trough": None, "peak": None,
         "line_to_down": None, "line_to_leave_down": None,
     }
     if state == "down":

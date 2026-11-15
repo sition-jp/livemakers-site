@@ -366,6 +366,7 @@ def test_long_detail_matches_state_detail_fields():
     assert d["state"] == LONG_MAP[ref[-1]]
     assert d["last_week"] == wd[-1]
     assert d["w100"] == m[-1]
+    assert d["last_close"] == wcs[-1]
     ath_i = max(range(len(closes)), key=lambda i: closes[i])
     assert d["ath"]["date"] == days[ath_i] and d["ath"]["close"] == closes[ath_i]
     assert d["ath"]["pct_from_ath"] == pytest.approx(100 * (closes[-1] / closes[ath_i] - 1))
