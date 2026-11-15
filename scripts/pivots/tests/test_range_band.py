@@ -115,3 +115,24 @@ def test_short_history_raises():
     d, c = _series(30, lambda i: 0.02)
     with pytest.raises(ValueError):
         range_band.band_json(d, c, "BTC", range_band.load_usual())
+
+
+def test_band_matches_ledger_pinned():
+    c = [100.0]
+    for i in range(1, 400):
+        c.append(c[-1] * math.exp(0.02 * math.sin(i * 0.7) + 0.01 * (1 if i % 3 else -1)))
+    dates = [f"d{i:04d}" for i in range(400)]
+    b = range_band.band_json(dates, c, "BTC", range_band.load_usual())
+    ap = lambda x: pytest.approx(x, abs=1e-9)
+    assert b["close"] == ap(400.0920196009345)
+    assert b["realized_vol_30d"] == ap(0.33745977571198243)
+    by = {i["id"]: i for i in b["items"]}
+    assert by["either7"]["threshold"] == ap(0.05841637644977396)
+    assert by["either30"]["threshold"] == ap(0.14512006616244047)
+    assert by["up7"]["threshold"] == ap(0.04673310115981917)
+    assert by["down30"]["threshold"] == ap(0.0967467107749603)
+    assert range_band.threshold(b["realized_vol_30d"], 1.25, 7) == ap(0.05841637644977396)
+    t = b["threshold_7d_365"]
+    assert t["min"] == ap(0.05452568546474109)
+    assert t["max"] == ap(0.05841869942630356)
+    assert t["position"] == "high"
