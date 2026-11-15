@@ -219,3 +219,184 @@ def test_run_start():
     assert regime.run_start(["a", "a", "b", "b", "b"], 4) == 2
     assert regime.run_start(["a", "a", "b"], 1) == 0
     assert regime.run_start([None, "x", "x"], 2) == 1
+
+
+# ================= Task 4: 長期の層 =================
+# ---- 参照実装 (long_layer.py / rule_c_fix.py の写し) ----
+def ref_weekly(days, closes):
+    wd, wc = [], []
+    for d, c in zip(days, closes):
+        if date.fromisoformat(d).weekday() == 6:
+            wd.append(d)
+            wc.append(c)
+    return wd, wc
+
+
+def ref_sma(v, n):
+    out, s = [None] * len(v), 0.0
+    for i, x in enumerate(v):
+        s += x
+        if i >= n:
+            s -= v[i - n]
+        if i >= n - 1:
+            out[i] = s / n
+    return out
+
+
+def ref_rule_dd(wc, r_dn, r_up, start=104):
+    out = [None] * len(wc)
+    cur, peak, trough = "UP", wc[0], wc[0]
+    for i, c in enumerate(wc):
+        if cur == "UP":
+            peak = max(peak, c)
+            if c <= peak * (1 - r_dn):
+                cur, trough = "DN", c
+        else:
+            trough = min(trough, c)
+            if c >= trough * (1 + r_up):
+                cur, peak = "UP", c
+        if i >= start:
+            out[i] = cur
+    return out
+
+
+def ref_rule_c_sticky(wc, n_weeks=100, r_dn=0.30, r_up=0.50):
+    m = ref_sma(wc, n_weeks)
+    dd = ref_rule_dd(wc, r_dn, r_up, start=0)
+    out, prev = [None] * len(wc), None
+    for i, x in enumerate(dd):
+        if m[i] is None:
+            continue
+        if x == "DN":
+            s = "DN"
+        elif prev in ("DN", "MID") or prev is None:
+            s = "UP" if wc[i] > m[i] else "MID"
+        else:
+            s = "UP"
+        out[i], prev = s, s
+    return out, m
+
+
+LONG_MAP = {"UP": "up", "DN": "down", "MID": "recovering", None: None}
+
+
+def week_path():
+    """上げ (100 週・高値 598) → 3 割超の下げ (底 298) → 底から 5 割戻したが 100 週線の下 → 100 週線の上へ。"""
+    wc = [400 + 2 * i for i in range(100)]
+    wc += [598 - 20 * i for i in range(1, 16)]
+    wc += [298 + 16 * i for i in range(1, 11)]
+    wc += [458 + 8 * i for i in range(1, 40)]
+    return wc
+
+
+def daily_from_weekly(wc, start=date(2017, 8, 14)):  # 月曜始まり・7 日目 (日曜) に週の終値
+    days, closes = [], []
+    prev = wc[0]
+    d = start
+    for w in wc:
+        for k in range(7):
+            days.append((d + timedelta(days=k)).isoformat())
+            closes.append(prev + (w - prev) * (k + 1) / 7)  # 日曜 (k=6) で w に着く
+        prev = w
+        d += timedelta(days=7)
+    return days, closes
+
+
+def test_weekly_takes_sundays_only():
+    days = day_list(15, start=date(2017, 8, 14))  # 月曜始まり
+    closes = list(range(1, 16))
+    wd, wc = regime.weekly(days, closes)
+    assert wd == ["2017-08-20", "2017-08-27"]
+    assert wc == [7, 14]
+    assert (wd, wc) == ref_weekly(days, closes)
+
+
+def test_long_states_match_reference():
+    wc = week_path()
+    st, m = regime.long_states(wc)
+    ref, rm = ref_rule_c_sticky(wc)
+    assert st == [LONG_MAP[x] for x in ref]
+    assert m == rm
+
+
+def test_long_down_after_30pct():
+    wc = week_path()
+    st, _ = regime.long_states(wc)
+    assert st[99] == "up"
+    # 高値 598 の 7 掛け = 418.6 以下になった週 (198 へ向かう途中) から下げ相場
+    first_down = next(i for i, s in enumerate(st) if s == "down")
+    assert wc[first_down] <= 598 * 0.7 < wc[first_down - 1]
+
+
+def test_long_recovering_needs_100w():
+    wc = week_path()
+    st, m = regime.long_states(wc)
+    i = next(i for i in range(len(st)) if st[i] == "recovering")
+    assert wc[i] >= 298 * 1.5 and wc[i] <= m[i]  # 底から 5 割戻したが 100 週線の下
+    j = next(j for j in range(i, len(st)) if st[j] == "up")
+    assert wc[j] > m[j]
+
+
+def test_long_up_is_sticky_below_100w():
+    # 上げ相場のまま 100 週線を割っても、高値から 3 割下げるまで up のまま (§9.2 の直し)
+    wc = [400 + 2 * i for i in range(100)]  # 高値 598・100 週線は約 499
+    wc += [598 - 6 * i for i in range(1, 12)]
+    wc += [532 - 4 * i for i in range(1, 12)]  # 488 = 100 週線の下・高値の 0.82 倍 (3 割下げには届かない)
+    st, m = regime.long_states(wc)
+    ref, _ = ref_rule_c_sticky(wc)
+    assert st == [LONG_MAP[x] for x in ref]
+    below = [i for i in range(len(wc)) if m[i] and wc[i] < m[i] and st[i] == "up"]
+    assert below, "100 週線の下でも up のままの週がある"
+    assert "recovering" not in st
+
+
+def test_long_none_before_100_weeks():
+    days, closes = daily_from_weekly([100 + i for i in range(99)])
+    assert regime.long_detail(days, closes) is None
+    days, closes = daily_from_weekly([100 + i for i in range(100)])
+    assert regime.long_detail(days, closes) is not None
+
+
+def test_long_detail_matches_state_detail_fields():
+    wc = week_path()[:150]
+    days, closes = daily_from_weekly(wc)
+    d = regime.long_detail(days, closes)
+    wd, wcs = regime.weekly(days, closes)
+    ref, m = ref_rule_c_sticky(wcs)
+    assert d["state"] == LONG_MAP[ref[-1]]
+    assert d["last_week"] == wd[-1]
+    assert d["w100"] == m[-1]
+    ath_i = max(range(len(closes)), key=lambda i: closes[i])
+    assert d["ath"]["date"] == days[ath_i] and d["ath"]["close"] == closes[ath_i]
+    assert d["ath"]["pct_from_ath"] == pytest.approx(100 * (closes[-1] / closes[ath_i] - 1))
+    # 状態の始まりは、その状態が続く最初の週の日曜
+    s = len(ref) - 1
+    while ref[s - 1] == ref[-1]:
+        s -= 1
+    assert d["since_week"] == wd[s]
+
+
+def test_long_detail_lines():
+    wc = week_path()
+    days, closes = daily_from_weekly(wc[:115])  # 底 298 の直後 = 下げ相場
+    d = regime.long_detail(days, closes)
+    assert d["state"] == "down"
+    assert d["trough"]["close"] == 298 and d["line_to_leave_down"] == pytest.approx(447)
+    assert d["line_to_down"] is None and d["peak"] is None
+    days, closes = daily_from_weekly(wc[:125])  # 底から 5 割戻した直後 (100 週線の下)
+    d = regime.long_detail(days, closes)
+    assert d["state"] == "recovering"
+    assert d["trough"]["close"] == 298  # 戻りの途中は「下げ相場の底」を見せる
+    assert d["line_to_down"] == pytest.approx(0.7 * d["peak"]["close"])
+    assert d["line_to_leave_down"] is None
+    days, closes = daily_from_weekly(wc[:100])
+    d = regime.long_detail(days, closes)
+    assert d["state"] == "up" and d["peak"]["close"] == 598
+    assert d["line_to_down"] == pytest.approx(598 * 0.7)
+
+
+def test_to_daily_starts_day_after_sunday():
+    days = day_list(10, start=date(2017, 8, 19))  # 土・日・月...
+    out = regime.to_daily(days, ["2017-08-20"], ["up"])
+    assert out[:2] == [None, None]  # 土・日(確定日当日)は まだ
+    assert out[2] == "up"
