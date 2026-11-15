@@ -15,7 +15,10 @@ export default defineConfig({
       deps: {
         // react-tweet は CSS Modules を含むため Node 直 import では
         // ".css" で落ちる。Vite に処理させる (inline)
-        inline: ["react-tweet"],
+        // next-intl の middleware は拡張子なしの "next/server" を import し、
+        // Node 直 import では解決できない。tests/proxy.test.ts が本物の振り分けを
+        // 通すため、middleware の部分だけ Vite に処理させる。
+        inline: ["react-tweet", /next-intl[\\/]dist[\\/].*middleware/],
       },
     },
   },
