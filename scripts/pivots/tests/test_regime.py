@@ -400,3 +400,93 @@ def test_to_daily_starts_day_after_sunday():
     out = regime.to_daily(days, ["2017-08-20"], ["up"])
     assert out[:2] == [None, None]  # 土・日(確定日当日)は まだ
     assert out[2] == "up"
+
+
+# ================= Task 5: 暴落・急騰の後の過去の回数 =================
+def ref_episodes(days, closes, lab, long_d, kind, today_index):
+    """shock_after.episodes の写し (今日までに 30 日後が来た回だけ・長期の状態つき)。"""
+    out = []
+    for t in range(today_index + 1):
+        if lab[t] != kind or (t > 0 and lab[t - 1] == kind):
+            continue
+        if t + 30 > today_index:
+            continue
+        fut = closes[t + 1:t + 31]
+        past7 = closes[max(0, t - 6):t + 1]
+        e = {"long": long_d[t], "higher_30d": closes[t + 30] > closes[t]}
+        e["new_extreme_30d"] = (min(fut) < min(past7)) if kind == "crash" else (max(fut) > max(past7))
+        out.append(e)
+    return out
+
+
+def shock_series():
+    """100 日目 (その後も下げ続ける)・300 日目 (その後は戻す)・380 日目 (今日の暴落) に急落。"""
+    c = noisy(400, 0.0, amp=0.004)
+    f = 1.0
+    for t in range(400):
+        if t == 100 or t == 300 or t == 380:
+            f *= 0.25
+        if 100 < t <= 130:
+            f *= 0.99  # 1 回目の後はさらに下がる = 30 日以内に新安値
+        if 300 < t <= 330:
+            f *= 1.012  # 2 回目の後は戻す
+        c[t] *= f
+    return c
+
+
+def test_shock_history_counts_only_finished_30_days():
+    c = shock_series()
+    days = day_list(400)
+    lab = regime.classify_mid(c)["label"]
+    assert lab[100] == "crash" and lab[300] == "crash" and lab[380] == "crash"
+    long_d = ["up"] * 400
+    today = 384
+    got = regime.shock_history(days, c, lab, long_d, "crash", "up", today)
+    ref = ref_episodes(days, c, lab, long_d, "crash", today)
+    assert got["n"] == len(ref) == 2  # 380 日目の回 (起点 + 30 日 > 今日) は数えない
+    assert got["new_extreme_30d"] == sum(e["new_extreme_30d"] for e in ref) == 1
+    assert got["higher_30d"] == sum(e["higher_30d"] for e in ref) == 1
+    assert got["kind"] == "crash" and got["long_state"] == "up"
+
+
+def test_shock_history_filters_by_long_state():
+    c = shock_series()
+    days = day_list(400)
+    lab = regime.classify_mid(c)["label"]
+    long_d = ["up"] * 200 + ["down"] * 200  # 1 回目 = up・2 回目 = down
+    up = regime.shock_history(days, c, lab, long_d, "crash", "up", 384)
+    down = regime.shock_history(days, c, lab, long_d, "crash", "down", 384)
+    none = regime.shock_history(days, c, lab, long_d, "crash", "recovering", 384)
+    assert (up["n"], up["new_extreme_30d"], up["higher_30d"]) == (1, 1, 0)
+    assert (down["n"], down["new_extreme_30d"], down["higher_30d"]) == (1, 0, 1)
+    assert none["n"] == 0 and none["new_extreme_30d"] == 0 and none["higher_30d"] == 0
+
+
+def test_shock_history_start_day_is_first_day_of_run():
+    c = shock_series()
+    days = day_list(400)
+    lab = regime.classify_mid(c)["label"]
+    long_d = ["up"] * 400
+    for today in (380, 382, 385):  # 暴落の 1・3・6 日目
+        got = regime.shock_history(days, c, lab, long_d, "crash", "up", today)
+        assert got["start_day"] == days[380]
+
+
+def test_shock_history_surge_side():
+    c = noisy(400, 0.0, amp=0.004)
+    f = 1.0
+    for t in range(400):
+        if t == 100:
+            f *= 4.0
+        if 100 < t <= 130:
+            f *= 1.01  # さらに上がる = 30 日以内に新高値
+        c[t] *= f
+    days = day_list(400)
+    lab = regime.classify_mid(c)["label"]
+    assert lab[100] == "surge"
+    long_d = ["up"] * 400
+    got = regime.shock_history(days, c, lab, long_d, "surge", "up", 399)
+    ref = ref_episodes(days, c, lab, long_d, "surge", 399)
+    assert got["n"] == len(ref) >= 1
+    assert got["new_extreme_30d"] == sum(e["new_extreme_30d"] for e in ref) >= 1
+    assert got["higher_30d"] == sum(e["higher_30d"] for e in ref)

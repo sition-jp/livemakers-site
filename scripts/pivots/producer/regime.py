@@ -18,7 +18,6 @@ import math
 import statistics
 from dataclasses import dataclass
 from datetime import date
-from datetime import date
 
 
 # ---------------------------------------------------------------- 日足 (core.py)
@@ -252,3 +251,33 @@ def to_daily(dates, week_dates, week_states):
             j += 1
         out[i] = week_states[j] if j >= 0 else None
     return out
+
+
+# ---------------------------------------------------------------- 暴落・急騰の後 (shock_after.episodes)
+SHOCK_H = 30
+
+
+def shock_history(dates, closes, mid_labels, long_daily, kind, long_state, today_index):
+    """過去の同じ種類の回のうち、起点 + 30 日 ≤ today_index で、起点の日の長期の状態が
+    long_state と同じ回だけを数える。今日の回自身は数えない。"""
+    lab = mid_labels
+    n = 0
+    new_extreme = higher = 0
+    for t in range(today_index + 1):
+        if lab[t] != kind or (t > 0 and lab[t - 1] == kind):
+            continue
+        if t + SHOCK_H > today_index or long_daily[t] != long_state:
+            continue
+        fut = closes[t + 1:t + SHOCK_H + 1]
+        past7 = closes[max(0, t - 6):t + 1]
+        n += 1
+        higher += closes[t + SHOCK_H] > closes[t]
+        if kind == "crash":
+            new_extreme += min(fut) < min(past7)
+        else:
+            new_extreme += max(fut) > max(past7)
+    start_day = None
+    if lab[today_index] == kind:
+        start_day = dates[run_start(lab, today_index)]
+    return {"kind": kind, "long_state": long_state, "n": n,
+            "new_extreme_30d": new_extreme, "higher_30d": higher, "start_day": start_day}
