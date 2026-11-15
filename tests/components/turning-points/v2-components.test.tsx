@@ -104,6 +104,11 @@ describe("RegimeHeadline", () => {
     const note = screen.getByTestId("regime-flip-note").textContent!;
     expect(note).toContain("1,908.86");
     expect(note).toContain("下げ相場");
+    expect(note).toContain("火曜朝 8 時の更新から");
+    expect(note).not.toContain("翌朝");
+    cleanup();
+    wrap("en", <RegimeHeadline asset="ETH" regime={eth} />);
+    expect(screen.getByTestId("regime-flip-note").textContent).toContain("from the Tuesday 8:00 JST update");
   });
 
   it("shows the flip note only on Fri/Sat/Sun and within 10% of the line", () => {

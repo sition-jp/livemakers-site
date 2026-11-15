@@ -1253,6 +1253,7 @@
             "down": "最高値 {ath} ドル（{athYear} 年 {athMonth} 月 {athDay} 日）から {pct}%。{sinceMonth} 月 {sinceDay} 日から",
             "down_newhigh": "最高値 {ath} ドル（{athYear} 年 {athMonth} 月 {athDay} 日）と同じか、それより上。{sinceMonth} 月 {sinceDay} 日から",
             "up": "100 週線（約 2 年の平均）より上。{sinceMonth} 月 {sinceDay} 日から",
+            "up_below": "上げ相場のまま（高値から 3 割下げるまで続きます）。いまは 100 週線（約 2 年の平均・{w100} ドル）より下。{sinceMonth} 月 {sinceDay} 日から",
             "recovering": "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。{troughMonth} 月の底から 5 割戻しましたが、まだ 100 週線（約 2 年の平均・{w100} ドル）より下。最高値 {ath} ドルから {pct}%。{sinceMonth} 月 {sinceDay} 日から",
             "recovering_notrough": "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。まだ 100 週線（約 2 年の平均・{w100} ドル）より下。最高値 {ath} ドルから {pct}%。{sinceMonth} 月 {sinceDay} 日から"
           },
@@ -1444,8 +1445,8 @@
       "updated": {
         "line": "{month} 月 {day} 日 朝 8 時の更新（{closeMonth} 月 {closeDay} 日の終値まで）",
         "week": "長期は週足（{month} 月 {day} 日の週まで）で決めています。",
-        "flip": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル{dir, select, below {以下} other {以上}}なら、翌朝から「{state, select, down {下げ相場} up {上げ相場} other {戻りの途中}}」に変わります。",
-        "flipLeaveDown": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル以上なら、翌朝から「下げ相場」ではなくなります。"
+        "flip": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル{dir, select, below {以下} other {以上}}なら、火曜朝 8 時の更新から「{state, select, down {下げ相場} up {上げ相場} other {戻りの途中}}」に変わります。",
+        "flipLeaveDown": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル以上なら、火曜朝 8 時の更新から「下げ相場」ではなくなります。"
       }
     }
   },

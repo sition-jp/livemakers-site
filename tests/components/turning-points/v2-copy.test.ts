@@ -270,7 +270,7 @@ describe("one rendered English check per family", () => {
     const c = chipParts(eth);
     expect(t(c.mid!.note.key, c.mid!.note.values)).toBe("A stretch with no clear direction (day 6)");
     expect(t(c.long!.note.key, c.long!.note.values)).toBe(
-      "Recovering from the bear market low (too early to call it a bull market). Up 50% from the June low, but still below the 100-week average (about 2 years, 2,708 dollars). −45% from the high of 124,659 dollars. Since Feb 2",
+      "Recovering from the bear market low (too early to call it a bull market). Rebounded 50% from the June low, but still below the 100-week average (about 2 years, 2,708 dollars). −45% from the high of 124,659 dollars. Since Feb 2",
     );
     expect(t(chipParts(r).long!.note.key, chipParts(r).long!.note.values)).toBe(
       "−45% from the high of 124,659 dollars (Oct 6, 2025). Since Feb 2",
@@ -280,7 +280,16 @@ describe("one rendered English check per family", () => {
       shock: { kind: "crash", long_state: "down", n: 6, new_extreme_30d: 5, higher_30d: 4, start_day: null },
     }))!;
     expect(t(sh.key, sh.values)).toBe(
-      "Only 6 crashes have happened during a bear market (a small sample). Of those, a lower close came within 30 days 5 times, and 4 times the close 30 days later was higher than on the crash day.",
+      "In the past, only 6 crashes have happened during a bear market (a small sample). Of those, a lower close came within 30 days 5 times, and 4 times the close 30 days later was higher than on the crash day.",
+    );
+    const many = shockParts(make({
+      mid: { state: "crash", since: "2026-11-10", days: 1 },
+      shock: { kind: "crash", long_state: "up", n: 23, new_extreme_30d: 17, higher_30d: 16, start_day: null },
+    }))!;
+    expect(t(many.key, many.values)).toMatch(/^In the past, across the 23 crashes during a bull market/);
+    const upBelow = chipParts(make({ long: longOf("up", { last_close: 1000 }) })).long!;
+    expect(t(upBelow.note.key, upBelow.note.values)).toBe(
+      "Still a bull market (it lasts until a 30% fall from the high). Right now below the 100-week average (about 2 years, 2,708 dollars). Since Feb 2",
     );
     expect(say(t, headlineParts(make({ mid: { state: "crash", since: "2026-11-10", days: 1 } }), "mid"), " ")).toBe(
       "The past 1–3 months: a crash. In the last few days there has been a drop several times larger than usual (day 1).",
