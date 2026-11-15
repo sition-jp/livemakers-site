@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
 import {
@@ -73,10 +73,10 @@ export function RegimeHeadline({ asset, regime }: RegimeHeadlineProps) {
         className="text-2xl font-semibold leading-snug text-text-primary"
       >
         {parts.map((p, i) => (
-          <span key={`${p.key}-${i}`} className={i === 0 ? undefined : "inline-block"}>
+          <Fragment key={`${p.key}-${i}`}>
             {i > 0 && locale === "en" ? " " : ""}
-            {say(p)}
-          </span>
+            <span className={i === 0 ? undefined : "inline-block"}>{say(p)}</span>
+          </Fragment>
         ))}
       </h2>
       {shock ? (

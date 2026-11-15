@@ -168,12 +168,12 @@ describe("rendered sentences (ja)", () => {
     const c = chipParts(eth);
     expect(t(c.mid!.note.key, c.mid!.note.values)).toBe("向きのはっきりしない時期（5 日目）");
     expect(t(c.long!.note.key, c.long!.note.values)).toBe(
-      "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。6 月の底から 5 割戻しましたが、まだ 100 週線（約 2 年の平均・2,708 ドル）より下。最高値 124,659 ドルから −45%。2 月 1 日から",
+      "下げ相場の底から戻している途中（上げ相場と呼ぶにはまだ早い）。6 月の底から 5 割戻しましたが、まだ 100 週線（約 2 年の平均・2,708 ドル）より下。最高値 124,659 ドルから −45%。2 月 2 日から",
     );
   });
   it("BTC chips: long down note with the ATH date (year without a thousands separator), mid and near", () => {
     const c = chipParts(make({}));
-    expect(t(c.long!.note.key, c.long!.note.values)).toBe("最高値 124,659 ドル（2025 年 10 月 6 日）から −45%。2 月 1 日から");
+    expect(t(c.long!.note.key, c.long!.note.values)).toBe("最高値 124,659 ドル（2025 年 10 月 6 日）から −45%。2 月 2 日から");
     expect(t(c.mid!.note.key, c.mid!.note.values)).toBe("下げ相場の中で、向きのはっきりしない時期（6 日目）");
     expect(t(c.near!.value.key, c.near!.value.values)).toBe("下げています −16%");
     expect(t(c.near!.note.key, c.near!.note.values)).toBe("30 日前 81,682 ドル → 今 68,314 ドル（14 日目）");
@@ -270,10 +270,10 @@ describe("one rendered English check per family", () => {
     const c = chipParts(eth);
     expect(t(c.mid!.note.key, c.mid!.note.values)).toBe("A stretch with no clear direction (day 6)");
     expect(t(c.long!.note.key, c.long!.note.values)).toBe(
-      "Recovering from the bear market low (too early to call it a bull market). Up 50% from the June low, but still below the 100-week average (about 2 years, 2,708 dollars). −45% from the high of 124,659 dollars. Since Feb 1",
+      "Recovering from the bear market low (too early to call it a bull market). Up 50% from the June low, but still below the 100-week average (about 2 years, 2,708 dollars). −45% from the high of 124,659 dollars. Since Feb 2",
     );
     expect(t(chipParts(r).long!.note.key, chipParts(r).long!.note.values)).toBe(
-      "−45% from the high of 124,659 dollars (Oct 6, 2025). Since Feb 1",
+      "−45% from the high of 124,659 dollars (Oct 6, 2025). Since Feb 2",
     );
     const sh = shockParts(make({
       mid: { state: "crash", since: "2026-11-10", days: 1 },

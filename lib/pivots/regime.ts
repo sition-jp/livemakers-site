@@ -49,6 +49,13 @@ function monthDay(iso: string): { m: number; d: number } {
   return { m, d };
 }
 
+/** 週足の確定日 (日曜 UTC) の翌日 = その札が効き始める日。月またぎも Date で処理する。 */
+export function sinceDay(sinceWeek: string): { m: number; d: number } {
+  const [y, m, d] = sinceWeek.split("-").map(Number);
+  const next = new Date(Date.UTC(y, m - 1, d + 1));
+  return { m: next.getUTCMonth() + 1, d: next.getUTCDate() };
+}
+
 function thirtyKind(long: LongBlock["state"], near: NearKind): string {
   if (near === "flat") return "flat";
   if (long === "down") return near === "up" ? "rebound" : "also_down";
@@ -119,7 +126,7 @@ function fromAth(l: LongBlock, since: { m: number; d: number }) {
 }
 
 function longChip(l: LongBlock): Chip {
-  const since = monthDay(l.since_week);
+  const since = sinceDay(l.since_week);
   let note: Part;
   if (l.state === "down") {
     const [ay, am, ad] = l.ath.date.split("-").map(Number);

@@ -5,6 +5,7 @@ import {
   overviewParts,
   shockParts,
   signedIntPct,
+  sinceDay,
   tenScale,
 } from "@/lib/pivots/regime";
 import type { Regime } from "@/lib/pivots/types";
@@ -155,7 +156,7 @@ describe("chipParts", () => {
         athDay: 6,
         pct: "−45",
         sinceMonth: 2,
-        sinceDay: 1,
+        sinceDay: 2,
       },
     });
   });
@@ -169,18 +170,18 @@ describe("chipParts", () => {
   it("long up", () => {
     const c = chipParts(make({ long: longOf("up") })).long!;
     expect(c.note.key).toBe("chip.note.long.up");
-    expect(c.note.values).toMatchObject({ sinceMonth: 2, sinceDay: 1 });
+    expect(c.note.values).toMatchObject({ sinceMonth: 2, sinceDay: 2 });
   });
   it("long recovering with / without trough", () => {
     const withT = chipParts(make({ long: longOf("recovering") })).long!;
     expect(withT.note).toEqual({
       key: "chip.note.long.recovering",
-      values: { troughMonth: 2, w100: "88,000", ath: "124,659", pct: "−45", sinceMonth: 2, sinceDay: 1 },
+      values: { troughMonth: 2, w100: "88,000", ath: "124,659", pct: "−45", sinceMonth: 2, sinceDay: 2 },
     });
     const noT = chipParts(make({ long: longOf("recovering", { trough: null }) })).long!;
     expect(noT.note).toEqual({
       key: "chip.note.long.recovering_notrough",
-      values: { w100: "88,000", ath: "124,659", pct: "−45", sinceMonth: 2, sinceDay: 1 },
+      values: { w100: "88,000", ath: "124,659", pct: "−45", sinceMonth: 2, sinceDay: 2 },
     });
   });
   it("long null -> null chip, others stay", () => {
@@ -287,4 +288,11 @@ describe("overviewParts", () => {
       values: { asset: "BTC", kind: "down" },
     });
   });
+});
+
+describe("sinceDay (since_week の翌日)", () => {
+  it("2026-02-01 -> 2/2", () => expect(sinceDay("2026-02-01")).toEqual({ m: 2, d: 2 }));
+  it("2026-08-23 -> 8/24", () => expect(sinceDay("2026-08-23")).toEqual({ m: 8, d: 24 }));
+  it("2026-01-31 -> 2/1 (month rollover)", () =>
+    expect(sinceDay("2026-01-31")).toEqual({ m: 2, d: 1 }));
 });

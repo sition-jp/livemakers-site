@@ -48,6 +48,16 @@ const history = Array.from({ length: 61 }, (_, i) => ({
 }));
 
 describe("RegimeHeadline", () => {
+  it("en: sentences are separated by a single space, outside the inline-block span", () => {
+    wrap("en", <RegimeHeadline asset="BTC" regime={btc} />);
+    const h = screen.getByTestId("regime-headline");
+    expect(h.textContent).toContain("bear market. The last");
+    expect(h.innerHTML).toMatch(/bear market\.<\/span> <span/);
+  });
+  it("ja: sentences are joined with no space", () => {
+    wrap("ja", <RegimeHeadline asset="BTC" regime={btc} />);
+    expect(screen.getByTestId("regime-headline").textContent).not.toMatch(/。 /);
+  });
   it("starts on the long chip and switches the headline on click", () => {
     wrap("ja", <RegimeHeadline asset="BTC" regime={btc} />);
     const h = screen.getByTestId("regime-headline");
