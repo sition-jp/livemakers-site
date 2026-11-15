@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { KNOWN_BOTS, ROBOTS_DISALLOW, ROBOTS_ONLY_TOKENS } from "@/lib/ai-bots";
 import { SITE_URL } from "@/lib/site";
 
 /**
@@ -17,22 +18,25 @@ import { SITE_URL } from "@/lib/site";
  * `08_DOCS/reports/growth/2026-11-09-lvm-google-impressions-drop-root-cause.md`
  * §3.2)。記事の本文は最初の HTML に全部入っているので、Google の描画には
  * 要らない。`_rsc` が 2 つ目以降の引数になる形 (`&_rsc=`) も止める。
+ *
+ * AI ボット (2026-11-15 田平氏 GO): 引用用 (検索・ユーザー操作) も学習用も
+ * すべて許可し、`/` を許可したうえで名指しする。名指しのグループは `*` を
+ * 引き継がず置き換えるので、`*` と同じ除外 (`ROBOTS_DISALLOW`) を全グループに
+ * 持たせる。検索エンジンとリンクのプレビュー用は名指ししない (`*` に従う)。
  */
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: [
-        "/api/",
-        "/ja/article-inflow-preview",
-        "/en/article-inflow-preview",
-        "/ja/terminal-preview",
-        "/en/terminal-preview",
-        "/*?_rsc=",
-        "/*&_rsc=",
-      ],
-    },
+    rules: [
+      { userAgent: "*", allow: "/", disallow: [...ROBOTS_DISALLOW] },
+      {
+        userAgent: [
+          ...KNOWN_BOTS.filter((b) => b.robots).map((b) => b.name),
+          ...ROBOTS_ONLY_TOKENS,
+        ],
+        allow: "/",
+        disallow: [...ROBOTS_DISALLOW],
+      },
+    ],
     sitemap: [`${SITE_URL}/sitemap.xml`, `${SITE_URL}/sitemap-news.xml`],
   };
 }
