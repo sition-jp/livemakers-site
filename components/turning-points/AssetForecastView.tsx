@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 
-import { nowCloseOf } from "@/lib/pivots/forecast-screen";
+import { ScopedIntlProvider } from "@/components/i18n/ScopedIntlProvider";
+import { hasV2Screen, nowCloseOf } from "@/lib/pivots/forecast-screen";
 import { pickForecast } from "@/lib/pivots/forecast";
 import {
   detailKey,
@@ -14,9 +15,16 @@ import { EvidenceList } from "./EvidenceList";
 import { ForecastCards } from "./ForecastCards";
 import { ForecastText } from "./ForecastText";
 import { ProbabilityTimeline } from "./ProbabilityTimeline";
+import { RangeBandChart } from "./RangeBandChart";
+import { RegimeHeadline } from "./RegimeHeadline";
+import { TurnCards } from "./TurnCards";
+import { WhatIsThis } from "./WhatIsThis";
+import { WhatItDoesNotTell } from "./WhatItDoesNotTell";
+import { WorkedExample } from "./WorkedExample";
 import { StrengthLadder } from "./StrengthLadder";
 
 const HORIZONS: Horizon[] = ["7D", "30D", "90D"];
+const V2_HORIZONS: Horizon[] = ["7D", "30D"];
 
 /** 詳細ページの新しい画面の本体 (ガイドとバナーはページ側)。呼ぶ側が hasForecastScreen を確認済みであること。 */
 export function AssetForecastView({
@@ -32,12 +40,40 @@ export function AssetForecastView({
   const td = useTranslations("turningPoints.detail");
   const items = snapshot.forecast?.[asset] ?? [];
   const history = snapshot.forecast_history?.[asset] ?? [];
+  // v2 の並びは regime と range_band が両方ある資産だけ。片方でも欠ければ今の画面のまま (壊さない)
+  const v2 = hasV2Screen(snapshot, asset);
+  const regime = snapshot.regime?.[asset];
+  const band = snapshot.range_band?.[asset];
+  const closes = history.flatMap((h) => (typeof h.close === "number" ? [{ date: h.date, close: h.close }] : []));
+  const horizons = v2 ? V2_HORIZONS : HORIZONS;
 
   return (
-    <div data-testid="asset-forecast-view" className="space-y-10">
-      <StrengthLadder rows={snapshot.ladder?.[asset]} nowClose={nowCloseOf(snapshot, asset)} />
-      <ForecastCards items={items} events={events} asset={asset} />
-      <ForecastText items={items} trend={snapshot.trend?.[asset]} />
+    <div data-testid="asset-forecast-view" data-layout={v2 ? "v2" : "legacy"} className="space-y-10">
+      {v2 ? (
+        <>
+          <ScopedIntlProvider scope="turningPoints">
+            <RegimeHeadline asset={asset} regime={regime} />
+          </ScopedIntlProvider>
+          <RangeBandChart asset={asset} band={band} history={closes} />
+          <WhatIsThis />
+          <WorkedExample asset={asset} band={band} />
+          <TurnCards
+            asset={asset}
+            forecast={items}
+            ladder={snapshot.ladder?.[asset]}
+            turnRate={snapshot.turn_rate?.[asset]}
+            band={band}
+          />
+          <WhatItDoesNotTell band={band} />
+          <StrengthLadder rows={snapshot.ladder?.[asset]} nowClose={nowCloseOf(snapshot, asset)} />
+        </>
+      ) : (
+        <>
+          <StrengthLadder rows={snapshot.ladder?.[asset]} nowClose={nowCloseOf(snapshot, asset)} />
+          <ForecastCards items={items} events={events} asset={asset} />
+          <ForecastText items={items} trend={snapshot.trend?.[asset]} />
+        </>
+      )}
       <ProbabilityTimeline
         asset={asset}
         history={history}
@@ -49,7 +85,7 @@ export function AssetForecastView({
         <h2 className="text-sm uppercase tracking-label text-text-secondary">
           {t("evidence_heading")}
         </h2>
-        {HORIZONS.map((h) => {
+        {horizons.map((h) => {
           const detail = snapshot.detail[detailKey(asset, h)];
           if (!detail) return null;
           return (
