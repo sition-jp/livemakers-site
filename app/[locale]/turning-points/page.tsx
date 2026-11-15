@@ -8,7 +8,9 @@ import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 import { ProbabilityTimeline } from "@/components/turning-points/ProbabilityTimeline";
-import { allForecastScreen } from "@/lib/pivots/forecast-screen";
+import { allForecastScreen, allV2Screen } from "@/lib/pivots/forecast-screen";
+import { headlineParts, overviewParts } from "@/lib/pivots/regime";
+import { legendItems } from "@/lib/pivots/range-band";
 import { pickForecast } from "@/lib/pivots/forecast";
 import { TimelineMini } from "@/components/turning-points/TimelineMini";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
@@ -51,6 +53,9 @@ export default async function TurningPointsRadarPage({
   const result = await readAssetsSnapshot();
   const snapshot = result.parseError === null ? result.snapshot : null;
   const useForecast = allForecastScreen(snapshot);
+  // v2: 全資産に regime と range_band があるときだけ (混在させない)
+  const useV2 = useForecast && allV2Screen(snapshot);
+  const tv2 = await getTranslations("turningPoints.v2");
   const todayIso = (snapshot?.generated_at ?? new Date().toISOString()).slice(0, 10);
 
   return (
@@ -59,7 +64,7 @@ export default async function TurningPointsRadarPage({
         <h1 className="text-4xl font-light tracking-title text-text-primary">
           {t("page_title")}
         </h1>
-        <p className="text-text-secondary">{t("page_subtitle")}</p>
+        <p className="text-text-secondary">{t(useV2 ? "page_subtitle_v2" : "page_subtitle")}</p>
         <p className="text-xs text-text-tertiary max-w-2xl leading-relaxed">
           {t("research_note")}
         </p>
@@ -70,6 +75,54 @@ export default async function TurningPointsRadarPage({
       <ReadingGuide variant={useForecast ? "forecast" : "radar"} />
 
       <DisclaimerBanner />
+
+      {useV2 && snapshot ? (
+        <section data-testid="list-overview" aria-labelledby="overview-heading" className="space-y-6">
+          <h2 id="overview-heading" className="text-sm uppercase tracking-label text-text-secondary">
+            {t("overview_heading")}
+          </h2>
+          <p className="text-lg text-text-primary">
+            {overviewParts(snapshot.regime ?? {})
+              .map((p) => tv2(p.key, p.values))
+              .join("")}
+          </p>
+          <ul className="grid gap-4 md:grid-cols-2">
+            {snapshot.radar.map((a) => {
+              const regime = snapshot.regime?.[a.symbol];
+              const band = snapshot.range_band?.[a.symbol];
+              const headline = regime
+                ? headlineParts(regime, "long")
+                    .map((p) => tv2(p.key, p.values))
+                    .join("")
+                : "";
+              const b7 = band ? legendItems(band).find((l) => l.id === "b7") : undefined;
+              return (
+                <li
+                  key={a.symbol}
+                  data-testid={`list-asset-${a.symbol}`}
+                  className="space-y-2 rounded-sm border border-border-primary p-4"
+                >
+                  <h3 className="text-sm uppercase tracking-label text-text-secondary">
+                    <Link href={`/turning-points/${a.symbol.toLowerCase()}`} className="hover:underline">
+                      {a.symbol}
+                    </Link>
+                  </h3>
+                  {headline ? (
+                    <p data-testid={`list-headline-${a.symbol}`} className="text-text-primary">
+                      {headline}
+                    </p>
+                  ) : null}
+                  {b7 ? (
+                    <p data-testid={`list-oneline-${a.symbol}`} className="text-sm text-text-secondary">
+                      {tv2("band.oneLine", { lo: b7.lo, hi: b7.hi, tenN: b7.tenN, usualPct: b7.usualPct })}
+                    </p>
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
 
       <section aria-labelledby="radar-heading" className="space-y-4">
         <h2
@@ -88,6 +141,7 @@ export default async function TurningPointsRadarPage({
             assets={result.snapshot?.radar ?? []}
             previous={result.snapshot?.previous ?? null}
             forecast={useForecast ? snapshot?.forecast : undefined}
+            v2={useV2}
           />
         )}
       </section>

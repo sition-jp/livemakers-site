@@ -1,0 +1,465 @@
+{
+ "regime": {
+  "BTC": {
+   "as_of": "2026-11-15",
+   "long": {
+    "state": "down",
+    "since_week": "2026-02-01",
+    "last_week": "2026-11-08",
+    "ath": {
+     "date": "2025-10-06",
+     "close": 124658.54,
+     "pct_from_ath": -48.3329260875348
+    },
+    "w100": 89102.86339999997,
+    "trough": {
+     "week": "2026-06-28",
+     "close": 59577.01
+    },
+    "peak": null,
+    "line_to_down": null,
+    "line_to_leave_down": 89365.515
+   },
+   "mid": {
+    "state": "crash",
+    "since": "2026-11-14",
+    "days": 2
+   },
+   "near": {
+    "state": "down",
+    "since": "2026-10-31",
+    "days": 16,
+    "ret_30d_pct": -21.1,
+    "close_30d_ago": 81615.64,
+    "close": 64407.42
+   },
+   "shock": {
+    "kind": "crash",
+    "long_state": "down",
+    "n": 6,
+    "new_extreme_30d": 5,
+    "higher_30d": 4,
+    "start_day": "2026-11-14"
+   }
+  },
+  "ETH": {
+   "as_of": "2026-11-15",
+   "long": {
+    "state": "recovering",
+    "since_week": "2026-08-23",
+    "last_week": "2026-11-08",
+    "ath": {
+     "date": "2025-08-22",
+     "close": 4832.07,
+     "pct_from_ath": -62.95542076170254
+    },
+    "w100": 2707.552600000003,
+    "trough": {
+     "week": "2026-06-28",
+     "close": 1571.96
+    },
+    "peak": {
+     "week": "2026-10-04",
+     "close": 2726.94
+    },
+    "line_to_down": 1908.858,
+    "line_to_leave_down": null
+   },
+   "mid": {
+    "state": "range",
+    "since": "2026-11-09",
+    "days": 7
+   },
+   "near": {
+    "state": "down",
+    "since": "2026-10-22",
+    "days": 25,
+    "ret_30d_pct": -26.1,
+    "close_30d_ago": 2423.54,
+    "close": 1790.02
+   }
+  }
+ },
+ "range_band": {
+  "BTC": {
+   "as_of": "2026-11-15",
+   "close": 64407.42,
+   "realized_vol_30d": 0.43166140885679616,
+   "items": [
+    {
+     "id": "either7",
+     "side": "both",
+     "horizon_days": 7,
+     "k": 1.25,
+     "threshold": 0.07472326236635685,
+     "lo": 59594.69,
+     "hi": 69220.15,
+     "usual_pct": 26.87
+    },
+    {
+     "id": "either30",
+     "side": "both",
+     "horizon_days": 30,
+     "k": 1.5,
+     "threshold": 0.18563021942661187,
+     "lo": 52451.46,
+     "hi": 76363.38,
+     "usual_pct": 27.0
+    },
+    {
+     "id": "up7",
+     "side": "up",
+     "horizon_days": 7,
+     "k": 1.0,
+     "threshold": 0.05977860989308548,
+     "hi": 68257.61,
+     "usual_pct": 20.62
+    },
+    {
+     "id": "down7",
+     "side": "down",
+     "horizon_days": 7,
+     "k": 1.0,
+     "threshold": 0.05977860989308548,
+     "lo": 60557.23,
+     "usual_pct": 17.58
+    },
+    {
+     "id": "up30",
+     "side": "up",
+     "horizon_days": 30,
+     "k": 1.0,
+     "threshold": 0.12375347961774125,
+     "hi": 72378.06,
+     "usual_pct": 26.88
+    },
+    {
+     "id": "down30",
+     "side": "down",
+     "horizon_days": 30,
+     "k": 1.0,
+     "threshold": 0.12375347961774125,
+     "lo": 56436.78,
+     "usual_pct": 21.35
+    }
+   ],
+   "threshold_7d_365": {
+    "min": 0.03796433520255689,
+    "max": 0.14519496251097877,
+    "position": "mid"
+   },
+   "source": {
+    "question_set": "q-2026-11",
+    "version": "base-rate-q2026-11",
+    "usual_period": "2021-12-28.."
+   }
+  },
+  "ETH": {
+   "as_of": "2026-11-15",
+   "close": 1790.02,
+   "realized_vol_30d": 0.575139026907912,
+   "items": [
+    {
+     "id": "either7",
+     "side": "both",
+     "horizon_days": 7,
+     "k": 1.25,
+     "threshold": 0.09956012634668591,
+     "lo": 1611.81,
+     "hi": 1968.23,
+     "usual_pct": 28.23
+    },
+    {
+     "id": "either30",
+     "side": "both",
+     "horizon_days": 30,
+     "k": 1.5,
+     "threshold": 0.24733085139223662,
+     "lo": 1347.29,
+     "hi": 2232.75,
+     "usual_pct": 29.51
+    },
+    {
+     "id": "up7",
+     "side": "up",
+     "horizon_days": 7,
+     "k": 1.0,
+     "threshold": 0.07964810107734874,
+     "hi": 1932.59,
+     "usual_pct": 21.18
+    },
+    {
+     "id": "down7",
+     "side": "down",
+     "horizon_days": 7,
+     "k": 1.0,
+     "threshold": 0.07964810107734874,
+     "lo": 1647.45,
+     "usual_pct": 19.21
+    },
+    {
+     "id": "up30",
+     "side": "up",
+     "horizon_days": 30,
+     "k": 1.0,
+     "threshold": 0.16488723426149107,
+     "hi": 2085.17,
+     "usual_pct": 27.85
+    },
+    {
+     "id": "down30",
+     "side": "down",
+     "horizon_days": 30,
+     "k": 1.0,
+     "threshold": 0.16488723426149107,
+     "lo": 1494.87,
+     "usual_pct": 22.89
+    }
+   ],
+   "threshold_7d_365": {
+    "min": 0.0489028728269309,
+    "max": 0.18352969396539054,
+    "position": "mid"
+   },
+   "source": {
+    "question_set": "q-2026-11",
+    "version": "base-rate-q2026-11",
+    "usual_period": "2021-12-28.."
+   }
+  }
+ },
+ "ladder": {
+  "BTC": [
+   {
+    "strength": "cycle",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2025-10-06",
+     "kind": "top",
+     "close": 124658.54,
+     "confirmed_date": "2026-06-05"
+    },
+    "candidate": {
+     "date": "2026-06-30",
+     "kind": "bottom",
+     "close": 58624.71
+    },
+    "confirm_at": 87937.065
+   },
+   {
+    "strength": "large",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-02-05",
+     "kind": "bottom",
+     "close": 62909.86,
+     "confirmed_date": "2026-05-10"
+    },
+    "candidate": {
+     "date": "2026-09-21",
+     "kind": "top",
+     "close": 86620.0
+    },
+    "confirm_at": 60633.99999999999
+   },
+   {
+    "strength": "medium",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-09-21",
+     "kind": "top",
+     "close": 86620.0,
+     "confirmed_date": "2026-11-12"
+    },
+    "candidate": {
+     "date": "2026-11-14",
+     "kind": "bottom",
+     "close": 64150.0
+    },
+    "confirm_at": 73772.5
+   },
+   {
+    "strength": "small",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-09-21",
+     "kind": "top",
+     "close": 86620.0,
+     "confirmed_date": "2026-10-08"
+    },
+    "candidate": {
+     "date": "2026-11-14",
+     "kind": "bottom",
+     "close": 64150.0
+    },
+    "confirm_at": 67357.5
+   }
+  ],
+  "ETH": [
+   {
+    "strength": "cycle",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-06-25",
+     "kind": "bottom",
+     "close": 1567.84,
+     "confirmed_date": "2026-08-21"
+    },
+    "candidate": {
+     "date": "2026-09-21",
+     "kind": "top",
+     "close": 2776.19
+    },
+    "confirm_at": 1388.095
+   },
+   {
+    "strength": "large",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-09-21",
+     "kind": "top",
+     "close": 2776.19,
+     "confirmed_date": "2026-11-13"
+    },
+    "candidate": {
+     "date": "2026-11-14",
+     "kind": "bottom",
+     "close": 1769.2
+    },
+    "confirm_at": 2299.96
+   },
+   {
+    "strength": "medium",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-09-21",
+     "kind": "top",
+     "close": 2776.19,
+     "confirmed_date": "2026-10-24"
+    },
+    "candidate": {
+     "date": "2026-11-14",
+     "kind": "bottom",
+     "close": 1769.2
+    },
+    "confirm_at": 2034.58
+   },
+   {
+    "strength": "small",
+    "decided": true,
+    "last_confirmed": {
+     "date": "2026-11-04",
+     "kind": "top",
+     "close": 2424.61,
+     "confirmed_date": "2026-11-05"
+    },
+    "candidate": {
+     "date": "2026-11-14",
+     "kind": "bottom",
+     "close": 1769.2
+    },
+    "confirm_at": 1857.66
+   }
+  ]
+ },
+ "turn_rate": {
+  "BTC": {
+   "medium": {
+    "per_year": 7.3,
+    "last_365": 4
+   },
+   "small": {
+    "per_year": 30.3,
+    "last_365": 26
+   }
+  },
+  "ETH": {
+   "medium": {
+    "per_year": 10.1,
+    "last_365": 8
+   },
+   "small": {
+    "per_year": 41.2,
+    "last_365": 38
+   }
+  }
+ },
+ "forecast": {
+  "BTC": [
+   {
+    "event": "turn",
+    "horizon": "7D",
+    "today_pct": 40.5,
+    "usual_pct": 47.3
+   },
+   {
+    "event": "turn",
+    "horizon": "30D",
+    "today_pct": 29.9,
+    "usual_pct": 48.3
+   },
+   {
+    "event": "turn",
+    "horizon": "90D",
+    "today_pct": 8.8,
+    "usual_pct": 15.0
+   },
+   {
+    "event": "move",
+    "horizon": "7D",
+    "today_pct": 56.9,
+    "usual_pct": 59.0
+   },
+   {
+    "event": "move",
+    "horizon": "30D",
+    "today_pct": 67.9,
+    "usual_pct": 70.8
+   },
+   {
+    "event": "move",
+    "horizon": "90D",
+    "today_pct": 65.4,
+    "usual_pct": 68.4
+   }
+  ],
+  "ETH": [
+   {
+    "event": "turn",
+    "horizon": "7D",
+    "today_pct": 63.0,
+    "usual_pct": 57.4
+   },
+   {
+    "event": "turn",
+    "horizon": "30D",
+    "today_pct": 58.6,
+    "usual_pct": 60.1
+   },
+   {
+    "event": "turn",
+    "horizon": "90D",
+    "today_pct": 57.2,
+    "usual_pct": 51.3
+   },
+   {
+    "event": "move",
+    "horizon": "7D",
+    "today_pct": 68.9,
+    "usual_pct": 72.8
+   },
+   {
+    "event": "move",
+    "horizon": "30D",
+    "today_pct": 87.9,
+    "usual_pct": 85.9
+   },
+   {
+    "event": "move",
+    "horizon": "90D",
+    "today_pct": 92.1,
+    "usual_pct": 87.5
+   }
+  ]
+ }
+}

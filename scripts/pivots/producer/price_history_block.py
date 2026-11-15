@@ -72,7 +72,12 @@ def ladder_json(dates: Sequence[str], closes: Sequence[float]) -> list[dict]:
             {
                 "strength": r.strength,
                 "decided": bool(decided),
-                "last_confirmed": None if last is None else _point(dates, last.index, last.kind, last.close),
+                "last_confirmed": None
+                if last is None
+                else {
+                    **_point(dates, last.index, last.kind, last.close),
+                    "confirmed_date": dates[last.confirmed_index],
+                },
                 "candidate": _point(dates, r.candidate_index, r.candidate_kind, r.candidate_close)
                 if decided
                 else None,

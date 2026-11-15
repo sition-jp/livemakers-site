@@ -25,6 +25,8 @@ export const CLIENT_MESSAGE_SCOPES = {
   signals: ["signals"],
   intents: ["intents"],
   assets: ["assets"],
+  // 転換点の詳細ページの client 部品 (RegimeHeadline = 札を押すと見出しが切り替わる) が使う文言
+  turningPoints: ["turningPoints.v2"],
 } as const satisfies Record<string, readonly string[]>;
 
 export type ClientMessageScope = keyof typeof CLIENT_MESSAGE_SCOPES;

@@ -310,5 +310,130 @@
         "explanation": "Signals on the 90D horizon are more balanced. No single category dominates yet."
       }
     }
+  },
+
+  "regime": {
+    "BTC": {
+      "as_of": "2026-11-13",
+      "long": {
+        "state": "down",
+        "since_week": "2026-02-01",
+        "last_week": "2026-11-08",
+        "ath": {
+          "date": "2025-10-06",
+          "close": 124659.0,
+          "pct_from_ath": -45.2
+        },
+        "w100": 88000.0,
+        "trough": {
+          "week": "2026-02-08",
+          "close": 60000.0
+        },
+        "peak": {
+          "week": "2025-10-05",
+          "close": 123000.0
+        },
+        "line_to_down": null,
+        "line_to_leave_down": 90000.0
+      },
+      "mid": {
+        "state": "range",
+        "since": "2026-11-08",
+        "days": 6
+      },
+      "near": {
+        "state": "down",
+        "since": "2026-10-31",
+        "days": 14,
+        "ret_30d_pct": -16.4,
+        "close_30d_ago": 81682.01,
+        "close": 68314.01
+      }
+    },
+    "ETH": {
+      "as_of": "2026-11-13",
+      "long": {
+        "state": "recovering",
+        "since_week": "2026-06-07",
+        "last_week": "2026-11-08",
+        "ath": {
+          "date": "2025-08-24",
+          "close": 4900.0,
+          "pct_from_ath": -60.0
+        },
+        "w100": 2708.0,
+        "trough": {
+          "week": "2026-02-08",
+          "close": 1750.0
+        },
+        "peak": null,
+        "line_to_down": null,
+        "line_to_leave_down": null
+      },
+      "mid": {
+        "state": "down",
+        "since": "2026-11-03",
+        "days": 11
+      },
+      "near": {
+        "state": "down",
+        "since": "2026-11-02",
+        "days": 12,
+        "ret_30d_pct": -14.0,
+        "close_30d_ago": 2200.0,
+        "close": 1892.0
+      }
+    }
+  },
+  "range_band": {
+    "BTC": {
+      "as_of": "2026-11-13",
+      "close": 68314.01,
+      "realized_vol_30d": 0.3845,
+      "items": [
+        {
+          "id": "either7",
+          "side": "both",
+          "horizon_days": 7,
+          "k": 1.25,
+          "threshold": 0.0666,
+          "lo": 63767,
+          "hi": 72861,
+          "usual_pct": 26.87
+        },
+        {
+          "id": "either30",
+          "side": "both",
+          "horizon_days": 30,
+          "k": 1.5,
+          "threshold": 0.1653,
+          "lo": 57019,
+          "hi": 79609,
+          "usual_pct": 27.0
+        }
+      ],
+      "threshold_7d_365": {
+        "min": 0.046,
+        "max": 0.09,
+        "position": "mid"
+      },
+      "source": {
+        "question_set": "q-2026-11",
+        "version": "base-rate-q2026-11",
+        "usual_period": "2021-12-28.."
+      }
+    }
+  },
+  "turn_rate": {
+    "BTC": {
+      "medium": {
+        "per_year": 3.1,
+        "last_365": 4
+      },
+      "small": {
+        "per_year": 12.4,
+        "last_365": 13
+      }
+    }
   }
 }

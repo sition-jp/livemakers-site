@@ -34,6 +34,17 @@ export const QUESTIONS: readonly {
   { id: "move30", event: "move", horizon: "30D", role: "normal" },
 ];
 
+/** v2 の画面の問い: 30 日 (主) と 7 日 (参考) だけ。90 日・「大きく動く」は出さない。 */
+export const V2_QUESTIONS: readonly {
+  id: QuestionId;
+  event: Event;
+  horizon: Horizon;
+  role: "main" | "reference";
+}[] = [
+  { id: "turn30", event: "turn", horizon: "30D", role: "main" },
+  { id: "turn7", event: "turn", horizon: "7D", role: "reference" },
+];
+
 export function pickForecast(
   items: ForecastItem[] | undefined,
   event: Event,

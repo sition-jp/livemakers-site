@@ -20,3 +20,18 @@ export function allForecastScreen(snapshot: PivotAssetsSnapshot | null | undefin
 export function nowCloseOf(snapshot: PivotAssetsSnapshot, asset: AssetSymbol): number | null {
   return snapshot.forecast_history?.[asset]?.at(-1)?.close ?? null;
 }
+
+/** v2 の並び: 状態 (regime) と帯 (range_band) が両方ある資産だけ (forecast の画面も成り立っていること)。 */
+export function hasV2Screen(
+  snapshot: PivotAssetsSnapshot | null | undefined,
+  asset: AssetSymbol,
+): boolean {
+  if (!snapshot || !hasForecastScreen(snapshot, asset)) return false;
+  return !!snapshot.regime?.[asset] && !!snapshot.range_band?.[asset];
+}
+
+/** 一覧: radar の全資産が v2 の条件を満たすときだけ v2 (混在させない)。 */
+export function allV2Screen(snapshot: PivotAssetsSnapshot | null | undefined): boolean {
+  if (!snapshot || snapshot.radar.length === 0) return false;
+  return snapshot.radar.every((a) => hasV2Screen(snapshot, a.symbol));
+}

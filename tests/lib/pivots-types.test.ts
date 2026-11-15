@@ -438,6 +438,92 @@ describe("trend / ladder / turns / forecast_history (it-2026-10 stage 2 Task 9)"
   });
 });
 
+describe("regime / range_band / turn_rate (TP display v2)", () => {
+  const sc = { overall: 16, price_pivot: 16, volatility_pivot: 0, confidence_grade: "A", main_signal: "price" } as const;
+  const base = {
+    schema_version: "v0.1",
+    generated_at: "2026-11-13T23:00:00Z",
+    radar: [{ symbol: "BTC", scores: { "7D": sc, "30D": sc, "90D": sc } }],
+    detail: {},
+  };
+  const item = (id: string, side: string, h: number, k: number, th: number, usual: number) => ({
+    id, side, horizon_days: h, k, threshold: th, usual_pct: usual,
+    ...(side !== "up" ? { lo: 63767 } : {}),
+    ...(side !== "down" ? { hi: 72861 } : {}),
+  });
+  const example = {
+    ...base,
+    regime: {
+      BTC: {
+        as_of: "2026-11-13",
+        long: {
+          state: "down", since_week: "2026-02-08", last_week: "2026-11-08",
+          ath: { date: "2025-10-06", close: 124659, pct_from_ath: -45.2 },
+          w100: 88000, trough: { week: "2026-02-08", close: 60000 }, peak: { week: "2025-10-05", close: 123000 },
+          line_to_down: null, line_to_leave_down: 90000,
+        },
+        mid: { state: "range", since: "2026-11-08", days: 6 },
+        near: { state: "down", since: "2026-10-31", days: 14, ret_30d_pct: -16.4, close_30d_ago: 81682.01, close: 68314.01 },
+      },
+      ETH: {
+        as_of: "2026-11-13",
+        long: {
+          state: "recovering", since_week: "2026-06-07", last_week: "2026-11-08",
+          ath: { date: "2025-08-24", close: 4900, pct_from_ath: -60 },
+          w100: 2708, trough: null, peak: null, line_to_down: null, line_to_leave_down: null,
+        },
+        mid: { state: "crash", since: "2026-11-12", days: 2 },
+        near: { state: "down", since: "2026-11-01", days: 13, close: 1900 },
+        shock: { kind: "crash", long_state: "recovering", n: 3, new_extreme_30d: 1, higher_30d: 2, start_day: "2026-11-12" },
+      },
+    },
+    range_band: {
+      BTC: {
+        as_of: "2026-11-13", close: 68314.01, realized_vol_30d: 0.3845,
+        items: [item("either7", "both", 7, 1.25, 0.0666, 26.87), item("up7", "up", 7, 1.0, 0.05, 12.1)],
+        threshold_7d_365: { min: 0.046, max: 0.09, position: "mid" },
+        source: { question_set: "q-2026-11", version: "base-rate-q2026-11", usual_period: "2021-12-28.." },
+      },
+    },
+    turn_rate: { BTC: { medium: { per_year: 3.1, last_365: 4 }, small: { per_year: 12.4, last_365: 13 } } },
+  };
+
+  it("accepts snapshots with and without the three blocks", () => {
+    expect(PivotAssetsSnapshotSchema.safeParse(base).success).toBe(true);
+    expect(PivotAssetsSnapshotSchema.safeParse(example).success).toBe(true);
+  });
+  it("accepts each block alone and a null long / mid / near", () => {
+    for (const k of ["regime", "range_band", "turn_rate"] as const) {
+      expect(PivotAssetsSnapshotSchema.safeParse({ ...base, [k]: example[k] }).success).toBe(true);
+    }
+    const nulls = { BTC: { as_of: "2026-11-13", long: null, mid: null, near: null } };
+    expect(PivotAssetsSnapshotSchema.safeParse({ ...base, regime: nulls }).success).toBe(true);
+  });
+  it("ladder last_confirmed.confirmed_date is optional", () => {
+    const row = (lc: object) => ({
+      strength: "cycle", decided: false, last_confirmed: lc, candidate: null, confirm_at: null,
+    });
+    const lc = { date: "2025-10-06", kind: "top", close: 124659 };
+    for (const v of [lc, { ...lc, confirmed_date: "2025-11-20" }]) {
+      expect(PivotAssetsSnapshotSchema.safeParse({ ...base, ladder: { BTC: [row(v)] } }).success).toBe(true);
+    }
+    expect(
+      PivotAssetsSnapshotSchema.safeParse({ ...base, ladder: { BTC: [row({ ...lc, confirmed_date: "bad" })] } }).success,
+    ).toBe(false);
+  });
+  it("rejects unknown states and bad shapes", () => {
+    const btc = example.regime.BTC;
+    const cases = [
+      { ...example, regime: { BTC: { ...btc, mid: { ...btc.mid, state: "sideways" } } } },
+      { ...example, regime: { BTC: { ...btc, long: { ...btc.long, state: "bull" } } } },
+      { ...example, regime: { BTC: { ...btc, near: { ...btc.near, days: 0 } } } },
+      { ...example, range_band: { BTC: { ...example.range_band.BTC, items: [] } } },
+      { ...example, turn_rate: { BTC: { medium: { per_year: 1, last_365: 1.5 }, small: { per_year: 1, last_365: 1 } } } },
+    ];
+    for (const c of cases) expect(PivotAssetsSnapshotSchema.safeParse(c).success).toBe(false);
+  });
+});
+
 describe("PivotBacktestSnapshotSchema.events (it-2026-10 stage 2)", () => {
   const entry = {
     asset: "BTC",

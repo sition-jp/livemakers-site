@@ -110,6 +110,28 @@ describe("RadarTable (確率の列)", () => {
     ],
   } as const;
 
+  it("v2: 30 日と 7 日の列だけ (90 日・大きく動くの列は無い)", () => {
+    const f = {
+      BTC: [
+        ...(forecast.BTC as unknown as object[]),
+        { event: "turn", horizon: "90D", today_pct: 19.3, usual_pct: 15.0 },
+        { event: "move", horizon: "30D", today_pct: 77.2, usual_pct: 70.8 },
+      ],
+    };
+    const { container } = render(withIntl(<RadarTable assets={sampleAssets} forecast={f as never} v2 />));
+    expect(screen.getByTestId("radar-forecast-BTC-turn30")).toBeInTheDocument();
+    expect(screen.getByTestId("radar-forecast-BTC-turn7")).toBeInTheDocument();
+    expect(screen.queryByTestId("radar-forecast-BTC-turn90")).toBeNull();
+    expect(screen.queryByTestId("radar-forecast-BTC-move30")).toBeNull();
+    expect(container.querySelectorAll("thead th").length).toBe(3);
+    expect(container.textContent).not.toMatch(/90|big move|large/i);
+  });
+
+  it("v2 でなければ今の 4 つの列のまま", () => {
+    const { container } = render(withIntl(<RadarTable assets={sampleAssets} forecast={forecast as never} />));
+    expect(container.querySelectorAll("thead th").length).toBe(5);
+  });
+
   it("forecast を渡すと 4 つの問いの列に切り替わる", () => {
     render(withIntl(<RadarTable assets={sampleAssets} forecast={forecast as never} />));
     const row = screen.getByTestId("radar-row-BTC");

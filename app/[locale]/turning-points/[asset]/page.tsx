@@ -16,7 +16,7 @@ import { UnavailableNotice } from "@/components/turning-points/UnavailableNotice
 import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 import { AssetForecastView } from "@/components/turning-points/AssetForecastView";
-import { hasForecastScreen } from "@/lib/pivots/forecast-screen";
+import { hasForecastScreen, hasV2Screen } from "@/lib/pivots/forecast-screen";
 import { TurningPointTimeline } from "@/components/turning-points/TurningPointTimeline";
 import { localeAlternates } from "@/lib/seo/locale-alternates";
 
@@ -46,9 +46,10 @@ export async function generateMetadata({
   const assetParse = AssetSymbolSchema.safeParse(rawAsset.toUpperCase());
   if (!assetParse.success) return {};
   const t = await getTranslations({ locale, namespace: "turningPoints" });
+  const snap = (await readAssetsSnapshot()).snapshot;
   return {
     title: `${assetParse.data} · ${t("page_title")}`,
-    description: t("page_subtitle"),
+    description: t(hasV2Screen(snap, assetParse.data) ? "page_subtitle_v2" : "page_subtitle"),
     alternates: localeAlternates(
       locale,
       `/turning-points/${assetParse.data.toLowerCase()}`,
@@ -113,7 +114,9 @@ export default async function TurningPointAssetPage({
         <h1 className="text-4xl font-light tracking-title text-text-primary">
           {assetParse.data}
         </h1>
-        <p className="text-text-secondary mt-1">{t("page_subtitle")}</p>
+        <p className="text-text-secondary mt-1">
+          {t(hasV2Screen(result.snapshot, assetParse.data) ? "page_subtitle_v2" : "page_subtitle")}
+        </p>
       </header>
 
       <Freshness generatedAt={result.snapshot?.generated_at ?? null} />

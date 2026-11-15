@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { describeState, scoreDelta } from "@/lib/pivots/describe";
-import { QUESTIONS, forecastLevel, formatPct1, formatSignedPct, pickForecast, type Level } from "@/lib/pivots/forecast";
+import { QUESTIONS, V2_QUESTIONS, forecastLevel, formatPct1, formatSignedPct, pickForecast, type Level } from "@/lib/pivots/forecast";
 import type { AssetSymbol, ForecastItem, RadarAsset, Horizon, PreviousRadar } from "@/lib/pivots/types";
 import { ScoreBadge } from "./ScoreBadge";
 import { formatDelta } from "./StateBlock";
@@ -15,11 +15,14 @@ export function RadarTable({
   assets,
   previous = null,
   forecast,
+  v2 = false,
 }: {
   assets: RadarAsset[];
   previous?: PreviousRadar | null;
   /** 渡すと確率の列 (資産 + 4 つの問い) を出す。渡さなければ今のスコアの表。 */
   forecast?: Partial<Record<AssetSymbol, ForecastItem[]>>;
+  /** v2 の画面: 90 日と「大きく動く」の列を出さない (30 日・7 日だけ)。 */
+  v2?: boolean;
 }) {
   const t = useTranslations("turningPoints.radar");
   const ts = useTranslations("turningPoints.state");
@@ -28,13 +31,14 @@ export function RadarTable({
     return <div data-testid="radar-empty" className="rounded-sm border border-border-primary px-6 py-12 text-center text-text-tertiary">{t("empty")}</div>;
   }
   if (forecast) {
+    const questions = v2 ? V2_QUESTIONS : QUESTIONS;
     return (
       <div className="overflow-x-auto rounded-sm border border-border-primary">
         <table className="w-full text-left" data-testid="radar-table">
           <thead className="bg-bg-tertiary">
             <tr className="text-xs uppercase tracking-label text-text-tertiary">
               <th scope="col" className="px-4 py-3 font-medium">{t("col_asset")}</th>
-              {QUESTIONS.map((q) => (
+              {questions.map((q) => (
                 <th key={q.id} scope="col" className="px-4 py-3 font-medium whitespace-nowrap">{tf(`question_short.${q.id}`)}</th>
               ))}
             </tr>
@@ -45,7 +49,7 @@ export function RadarTable({
                 <th scope="row" className="px-4 py-4 font-medium text-text-primary">
                   <Link href={`/turning-points/${asset.symbol.toLowerCase()}`} className="hover:underline">{asset.symbol}</Link>
                 </th>
-                {QUESTIONS.map((q) => {
+                {questions.map((q) => {
                   const item = pickForecast(forecast[asset.symbol], q.event, q.horizon);
                   if (!item) return <td key={q.id} className="px-4 py-4 align-top text-text-tertiary" data-testid={`radar-forecast-${asset.symbol}-${q.id}`}>—</td>;
                   const level = forecastLevel(item.today_pct, item.usual_pct);

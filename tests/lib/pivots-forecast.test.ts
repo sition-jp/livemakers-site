@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   SIGNAL_GAP_PTS,
   QUESTIONS,
+  V2_QUESTIONS,
   forecastLevel,
   pickForecast,
   forecastLines,
@@ -43,6 +44,10 @@ describe("QUESTIONS / pickForecast", () => {
   it("is ordered turn30 (main), turn90, turn7 (reference), move30", () => {
     expect(QUESTIONS.map((q) => q.id)).toEqual(["turn30", "turn90", "turn7", "move30"]);
     expect(QUESTIONS.map((q) => q.role)).toEqual(["main", "normal", "reference", "normal"]);
+  });
+  it("V2_QUESTIONS is turn30 (main) and turn7 (reference) only", () => {
+    expect(V2_QUESTIONS.map((q) => q.id)).toEqual(["turn30", "turn7"]);
+    expect(V2_QUESTIONS.map((q) => q.role)).toEqual(["main", "reference"]);
   });
   it("picks by event and horizon, or null", () => {
     const items = [item("turn", "30D", 50, 48)];
