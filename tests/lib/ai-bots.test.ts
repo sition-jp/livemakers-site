@@ -68,6 +68,14 @@ describe("lists", () => {
   });
   it("exports robots-only tokens and the 7 disallow entries", () => {
     expect(ROBOTS_ONLY_TOKENS).toEqual(["Google-Extended", "Applebot-Extended"]);
-    expect(ROBOTS_DISALLOW).toHaveLength(7);
+    expect([...ROBOTS_DISALLOW]).toEqual([
+      "/api/",
+      "/ja/article-inflow-preview",
+      "/en/article-inflow-preview",
+      "/ja/terminal-preview",
+      "/en/terminal-preview",
+      "/*?_rsc=",
+      "/*&_rsc=",
+    ]);
   });
 });

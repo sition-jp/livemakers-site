@@ -1,7 +1,7 @@
 import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
-import { RECORDED_FILES, buildBotVisit, sendBotVisit } from "./lib/bot-visits";
+import { RECORDED_FILES, buildBotVisit, sendBotVisit, type BotVisit } from "./lib/bot-visits";
 
 // Pure intl proxy — no Accept-Language auto-redirect.
 //
@@ -39,7 +39,7 @@ const RECORDED: ReadonlySet<string> = new Set(RECORDED_FILES);
 function record(
   req: NextRequest,
   event: NextFetchEvent,
-  kind: "page" | "redirect" | "file",
+  kind: BotVisit["kind"],
 ): void {
   try {
     const visit = buildBotVisit(req, kind, process.env);
