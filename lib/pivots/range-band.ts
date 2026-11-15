@@ -80,7 +80,11 @@ function edges(band: RangeBandOne, id: "either7" | "either30") {
 }
 
 export function buildRangeBand(history: { date: string; close: number }[], band: RangeBandOne) {
-  const past = history.slice(-(PAST_DAYS + 1));
+  let past = history.slice(-(PAST_DAYS + 1));
+  // 履歴の最後が基準日より前なら、基準日の終値の点を足して線が今日の点で止まるようにする
+  if (past.length > 0 && past[past.length - 1].date < band.as_of) {
+    past = [...past, { date: band.as_of, close: band.close }].slice(-(PAST_DAYS + 1));
+  }
   const e7 = edges(band, "either7");
   const e30 = edges(band, "either30");
 
@@ -230,6 +234,8 @@ export function workedExample(band: RangeBandOne, asset: string, closeDate: stri
   return {
     asset,
     closeDate,
+    closeMonth: Number(closeDate.split("-")[1]),
+    closeDay: Number(closeDate.split("-")[2]),
     close: band.close,
     dailyPct: r1((band.realized_vol_30d / Math.sqrt(365)) * 100),
     annualPct: Math.round(band.realized_vol_30d * 100),

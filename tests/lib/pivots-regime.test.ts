@@ -122,6 +122,24 @@ describe("headlineParts mid / near (§4.1.1)", () => {
   });
 });
 
+describe("near.ret_30d_pct missing", () => {
+  const noRet = (over: Record<string, unknown> = {}) =>
+    make({ near: { state: "down", since: "2026-10-31", days: 14, close: 68314.01, ...over } as One["near"] });
+  it("derives it from close / close_30d_ago", () => {
+    const r = noRet({ close_30d_ago: 81682.01 }); // −16.4%
+    expect(headlineParts(r, "long")[1].values).toEqual({ pct: "−16" });
+    expect(chipParts(r).near!.value.values).toEqual({ pct: "−16" });
+  });
+  it("never renders ±0 for a missing value: marks it none", () => {
+    const r = noRet();
+    expect(headlineParts(r, "long")[1].values).toEqual({ pct: "none" });
+    expect(headlineParts(r, "near")[0].values).toEqual({ kind: "down", pct: "none" });
+    expect(chipParts(r).near!.value.values).toEqual({ pct: "none" });
+    expect(chipParts(r).near!.note.key).toBe("chip.note.near_nofrom");
+    expect(JSON.stringify([headlineParts(r, "long"), chipParts(r).near])).not.toContain("±");
+  });
+});
+
 describe("chipParts", () => {
   it("long down", () => {
     const c = chipParts(make({})).long!;
@@ -132,6 +150,9 @@ describe("chipParts", () => {
       values: {
         ath: "124,659",
         athDate: "2025-10-06",
+        athYear: "2025",
+        athMonth: 10,
+        athDay: 6,
         pct: "−45",
         sinceMonth: 2,
         sinceDay: 1,
@@ -204,7 +225,7 @@ describe("shockParts (§10.6)", () => {
   it("n >= 10", () => {
     expect(shockParts(shock(13, "crash", "down"))).toEqual({
       key: "shock.many",
-      values: { kind: "crash", long: "down", n: 13, newExtreme: 5, higher: 4 },
+      values: { kind: "crash", long: "down", n: 13, newExtreme: 5, higher: 4, same: "no" },
     });
   });
   it("n 5..9 (BTC down x crash = 6 / 5 / 4)", () => {
@@ -216,7 +237,7 @@ describe("shockParts (§10.6)", () => {
     )!;
     expect(s).toEqual({
       key: "shock.few",
-      values: { kind: "crash", long: "down", n: 6, newExtreme: 5, higher: 4 },
+      values: { kind: "crash", long: "down", n: 6, newExtreme: 5, higher: 4, same: "no" },
     });
   });
   it("n 0..4 and boundaries", () => {
@@ -226,7 +247,7 @@ describe("shockParts (§10.6)", () => {
     expect(shockParts(shock(10, "surge", "up"))!.key).toBe("shock.many");
     expect(shockParts(shock(0, "crash", "recovering"))).toEqual({
       key: "shock.none",
-      values: { kind: "crash", long: "recovering", n: 0, newExtreme: 5, higher: 4 },
+      values: { kind: "crash", long: "recovering", n: 0, newExtreme: 5, higher: 4, same: "no" },
     });
   });
   it("null when no shock", () => {
@@ -239,7 +260,7 @@ describe("overviewParts", () => {
   it("same states", () => {
     const eth = make({ long: longOf("down"), near: nearOf("down", -20) });
     expect(overviewParts({ BTC: btc, ETH: eth })).toEqual([
-      { key: "overview.long.same", values: { assets: "BTC,ETH", state: "down" } },
+      { key: "overview.long.same", values: { assets: "BTC,ETH", first: "BTC", last: "ETH", state: "down" } },
       { key: "overview.near.same", values: { kind: "down" } },
     ]);
   });

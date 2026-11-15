@@ -26,8 +26,9 @@ const band: Band = {
   source: { question_set: "q-2026-11", version: "v", usual_period: "2021-12-28.." },
 };
 
+const dateAt = (back: number) => new Date(Date.UTC(2026, 10, 13) - back * 86400000).toISOString().slice(0, 10);
 const history = Array.from({ length: 70 }, (_, i) => ({
-  date: `2026-09-${String((i % 28) + 1).padStart(2, "0")}`,
+  date: dateAt(69 - i), // 最後が基準日 (2026-11-13)
   close: 80000 - i * 150 + (i % 5) * 400,
 }));
 
@@ -109,8 +110,17 @@ describe("buildRangeBand", () => {
     expect(m.axis.ticks[3].x).toBeCloseTo(L.futureRight, 6);
   });
 
+  it("a history that stops before as_of gets a final (as_of, close) point", () => {
+    const stale = history.slice(0, 69); // 最後の日 (基準日) を欠く
+    const s = buildRangeBand(stale, band);
+    const n = s.lines.price.length;
+    expect(n).toBe(61);
+    expect(s.lines.price[n - 1].x).toBeCloseTo(L.todayX, 6);
+    expect(s.lines.price[n - 1].y).toBeCloseTo(s.todayDot.y, 6);
+  });
+
   it("short history still ends at today", () => {
-    const s = buildRangeBand(history.slice(0, 10), band);
+    const s = buildRangeBand(history.slice(-10), band);
     expect(s.lines.price).toHaveLength(10);
     expect(s.lines.price[9].x).toBeCloseTo(L.todayX, 6);
   });
@@ -144,6 +154,8 @@ describe("workedExample", () => {
     expect(w).toMatchObject({
       asset: "BTC",
       closeDate: "2026-11-13",
+      closeMonth: 11,
+      closeDay: 13,
       close: 68314.01,
       dailyPct: 2.0,
       annualPct: 38,

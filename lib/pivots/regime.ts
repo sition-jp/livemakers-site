@@ -26,6 +26,20 @@ export function signedIntPct(n: number): string {
   return r > 0 ? `+${r}` : `−${Math.abs(r)}`;
 }
 
+type NearBlock = NonNullable<RegimeOne["near"]>;
+
+/**
+ * 足元の 30 日の騰落率 (符号付き整数の文字列)。ret_30d_pct が無ければ close / close_30d_ago から出し、
+ * それも無ければ "none" (文言側が「（±N%）」の部分ごと省く。欠けた値を「±0」と書かない)。
+ */
+function nearPct(n: NearBlock): string {
+  let v = n.ret_30d_pct;
+  if (v === undefined && n.close_30d_ago !== undefined && n.close_30d_ago > 0) {
+    v = (n.close / n.close_30d_ago - 1) * 100;
+  }
+  return v === undefined ? "none" : signedIntPct(v);
+}
+
 function longKey(r: RegimeOne): LongKey {
   return r.long ? r.long.state : "none";
 }
@@ -50,7 +64,7 @@ export function headlineParts(r: RegimeOne, layer: LayerId): Part[] {
       return [
         {
           key: `headline.near_only.${near.state}`,
-          values: { pct: signedIntPct(near.ret_30d_pct ?? 0) },
+          values: { pct: nearPct(near) },
         },
       ];
     }
@@ -58,7 +72,7 @@ export function headlineParts(r: RegimeOne, layer: LayerId): Part[] {
     if (near) {
       parts.push({
         key: `headline.thirty.${thirtyKind(r.long.state, near.state)}`,
-        values: { pct: signedIntPct(near.ret_30d_pct ?? 0) },
+        values: { pct: nearPct(near) },
       });
     }
     return parts;
@@ -82,7 +96,7 @@ export function headlineParts(r: RegimeOne, layer: LayerId): Part[] {
   const parts: Part[] = [
     {
       key: "headline.near.sentence",
-      values: { kind: near.state, pct: signedIntPct(near.ret_30d_pct ?? 0) },
+      values: { kind: near.state, pct: nearPct(near) },
     },
   ];
   if (near.close_30d_ago !== undefined) {
@@ -98,9 +112,13 @@ function longChip(l: LongBlock): Chip {
   const since = monthDay(l.since_week);
   let note: Part;
   if (l.state === "down") {
+    const [ay, am, ad] = l.ath.date.split("-").map(Number);
     const base = {
       ath: formatPrice(l.ath.close),
       athDate: l.ath.date,
+      athYear: String(ay), // 文字列で渡す (数は 2,025 のように桁区切りされる)
+      athMonth: am,
+      athDay: ad,
       sinceMonth: since.m,
       sinceDay: since.d,
     };
@@ -138,16 +156,22 @@ export function chipParts(r: RegimeOne): Record<LayerId, Chip | null> {
         label: { key: "chip.label.near", values: {} },
         value: {
           key: `chip.value.near.${r.near.state}`,
-          values: { pct: signedIntPct(r.near.ret_30d_pct ?? 0) },
+          values: { pct: nearPct(r.near) },
         },
-        note: {
-          key: "chip.note.near",
-          values: {
-            from: r.near.close_30d_ago !== undefined ? formatPrice(r.near.close_30d_ago) : "",
-            to: formatPrice(r.near.close),
-            days: r.near.days,
-          },
-        },
+        note:
+          r.near.close_30d_ago !== undefined
+            ? {
+                key: "chip.note.near",
+                values: {
+                  from: formatPrice(r.near.close_30d_ago),
+                  to: formatPrice(r.near.close),
+                  days: r.near.days,
+                },
+              }
+            : {
+                key: "chip.note.near_nofrom",
+                values: { to: formatPrice(r.near.close), days: r.near.days },
+              },
       }
     : null;
   return { long: r.long ? longChip(r.long) : null, mid, near };
@@ -166,6 +190,8 @@ export function shockParts(r: RegimeOne): Part | null {
       n: s.n,
       newExtreme: s.new_extreme_30d,
       higher: s.higher_30d,
+      // 2 つの回数が同じなら文言は「高かったのも N 回」(試作の例)。ICU では数を比べられないので印を渡す
+      same: s.new_extreme_30d === s.higher_30d ? "yes" : "no",
     },
   };
 }
@@ -181,7 +207,13 @@ export function overviewParts(byAsset: Partial<Record<string, RegimeOne>>): Part
     if (longs.length > 1 && states.size === 1) {
       parts.push({
         key: "overview.long.same",
-        values: { assets: longs.map(([a]) => a).join(","), state: longs[0][1].long!.state },
+        values: {
+          assets: longs.map(([a]) => a).join(","),
+          // 「BTC も ETH も」の 2 つ (資産は BTC・ETH の 2 つだけ)
+          first: longs[0][0],
+          last: longs[longs.length - 1][0],
+          state: longs[0][1].long!.state,
+        },
       });
     } else {
       for (const [a, r] of longs) {
