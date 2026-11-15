@@ -70,11 +70,28 @@ def _position(value: float, lo: float, hi: float) -> str:
     return "low" if r < 1 / 3 else ("high" if r >= 2 / 3 else "mid")
 
 
+def _check_positive(items: list[dict], lo: float, hi: float) -> None:
+    """zod (BandItemSchema / .positive()) が 1 つでも弾くと日次の公開ごと止まる。
+    その前にここで ValueError にして、帯のブロックだけを省く (run_producer が range_band_degraded=)。"""
+    for it in items:
+        th = it["threshold"]
+        if not math.isfinite(th) or th <= 0:
+            raise ValueError(f"range_band: bad threshold {it['id']}={th}")
+        if it["side"] in ("both", "down") and th >= 1:
+            raise ValueError(f"range_band: lower side non-positive {it['id']} threshold={th}")
+        for key in ("lo", "hi"):
+            if key in it and not (math.isfinite(it[key]) and it[key] > 0):
+                raise ValueError(f"range_band: bad {key} {it['id']}={it[key]}")
+    if not (math.isfinite(lo) and lo > 0 and math.isfinite(hi) and hi > 0):
+        raise ValueError(f"range_band: bad threshold_7d_365 min/max {lo}/{hi}")
+
+
 def band_json(dates: list[str], closes: list[float], asset: str, usual: dict) -> dict:
     n = len(closes)
     if n != len(dates) or n < 31:
         raise ValueError(f"range_band needs >=31 aligned closes, got {n}")
     ks = load_k()
+    meta = _load(Q_2026_11_PATH)
     rv = indicators.realized_volatility(closes, 30)
     close = closes[-1]
     items = []
@@ -95,6 +112,7 @@ def band_json(dates: list[str], closes: list[float], asset: str, usual: dict) ->
     ]
     today = series[-1]
     lo, hi = min(series), max(series)
+    _check_positive(items, lo, hi)
     return {
         "as_of": dates[-1],
         "close": close,
@@ -102,5 +120,5 @@ def band_json(dates: list[str], closes: list[float], asset: str, usual: dict) ->
         "items": items,
         "threshold_7d_365": {"min": lo, "max": hi, "position": _position(today, lo, hi)},
         "source": {"question_set": "q-2026-11", "version": "base-rate-q2026-11",
-                   "usual_period": "2021-12-28.."},
+                   "usual_period": meta["usual_period"]},
     }

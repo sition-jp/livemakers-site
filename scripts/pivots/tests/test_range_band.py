@@ -136,3 +136,22 @@ def test_band_matches_ledger_pinned():
     assert t["min"] == ap(0.05452568546474109)
     assert t["max"] == ap(0.05841869942630356)
     assert t["position"] == "high"
+
+
+def test_negative_lower_band_raises():
+    # 荒れが大きく either30 の下限が 0 以下になる
+    d, c = _series(400, lambda i: 0.4)
+    with pytest.raises(ValueError):
+        range_band.band_json(d, c, "BTC", range_band.load_usual())
+
+
+def test_flat_prices_raise():
+    d = [f"d{i:04d}" for i in range(400)]
+    with pytest.raises(ValueError):
+        range_band.band_json(d, [100.0] * 400, "BTC", range_band.load_usual())
+
+
+def test_usual_period_read_from_frozen_file():
+    _, _, b = _band()
+    assert b["source"]["usual_period"] == json.loads(
+        range_band.Q_2026_11_PATH.read_text(encoding="utf-8"))["usual_period"]

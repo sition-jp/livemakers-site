@@ -7,6 +7,8 @@ from unittest.mock import patch
 
 import pytest
 
+from producer import range_band
+
 import producer.run_producer as run_producer_module
 from producer.derivatives_sidecar import load_derivatives_history_sidecar
 from producer.fetch_binance import BinanceFetcher
@@ -1094,6 +1096,18 @@ def test_range_band_degraded_when_frozen_broken(tmp_path, canned_fetcher, bulk_c
     for other in ("trend", "ladder", "turns", "regime", "turn_rate", "forecast_history"):
         assert other in written, other
     assert "range_band_degraded=ValueError: corrupt usual-rate file: boom" in capsys.readouterr().out
+
+
+def test_range_band_degraded_when_band_would_be_non_positive(tmp_path, canned_fetcher, bulk_cache, monkeypatch, capsys) -> None:
+    """凍結ファイルは正常でも、下限が 0 以下になる値は zod が弾く前に帯だけを省く。"""
+    real_k = range_band.load_k()
+    monkeypatch.setattr("producer.range_band.load_k", lambda *_a, **_k: {k: v * 100 for k, v in real_k.items()})
+    rc, written = _run_fc(tmp_path, canned_fetcher, bulk_cache)
+    assert rc == 0
+    assert "range_band" not in written
+    for other in ("trend", "ladder", "turns", "regime", "turn_rate", "forecast_history"):
+        assert other in written, other
+    assert "range_band_degraded=ValueError: range_band:" in capsys.readouterr().out
 
 
 def test_run_producer_backfilled_scores_match_iteration_logic(tmp_path, canned_fetcher, bulk_cache) -> None:
