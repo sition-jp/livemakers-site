@@ -104,7 +104,19 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(48);
   });
 
-  it("ep011 は第 10 回・6 章・YouTube 概要欄と同じ時刻・出典 20 件を持ち、最新の投稿になる", () => {
+  it("ep012 は第 11 回・7 章・YouTube 概要欄と同じ時刻・出典 29 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep012-yen-160-rate-gap");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep012");
+    expect(video!.episodeNumber).toBe(11);
+    expect(video!.youtubeVideoId).toBe("MOrzqveDz90");
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:18", "02:49", "04:01", "05:25", "06:48", "09:19"]);
+    expect(video!.durationSeconds).toBe(10 * 60 + 55);
+    expect(video!.sources).toHaveLength(29);
+    expect(getLatestPostedVideo()?.slug).toBe("ep012-yen-160-rate-gap");
+  });
+
+  it("ep011 は第 10 回・6 章・YouTube 概要欄と同じ時刻・出典 20 件を持つ", () => {
     const video = getVideoBySlug("ep011-nvidia-ceo-transition");
     expect(video).not.toBeNull();
     expect(video!.episodeId).toBe("ep011");
@@ -119,7 +131,6 @@ describe("content/videos (repo の実データ)", () => {
     ]);
     expect(video!.durationSeconds).toBe(11 * 60 + 3);
     expect(video!.sources).toHaveLength(20);
-    expect(getLatestPostedVideo()?.slug).toBe("ep011-nvidia-ceo-transition");
   });
 
   it("ep009 は 5 章・YouTube 概要欄と同じ時刻・出典 11 件を持つ", () => {
