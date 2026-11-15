@@ -161,6 +161,9 @@ class PivotAssetsSnapshot(TypedDict):
     trend: NotRequired[dict]  # {"BTC": TrendBlock, "ETH": ...} — it-2026-10 stage 2 Task 9
     ladder: NotRequired[dict]  # {"BTC": [LadderRowJson x4], ...}
     turns: NotRequired[dict]  # {"BTC": [TurnEntry], ...}
+    regime: NotRequired[dict]  # {"BTC": {as_of, long|None, mid|None, near|None, shock?}, ...} — TP 表示 v2
+    range_band: NotRequired[dict]  # {"BTC": {as_of, close, realized_vol_30d, items, threshold_7d_365, source}, ...}
+    turn_rate: NotRequired[dict]  # {"BTC": {medium: {per_year, last_365}, small: {...}}, ...}
     forecast_history: NotRequired[dict]  # {"BTC": [ForecastHistoryEntry x120], ...}
     history: NotRequired[dict]  # {"BTC": [HistoryEntry], "ETH": [...]} — spec §5.8 T-P1
 

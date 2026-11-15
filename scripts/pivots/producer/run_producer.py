@@ -49,7 +49,7 @@ from producer.derivatives_sidecar import (
     compose_derivatives_history_sidecar,
     load_derivatives_history_sidecar,
 )
-from producer import daily_series, forecast, price_history_block
+from producer import daily_series, forecast, price_history_block, range_band, regime, turn_rate
 from producer.fetch_binance import NETWORK_FAILURE_MARKER, BinanceFetcher, is_network_failure
 from producer.types import ASSETS, HORIZONS
 
@@ -283,7 +283,9 @@ def _build_backtest_events() -> list[dict]:
     return out
 
 
-PRICE_HISTORY_BLOCKS = ("trend", "ladder", "turns", "forecast_history")
+PRICE_HISTORY_BLOCKS = (
+    "trend", "ladder", "turns", "regime", "range_band", "turn_rate", "forecast_history",
+)
 
 
 def _forecast_history_degraded(
@@ -332,10 +334,10 @@ def _build_price_history_blocks(
     bulk: dict,
     generated_at: str,
 ) -> None:
-    """trend / ladder / turns / forecast_history (資産ごと) を assets_payload に足す。
+    """trend / ladder / turns / regime / range_band / turn_rate / forecast_history (資産ごと) を assets_payload に足す。
 
     長期の終値 (2017-08-17〜) を 1 回だけ取り、ブロックごとに soft-degrade する
-    (`<block>_degraded=` を出してそのブロックだけ省く)。長期の終値が取れなければ 4 つとも省く。
+    (`<block>_degraded=` を出してそのブロックだけ省く)。長期の終値が取れなければ全部省く。
     """
     today = generated_at[:10]
     start_ms = daily_series.day_ms(price_history_block.LONG_HISTORY_START)
@@ -386,10 +388,28 @@ def _build_price_history_blocks(
             hit_context=lambda t: daily_series.hit_context(prepared, t),
         )
 
+    # ふだんの確率の凍結ファイルが壊れていても、帯のブロックだけを省く (他は出す)
+    usual: dict | None = None
+    usual_error: Exception | None = None
+    try:
+        usual = range_band.load_usual()
+    except Exception as exc:  # noqa: BLE001
+        usual_error = exc
+
+    def build_range_band(a: str) -> dict:
+        if usual is None:
+            raise usual_error  # type: ignore[misc]
+        return range_band.band_json(*with_today(a), a, usual)
+
     builders = {
         "trend": lambda a: price_history_block.trend(with_today(a)[1]),
         "ladder": lambda a: price_history_block.ladder_json(live[a][0].dates, live[a][0].closes),
         "turns": lambda a: price_history_block.turns_json(live[a][0].dates, live[a][0].closes, today),
+        "regime": lambda a: regime.regime_json(
+            live[a][0].dates, live[a][0].closes, *with_today(a)
+        ),
+        "range_band": build_range_band,
+        "turn_rate": lambda a: turn_rate.turn_rate_json(live[a][0].dates, live[a][0].closes),
         "forecast_history": build_forecast_history,
     }
     for name in PRICE_HISTORY_BLOCKS[:-1]:

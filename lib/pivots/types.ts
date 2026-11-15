@@ -197,7 +197,8 @@ export const LadderRowSchema = z
   .object({
     strength: TurnStrengthSchema,
     decided: z.boolean(),
-    last_confirmed: TurnPointSchema.nullable(),
+    // confirmed_date = その天井・底が確定した日 (TP 表示 v2・古い snapshot には無い)
+    last_confirmed: TurnPointSchema.extend({ confirmed_date: IsoDate.optional() }).nullable(),
     candidate: TurnPointSchema.nullable(),
     confirm_at: z.number().positive().nullable(),
   })
@@ -215,6 +216,85 @@ export const LadderSchema = z.record(AssetSymbolSchema, z.array(LadderRowSchema)
 export const TurnEntrySchema = TurnPointSchema.extend({ strength: TurnStrengthSchema });
 export type TurnEntry = z.infer<typeof TurnEntrySchema>;
 export const TurnsSchema = z.record(AssetSymbolSchema, z.array(TurnEntrySchema));
+
+// 相場の状態・帯・天井底の頻度 (TP 表示 v2)。どれも資産ごと・optional。
+const RunSchema = <T extends z.ZodTypeAny>(state: T) =>
+  z.object({ state, since: IsoDate, days: z.number().int().min(1) });
+const WeekPointSchema = z.object({ week: IsoDate, close: z.number().positive() });
+// 長期 (週足・確定した日曜の終値だけ)。戻りの途中 (recovering) では trough が null にもなる
+// (履歴に下げ相場が無いとき)・peak / line_to_* は状態によって null。
+export const RegimeLongSchema = z.object({
+  state: z.enum(["up", "down", "recovering"]),
+  since_week: IsoDate,
+  last_week: IsoDate,
+  ath: z.object({ date: IsoDate, close: z.number().positive(), pct_from_ath: z.number() }),
+  w100: z.number().positive(),
+  trough: WeekPointSchema.nullable(),
+  peak: WeekPointSchema.nullable(),
+  line_to_down: z.number().positive().nullable(),
+  line_to_leave_down: z.number().positive().nullable(),
+});
+export const RegimeSchema = z.record(
+  AssetSymbolSchema,
+  z.object({
+    as_of: IsoDate,
+    long: RegimeLongSchema.nullable(),
+    mid: RunSchema(z.enum(["up", "down", "range", "calm", "crash", "surge"])).nullable(),
+    near: RunSchema(z.enum(["up", "flat", "down"]))
+      .extend({
+        ret_30d_pct: z.number().optional(),
+        close_30d_ago: z.number().positive().optional(),
+        close: z.number().positive(),
+      })
+      .nullable(),
+    // mid が crash|surge の日だけ
+    shock: z
+      .object({
+        kind: z.enum(["crash", "surge"]),
+        long_state: z.enum(["up", "down", "recovering"]),
+        n: z.number().int().min(0),
+        new_extreme_30d: z.number().int().min(0),
+        higher_30d: z.number().int().min(0),
+        start_day: IsoDate.nullable(),
+      })
+      .optional(),
+  }),
+);
+export type Regime = z.infer<typeof RegimeSchema>;
+
+const BandItemSchema = z.object({
+  id: z.enum(["either7", "either30", "up7", "down7", "up30", "down30"]),
+  side: z.enum(["both", "up", "down"]),
+  horizon_days: z.number().int().positive(),
+  k: z.number().positive(),
+  threshold: z.number().positive(),
+  lo: z.number().positive().optional(),
+  hi: z.number().positive().optional(),
+  usual_pct: Pct0to100,
+});
+export const RangeBandSchema = z.record(
+  AssetSymbolSchema,
+  z.object({
+    as_of: IsoDate,
+    close: z.number().positive(),
+    realized_vol_30d: z.number().nonnegative(),
+    items: z.array(BandItemSchema).min(1).max(6),
+    threshold_7d_365: z.object({
+      min: z.number().positive(),
+      max: z.number().positive(),
+      position: z.enum(["low", "mid", "high"]),
+    }),
+    source: z.object({ question_set: z.string(), version: z.string(), usual_period: z.string() }),
+  }),
+);
+export type RangeBand = z.infer<typeof RangeBandSchema>;
+
+const TurnRateOne = z.object({ per_year: z.number().nonnegative(), last_365: z.number().int().min(0) });
+export const TurnRateSchema = z.record(
+  AssetSymbolSchema,
+  z.object({ medium: TurnRateOne, small: TurnRateOne }),
+);
+export type TurnRate = z.infer<typeof TurnRateSchema>;
 
 const PerHorizon = <T extends z.ZodTypeAny>(v: T) =>
   z.object({ "7D": v.optional(), "30D": v.optional(), "90D": v.optional() });
@@ -264,6 +344,9 @@ export const PivotAssetsSnapshotSchema = z.object({
   trend: TrendSchema.optional(),
   ladder: LadderSchema.optional(),
   turns: TurnsSchema.optional(),
+  regime: RegimeSchema.optional(),
+  range_band: RangeBandSchema.optional(),
+  turn_rate: TurnRateSchema.optional(),
   forecast_history: ForecastHistorySchema.optional(),
 });
 export type PivotAssetsSnapshot = z.infer<typeof PivotAssetsSnapshotSchema>;
