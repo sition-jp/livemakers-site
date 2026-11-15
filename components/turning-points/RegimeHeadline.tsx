@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
-import { formatPrice } from "@/lib/pivots/forecast";
 import {
   chipParts,
   headlineParts,
@@ -18,6 +17,8 @@ export interface RegimeHeadlineProps {
   asset: AssetSymbol;
   regime?: RegimeOne | null;
 }
+
+const PRICE2 = new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const LAYERS: readonly LayerId[] = ["long", "mid", "near"];
 
@@ -41,24 +42,26 @@ export function RegimeHeadline({ asset, regime }: RegimeHeadlineProps) {
   const shock = shockParts(regime);
   const say = (p: Part) => t(p.key, p.values);
 
+  // 長期の札が変わる線の注記: 週足の確定が近い日 (金・土・日) で、線が今の値段の 10% 以内のときだけ
   const long = regime.long;
   let flip: string | null = null;
-  if (long) {
-    const line = long.line_to_down ?? long.line_to_leave_down;
-    if (line !== null && line !== undefined) {
+  const nowClose = regime.near?.close;
+  if (long && nowClose) {
+    const [ay, am, ad] = regime.as_of.split("-").map(Number);
+    const wd = new Date(Date.UTC(ay, am - 1, ad)).getUTCDay();
+    const toDown = long.line_to_down ?? null;
+    const line = toDown ?? long.line_to_leave_down ?? null;
+    if (line !== null && (wd === 5 || wd === 6 || wd === 0) && Math.abs(line / nowClose - 1) <= 0.1) {
       const when = nextSunday(long.last_week);
-      const [, wm, wd] = long.last_week.split("-").map(Number);
+      const [, wm, wd2] = long.last_week.split("-").map(Number);
+      const price = PRICE2.format(line);
+      const base = { asset, month: when.m, day: when.d, price };
       flip =
-        t("updated.week", { month: wm, day: wd }) +
+        t("updated.week", { month: wm, day: wd2 }) +
         (locale === "en" ? " " : "") +
-        t("updated.flip", {
-          asset,
-          month: when.m,
-          day: when.d,
-          price: formatPrice(line),
-          dir: long.line_to_down !== null ? "below" : "above",
-          state: long.line_to_down !== null ? "down" : "recovering",
-        });
+        (toDown !== null
+          ? t("updated.flip", { ...base, dir: "below", state: "down" })
+          : t("updated.flipLeaveDown", base));
     }
   }
 
@@ -99,8 +102,8 @@ export function RegimeHeadline({ asset, regime }: RegimeHeadlineProps) {
               data-testid={`regime-chip-${l}`}
               aria-pressed={pressed}
               onClick={() => setPicked(l)}
-              className={`rounded border px-3 py-2 text-left text-text-primary hover:border-pillar-market ${
-                pressed ? "border-2 border-pillar-market" : "border-border-primary"
+              className={`rounded border-2 px-3 py-2 text-left text-text-primary hover:border-pillar-market focus-visible:outline focus-visible:outline-1 focus-visible:outline-pillar-overview ${
+                pressed ? "border-pillar-market" : "border-border-primary"
               }`}
             >
               <span className="block text-xs text-text-tertiary">{say(c.label)}</span>

@@ -1377,6 +1377,7 @@
         },
         "def": {
           "mid": "中くらい = 値段が 15% 以上折り返すこと。高値から 15% 下げたらその高値を「天井」、安値から 15% 戻したらその安値を「底」と数えます。30 日の帯（±{bandPct}%）とほぼ同じ大きさの折り返しです。",
+          "midNoBand": "中くらい = 値段が 15% 以上折り返すこと。高値から 15% 下げたらその高値を「天井」、安値から 15% 戻したらその安値を「底」と数えます。",
           "small": "小さな = 値段が 5% 以上折り返すこと。高値から 5% 下げたら「山」、安値から 5% 戻したら「谷」と数えます。"
         },
         "who": {
@@ -1408,8 +1409,8 @@
         "nowNoTurnBottom": "{month} 月 {day} 日の谷（{price} ドル）から、5% 下げる日がないまま {days} 日上げています。",
         "confirmedTop": "{month} 月 {day} 日に、そこから {pct}% 下げて{size, select, mid {天井} other {山}}と決まりました。次に数えるのは「{size, select, mid {底} other {谷}}」です。",
         "confirmedBottom": "{month} 月 {day} 日に、そこから {pct}% 戻して{size, select, mid {底} other {谷}}と決まりました。次に数えるのは「{size, select, mid {天井} other {山}}」です。",
-        "countBottom": "{size, select, mid {これから先につける安値から {pct}% 以上戻すこと。いまの {now} ドルから数えるなら {price} ドル。安値が下がれば、その分だけこの値段も下がります。} other {これから先の安値から {pct}% 戻すこと。いまの {now} ドルから数えるなら {price} ドル。}}",
-        "countTop": "{size, select, mid {これから先につける高値から {pct}% 以上下げること。いまの {now} ドルから数えるなら {price} ドル。高値が高くなれば、その分だけこの値段も高くなります。} other {これから先の高値から {pct}% 下げること。いまの {now} ドルから数えるなら {price} ドル。}}",
+        "countBottom": "{size, select, mid {これまでの安値（{month} 月 {day} 日の {candidate} ドル）から {pct}% 以上戻すこと。それは {price} ドル。安値が下がれば、その分だけこの値段も下がります。} other {これまでの安値（{month} 月 {day} 日の {candidate} ドル）から {pct}% 戻すこと。それは {price} ドル。}}",
+        "countTop": "{size, select, mid {これまでの高値（{month} 月 {day} 日の {candidate} ドル）から {pct}% 以上下げること。それは {price} ドル。高値が高くなれば、その分だけこの値段も高くなります。} other {これまでの高値（{month} 月 {day} 日の {candidate} ドル）から {pct}% 下げること。それは {price} ドル。}}",
         "freqMid": "{asset} ではふつう年に {perYear} 回くらい（だいたい {weeks} 週に 1 回・2021 年 12 月から）。直近 1 年は {recent} 回。",
         "freqSmall": "ふつう年に {perYear} 回くらい（だいたい {days} 日に 1 回）。",
         "note": "この 2 枚は「折り返しが来るか」だけの見込みです。天井か底か（上か下か）、いつ、いくらで、は言っていません。売買の合図でもありません。"
@@ -1441,7 +1442,8 @@
       "updated": {
         "line": "{month} 月 {day} 日 朝 8 時の更新（{closeMonth} 月 {closeDay} 日の終値まで）",
         "week": "長期は週足（{month} 月 {day} 日の週まで）で決めています。",
-        "flip": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル{dir, select, below {以下} other {以上}}なら、翌朝から「{state, select, down {下げ相場} up {上げ相場} other {戻りの途中}}」に変わります。"
+        "flip": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル{dir, select, below {以下} other {以上}}なら、翌朝から「{state, select, down {下げ相場} up {上げ相場} other {戻りの途中}}」に変わります。",
+        "flipLeaveDown": "{asset} は {month} 月 {day} 日の週足の終値が {price} ドル以上なら、翌朝から「下げ相場」ではなくなります。"
       }
     }
   },

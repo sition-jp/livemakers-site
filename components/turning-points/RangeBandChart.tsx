@@ -57,7 +57,8 @@ export function RangeBandChart({ asset, band, history = [] }: RangeBandChartProp
       <svg
         viewBox={`0 0 ${L.width} ${L.height}`}
         role="img"
-        aria-labelledby={`${uid}-t ${uid}-d`}
+        aria-labelledby={`${uid}-t`}
+        aria-describedby={`${uid}-d`}
         data-testid="range-band-svg"
         className="block h-auto w-full rounded text-text-primary"
       >
@@ -176,7 +177,7 @@ export function RangeBandChart({ asset, band, history = [] }: RangeBandChartProp
           <li key={l.id} data-testid={`legend-${l.id}`} className="flex gap-2">
             <i
               aria-hidden="true"
-              className={`mt-1.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-pillar-market bg-pillar-market ${
+              className={`mt-1.5 h-3.5 w-3.5 shrink-0 rounded-sm border border-pillar-market ${
                 l.id === "b7" ? "bg-pillar-market/30" : "border-dashed bg-pillar-market/10"
               }`}
             />

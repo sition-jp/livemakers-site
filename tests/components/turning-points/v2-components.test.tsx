@@ -91,7 +91,35 @@ describe("RegimeHeadline", () => {
 
   it("states when the long label would change", () => {
     wrap("ja", <RegimeHeadline asset="ETH" regime={eth} />);
-    expect(screen.getByTestId("regime-flip-note").textContent).toContain("1,909");
+    const note = screen.getByTestId("regime-flip-note").textContent!;
+    expect(note).toContain("1,908.86");
+    expect(note).toContain("下げ相場");
+  });
+
+  it("shows the flip note only on Fri/Sat/Sun and within 10% of the line", () => {
+    const wed = { ...eth, as_of: "2026-11-11" };
+    wrap("ja", <RegimeHeadline asset="ETH" regime={wed} />);
+    expect(screen.queryByTestId("regime-flip-note")).toBeNull();
+    cleanup();
+    const far = { ...eth, near: { ...eth.near!, close: 1500 } };
+    wrap("ja", <RegimeHeadline asset="ETH" regime={far} />);
+    expect(screen.queryByTestId("regime-flip-note")).toBeNull();
+    cleanup();
+    const fri = { ...eth, as_of: "2026-11-13" };
+    wrap("ja", <RegimeHeadline asset="ETH" regime={fri} />);
+    expect(screen.getByTestId("regime-flip-note")).toBeTruthy();
+  });
+
+  it("does not name a destination when leaving the down state", () => {
+    const near = { ...btc, near: { ...btc.near!, close: 88000 } };
+    wrap("ja", <RegimeHeadline asset="BTC" regime={near} />);
+    const note = screen.getByTestId("regime-flip-note").textContent!;
+    expect(note).toContain("「下げ相場」ではなくなります");
+    expect(note).toContain("89,365.52");
+    expect(note).not.toContain("戻りの途中");
+    cleanup();
+    wrap("en", <RegimeHeadline asset="BTC" regime={near} />);
+    expect(screen.getByTestId("regime-flip-note").textContent).toContain("no longer");
   });
 
   it("renders nothing without a regime", () => {
@@ -143,6 +171,34 @@ describe("TurnCards", () => {
     expect(c30.querySelectorAll("i")).toHaveLength(20);
     const c7 = screen.getByTestId("turn-card-7");
     expect(within(c7).getByText(/日下げています/)).toBeTruthy();
+  });
+
+  it("counts from the earlier low/high, not from today's price", () => {
+    wrap("ja", <TurnCards {...props} />);
+    const c30 = screen.getByTestId("turn-card-30").textContent!;
+    expect(c30).toContain("これまでの安値（11 月 14 日の 64,150 ドル）から 15% 以上戻すこと。それは 73,773 ドル");
+    expect(c30).not.toContain("いまの 6");
+    expect(screen.getByTestId("turn-card-7").textContent).toContain("これまでの安値（11 月 14 日の 64,150 ドル）から 5% 戻すこと。それは 67,358 ドル");
+  });
+
+  it("uses the after-form for a recent small peak and the no-turn form for an old one", () => {
+    const recent = s.ladder.BTC.map((r) =>
+      r.strength === "small" ? { ...r, last_confirmed: { ...r.last_confirmed!, date: "2026-11-10" } } : r,
+    );
+    wrap("ja", <TurnCards {...props} ladder={recent} />);
+    expect(screen.getByTestId("turn-card-7").textContent).toContain("から下げている途中です");
+    cleanup();
+    wrap("ja", <TurnCards {...props} />);
+    expect(screen.getByTestId("turn-card-7").textContent).toContain("日下げています");
+  });
+
+  it("never renders an empty ± when the band is missing", () => {
+    for (const locale of ["ja", "en"] as const) {
+      const { container } = wrap(locale, <TurnCards asset="BTC" forecast={s.forecast.BTC} ladder={s.ladder.BTC} turnRate={s.turn_rate.BTC} />);
+      expect(container.textContent).not.toMatch(/±\s*%|\(±|（±/);
+      expect(container.querySelectorAll("article")).toHaveLength(2);
+      cleanup();
+    }
   });
 
   it("renders nothing without a forecast", () => {

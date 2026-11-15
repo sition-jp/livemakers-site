@@ -19,6 +19,9 @@ const LEVEL_CLASS: Record<Level, string> = {
   below: "text-text-tertiary",
 };
 
+/** 最後に確定した山・谷からこの日数以内なら「…から下げている途中」の形。 */
+const RECENT_DAYS = 14;
+
 const SIZES = [
   { size: "mid", horizon: "30D", strength: "medium", pct: 15, testId: "turn-card-30" },
   { size: "small", horizon: "7D", strength: "small", pct: 5, testId: "turn-card-7" },
@@ -71,25 +74,22 @@ export function TurnCards({ asset, forecast, ladder, turnRate, band }: TurnCards
           const cand = row?.decided ? row.candidate : null;
           const last = row?.last_confirmed ?? null;
           const rate = turnRate ? turnRate[s.strength === "medium" ? "medium" : "small"] : null;
-          const nowClose = band?.close;
 
           const facts: { k: string; v: string }[] = [];
           if (last && band) {
             const d = md(last.date);
             const price = formatPrice(last.close);
             const top = last.kind === "top";
-            if (s.size === "small") {
+            const since = daysBetween(last.date, band.as_of);
+            if (s.size === "small" && since > RECENT_DAYS) {
+              // 小さな山・谷から日がたっているときは「5% 戻す日がないまま N 日」の形 (試作の 7 日の札)
               facts.push({
                 k: "now",
-                v: t(top ? "nowNoTurnTop" : "nowNoTurnBottom", {
-                  ...d,
-                  price,
-                  days: String(daysBetween(last.date, band.as_of)),
-                }),
+                v: t(top ? "nowNoTurnTop" : "nowNoTurnBottom", { ...d, price, days: String(since) }),
               });
             } else {
               let v = t(top ? "nowAfterTop" : "nowAfterBottom", { size: s.size, ...d, price });
-              if (last.confirmed_date) {
+              if (s.size === "mid" && last.confirmed_date) {
                 v += (locale === "en" ? " " : "") + t(top ? "confirmedTop" : "confirmedBottom", {
                   size: s.size,
                   ...md(last.confirmed_date),
@@ -99,13 +99,14 @@ export function TurnCards({ asset, forecast, ladder, turnRate, band }: TurnCards
               facts.push({ k: "now", v });
             }
           }
-          if (cand && row?.confirm_at != null && nowClose !== undefined) {
+          if (cand && row?.confirm_at != null) {
             facts.push({
               k: cand.kind === "bottom" ? "countBottom" : "countTop",
               v: t(cand.kind === "bottom" ? "countBottom" : "countTop", {
                 size: s.size,
                 pct: String(s.pct),
-                now: formatPrice(nowClose),
+                ...md(cand.date),
+                candidate: formatPrice(cand.close),
                 price: formatPrice(row.confirm_at),
               }),
             });
@@ -136,25 +137,25 @@ export function TurnCards({ asset, forecast, ladder, turnRate, band }: TurnCards
             >
               <p className="text-sm font-bold text-text-primary">{t(`q.${s.size}`)}</p>
               <p className="text-xs leading-relaxed text-text-tertiary">
-                {t(`def.${s.size}`, { bandPct: b30?.widthPct ?? "" })}
+                {s.size === "mid" ? (b30 ? t("def.mid", { bandPct: b30.widthPct }) : t("def.midNoBand")) : t("def.small")}
               </p>
               <div className="flex flex-wrap items-center gap-x-2">
                 <span className="w-14 text-xs text-text-tertiary">{t("who.today")}</span>
                 <Dots n={todayN} />
                 <span className="text-lg font-semibold text-text-primary">
-                  {t("odds", { n: todayN, pct: Math.round(item.today_pct) })}
+                  {t("odds", { n: String(todayN), pct: String(Math.round(item.today_pct)) })}
                 </span>
               </div>
               <div className="flex flex-wrap items-center gap-x-2">
                 <span className="w-14 text-xs text-text-tertiary">{t("who.usual")}</span>
                 <Dots n={usualN} usual />
                 <span className="text-sm text-text-secondary">
-                  {t("odds", { n: usualN, pct: Math.round(item.usual_pct) })}
+                  {t("odds", { n: String(usualN), pct: String(Math.round(item.usual_pct)) })}
                 </span>
               </div>
               <p className={`text-sm font-bold ${LEVEL_CLASS[level]}`}>{tf(`level.${level}`)}</p>
               <p className="text-sm text-text-primary">
-                {t(`mean.${s.size}.${level}`, { n: todayN, restN: 10 - todayN, usualN })}
+                {t(`mean.${s.size}.${level}`, { n: String(todayN), restN: String(10 - todayN), usualN: String(usualN) })}
               </p>
               {facts.length > 0 ? (
                 <dl className="space-y-1 border-t border-border-primary pt-2 text-xs">

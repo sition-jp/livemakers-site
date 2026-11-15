@@ -1377,6 +1377,7 @@
         },
         "def": {
           "mid": "Medium = a turn of 15% or more. After a 15% drop from a high, that high counts as a \"top\"; after a 15% rebound from a low, that low counts as a \"bottom\". Close to the size of the 30-day range (±{bandPct}%).",
+          "midNoBand": "Medium = a turn of 15% or more. After a 15% drop from a high, that high counts as a \"top\"; after a 15% rebound from a low, that low counts as a \"bottom\".",
           "small": "Small = a turn of 5% or more. After a 5% drop from a high it counts as a \"peak\"; after a 5% rebound from a low, a \"trough\"."
         },
         "who": {
@@ -1408,8 +1409,8 @@
         "nowNoTurnBottom": "Since the trough of {price} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, there has been no 5% drop in {days} days of gains.",
         "confirmedTop": "On {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, a {pct}% drop from it made it a {size, select, mid {top} other {peak}}. Next to count is a {size, select, mid {bottom} other {trough}}.",
         "confirmedBottom": "On {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}, a {pct}% rebound from it made it a {size, select, mid {bottom} other {trough}}. Next to count is a {size, select, mid {top} other {peak}}.",
-        "countBottom": "{size, select, mid {A rebound of {pct}% or more from the low set from now on. Counting from today's {now} dollars, that is {price} dollars. If the low gets lower, this price moves lower with it.} other {A rebound of {pct}% from a low set from now on. Counting from today's {now} dollars, that is {price} dollars.}}",
-        "countTop": "{size, select, mid {A drop of {pct}% or more from the high set from now on. Counting from today's {now} dollars, that is {price} dollars. If the high gets higher, this price moves higher with it.} other {A drop of {pct}% from a high set from now on. Counting from today's {now} dollars, that is {price} dollars.}}",
+        "countBottom": "{size, select, mid {A rebound of {pct}% or more from the earlier low ({candidate} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}). That is {price} dollars. If the low gets lower, this price moves lower with it.} other {A rebound of {pct}% from the earlier low ({candidate} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}). That is {price} dollars.}}",
+        "countTop": "{size, select, mid {A drop of {pct}% or more from the earlier high ({candidate} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}). That is {price} dollars. If the high gets higher, this price moves higher with it.} other {A drop of {pct}% from the earlier high ({candidate} dollars on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}). That is {price} dollars.}}",
         "freqMid": "For {asset}, usually about {perYear} times a year (roughly once every {weeks} weeks, since December 2021). {recent} times in the past year.",
         "freqSmall": "Usually about {perYear} times a year (roughly once every {days} days).",
         "note": "These 2 cards are only about whether a turn comes. They do not say top or bottom (higher or lower), when, or at what price. They are not a trading signal."
@@ -1441,7 +1442,8 @@
       "updated": {
         "line": "Updated at 8:00 JST on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} (through the close of {closeMonth, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {closeDay})",
         "week": "The long term is decided by weekly candles (through the week of {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day}).",
-        "flip": "{asset}: if the weekly close on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} is {price} dollars or {dir, select, below {lower} other {higher}}, the next morning it changes to \"{state, select, down {Bear market} up {Bull market} other {Recovery in progress}}\"."
+        "flip": "{asset}: if the weekly close on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} is {price} dollars or {dir, select, below {lower} other {higher}}, the next morning it changes to \"{state, select, down {Bear market} up {Bull market} other {Recovery in progress}}\".",
+        "flipLeaveDown": "{asset}: if the weekly close on {month, select, 1 {Jan} 2 {Feb} 3 {Mar} 4 {Apr} 5 {May} 6 {Jun} 7 {Jul} 8 {Aug} 9 {Sep} 10 {Oct} 11 {Nov} 12 {Dec} other {}} {day} is {price} dollars or higher, the next morning it is no longer a \"Bear market\"."
       }
     }
   },
