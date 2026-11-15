@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 
+import { KNOWN_BOTS, ROBOTS_DISALLOW, ROBOTS_ONLY_TOKENS } from "@/lib/ai-bots";
+
+type RobotsGroup = { userAgent: string | string[]; allow?: string; disallow: string[] };
+
 const mockCatalog = vi.hoisted(() => ({
   loadPublicArticleInflowCatalog: vi.fn(async () => ({
     articles: [
@@ -39,7 +43,7 @@ describe("app/robots.ts", () => {
       "https://livemakers.com/sitemap.xml",
       "https://livemakers.com/sitemap-news.xml",
     ]);
-    const rules = result.rules as { disallow: string[] };
+    const rules = (result.rules as RobotsGroup[])[0];
     expect(rules.disallow).toEqual(
       expect.arrayContaining([
         "/api/",
@@ -51,10 +55,39 @@ describe("app/robots.ts", () => {
 
   it("keeps Googlebot off Next.js RSC payload URLs but not off the pages themselves", async () => {
     const { default: robots } = await import("@/app/robots");
-    const rules = robots().rules as { allow: string; disallow: string[] };
+    const rules = (robots().rules as RobotsGroup[])[0];
     expect(rules.disallow).toEqual(expect.arrayContaining(["/*?_rsc=", "/*&_rsc="]));
     expect(rules.allow).toBe("/");
     expect(rules.disallow).not.toContain("/ja/articles/");
+  });
+
+  it("puts the * group first with the full disallow list", async () => {
+    const { default: robots } = await import("@/app/robots");
+    const rules = robots().rules as RobotsGroup[];
+    expect(rules[0]).toEqual({ userAgent: "*", allow: "/", disallow: ROBOTS_DISALLOW });
+  });
+
+  it("names every robots:true bot and robots-only token, each group carrying the same disallow", async () => {
+    const { default: robots } = await import("@/app/robots");
+    const rules = robots().rules as RobotsGroup[];
+    const named = rules.slice(1).flatMap((g) => g.userAgent);
+    const expected = [
+      ...KNOWN_BOTS.filter((b) => b.robots).map((b) => b.name),
+      ...ROBOTS_ONLY_TOKENS,
+    ];
+    expect([...named].sort()).toEqual([...expected].sort());
+    for (const group of rules) {
+      expect(group.disallow).toEqual(ROBOTS_DISALLOW);
+    }
+  });
+
+  it("does not name search engines or preview fetchers", async () => {
+    const { default: robots } = await import("@/app/robots");
+    const rules = robots().rules as RobotsGroup[];
+    const named = rules.flatMap((g) => g.userAgent).map((n) => n.toLowerCase());
+    for (const n of ["googlebot", "bingbot", "slackbot", "twitterbot", "facebookexternalhit"]) {
+      expect(named).not.toContain(n);
+    }
   });
 });
 
