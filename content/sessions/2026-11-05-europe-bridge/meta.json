@@ -1,0 +1,101 @@
+{
+  "sessionId": "2026-11-05-europe-bridge",
+  "date": "2026-11-05",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-05-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-05-europe-bridge",
+  "publishedAt": "2026-11-06T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261105_1203_713b6787",
+  "asOfJst": "2026-11-05T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月5日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1258 → 1.1257（-0.01%）",
+    "変動幅上位: WTI（perp） -8.4% / ETH/USD +8.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261105_1305_d93a0a3d",
+    "crawlAnchorJst": "2026-11-05T12:03:00+09:00",
+    "writtenAtJst": "2026-11-05T13:05:00+09:00",
+    "lead": "中間選挙の翌日、米国では議会の主導権の移行が人事と政策の両面で動き出した。ジョンソン議長の退任意向に加え、政権内部からも対イラン政策が敗因として挙がる。市場は株高で応じたが、暗号資産の市場構造法案は先行きが読みにくくなり、既に制度化されたトークン化とステーブルコインが相対的に底堅いとの見方が出ている。国内では漏えいの連鎖が通信大手の不正アクセス疑いにまで広がった。",
+    "items": [
+      {
+        "headline": "ジョンソン下院議長、中間選挙の大敗を受けて共和党トップに留まらない意向",
+        "sourceUrl": "https://www.nbcnews.com/politics/congress/house-speaker-mike-johnson-republican-leader-gop-losses-rcna607434",
+        "note": "民主党が上下両院を制した翌日、議会の主導権の移行が人事の面から始まった。"
+      },
+      {
+        "headline": "バンス副大統領、共和党の敗因はイラン戦争への怒りだと発言",
+        "sourceUrl": "https://www.nbcnews.com/politics/2026-election/vance-says-ranger-iran-war-caused-gop-midterm-losses-rcna607446",
+        "note": "政権内部から対イラン政策が敗因として名指しされた。"
+      },
+      {
+        "headline": "選挙結果を受けて米国株が急伸",
+        "sourceUrl": "https://www.nbcnews.com/nightly-news/video/stock-market-surges-on-election-results-272882757861"
+      },
+      {
+        "headline": "民主党の大勝後も、トークン化とステーブルコインは残りうるとの分析",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/11/04/tokenization-and-stablecoins-may-weather-democrats-sweep-as-broader-crypto-rules-face-uncertainty",
+        "note": "市場構造法案の先行きが不透明になる一方、既に制度化された領域は影響が小さいという見立て。"
+      },
+      {
+        "headline": "Nasdaq、Canary のステーキング型 Injective ETF の上場を承認",
+        "sourceUrl": "https://thedefiant.io/news/tokens/nasdaq-approves-listing-of-canary-s-staked-injective-etf"
+      },
+      {
+        "headline": "米財務省、イランの原油封鎖逃れを助けたとされる夫婦を制裁",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/4/treasury-department-sanctions-couple-accused-helping-iran-evade-oil/"
+      },
+      {
+        "headline": "仏 Crédit Mutuel Arkéa へのサイバー攻撃、委託先経由で侵入し不正送金の被害は約1億ユーロか",
+        "sourceUrl": "https://www.itmedia.co.jp/news/article/2611/05/2000002891/",
+        "note": "銀行自身ではなく委託先が入口になった点が、欧州の金融インフラの弱点として浮かぶ。"
+      },
+      {
+        "headline": "ギフティへの不正アクセスで eギフトが不正発行、損失見込みは約5.5億円",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/11/05/56674.html"
+      },
+      {
+        "headline": "GMOペイメントゲートウェイ、ライフカード向けサービスで顧客情報の一部が流出した可能性",
+        "sourceUrl": "https://scan.netsecurity.ne.jp/article/2026/11/05/56680.html"
+      },
+      {
+        "headline": "ドコモ、不正アクセスの疑いで通販サイトなどを停止し各種手続きも制限",
+        "sourceUrl": "https://x.com/nikkei/status/2118179289694674989",
+        "note": "国内の大型漏えいが相次ぐ中、通信大手にも疑いが及んだ。漏えいの有無はドコモの公表待ち。"
+      },
+      {
+        "headline": "米国務省、グリーンランド議会が米国との安全保障協定を批准したと発信",
+        "sourceUrl": "https://x.com/StateDept/status/2118060325954064455"
+      },
+      {
+        "headline": "OpenAI、脆弱性の発見から悪用検証・修正までを自動で回す仕組みを公開",
+        "sourceUrl": "https://x.com/OpenAI/status/2118119451401048497",
+        "note": "攻撃と防御の両方が自動化される局面に入り、防衛の費用構造が変わり始めている。"
+      },
+      {
+        "headline": "Moonshot AI の Kimi K3.1 Pro、重みの公開と同時に推論サービスで即日提供",
+        "sourceUrl": "https://x.com/youdotcom/status/2118173413353390250"
+      },
+      {
+        "headline": "NASA、アルテミス計画の前倒しを発表",
+        "sourceUrl": "https://www.nasa.gov/missions/artemis/nasa-shares-plans-to-accelerate-artemis-return-to-moon/"
+      },
+      {
+        "headline": "国税庁、e-Tax の利用を再開し納税者情報の漏えいはないと発表",
+        "sourceUrl": "https://x.com/NTA_Japan/status/2118161608187040254"
+      }
+    ],
+    "watch": [
+      "新議会での暗号資産の市場構造法案の扱いと、下院民主党の独自案の行方",
+      "NTT ドコモの公表 — 停止範囲と漏えいの有無",
+      "日銀の議事要旨と中間選挙後の米金利・円相場の連動"
+    ]
+  }
+}
