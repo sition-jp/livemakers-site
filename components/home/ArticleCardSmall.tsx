@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 import { FAMILY_COLORS } from "./ArticleRow";
 
@@ -35,12 +36,12 @@ export function ArticleCardSmall({
         className="mb-2"
       />
       <div className="mb-2 flex items-center justify-between gap-2">
-        <span
+        <FamilyBadge
+          family={article.family}
+          label={familyLabel}
           className="text-[9px] font-bold tracking-label"
           style={{ color: FAMILY_COLORS[article.family] }}
-        >
-          {familyLabel}
-        </span>
+        />
         <time dateTime={article.publishedAtJst} className="font-mono text-[9px] text-text-tertiary">
           {article.publishedLabel}
         </time>

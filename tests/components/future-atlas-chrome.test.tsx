@@ -80,6 +80,8 @@ vi.mock("@/lib/articles/article-model", () => ({
     "weekly-brief",
     "session",
   ],
+  // 2026-11-16: 記事ページのバッジがシリーズの一覧へのリンクを決めるのに使う
+  SERIES_SLUGS: ["daily-intel", "signal", "deep-dive", "future-map", "weekly-brief"],
   getAllArticles: vi.fn(() => []),
   getArticleBySlug: vi.fn((articleId: string) => ({
     articleId,

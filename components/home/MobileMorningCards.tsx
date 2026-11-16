@@ -1,4 +1,5 @@
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
 import { Link } from "@/i18n/navigation";
 import type { HomeCopy } from "@/lib/home/home-copy";
 import type { HomeSlots } from "@/lib/home/select-home-slots";
@@ -40,12 +41,12 @@ export function MobileLeadCard({
       />
       <span className="block p-4">
         <span className="flex items-baseline justify-between gap-3">
-          <span
+          <FamilyBadge
+            family="daily-intel"
+            label={copy.hero.leadFamily}
             className="text-[10px] font-bold tracking-label"
             style={{ color: FAMILY_COLORS["daily-intel"] }}
-          >
-            {copy.hero.leadFamily}
-          </span>
+          />
           <time
             dateTime={lead.article.publishedAtJst}
             className="whitespace-nowrap font-mono text-[10px] text-text-tertiary"
