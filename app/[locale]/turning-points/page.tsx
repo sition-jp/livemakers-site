@@ -9,7 +9,7 @@ import { Freshness } from "@/components/turning-points/Freshness";
 import { ReadingGuide } from "@/components/turning-points/ReadingGuide";
 import { ProbabilityTimeline } from "@/components/turning-points/ProbabilityTimeline";
 import { allForecastScreen, allV2Screen } from "@/lib/pivots/forecast-screen";
-import { headlineParts, overviewParts } from "@/lib/pivots/regime";
+import { chipParts, flipNoteParts, overviewParts, type LayerId } from "@/lib/pivots/regime";
 import { legendItems } from "@/lib/pivots/range-band";
 import { pickForecast } from "@/lib/pivots/forecast";
 import { TimelineMini } from "@/components/turning-points/TimelineMini";
@@ -26,6 +26,8 @@ import { localeAlternates } from "@/lib/seo/locale-alternates";
  *   2. snapshot present      → RadarTable with assets
  *   3. snapshot null + no err → RadarTable empty state (pre-launch)
  */
+const LIST_LAYERS: readonly LayerId[] = ["long", "mid", "near"];
+
 export async function generateMetadata({
   params,
 }: {
@@ -90,11 +92,9 @@ export default async function TurningPointsRadarPage({
             {snapshot.radar.map((a) => {
               const regime = snapshot.regime?.[a.symbol];
               const band = snapshot.range_band?.[a.symbol];
-              const headline = regime
-                ? headlineParts(regime, "long")
-                    .map((p) => tv2(p.key, p.values))
-                    .join("")
-                : "";
+              const chips = regime ? chipParts(regime) : null;
+              // 予告は「変わる」の 1 文だけ (週足で決めている旨は詳細ページに)
+              const flip = regime ? flipNoteParts(a.symbol, regime)?.[1] : undefined;
               const b7 = band ? legendItems(band).find((l) => l.id === "b7") : undefined;
               return (
                 <li
@@ -107,9 +107,34 @@ export default async function TurningPointsRadarPage({
                       {a.symbol}
                     </Link>
                   </h3>
-                  {headline ? (
-                    <p data-testid={`list-headline-${a.symbol}`} className="text-text-primary">
-                      {headline}
+                  {chips ? (
+                    <dl className="divide-y divide-border-primary/60">
+                      {LIST_LAYERS.filter((l) => chips[l]).map((l) => {
+                        const c = chips[l]!;
+                        return (
+                          <div
+                            key={l}
+                            data-testid={`list-chip-${a.symbol}-${l}`}
+                            className="flex flex-wrap items-baseline justify-between gap-x-3 py-1.5"
+                          >
+                            <dt className="text-xs text-text-tertiary">{tv2(c.label.key, c.label.values)}</dt>
+                            <dd className="text-right">
+                              <span className="font-bold text-text-primary">{tv2(c.value.key, c.value.values)}</span>
+                              {l === "mid" ? (
+                                <span className="block text-xs text-text-secondary">{tv2(c.note.key, c.note.values)}</span>
+                              ) : null}
+                            </dd>
+                          </div>
+                        );
+                      })}
+                    </dl>
+                  ) : null}
+                  {flip ? (
+                    <p
+                      data-testid={`list-flip-${a.symbol}`}
+                      className="border-l-4 border-pillar-market bg-bg-secondary px-3 py-2 text-sm text-text-primary"
+                    >
+                      {tv2(flip.key, flip.values)}
                     </p>
                   ) : null}
                   {b7 ? (

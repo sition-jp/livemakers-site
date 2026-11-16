@@ -1115,6 +1115,8 @@
       },
       "today_pct": "今日 {pct}%",
       "usual_pct": "ふだん {pct}%",
+      "usual_int": "ふだんは {pct}%",
+      "prev_int": "きのうは {pct}%",
       "gap": "ふだんとの差 {gap}",
       "prev": "前日比 {delta}",
       "level": {
