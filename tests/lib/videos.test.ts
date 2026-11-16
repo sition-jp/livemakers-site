@@ -114,7 +114,19 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(10);
   });
 
-  it("ep012 は第 11 回・7 章・YouTube 概要欄と同じ時刻・出典 29 件を持ち、最新の投稿になる", () => {
+  it("ep013 は第 12 回・5 章・YouTube 概要欄と同じ時刻・出典 10 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep013-anthropic-ipo-eve");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep013");
+    expect(video!.episodeNumber).toBe(12);
+    expect(video!.youtubeVideoId).toBe("DaU8Z4Go2tY");
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:02", "02:42", "04:23", "06:17"]);
+    expect(video!.durationSeconds).toBe(7 * 60 + 43);
+    expect(video!.sources).toHaveLength(10);
+    expect(getLatestPostedVideo()?.slug).toBe("ep013-anthropic-ipo-eve");
+  });
+
+  it("ep012 は第 11 回・7 章・YouTube 概要欄と同じ時刻・出典 29 件を持つ", () => {
     const video = getVideoBySlug("ep012-yen-160-rate-gap");
     expect(video).not.toBeNull();
     expect(video!.episodeId).toBe("ep012");
@@ -123,7 +135,6 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:18", "02:49", "04:01", "05:25", "06:48", "09:19"]);
     expect(video!.durationSeconds).toBe(10 * 60 + 55);
     expect(video!.sources).toHaveLength(29);
-    expect(getLatestPostedVideo()?.slug).toBe("ep012-yen-160-rate-gap");
   });
 
   it("ep011 は第 10 回・6 章・YouTube 概要欄と同じ時刻・出典 20 件を持つ", () => {
