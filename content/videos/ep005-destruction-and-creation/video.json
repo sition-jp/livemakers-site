@@ -18,15 +18,18 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜トランプ氏、首席補佐官にミラー氏を起用 中間選挙の3日後",
-      "href": "/articles/signal-20261107-c395a683"
+      "href": "/articles/signal-20261107-c395a683",
+      "family": "signal"
     },
     {
       "titleJa": "Deep Dive｜民主党の議会奪還、2027年は予算と戦費の綱引きに",
-      "href": "/articles/deep-dive-20261104-1ce8bf40"
+      "href": "/articles/deep-dive-20261104-1ce8bf40",
+      "family": "deep-dive"
     },
     {
       "titleJa": "Deep Dive｜CLARITY 法は振り出しに、民主党の議会で暗号資産は規則と調査の年",
-      "href": "/articles/deep-dive-20261106-f1758231"
+      "href": "/articles/deep-dive-20261106-f1758231",
+      "family": "deep-dive"
     }
   ],
   "chapters": [

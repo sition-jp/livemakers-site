@@ -18,11 +18,13 @@
   "relatedArticles": [
     {
       "titleJa": "次の時代の地図 #25：暗号・台帳・AI エージェントが引き継ぎ始めた仲介者の三役",
-      "href": "/articles/future-map-20261031-2ac42693"
+      "href": "/articles/future-map-20261031-2ac42693",
+      "family": "future-map"
     },
     {
       "titleJa": "金融再起動の現在地 #1",
-      "href": "/articles/restart-map-20261026-3539f54e"
+      "href": "/articles/restart-map-20261026-3539f54e",
+      "family": "restart-map"
     }
   ],
   "chapters": [

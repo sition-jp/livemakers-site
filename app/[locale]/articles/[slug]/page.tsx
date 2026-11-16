@@ -178,16 +178,16 @@ export default async function ArticleDetailPage({
       />
       <article className="mx-auto w-full max-w-[80ch] min-w-0">
         <header className="mb-8 border-b border-border-primary pb-6">
-          <p className="mb-3">
+          {/* 文字の形は <p> に置く (行の高さを前と同じにする — バッジ側に置くと
+              <p> が既定の 16px の行になり、ヘッダーが約 9px 高くなる) */}
+          <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-label">
             {/* 種類のバッジ = 同じ種類の一覧への入口 (2026-11-16 設計 §5-3)。
                 一覧ページの無い種類 (session・future-atlas) はリンクにしない */}
             <FamilyBadge
               family={article.family}
               label={familyLabel}
               href={familySeriesHref}
-              className={`font-mono text-[10px] font-bold uppercase tracking-label${
-                familySeriesHref ? " hover:underline" : ""
-              }`}
+              className={familySeriesHref ? "hover:underline" : undefined}
               style={{ color: FAMILY_COLORS[article.family] }}
             />
           </p>

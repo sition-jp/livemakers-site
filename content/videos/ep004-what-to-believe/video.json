@@ -18,15 +18,18 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜顧客約300万人の Ueno Bank 破綻でパラグアイ大統領が辞任",
-      "href": "/articles/signal-20261106-a5fc2a53"
+      "href": "/articles/signal-20261106-a5fc2a53",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜SMBCコンシューマーファイナンス、最大32万人分の年収・保証額が漏えい",
-      "href": "/articles/signal-20261105-cf70313e"
+      "href": "/articles/signal-20261105-cf70313e",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜しんきん共同センターの機器故障で西日本128信金が取引停止",
-      "href": "/articles/signal-20261106-1567e63c"
+      "href": "/articles/signal-20261106-1567e63c",
+      "family": "signal"
     }
   ],
   "chapters": [

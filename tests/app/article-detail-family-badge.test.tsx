@@ -124,6 +124,19 @@ describe("article detail: family badge", () => {
     expect(badge.textContent).toBe(`${mark} family.${family}`);
   });
 
+  it("keeps the label typography on the <p> so the header line box is unchanged", async () => {
+    const badge = await renderPage("signal", "signal-20261116-dddd4444");
+    const line = badge.parentElement!;
+    expect(line.tagName).toBe("P");
+    for (const cls of ["mb-3", "font-mono", "text-[10px]", "font-bold", "uppercase", "tracking-label"]) {
+      expect(line).toHaveClass(cls);
+    }
+    // バッジは色と hover だけ (文字の形は <p> から受け継ぐ)
+    expect(badge).toHaveClass("hover:underline");
+    expect(badge).not.toHaveClass("text-[10px]");
+    expect(badge.getAttribute("style")).toContain("color");
+  });
+
   it.each(["session", "future-atlas"])(
     "does not link %s (no series list page)",
     async (family) => {

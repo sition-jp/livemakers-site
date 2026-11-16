@@ -18,15 +18,18 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜米労働省、401(k) 代替資産の最終規則をホワイトハウス審査へ",
-      "href": "/articles/signal-20261108-a1ad68b0"
+      "href": "/articles/signal-20261108-a1ad68b0",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜サンフランシスコ連銀デイリー総裁、追加利上げを予想",
-      "href": "/articles/signal-20261108-62a02852"
+      "href": "/articles/signal-20261108-62a02852",
+      "family": "signal"
     },
     {
       "titleJa": "LVM Weekly Brief #14｜民主党が上下両院を奪還、ナスダック100は6.4%安",
-      "href": "/articles/weekly-brief-20261107-7f47be68"
+      "href": "/articles/weekly-brief-20261107-7f47be68",
+      "family": "weekly-brief"
     }
   ],
   "chapters": [

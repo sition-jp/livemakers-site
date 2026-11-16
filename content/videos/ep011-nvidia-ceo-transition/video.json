@@ -18,11 +18,13 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜Nvidia のフアン CEO が即日辞任、クレス CFO が暫定 CEO に",
-      "href": "/articles/signal-20261113-060a6d36"
+      "href": "/articles/signal-20261113-060a6d36",
+      "family": "signal"
     },
     {
       "titleJa": "Daily Intel 11/13｜Nvidia のトップ交代、AI 相場の資金の出し手が揺らぐ",
-      "href": "/articles/daily-intel-20261113-78614145"
+      "href": "/articles/daily-intel-20261113-78614145",
+      "family": "daily-intel"
     }
   ],
   "chapters": [

@@ -18,19 +18,23 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜Anthropic、日本で最大35億ドルの株式募集を届け出",
-      "href": "/articles/signal-20261102-e9e0572b"
+      "href": "/articles/signal-20261102-e9e0572b",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜Anthropic、売上170億ドルの7〜9月期は営業赤字に",
-      "href": "/articles/signal-20261103-62085e01"
+      "href": "/articles/signal-20261103-62085e01",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜Anthropic の上場、投資家が評価額に難色 約1兆ドルの見方も",
-      "href": "/articles/signal-20261107-45639721"
+      "href": "/articles/signal-20261107-45639721",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜Ondo、Anthropic の上場初日にトークン化株を提供へ",
-      "href": "/articles/signal-20261108-a197053f"
+      "href": "/articles/signal-20261108-a197053f",
+      "family": "signal"
     }
   ],
   "chapters": [

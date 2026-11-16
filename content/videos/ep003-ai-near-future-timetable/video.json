@@ -18,11 +18,13 @@
   "relatedArticles": [
     {
       "titleJa": "Deep Dive｜赤字12.7兆円の Anthropic、4〜6月期は営業黒字",
-      "href": "/articles/deep-dive-20261102-1e566630"
+      "href": "/articles/deep-dive-20261102-1e566630",
+      "family": "deep-dive"
     },
     {
       "titleJa": "Signal｜Anthropic の S-1、上半期売上162億ドルで前年の14倍",
-      "href": "/articles/signal-20261027-d2c26b3f"
+      "href": "/articles/signal-20261027-d2c26b3f",
+      "family": "signal"
     }
   ],
   "chapters": [

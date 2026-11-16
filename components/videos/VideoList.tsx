@@ -1,5 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
+import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { TagLabel } from "@/components/ui/TagLabel";
 import { X_HANDLE, YOUTUBE_CHANNEL_URL } from "@/lib/site";
 import { formatDurationJa, type Video } from "@/lib/videos";
@@ -12,6 +14,7 @@ import { formatDurationJa, type Video } from "@/lib/videos";
  */
 export function VideoList({ videos }: { videos: Video[] }) {
   const t = useTranslations("videos");
+  const tArticles = useTranslations("articles");
 
   return (
     <main className="min-w-0">
@@ -77,6 +80,15 @@ export function VideoList({ videos }: { videos: Video[] }) {
                     {video.relatedArticles.map((article) => (
                       <li key={article.href}>
                         <Link href={article.href} className="text-text-secondary hover:text-pillar-overview hover:underline">
+                          {/* 種類のバッジはリンクの中の span (href を渡さない = a を入れ子にしない) */}
+                          {article.family ? (
+                            <FamilyBadge
+                              family={article.family}
+                              label={tArticles(`family.${article.family}`)}
+                              className="mr-1.5 font-mono text-[9px] font-bold tracking-label"
+                              style={{ color: FAMILY_COLORS[article.family] }}
+                            />
+                          ) : null}
                           {article.titleJa}
                         </Link>
                       </li>

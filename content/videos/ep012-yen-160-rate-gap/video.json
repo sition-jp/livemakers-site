@@ -18,11 +18,13 @@
   "relatedArticles": [
     {
       "titleJa": "Deep Dive｜日銀の2回の利上げでも縮まない日米金利差2.95ポイント",
-      "href": "/articles/deep-dive-20261111-e56c533b"
+      "href": "/articles/deep-dive-20261111-e56c533b",
+      "family": "deep-dive"
     },
     {
       "titleJa": "Signal｜FedWatch の12月利上げ確率100%、0.5%幅は9.2%",
-      "href": "/articles/signal-20261112-00150b6b"
+      "href": "/articles/signal-20261112-00150b6b",
+      "family": "signal"
     }
   ],
   "chapters": [

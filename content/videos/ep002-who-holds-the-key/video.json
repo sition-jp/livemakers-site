@@ -18,11 +18,13 @@
   "relatedArticles": [
     {
       "titleJa": "次の時代の地図 #25：暗号・台帳・AI エージェントが引き継ぎ始めた仲介者の三役",
-      "href": "/articles/future-map-20261031-2ac42693"
+      "href": "/articles/future-map-20261031-2ac42693",
+      "family": "future-map"
     },
     {
       "titleJa": "Deep Dive｜Binance の 63 億ドル流出、入口は DevOps 担当者のノート PC",
-      "href": "/articles/deep-dive-20261031-3adc6660"
+      "href": "/articles/deep-dive-20261031-3adc6660",
+      "family": "deep-dive"
     }
   ],
   "chapters": [
