@@ -1,0 +1,75 @@
+{
+  "episodeId": "ep013",
+  "sources": [
+    {
+      "key": "ipo_site",
+      "title": "Anthropic, PBC — 上場の案内サイトの写し (SEC に Form FWP で提出・2026-11-10 付。値決め 11/18・売買開始 11/19 の見込み)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072949/anthropicpbc-fwpipowebsi.htm",
+      "accessed": "2026-11-16",
+      "chapter": 2
+    },
+    {
+      "key": "jp_amend",
+      "title": "Anthropic, PBC — 日本向けの届出書の訂正 (2026-11-11 関東財務局に提出・英訳を SEC に Form FWP で提出)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026073045/anthropicpbc-fwpjapanamend.htm",
+      "accessed": "2026-11-16",
+      "chapter": 1
+    },
+    {
+      "key": "rakuten_ipo",
+      "title": "楽天証券 — アンソロピック上場予定！IPO 株のブックビルディングに参加 (2026-11-12)",
+      "url": "https://www.rakuten-sec.co.jp/web/info/info20261102-02.html",
+      "accessed": "2026-11-16",
+      "chapter": 1
+    },
+    {
+      "key": "sbi_pr",
+      "title": "SBI 証券 — 米国株式 IPO「アンソロピック」の購入申込を受付開始 (2026-11-12)",
+      "url": "https://prtimes.jp/main/html/rd/p/000000969.000007957.html",
+      "accessed": "2026-11-16",
+      "chapter": 2
+    },
+    {
+      "key": "s1a2",
+      "title": "Anthropic, PBC — Form S-1/A Amendment No. 2 (SEC EDGAR・2026-11-10)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072484/anthropicpbc-sx1ax2.htm",
+      "accessed": "2026-11-16",
+      "chapter": 2
+    },
+    {
+      "key": "nvidia_q3",
+      "title": "NVIDIA — Sets Conference Call for Third-Quarter Financial Results (2026-10-28・決算は 11/17)",
+      "url": "https://nvidianews.nvidia.com/news/nvidia-sets-conference-call-for-third-quarter-financial-results-6928873",
+      "accessed": "2026-11-16",
+      "chapter": 2
+    },
+    {
+      "key": "ecb_fx",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-11-13・USD 1.1052 / JPY 176.83)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-16",
+      "chapter": 3
+    },
+    {
+      "key": "edgar_list",
+      "title": "SEC EDGAR — Anthropic, PBC の提出書類の一覧 (CIK 0002130357・最終の目論見書 424B4 は値決めのあとに出る)",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0002130357",
+      "accessed": "2026-11-16",
+      "chapter": 2
+    },
+    {
+      "key": "fsa_nisa",
+      "title": "金融庁 — NISA 特設ウェブサイト (成長投資枠は年間 240 万円)",
+      "url": "https://www.fsa.go.jp/policy/nisa2/about/index.html",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "lvm_ep009",
+      "title": "LiveMakers — Anthropic 株は 1 株 70〜78 ドル (2026-11-11 公開・第 3 章の読み)",
+      "url": "https://youtu.be/81RXE3xGfAE",
+      "accessed": "2026-11-16",
+      "chapter": 4
+    }
+  ]
+}
