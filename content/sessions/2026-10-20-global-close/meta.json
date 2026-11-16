@@ -1,0 +1,115 @@
+{
+  "sessionId": "2026-10-20-global-close",
+  "date": "2026-10-20",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-10-20-global-close",
+  "canonicalArticleUrl": "/sessions/2026-10-20-global-close",
+  "publishedAt": "2026-10-21T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261020_2303_3f716716",
+  "asOfJst": "2026-10-20T23:03:01+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 10月20日 23:03 JST",
+  "bullets": [
+    "BTC/USD $82,081 → $82,426（+0.42%）",
+    "変動幅上位: Coinbase（perp） -1.8% / 米10年金利 +1.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261020_2351_749f0126",
+    "crawlAnchorJst": "2026-10-20T23:03:00+09:00",
+    "writtenAtJst": "2026-10-20T23:51:14+09:00",
+    "lead": "今夜の中心は欧州だった。スイスでは個人向けの現物ビットコイン ETF が初めて承認され、ドイツでは Boerse Stuttgart が DLT の取引・決済の免許を得た。同じ夜、Google Cloud の障害が欧州のネット銀行を止め、金融のデジタル化が少数の基盤に寄りかかる構図も表に出た。ブレント原油は111ドルを超え、市場の重しは残る。",
+    "items": [
+      {
+        "headline": "スイス FINMA、個人向けの現物ビットコイン ETF を国内で初めて承認",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-10-20-swiss-regulator-finma-approves-countrys-first-spot-bitcoin-etf-for-retail-investors-421127",
+        "note": "米国・香港に続き、欧州でも個人が現物の ETF でビットコインを持てる入口が開く。発行体と上場日は今後の公表待ち。"
+      },
+      {
+        "headline": "Boerse Stuttgart、DLT を使う取引・決済システムの免許を取得",
+        "sourceUrl": "https://www.finextra.com/pressarticle/111362/boerse-stuttgart-obtains-dlt-trading-and-settlement-system-license?utm_medium=rssfinextra&utm_source=finextrafeed",
+        "note": "トークン化した証券の取引と決済を一つの場で扱う欧州の制度が、既存の取引所で実地に入る。"
+      },
+      {
+        "headline": "Google Cloud の欧州の障害で、Revolut や ING のオンラインバンキングに支障",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/onlinebanking-grossausfall-bei-google-fuehrt-zu-stoerungen-bei-revolut-und-ing/100263580.html",
+        "note": "英国の銀行にも影響が出たと報じられた。銀行の業務が少数のクラウドに寄りかかる構図が表に出た。"
+      },
+      {
+        "headline": "Liquid Federation、ネットワーク復旧の次の段階を公表",
+        "sourceUrl": "https://x.com/Blockstream/status/2112537029045330416",
+        "note": "9月の流出のあと、ビットコインとのペッグ運用を戻す手順に入った。"
+      },
+      {
+        "headline": "フランス下院、暗号資産からステーブルコインへの交換に31%の課税を可決",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/10/20/france-s-parliament-approves-vote-to-hit-crypto-to-stablecoin-trades-with-31-levy",
+        "note": "現金に換えない交換も課税の対象に含める内容と報じられた。"
+      },
+      {
+        "headline": "JPMorgan、今後10年のビットコインの年率リターンを10%と見込み、株・債券・金を上回るとした",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/20/jpmorgan-sees-10-annual-bitcoin-returns-topping-stocks-bonds-and-gold-over-next-decade",
+        "note": "大手の資産運用部門が長期の資産配分の前提にビットコインを組み込んだ。"
+      },
+      {
+        "headline": "カザフスタンの裁判所、Coinbase など6社に AIFC での無免許の暗号資産サービスを禁じる",
+        "sourceUrl": "https://www.coindesk.com/business/2026/10/20/kazakhstan-court-bars-coinbase-five-others-from-unlicensed-crypto-services-in-astana-international-financial-centre"
+      },
+      {
+        "headline": "ロシアのズベルバンク、暗号資産取引所の認可を取得 12月の開始を予定",
+        "sourceUrl": "https://thedefiant.io/converge/tradfi-and-fintech/sberbank-gains-russian-crypto-exchange-authorization-ahead-of-planned-december-launch"
+      },
+      {
+        "headline": "ブレント原油が111ドルを超え、韓国の IPO の不振も AI 関連の不安を強める",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/10/20/south-korean-ipo-plunge-deepens-ai-market-jitters-as-brent-tops-usd111",
+        "note": "原油高と AI 関連株の調整が同時に市場の重しになっている。"
+      },
+      {
+        "headline": "LayerZero、新しいチェーン Zero と lzATLAS のメインネットを11月30日に稼働",
+        "sourceUrl": "https://x.com/LayerZero_Core/status/2112529547614937453"
+      },
+      {
+        "headline": "Midnight、他のチェーンの資産に秘匿と選択的開示を広げる Nightmode を発表",
+        "sourceUrl": "https://x.com/MidnightNtwrk/status/2112542744224629080",
+        "note": "Sig Network と組み、Bitcoin や Ethereum、Solana などの資産にもプライバシーを使えるようにする。"
+      },
+      {
+        "headline": "Cardano で、実物の銅を買ってトークン化する2,200万 ADA のトレジャリー引き出し提案が投票へ",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2112535053301653513",
+        "note": "資金を36か月以内にトレジャリーへ戻すとする、現実資産を使う提案の試金石になる。"
+      },
+      {
+        "headline": "Waymo、2027年にマドリードで運転手のいない配車を始める スペインで初",
+        "sourceUrl": "https://x.com/Waymo/status/2112487274361307522",
+        "note": "EU では2つ目の地域になる。"
+      },
+      {
+        "headline": "Agility Robotics、農業機械の AGCO と契約 2027年に工場でヒューマノイドを試験導入",
+        "sourceUrl": "https://x.com/agilityrobotics/status/2112518192245481689",
+        "note": "自動車・物流に続き、農機の工場で部品の仕分けや運搬を担う。"
+      },
+      {
+        "headline": "Anthropic、Claude がサソリの神経毒に結合するタンパク質を設計した研究を公開",
+        "sourceUrl": "https://www.anthropic.com/research/claude-scorpion-toxin-binder-design"
+      },
+      {
+        "headline": "ふるさとチョイス、会員情報約445万件の流出を公表",
+        "sourceUrl": "https://x.com/nhk_news/status/2112485995337937253"
+      },
+      {
+        "headline": "マネックス証券、外部委託先のシステムへの不審なアクセスで新規口座の開設を一時停止",
+        "sourceUrl": "https://x.com/impress_watch/status/2112469203311854012",
+        "note": "国内では委託先を経由した不正アクセスの公表が続いている。"
+      }
+    ],
+    "watch": [
+      "スイスの現物ビットコイン ETF の発行体と上場日",
+      "Google Cloud の障害の原因と、銀行側の説明",
+      "LayerZero の Zero が11月30日のメインネットまでに出す詳細"
+    ]
+  }
+}
