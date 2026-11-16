@@ -1115,6 +1115,8 @@
       },
       "today_pct": "Today {pct}%",
       "usual_pct": "Usual {pct}%",
+      "usual_int": "Usually {pct}%",
+      "prev_int": "Yesterday {pct}%",
       "gap": "Gap from usual {gap}",
       "prev": "vs. yesterday {delta}",
       "level": {

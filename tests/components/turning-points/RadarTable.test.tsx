@@ -124,7 +124,20 @@ describe("RadarTable (確率の列)", () => {
     expect(screen.queryByTestId("radar-forecast-BTC-turn90")).toBeNull();
     expect(screen.queryByTestId("radar-forecast-BTC-move30")).toBeNull();
     expect(container.querySelectorAll("thead th").length).toBe(3);
-    expect(container.textContent).not.toMatch(/90|big move|large/i);
+    expect(container.textContent).not.toMatch(/90|big move|large-or-larger/i);
+  });
+
+  it("v2: 整数の % と言葉 (ふだんは / きのうは)・見出しは問いの文", () => {
+    render(withIntl(<RadarTable assets={sampleAssets} forecast={forecast as never} v2 />));
+    const cell = screen.getByTestId("radar-forecast-BTC-turn30");
+    expect(cell).toHaveTextContent("51%");
+    expect(cell).toHaveTextContent("about as usual");
+    expect(cell).toHaveTextContent("Usually 48%");
+    expect(cell).toHaveTextContent("Yesterday 49%");
+    expect(cell.textContent).not.toMatch(/\d\.\d|Gap from usual|vs\. yesterday/);
+    expect(screen.getByTestId("radar-forecast-BTC-turn7")).not.toHaveTextContent("Yesterday");
+    const heads = screen.getAllByRole("columnheader").map((h) => h.textContent);
+    expect(heads).toEqual(["Asset", "A medium-or-larger top or bottom within 30 days", "A small peak or trough within 7 days"]);
   });
 
   it("v2 でなければ今の 4 つの列のまま", () => {

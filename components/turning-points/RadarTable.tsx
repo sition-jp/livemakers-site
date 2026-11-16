@@ -39,7 +39,7 @@ export function RadarTable({
             <tr className="text-xs uppercase tracking-label text-text-tertiary">
               <th scope="col" className="px-4 py-3 font-medium">{t("col_asset")}</th>
               {questions.map((q) => (
-                <th key={q.id} scope="col" className="px-4 py-3 font-medium whitespace-nowrap">{tf(`question_short.${q.id}`)}</th>
+                <th key={q.id} scope="col" className={`px-4 py-3 font-medium ${v2 ? "normal-case tracking-normal" : "whitespace-nowrap"}`}>{tf(v2 ? `question.${q.id}` : `question_short.${q.id}`)}</th>
               ))}
             </tr>
           </thead>
@@ -54,6 +54,18 @@ export function RadarTable({
                   if (!item) return <td key={q.id} className="px-4 py-4 align-top text-text-tertiary" data-testid={`radar-forecast-${asset.symbol}-${q.id}`}>—</td>;
                   const level = forecastLevel(item.today_pct, item.usual_pct);
                   const delta = item.prev_today_pct !== undefined ? Math.round((item.today_pct - item.prev_today_pct) * 10) / 10 : null;
+                  if (v2) {
+                    return (
+                      <td key={q.id} className="px-4 py-4 align-top" data-testid={`radar-forecast-${asset.symbol}-${q.id}`}>
+                        <div className={`text-lg font-medium ${FORECAST_LEVEL_CLASS[level]}`}>{Math.round(item.today_pct)}%</div>
+                        <div className={`text-xs ${FORECAST_LEVEL_CLASS[level]}`}>{tf(`level.${level}`)}</div>
+                        <div className="text-xs text-text-secondary">{tf("usual_int", { pct: Math.round(item.usual_pct) })}</div>
+                        {item.prev_today_pct !== undefined ? (
+                          <div className="text-xs text-text-tertiary">{tf("prev_int", { pct: Math.round(item.prev_today_pct) })}</div>
+                        ) : null}
+                      </td>
+                    );
+                  }
                   return (
                     <td key={q.id} className="px-4 py-4 align-top" data-testid={`radar-forecast-${asset.symbol}-${q.id}`}>
                       <div className={`text-lg font-medium ${FORECAST_LEVEL_CLASS[level]}`}>{formatPct1(item.today_pct)}%</div>

@@ -272,3 +272,36 @@ export function overviewParts(byAsset: Partial<Record<string, RegimeOne>>): Part
   }
   return parts;
 }
+
+const PRICE2 = new Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function nextSunday(iso: string): { m: number; d: number } {
+  const [y, m, d] = iso.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d + 7));
+  return { m: dt.getUTCMonth() + 1, d: dt.getUTCDate() };
+}
+
+/**
+ * 長期の札が変わる線の注記 (週の 1 文 + 変わる 1 文)。詳細の見出しと一覧の札で共通。
+ * 週足の確定が近い日 (金・土・日) で、線が今の値段の 10% 以内のときだけ。それ以外は null。
+ */
+export function flipNoteParts(asset: string, r: RegimeOne): Part[] | null {
+  const long = r.long;
+  const nowClose = r.near?.close;
+  if (!long || !nowClose) return null;
+  const [ay, am, ad] = r.as_of.split("-").map(Number);
+  const wd = new Date(Date.UTC(ay, am - 1, ad)).getUTCDay();
+  const toDown = long.line_to_down ?? null;
+  const line = toDown ?? long.line_to_leave_down ?? null;
+  if (line === null || !(wd === 5 || wd === 6 || wd === 0)) return null;
+  if (Math.abs(line / nowClose - 1) > 0.1) return null;
+  const when = nextSunday(long.last_week);
+  const week = monthDay(long.last_week);
+  const base = { asset, month: when.m, day: when.d, price: PRICE2.format(line) };
+  return [
+    { key: "updated.week", values: { month: week.m, day: week.d } },
+    toDown !== null
+      ? { key: "updated.flip", values: { ...base, dir: "below", state: "down" } }
+      : { key: "updated.flipLeaveDown", values: base },
+  ];
+}

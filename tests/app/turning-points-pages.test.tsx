@@ -208,7 +208,9 @@ describe("v2 の並び (ページ)", () => {
     expect(screen.getByRole("heading", { name: "overview_heading" })).toBeInTheDocument();
     expect(screen.getByTestId("list-asset-BTC").querySelectorAll("a").length).toBe(1);
     for (const a of ["BTC", "ETH"]) {
-      expect(screen.getByTestId(`list-headline-${a}`).textContent).not.toBe("");
+      for (const l of ["long", "mid", "near"]) {
+        expect(screen.getByTestId(`list-chip-${a}-${l}`).textContent).toContain(`chip.label.${l}`);
+      }
       expect(screen.getByTestId(`list-oneline-${a}`).textContent).toContain("band.oneLine");
       expect(screen.getByTestId(`list-asset-${a}`).querySelector(`a[href="/turning-points/${a.toLowerCase()}"]`)).not.toBeNull();
     }
@@ -216,6 +218,12 @@ describe("v2 の並び (ページ)", () => {
     expect(screen.queryByTestId("radar-forecast-BTC-turn90")).toBeNull();
     expect(screen.queryByTestId("radar-forecast-ETH-move30")).toBeNull();
     expect(screen.getByTestId("probability-mini-BTC")).toBeInTheDocument();
+    // 暴落の段は 1〜3 か月の札に出る・その札だけ短い注記つき
+    expect(screen.getByTestId("list-chip-BTC-mid").textContent).toContain("chip.value.mid.crash");
+    expect(screen.getByTestId("list-chip-BTC-mid").textContent).toContain("chip.mid.down.crash");
+    // 切り替わりの予告は ETH (線の 10% 以内) だけ
+    expect(screen.getByTestId("list-flip-ETH").textContent).toContain("updated.flip");
+    expect(screen.queryByTestId("list-flip-BTC")).toBeNull();
   });
 
   it("一覧: 1 資産でも v2 が欠ければ今のまま (4 つの列・全体の 1 行なし)", async () => {

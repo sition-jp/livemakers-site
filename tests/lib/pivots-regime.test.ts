@@ -305,3 +305,27 @@ describe("sinceDay (since_week の翌日)", () => {
   it("2026-01-31 -> 2/1 (month rollover)", () =>
     expect(sinceDay("2026-01-31")).toEqual({ m: 2, d: 1 }));
 });
+
+import { flipNoteParts } from "@/lib/pivots/regime";
+import tpV2 from "@/tests/fixtures/pivots/tp-v2.sample.json";
+
+describe("flipNoteParts (長期の札が変わる線の注記)", () => {
+  const eth = (tpV2 as unknown as { regime: Record<string, One> }).regime.ETH;
+  const btc = (tpV2 as unknown as { regime: Record<string, One> }).regime.BTC;
+
+  it("ETH (日曜・線の 10% 以内): 週の 1 文 + 下げ相場に変わる 1 文", () => {
+    const p = flipNoteParts("ETH", eth)!;
+    expect(p.map((x) => x.key)).toEqual(["updated.week", "updated.flip"]);
+    expect(p[1].values).toMatchObject({ asset: "ETH", price: "1,908.86", dir: "below", state: "down" });
+  });
+
+  it("水曜は出さない・線から 10% より遠ければ出さない", () => {
+    expect(flipNoteParts("ETH", { ...eth, as_of: "2026-11-11" })).toBeNull();
+    expect(flipNoteParts("ETH", { ...eth, near: { ...eth.near!, close: 1500 } })).toBeNull();
+  });
+
+  it("下げ相場を抜ける線は行き先を言わない", () => {
+    const p = flipNoteParts("BTC", { ...btc, near: { ...btc.near!, close: 88000 } })!;
+    expect(p[1].key).toBe("updated.flipLeaveDown");
+  });
+});
