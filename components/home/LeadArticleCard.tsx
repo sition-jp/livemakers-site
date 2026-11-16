@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
 import type { HomeSlots } from "@/lib/home/select-home-slots";
 import { FAMILY_COLORS } from "./ArticleRow";
 
@@ -70,12 +71,12 @@ export function LeadArticleCard({
           {compact ? (
             <span />
           ) : (
-            <span
+            <FamilyBadge
+              family={article.family}
+              label={labels.family}
               className="text-[10px] font-bold tracking-label"
               style={{ color: FAMILY_COLORS[article.family] }}
-            >
-              {labels.family}
-            </span>
+            />
           )}
           <time dateTime={article.publishedAtJst} className="font-mono text-[10px] text-text-tertiary">
             {article.publishedLabel}

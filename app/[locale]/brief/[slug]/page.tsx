@@ -40,7 +40,6 @@ export async function generateMetadata({
   const description = truncate(stripMarkdown(summarySource), descriptionMax);
 
   const imagePath = pickBriefImage(slug, lang);
-  const fullTitle = `${title} — LiveMakers Weekly Brief`;
 
   const og: Metadata["openGraph"] = {
     title,
@@ -69,8 +68,10 @@ export async function generateMetadata({
     twitter.images = [imagePath];
   }
 
+  // <title> は root layout の template が「 | LiveMakers」を付ける。ここで
+  // 「 — LiveMakers Weekly Brief」を足すとサイト名が二重になる (2026-11-16 設計 §5)
   return {
-    title: fullTitle,
+    title,
     description,
     openGraph: og,
     twitter,

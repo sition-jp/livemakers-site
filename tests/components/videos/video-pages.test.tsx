@@ -81,6 +81,46 @@ describe("動画の記事の関連記事", () => {
   });
 });
 
+describe("関連記事の種類のバッジ (2026-11-16 題のラベルを外す設計 §5)", () => {
+  const WITH_FAMILY: Video = {
+    ...EP001,
+    relatedArticles: [
+      { titleJa: "日米金利差の深掘り", href: "/articles/deep-dive-20261111-e56c533b", family: "deep-dive" },
+      { titleJa: "種類なしの記事", href: "/articles/some-article" },
+    ],
+  };
+
+  function badgesIn(container: HTMLElement) {
+    const items = [...container.querySelectorAll("[data-video-related] li")];
+    expect(items).toHaveLength(2);
+    return items.map((item) => item.querySelector("[data-family-badge]"));
+  }
+
+  it.each([
+    ["記事", (video: Video) => <VideoArticle video={video} />],
+    ["一覧", (video: Video) => <VideoList videos={[video]} />],
+  ])("%s: family があれば印つきのバッジ (リンクの中の span)・無ければ出さない", (_name, view) => {
+    const { container } = renderJa(view(WITH_FAMILY));
+    const [badge, none] = badgesIn(container);
+    expect(badge).not.toBeNull();
+    expect(badge!.tagName).toBe("SPAN");
+    expect(badge).toHaveAttribute("data-family-badge", "deep-dive");
+    expect(badge!.querySelector("[data-family-mark]")).toHaveTextContent("🔬");
+    expect(badge!.textContent).toBe("🔬 Deep Dive");
+    expect(badge!.closest("a")).toHaveAttribute("href", "/articles/deep-dive-20261111-e56c533b");
+    expect(none).toBeNull();
+    expect(container.querySelector("a a")).toBeNull();
+  });
+
+  it("repo の ep001 の関連記事は slug の種類でバッジを出す", () => {
+    const { container } = renderJa(<VideoArticle video={EP001} />);
+    expect(badgesIn(container).map((badge) => badge?.getAttribute("data-family-badge"))).toEqual([
+      "future-map",
+      "restart-map",
+    ]);
+  });
+});
+
 describe("動画の記事 (投稿後 — youtubeVideoId が入った状態)", () => {
   it("youtube-nocookie で埋め込み、チャプターが該当時刻へのリンクになる", () => {
     const { container } = renderJa(<VideoArticle video={POSTED} />);

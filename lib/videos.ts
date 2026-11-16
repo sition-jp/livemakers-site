@@ -3,6 +3,17 @@ import path from "node:path";
 
 import { z } from "zod";
 
+import type { ArticleFamily } from "@/lib/articles/article-model";
+import { FAMILY_MARK } from "@/lib/articles/family-mark";
+
+/**
+ * 関連記事の種類の一覧。FAMILY_MARK は `Record<ArticleFamily, string>` なので
+ * ARTICLE_FAMILIES と同じ全種類を持つ。article-model を実行時に読まないのは、
+ * 記事ページのテストが article-model を一部の種類だけで mock していて、記事ページ
+ * から読まれる動画の実データ (全種類の family を持つ) が落ちるため
+ */
+const RELATED_ARTICLE_FAMILIES = Object.keys(FAMILY_MARK) as [ArticleFamily, ...ArticleFamily[]];
+
 /**
  * YouTube 動画の受け皿 (/videos 一覧と /videos/<slug> の記事)。
  *
@@ -58,10 +69,20 @@ export const VideoMetaSchema = z
     /** この動画と関係のあるサイトの記事 (台本の `related` と同じ並び) */
     relatedArticles: z
       .array(
-        z.strictObject({
-          titleJa: z.string().min(1),
-          href: z.string().regex(/^\/articles\/[a-z0-9-]+$/),
-        }),
+        z
+          .strictObject({
+            titleJa: z.string().min(1),
+            href: z.string().regex(/^\/articles\/[a-z0-9-]+$/),
+            /**
+             * 記事の種類 (種類のバッジを出す・2026-11-16 題のラベルを外す設計 §5)。
+             * 任意。入れるなら slug の頭の種類と一致させる (`/articles/<family>-…`)
+             */
+            family: z.enum(RELATED_ARTICLE_FAMILIES).optional(),
+          })
+          .refine(
+            (article) => !article.family || article.href.startsWith(`/articles/${article.family}-`),
+            { message: "related article family must match the slug prefix" },
+          ),
       )
       .default([]),
   })

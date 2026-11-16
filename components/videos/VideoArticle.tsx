@@ -2,6 +2,8 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
+import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import { VideoEmbed } from "@/components/articles/VideoEmbed";
 import { X_HANDLE, YOUTUBE_CHANNEL_URL } from "@/lib/site";
 import {
@@ -31,6 +33,7 @@ function hostname(url: string): string {
  */
 export function VideoArticle({ video }: { video: Video }) {
   const t = useTranslations("videos");
+  const tArticles = useTranslations("articles");
   const groups = groupSourcesByChapter(video);
   const accessedDates = [...new Set(video.sources.map((source) => source.accessed))];
   const singleAccessed = accessedDates.length === 1 ? accessedDates[0] : null;
@@ -114,6 +117,15 @@ export function VideoArticle({ video }: { video: Video }) {
                   href={article.href}
                   className="block border border-border-primary bg-bg-secondary px-4 py-3 text-sm text-text-primary transition-colors hover:border-border-hover hover:text-pillar-overview"
                 >
+                  {/* 種類のバッジはリンクの中の span (href を渡さない = a を入れ子にしない) */}
+                  {article.family ? (
+                    <FamilyBadge
+                      family={article.family}
+                      label={tArticles(`family.${article.family}`)}
+                      className="mr-2 font-mono text-[10px] font-bold tracking-label"
+                      style={{ color: FAMILY_COLORS[article.family] }}
+                    />
+                  ) : null}
                   {article.titleJa}
                 </Link>
               </li>

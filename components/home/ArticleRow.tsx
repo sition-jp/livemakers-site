@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
 import type {
   ArticleFamily,
   ArticleLane,
@@ -56,16 +57,16 @@ export function ArticleRow({
         {article.titleJa}
       </span>
       <span className="mt-1.5 flex flex-wrap items-center gap-2">
-        <span
-          data-testid="article-row-chip"
+        <FamilyBadge
+          family={article.family}
+          label={familyLabel}
+          testId="article-row-chip"
           className="rounded-sm border px-1.5 py-0.5 text-[9px] font-bold tracking-label"
           style={{
             borderColor: FAMILY_COLORS[article.family],
             color: FAMILY_COLORS[article.family],
           }}
-        >
-          {familyLabel}
-        </span>
+        />
         <time dateTime={article.publishedAtJst} className="whitespace-nowrap font-mono text-[10px] text-text-tertiary">
           {article.publishedLabel}
         </time>

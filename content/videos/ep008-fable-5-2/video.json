@@ -18,19 +18,23 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜Claude Fable 5.2、Opus 5.5 並みの成績を半分の費用で",
-      "href": "/articles/signal-20261110-40bd8a79"
+      "href": "/articles/signal-20261110-40bd8a79",
+      "family": "signal"
     },
     {
       "titleJa": "Deep Dive｜Claude Fable 5.2 の波及を 6 つの領域で読む",
-      "href": "/articles/deep-dive-20261110-575f3439"
+      "href": "/articles/deep-dive-20261110-575f3439",
+      "family": "deep-dive"
     },
     {
       "titleJa": "Deep Dive｜Anthropic が測った AI 研究の加速、2 倍の線まで 1.88 倍",
-      "href": "/articles/deep-dive-20261110-b4c7aae1"
+      "href": "/articles/deep-dive-20261110-b4c7aae1",
+      "family": "deep-dive"
     },
     {
       "titleJa": "Signal｜Anthropic、1株70〜80ドルの価格帯を送付後に撤回",
-      "href": "/articles/signal-20261110-0a1523cc"
+      "href": "/articles/signal-20261110-0a1523cc",
+      "family": "signal"
     }
   ],
   "chapters": [

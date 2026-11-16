@@ -15,10 +15,12 @@ import { ArticlePrevNext } from "@/components/articles/ArticlePrevNext";
 import { FollowBox } from "@/components/articles/FollowBox";
 import { ShareButtons } from "@/components/articles/ShareButtons";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
 import { RelatedArticles } from "@/components/articles/RelatedArticles";
 import { SeriesRail, type SeriesRailCopy } from "@/components/articles/SeriesRail";
 import {
   ARTICLE_FAMILIES,
+  SERIES_SLUGS,
   getAllArticles,
   type ArticleFamily,
   type ArticleMeta,
@@ -29,6 +31,7 @@ import {
 } from "@/lib/articles/article-inflow-feed";
 import { buildArticleMetadata } from "@/lib/articles/article-metadata";
 import { formatPublishedLabelWithYear } from "@/lib/articles/published-date";
+import { seriesPageHref } from "@/lib/articles/series-pagination";
 import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
 import {
   loadArticleDetailContext,
@@ -133,6 +136,9 @@ export default async function ArticleDetailPage({
   const showToc = toc.length >= TOC_MIN_HEADINGS;
 
   const familyLabel = t(`family.${article.family}`);
+  const familySeriesHref = (SERIES_SLUGS as readonly string[]).includes(article.family)
+    ? seriesPageHref(article.family, 1)
+    : undefined;
   const familyLabels = Object.fromEntries(
     ARTICLE_FAMILIES.map((family) => [family, t(`family.${family}`)]),
   ) as Record<ArticleFamily, string>;
@@ -172,11 +178,18 @@ export default async function ArticleDetailPage({
       />
       <article className="mx-auto w-full max-w-[80ch] min-w-0">
         <header className="mb-8 border-b border-border-primary pb-6">
-          <p
-            className="mb-3 font-mono text-[10px] font-bold uppercase tracking-label"
-            style={{ color: FAMILY_COLORS[article.family] }}
-          >
-            {familyLabel}
+          {/* 文字の形は <p> に置く (行の高さを前と同じにする — バッジ側に置くと
+              <p> が既定の 16px の行になり、ヘッダーが約 9px 高くなる) */}
+          <p className="mb-3 font-mono text-[10px] font-bold uppercase tracking-label">
+            {/* 種類のバッジ = 同じ種類の一覧への入口 (2026-11-16 設計 §5-3)。
+                一覧ページの無い種類 (session・future-atlas) はリンクにしない */}
+            <FamilyBadge
+              family={article.family}
+              label={familyLabel}
+              href={familySeriesHref}
+              className={familySeriesHref ? "hover:underline" : undefined}
+              style={{ color: FAMILY_COLORS[article.family] }}
+            />
           </p>
           <h1 className="text-3xl font-bold leading-tight text-text-primary sm:text-4xl">
             {title}

@@ -1,4 +1,5 @@
 import { Link } from "@/i18n/navigation";
+import { FamilyBadge } from "@/components/articles/FamilyBadge";
 import { FAMILY_COLORS } from "@/components/home/ArticleRow";
 import type { ArticleMeta } from "@/lib/articles/article-model";
 import { splitForHighlight } from "@/lib/search/highlight";
@@ -87,12 +88,12 @@ export function SearchResultRow({
           </span>
         ) : null}
         <span className="mt-1.5 flex flex-wrap items-center gap-2">
-          <span
+          <FamilyBadge
+            family={article.family}
+            label={familyLabel}
             className="rounded-sm border px-1.5 py-0.5 text-[9px] font-bold tracking-label"
             style={{ borderColor: color, color }}
-          >
-            {familyLabel}
-          </span>
+          />
           <time
             dateTime={article.publishedAtJst}
             className="whitespace-nowrap font-mono text-[10px] text-text-tertiary"

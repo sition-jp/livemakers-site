@@ -290,6 +290,38 @@ describe("lib/videos の検証", () => {
     ).toThrow();
   });
 
+  it("関連記事の family は任意・入れるなら slug の頭の種類と一致", () => {
+    const withAndWithout = loadMutated((meta) => {
+      meta.relatedArticles = [
+        { titleJa: "深掘り", href: "/articles/deep-dive-20261111-e56c533b", family: "deep-dive" },
+        { titleJa: "種類なし", href: "/articles/some-article" },
+      ];
+    })()[0].relatedArticles;
+    expect(withAndWithout.map((article) => article.family)).toEqual(["deep-dive", undefined]);
+    expect(() =>
+      loadMutated((meta) => {
+        meta.relatedArticles = [
+          { titleJa: "食い違い", href: "/articles/deep-dive-20261111-e56c533b", family: "signal" },
+        ];
+      })(),
+    ).toThrow(/slug prefix/);
+    expect(() =>
+      loadMutated((meta) => {
+        meta.relatedArticles = [{ titleJa: "不明", href: "/articles/signal-1", family: "no-such-family" }];
+      })(),
+    ).toThrow();
+  });
+
+  it("repo の関連記事は slug の頭が種類なら family を持つ", () => {
+    for (const video of getAllVideos()) {
+      for (const article of video.relatedArticles) {
+        const slug = article.href.replace("/articles/", "");
+        const prefixed = /^[a-z0-9]+(?:-[a-z0-9]+)*?-\d{8}-/.test(slug);
+        if (prefixed) expect(article.family, article.href).toBeDefined();
+      }
+    }
+  });
+
   it("同じ URL の出典が 2 件あれば落とす", () => {
     expect(() =>
       loadMutated((_meta, sources) => {

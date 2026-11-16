@@ -18,15 +18,18 @@
   "relatedArticles": [
     {
       "titleJa": "Signal｜Anthropic、上場の価格帯を1株70〜78ドルに",
-      "href": "/articles/signal-20261111-44d961b0"
+      "href": "/articles/signal-20261111-44d961b0",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜TSMC、Anthropic と OpenAI に最大5億ドルずつ出資へ",
-      "href": "/articles/signal-20261111-eda893ef"
+      "href": "/articles/signal-20261111-eda893ef",
+      "family": "signal"
     },
     {
       "titleJa": "Signal｜Anthropic、1株70〜80ドルの価格帯を送付後に撤回",
-      "href": "/articles/signal-20261110-0a1523cc"
+      "href": "/articles/signal-20261110-0a1523cc",
+      "family": "signal"
     }
   ],
   "chapters": [
