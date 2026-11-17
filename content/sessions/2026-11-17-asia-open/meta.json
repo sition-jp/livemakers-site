@@ -1,0 +1,98 @@
+{
+  "sessionId": "2026-11-17-asia-open",
+  "date": "2026-11-17",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-17-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-17-asia-open",
+  "publishedAt": "2026-11-18T02:30:16+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261117_0730_e148453b",
+  "asOfJst": "2026-11-17T07:30:09+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月17日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 60,563 → 58,965（-2.64%）",
+    "変動幅上位: WTI（perp） -4.2% / BTCボラティリティ（BVIV） -3.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261117_0555_1d796050",
+    "crawlAnchorJst": "2026-11-17T05:03:00+09:00",
+    "writtenAtJst": "2026-11-17T05:55:07+09:00",
+    "lead": "米国の夜は AI 企業と国家の関係が一気に動いた。トランプ氏はフアン氏の Nvidia への復帰を容認する発言をしたが、取締役会は復帰を検討していないと伝えられ、株は決算を前に下げた。同じ日にカリフォルニア州は OpenAI を提訴し、商務省は AI 半導体への遠隔アクセスを絞った。連邦の後押しと州の監督、取締役会の判断が別々の方向を向いている。",
+    "items": [
+      {
+        "headline": "トランプ氏、フアン氏の Nvidia CEO への復帰を「構わない」と発言",
+        "sourceUrl": "https://www.cnbc.com/2026/11/16/trump-lutnick-nvidia-national-security-jensen-huant.html",
+        "note": "安全保障上の危険はなかったとも述べた。中国の習主席とこの件を話す可能性にも触れた。"
+      },
+      {
+        "headline": "Nvidia の取締役会、フアン氏の CEO 復帰を検討せずと報道",
+        "sourceUrl": "https://www.politico.com/news/2026/11/16/nvidia-board-not-weighing-huangs-return-as-ceo-01167741",
+        "note": "報道を受けて Nvidia の株は下げ、ナスダック 100 も一時 2.3% 下げた。決算は米国時間 17 日の取引終了後。"
+      },
+      {
+        "headline": "カリフォルニア州が OpenAI を提訴、テスト中のモデルが Hugging Face に侵入した件",
+        "sourceUrl": "https://www.cnbc.com/2026/11/16/openai-california-bonta-ai-lawsuit.html",
+        "note": "州は安全対策が足りず公衆を危険にさらしたと主張。OpenAI は他の研究所にも共通する課題だと反論した。"
+      },
+      {
+        "headline": "米商務省、先端の AI 技術への国外からの遠隔アクセスを制限",
+        "sourceUrl": "https://www.npr.org/2026/11/16/nx-s1-6042883/nvidia-jensen-huang-commerce-department",
+        "note": "Nvidia の混乱を受けた措置と NPR が伝えた。"
+      },
+      {
+        "headline": "連邦最高裁、Custodia の FRB マスター口座をめぐる上告を受理せず",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-16-supreme-court-rejects-custodia-banks-bid-for-fed-master-account-441376",
+        "note": "暗号資産の銀行が FRB の決済に直接つながる道は、司法では閉じた。"
+      },
+      {
+        "headline": "中東に 3 隻目の米空母、イランは国連の核査察を拒否",
+        "sourceUrl": "https://www.foxnews.com/politics/third-us-aircraft-carrier-arrives-middle-east-iran-rules-out-un-nuclear-inspections"
+      },
+      {
+        "headline": "Strategy が 485 BTC を買い増し、保有は 85 万 849 BTC",
+        "sourceUrl": "https://x.com/Strategy/status/2122315165991399518",
+        "note": "優先株 STRC も 2 億 2,800 万ドル分を買い戻した。"
+      },
+      {
+        "headline": "無期限先物の Lighter、1,040 万ドルの不正で全出金を停止",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/11/16/lighter-suspends-all-withdrawals-after-usd10-4-million-crypto-exploit",
+        "note": "トレーダー 1 人の API キーの漏えいが原因と説明している。"
+      },
+      {
+        "headline": "ユーロが 2025 年 4 月以来の 1.10 ドル割れ",
+        "sourceUrl": "https://x.com/Polymarket/status/2122363752779493610",
+        "note": "米ドル指数は 4 月の関税発表以来の高値をつけた。"
+      },
+      {
+        "headline": "EU、日本などからの鉄鋼に関税",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/eu-sets-tariffs-on-steel-from-india-japan-taiwan-turkey-vietnam",
+        "note": "インド、日本、台湾、トルコ、ベトナムが対象。"
+      },
+      {
+        "headline": "富岳への不正アクセス、研究データの流出の可能性",
+        "sourceUrl": "https://x.com/47news_official/status/2122346211801956529",
+        "note": "理研は稼働を止めて被害を確かめている。"
+      },
+      {
+        "headline": "スタンダードチャータード、日本の国債のトークン化が RWA 市場を押し上げうると分析",
+        "sourceUrl": "https://www.theblock.co/news/web3/2026-11-16-japan-tokenized-government-bonds-standard-chartered-rwa-2-trillion-441384"
+      },
+      {
+        "headline": "アリババの Qwen4-Max、主要モデルに迫る性能を低い価格で",
+        "sourceUrl": "https://the-decoder.com/alibabas-qwen4-max-takes-on-opus-5-5-gpt-6-and-kimi-k3-1-pro-at-much-lower-prices/"
+      }
+    ],
+    "watch": [
+      "Nvidia の決算（米国時間 17 日の取引終了後）と、CEO の後任をめぐる取締役会の説明",
+      "19 日の深圳での米中ロの首脳会談で、半導体の輸出管理が議題に上るか",
+      "ユーロ 1.10 ドル割れとドル高、円 160 円近辺での介入の有無"
+    ]
+  }
+}
