@@ -1,0 +1,96 @@
+{
+  "sessionId": "2026-11-17-global-close",
+  "date": "2026-11-17",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-17-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-17-global-close",
+  "publishedAt": "2026-11-18T02:30:16+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261117_2303_f7bf0ba5",
+  "asOfJst": "2026-11-17T23:03:08+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月17日 23:03 JST",
+  "bullets": [
+    "BTC/USD $64,158 → $65,046（+1.38%）",
+    "変動幅上位: BTC/USD +1.4% / S&P 500（perp） -1.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261117_2357_d9f8635c",
+    "crawlAnchorJst": "2026-11-17T23:03:00+09:00",
+    "writtenAtJst": "2026-11-17T23:57:07+09:00",
+    "lead": "夜の主役は日本の顧客情報の流出だ。楽天証券は最大約447万口座で年収や出金先口座まで外部に出たおそれを公表し、同じ夜にはマーケティング基盤への不正アクセスの波及としてJINSの最大1,800万件余りが報じられた。米国ではエヌビディアの決算を前にAI株が揺れ、アンソロピックの上場は価格帯の上限以上で決まる見通しと伝えられた。黒海ではウクライナがケルチ橋の道路部分を崩落させた。",
+    "items": [
+      {
+        "headline": "楽天証券に不正アクセス、最大約447万口座で年収・出金先口座などが漏えいのおそれ",
+        "sourceUrl": "https://x.com/nikkei/status/2122633582560612610",
+        "note": "11月11日にテスト環境の情報が外部に出たおそれ。パスワードと暗証番号の漏えい、不正取引は確認されていないと同社は説明する。"
+      },
+      {
+        "headline": "JINSで最大1,800万件余りの個人情報が漏えいの可能性",
+        "sourceUrl": "https://x.com/nhk_news/status/2122649212315983922",
+        "note": "マーケティング基盤KARTEを運営するプレイドへの不正アクセスが、利用企業の顧客情報へ波及した流れの一つと報じられた。"
+      },
+      {
+        "headline": "ウクライナ、クリミアとロシアを結ぶケルチ橋に大きな損傷",
+        "sourceUrl": "https://www.cnbc.com/2026/11/17/kerch-bridge-ukraine-russia-putin-kyiv.html",
+        "note": "ゼレンスキー大統領は前例のない作戦と表明。ロシア側は道路の通行を止めた。"
+      },
+      {
+        "headline": "アンソロピックの上場価格、仮条件の上限以上に誘導と伝えられた",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-17/anthropic-is-said-to-guide-ipo-price-to-top-of-range-or-above"
+      },
+      {
+        "headline": "上場後のアンソロピック株、アマゾンとグーグルで約28%を保有",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-17/amazon-google-to-have-about-28-of-anthropic-stock-after-ipo"
+      },
+      {
+        "headline": "エヌビディア、輸出規制を監督する取締役会の委員会を新設",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-17/nvidia-forms-export-control-board-committee-after-chip-curbs",
+        "note": "半導体の輸出規制の強化を受けた動き。決算発表の当日に重なった。"
+      },
+      {
+        "headline": "エヌビディア決算を前にアジアのハイテク株が下落、新興国株も安い",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-17/emerging-stocks-drop-as-nvidia-jitters-weigh-on-asian-tech"
+      },
+      {
+        "headline": "グーグル系のAI創薬Isomorphic Labs、50億ドルの資金調達を完了",
+        "sourceUrl": "https://x.com/IsomorphicLabs/status/2122661054723547449",
+        "note": "GreenoaksとSequoia Capitalが共同で主導した。"
+      },
+      {
+        "headline": "ウェルズ・ファーゴ、ビットコイン現物ETF「IBIT」の保有を倍以上の4,958万口に",
+        "sourceUrl": "https://x.com/CoinDesk/status/2122648678175289681"
+      },
+      {
+        "headline": "CFTC、ブロックチェーンを使う取引所と清算機関の申請を初めて承認",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2122444770307924309"
+      },
+      {
+        "headline": "ビットコインは6万5,000ドル近辺、ハイテク株の動きとエヌビディア決算待ち",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/17/live-updates-bitcoin-holds-near-usd64-000-as-tech-slides-ahead-of-nvidia-earnings"
+      },
+      {
+        "headline": "トランプ大統領、タイと貿易協定に署名",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/17/donald-trump-signs-trade-pact-thai-leader/"
+      },
+      {
+        "headline": "トランプ大統領、マニラでクアッドなど多国間のAI協力を打ち出す",
+        "sourceUrl": "https://www.politico.com/news/2026/11/17/trump-quad-ai-agreement-asean-01169316"
+      },
+      {
+        "headline": "Cardanoの新しいノード実装Dingo、メインネットで100ブロック目を生成",
+        "sourceUrl": "https://x.com/blinklabs_io/status/2122656591392440809"
+      }
+    ],
+    "watch": [
+      "エヌビディアの決算と説明会。フアン氏不在で初の決算になり、AI株と暗号資産の地合いを左右する。",
+      "11月19日のアンソロピック上場。公開価格と初値、AI関連の資金の流れ。",
+      "楽天証券とJINSの続報。金融庁の対応、対象企業の広がり、なりすまし連絡の被害。"
+    ]
+  }
+}

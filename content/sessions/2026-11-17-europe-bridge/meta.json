@@ -1,0 +1,100 @@
+{
+  "sessionId": "2026-11-17-europe-bridge",
+  "date": "2026-11-17",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-17-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-17-europe-bridge",
+  "publishedAt": "2026-11-18T02:30:16+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261117_1203_c299c0e1",
+  "asOfJst": "2026-11-17T12:03:03+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月17日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.1029 → 1.1008（-0.19%）",
+    "変動幅上位: WTI（perp） -3.1% / 米テック100（perp） -2.2%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261117_1240_da957374",
+    "crawlAnchorJst": "2026-11-17T12:03:00+09:00",
+    "writtenAtJst": "2026-11-17T12:40:12+09:00",
+    "lead": "昼の焦点は日本の空だ。ロシア機 2 機が福岡沖で領空を侵犯し、政府は外交ルートで抗議した。19 日の深圳での米中ロ首脳会談と高市首相の訪中を前に、周辺の軍事の動きが外交の場の空気を先に決めにいく。米国では Nvidia をめぐる議会と政権の動きが続き、市場は決算前の売りに傾いた。",
+    "items": [
+      {
+        "headline": "ロシア機 2 機が福岡県沖ノ島北西で領空侵犯、防衛省が発表",
+        "sourceUrl": "https://x.com/jijicom/status/2122495758368919840",
+        "note": "空自が緊急発進し無線で警告。2 機は与那国と台湾の間を通過した。"
+      },
+      {
+        "headline": "政府、ロシア機の領空侵犯に外交ルートで厳重抗議",
+        "sourceUrl": "https://x.com/Sankei_news/status/2122507291895484512",
+        "note": "木原官房長官は「わが国の主権の重大な侵害」と述べた。ロシア機の領空侵犯の確認は 2024 年以来。"
+      },
+      {
+        "headline": "スパコン「富岳」が不正アクセスで運用停止、研究データや SSH 鍵が流出の可能性",
+        "sourceUrl": "https://x.com/itmedia_news/status/2122506298780684570",
+        "note": "他のシステムへの接続の試みも確認された。官房長官は原因の究明を求めた。"
+      },
+      {
+        "headline": "CFTC、ブロックチェーン上で動くデリバティブの取引所と清算機関を承認 Backpack と tZERO",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-16-cftc-blockchain-derivatives-exchange-approval-backpack-tzero-441591"
+      },
+      {
+        "headline": "米民主党の上院議員、SEC のトークン化株式の適用除外に不正資金対策の穴があると警告",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-16-democratic-senators-warn-secs-tokenized-stock-exemption-illicit-finance-gaps-441432"
+      },
+      {
+        "headline": "米上院民主党議員 9 人、予測市場の地理的制限の撤廃を命じた CFTC に撤回を要求",
+        "sourceUrl": "https://x.com/coin_post/status/2122510533840539968"
+      },
+      {
+        "headline": "トランプ氏の口座が最大 9,750 万ドルの Nvidia 株を売買、フアン氏のホワイトハウス出入りと重なる時期",
+        "sourceUrl": "https://www.cnbc.com/2026/11/16/trump-nvidia-stock-trades-jensen-huang.html",
+        "note": "CNBC が開示資料から集計した。"
+      },
+      {
+        "headline": "Nvidia の法務責任者、議会での証言に応じる",
+        "sourceUrl": "https://www.politico.com/news/2026/11/16/nvidia-top-lawyer-testify-congress-01168851"
+      },
+      {
+        "headline": "ビットコイン、Nvidia の決算を前に 6 万ドル割れの恐れ",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/16/bitcoin-risks-falling-below-usd60-000-as-nvidia-earnings-threaten-to-deepen-crypto-sell-off"
+      },
+      {
+        "headline": "United Airlines で広範なシステム障害",
+        "sourceUrl": "https://x.com/axios/status/2122457689062011251"
+      },
+      {
+        "headline": "バンス副大統領、イラン戦争をめぐりトランプ氏との間に「隙間はない」",
+        "sourceUrl": "https://www.nbcnews.com/politics/jd-vance/vance-says-no-daylight-trump-iran-war-rcna609681"
+      },
+      {
+        "headline": "イラン外相がパキスタンで仲介の協議、トランプ氏は外交に冷淡",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/16/iranian-foreign-minister-pakistan-talks-mediation-effort-trump/"
+      },
+      {
+        "headline": "EU、日本製の鋼板に反ダンピング関税",
+        "sourceUrl": "https://x.com/47news_official/status/2122340927675195464",
+        "note": "共同通信の速報。対象品目と税率は EU 官報で確かめる段階。"
+      },
+      {
+        "headline": "モリサワ、委託先への不正アクセスで Morisawa Fonts 利用者の個人情報の一部が漏えい",
+        "sourceUrl": "https://x.com/Morisawa_JP/status/2122502545969209369"
+      },
+      {
+        "headline": "SpaceX、軌道から戻った Starship の船を発射塔のアームで受け止める映像を公開",
+        "sourceUrl": "https://x.com/SpaceX/status/2122427170328883425"
+      }
+    ],
+    "watch": [
+      "統合幕僚監部の発表で機数・経路・時刻を確かめ、ロシア側の説明が出るか",
+      "19 日の深圳の三首脳会談の前に、日中・日ロの接触があるか",
+      "Nvidia の決算と、ビットコインが 6 万ドルを保てるか"
+    ]
+  }
+}
