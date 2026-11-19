@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-11-19-ny-open",
+  "date": "2026-11-19",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-19-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-19-ny-open",
+  "publishedAt": "2026-11-20T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261119_1803_2a7d9e20",
+  "asOfJst": "2026-11-19T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月19日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 7,381.50 → 7,408.90（+0.37%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +5.7% / Coinbase（perp） -2.8%"
+  ]
+}

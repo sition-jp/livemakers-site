@@ -1,0 +1,22 @@
+{
+  "sessionId": "2026-11-19-global-close",
+  "date": "2026-11-19",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-19-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-19-global-close",
+  "publishedAt": "2026-11-20T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261119_2303_c2885cca",
+  "asOfJst": "2026-11-19T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月19日 23:03 JST",
+  "bullets": [
+    "BTC/USD $63,910 → $63,991（+0.13%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +2.2% / Gold（perp） -1.8%"
+  ]
+}
