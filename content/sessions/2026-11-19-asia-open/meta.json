@@ -1,0 +1,23 @@
+{
+  "sessionId": "2026-11-19-asia-open",
+  "date": "2026-11-19",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-19-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-19-asia-open",
+  "publishedAt": "2026-11-20T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261119_0730_f5e3f74d",
+  "asOfJst": "2026-11-19T07:30:08+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月19日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 59,215 → 58,892（-0.55%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +5.9% / Coinbase（perp） -5.5%"
+  ]
+}

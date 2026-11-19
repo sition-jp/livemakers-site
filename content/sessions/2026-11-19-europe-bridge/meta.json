@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-11-19-europe-bridge",
+  "date": "2026-11-19",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-19-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-19-europe-bridge",
+  "publishedAt": "2026-11-20T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261119_1203_195bde37",
+  "asOfJst": "2026-11-19T12:03:03+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月19日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.0997 → 1.0965（-0.29%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +8.3% / Coinbase（perp） -4.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261119_1239_b81c6d01",
+    "crawlAnchorJst": "2026-11-19T12:03:00+09:00",
+    "writtenAtJst": "2026-11-19T12:39:01+09:00",
+    "lead": "昼の主役は Anthropic の上場だ。公開価格は 83 ドルで決まり、AI の資本サイクルは今夜ナスダックで初値という形の値札を得る。同じ時間に深圳では米中ロの 3 首脳が並び、高市首相はプーチン氏と侵攻後初の対話に臨んだ。市場と外交の両方で、次の秩序の値段付けが同時に進んでいる。",
+    "items": [
+      {
+        "headline": "Anthropic、公開価格 83 ドルで IPO を決定 19 日にナスダックで取引開始",
+        "sourceUrl": "https://www.anthropic.com/news/anthropic-prices-initial-public-offering",
+        "note": "9.8 億株を売り出し、ティッカーは ANT。米証券取引委員会が 18 日に登録届出を発効させた。"
+      },
+      {
+        "headline": "Anthropic の日本向け売り出しは約 30 億ドル、仮条件の下限寄り",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-19/anthropic-raises-3-billion-in-japan-tranche-of-us-mega-ipo",
+        "note": "米国の大型上場の一部を日本の投資家が引き受けた。"
+      },
+      {
+        "headline": "Web サーバー nginx に脆弱性 10 件、HTTP/2 の欠陥は認証なしで遠隔からコード実行のおそれ",
+        "sourceUrl": "https://forest.watch.impress.co.jp/docs/news/2157695.html",
+        "note": "修正版は 1.31.9 と 1.30.7。世界の Web の土台にあたるソフトで、更新の速さが問われる。"
+      },
+      {
+        "headline": "高市首相とプーチン大統領、APEC で約 30 分の対話 拘束中の記者の解放を求める",
+        "sourceUrl": "https://x.com/Sankei_news/status/2123179504005001680",
+        "note": "日ロ首脳の対面はウクライナ侵攻後で初めて。"
+      },
+      {
+        "headline": "習近平・トランプ・プーチンの 3 首脳、深圳で初の 3 者会談へ",
+        "sourceUrl": "https://www.theguardian.com/world/live/2026/nov/19/apec-summit-trump-xi-putin-meeting-shenzhen-china",
+        "note": "トランプ氏は「歴史的な 3 者会談を楽しみにしている」と述べた。中身はこれから。"
+      },
+      {
+        "headline": "米国とベネズエラ、カラカスで防衛協定に署名",
+        "sourceUrl": "https://x.com/DOWResponse/status/2123169116320379238",
+        "note": "ヘグセス長官が現地で署名を発表した。マドゥロ政権後の暫定当局との関係が一段進む。"
+      },
+      {
+        "headline": "ロシア人の男、シリコンバレーの防衛技術企業の社員を狙ったスパイ容疑",
+        "sourceUrl": "https://www.nbcnews.com/politics/justice-department/russian-national-igor-diu-targeted-palantir-workers-sources-say-rcna610112",
+        "note": "NBC は関係者の話として、標的が Palantir の社員だったと伝えた。"
+      },
+      {
+        "headline": "シンガポール金融管理局、AI エージェントが資金を速く動かす金融リスクに警鐘",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-19/mas-warns-ai-agents-could-move-money-faster-raise-finance-risks"
+      },
+      {
+        "headline": "Standard Chartered・StraitsX・OCBC、トークン化預金の相互運用の実験を完了",
+        "sourceUrl": "https://www.theblock.co/news/web3/2026-11-18-standard-chartered-straitsx-ocbc-tokenized-deposit-poc-442964"
+      },
+      {
+        "headline": "独政府と UniCredit、Commerzbank 買収で合意と報道",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/banken-bundesregierung-und-unicredit-einigen-sich-bei-commerzbank-uebernahme/100271077.html"
+      },
+      {
+        "headline": "ElevenLabs、日本の音声 AI 企業 Kotoba を 159 億円で買収",
+        "sourceUrl": "https://www.itmedia.co.jp/aiplus/article/2611/19/2000003306/",
+        "note": "社員 15 人の会社に付いた値段が、日本語の音声 AI の評価を映す。"
+      },
+      {
+        "headline": "岩見沢市、固定資産税の土地・家屋データが漏えいのおそれ",
+        "sourceUrl": "https://x.com/piyokango/status/2123181713438429255",
+        "note": "再委託先の機器がマルウェアに感染した。市は不審な連絡への注意を呼びかけている。"
+      }
+    ],
+    "watch": [
+      "今夜のナスダックで Anthropic の初値がどこに付くか",
+      "深圳の米中ロ 3 者会談で、イラン・核軍備について共同の文書が出るか",
+      "nginx の修正版への更新が、主要なクラウドと配信網でどこまで進むか"
+    ]
+  }
+}
