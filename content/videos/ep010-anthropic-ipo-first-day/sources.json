@@ -1,0 +1,96 @@
+{
+  "episodeId": "ep010",
+  "sources": [
+    {
+      "key": "pricing_pr",
+      "title": "Anthropic, PBC — 値決めの Free Writing Prospectus (SEC EDGAR・2026-11-18 付・公開価格 83 ドル・980,000,000 株)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074937/anthropicpbc-fwppricing.htm",
+      "accessed": "2026-11-20",
+      "chapter": 1
+    },
+    {
+      "key": "final_prospectus",
+      "title": "Anthropic, PBC — 最終の目論見書 Form 424B4 (SEC EDGAR・2026-11-19 提出)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026074944/anthropicpbc-424b4.htm",
+      "accessed": "2026-11-20",
+      "chapter": 1
+    },
+    {
+      "key": "nasdaq_ant",
+      "title": "Nasdaq — ANT (Anthropic, PBC Class A) の値段と売買高 (初日 2026-11-19)",
+      "url": "https://www.nasdaq.com/market-activity/stocks/ant/historical",
+      "accessed": "2026-11-20",
+      "chapter": 1
+    },
+    {
+      "key": "s1a2",
+      "title": "Anthropic, PBC — Form S-1/A Amendment No. 2 (SEC EDGAR・2026-11-10)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072484/anthropicpbc-sx1ax2.htm",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "jp_amend",
+      "title": "Anthropic, PBC — 日本向けの届出書の訂正 (2026-11-11 関東財務局に提出・英訳を SEC に Form FWP で提出)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026073045/anthropicpbc-fwpjapanamend.htm",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "ipo_site",
+      "title": "Anthropic, PBC — 上場の案内サイトの写し (SEC に Form FWP で提出・2026-11-10 付。値決め 11/18・売買開始 11/19 の見込み)",
+      "url": "https://www.sec.gov/Archives/edgar/data/2130357/000162828026072949/anthropicpbc-fwpipowebsi.htm",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "rakuten_ipo",
+      "title": "楽天証券 — アンソロピック上場予定！IPO 株のブックビルディングに参加 (2026-11-12)",
+      "url": "https://www.rakuten-sec.co.jp/web/info/info20261102-02.html",
+      "accessed": "2026-11-13",
+      "chapter": 1
+    },
+    {
+      "key": "sbi_pr",
+      "title": "SBI 証券 — 米国株式 IPO「アンソロピック」の購入申込を受付開始 (2026-11-12)",
+      "url": "https://prtimes.jp/main/html/rd/p/000000969.000007957.html",
+      "accessed": "2026-11-13",
+      "chapter": 2
+    },
+    {
+      "key": "ecb_fx",
+      "title": "欧州中央銀行 — ユーロの参照為替レート (2026-11-18・1 ユーロ = 1.0968 ドル = 174.85 円 → 1 ドル = 159.42 円)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-20",
+      "chapter": 2
+    },
+    {
+      "key": "ndx_method",
+      "title": "Nasdaq — Nasdaq-100 Index Methodology (Fast Entry・入れ替えの日程)",
+      "url": "https://indexes.nasdaqomx.com/docs/methodology_NDX.pdf",
+      "accessed": "2026-11-13",
+      "chapter": 4
+    },
+    {
+      "key": "series_h",
+      "title": "Anthropic — Series H の発表 (2026-05-28・評価額 9,650 億ドル)",
+      "url": "https://www.anthropic.com/news/series-h",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "forbes_val",
+      "title": "Forbes — Anthropic IPO valuation talk falls to $1.3 trillion after the AI stock rout (2026-11-07・Bloomberg と FT の報道を引く)",
+      "url": "https://www.forbes.com/sites/jonmarkman/2026/11/07/anthropic-ipo-valuation-talk-falls-to-13-trillion-after-the-ai-stock-rout/",
+      "accessed": "2026-11-09",
+      "chapter": 3
+    },
+    {
+      "key": "fortune_range",
+      "title": "Fortune — Anthropic sets IPO range valuing it at up to $1.4 trillion amid AI stock sell-off (2026-11-10)",
+      "url": "https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/",
+      "accessed": "2026-11-13",
+      "chapter": 3
+    }
+  ]
+}

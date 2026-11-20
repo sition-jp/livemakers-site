@@ -120,7 +120,19 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.youtubeVideoId).toBe("DaU8Z4Go2tY");
   });
 
-  it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持ち、最新の投稿になる", () => {
+  it("ep010 は第 14 回・5 章・YouTube 概要欄と同じ時刻・出典 13 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep010-anthropic-ipo-first-day");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep010");
+    expect(video!.episodeNumber).toBe(14);
+    expect(video!.youtubeVideoId).toBe("CyUiWGgeJPQ");
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:15", "03:17", "05:57", "08:48"]);
+    expect(video!.durationSeconds).toBe(10 * 60 + 16);
+    expect(video!.sources).toHaveLength(13);
+    expect(getLatestPostedVideo()?.slug).toBe("ep010-anthropic-ipo-first-day");
+  });
+
+  it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持つ", () => {
     const video = getVideoBySlug("ep014-gdp-minus-boj-hike");
     expect(video).not.toBeNull();
     expect(video!.episodeId).toBe("ep014");
@@ -129,7 +141,6 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:07", "02:14", "04:17", "05:40"]);
     expect(video!.durationSeconds).toBe(7 * 60 + 5);
     expect(video!.sources).toHaveLength(7);
-    expect(getLatestPostedVideo()?.slug).toBe("ep014-gdp-minus-boj-hike");
   });
 
   it("ep012 は第 11 回・7 章・YouTube 概要欄と同じ時刻・出典 29 件を持つ", () => {
