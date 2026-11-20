@@ -1,0 +1,107 @@
+{
+  "sessionId": "2026-11-20-europe-bridge",
+  "date": "2026-11-20",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-20-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-20-europe-bridge",
+  "publishedAt": "2026-11-21T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261120_1203_41446b03",
+  "asOfJst": "2026-11-20T12:03:03+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月20日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.0967 → 1.0975（+0.07%）",
+    "変動幅上位: Gold（perp） -4.7% / 日経225（perp） -3.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261120_1237_98a87bdb",
+    "crawlAnchorJst": "2026-11-20T12:03:00+09:00",
+    "writtenAtJst": "2026-11-20T12:37:57+09:00",
+    "lead": "Anthropic の上場は、AI 相場の不安を拭えなかった。上場翌日のアジアでは半導体株と香港株が売られ、銅や新興国株にも売りが広がっている。カリフォルニア州司法長官は Nvidia に召喚状を出し、AI の中心企業に向く当局の目も厳しくなった。FRB のタカ派姿勢が残るなか、金は週間で大きく下げ、資金はドルへ向かっている。",
+    "items": [
+      {
+        "headline": "Anthropic、過去最大 1,073 億ドルの IPO の後、時間外で 5% 安",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/anthropic-shares-drop-post-market-on-apple-s-ai-agent-plans",
+        "note": "Apple が自前の AI エージェントを開発しているとの報道が重しになったと Bloomberg は伝えた。"
+      },
+      {
+        "headline": "アジアの半導体株が下落、Anthropic の上場でも AI への不安は消えず",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/asian-chip-stocks-slide-as-anthropic-ipo-fails-to-dispel-ai-woes"
+      },
+      {
+        "headline": "香港株、2026 年の高値から 20% 下落 AI 株の売りが広がる",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/hong-kong-stocks-hang-seng-hsi-hkex-2026-ai-selloff-bear-market"
+      },
+      {
+        "headline": "新興国株、AI 主導のハイテク安で弱気相場入りの手前に",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/emerging-market-stocks-set-for-bear-market-on-ai-led-tech-slide"
+      },
+      {
+        "headline": "銅の下落が深まる、AI 株の売りが金属市場にも波及",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/copper-rout-deepens-as-ai-selloff-wreaks-havoc-in-metals-markets"
+      },
+      {
+        "headline": "金、3 月以来の大幅な週間下落へ FRB のタカ派姿勢と AI 株安が重なる",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-19/gold-set-for-worst-week-since-march-on-hawkish-fed-ai-selloff"
+      },
+      {
+        "headline": "ドル、4 週連続の上昇へ",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/dollar-heads-for-fourth-week-of-gains-following-anthropic-ipo"
+      },
+      {
+        "headline": "シカゴ連銀のグールズビー総裁、インフレの強さを受け FOMC は「全ての選択肢がある」",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-19/fed-s-goolsbee-says-all-options-on-fomc-table-amid-hot-inflation"
+      },
+      {
+        "headline": "日本の消費者物価の伸びが今年最大に 日銀の利上げを後押し",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-19/japan-cpi-quickens-to-fastest-this-year-backing-boj-hike-case"
+      },
+      {
+        "headline": "スリランカ中銀、予想外の利上げ",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/sri-lanka-raises-policy-rate-to-ensure-inflation-reaches-target"
+      },
+      {
+        "headline": "カリフォルニア州司法長官、Nvidia に召喚状 中国への半導体流出を調べる",
+        "sourceUrl": "https://www.cnbc.com/2026/11/19/nvidia-california-bonta-subpoena-china-chips.html"
+      },
+      {
+        "headline": "JT、ロシアの子会社を連結から外し 1 兆 3,770 億円の損失を計上へ",
+        "sourceUrl": "https://x.com/nhk_news/status/2123305696246857850",
+        "note": "NHK の速報。JT の株価はこれを受けて下落した。"
+      },
+      {
+        "headline": "金融庁、事業者支援の促進と金融の円滑化について公表",
+        "sourceUrl": "https://www.fsa.go.jp/news/r8/ginkou/20261119-2/20261119-2.html"
+      },
+      {
+        "headline": "Intersect が管理する契約から Cardano の国庫へ戻った ADA が 2,317 万 ADA に",
+        "sourceUrl": "https://x.com/Cardano_Prime/status/2123547618622239214"
+      },
+      {
+        "headline": "Tesla の無人タクシー Cybercab、2 つ目の都市へ",
+        "sourceUrl": "https://x.com/Tesla/status/2123507319040528546"
+      },
+      {
+        "headline": "横浜銀行、顧客情報 11 万 6,500 件が外部に漏えいと発表",
+        "sourceUrl": "https://x.com/KanalocoLocal/status/2123522970371215789",
+        "note": "神奈川新聞の報道。対象はスマホアプリの利用者の一部などとされる。"
+      },
+      {
+        "headline": "湘南美容クリニックの SBC、162 万人分の個人情報が流出",
+        "sourceUrl": "https://x.com/itmedia_news/status/2123556961899962725",
+        "note": "ITmedia NEWS の報道。パスワードを暗号化せずに保存していたとされる。"
+      }
+    ],
+    "watch": [
+      "香港株と新興国株が週末に向けて下げ止まるか",
+      "日銀の利上げ判断に向けた国内物価の続き",
+      "カリフォルニア州の Nvidia 調査がどこまで広がるか"
+    ]
+  }
+}
