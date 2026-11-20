@@ -17,9 +17,12 @@ describe("overview page B+ composition wiring", () => {
     expect(source).toContain("await loadHomeCompositionProps()");
     // 段 1 (2026-11-12 入れ直し): 時間での作り直しは 6 時間 (公開・セッション時刻の合図が主)
     expect(source).toContain("export const revalidate = 21600");
-    expect(layoutSource).toContain("@/lib/home/load-home-composition");
-    // 2026-10-26: 共通の枠は記事カタログを読まない loader を使う
-    expect(layoutSource).toContain("await loadChromeProps()");
+    // 2026-11-20: 共通の枠の市場データは layout で読まない (ブラウザが /api/chrome から)。
+    // /api/chrome は記事カタログを読まない loader を使う (2026-10-26)
+    expect(layoutSource).not.toContain("@/lib/home/load-home-composition");
+    expect(
+      fs.readFileSync(path.join(process.cwd(), "app/api/chrome/route.ts"), "utf-8"),
+    ).toContain("await loadChromeProps()");
     expect(layoutSource).not.toContain("loadHomeCompositionProps");
     // 段 1 (2026-11-12): 保存は 1 日。鮮度は合図 (毎時の配信の path・cron のタグ) が担う
     expect(TERMINAL_FEED_REVALIDATE_SECONDS).toBe(86400);

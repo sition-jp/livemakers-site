@@ -225,7 +225,7 @@ describe("G41 page chrome", () => {
     expect(en.articles.family["future-atlas"]).toBe("Future Atlas");
   });
 
-  it("passes server-loaded chrome metadata through layout and SiteChrome", () => {
+  it("loads chrome metadata in the browser and passes the nav flag through layout", () => {
     const layout = fs.readFileSync(
       path.join(process.cwd(), "app/[locale]/layout.tsx"),
       "utf8",
@@ -234,18 +234,23 @@ describe("G41 page chrome", () => {
       path.join(process.cwd(), "components/layout/SiteChrome.tsx"),
       "utf8",
     );
-    // 2026-10-26: 共通の枠は記事カタログを読まない (loadChromeProps)
-    expect(layout).toContain("await loadChromeProps()");
-    expect(layout).toContain("getSnapshotChromeMeta(chrome.snapshot)");
+    // 2026-11-20: 市場データ (ticker・来歴帯) は layout で読まず、ブラウザが
+    // /api/chrome から読む (全ページの HTML を市場データの更新で変えない)。
+    // /api/chrome は記事カタログを読まない loader (loadChromeProps) を使う
+    expect(layout).not.toContain("loadChromeProps");
+    expect(layout).not.toContain("tickerItems");
     expect(layout).toContain("await loadFutureAtlas()");
+    const chromeRoute = fs.readFileSync(
+      path.join(process.cwd(), "app/api/chrome/route.ts"),
+      "utf8",
+    );
+    expect(chromeRoute).toContain("await loadChromeProps()");
+    expect(chromeRoute).toContain("getSnapshotChromeMeta(chrome.snapshot)");
+    expect(siteChrome).toContain("useChromeData()");
     // T4-2 (P0-7) の nav は実効 surfacePublished (config OR feed) だったが、
     // 2026-10-26 から共通の枠は config だけを見る (feed = 記事カタログを読まない)。
     // 未来アトラスの本体ページ・一覧ページは引き続き実効値で判定する
-    // 2026-08-14: ticker/来歴の全ページ化で props が増えた (複数行 JSX)
-    expect(layout).toContain("chromeMeta={chromeMeta}");
-    expect(layout).toContain("futureAtlasNav={surfacePublished}");
-    expect(layout).toContain("tickerItems={chrome.tickerItems}");
-    expect(layout).toContain("pageProvenance={chrome.pageProvenance}");
+    expect(layout).toContain("<SiteChrome futureAtlasNav={surfacePublished}>");
     expect(layout).toContain("futureAtlas.config.surfacePublished");
     expect(layout).not.toContain("loadEffectiveSurfacePublished");
     expect(siteChrome).toContain(
