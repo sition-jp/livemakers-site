@@ -41,6 +41,7 @@ const copy = {
   title: buildTestHomeCopy().gradient.signalTitle,
   familyLabels: buildTestHomeCopy().familyLabels,
   seriesLink: buildTestHomeCopy().gradient.signalSeriesLink,
+  viewAll: buildTestHomeCopy().gradient.signalViewAll,
   freshness: buildTestHomeCopy().gradient.signalFreshness,
 };
 
@@ -82,6 +83,25 @@ describe("SignalTimeline thumb rows (Phase 3b, 2026-08-14)", () => {
     const firstRow = container.querySelector("a[data-article-id]")!;
     expect(
       link.compareDocumentPosition(firstRow) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  it("also links to the signal series index after the last row, like the other boxes (2026-11-20)", () => {
+    const { container } = render(
+      <SignalTimeline
+        articles={[article({ articleId: "s1" }), article({ articleId: "s2" })]}
+        copy={copy}
+      />,
+    );
+    const links = container.querySelectorAll('a[href="/articles/series/signal"]');
+    expect(links).toHaveLength(2);
+    const bottom = links[1]!;
+    expect(bottom.textContent).toBe("Signal の記事をすべて見る →");
+    expect(bottom.closest("[data-index-nav]")).not.toBeNull();
+    const rows = container.querySelectorAll("a[data-article-id]");
+    const lastRow = rows[rows.length - 1]!;
+    expect(
+      lastRow.compareDocumentPosition(bottom) & Node.DOCUMENT_POSITION_FOLLOWING,
     ).toBeTruthy();
   });
 

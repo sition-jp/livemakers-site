@@ -167,6 +167,7 @@ export function CoincidentColumn({
               title: copy.gradient.signalTitle,
               familyLabels: copy.familyLabels,
               seriesLink: copy.gradient.signalSeriesLink,
+              viewAll: copy.gradient.signalViewAll,
               freshness: copy.gradient.signalFreshness,
             }}
           />

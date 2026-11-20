@@ -60,6 +60,7 @@ export interface HomeCopy {
     viewAll: string;
     dailyIntelSeriesLink: string;
     signalSeriesLink: string;
+    signalViewAll: string;
     deepDiveSeriesLink: string;
     fundingTitle: string;
     fundingViewAll: string;
@@ -155,6 +156,7 @@ export function buildHomeCopy(
       latestTitle: translate("gradient.latestTitle"),
       dailyIntelSeriesLink: translate("gradient.dailyIntelSeriesLink"),
       signalSeriesLink: translate("gradient.signalSeriesLink"),
+      signalViewAll: translate("gradient.signalViewAll"),
       deepDiveSeriesLink: translate("gradient.deepDiveSeriesLink"),
       fundingTitle: translate("gradient.fundingTitle"),
       fundingViewAll: translate("gradient.fundingViewAll"),

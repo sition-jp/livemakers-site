@@ -6,6 +6,8 @@ export interface SignalTimelineCopy {
   title: string;
   familyLabels: Record<ArticleFamily, string>;
   seriesLink: string;
+  /** 末尾の一覧リンク (他の欄と同じ形・2026-11-20 田平氏) */
+  viewAll: string;
   /** 整形済み (null = 描かない)。HomeCopy.gradient.signalFreshness 由来 */
   freshness: {
     todayCount: string | null;
@@ -20,6 +22,8 @@ export interface SignalTimelineCopy {
  * 昇格ペア除外) は selectSignalTimeline / selectHomeSlots が担い、本
  * コンポーネントは表示のみ。ヘッダ行 = 見出し + 鮮度 (今日 N 本 · 最新 MM-DD HH:MM・
  * null セグメントは描かない) + 右端にシリーズ一覧リンク (索引)。
+ * 2026-11-20 田平氏: 資金調達・Daily Intel の欄と同じく、最後の行の下にも
+ * シリーズ一覧への索引リンクを置く (見出しのリンクは残す)。
  */
 export function SignalTimeline({
   articles,
@@ -67,6 +71,14 @@ export function SignalTimeline({
             familyLabel={copy.familyLabels[article.family]}
           />
         ))}
+      </div>
+      <div data-index-nav className="mt-3">
+        <Link
+          href="/articles/series/signal"
+          className="text-xs font-bold text-accent"
+        >
+          {copy.viewAll}
+        </Link>
       </div>
     </section>
   );
