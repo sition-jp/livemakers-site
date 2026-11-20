@@ -16,8 +16,8 @@ import { FollowBox } from "@/components/articles/FollowBox";
 import { ShareButtons } from "@/components/articles/ShareButtons";
 import { ArticleThumbnail } from "@/components/articles/ArticleThumbnail";
 import { FamilyBadge } from "@/components/articles/FamilyBadge";
-import { RelatedArticles } from "@/components/articles/RelatedArticles";
-import { SeriesRail, type SeriesRailCopy } from "@/components/articles/SeriesRail";
+import { ArticleRelatedClient, ArticleSeriesRailClient } from "@/components/articles/ArticleRailClient";
+import type { SeriesRailCopy } from "@/components/articles/SeriesRail";
 import {
   ARTICLE_FAMILIES,
   SERIES_SLUGS,
@@ -32,18 +32,17 @@ import {
 import { buildArticleMetadata } from "@/lib/articles/article-metadata";
 import { formatPublishedLabelWithYear } from "@/lib/articles/published-date";
 import { seriesPageHref } from "@/lib/articles/series-pagination";
-import { getRelatedArticles, getSeriesNeighbors } from "@/lib/articles/related";
+import { getSeriesNeighbors } from "@/lib/articles/related";
 import {
-  loadArticleDetailContext,
-  type ArticleDetailContext,
+  loadArticleDetailFrame,
+  type ArticleDetailFrame,
 } from "@/lib/articles/article-detail-context";
 import { isArticleInflowV2Enabled } from "@/lib/articles/article-inflow-v2";
 import { ARTICLE_MDX_OPTIONS } from "@/lib/articles/article-mdx-options";
 import { applyArticleDisplayTransform } from "@/lib/articles/display-transform";
 import { createSourceCardCollector } from "@/lib/articles/source-links";
 import { extractToc } from "@/lib/articles/toc";
-import { loadFutureAtlas, type FutureAtlasData } from "@/lib/future-atlas/load";
-import { loadEffectiveSurfacePublished } from "@/lib/future-atlas/surface";
+import { loadFutureAtlas } from "@/lib/future-atlas/load";
 import { SITE_URL, X_HANDLE } from "@/lib/site";
 import { getLatestPostedVideo, getPostedVideoCards, getPostedVideoForArticle } from "@/lib/videos";
 
@@ -57,17 +56,10 @@ export const revalidate = 86400;
 
 const TOC_MIN_HEADINGS = 3;
 
-async function loadDetailContextFromCatalog(
-  article: ArticleMeta,
-  futureAtlas: FutureAtlasData,
-): Promise<ArticleDetailContext> {
-  const surfacePublished = await loadEffectiveSurfacePublished(futureAtlas);
+async function loadDetailFrameFromCatalog(article: ArticleMeta): Promise<ArticleDetailFrame> {
   const catalog = await loadPublicArticleInflowCatalog();
   return {
     neighbors: getSeriesNeighbors(catalog.articles, article),
-    related: getRelatedArticles(catalog.articles, article),
-    railArticles: catalog.articles,
-    surfacePublished,
     topics: [],
   };
 }
@@ -118,11 +110,14 @@ export default async function ArticleDetailPage({
   const { article, body } = detail;
   const title = language === "en" ? (article.titleEn ?? article.titleJa) : article.titleJa;
   const futureAtlas = await loadFutureAtlas();
-  // 段 2a (2026-10-27): v2 が有効なら v1 カタログ (1.6MB) を読まない。前後リンク・
-  // 関連記事・シリーズ欄は取れなければ空で描く (記事ページを 500 にしない)
-  const { neighbors, related, railArticles, surfacePublished, topics } = isArticleInflowV2Enabled()
-    ? await loadArticleDetailContext(article, futureAtlas.config)
-    : await loadDetailContextFromCatalog(article, futureAtlas);
+  // 段 2a (2026-10-27): v2 が有効なら v1 カタログ (1.6MB) を読まない。前後リンクは
+  // 取れなければ空で描く (記事ページを 500 にしない)。
+  // 2026-11-20 (Vercel ISR Writes 削減): 右レーンと関連記事は HTML に焼かず、
+  // ブラウザが別に読む (components/articles/ArticleRailClient)。新しい記事が出る
+  // たびに全記事ページの中身が変わり、作り直しのたびに書き込み料金が掛かっていた
+  const { neighbors, topics } = isArticleInflowV2Enabled()
+    ? await loadArticleDetailFrame(article)
+    : await loadDetailFrameFromCatalog(article);
   const manifestEntry = futureAtlas.manifest.entries.find((entry) => entry.articleId === article.articleId);
   const contracts = manifestEntry?.kind === "forecast"
     ? futureAtlas.contracts.filter((contract) => contract.articleId === article.articleId)
@@ -327,16 +322,14 @@ export default async function ArticleDetailPage({
           prevLabel={t("detail.prevLabel", { series: familyLabel })}
           nextLabel={t("detail.nextLabel", { series: familyLabel })}
         />
-        <RelatedArticles
-          articles={related}
+        <ArticleRelatedClient
+          current={article}
           title={t("detail.relatedTitle")}
           familyLabels={familyLabels}
         />
       </article>
-      <SeriesRail
-        articles={railArticles}
+      <ArticleSeriesRailClient
         current={article}
-        surfacePublished={surfacePublished}
         copy={railCopy}
         relatedVideo={
           relatedVideo

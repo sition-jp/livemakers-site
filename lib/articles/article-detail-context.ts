@@ -70,17 +70,21 @@ function withoutDuplicates(articles: ArticleMeta[]): ArticleMeta[] {
   });
 }
 
-export async function loadArticleDetailContext(
-  article: ArticleMeta,
-  config: Parameters<typeof effectiveSurfacePublished>[0],
-): Promise<ArticleDetailContext> {
-  const [rail, familyIndex, fundingIndex] = await Promise.all([
-    fetchArticleRail(),
+export type ArticleDetailFrame = Pick<ArticleDetailContext, "neighbors" | "topics">;
+
+/**
+ * 記事ページの HTML に焼く部分だけ (2026-11-20・Vercel ISR Writes 削減):
+ * 前後リンクと棚の印。どちらも新しい記事が出ても、その記事のシリーズの直前の
+ * 1 本 (次の記事へのリンクが付く) 以外は変わらない。右レーンと関連記事は
+ * 新しい記事が出るたびに全記事ページで変わるので、ブラウザが /api/article-rail
+ * から読む (components/articles/ArticleRailClient.tsx)。
+ */
+export async function loadArticleDetailFrame(article: ArticleMeta): Promise<ArticleDetailFrame> {
+  const [familyIndex, fundingIndex] = await Promise.all([
     isFamily(article.family) ? fetchArticleFamilyIndex(article.family) : Promise.resolve(null),
     fetchArticleTopicIndex("funding"),
   ]);
   const repository = repositoryArticles();
-
   const neighbors = familyIndex
     ? getSeriesNeighbors(
         withoutDuplicates([
@@ -90,17 +94,26 @@ export async function loadArticleDetailContext(
         article,
       )
     : { prev: null, next: null };
-
-  const { railArticles, surfacePublished } = railContextFrom(rail, repository, config);
-
   return {
     neighbors,
-    related: rail ? getRelatedArticles(railArticles, article) : [],
-    railArticles,
-    surfacePublished,
     topics: fundingIndex?.articles.some((entry) => entry.articleId === article.articleId)
       ? ["funding"]
       : [],
+  };
+}
+
+/** 前後リンク・棚の印に、右レーンと関連記事を足した全部 (テストと移行前の形)。 */
+export async function loadArticleDetailContext(
+  article: ArticleMeta,
+  config: Parameters<typeof effectiveSurfacePublished>[0],
+): Promise<ArticleDetailContext> {
+  const [frame, rail] = await Promise.all([loadArticleDetailFrame(article), fetchArticleRail()]);
+  const { railArticles, surfacePublished } = railContextFrom(rail, repositoryArticles(), config);
+  return {
+    ...frame,
+    related: rail ? getRelatedArticles(railArticles, article) : [],
+    railArticles,
+    surfacePublished,
   };
 }
 

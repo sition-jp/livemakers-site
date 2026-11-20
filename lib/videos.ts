@@ -6,6 +6,9 @@ import { z } from "zod";
 import type { ArticleFamily } from "@/lib/articles/article-model";
 import { FAMILY_MARK } from "@/lib/articles/family-mark";
 
+// 記事の右レーン (ブラウザで描く) からも使うので、fs を読まないモジュールに置く
+export { formatDurationJa } from "@/lib/videos-format";
+
 /**
  * 関連記事の種類の一覧。FAMILY_MARK は `Record<ArticleFamily, string>` なので
  * ARTICLE_FAMILIES と同じ全種類を持つ。article-model を実行時に読まないのは、
@@ -190,13 +193,6 @@ export function timestampToSeconds(timestamp: string): number {
 }
 
 /** 2303 → "38分23秒" */
-export function formatDurationJa(totalSeconds: number): string {
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  return `${hours > 0 ? `${hours}時間` : ""}${minutes}分${seconds}秒`;
-}
-
 /** YouTube の再生ページ。startSeconds を渡すとその時刻から再生する。 */
 export function youtubeWatchUrl(videoId: string, startSeconds = 0): string {
   const base = `https://www.youtube.com/watch?v=${videoId}`;
