@@ -1,8 +1,9 @@
 /* @vitest-environment jsdom */
 import { render, screen } from "@testing-library/react";
 import { usePathname } from "next/navigation";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { SiteChrome } from "@/components/layout/SiteChrome";
+import { resetChromeDataForTest } from "@/components/layout/useChromeData";
 
 const chromeMeta = { dateLabel: "2026-07-10（金）", asOfLabel: "07:58 JST" };
 const pageProvenance = {
@@ -13,11 +14,22 @@ const pageProvenance = {
 } as const;
 import type { MarketTickerItem } from "@/lib/terminal/market-lanes";
 
-const chromeProps = {
+const chromeData = {
   chromeMeta,
   tickerItems: [] as MarketTickerItem[],
   pageProvenance,
 };
+
+// 2026-11-20: ticker と来歴帯の中身はブラウザが /api/chrome から読む
+const chromeFetch = vi.fn(
+  async () => new Response(JSON.stringify(chromeData), { status: 200 }),
+);
+
+beforeEach(() => {
+  resetChromeDataForTest();
+  chromeFetch.mockClear();
+  vi.stubGlobal("fetch", chromeFetch);
+});
 
 vi.mock("next/navigation", () => ({
   usePathname: vi.fn(),
@@ -53,7 +65,7 @@ describe("SiteChrome", () => {
     mockedUsePathname.mockReturnValue("/ja/terminal-preview");
 
     render(
-      <SiteChrome {...chromeProps} futureAtlasNav={false}>
+      <SiteChrome futureAtlasNav={false}>
         <div>Preview</div>
       </SiteChrome>,
     );
@@ -69,7 +81,7 @@ describe("SiteChrome", () => {
     );
 
     render(
-      <SiteChrome {...chromeProps} futureAtlasNav={false}>
+      <SiteChrome futureAtlasNav={false}>
         <div>Inflow Preview</div>
       </SiteChrome>,
     );
@@ -79,20 +91,37 @@ describe("SiteChrome", () => {
     expect(screen.queryByTestId("site-footer")).toBeNull();
   });
 
-  it("keeps shared site chrome for normal site routes", () => {
+  it("keeps shared site chrome for normal site routes", async () => {
     mockedUsePathname.mockReturnValue("/ja/brief");
 
     render(
-      <SiteChrome {...chromeProps} futureAtlasNav={false}>
+      <SiteChrome futureAtlasNav={false}>
         <div>Brief</div>
       </SiteChrome>,
     );
 
     expect(screen.getByTestId("site-header")).toBeInTheDocument();
-    // 2026-08-14: ticker + 来歴帯も全ページ共通 chrome (3 段構成)
-    expect(screen.getByTestId("site-ticker")).toBeInTheDocument();
+    // 2026-08-14: ticker + 来歴帯も全ページ共通 chrome (3 段構成)。
+    // 2026-11-20: 中身はブラウザが /api/chrome から読んでから出す
+    expect(await screen.findByTestId("site-ticker")).toBeInTheDocument();
+    expect(chromeFetch).toHaveBeenCalledWith("/api/chrome");
     expect(screen.getByTestId("site-provenance")).toBeInTheDocument();
     expect(screen.getByText("Brief")).toBeInTheDocument();
     expect(screen.getByTestId("site-footer")).toBeInTheDocument();
+  });
+
+  it("keeps the chrome height with a placeholder strip until the market data arrives", () => {
+    mockedUsePathname.mockReturnValue("/ja/articles/sig-1");
+    chromeFetch.mockImplementationOnce(() => new Promise<Response>(() => {}));
+
+    const { container } = render(
+      <SiteChrome futureAtlasNav={false}>
+        <div>Article</div>
+      </SiteChrome>,
+    );
+
+    expect(container.querySelector('[data-chrome="pending"]')).not.toBeNull();
+    expect(screen.queryByTestId("site-ticker")).toBeNull();
+    expect(screen.getByText("Article")).toBeInTheDocument();
   });
 });

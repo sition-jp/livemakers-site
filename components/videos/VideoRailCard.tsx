@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
-import { formatDurationJa, type VideoCardData } from "@/lib/videos";
+import type { VideoCardData } from "@/lib/videos";
+import { formatDurationJa } from "@/lib/videos-format";
 
 export interface VideoRailCardProps {
   video: VideoCardData;

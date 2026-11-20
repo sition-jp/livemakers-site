@@ -6,8 +6,6 @@ import { routing } from "@/i18n/routing";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { GoogleAnalytics } from "@/components/layout/GoogleAnalytics";
 import { loadFutureAtlas } from "@/lib/future-atlas/load";
-import { loadChromeProps } from "@/lib/home/load-home-composition";
-import { getSnapshotChromeMeta } from "@/lib/home/market-snapshot";
 import { pickClientMessages } from "@/lib/i18n/client-messages";
 import { localeDefaultMetadata } from "@/lib/seo/locale-default-metadata";
 import { RSS_FEED_URL, SITE_NAME } from "@/lib/site";
@@ -67,10 +65,11 @@ export default async function LocaleLayout({
   // データキャッシュに載らず、全ページの作り直しのたびに取得が走っていた。
   // 未来アトラスの nav も config だけで決める (T4-2 の feed 判定 = カタログ読みは、
   // 未来アトラスの本体ページ・一覧ページ側に残す)
-  const chrome = await loadChromeProps();
+  // 2026-11-20 (Vercel ISR Writes 削減): 市場データ (ticker・来歴帯) も焼かない。
+  // ブラウザが /api/chrome から読む (SiteChrome)。全ページの HTML が市場データの
+  // 更新 (1 日 6 回) のたびに変わり、作り直しのたびに書き込み料金が掛かっていた
   const futureAtlas = await loadFutureAtlas();
   const surfacePublished = futureAtlas.config.surfacePublished;
-  const chromeMeta = getSnapshotChromeMeta(chrome.snapshot);
 
   // Applies a stored dark preference before first paint so there is no
   // light-flash for returning dark users. Light is the default and needs no
@@ -100,12 +99,7 @@ export default async function LocaleLayout({
             chrome 分の辞書だけを渡す。ページ固有の client component は
             ScopedIntlProvider で包む (lib/i18n/client-messages.ts) */}
         <NextIntlClientProvider messages={pickClientMessages(messages, "chrome")}>
-          <SiteChrome
-            chromeMeta={chromeMeta}
-            futureAtlasNav={surfacePublished}
-            tickerItems={chrome.tickerItems}
-            pageProvenance={chrome.pageProvenance}
-          >
+          <SiteChrome futureAtlasNav={surfacePublished}>
             {children}
           </SiteChrome>
         </NextIntlClientProvider>

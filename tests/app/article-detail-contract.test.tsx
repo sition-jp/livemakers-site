@@ -1,5 +1,5 @@
 /* @vitest-environment jsdom */
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -86,6 +86,7 @@ vi.mock("@/i18n/navigation", () => ({
 }));
 
 import ArticleDetailPage from "@/app/[locale]/articles/[slug]/page";
+import { resetArticleRailFeedForTest } from "@/components/articles/ArticleRailClient";
 
 const article = (
   articleId: string,
@@ -150,10 +151,28 @@ async function renderDetail(slug: string) {
   );
 }
 
+// 右レーンと関連記事はブラウザが /api/article-rail から読む (2026-11-20)。
+// このテストでは記事一覧 (catalog) をそのまま返す
+const railResponse = async () =>
+  new Response(JSON.stringify({ articles: catalog, surfacePublished: false }), { status: 200 });
+const railFetch = vi.fn(railResponse);
+
+async function renderDetailWithRail(slug: string) {
+  const result = await renderDetail(slug);
+  await waitFor(() =>
+    expect(result.container.querySelector("[data-rail-section]")).not.toBeNull(),
+  );
+  return result;
+}
+
 beforeEach(() => {
   mocks.loadCatalog.mockResolvedValue({ articles: catalog });
   mockDetail(catalog[1], LONG_BODY);
   mocks.notFound.mockClear();
+  resetArticleRailFeedForTest();
+  railFetch.mockReset();
+  railFetch.mockImplementation(railResponse);
+  vi.stubGlobal("fetch", railFetch);
 });
 
 describe("article detail two-column contract (G44 D9/D10)", () => {
@@ -169,7 +188,7 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
 
   // 2026-10-29 田平氏 GO: restart-map (金融再起動の現在地) が常設の枠に加わり 10 カテゴリ
   it("renders the ten-section rail with the current series first and current article excluded", async () => {
-    const { container } = await renderDetail("sig-mid");
+    const { container } = await renderDetailWithRail("sig-mid");
     const sections = [...container.querySelectorAll("[data-rail-section]")].map(
       (element) => element.getAttribute("data-rail-section"),
     );
@@ -197,6 +216,23 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
     expect(
       container.querySelector('[data-rail-section="future-atlas"] a[href="/articles/series/future-map"]'),
     ).not.toBeNull();
+  });
+
+  // 2026-11-20 (Vercel ISR Writes 削減): Vercel は作り直したページの中身が前回と
+  // 同じなら書き込みを課金しない。別のシリーズの記事が新しく出ても、記事ページの
+  // サーバーの HTML は 1 バイトも変わらないこと (右レーンと関連記事はブラウザが読む)
+  it("keeps the server HTML identical when another series publishes a new article", async () => {
+    railFetch.mockImplementation(() => new Promise<Response>(() => {}));
+    const before = (await renderDetail("sig-mid")).container.innerHTML;
+    expect(before).not.toContain('data-rail-section="latest-articles"');
+    expect(before).not.toContain("data-article-related");
+
+    mocks.loadCatalog.mockResolvedValue({
+      articles: [article("intel-new", "daily-intel", "2026-07-10T08:00:00+09:00", ["crypto"]), ...catalog],
+    });
+    const after = (await renderDetail("sig-mid")).container.innerHTML;
+    expect(after).toBe(before);
+    expect(railFetch).toHaveBeenCalledWith("/api/article-rail");
   });
 
   it("links the same-series neighbors and drops the missing side at the edges", async () => {
@@ -232,7 +268,7 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
   });
 
   it("lists up to four related articles excluding the current one", async () => {
-    const { container } = await renderDetail("sig-mid");
+    const { container } = await renderDetailWithRail("sig-mid");
     const related = container.querySelectorAll("[data-article-related] [data-article-id]");
     expect(related.length).toBeGreaterThanOrEqual(2);
     expect(related.length).toBeLessThanOrEqual(4);
@@ -344,7 +380,7 @@ describe("article detail two-column contract (G44 D9/D10)", () => {
   });
 
   it("keeps every rail / prev-next / related link inside the public ledgers", async () => {
-    const { container } = await renderDetail("sig-mid");
+    const { container } = await renderDetailWithRail("sig-mid");
     const anchors = container.querySelectorAll(
       "[data-article-rail] a[href], [data-article-prev-next] a[href], [data-article-related] a[href]",
     );
