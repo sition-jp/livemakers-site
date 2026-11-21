@@ -129,7 +129,18 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:15", "03:17", "05:57", "08:48"]);
     expect(video!.durationSeconds).toBe(10 * 60 + 16);
     expect(video!.sources).toHaveLength(13);
-    expect(getLatestPostedVideo()?.slug).toBe("ep010-anthropic-ipo-first-day");
+  });
+
+  it("ep015 は第 15 回・5 章・YouTube 概要欄と同じ時刻・出典 13 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep015-nikkei-3007-nisa");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep015");
+    expect(video!.episodeNumber).toBe(15);
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual(["00:00", "01:01", "02:30", "04:14", "05:53"]);
+    expect(video!.youtubeVideoId).toBe("oZUfZQ5ZTbc");
+    expect(video!.durationSeconds).toBe(7 * 60 + 20);
+    expect(video!.sources).toHaveLength(13);
+    expect(getLatestPostedVideo()?.slug).toBe("ep015-nikkei-3007-nisa");
   });
 
   it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持つ", () => {
