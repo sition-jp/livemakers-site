@@ -1,0 +1,96 @@
+{
+  "episodeId": "ep015",
+  "sources": [
+    {
+      "key": "nikkei_daily",
+      "title": "日経平均プロフィル — ヒストリカルデータ (日次・月次)",
+      "url": "https://indexes.nikkei.co.jp/nkave/archives/data?list=daily",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "nikkei_record",
+      "title": "日経平均プロフィル — 上昇・下落記録 (下落幅上位・下落率上位)",
+      "url": "https://indexes.nikkei.co.jp/nkave/archives/record",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "nasdaq_comp",
+      "title": "Nasdaq — ナスダック総合指数 (COMP) の値と過去データ",
+      "url": "https://www.nasdaq.com/market-activity/index/comp/historical",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "nasdaq_nvda",
+      "title": "Nasdaq — NVIDIA (NVDA) の終値と過去データ",
+      "url": "https://www.nasdaq.com/market-activity/stocks/nvda/historical",
+      "accessed": "2026-11-21",
+      "chapter": 2
+    },
+    {
+      "key": "ust_yield",
+      "title": "米財務省 — 国債の日次の利回り (10 年)",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve",
+      "accessed": "2026-11-21",
+      "chapter": 2
+    },
+    {
+      "key": "orukan_nav",
+      "title": "三菱 UFJ アセットマネジメント — eMAXIS Slim 全世界株式 (オール・カントリー) 基準価額の推移",
+      "url": "https://www.am.mufg.jp/fund/253425.html",
+      "accessed": "2026-11-21",
+      "chapter": 3
+    },
+    {
+      "key": "orukan_monthly",
+      "title": "三菱 UFJ アセットマネジメント — eMAXIS Slim 全世界株式 (オール・カントリー) 月次レポート (2026-10-30)",
+      "url": "https://robotfund-roborepo.s3.amazonaws.com/g/report-03-JP90C000H1T1.html",
+      "accessed": "2026-11-21",
+      "chapter": 3
+    },
+    {
+      "key": "orukan_prospectus",
+      "title": "三菱 UFJ アセットマネジメント — eMAXIS Slim 全世界株式 (オール・カントリー) 請求目論見書 (2026-07-25)・資産の評価",
+      "url": "https://www.am.mufg.jp/pdf/seimokuromi/253425/253425_20260725.pdf",
+      "accessed": "2026-11-21",
+      "chapter": 3
+    },
+    {
+      "key": "jpx_holiday",
+      "title": "日本取引所グループ — 祝日取引 (2026 年 11 月 23 日は実施しない)",
+      "url": "https://www.jpx.co.jp/derivatives/rules/holidaytrading/index.html",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "nyse_hours",
+      "title": "NYSE — Holidays & Trading Hours (2026 年の休場)",
+      "url": "https://www.nyse.com/trade/hours-calendars",
+      "accessed": "2026-11-21",
+      "chapter": 4
+    },
+    {
+      "key": "fred_sp500",
+      "title": "セントルイス連銀 FRED — S&P 500 (SP500) の日次の終値",
+      "url": "https://fred.stlouisfed.org/series/SP500",
+      "accessed": "2026-11-21",
+      "chapter": 3
+    },
+    {
+      "key": "fed_fomc",
+      "title": "FRB — FOMC の日程 (2026-12-08〜09)",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "accessed": "2026-11-21",
+      "chapter": 4
+    },
+    {
+      "key": "bls_schedule",
+      "title": "米労働統計局 — 雇用統計の公表予定 (11 月分は 2026-12-04)",
+      "url": "https://www.bls.gov/schedule/news_release/empsit.htm",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    }
+  ]
+}
