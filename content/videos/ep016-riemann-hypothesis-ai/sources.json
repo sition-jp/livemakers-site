@@ -1,0 +1,138 @@
+{
+  "episodeId": "ep016",
+  "sources": [
+    {
+      "key": "remark",
+      "title": "Levent Alpöge — 声明 (4 ページ・2026-11-20・リーマン予想と一般化リーマン予想の証明を Claude と見つけたと考えている)",
+      "url": "https://alpo.ge/remark.pdf",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "lean_files",
+      "title": "Levent Alpöge — Lean の形式化ファイル (14 分割の 1 つ目)",
+      "url": "https://alpo.ge/lean.tar.gz.part01",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    },
+    {
+      "key": "drew_grh",
+      "title": "Andrew Sutherland (MIT) — 検証の結果のページ (2026-11-20 22:05 UTC 時点・検査は Claude Code で実行)",
+      "url": "https://math.mit.edu/~drew/grh/",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "mathlib_rh",
+      "title": "Mathlib — RiemannHypothesis の定義 (「これを証明すれば 100 万ドルの価値がある」の注記)",
+      "url": "https://leanprover-community.github.io/mathlib4_docs/Mathlib/NumberTheory/LSeries/RiemannZeta.html#RiemannHypothesis",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    },
+    {
+      "key": "lean_validate",
+      "title": "Lean の公式の手引き — 証明の確かめ方 (Validating a Lean Proof)",
+      "url": "https://lean-lang.org/doc/reference/latest/ValidatingProofs/",
+      "accessed": "2026-11-21",
+      "chapter": 7
+    },
+    {
+      "key": "oeis_primes",
+      "title": "OEIS A000040 — 素数の列",
+      "url": "https://oeis.org/A000040",
+      "accessed": "2026-11-21",
+      "chapter": 2
+    },
+    {
+      "key": "oeis_pi",
+      "title": "OEIS A006880 — 10 の n 乗までの素数の個数 (100 までに 25 個・100 万までに 78,498 個・1 億までに 5,761,455 個)",
+      "url": "https://oeis.org/A006880",
+      "accessed": "2026-11-21",
+      "chapter": 2
+    },
+    {
+      "key": "oeis_li",
+      "title": "OEIS A057752 — 見積もりの式 (対数積分) と素数の個数の差 (100 万で 130・1 億で 754)",
+      "url": "https://oeis.org/A057752",
+      "accessed": "2026-11-21",
+      "chapter": 2
+    },
+    {
+      "key": "clay_rh",
+      "title": "クレイ数学研究所 — リーマン予想 (1859 年の論文・自明でない零点は実部 1/2 の線の上)",
+      "url": "https://www.claymath.org/millennium/riemann-hypothesis/",
+      "accessed": "2026-11-21",
+      "chapter": 1
+    },
+    {
+      "key": "clay_millennium",
+      "title": "クレイ数学研究所 — ミレニアム懸賞問題 (7 問・2000 年・1 問 100 万ドル)",
+      "url": "https://www.claymath.org/millennium-problems/",
+      "accessed": "2026-11-21",
+      "chapter": 3
+    },
+    {
+      "key": "clay_rules",
+      "title": "クレイ数学研究所 — ミレニアム懸賞の規則 (2018 年 9 月 26 日改訂)",
+      "url": "https://www.claymath.org/millennium-problems/rules/",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    },
+    {
+      "key": "afp_jacobian",
+      "title": "Archive of Formal Proofs — ヤコビアン予想の反例の形式検証 (2026-07-20)",
+      "url": "https://www.isa-afp.org/entries/Jacobian_Counterexample.html",
+      "accessed": "2026-11-21",
+      "chapter": 4
+    },
+    {
+      "key": "openai_ns",
+      "title": "OpenAI — ナビエ・ストークス方程式のミレニアム懸賞問題 (2026-09-08・外から力を加える形・飛行機の設計、天気予報、血流の研究に使われる方程式)",
+      "url": "https://openai.com/index/navier-stokes-solution/",
+      "accessed": "2026-11-21",
+      "chapter": 4
+    },
+    {
+      "key": "ns_repo",
+      "title": "L. Alpöge・T. Buckmaster — ナビエ・ストークス方程式の有限時間の爆発 (論文 79 ページ・2026-11-20 版・Lean の形式化)",
+      "url": "https://github.com/tristanbuckmaster/navier-stokes/",
+      "accessed": "2026-11-21",
+      "chapter": 7
+    },
+    {
+      "key": "tao_blog",
+      "title": "Terence Tao — ブログ (2026-11-20・3 つの成果を消化の順に並べる・「巨大な Lean だけの証明」・コメント欄)",
+      "url": "https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    },
+    {
+      "key": "vakil_blog",
+      "title": "Ravi Vakil — ブログ (2026-11-20・マズッロ氏の一般化リーマン予想の証明の草稿・AI なし)",
+      "url": "https://math216.wordpress.com/2026/11/20/hurried-announcement-alessandro-masullo-grh/",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    },
+    {
+      "key": "helfgott",
+      "title": "H. A. Helfgott — The ternary Goldbach conjecture is true (arXiv 1312.7748・2013-12-30。§1.2.1 に 1997 年の一般化リーマン予想のもとでの証明 [DEtRZ97])",
+      "url": "https://arxiv.org/abs/1312.7748",
+      "accessed": "2026-11-21",
+      "chapter": 7
+    },
+    {
+      "key": "polymarket_lean",
+      "title": "Polymarket — アルポゲ氏の Lean の証明は 2026 年中に独立した検証を通るか (2026-11-21 07:36 JST に 88.5%)",
+      "url": "https://polymarket.com/event/alpoge-riemann-hypothesis-lean-proof-independently-verified-in-2026",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    },
+    {
+      "key": "polymarket_clay",
+      "title": "Polymarket — クレイ数学研究所はリーマン予想の解決を認めるか (2026 年末 1.95%・2027 年末 10.5%)",
+      "url": "https://polymarket.com/event/will-cmi-declare-the-riemann-hypothesis-solved-by-20260812114814549",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    }
+  ]
+}

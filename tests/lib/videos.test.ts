@@ -140,7 +140,27 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.youtubeVideoId).toBe("oZUfZQ5ZTbc");
     expect(video!.durationSeconds).toBe(7 * 60 + 20);
     expect(video!.sources).toHaveLength(13);
-    expect(getLatestPostedVideo()?.slug).toBe("ep015-nikkei-3007-nisa");
+  });
+
+  it("ep016 は第 16 回・8 章・YouTube 概要欄と同じ時刻・出典 19 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep016-riemann-hypothesis-ai");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep016");
+    expect(video!.episodeNumber).toBe(16);
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "01:26",
+      "03:17",
+      "05:07",
+      "06:59",
+      "09:23",
+      "10:51",
+      "13:41",
+    ]);
+    expect(video!.youtubeVideoId).toBe("jo2Pm1xi8Qg");
+    expect(video!.durationSeconds).toBe(16 * 60 + 9);
+    expect(video!.sources).toHaveLength(19);
+    expect(getLatestPostedVideo()?.slug).toBe("ep016-riemann-hypothesis-ai");
   });
 
   it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持つ", () => {
