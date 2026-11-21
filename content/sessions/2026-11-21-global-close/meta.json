@@ -1,0 +1,97 @@
+{
+  "sessionId": "2026-11-21-global-close",
+  "date": "2026-11-21",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-21-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-21-global-close",
+  "publishedAt": "2026-11-22T02:30:09+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261121_2303_53b34923",
+  "asOfJst": "2026-11-21T23:03:06+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月21日 23:03 JST",
+  "bullets": [
+    "BTC/USD $61,845 → $60,789（-1.71%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +17.8% / ETH/USD -2.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261121_0102_25150192",
+    "crawlAnchorJst": "2026-11-21T23:03:00+09:00",
+    "writtenAtJst": "2026-11-22T01:02:08+09:00",
+    "lead": "週末を前に、ビットコインは 5.5 万ドル台まで売られた後に 6 万ドルを取り戻し、24 時間の強制決済は 19 億ドル規模に膨らんだ。下げの燃料だった買い建ての清算帯は一掃され、相場は売り手の側の巻き戻しに移った。一方で欧州中央銀行はトークン化預金と証券の実験参加を民間に募り、制度の側の準備は市場の混乱と関係なく進んでいる。国内では KARTE 経由の漏えいに ZOZOTOWN が加わり、委託先の連鎖が数千万件の規模になった。",
+    "items": [
+      {
+        "headline": "暗号資産の先物で 24 時間に約 19 億ドルの建玉が強制決済",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2123937005889290583",
+        "note": "ビットコインが 6 万ドルを割り込む下げの中で、29 万人超のトレーダーのポジションが清算されたと伝えられた。"
+      },
+      {
+        "headline": "Glassnode、5.9 万〜6.2 万ドルに積み上がっていた買い建ての清算帯が一掃されたと分析",
+        "sourceUrl": "https://x.com/glassnode/status/2124105108548206708",
+        "note": "数か月追ってきた密集帯が消え、下げを加速させる燃料の一つがなくなったという見立て。"
+      },
+      {
+        "headline": "Kraken の BTC/カナダドル建てで価格が一時大きく乖離 取引所は侵害を否定し約定は有効と説明",
+        "sourceUrl": "https://x.com/WuBlockchain/status/2124114805875503255",
+        "note": "他の取引所で 5.7 万ドル前後の時間帯に、同ペアだけが極端に安い値を付けた。"
+      },
+      {
+        "headline": "欧州中央銀行、トークン化預金とトークン化証券の実験に参加する民間の共同体を募集",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2124079194032533739",
+        "note": "ユーロシステムの Appia 構想の次の段階。最初の実験の応募締切は 12 月 11 日。"
+      },
+      {
+        "headline": "マイケル・バーリ氏、エヌビディアのプットを売却 ナスダック 100 のポジションは維持",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2123993605127770180",
+        "note": "ブルームバーグの報道。半導体の下げ局面で弱気の賭けの一部を利益確定した形。"
+      },
+      {
+        "headline": "エヌビディア株が 10% を超えて下落 SEC が会計慣行を調査とロイター報道",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2123880388560834832"
+      },
+      {
+        "headline": "セイラー氏、Strategy の優先株 STRC を約 77 億ドルから 50 億ドル方向へ縮める可能性に言及",
+        "sourceUrl": "https://x.com/BitcoinNews/status/2124147069262746036",
+        "note": "資金を集め続けるより規模を絞る選択肢を示した。"
+      },
+      {
+        "headline": "イーサを保有する BTCS、Aave での 5,400 万ドルの借り入れが清算されうると SEC に開示",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/21/ether-treasury-firm-btcs-warns-sec-its-usd54-million-aave-loan-could-be-liquidated",
+        "note": "価格下落が暗号資産を財務に抱える上場企業の担保に波及し始めた。"
+      },
+      {
+        "headline": "ZOZOTOWN でも約 1,518 万人分の情報が漏えい KARTE への不正アクセス",
+        "sourceUrl": "https://x.com/47news_official/status/2123730333304819922",
+        "note": "ZOZO の公表では WEAR の約 1,393 万人分も対象。パスワードとカード情報は対象外とされる。"
+      },
+      {
+        "headline": "公明党、来春の統一地方選で自民系候補を推薦しない方針",
+        "sourceUrl": "https://x.com/Sankei_news/status/2124112734749069744",
+        "note": "議員定数の削減や閣僚の疑惑への反発が背景と報じられた。"
+      },
+      {
+        "headline": "デビット決済が急増し、Suica などの電子マネーを逆転 背景に銀行の預金獲得競争",
+        "sourceUrl": "https://x.com/nikkei/status/2123963972344782899"
+      },
+      {
+        "headline": "Etsy、規約に作品の AI 学習への利用を加え出品者が反発 「作品を真似る AI には使わない」と説明",
+        "sourceUrl": "https://www.engadget.com/2324090/etsy-not-use-seller-content-train-ai/",
+        "note": "新しい規約は 12 月 16 日に発効予定と伝えられた。"
+      },
+      {
+        "headline": "SpaceX、米宇宙軍の USSF-317 をカリフォルニアから打ち上げ",
+        "sourceUrl": "https://x.com/SpaceX/status/2124122550339002718"
+      }
+    ],
+    "watch": [
+      "ビットコインが 6 万ドルを週明けまで保てるか。清算帯が消えた後の値動きが、売りの一巡か一時的な買い戻しかを分ける。",
+      "暗号資産を財務に抱える企業の担保と借り入れ。BTCS のような開示が続くか。",
+      "ECB の Appia 実験の応募締切 12 月 11 日に向け、どの銀行・証券の共同体が名乗りを上げるか。"
+    ]
+  }
+}
