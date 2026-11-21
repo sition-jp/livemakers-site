@@ -80,7 +80,11 @@ export function buildArticleMetadata({
     : undefined;
 
   const url = `/${lang}/articles/${article.articleId}`;
-  const indexable = isSearchIndexableFamily(article.family);
+  // 2026-11-21 (田平氏 GO・案 2): 記事には英語の本文が無く、/en は日本語の本文を
+  // そのまま描く (inflow feed の契約に英語の本文が無い)。同じ日本語の記事を
+  // 「英語版」として 2 つ目の URL で検索に出さない — /en は noindex (リンクは
+  // たどらせる)。訳が入る日が来たら、訳のある記事だけここで戻す
+  const indexable = lang === "ja" && isSearchIndexableFamily(article.family);
 
   // 画像が無い記事 (mirror lane 例外) では images を宣言しない。
   // 存在しない URL を渡すより、X には画像なしのカードを組ませる。
@@ -125,18 +129,14 @@ export function buildArticleMetadata({
     twitter,
     alternates: {
       canonical: url,
-      // G3 (2026-09-11): <head> hreflang。既存の HTTP header 機構 (next-intl
-      // middleware の Link header) はそのまま・これは <link rel="alternate">
-      // タグの追加。inflow feed に英語本文が無い現状は ja/en とも同じ本文を
-      // 指すが、URL 自体は両方実在するルートなので false negative にはならない。
-      languages: {
-        ja: `/ja/articles/${article.articleId}`,
-        en: `/en/articles/${article.articleId}`,
-        "x-default": `/ja/articles/${article.articleId}`,
-      },
+      // hreflang は出さない (2026-11-21 田平氏 GO・案 2)。G3 (2026-09-11) では
+      // ja/en/x-default を出していたが、英語の訳が無いのに「英語版」を案内し、
+      // 日本語の複製を Google に読ませていた。HTTP の Link ヘッダー (next-intl)
+      // も記事の詳細ページだけ外す (proxy.ts)
     },
     // G3: Discover / News 向けに画像・スニペットのプレビュー上限を外す。
     // 速報など検索に出さない種類は noindex (リンクはたどらせる・2026-11-10)。
+    // /en も noindex (2026-11-21)。
     robots: {
       index: indexable,
       follow: true,

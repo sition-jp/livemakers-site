@@ -136,6 +136,40 @@ describe("proxy — pages keep the existing locale routing", () => {
   });
 });
 
+// 2026-11-21 (田平氏 GO・案 2): 記事には英語の本文が無い。next-intl が全ページに付ける
+// Link ヘッダーの hreflang (ja / en / x-default) を、記事の詳細ページだけ付けない。
+// <head> の hreflang も記事では出さない (lib/articles/article-metadata.ts)
+describe("proxy — article detail pages carry no hreflang Link header", () => {
+  const intl = createMiddleware(routing);
+
+  for (const path of ["/ja/articles/signal-20261121-2f1a6015", "/en/articles/signal-20261121-2f1a6015"]) {
+    it(`${path}: routed as before, without the Link header`, async () => {
+      const { event } = fakeEvent();
+      const res = await proxy(request(path, HUMAN_UA), event);
+      expect(res.status).toBe(200);
+      expect(res.headers.get("x-middleware-next")).toBe("1");
+      expect(res.headers.get("link")).toBeNull();
+    });
+  }
+
+  for (const path of ["/ja", "/ja/brief/2026-11-21", "/ja/articles/series/signal", "/ja/articles"]) {
+    it(`${path}: keeps the Link header next-intl sets`, async () => {
+      const { event } = fakeEvent();
+      const res = await proxy(request(path, HUMAN_UA), event);
+      const expected = intl(request(path, HUMAN_UA));
+      expect(expected.headers.get("link")).toContain('hreflang="en"');
+      expect(res.headers.get("link")).toBe(expected.headers.get("link"));
+    });
+  }
+
+  it("/articles/x (legacy, redirected): the redirect is unchanged", async () => {
+    const { event } = fakeEvent();
+    const res = await proxy(request("/articles/x", HUMAN_UA), event);
+    expect(isRedirect(res.status)).toBe(true);
+    expect(res.headers.get("location")).toBe("https://livemakers.com/ja/articles/x");
+  });
+});
+
 describe("proxy — failures never change the response", () => {
   it("a failing receiver: the response is normal and the background promise resolves", async () => {
     const fetchMock = vi.fn(async () => {
