@@ -1,0 +1,92 @@
+{
+  "sessionId": "2026-11-21-asia-open",
+  "date": "2026-11-21",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-21-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-21-asia-open",
+  "publishedAt": "2026-11-22T02:30:09+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261121_0730_7ea385af",
+  "asOfJst": "2026-11-21T07:30:08+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月21日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 57,835 → 54,964（-4.96%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +11.2% / ETH/USD -7.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261121_0555_b016a24e",
+    "crawlAnchorJst": "2026-11-21T05:03:00+09:00",
+    "writtenAtJst": "2026-11-21T05:55:48+09:00",
+    "lead": "AI 株の売りが米国からアジア、欧州へと広がった。Nvidia の時価総額の減少は 1 社として過去最大級になる見込みだと伝えられ、S&P 500 のテクノロジー株は弱気相場に入ったとされる。上場を終えた Anthropic にも売りが及び、金や BTC も下げた。利上げの観測と、中国向けの半導体をめぐる疑惑が同時に重しになっている。",
+    "items": [
+      {
+        "headline": "Nvidia、45 日間の時価総額の減少が 1 社として過去最大になる見込みと伝えられる",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2123808105062646216"
+      },
+      {
+        "headline": "S&P 500 のテクノロジー株が弱気相場入りと伝えられる",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2123850081661001906"
+      },
+      {
+        "headline": "ダウ平均が高値から 10% 下げ、調整局面に入ったと伝えられる",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2123820330405986330"
+      },
+      {
+        "headline": "ナスダック総合指数が 2026 年の上昇分を失ったと伝えられる",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2123810146006532136"
+      },
+      {
+        "headline": "アジアの株式市場で 1 日に 1.1 兆ドル超の時価総額が消えたと伝えられる",
+        "sourceUrl": "https://x.com/coinbureau/status/2123705768461676741"
+      },
+      {
+        "headline": "トランプ大統領、AI 半導体の中国への密輸問題でラトニック商務長官を擁護",
+        "sourceUrl": "https://x.com/business/status/2123871786441793853"
+      },
+      {
+        "headline": "マイケル・バーリ氏、Nvidia の空売りの半分を手じまったと述べたと伝えられる",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2123825032829014413"
+      },
+      {
+        "headline": "ベッセント財務長官、Anthropic の創業者がトランプ口座に寄付すると説明",
+        "sourceUrl": "https://x.com/business/status/2123850168931938333"
+      },
+      {
+        "headline": "国防総省の技術責任者、Anthropic はなおサプライチェーンのリスクと発言と伝えられる",
+        "sourceUrl": "https://x.com/Kalshi/status/2123815544717742192"
+      },
+      {
+        "headline": "ホワイトハウス、核兵器の大半を持つ米中ロが定期的に話す意義を強調",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2123845886350663730"
+      },
+      {
+        "headline": "ウィトコフ氏とクシュナー氏、イランとの交渉でカタールの仲介者と会談",
+        "sourceUrl": "https://x.com/axios/status/2123853452635754742"
+      },
+      {
+        "headline": "Aave の USDC の預け入れが 24 時間で 40% 増え、資金が安全な先へ",
+        "sourceUrl": "https://x.com/LlamaRisk/status/2123818995531080064"
+      },
+      {
+        "headline": "OpenAI、モデルの能力を写し取る蒸留への対策の研究を公開",
+        "sourceUrl": "https://x.com/OpenAI/status/2123862344422088794"
+      },
+      {
+        "headline": "ECB の市場担当の理事に、フランスがボーン氏を推す",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/france-picks-boone-to-run-markets-at-ecb-in-pivotal-crisis-role"
+      }
+    ],
+    "watch": [
+      "Nvidia の株価の下げが止まるか、AI 関連の設備投資の計画に修正が出るか",
+      "FRB の高官の発言と、12 月の利上げを織り込む市場の確率",
+      "BTC 現物 ETF の流出が 4 日目に入るか"
+    ]
+  }
+}

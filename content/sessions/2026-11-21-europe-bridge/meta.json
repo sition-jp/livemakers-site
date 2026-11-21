@@ -1,0 +1,97 @@
+{
+  "sessionId": "2026-11-21-europe-bridge",
+  "date": "2026-11-21",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-21-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-21-europe-bridge",
+  "publishedAt": "2026-11-22T02:30:09+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261121_1203_b78f9d7f",
+  "asOfJst": "2026-11-21T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月21日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.0976 → 1.0973（-0.03%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +8.5% / ETH/USD -7.5%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261121_1239_0706cc76",
+    "crawlAnchorJst": "2026-11-21T12:03:00+09:00",
+    "writtenAtJst": "2026-11-21T12:39:48+09:00",
+    "lead": "AI 株の売りは週末を前に米国の株価指数全体へ広がり、S&P 500 は 1 日で 3.7% 下げて取引を終えた。逃げ先として円とスイスフランが買われ、米国の信用不安の指標も 8 カ月ぶりの高さに上がった。国内では委託先を通じた個人情報の漏えいが銀行・小売・行政へ連なり、丸井グループとメルカリが新たに公表した。市場の下げと委託の連鎖という二つの「つながりの脆さ」が同じ週に表に出ている。",
+    "items": [
+      {
+        "headline": "S&P 500、1 日で 3.7% 安 時価総額 6 兆ドルが消えたと集計",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2123884549574623420",
+        "note": "Nvidia は週間で 23% 下げ、2008 年 10 月以来の大きさになったと伝えられた。"
+      },
+      {
+        "headline": "AI 株の売りで円とスイスフランに逃避の買い、ドルは下落",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/ai-selloff-boosts-haven-demand-for-yen-franc-as-dollar-slips"
+      },
+      {
+        "headline": "米国の信用不安の指標が 8 カ月ぶりの高さ ハイテク株の動揺が社債にも",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-20/ai-credit-risk-gauges-worsen-as-tech-selloff-roils-markets"
+      },
+      {
+        "headline": "丸井グループ、KARTE への不正アクセスで延べ約 1,733 万件が漏えい",
+        "sourceUrl": "https://x.com/47news_official/status/2123719346983952809",
+        "note": "マルイのウェブ利用者約 883 万件とエポスカード利用者約 850 万件。カード番号や暗証番号の漏えいは確認されていないとしている。"
+      },
+      {
+        "headline": "政府の基幹ネットワークに不正アクセス、内部資料が流出した可能性",
+        "sourceUrl": "https://x.com/asahicom/status/2123709989478875638"
+      },
+      {
+        "headline": "JPMorgan Chase、サービスを提供する外部の委託先がサイバー攻撃の標的になったと公表",
+        "sourceUrl": "https://x.com/Chase/status/2123405210445857009"
+      },
+      {
+        "headline": "ベセント財務長官「ウォール街は富裕層に不正な節税策を売ってきた」 IRS が取り締まると表明",
+        "sourceUrl": "https://x.com/SecScottBessent/status/2123940842326888876"
+      },
+      {
+        "headline": "日本企業などから高額の収入を得る海外居住者への課税を強化へ",
+        "sourceUrl": "https://x.com/nhk_news/status/2123877805792625014"
+      },
+      {
+        "headline": "トランプ大統領、海外にデータセンターを建てる米テック企業に「とてつもない罰則」を警告",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/20/trump-datacenters-white-house"
+      },
+      {
+        "headline": "Kalshi、取引所を止めかねないニューヨーク州の命令に先手を打とうと動く",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/11/20/kalshi-races-to-get-ahead-of-new-york-order-that-could-shut-down-exchange"
+      },
+      {
+        "headline": "Fairmint、SEC の試行の枠組みで Canton と Ethereum にトークン化株式の取引の場を計画",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/20/fairmint-plans-tokenized-stock-venue-on-canton-ethereum-under-sec-experiment"
+      },
+      {
+        "headline": "DCG 傘下の Zcash 採掘会社 Fortitude、Nasdaq 上場の承認を得る ZEC は最高値から反落",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-20-dcgs-zcash-miner-fortitude-clears-vote-nasdaq-listing-zec-retreats-all-time-high-444784"
+      },
+      {
+        "headline": "Strategy、2022 年の弱気相場では純準備金がマイナスで BTC の 3 分の 1 を担保に入れていたと説明",
+        "sourceUrl": "https://x.com/Strategy/status/2123889524283674898"
+      },
+      {
+        "headline": "ロシアのミサイルがポーランドに着弾、近くで欧州が軍事演習 NATO は侵害と非難",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/20/russia-missiles-land-poland-europe-held-military-drills-nearby-nato/"
+      },
+      {
+        "headline": "Anthropic の研究者、Claude とリーマン予想を解いたと主張",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-21/anthropic-researcher-claims-to-solve-riemann-problem-with-claude"
+      }
+    ],
+    "watch": [
+      "週明けのアジア市場で、半導体株の下げと円高が続くか",
+      "委託先経由の漏えいの公表が、銀行・小売の次にどこまで広がるか",
+      "ニューヨーク州の Kalshi への命令の中身と、予測市場の州規制の行方"
+    ]
+  }
+}
