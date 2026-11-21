@@ -163,15 +163,18 @@ describe("lib/articles/article-metadata", () => {
     });
   });
 
-  // G3 (2026-09-11 田平氏 GO)
+  // 2026-11-21 (田平氏 GO・案 2): 記事には英語の本文が無く、/en は日本語の本文を
+  // そのまま描く。訳の無いページを「英語版」と案内しない
   describe("hreflang (alternates.languages)", () => {
-    it("declares ja/en/x-default pointing at the same articleId", () => {
+    it("does not advertise an en alternate for an article (no English body exists)", () => {
       const meta = buildArticleMetadata({ article: BASE, lang: "ja" });
-      expect(meta.alternates?.languages).toEqual({
-        ja: `/ja/articles/${BASE.articleId}`,
-        en: `/en/articles/${BASE.articleId}`,
-        "x-default": `/ja/articles/${BASE.articleId}`,
-      });
+      expect(meta.alternates?.languages).toBeUndefined();
+    });
+
+    it("keeps the en page's own canonical but no language alternates", () => {
+      const meta = buildArticleMetadata({ article: BASE, lang: "en" });
+      expect(meta.alternates?.canonical).toBe(`/en/articles/${BASE.articleId}`);
+      expect(meta.alternates?.languages).toBeUndefined();
     });
   });
 
@@ -208,6 +211,24 @@ describe("lib/articles/article-metadata", () => {
     it("keeps Signal articles indexable", () => {
       const meta = buildArticleMetadata({ article: { ...BASE, family: "signal" }, lang: "ja" });
       expect(meta.robots).toMatchObject({ index: true, googleBot: { index: true } });
+    });
+
+    // 2026-11-21 (田平氏 GO・案 2): /en は日本語の本文の複製なので検索に出さない
+    it("marks the en page of an indexable article noindex but followable", () => {
+      const meta = buildArticleMetadata({ article: { ...BASE, family: "signal" }, lang: "en" });
+      expect(meta.robots).toMatchObject({
+        index: false,
+        follow: true,
+        googleBot: { index: false, follow: true, "max-image-preview": "large" },
+      });
+    });
+
+    it("keeps the en page noindex even when an English title exists", () => {
+      const meta = buildArticleMetadata({
+        article: { ...BASE, family: "deep-dive", titleEn: "Circle Arc founding validators" },
+        lang: "en",
+      });
+      expect(meta.robots).toMatchObject({ index: false, googleBot: { index: false } });
     });
   });
 });

@@ -34,6 +34,16 @@ import { RECORDED_FILES, buildBotVisit, sendBotVisit, type BotVisit } from "./li
 //     the recording path may throw out of the proxy or change the response.
 const intl = createMiddleware(routing);
 
+// Article detail pages carry no hreflang (2026-11-21 田平氏 GO・案 2).
+//   • Articles have no English body: /en/articles/<slug> renders the Japanese
+//     text as is. next-intl adds a Link header (hreflang ja / en / x-default)
+//     to every page, which told Google the Japanese copy was the English
+//     version. Only article detail pages drop it; every other page (top,
+//     briefs, series lists…) keeps next-intl's header unchanged.
+//   • The <head> side is in lib/articles/article-metadata.ts (no languages,
+//     /en is noindex).
+const ARTICLE_DETAIL = /^\/(ja|en)\/articles\/(?!series(\/|$))[^/]+\/?$/;
+
 const RECORDED: ReadonlySet<string> = new Set(RECORDED_FILES);
 
 function record(
@@ -58,6 +68,7 @@ export default async function proxy(
     return NextResponse.next();
   }
   const response = await intl(req);
+  if (ARTICLE_DETAIL.test(req.nextUrl.pathname)) response.headers.delete("link");
   record(req, event, response.status >= 300 && response.status < 400 ? "redirect" : "page");
   return response;
 }
