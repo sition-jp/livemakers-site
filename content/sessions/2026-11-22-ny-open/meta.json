@@ -1,0 +1,105 @@
+{
+  "sessionId": "2026-11-22-ny-open",
+  "date": "2026-11-22",
+  "sessionSlug": "ny-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-22-ny-open",
+  "canonicalArticleUrl": "/sessions/2026-11-22-ny-open",
+  "publishedAt": "2026-11-23T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261122_1803_af6394e1",
+  "asOfJst": "2026-11-22T18:03:02+09:00",
+  "focusInstruments": [
+    "spx",
+    "us10y"
+  ],
+  "titleJa": "NY Open Terminal — 11月22日 18:03 JST",
+  "bullets": [
+    "S&P 500（perp） 6,953.60 → 7,020.30（+0.96%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +7.9% / Coinbase（perp） +4.3%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261122_1955_2879a13a",
+    "crawlAnchorJst": "2026-11-22T18:03:00+09:00",
+    "writtenAtJst": "2026-11-22T19:55:22+09:00",
+    "lead": "週末の市場は閉じたまま、材料は地政学と制度の側から積み上がった。米国はイランへの海上封鎖を 130 日続け、原油の売り先を断つ制裁を重ねる一方、バルト海ではロシアの貨物船がドローンに襲われた。国内ではタワーレコードが会員約 1,100 万件の流出を公表し、大型の漏えいが小売にも広がった。月曜の寄り付きは、先週の急落の続きか、反発の起点かを問われる。",
+    "items": [
+      {
+        "headline": "タワーレコード、EC サイトへの不正アクセスで会員情報約 1,100 万件の流出を公表",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-22/tower-records-becomes-latest-japan-retailer-hit-by-data-breach",
+        "note": "カード情報は含まれないとし、サイトの停止を続けている。日本の小売で大型の漏えいが続く。"
+      },
+      {
+        "headline": "米中央軍、対イランの海上封鎖が 130 日目に",
+        "sourceUrl": "https://x.com/CENTCOM/status/2124122069528879528",
+        "note": "革命防衛隊による原油輸出を止めていると説明した。"
+      },
+      {
+        "headline": "米財務省、イラン産原油の販売を仲介する「石油の受託者」を制裁",
+        "sourceUrl": "https://x.com/USTreasury/status/2123885407938998420",
+        "note": "封鎖の外で原油を売る経路を断つ狙い。"
+      },
+      {
+        "headline": "トランプ大統領、イランとの合意について「核兵器は持たせない」",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2124165072356286747"
+      },
+      {
+        "headline": "イランは攻撃の局面に、拠点へのドローンと船舶への追跡が続く（NZZ）",
+        "sourceUrl": "https://www.nzz.ch/international/drohnen-auf-stuetzpunkte-jagd-auf-schiffe-iran-ist-zurzeit-im-angriffsmodus-ld.10070685"
+      },
+      {
+        "headline": "バルト海でロシアの貨物船にドローン攻撃、フィンランド首相は紛争の波及に言及",
+        "sourceUrl": "https://www.theguardian.com/world/2026/nov/22/ukraine-war-briefing-russian-cargo-ship-hit-by-drone-in-baltic-sea-as-finland-pm-says-conflict-spilling-over",
+        "note": "11 月中旬の軍艦への攻撃に続き、民間の船が標的になった。"
+      },
+      {
+        "headline": "トランプ氏と金正恩氏の首脳会談の打診、北朝鮮側の条件で不成立とウォール・ストリート・ジャーナルが報道",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/trump-kim-summit-bid-failed-over-north-korean-conditions-wall-street-journal-report"
+      },
+      {
+        "headline": "スイス国立銀行の副総裁、国内のインフレが加速していると発言",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-22/swiss-inflation-has-been-accelerating-snb-vice-president-martin-says"
+      },
+      {
+        "headline": "欧州は国政選挙が集中する時期へ、結果次第で EU の土台が揺らぐ",
+        "sourceUrl": "https://www.theguardian.com/world/2026/nov/22/europe-elections-supercycle-could-shake-eu-foundations"
+      },
+      {
+        "headline": "COP31 は最終日の協議へ、合意の成否はなお見通せず",
+        "sourceUrl": "https://www.theguardian.com/environment/live/2026/nov/22/cop31-climate-crisis-talks-turkey-latest-news-updates"
+      },
+      {
+        "headline": "米国の 1 セント硬貨を終わらせる Common Cents Act が成立",
+        "sourceUrl": "https://x.com/SenLummis/status/2123877769075437717",
+        "note": "法案を主導したラミス上院議員が発表した。"
+      },
+      {
+        "headline": "SEC、統合監査証跡（CAT）を自らの管理下に置く改革案を提案",
+        "sourceUrl": "https://x.com/SECGov/status/2123863872247312650"
+      },
+      {
+        "headline": "テスラ、運転支援ソフト FSD v15 の配信を開始",
+        "sourceUrl": "https://x.com/Tesla/status/2124222447855743019",
+        "note": "車が次に何をするかを画面で見て操作できる表示を加えたとしている。"
+      },
+      {
+        "headline": "Google、声で文章を直す Gemini 3.5 Transcribe の機能を開発者向けに提供",
+        "sourceUrl": "https://x.com/Google/status/2123827048808370477"
+      },
+      {
+        "headline": "LayerZero、Zero のメインネットを前に 11 月 23 日からステーキングを開始",
+        "sourceUrl": "https://x.com/LayerZero_Core/status/2123823773564772751"
+      },
+      {
+        "headline": "Cardano のウォレット Daedalus 11.6.3 を公開、ウォレットの修復の案内などを追加",
+        "sourceUrl": "https://x.com/se7en_labs/status/2123802769287249965"
+      }
+    ],
+    "watch": [
+      "月曜の寄り付きで、先週の株と暗号資産の急落が止まるか",
+      "イランとの合意の行方と、封鎖・制裁の次の一手",
+      "国内の大型漏えいの続報と、当局の対応"
+    ]
+  }
+}
