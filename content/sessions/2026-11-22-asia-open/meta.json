@@ -1,0 +1,81 @@
+{
+  "sessionId": "2026-11-22-asia-open",
+  "date": "2026-11-22",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-22-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-22-asia-open",
+  "publishedAt": "2026-11-23T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261122_0730_69c2f7f0",
+  "asOfJst": "2026-11-22T07:30:06+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月22日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 54,968 → 55,240（+0.49%）",
+    "変動幅上位: BTCボラティリティ（BVIV） +13.6% / ETH/USD +3.7%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261122_0631_9927ceb9",
+    "crawlAnchorJst": "2026-11-22T05:03:00+09:00",
+    "writtenAtJst": "2026-11-22T06:31:37+09:00",
+    "lead": "週末の市場は、AI 株の売りが株・暗号資産・金属へ広がった一週間の終わりを確かめる局面にある。BTC は 2 年ぶりの安値まで下げ、S&P 500 は 2025 年 4 月以来の週間の下げ幅となった。政策の面では、米上院が許認可とデータセンターの電力をめぐる法案を進め、FBI のデータベースへの侵入の調査が重なった。",
+    "items": [
+      {
+        "headline": "BTC が一時 5.6 万ドルを割り、2 年ぶりの安値",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2123983677495349408",
+        "note": "下げの局面でレバレッジの清算が連鎖した。株・金属を含むリスク資産の週次の下げと同じ流れにある。"
+      },
+      {
+        "headline": "S&P 500 は週間で 8.2% 安、2025 年 4 月以来の下げ幅",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2124145557493195247",
+        "note": "AI 株の売りが指数を引き下げ、恐怖と強欲の指数は 10 を割った。"
+      },
+      {
+        "headline": "FBI、全米の警察が使う犯罪情報データベースへの侵入の可能性を調査",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/21/fbi-looking-apparent-hack-key-criminal-justice-information-database/",
+        "note": "連邦機関へのハッキングの報道は今週 2 件目。被害の範囲は当局の説明待ちだ。"
+      },
+      {
+        "headline": "トランプ大統領、FBI データベースの侵入に「前向きな面もありうる」と発言",
+        "sourceUrl": "https://www.cnbc.com/2026/11/21/trump-fbi-database-hack.html"
+      },
+      {
+        "headline": "トランプ大統領、イランと「恒久的な合意」を結ぶと表明",
+        "sourceUrl": "https://www.theguardian.com/us-news/2026/nov/21/vance-trump-iran-nuclear-weapon",
+        "note": "米国は濃縮を将来にわたり止める書面の保証を求めていると伝えられる。"
+      },
+      {
+        "headline": "トランプ大統領、クレジットカード金利の 10% 上限で民主党と協力すると発言",
+        "sourceUrl": "https://www.cbsnews.com/news/trump-credit-card-rates-democrats-politics/"
+      },
+      {
+        "headline": "米上院、エネルギーの許認可を早める超党派の法案を可決",
+        "sourceUrl": "https://x.com/SenWestCaucus/status/2123624378256486804",
+        "note": "AI とエネルギーの業界が後押ししてきた手続きの見直しで、電力の供給の速さが焦点になる。"
+      },
+      {
+        "headline": "SEC 職員、Canton Network の CC をデジタル商品とみなすノーアクションの見解",
+        "sourceUrl": "https://x.com/CantonNetwork/status/2123883077659213879"
+      },
+      {
+        "headline": "CLARITY 法案、共同提案者が年内の成立の可能性はゼロと発言",
+        "sourceUrl": "https://x.com/coin_post/status/2123916588038627651"
+      },
+      {
+        "headline": "Sui、BTC を預けて hBTC を発行する Hashi の仕組みを公開",
+        "sourceUrl": "https://x.com/SuiNetwork/status/2124156128821178811"
+      }
+    ],
+    "watch": [
+      "週明けのアジア時間に、BTC が 5.6 万ドルを守れるか、清算の連鎖が止まるか",
+      "FBI の侵入の調査で、被害の範囲と関与した主体について当局の説明が出るか",
+      "イランとの「恒久的な合意」の中身として、濃縮停止の書面の保証が示されるか"
+    ]
+  }
+}
