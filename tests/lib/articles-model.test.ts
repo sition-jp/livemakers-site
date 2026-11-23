@@ -25,7 +25,7 @@ describe("article model + lane taxonomy", () => {
     expect(getAllArticles({ contentDir: missing })).toEqual([]);
   });
 
-  it("declares the eight G40 families plus session, future-atlas, flash, landmark and restart-map", () => {
+  it("declares the eight G40 families plus session, future-atlas, flash, landmark, restart-map and cycle-forecast", () => {
     expect(ARTICLE_FAMILIES).toEqual([
       "daily-intel",
       "signal",
@@ -40,6 +40,7 @@ describe("article model + lane taxonomy", () => {
       "flash",          // Task 13: 速報 (breaking full-auto lane G1)
       "landmark",       // 2026-10-03: 節目シグナル
       "restart-map",    // 2026-10-26: 金融再起動の現在地 (月次)
+      "cycle-forecast", // 2026-11-23: サイクル予報 (週次)
     ]);
     expect(SERIES_SLUGS).toEqual([
       "daily-intel",
@@ -53,6 +54,7 @@ describe("article model + lane taxonomy", () => {
       "flash",
       "landmark",
       "restart-map",
+      "cycle-forecast",
     ]);
   });
 

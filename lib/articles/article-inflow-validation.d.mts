@@ -17,7 +17,8 @@ export type ArticleInflowFamily =
   | "future-atlas"
   | "flash"
   | "landmark"
-  | "restart-map";
+  | "restart-map"
+  | "cycle-forecast";
 
 export type ArticleInflowProvenance =
   | {

@@ -23,6 +23,7 @@
     "flash": "FLASH",
     "landmark": "LANDMARK",
     "restartMap": "RESTART MAP",
+    "cycleForecast": "CYCLE FORECAST",
     "videos": "VIDEOS"
   },
   "assets": {
@@ -500,7 +501,8 @@
       "future-atlas": "Future Atlas",
       "flash": "Flash",
       "landmark": "Landmark Signal",
-      "restart-map": "Financial Restart Map"
+      "restart-map": "Financial Restart Map",
+      "cycle-forecast": "Cycle Forecast"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST update",
@@ -610,7 +612,8 @@
       "future-atlas": "Future Atlas",
       "flash": "Flash",
       "landmark": "Landmark Signal",
-      "restart-map": "Financial Restart Map"
+      "restart-map": "Financial Restart Map",
+      "cycle-forecast": "Cycle Forecast"
     },
     "todayTitle": "Today's articles",
     "dayTitle": "Articles on {month}/{day} ({count})",
