@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { stripMarkdown, truncate } from "@/lib/brief-metadata";
 import type { ArticleMeta } from "@/lib/articles/article-model";
-import { isSearchIndexableFamily } from "@/lib/articles/search-visibility";
+import { isSearchIndexableArticle } from "@/lib/articles/search-visibility";
 import { X_SITE_HANDLE } from "@/lib/site";
 
 /**
@@ -33,7 +33,7 @@ export type ArticleMetadataSource = Pick<
   ArticleMeta,
   "articleId" | "titleJa" | "publishedAtJst"
 > &
-  Partial<Pick<ArticleMeta, "titleEn" | "excerptJa" | "thumbnailUrl" | "family">>;
+  Partial<Pick<ArticleMeta, "titleEn" | "excerptJa" | "thumbnailUrl" | "family" | "searchIndex">>;
 
 /**
  * 素のラベル行と本文を分ける下限。Daily Intel の B'' ブロック見出し
@@ -84,7 +84,8 @@ export function buildArticleMetadata({
   // そのまま描く (inflow feed の契約に英語の本文が無い)。同じ日本語の記事を
   // 「英語版」として 2 つ目の URL で検索に出さない — /en は noindex (リンクは
   // たどらせる)。訳が入る日が来たら、訳のある記事だけここで戻す
-  const indexable = lang === "ja" && isSearchIndexableFamily(article.family);
+  // 印の無い Signal も noindex (2026-11-23・lib/articles/search-visibility.ts)
+  const indexable = lang === "ja" && isSearchIndexableArticle(article);
 
   // 画像が無い記事 (mirror lane 例外) では images を宣言しない。
   // 存在しない URL を渡すより、X には画像なしのカードを組ませる。

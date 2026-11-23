@@ -53,6 +53,11 @@ export function toJstParts(value: string) {
   return { date, time, iso: `${date}T${time}:${pad(jst.getUTCSeconds())}+09:00` };
 }
 
+function searchIndexOf(article: unknown): boolean | undefined {
+  const value = (article as { search_index?: unknown }).search_index;
+  return typeof value === "boolean" ? value : undefined;
+}
+
 export function mapInflowArticle(
   article: ArticleInflowSourceItem,
   hrefBase: string,
@@ -79,6 +84,9 @@ export function mapInflowArticle(
     // ArticleMeta.radarTopicId へ透過 — 「速報 — 観測から記事へ」の昇格ペア
     // (select-home-slots radarPair) はこのフィールドで観測と記事を結合する
     radarTopicId: (article as { radar_topic_id?: string }).radar_topic_id,
+    // 2026-11-23 (田平氏 GO・案 1): 印の無い Signal に発行側が search_index: false を付ける。
+    // 真偽値以外は無いものとして扱う (1 本の壊れた値で feed 全体を落とさない)
+    searchIndex: searchIndexOf(article),
   });
   return {
     ...parsed,

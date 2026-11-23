@@ -208,6 +208,19 @@ describe("lib/articles/article-metadata", () => {
       });
     });
 
+    // 2026-11-23 (田平氏 GO・案 1): 印の無い Signal は発行側が search_index: false を付ける
+    it("marks a Signal the publisher flagged searchIndex: false noindex but followable", () => {
+      const meta = buildArticleMetadata({
+        article: { ...BASE, family: "signal", searchIndex: false },
+        lang: "ja",
+      });
+      expect(meta.robots).toMatchObject({
+        index: false,
+        follow: true,
+        googleBot: { index: false, follow: true },
+      });
+    });
+
     it("keeps Signal articles indexable", () => {
       const meta = buildArticleMetadata({ article: { ...BASE, family: "signal" }, lang: "ja" });
       expect(meta.robots).toMatchObject({ index: true, googleBot: { index: true } });

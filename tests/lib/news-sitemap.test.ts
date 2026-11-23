@@ -48,6 +48,18 @@ describe("lib/articles/news-sitemap", () => {
       expect(selectNewsSitemapArticles([signal, flash], NOW)).toEqual([signal]);
     });
 
+    it("leaves out a Signal the publisher marked searchIndex: false (2026-11-23)", () => {
+      const marked = article({ family: "signal", publishedAtJst: "2026-09-11T10:00:00+09:00" });
+      const unmarked = article({
+        articleId: "signal-20260911-unmarked",
+        family: "signal",
+        href: "/articles/signal-20260911-unmarked",
+        publishedAtJst: "2026-09-11T10:00:00+09:00",
+        searchIndex: false,
+      });
+      expect(selectNewsSitemapArticles([marked, unmarked], NOW)).toEqual([marked]);
+    });
+
     it("caps at 1000 URLs", () => {
       const many = Array.from({ length: NEWS_SITEMAP_MAX_URLS + 50 }, (_, i) =>
         article({ articleId: `daily-intel-2026091${i}` }),

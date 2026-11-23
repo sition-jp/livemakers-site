@@ -1,5 +1,5 @@
 import type { ArticleInflowPublicArticle } from "@/lib/articles/article-inflow-contract";
-import { isSearchIndexableFamily } from "@/lib/articles/search-visibility";
+import { isSearchIndexableArticle } from "@/lib/articles/search-visibility";
 import { escapeXml } from "@/lib/articles/xml-escape";
 import { SITE_URL } from "@/lib/site";
 
@@ -14,7 +14,7 @@ export function selectNewsSitemapArticles(
 ): ArticleInflowPublicArticle[] {
   const cutoff = now.getTime() - NEWS_SITEMAP_WINDOW_MS;
   return articles
-    .filter((article) => isSearchIndexableFamily(article.family))
+    .filter((article) => isSearchIndexableArticle(article))
     .filter((article) => new Date(article.publishedAtJst).getTime() >= cutoff)
     .slice(0, NEWS_SITEMAP_MAX_URLS);
 }

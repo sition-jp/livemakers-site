@@ -67,6 +67,9 @@ export const ArticleMetaSchema = z
       .regex(/^https:\/\/x\.com\/[A-Za-z0-9_]+\/status\/\d+$/)
       .optional(),
     radarTopicId: z.string().min(1).optional(),
+    // 2026-11-23 (田平氏 GO・案 1): 発行側の検索に出すかの印 (lib/articles/search-visibility.ts)。
+    // feed の値は mapInflowArticle が真偽値だけに絞ってから渡す
+    searchIndex: z.boolean().optional(),
   })
   .superRefine((meta, context) => {
     if (
