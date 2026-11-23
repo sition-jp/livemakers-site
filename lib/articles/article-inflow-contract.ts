@@ -58,6 +58,22 @@ function searchIndexOf(article: unknown): boolean | undefined {
   return typeof value === "boolean" ? value : undefined;
 }
 
+// 2026-11-23 (田平氏 GO・案 A): サイクル予報の号だけが運ぶ天気の 1 行。
+// cycle-forecast 以外・文字列以外・空・改行入り・120 字超は無いものとして扱う
+// (1 本の壊れた値で記事や feed 全体を落とさない — search_index と同じ扱い)
+const FORECAST_NOTE_MAX = 120;
+
+function forecastNoteOf(article: unknown): string | undefined {
+  const { family, forecast_note: value } = article as {
+    family?: unknown;
+    forecast_note?: unknown;
+  };
+  if (family !== "cycle-forecast" || typeof value !== "string") return undefined;
+  const note = value.trim();
+  if (!note || /[\r\n]/.test(note) || note.length > FORECAST_NOTE_MAX) return undefined;
+  return note;
+}
+
 export function mapInflowArticle(
   article: ArticleInflowSourceItem,
   hrefBase: string,
@@ -87,6 +103,7 @@ export function mapInflowArticle(
     // 2026-11-23 (田平氏 GO・案 1): 印の無い Signal に発行側が search_index: false を付ける。
     // 真偽値以外は無いものとして扱う (1 本の壊れた値で feed 全体を落とさない)
     searchIndex: searchIndexOf(article),
+    forecastNoteJa: forecastNoteOf(article),
   });
   return {
     ...parsed,
