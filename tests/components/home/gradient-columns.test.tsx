@@ -212,6 +212,15 @@ describe("LeadingColumn (gradient leading, D5)", () => {
       expect(slot.childElementCount).toBe(0);
     });
 
+    it("spaces the column with gap so the hidden last module leaves no trailing margin", () => {
+      // space-y-6 は :not(:last-child) に margin を付け hidden を見ない — 末尾が hidden だと
+      // 速報の一覧の下に 24px が残る。gap は display:none の子を飛ばす (最終レビュー 2026-11-23)
+      const { container } = renderWith(null);
+      const column = container.querySelector('[data-ledger-group="leading"]')!;
+      expect(column.classList.contains("space-y-6")).toBe(false);
+      expect([...column.classList]).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-6"]));
+    });
+
     it("shows the latest issue and the series link without a weather line when the issue has none", () => {
       const { container } = renderWith(issue());
       const card = container.querySelector('[data-column-module="cycle-forecast"]')!;

@@ -149,12 +149,14 @@ export function LeadingColumn({
   };
 
   return (
-    <section data-ledger-group={REGION} className="min-w-0 space-y-6">
+    // 2026-11-23: space-y-6 → flex + gap-6。末尾のサイクル予報が号の無い日に hidden になると、
+    // space-y は :not(:last-child) で速報の一覧の下に余白を残す。gap は display:none の子を飛ばす
+    <section data-ledger-group={REGION} className="flex min-w-0 flex-col gap-6">
       <h2 className="text-xs font-bold uppercase tracking-label text-text-tertiary">
         {copy.intelligenceTerminal}
       </h2>
       {REGION_MODULES[REGION].map((module) =>
-        // 号の無いサイクル予報は、列の余白 (space-y-6) を取らないよう隠す (資金調達と同じ)
+        // 号の無いサイクル予報は枠ごと隠す (列は gap なので余白も残らない)
         module === "cycle-forecast" && !slots.cycleForecastLatest ? (
           <div key={module} data-column-module={module} hidden aria-hidden="true" />
         ) : (
