@@ -1,0 +1,96 @@
+{
+  "episodeId": "ep017",
+  "sources": [
+    {
+      "key": "lvm_dd",
+      "title": "LiveMakers Deep Dive — ビットコイン4年周期、日付は底でも下落率はまだ56% (2026-11-23)",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261123-db612ed5",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "bitstamp",
+      "title": "Bitstamp BTC/USD の市場ページ (日足の高値・安値・終値・2012 年からの価格。計算は API の日足 5,440 本から)",
+      "url": "https://www.bitstamp.net/markets/btc/usd/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "coinbase",
+      "title": "Coinbase Advanced BTC-USD (11 月 21 日の安値 5 万 5,106 ドル)",
+      "url": "https://www.coinbase.com/advanced-trade/spot/BTC-USD",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "coinmetrics",
+      "title": "Coin Metrics Community Network Data (MVRV・価格の日次データ。実現価格 = 価格 ÷ MVRV)",
+      "url": "https://coinmetrics.io/community-network-data/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "halving1",
+      "title": "mempool.space ブロック 210,000 (1 回目の半減期・2012 年 11 月 28 日)",
+      "url": "https://mempool.space/block/000000000000048b95347e83192f69cf0366076336c639f9b7228e9ba171342e",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "halving2",
+      "title": "mempool.space ブロック 420,000 (2 回目の半減期・2016 年 7 月 9 日)",
+      "url": "https://mempool.space/block/000000000000000002cce816c0ab2c5c269cb081896b7dcb34b8422d6b74ffa1",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "halving3",
+      "title": "mempool.space ブロック 630,000 (3 回目の半減期・2020 年 5 月 11 日)",
+      "url": "https://mempool.space/block/000000000000000000024bead8df69990852c202db0e0097c1a12ea637d7e96d",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "halving4",
+      "title": "mempool.space ブロック 840,000 (4 回目の半減期・2024 年 4 月 20 日)",
+      "url": "https://mempool.space/block/0000000000000000000320283a032748cef8227873ff4872689bf23f1cda83a5",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "mempool",
+      "title": "mempool.space (現在のブロック高・次の半減期までの残り)",
+      "url": "https://mempool.space/",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "cm_mvrv",
+      "title": "Coin Metrics の指標の説明「MVRV (CapMVRVCur)」",
+      "url": "https://docs.coinmetrics.io/info/metrics/CapMVRVCur",
+      "accessed": "2026-11-23",
+      "chapter": 3
+    },
+    {
+      "key": "lvm_signal_1121",
+      "title": "LiveMakers Signal — ETF からの資金の流出 (2026-11-21)",
+      "url": "https://livemakers.com/ja/articles/signal-20261121-532a610f",
+      "accessed": "2026-11-23",
+      "chapter": 4
+    },
+    {
+      "key": "strategy_x",
+      "title": "Strategy 公式 X (2026-11-20 21:21 UTC「All our BTC is unencumbered.」・Net Reserve 350 億ドル)",
+      "url": "https://x.com/Strategy/status/2123889524283674898",
+      "accessed": "2026-11-23",
+      "chapter": 4
+    },
+    {
+      "key": "lvm_signal_1123",
+      "title": "LiveMakers Signal — Strategy の表明 (2026-11-23)",
+      "url": "https://livemakers.com/ja/articles/signal-20261123-2414029f",
+      "accessed": "2026-11-23",
+      "chapter": 4
+    }
+  ]
+}
