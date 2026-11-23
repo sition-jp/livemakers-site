@@ -43,6 +43,34 @@ export type ArticleLane = (typeof ARTICLE_LANES)[number];
 const RESERVED_ARTICLE_SLUGS = ["today", "series", "archive"];
 const JST_ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?\+09:00$/;
 
+// 2026-11-23 (田平氏承認): サイクル予報のカードの指標の表 (本採用の指標を 1 行ずつ)。
+// 形は発行側 (sub-repo lineup.py) と同じ: 1〜12 行・label 40・value 60 (UTF-16)・前後の空白と改行なし。
+// 絵文字は送らない — 天気の言葉から ☀ ⛅ ☔ ― と読み上げの言葉をサイトが付ける
+export const FORECAST_ROW_SCOPES = ["btc", "altseason"] as const;
+export const FORECAST_ROW_WEATHERS = ["sunny", "cloudy", "rain", "missing"] as const;
+
+function forecastCell(max: number) {
+  return z
+    .string()
+    .min(1)
+    .max(max)
+    .refine((s) => s === s.trim() && !/[\r\n]/.test(s), "must be one trimmed line");
+}
+
+export const ForecastRowsSchema = z
+  .array(
+    z.strictObject({
+      scope: z.enum(FORECAST_ROW_SCOPES),
+      weather: z.enum(FORECAST_ROW_WEATHERS),
+      label: forecastCell(40),
+      value: forecastCell(60),
+    }),
+  )
+  .min(1)
+  .max(12);
+
+export type ForecastRow = z.infer<typeof ForecastRowsSchema>[number];
+
 export const ArticleMetaSchema = z
   .strictObject({
     articleId: z
@@ -75,6 +103,9 @@ export const ArticleMetaSchema = z
     // 2026-11-23 (田平氏 GO・案 A): サイクル予報の号の天気の 1 行 (トップページの左の列のカード)。
     // feed の値は mapInflowArticle が cycle-forecast・1 行・120 字以内に絞ってから渡す
     forecastNoteJa: z.string().min(1).max(120).optional(),
+    // 2026-11-23 (田平氏承認): サイクル予報の号の指標の表。feed の値は mapInflowArticle が
+    // ForecastRowsSchema に合うときだけ渡す (1 行でも合わなければ表ごと捨てる)
+    forecastRowsJa: ForecastRowsSchema.optional(),
   })
   .superRefine((meta, context) => {
     if (
@@ -85,6 +116,12 @@ export const ArticleMetaSchema = z
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: "mkt12 articles require dataDate",
+      });
+    }
+    if (meta.forecastRowsJa && meta.family !== "cycle-forecast") {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "forecastRowsJa is only valid on cycle-forecast",
       });
     }
     if (meta.forecastNoteJa && meta.family !== "cycle-forecast") {
