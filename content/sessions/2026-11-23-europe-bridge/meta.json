@@ -1,0 +1,89 @@
+{
+  "sessionId": "2026-11-23-europe-bridge",
+  "date": "2026-11-23",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-23-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-23-europe-bridge",
+  "publishedAt": "2026-11-24T02:30:02+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261123_1203_af339fdf",
+  "asOfJst": "2026-11-23T12:03:02+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月23日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.0976 → 1.0987（+0.10%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -5.8% / 米10年金利 -2.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261123_1257_672b2fe2",
+    "crawlAnchorJst": "2026-11-23T12:03:00+09:00",
+    "writtenAtJst": "2026-11-23T12:57:59+09:00",
+    "lead": "週明けのアジアは、先週の AI 株の急落の余波の中で始まった。中国では政府系ファンドが ETF の買い入れを過去最大規模に増やしたが、悲観は止まっていない。Nvidia をめぐる米国の対中規制は東南アジアにまで広がり、AI の供給網そのものが市場の重しになっている。暗号資産の側では、住宅ローンのような実物資産をブロックチェーンに載せる動きが着実に積み上がる。",
+    "items": [
+      {
+        "headline": "中国の国家系ファンド、ETF の買い入れを過去最大規模に 株安は止まらず投資家の悲観は深まる",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-23/china-state-funds-ramp-up-etf-buying-to-record-as-rout-deepens",
+        "note": "先週の AI 株の急落が中国本土にも及び、政府系の買い支えが記録的な規模に膨らんだ。"
+      },
+      {
+        "headline": "米国の対中 AI 半導体の締め付け、Nvidia の混乱を受けて東南アジアに波及",
+        "sourceUrl": "https://www.bloomberg.com/news/features/2026-11-22/trump-s-ai-chip-crackdown-on-china-after-nvidia-crisis-squeezes-southeast-asia"
+      },
+      {
+        "headline": "米情報機関、アリス・フアン氏と中国の情報機関の接触を追跡していたと報道",
+        "sourceUrl": "https://www.straitstimes.com/world/united-states/us-tracked-alice-huangs-contacts-with-china-spy-agency-during-nvidia-affair"
+      },
+      {
+        "headline": "Anthropic の株価、上場時の公開価格に迫る下落 AI 相場の終わりを案じる声",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/maerkte-euphorie-weicht-furcht-sorge-vor-einem-ende-des-ki-booms-waechst/100271863.html"
+      },
+      {
+        "headline": "金が反発 テック株の急落で逃避先へ資金が移る",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-23/gold-rebounds-as-traders-pare-bets-on-near-term-fed-rate-hikes"
+      },
+      {
+        "headline": "ロシアのミサイルがポーランド領内に着弾 NATO が対応を協議",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/22/north-atlantic-council-meet-missiles-land-poland/"
+      },
+      {
+        "headline": "ホワイトハウス、ガソリン価格が 4 週続落で 8 か月ぶりの安値と発表",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2124641197058662647"
+      },
+      {
+        "headline": "ホワイトハウス、感謝祭を前に航空管制の停止を防ぐ専門チームを招集",
+        "sourceUrl": "https://x.com/RapidResponse47/status/2124655503087198330"
+      },
+      {
+        "headline": "Samsung Wallet、米国の対象端末 8,200 万台で Sui 上の USDC 送金に対応へ",
+        "sourceUrl": "https://x.com/SuiNetwork/status/2124548219426505052"
+      },
+      {
+        "headline": "Injective でトークン化された住宅ローンが 15 億ドル超に NYSE 上場の Pentiv が 1 日で約 5.2 億ドル分を追加",
+        "sourceUrl": "https://x.com/injective/status/2124507075220832654"
+      },
+      {
+        "headline": "Cardano のメインネットで 5 つのノード実装がブロックを生成",
+        "sourceUrl": "https://x.com/IntersectMBO/status/2124600741390106965",
+        "note": "Intersect の週次報告。ノードの実装が分かれるほど、1 つの不具合でネットワークが止まる危険は小さくなる。"
+      },
+      {
+        "headline": "日欧の水星探査機 BepiColombo が水星の周回軌道へ 不具合の報告も",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/european-japanese-spacecraft-bepicolombo-begins-orbit-of-mercury-with-a-glitch-reported"
+      },
+      {
+        "headline": "アント・グループ、中国のヒューマノイド競争で「シンプルさ」に賭ける",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-22/ant-group-bets-on-simplexity-to-thrive-in-china-s-humanoid-race"
+      }
+    ],
+    "watch": [
+      "週明けの米国株の寄り付きと、中国・韓国の株価支援策がどこまで効くか",
+      "米国の AI 半導体規制が東南アジアの取引にどう広がるか",
+      "感謝祭前の米国で航空の運航とガソリン価格がどう動くか"
+    ]
+  }
+}
