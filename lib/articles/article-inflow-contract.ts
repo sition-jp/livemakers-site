@@ -1,6 +1,8 @@
 import {
   ArticleMetaSchema,
+  ForecastRowsSchema,
   type ArticleMeta,
+  type ForecastRow,
 } from "@/lib/articles/article-model";
 import {
   parseArticleSearchIndexRef,
@@ -74,6 +76,18 @@ function forecastNoteOf(article: unknown): string | undefined {
   return note;
 }
 
+// 2026-11-23 (田平氏承認): サイクル予報の号だけが運ぶ指標の表。1 行でも形に合わなければ
+// 表ごと無いものとして扱う (題・リンク・天気の 1 行は出る・記事や feed は落とさない)
+function forecastRowsOf(article: unknown): ForecastRow[] | undefined {
+  const { family, forecast_rows: value } = article as {
+    family?: unknown;
+    forecast_rows?: unknown;
+  };
+  if (family !== "cycle-forecast" || value === undefined) return undefined;
+  const parsed = ForecastRowsSchema.safeParse(value);
+  return parsed.success ? parsed.data : undefined;
+}
+
 export function mapInflowArticle(
   article: ArticleInflowSourceItem,
   hrefBase: string,
@@ -104,6 +118,7 @@ export function mapInflowArticle(
     // 真偽値以外は無いものとして扱う (1 本の壊れた値で feed 全体を落とさない)
     searchIndex: searchIndexOf(article),
     forecastNoteJa: forecastNoteOf(article),
+    forecastRowsJa: forecastRowsOf(article),
   });
   return {
     ...parsed,

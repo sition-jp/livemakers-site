@@ -203,3 +203,48 @@ describe("article inflow contract — forecast_note", () => {
     expect(parseArticleInflowFeed(payload)).not.toBeNull();
   });
 });
+
+// 2026-11-23 (田平氏承認): サイクル予報の号が指標の表 (forecast_rows) を運ぶ。
+// 1 行でも形に合わなければ表ごと無いものとして扱い、記事・feed は落とさない
+describe("article inflow contract — forecast_rows", () => {
+  const ROWS = [
+    { scope: "btc", weather: "sunny", label: "200 週移動平均", value: "200 週線の −10.4%" },
+    { scope: "btc", weather: "missing", label: "保有者の含み損益", value: "欠測" },
+    { scope: "altseason", weather: "cloudy", label: "ETH/BTC 比", value: "90 日で −10.5%" },
+  ];
+  function item(extra: Record<string, unknown>, family = "cycle-forecast") {
+    return { ...validPayload().articles[0], family, ...extra } as never;
+  }
+
+  it("carries forecast_rows of a cycle-forecast article to ArticleMeta.forecastRowsJa", () => {
+    expect(mapInflowArticle(item({ forecast_rows: ROWS }), "/articles").forecastRowsJa).toEqual(ROWS);
+  });
+
+  it("leaves forecastRowsJa undefined when the field is absent", () => {
+    expect(mapInflowArticle(item({}), "/articles").forecastRowsJa).toBeUndefined();
+  });
+
+  it("drops forecast_rows on any family other than cycle-forecast", () => {
+    expect(
+      mapInflowArticle(item({ forecast_rows: ROWS }, "signal"), "/articles").forecastRowsJa,
+    ).toBeUndefined();
+  });
+
+  it.each([
+    ["not a list", "200 週移動平均"],
+    ["empty list", []],
+    ["one broken row", [...ROWS, { scope: "btc", weather: "hail", label: "x", value: "y" }]],
+    ["a row that is not an object", [...ROWS, "row"]],
+    ["value over 60", [{ ...ROWS[0], value: "あ".repeat(61) }]],
+  ])("drops the whole table when it is malformed (%s)", (_name, value) => {
+    expect(
+      mapInflowArticle(item({ forecast_rows: value }), "/articles").forecastRowsJa,
+    ).toBeUndefined();
+  });
+
+  it("does not reject a whole feed because one article carries a broken forecast_rows", () => {
+    const payload = validPayload();
+    (payload.articles[0] as Record<string, unknown>).forecast_rows = [{ weather: 1 }];
+    expect(parseArticleInflowFeed(payload)).not.toBeNull();
+  });
+});

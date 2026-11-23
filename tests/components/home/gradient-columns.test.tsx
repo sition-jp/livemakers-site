@@ -243,6 +243,64 @@ describe("LeadingColumn (gradient leading, D5)", () => {
       expect(card.querySelector("[data-forecast-note]")?.textContent).toBe(NOTE);
       expect(card.querySelector("[data-restart-stages]")).toBeNull();
     });
+
+    // 2026-11-23 (田平氏承認): 指標の表 — 天気・指標・今週の値の 3 つ・本採用だけ・アルトシーズンも
+    const ROWS = [
+      { scope: "btc", weather: "cloudy", label: "保有者の含み損益", value: "MVRV 1.15" },
+      { scope: "btc", weather: "sunny", label: "200 週移動平均", value: "200 週線の −10.4%" },
+      { scope: "btc", weather: "missing", label: "日足 RSI", value: "欠測" },
+      { scope: "altseason", weather: "rain", label: "ETH/BTC 比", value: "90 日で −10.5%" },
+    ];
+
+    it("lists every indicator row under the weather line in the given order", () => {
+      const { container } = renderWith(issue({ forecastNoteJa: NOTE, forecastRowsJa: ROWS }));
+      const table = container.querySelector("[data-forecast-rows]")!;
+      expect(table).not.toBeNull();
+      const rows = [...table.querySelectorAll("[data-forecast-row]")];
+      expect(rows.map((r) => r.querySelector("[data-forecast-label]")?.textContent)).toEqual([
+        "保有者の含み損益", "200 週移動平均", "日足 RSI", "ETH/BTC 比",
+      ]);
+      expect(rows.map((r) => r.querySelector("[data-forecast-value]")?.textContent)).toEqual([
+        "MVRV 1.15", "200 週線の −10.4%", "欠測", "90 日で −10.5%",
+      ]);
+      // 天気の 1 行の後に置く
+      const note = container.querySelector("[data-forecast-note]")!;
+      expect(note.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+
+    it("shows the weather as a symbol with the word for screen readers", () => {
+      const { container } = renderWith(issue({ forecastRowsJa: ROWS }));
+      const weathers = [...container.querySelectorAll("[data-forecast-row] [data-forecast-weather]")];
+      expect(weathers.map((w) => w.getAttribute("data-forecast-weather"))).toEqual([
+        "cloudy", "sunny", "missing", "rain",
+      ]);
+      expect(weathers.map((w) => w.textContent)).toEqual([
+        "⛅くもり", "☀晴れ", "―欠測", "☔雨",
+      ]);
+      for (const w of weathers) {
+        expect(w.querySelector('[aria-hidden="true"]')).not.toBeNull();
+        expect(w.querySelector(".sr-only")).not.toBeNull();
+      }
+    });
+
+    it("puts the altseason rows under their own heading", () => {
+      const { container } = renderWith(issue({ forecastRowsJa: ROWS }));
+      const heading = container.querySelector("[data-forecast-scope-heading]");
+      expect(heading?.textContent).toBe("アルトシーズン");
+      const alt = container.querySelector('[data-forecast-row][data-scope="altseason"]')!;
+      expect(heading!.compareDocumentPosition(alt) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
+
+    it("has no altseason heading when there are only bitcoin rows", () => {
+      const { container } = renderWith(issue({ forecastRowsJa: ROWS.slice(0, 2) }));
+      expect(container.querySelectorAll("[data-forecast-row]").length).toBe(2);
+      expect(container.querySelector("[data-forecast-scope-heading]")).toBeNull();
+    });
+
+    it("shows no table when the issue has none", () => {
+      const { container } = renderWith(issue({ forecastNoteJa: NOTE }));
+      expect(container.querySelector("[data-forecast-rows]")).toBeNull();
+    });
   });
 });
 
