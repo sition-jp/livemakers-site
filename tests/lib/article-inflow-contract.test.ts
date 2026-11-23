@@ -7,6 +7,7 @@ import {
   buildArticleInflowPublicCatalog,
   buildArticleInflowPreviewCatalog,
   calculateArticleBodyChecksum,
+  mapInflowArticle,
   parseArticleInflowFeed,
 } from "@/lib/articles/article-inflow-contract";
 
@@ -127,5 +128,38 @@ describe("article inflow contract", () => {
       { source: "inflow", href: "/articles/daily-intel-20260719-48cea1b8" },
       { source: "repository", href: "/articles/repo-owned", titleJa: "Repository title" },
     ]);
+  });
+});
+
+// 2026-11-23 (田平氏 GO・案 1): 発行側が印の無い Signal に search_index: false を付ける。
+// 1 本の壊れた値で feed 全体を落とさない — 真偽値以外は無いものとして扱う
+describe("article inflow contract — search_index", () => {
+  function item(extra: Record<string, unknown>) {
+    return { ...validPayload().articles[0], family: "signal", ...extra } as never;
+  }
+
+  it("carries search_index: false through to ArticleMeta.searchIndex", () => {
+    expect(mapInflowArticle(item({ search_index: false }), "/articles").searchIndex).toBe(false);
+  });
+
+  it("carries search_index: true through as true", () => {
+    expect(mapInflowArticle(item({ search_index: true }), "/articles").searchIndex).toBe(true);
+  });
+
+  it("leaves searchIndex undefined when the field is absent", () => {
+    expect(mapInflowArticle(item({}), "/articles").searchIndex).toBeUndefined();
+  });
+
+  it.each([["the string false", "false"], ["zero", 0], ["null", null]])(
+    "ignores %s instead of rejecting the article",
+    (_label, value) => {
+      expect(mapInflowArticle(item({ search_index: value }), "/articles").searchIndex).toBeUndefined();
+    },
+  );
+
+  it("does not reject a whole feed because one article carries search_index", () => {
+    const payload = validPayload();
+    (payload.articles[0] as Record<string, unknown>).search_index = false;
+    expect(parseArticleInflowFeed(payload)).not.toBeNull();
   });
 });
