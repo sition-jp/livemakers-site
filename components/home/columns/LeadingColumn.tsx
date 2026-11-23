@@ -8,6 +8,7 @@ import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { EventRiskModule } from "../EventRiskModule";
 import { FlashListCard } from "../FlashListCard";
+import { ForecastRowsTable } from "../ForecastRowsTable";
 import { IndexEntryCard } from "../IndexEntryCard";
 import { MobileLeadCard, MobileMkt12Card } from "../MobileMorningCards";
 import { SessionFocusChart } from "../SessionFocusChart";
@@ -141,6 +142,12 @@ export function LeadingColumn({
             copy={{ familyLabels: copy.familyLabels }}
             stageLine={slots.cycleForecastLatest.forecastNoteJa ?? null}
             lineKind="forecast-note"
+            footer={
+              // 指標の表 (2026-11-23 田平氏承認)。号に表が無ければ出さない (前の号の表は付けない)
+              slots.cycleForecastLatest.forecastRowsJa ? (
+                <ForecastRowsTable rows={slots.cycleForecastLatest.forecastRowsJa} />
+              ) : null
+            }
           />
         ) : null;
       default:

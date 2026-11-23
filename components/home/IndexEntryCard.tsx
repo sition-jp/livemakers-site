@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 import { Link } from "@/i18n/navigation";
 import type { ArticleFamily, ArticleMeta } from "@/lib/articles/article-model";
 import { ArticleCardSmall } from "./ArticleCardSmall";
@@ -15,6 +17,7 @@ export interface IndexEntryCopy {
  * family 色の同高さ placeholder 帯 (CLS ゼロ・ArticleThumbnail の判断)。
  * `stageLine` は金融再起動の現在地 (restart-map) の段階の 1 行 (2026-10-29 田平氏 GO)。
  * 最新 1 本の下に文字で添える (データ図は小さいと読めないので画像にしない)。
+ * `footer` は添える 1 行の下に置く任意の中身 (サイクル予報の指標の表・2026-11-23)。
  */
 export function IndexEntryCard({
   heading,
@@ -24,6 +27,7 @@ export function IndexEntryCard({
   copy,
   stageLine = null,
   lineKind = "restart-stages",
+  footer = null,
 }: {
   heading: string;
   entryHref: string;
@@ -33,6 +37,8 @@ export function IndexEntryCard({
   stageLine?: string | null;
   // 添える 1 行の印 (金融再起動の現在地の段階 / サイクル予報の天気・2026-11-23)
   lineKind?: "restart-stages" | "forecast-note";
+  // 最新 1 本と添える 1 行の下に置く中身 (最新 1 本が無いときは出さない)
+  footer?: ReactNode;
 }) {
   return (
     <section className="rounded-lg border border-border-primary bg-bg-secondary p-4">
@@ -61,6 +67,7 @@ export function IndexEntryCard({
               {stageLine}
             </p>
           ) : null}
+          {footer}
         </div>
       ) : null}
     </section>
