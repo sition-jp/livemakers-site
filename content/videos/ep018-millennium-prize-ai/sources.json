@@ -1,0 +1,229 @@
+{
+  "episodeId": "ep018",
+  "sources": [
+    {
+      "key": "clay_millennium",
+      "title": "クレイ数学研究所 — ミレニアム懸賞問題 (7 問・2000 年・1 問 100 万ドル)",
+      "url": "https://www.claymath.org/millennium-problems/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "openai_ns",
+      "title": "OpenAI — ナビエ・ストークス方程式のミレニアム懸賞問題 (2026-09-08・約 1 万の AI・約 88 時間・外から力を加える形・懸賞は求めない)",
+      "url": "https://openai.com/index/navier-stokes-solution/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "ns_repo",
+      "title": "L. Alpöge・T. Buckmaster — ナビエ・ストークス方程式の有限時間の爆発 (論文 79 ページ・2026-11-20 版・Lean 約 60 万行・証明書は未公開)",
+      "url": "https://github.com/tristanbuckmaster/navier-stokes/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "clay_rh",
+      "title": "クレイ数学研究所 — リーマン予想 (1859 年の論文)",
+      "url": "https://www.claymath.org/millennium/riemann-hypothesis/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "clay_poincare",
+      "title": "クレイ数学研究所 — ポアンカレ予想 (1904 年に問われた・2002 年と 2003 年の arXiv の証明)",
+      "url": "https://www.claymath.org/millennium/poincare-conjecture/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "mactutor_navier",
+      "title": "MacTutor (セント・アンドルーズ大学) — ナビエの伝記 (1821 年・1822 年に流れの方程式)",
+      "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Navier/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "sciam_ym",
+      "title": "Scientific American — Dueling proofs from OpenAI and Anthropic astound scientists (2026-10-27・ヤン＝ミルズ方程式の前半・後半は残る)",
+      "url": "https://www.scientificamerican.com/article/dueling-proofs-from-openai-and-anthropic-astound-scientists/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "sciam_rh",
+      "title": "Scientific American — Anthropic mathematician claims to prove Riemann hypothesis (2026-11-20・21 更新・サザーランド氏「The world has changed」)",
+      "url": "https://www.scientificamerican.com/article/anthropic-mathematician-claims-to-prove-riemann-hypothesis-most-famous-problem-in-all-of-math/",
+      "accessed": "2026-11-23",
+      "chapter": 1
+    },
+    {
+      "key": "clay_ns",
+      "title": "クレイ数学研究所 — ナビエ・ストークス方程式 (問題のページ・「理解はまだごくわずか」)",
+      "url": "https://www.claymath.org/millennium/navier-stokes-equation/",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "jma_nwp",
+      "title": "気象庁 — 数値予報とは",
+      "url": "https://www.jma.go.jp/jma/kishou/know/whitep/1-3-1.html",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "clay_fefferman",
+      "title": "クレイ数学研究所 — C. Fefferman による公式の問題文 (4 つの言い方 (A)〜(D) のどれか 1 つを証明する)",
+      "url": "https://www.claymath.org/wp-content/uploads/2022/06/navierstokes.pdf",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "jma_nwp_doc",
+      "title": "気象庁 — 令和 3 年度 数値予報解説資料集 1.1 (支配方程式を解いて 24 時間後の大気を予測する)",
+      "url": "https://www.jma.go.jp/jma/kishou/books/nwpkaisetu/R3/1_1.pdf",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "misaki_cfd",
+      "title": "見崎孝一「数値流体力学の基礎と脳動脈瘤への臨床応用」金沢大学十全医学会雑誌 128(2), 2019 (0.005 秒ごとに血流の速さと圧力を計算)",
+      "url": "https://doi.org/10.24517/00055872",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "mactutor_stokes",
+      "title": "MacTutor (セント・アンドルーズ大学) — ストークスの伝記 (1845 年の論文)",
+      "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Stokes/",
+      "accessed": "2026-11-23",
+      "chapter": 2
+    },
+    {
+      "key": "tao_nov20",
+      "title": "Terence Tao ブログ (2026-11-20・力を加えないオイラー方程式とナビエ・ストークス方程式の特異点、一般化リーマン予想)",
+      "url": "https://terrytao.wordpress.com/2026/11/20/unforced-euler-singularity-unforced-navier-stokes-singularity-and-the-generalized-riemann-hypothesis/",
+      "accessed": "2026-11-23",
+      "chapter": 3
+    },
+    {
+      "key": "clay_ns_2026",
+      "title": "クレイ数学研究所 — ナビエ・ストークス方程式についての声明 (2026-09-11・「解決したらしい」・手続きは急がない)",
+      "url": "https://www.claymath.org/news/navier-stokes-announcement/",
+      "accessed": "2026-11-23",
+      "chapter": 3
+    },
+    {
+      "key": "jaxa_rans",
+      "title": "JAXA スーパーコンピュータ 利用成果報告 (細かい乱れの計算で、ふだんの計算の型 RANS の精度を上げる)",
+      "url": "https://www.jss.jaxa.jp/mediadir/2024/08/R23JCMP60.pdf",
+      "accessed": "2026-11-23",
+      "chapter": 3
+    },
+    {
+      "key": "quanta_sep",
+      "title": "Quanta Magazine — AI Has Solved One of Math's $1 Million Millennium Prize Problems (2026-09-08・すぐの実際の影響はない・流体は分子でできている)",
+      "url": "https://quantamagazine.org/ai-has-solved-one-of-maths-1-million-millennium-prize-problems-20260908",
+      "accessed": "2026-11-23",
+      "chapter": 3
+    },
+    {
+      "key": "sciam_nov",
+      "title": "Scientific American — AI just solved the 'real' Navier-Stokes problem (2026-11-20)",
+      "url": "https://www.scientificamerican.com/article/ai-just-solved-the-real-navier-stokes-problem/",
+      "accessed": "2026-11-23",
+      "chapter": 3
+    },
+    {
+      "key": "lean_rh",
+      "title": "Lean と Mathlib のコミュニティ — リーマン予想の証明についての共同声明 (2026-11-21・「主張と証明が正しいことを認定する」)",
+      "url": "https://leanprover-community.github.io/blog/posts/riemann-hypothesis/",
+      "accessed": "2026-11-23",
+      "chapter": 4
+    },
+    {
+      "key": "buckmaster_sep",
+      "title": "Tristan Buckmaster (NYU) — 声明 (4 ページ・2026-09-08・「結果が大事なのではない」「ディープ・ブルーとカスパロフの瞬間」)",
+      "url": "https://cims.nyu.edu/~tristanb/statement.pdf",
+      "accessed": "2026-11-23",
+      "chapter": 5
+    },
+    {
+      "key": "fields_decl",
+      "title": "Terence Tao ブログ — 25 人のフィールズ賞受賞者の宣言「A Severe Misalignment of AI in Mathematics」(2026-09-11)",
+      "url": "https://terrytao.wordpress.com/2026/09/11/a-severe-misalignment-of-ai-in-mathematics/",
+      "accessed": "2026-11-23",
+      "chapter": 5
+    },
+    {
+      "key": "clay_rules",
+      "title": "クレイ数学研究所 — ミレニアム懸賞の規則 (2018 年 9 月 26 日改訂・発表から 2 年以上)",
+      "url": "https://www.claymath.org/millennium-problems/rules/",
+      "accessed": "2026-11-23",
+      "chapter": 6
+    },
+    {
+      "key": "drew_grh",
+      "title": "Andrew Sutherland (MIT) — 検証の結果のページ (2026-11-22 16:20 UTC 時点)",
+      "url": "https://math.mit.edu/~drew/grh/",
+      "accessed": "2026-11-23",
+      "chapter": 6
+    },
+    {
+      "key": "polymarket_math",
+      "title": "Polymarket — 次に AI が解くミレニアム問題 / 2026 年に AI が解く数学の問題 (2026-11-23 09:05 JST の値段)",
+      "url": "https://polymarket.com/all/riemann-hypothesis",
+      "accessed": "2026-11-23",
+      "chapter": 6
+    },
+    {
+      "key": "polymarket_clay_ns",
+      "title": "Polymarket — クレイ数学研究所はナビエ・ストークス方程式の解決を認めるか (2028 年中 21.5%・2026-11-23 09:05 JST)",
+      "url": "https://polymarket.com/event/will-cmi-declare-the-navier-stokes-problem-solved-by",
+      "accessed": "2026-11-23",
+      "chapter": 6
+    },
+    {
+      "key": "alphaproof_code",
+      "title": "Google DeepMind — Introducing AlphaProof Code (2026-11-10・Signal の仕組みのコードの安全性・600 万行超の Lean を 4 週間で)",
+      "url": "https://deepmind.google/blog/introducing-alphaproof-code/",
+      "accessed": "2026-11-23",
+      "chapter": 6
+    },
+    {
+      "key": "astree",
+      "title": "Astrée — 2003 年 11 月、エアバス A340 の主な操縦のソフトで実行時の誤りがないことを自動で証明",
+      "url": "https://www.astree.ens.fr/",
+      "accessed": "2026-11-23",
+      "chapter": 7
+    },
+    {
+      "key": "alphafold_db",
+      "title": "AlphaFold Protein Structure Database (EMBL-EBI) — 2 億を超える予測・無料",
+      "url": "https://alphafold.ebi.ac.uk/",
+      "accessed": "2026-11-23",
+      "chapter": 7
+    },
+    {
+      "key": "nobel_2024",
+      "title": "ノーベル財団 — 2024 年ノーベル化学賞の発表",
+      "url": "https://www.nobelprize.org/prizes/chemistry/2024/press-release/",
+      "accessed": "2026-11-23",
+      "chapter": 7
+    },
+    {
+      "key": "insilico",
+      "title": "Insilico Medicine — rentosertib の第 III 相の試験を開始 (2026-07-07・AI が標的を見つけ生成 AI が構造を設計・未承認)",
+      "url": "https://insilico.com/news/xmjsn4l091-insilico-initiates-phase-iii-clinical-tr",
+      "accessed": "2026-11-23",
+      "chapter": 7
+    },
+    {
+      "key": "npr_sep",
+      "title": "NPR — AI solved one of math's hardest problems. Humanity learned nothing (so far). (2026-09-22・見出し)",
+      "url": "https://www.npr.org/2026/09/22/nx-s1-5968588/openai-navier-stokes-problem-mathematicians-learn-little",
+      "accessed": "2026-11-23",
+      "chapter": 7
+    }
+  ]
+}
