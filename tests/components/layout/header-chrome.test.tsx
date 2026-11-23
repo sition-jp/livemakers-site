@@ -207,6 +207,7 @@ describe("G41 page chrome", () => {
       expect(links[atlas - 1]?.href).toBe("/articles/series/weekly-brief");
       expect(links.slice(atlas + 1).map((link) => link.href)).toEqual([
         "/articles/series/restart-map",
+        "/articles/series/cycle-forecast",
         "/articles/series/landmark",
         "/about",
       ]);

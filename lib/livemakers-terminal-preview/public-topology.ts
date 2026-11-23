@@ -12,7 +12,7 @@ const allowedPublishedArticleRoutes = [
   /^\/signals\/[A-Za-z0-9_-]+$/,
   /^\/articles\/[a-z0-9-]+$/,
   /^\/articles\/today$/,
-  /^\/articles\/series\/(daily-intel|signal|deep-dive|future-map|mkt12-morning|mkt12-weekend|event-risk-radar|weekly-brief|flash|landmark|restart-map)$/,
+  /^\/articles\/series\/(daily-intel|signal|deep-dive|future-map|mkt12-morning|mkt12-weekend|event-risk-radar|weekly-brief|flash|landmark|restart-map|cycle-forecast)$/,
   /^\/sessions\/\d{4}-\d{2}-\d{2}-(asia-open|europe-bridge|ny-open|global-close)$/,
   /^\/sessions\/archive$/,
   /^\/future-atlas$/,
@@ -35,6 +35,7 @@ export const PAGE_CHROME_ROUTES = [
   "/articles/series/flash",
   "/articles/series/landmark",
   "/articles/series/restart-map",
+  "/articles/series/cycle-forecast",
   // 資金調達の棚 (トップ右の列の枠・Signal 一覧のリンクの飛び先)。ヘッダには置かない
   "/topics/funding",
   "/sessions/archive",

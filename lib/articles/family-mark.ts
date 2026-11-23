@@ -24,6 +24,8 @@ export const FAMILY_MARK: Readonly<Record<ArticleFamily, string>> = {
   "event-risk-radar": "📌",
   // 今のラベル `🗺️ 金融再起動の現在地 #N｜` と同じ (U+1F5FA U+FE0F)
   "restart-map": "🗺️",
+  // サイクル予報 (2026-11-23)。題は新しい形 `見出し｜サイクル予報 #N` で、印は一覧の見た目だけに使う
+  "cycle-forecast": "🌤",
   "future-map": "🔭",
   "mkt12-morning": "📈",
   "mkt12-weekend": "📈",

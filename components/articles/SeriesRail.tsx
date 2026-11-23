@@ -42,7 +42,8 @@ export const RAIL_SECTIONS = [
 ] as const;
 // deep-dive は常設枠から外れたが current series の hoist 先としては残る。
 // landmark (節目シグナル・2026-10-03) も常設枠を持たず、閲覧中だけ current series として先頭に立つ
-export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive" | "landmark";
+// cycle-forecast (サイクル予報・2026-11-23 田平氏「今はまだ」) も同じ — 常設枠を持たず閲覧中だけ
+export type RailSection = (typeof RAIL_SECTIONS)[number] | "deep-dive" | "landmark" | "cycle-forecast";
 
 const LATEST_ARTICLES_COUNT = 20;
 
@@ -51,6 +52,7 @@ const SECTION_FAMILY: Partial<Record<RailSection, ArticleFamily>> = {
   signal: "signal",
   landmark: "landmark",
   "restart-map": "restart-map",
+  "cycle-forecast": "cycle-forecast",
   "deep-dive": "deep-dive",
   "mkt12-morning": "mkt12-morning",
   "event-risk-radar": "event-risk-radar",
@@ -284,6 +286,7 @@ export function buildTestSeriesRailCopy(): SeriesRailCopy {
       flash: "速報",
       landmark: "節目シグナル",
       "restart-map": "金融再起動の現在地",
+      "cycle-forecast": "サイクル予報",
     },
   };
 }

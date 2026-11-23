@@ -65,6 +65,8 @@ describe("flat header nav (2026-08-14 田平氏指示 — dropdown 廃止)", () 
     "/articles/series/future-map",
     // 2026-10-29 田平氏: 金融再起動の現在地は次の時代の地図の後ろ・節目シグナルはその後ろ
     "/articles/series/restart-map",
+    // 2026-11-23: サイクル予報は金融再起動の現在地の後ろ・節目シグナルの前
+    "/articles/series/cycle-forecast",
     "/articles/series/landmark",
     "/about",
   ];

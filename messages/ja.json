@@ -23,6 +23,7 @@
     "flash": "速報",
     "landmark": "節目シグナル",
     "restartMap": "金融再起動の現在地",
+    "cycleForecast": "サイクル予報",
     "videos": "動画"
   },
   "assets": {
@@ -500,7 +501,8 @@
       "future-atlas": "未来アトラス",
       "flash": "速報",
       "landmark": "節目シグナル",
-      "restart-map": "金融再起動の現在地"
+      "restart-map": "金融再起動の現在地",
+      "cycle-forecast": "サイクル予報"
     },
     "sessionNow": {
       "sessionBadgeSuffix": "JST 更新",
@@ -610,7 +612,8 @@
       "future-atlas": "未来アトラス",
       "flash": "速報",
       "landmark": "節目シグナル",
-      "restart-map": "金融再起動の現在地"
+      "restart-map": "金融再起動の現在地",
+      "cycle-forecast": "サイクル予報"
     },
     "todayTitle": "本日の記事一覧",
     "dayTitle": "{month}月{day}日の記事（{count} 本）",

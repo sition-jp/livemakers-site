@@ -21,6 +21,7 @@ describe("lib/articles/family-mark", () => {
       landmark: "📍",
       "event-risk-radar": "📌",
       "restart-map": "🗺️",
+      "cycle-forecast": "🌤",
       "future-map": "🔭",
       "mkt12-morning": "📈",
       "mkt12-weekend": "📈",

@@ -20,6 +20,7 @@ import {
   loadPublicArticleInflowDetail,
 } from "@/lib/articles/article-inflow-feed";
 import { getAllArticles } from "@/lib/articles/article-model";
+import { isSafeArticleInflowBody } from "@/lib/articles/article-inflow-validation.mjs";
 
 const originalUrl = process.env.LIVEMAKERS_ARTICLE_INFLOW_FEED_URL;
 const originalFlag = process.env.LIVEMAKERS_ARTICLE_INFLOW_PREVIEW_ENABLED;
@@ -111,6 +112,32 @@ describe("article inflow server boundary", () => {
     const fetcher = vi.fn(async () => ({ ok: true, json: async () => feed }));
     const parsed = await fetchArticleInflowFeed(fetcher as unknown as typeof fetch);
     expect(parsed?.articles.map((a) => a.family)).toEqual(["daily-intel", "restart-map"]);
+  });
+
+  it("accepts a cycle-forecast (サイクル予報) item without rejecting the feed (2026-11-23)", async () => {
+    process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/feed.json";
+    const feed = payload();
+    feed.articles.push({ ...feed.articles[0], slug: "cycle-forecast-20261125-feedtest", family: "cycle-forecast" });
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => feed }));
+    const parsed = await fetchArticleInflowFeed(fetcher as unknown as typeof fetch);
+    expect(parsed?.articles.map((a) => a.family)).toEqual(["daily-intel", "cycle-forecast"]);
+  });
+
+  it("treats a Blob-hosted chart image line as a safe article body (cycle-forecast figures)", () => {
+    const body = [
+      "ビットコインは昨年 10 月の高値から 412 日がたった。",
+      "",
+      "![サイクル予報 #1 — 今週の予報パネル](https://p80f4ywborfbatou.public.blob.vercel-storage.com/livemakers/cycle-forecast/1/panel-0123456789ab.png)",
+    ].join("\n");
+    expect(isSafeArticleInflowBody(body)).toBe(true);
+  });
+
+  it("still rejects the complete feed when one article has an unknown family", async () => {
+    process.env[ARTICLE_INFLOW_FEED_ENV_KEY] = "https://example.test/feed.json";
+    const feed = payload();
+    feed.articles.push({ ...feed.articles[0], slug: "unknown-family-feedtest", family: "not-a-family" });
+    const fetcher = vi.fn(async () => ({ ok: true, json: async () => feed }));
+    expect(await fetchArticleInflowFeed(fetcher as unknown as typeof fetch)).toBeNull();
   });
 
   it("returns a fully validated feed", async () => {

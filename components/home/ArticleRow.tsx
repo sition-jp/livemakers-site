@@ -20,6 +20,7 @@ export const FAMILY_COLORS: Record<ArticleFamily, string> = {
   flash: "var(--lmk-family-flash)",
   landmark: "var(--lmk-family-landmark)",
   "restart-map": "var(--lmk-family-restart-map)",
+  "cycle-forecast": "var(--lmk-family-cycle-forecast)",
 };
 
 /**

@@ -11,7 +11,7 @@ export interface NavItem {
 }
 
 export interface NavModel {
-  articlesGroup: NavItem[]; // flag OFF: 11 項目 / ON: 10 項目 (future-map 除去・2026-09-21 flash 追加・2026-10-03 landmark 追加・2026-10-26 restart-map 追加)
+  articlesGroup: NavItem[]; // flag OFF: 11 項目 / ON: 10 項目 (future-map 除去・2026-09-21 flash 追加・2026-10-03 landmark 追加・2026-10-26 restart-map 追加・2026-11-23 cycle-forecast 追加)
   topLevel: NavItem[]; // ON のとき futureAtlas を先頭に含む
 }
 
@@ -40,6 +40,7 @@ export function buildNavModel(surfacePublished: boolean): NavModel {
     // 節目シグナル (2026-10-03 GO・数年に一度の節目) をさらにその後ろへ。
     // 旧: 週末の12指標の後ろに 節目シグナル → 金融再起動の現在地 (2026-10-16 / 10-26)
     { key: "restartMap", href: seriesHref("restart-map") },
+    { key: "cycleForecast", href: seriesHref("cycle-forecast") },
     { key: "landmark", href: seriesHref("landmark") },
   ];
 
