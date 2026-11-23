@@ -72,6 +72,9 @@ export const ArticleMetaSchema = z
     // 2026-11-23 (田平氏 GO・案 1): 発行側の検索に出すかの印 (lib/articles/search-visibility.ts)。
     // feed の値は mapInflowArticle が真偽値だけに絞ってから渡す
     searchIndex: z.boolean().optional(),
+    // 2026-11-23 (田平氏 GO・案 A): サイクル予報の号の天気の 1 行 (トップページの左の列のカード)。
+    // feed の値は mapInflowArticle が cycle-forecast・1 行・120 字以内に絞ってから渡す
+    forecastNoteJa: z.string().min(1).max(120).optional(),
   })
   .superRefine((meta, context) => {
     if (
@@ -82,6 +85,12 @@ export const ArticleMetaSchema = z
       context.addIssue({
         code: z.ZodIssueCode.custom,
         message: "mkt12 articles require dataDate",
+      });
+    }
+    if (meta.forecastNoteJa && meta.family !== "cycle-forecast") {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "forecastNoteJa is only valid on cycle-forecast",
       });
     }
     if (meta.regimeNoteJa && meta.family !== "mkt12-morning") {

@@ -76,6 +76,8 @@ export interface HomeSlots {
   weeklyBriefLatest: ArticleMeta | null;
   // 2026-10-29 田平氏 GO: 金融再起動の現在地 (月 1 回) の最新号。索引意味論
   restartMapLatest: ArticleMeta | null;
+  // 2026-11-23 田平氏 GO (案 A): 左の列のサイクル予報のカード (索引意味論)
+  cycleForecastLatest: ArticleMeta | null;
   // 資金調達の枠 (入口 ②): 記事の時計より未来を除き新しい順に最大 5 本。索引意味論
   fundingArticles: ArticleMeta[];
 }
@@ -263,6 +265,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
   const mkt12WeekendLatest = latestOf("mkt12-weekend");
   const weeklyBriefLatest = latestOf("weekly-brief");
   const restartMapLatest = latestOf("restart-map");
+  const cycleForecastLatest = latestOf("cycle-forecast");
   const fundingArticles = input.fundingArticles
     .toSorted((left, right) =>
       right.publishedAtJst.localeCompare(left.publishedAtJst),
@@ -284,6 +287,7 @@ export function selectHomeSlots(rawInput: HomeSlotInput): HomeSlots {
     mkt12WeekendLatest,
     weeklyBriefLatest,
     restartMapLatest,
+    cycleForecastLatest,
     fundingArticles,
   };
 }

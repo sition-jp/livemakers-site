@@ -8,6 +8,7 @@ import { getSessionBySlug } from "@/lib/sessions/session-registry";
 import type { HomeCompositionProps } from "../HomeComposition";
 import { EventRiskModule } from "../EventRiskModule";
 import { FlashListCard } from "../FlashListCard";
+import { IndexEntryCard } from "../IndexEntryCard";
 import { MobileLeadCard, MobileMkt12Card } from "../MobileMorningCards";
 import { SessionFocusChart } from "../SessionFocusChart";
 import { SessionNowCard } from "../SessionNowCard";
@@ -128,25 +129,46 @@ export function LeadingColumn({
             locale={locale}
           />
         );
+      case "cycle-forecast":
+        // 2026-11-23 田平氏 GO (案 A): 最新号と天気の 1 行 (号に 1 行が無ければ題とリンクだけ・
+        // 前の号の 1 行は付けない)。号が無い日は下の map で hidden にする
+        return slots.cycleForecastLatest ? (
+          <IndexEntryCard
+            heading={copy.familyLabels["cycle-forecast"]}
+            entryHref="/articles/series/cycle-forecast"
+            entryLabel={copy.gradient.viewAll}
+            latest={slots.cycleForecastLatest}
+            copy={{ familyLabels: copy.familyLabels }}
+            stageLine={slots.cycleForecastLatest.forecastNoteJa ?? null}
+            lineKind="forecast-note"
+          />
+        ) : null;
       default:
         return null;
     }
   };
 
   return (
-    <section data-ledger-group={REGION} className="min-w-0 space-y-6">
+    // 2026-11-23: space-y-6 → flex + gap-6。末尾のサイクル予報が号の無い日に hidden になると、
+    // space-y は :not(:last-child) で速報の一覧の下に余白を残す。gap は display:none の子を飛ばす
+    <section data-ledger-group={REGION} className="flex min-w-0 flex-col gap-6">
       <h2 className="text-xs font-bold uppercase tracking-label text-text-tertiary">
         {copy.intelligenceTerminal}
       </h2>
-      {REGION_MODULES[REGION].map((module) => (
-        <div
-          key={module}
-          data-column-module={module}
-          className={MODULE_CLASSNAMES[module]}
-        >
-          {renderModule(module)}
-        </div>
-      ))}
+      {REGION_MODULES[REGION].map((module) =>
+        // 号の無いサイクル予報は枠ごと隠す (列は gap なので余白も残らない)
+        module === "cycle-forecast" && !slots.cycleForecastLatest ? (
+          <div key={module} data-column-module={module} hidden aria-hidden="true" />
+        ) : (
+          <div
+            key={module}
+            data-column-module={module}
+            className={MODULE_CLASSNAMES[module]}
+          >
+            {renderModule(module)}
+          </div>
+        ),
+      )}
     </section>
   );
 }

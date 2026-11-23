@@ -50,6 +50,11 @@ export const REGION_MODULES: Readonly<Record<GradientRegion, readonly string[]>>
     "mkt12-card-mobile",
     "event-risk",
     "flash-list",
+    // 2026-11-23 田平氏 GO (案 A): サイクル予報の最新号と天気の 1 行。号が無い日は hidden
+    //   spec: core 08_DOCS/knowledge/specs/2026-11-23-lvm-cycle-forecast-home-card-design.md
+    //   号が無い日は枠ごと hidden (リンクが 0 本になる) ので video と同じく INDEX_NAV_MODULES
+    //   には入れず、カード (IndexEntryCard) のリンク自身が data-index-nav を持つ
+    "cycle-forecast",
   ],
   // 2026-10-28 田平氏 GO: 資金調達 (funding・入口 ②) は「いまどこに資金が流れて
   //   いるか」= 現在地なので、遅行の記事枠 (新着順で動く) から一致の固定位置

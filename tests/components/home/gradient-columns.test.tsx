@@ -172,6 +172,78 @@ describe("LeadingColumn (gradient leading, D5)", () => {
     expect(container.querySelector('[data-column-module="flash-promotion"]')).toBeNull();
     expect(container.textContent).not.toContain("観測から記事へ");
   });
+  // 2026-11-23 田平氏 GO (案 A): サイクル予報の最新号と天気の 1 行を速報の一覧の下に出す
+  describe("cycle-forecast card", () => {
+    const NOTE = "ビットコイン — 晴れ 1・くもり 4・雨 0（11 月 22 日の週）";
+    const issue = (extra: Record<string, unknown> = {}) => ({
+      ...props.slots.latestArticles[0]!,
+      articleId: "cycle-forecast-20261123-f9082304",
+      family: "cycle-forecast" as const,
+      titleJa: "ビットコイン、底の時期でも下げは過去の底の 6 割台｜サイクル予報 #1",
+      publishedAtJst: "2026-11-23T18:22:00+09:00",
+      href: "/articles/cycle-forecast-20261123-f9082304",
+      ...extra,
+    });
+    const renderWith = (cycleForecastLatest: unknown) =>
+      render(
+        <LeadingColumn
+          live={props.live}
+          schedule={props.schedule}
+          slots={{ ...props.slots, cycleForecastLatest } as typeof props.slots}
+          focusSeries={props.focusSeries}
+          focusSessionSlug={props.focusSessionSlug}
+          sessionProvenance={props.sessionProvenance}
+          copy={copy}
+        />,
+      );
+
+    it("sits right after the flash list in the leading column", () => {
+      const { container } = renderWith(issue());
+      const modules = [...container.querySelectorAll("[data-column-module]")].map((el) =>
+        el.getAttribute("data-column-module"),
+      );
+      expect(modules.slice(-2)).toEqual(["flash-list", "cycle-forecast"]);
+    });
+
+    it("hides the module when no issue has been published", () => {
+      const { container } = renderWith(null);
+      const slot = container.querySelector('[data-column-module="cycle-forecast"]')!;
+      expect(slot.hasAttribute("hidden")).toBe(true);
+      expect(slot.childElementCount).toBe(0);
+    });
+
+    it("spaces the column with gap so the hidden last module leaves no trailing margin", () => {
+      // space-y-6 は :not(:last-child) に margin を付け hidden を見ない — 末尾が hidden だと
+      // 速報の一覧の下に 24px が残る。gap は display:none の子を飛ばす (最終レビュー 2026-11-23)
+      const { container } = renderWith(null);
+      const column = container.querySelector('[data-ledger-group="leading"]')!;
+      expect(column.classList.contains("space-y-6")).toBe(false);
+      expect([...column.classList]).toEqual(expect.arrayContaining(["flex", "flex-col", "gap-6"]));
+    });
+
+    it("shows the latest issue and the series link without a weather line when the issue has none", () => {
+      const { container } = renderWith(issue());
+      const card = container.querySelector('[data-column-module="cycle-forecast"]')!;
+      expect(card.hasAttribute("hidden")).toBe(false);
+      expect(card.textContent).toContain(copy.familyLabels["cycle-forecast"]);
+      expect(card.querySelector('a[href*="/articles/series/cycle-forecast"]')).not.toBeNull();
+      expect(
+        card.querySelector('[data-article-id="cycle-forecast-20261123-f9082304"]'),
+      ).not.toBeNull();
+      expect(card.querySelector("[data-forecast-note]")).toBeNull();
+      // 索引の枠: リンクはすべて data-index-nav (記事 id の重複検査から外れる・gate 6)
+      const anchors = [...card.querySelectorAll("a[href]")];
+      expect(anchors.length).toBeGreaterThanOrEqual(2);
+      for (const anchor of anchors) expect(anchor.closest("[data-index-nav]")).not.toBeNull();
+    });
+
+    it("adds the weather line of the latest issue", () => {
+      const { container } = renderWith(issue({ forecastNoteJa: NOTE }));
+      const card = container.querySelector('[data-column-module="cycle-forecast"]')!;
+      expect(card.querySelector("[data-forecast-note]")?.textContent).toBe(NOTE);
+      expect(card.querySelector("[data-restart-stages]")).toBeNull();
+    });
+  });
 });
 
 describe("CoincidentColumn (gradient coincident, D6)", () => {

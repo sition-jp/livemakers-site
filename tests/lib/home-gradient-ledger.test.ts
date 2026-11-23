@@ -22,9 +22,10 @@ describe("gradient ledger", () => {
     // 予定 → 注目銘柄チャートを連続させる)。
     // 2026-10-26 田平氏 GO: スマホ専用の Daily Intel 大カード・12指標 小カードを
     // focus の直下 (Intelligence Terminal の下) に置く。
+    // 2026-11-23 田平氏 GO (案 A): サイクル予報のカードを速報の一覧の下へ (号が無い日は hidden)。
     expect(REGION_MODULES.leading).toEqual([
       "session-now", "schedule", "focus", "lead-card-mobile", "mkt12-card-mobile",
-      "event-risk", "flash-list",
+      "event-risk", "flash-list", "cycle-forecast",
     ]);
     // 2026-08-23 田平氏 GO B-1: lead-article + mkt12-reading を morning-desk
     // (「Daily Intel」帯) へ統合し、signal-timeline を前面化。

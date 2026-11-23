@@ -163,3 +163,43 @@ describe("article inflow contract — search_index", () => {
     expect(parseArticleInflowFeed(payload)).not.toBeNull();
   });
 });
+
+// 2026-11-23 (田平氏 GO・案 A): サイクル予報の号が天気の 1 行 (forecast_note) を運ぶ。
+// トップページの左の列のカードに出す。cycle-forecast だけ・壊れた値は無いものとして扱う
+describe("article inflow contract — forecast_note", () => {
+  const NOTE = "ビットコイン — 晴れ 1・くもり 4・雨 0（11 月 22 日の週）";
+  function item(extra: Record<string, unknown>, family = "cycle-forecast") {
+    return { ...validPayload().articles[0], family, ...extra } as never;
+  }
+
+  it("carries forecast_note of a cycle-forecast article to ArticleMeta.forecastNoteJa", () => {
+    expect(mapInflowArticle(item({ forecast_note: NOTE }), "/articles").forecastNoteJa).toBe(NOTE);
+  });
+
+  it("leaves forecastNoteJa undefined when the field is absent", () => {
+    expect(mapInflowArticle(item({}), "/articles").forecastNoteJa).toBeUndefined();
+  });
+
+  it("drops forecast_note on any family other than cycle-forecast", () => {
+    expect(
+      mapInflowArticle(item({ forecast_note: NOTE }, "signal"), "/articles").forecastNoteJa,
+    ).toBeUndefined();
+  });
+
+  it.each([
+    ["a number", 3],
+    ["an empty string", "  "],
+    ["a line break", "晴れ 1\nくもり 4"],
+    ["more than 120 characters", "あ".repeat(121)],
+  ])("ignores %s instead of rejecting the article", (_label, value) => {
+    expect(
+      mapInflowArticle(item({ forecast_note: value }), "/articles").forecastNoteJa,
+    ).toBeUndefined();
+  });
+
+  it("does not reject a whole feed because one article carries forecast_note", () => {
+    const payload = validPayload();
+    (payload.articles[0] as Record<string, unknown>).forecast_note = NOTE;
+    expect(parseArticleInflowFeed(payload)).not.toBeNull();
+  });
+});
