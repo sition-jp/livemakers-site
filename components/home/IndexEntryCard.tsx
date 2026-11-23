@@ -23,6 +23,7 @@ export function IndexEntryCard({
   latest,
   copy,
   stageLine = null,
+  lineKind = "restart-stages",
 }: {
   heading: string;
   entryHref: string;
@@ -30,6 +31,8 @@ export function IndexEntryCard({
   latest: ArticleMeta | null;
   copy: IndexEntryCopy;
   stageLine?: string | null;
+  // 添える 1 行の印 (金融再起動の現在地の段階 / サイクル予報の天気・2026-11-23)
+  lineKind?: "restart-stages" | "forecast-note";
 }) {
   return (
     <section className="rounded-lg border border-border-primary bg-bg-secondary p-4">
@@ -52,7 +55,7 @@ export function IndexEntryCard({
           />
           {stageLine ? (
             <p
-              data-restart-stages=""
+              {...{ [`data-${lineKind}`]: "" }}
               className="mt-2 text-xs font-semibold leading-relaxed text-text-secondary"
             >
               {stageLine}

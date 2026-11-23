@@ -412,6 +412,30 @@ describe("home slot selection (B+)", () => {
     expect(slots.weeklyBriefLatest?.articleId).toBe("weekly-brief-001");
     // fixture に restart-map は無い → 枠は入口だけ
     expect(slots.restartMapLatest).toBeNull();
+    // fixture にサイクル予報は無い → カードを出さない
+    expect(slots.cycleForecastLatest).toBeNull();
+  });
+
+  it("picks the newest cycle-forecast issue without consuming it (index semantics)", () => {
+    const issue = (id: string, at: string): ArticleMeta => ({
+      articleId: id,
+      family: "cycle-forecast",
+      titleJa: id,
+      publishedAtJst: at,
+      publishedLabel: at.slice(5, 16),
+      lanes: [],
+      href: `/articles/${id}`,
+    });
+    const slots = selectHomeSlots({
+      ...input(),
+      articles: [
+        issue("cycle-forecast-2", "2026-07-08T20:00:00+09:00"),
+        issue("cycle-forecast-1", "2026-07-01T20:00:00+09:00"),
+        ...input().articles,
+      ],
+    });
+    expect(slots.cycleForecastLatest?.articleId).toBe("cycle-forecast-2");
+    expect(collectSelectedArticleIds(slots)).not.toContain("cycle-forecast-2");
   });
 
   it("picks the newest restart-map issue without consuming it (index semantics)", () => {
