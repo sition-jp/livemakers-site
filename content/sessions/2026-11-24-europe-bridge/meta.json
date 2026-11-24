@@ -1,0 +1,114 @@
+{
+  "sessionId": "2026-11-24-europe-bridge",
+  "date": "2026-11-24",
+  "sessionSlug": "europe-bridge",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-24-europe-bridge",
+  "canonicalArticleUrl": "/sessions/2026-11-24-europe-bridge",
+  "publishedAt": "2026-11-25T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261124_1203_4ecc7bef",
+  "asOfJst": "2026-11-24T12:03:03+09:00",
+  "focusInstruments": [
+    "eur_usd",
+    "us10y"
+  ],
+  "titleJa": "Europe Bridge Terminal — 11月24日 12:03 JST",
+  "bullets": [
+    "EUR/USD（perp） 1.0987 → 1.0916（-0.65%）",
+    "変動幅上位: 日経225（perp） +4.9% / 米テック100（perp） +4.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261124_1303_ccea168e",
+    "crawlAnchorJst": "2026-11-24T12:03:00+09:00",
+    "writtenAtJst": "2026-11-24T13:03:31+09:00",
+    "lead": "Nvidia がフアン氏を CEO に戻し、株式市場は AI の巻き戻しを一気に取り返した。ホワイトハウスは復帰を歓迎し、トランプ氏は自ら取締役会と話したと語っている。一方で半導体の流出をめぐる取引制限は続き、ビットコインは株高についていけなかった。暗号資産の側では、CFTC が BTC と ETH を事業者の財務資源に数える道を開き、Stellar と Polygon が大きな更新を本番に入れた。",
+    "items": [
+      {
+        "headline": "Nvidia、フアン氏を社長・CEO・取締役に戻すと発表",
+        "sourceUrl": "https://x.com/nvidianewsroom/status/2124865060397019480",
+        "note": "辞任から数週間での復帰。取締役会の決定として同社が公表した。"
+      },
+      {
+        "headline": "ホワイトハウス、Nvidia の決定を「正しく適切」と歓迎",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2124872428723552741",
+        "note": "トランプ氏は CNBC で、取締役会への電話で復帰をまとめたと繰り返し語った。"
+      },
+      {
+        "headline": "トランプ氏、CNBC のインタビューで復帰の経緯を語る",
+        "sourceUrl": "https://www.cnbc.com/2026/11/23/trump-nvidia-jensen-huang-reinstatement-cnbc-interview-transcript.html",
+        "note": "共和党内の反対には「彼らは大丈夫だ」と答えた。発言録が公開されている。"
+      },
+      {
+        "headline": "フアン氏、12 月 3 日の上院での証言は予定どおり",
+        "sourceUrl": "https://www.cbsnews.com/news/jensen-huang-congress-reinstatement-nvidia/",
+        "note": "復帰後も議会の公聴会は変わらない。"
+      },
+      {
+        "headline": "米国、Megaspeed を取引制限の対象に",
+        "sourceUrl": "https://www.cbsnews.com/news/megaspeed-trade-blacklist-nvidia-jensen-huang/",
+        "note": "Nvidia の半導体の流出をめぐる疑いが理由とされる。"
+      },
+      {
+        "headline": "アリババのシンガポール子会社なども取引制限の対象に",
+        "sourceUrl": "https://x.com/business/status/2125046831872626984",
+        "note": "Bloomberg が報道。対象の詳細は政府の公表で確かめる段階。"
+      },
+      {
+        "headline": "日本株と国債がそろって上昇、AI 関連が戻る",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/japan-stocks-rebound-as-huang-s-return-resuscitates-ai-trade",
+        "note": "フアン氏の復帰で AI の減速懸念が和らいだと Bloomberg は伝えた。"
+      },
+      {
+        "headline": "ビットコインは株高についていけず",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/bitcoin-fails-to-hold-nvidia-bump-with-crypto-headwinds-in-focus",
+        "note": "株式が大きく上げる一方、BTC は上げ幅を保てなかった。"
+      },
+      {
+        "headline": "CFTC、ビットコインとイーサの一部を事業者の財務資源に数えてよいと助言",
+        "sourceUrl": "https://x.com/CFTC/status/2124991148359930331",
+        "note": "デリバティブの取引所と清算機関が対象。同日にイベント契約のデータ報告の最終規則も出した。"
+      },
+      {
+        "headline": "米財務省、イランの両替所など二十数件を制裁",
+        "sourceUrl": "https://x.com/USTreasury/status/2124950601247186986",
+        "note": "「Operation Economic Outcast」の一環としている。"
+      },
+      {
+        "headline": "Strategy、457 BTC を追加取得し STRC を 2.12 億ドル買い戻し",
+        "sourceUrl": "https://x.com/Strategy/status/2124851019414904880",
+        "note": "発行済みの優先株を減らし、年間の配当負担を下げたと説明した。"
+      },
+      {
+        "headline": "Stellar、Protocol 30「Bell」がメインネットで有効に",
+        "sourceUrl": "https://x.com/StellarEmir/status/2124944783357645115",
+        "note": "スマートコントラクトで耐量子署名 ML-DSA を検証できるようになる。"
+      },
+      {
+        "headline": "Polygon、Agglayer v1.0 を本番で稼働",
+        "sourceUrl": "https://x.com/0xPolygon/status/2124897815784530213",
+        "note": "ZK 証明で検証するチェーン間の相互運用の仕組み。"
+      },
+      {
+        "headline": "Midnight、TxPipe とオラクルの SDK を出すと告知",
+        "sourceUrl": "https://x.com/midnightfdn/status/2124868926932730033",
+        "note": "外部のデータを Midnight の DApp に取り込むための道具。"
+      },
+      {
+        "headline": "ロシアが核弾頭を載せた衛星を年内に打ち上げる計画か",
+        "sourceUrl": "https://x.com/nikkei/status/2124832185513382195",
+        "note": "独メディアが欧米の情報機関の警告として報道。ロシア政府の発表ではない。"
+      },
+      {
+        "headline": "FRB の監察官、ボウマン副議長の対外発言をめぐり調査",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-23/fed-s-watchdog-probes-whether-bowman-broke-communications-rules",
+        "note": "Bloomberg の報道。7 月に上院議員が調査を求めていた。"
+      }
+    ],
+    "watch": [
+      "12 月 3 日の上院銀行委員会でのフアン氏の証言と、取引制限の対象の広がり",
+      "株高のなかで戻りの鈍い BTC が、週内に株式との連動を取り戻すか"
+    ]
+  }
+}
