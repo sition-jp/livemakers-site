@@ -1,0 +1,80 @@
+{
+  "sessionId": "2026-11-25-global-close",
+  "date": "2026-11-25",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-25-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-25-global-close",
+  "publishedAt": "2026-11-26T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261125_2303_fbc64335",
+  "asOfJst": "2026-11-25T23:03:02+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月25日 23:03 JST",
+  "bullets": [
+    "BTC/USD $59,971 → $58,112（-3.10%）",
+    "変動幅上位: Coinbase（perp） -6.3% / BTCボラティリティ（BVIV） +3.8%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261125_2359_e26ed6a5",
+    "crawlAnchorJst": "2026-11-25T23:03:00+09:00",
+    "writtenAtJst": "2026-11-25T23:59:06+09:00",
+    "lead": "米国の夜は、関税と物価の2つが同時に動いた。USTRは日本を含む14経済圏の過剰生産を不合理と認定し、最高裁判決で崩れた関税の壁を別の法律で組み直し始めた。同じ朝の10月PCE物価は3.8%に加速し、実質消費は止まった。物価が上がり消費が鈍る組み合わせの中で、12月のFOMCに利上げの判断が残る。",
+    "items": [
+      {
+        "headline": "米国、日本・EU・中国など14経済圏の過剰生産を「不合理」と認定し関税案を提示",
+        "sourceUrl": "https://www.cnbc.com/2026/11/25/us-tariffs-trump-section-301.html",
+        "note": "USTRがSection 301の調査結果として発表し、枠組み合意の税率は超えないとした。中国には2018年の25%に20%を上乗せする案で、メキシコとノルウェーは決定を見送った。"
+      },
+      {
+        "headline": "米10月のPCE物価は前年比3.8%に加速、コアは3.3%",
+        "sourceUrl": "https://x.com/CoinDesk/status/2125586920369701371",
+        "note": "BEAの発表で、前月比は総合・コアとも0.3%上昇。名目消費は0.3%増えたが、物価を除いた実質ではほぼ横ばいにとどまった。"
+      },
+      {
+        "headline": "ウクライナ議会、暗号資産市場の法律を可決",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-25-ukraine-passes-crypto-market-law-with-332-million-revenue-target-446182",
+        "note": "市民が暗号資産を保有・取引できる枠組みと課税を定める内容。税収見込みも示された。"
+      },
+      {
+        "headline": "伊ウニクレディト、満期時に元本を守るBTC連動の6年債を個人向けに",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/25/italy-s-unicredit-debuts-six-year-bitcoin-certificate-with-100-capital-protection-and-65-cap",
+        "note": "上昇益の上限は65%。欧州の大手銀行が個人の資産運用の棚にBTCを並べ始めた。"
+      },
+      {
+        "headline": "仏上院、10万ユーロ超の自己管理ウォレットの申告義務案を否決",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2125550224697442650",
+        "note": "2027年度予算法案の修正案として出ていたもの。"
+      },
+      {
+        "headline": "NASA、原子炉で発電して飛ぶ火星探査機SR-1 Freedomの主要設計を決定",
+        "sourceUrl": "https://x.com/NASA/status/2125349905409438136",
+        "note": "核分裂で電気を作り電気推進で進む初の惑星間宇宙船。月面の原子炉計画の先導役も担う。"
+      },
+      {
+        "headline": "プルデンシャル生命、4〜9月期の新契約が9割超減少",
+        "sourceUrl": "https://x.com/kyodo_official/status/2125482637439742440",
+        "note": "金銭不祥事を受けた販売自粛が響いた。"
+      },
+      {
+        "headline": "トランプ氏がフアン氏のエヌビディアCEO復帰を後押しした経緯",
+        "sourceUrl": "https://www.cbsnews.com/news/trump-jensen-huang-nvidia-ceo-reinstated/",
+        "note": "CBSが内幕を報じた。フアン氏は大統領の関与を否定している。"
+      },
+      {
+        "headline": "イーサリアムの研究者、FOCILと耐量子移行の関係を整理",
+        "sourceUrl": "https://ethresear.ch/t/focil-and-ethereums-pq-transition/26292",
+        "note": "検閲耐性の仕組みを、量子計算機に備えた署名の切り替えとどう両立させるかを論じた。"
+      }
+    ],
+    "watch": [
+      "USTRの国別報告書と意見募集の日程。日本の税率が日米枠組み合意の上限に収まるか",
+      "12月FOMCの利上げ判断と、実質消費の停滞が続くか",
+      "FinCENのサイバー事案の公式説明と、報告期限の延長の範囲"
+    ]
+  }
+}
