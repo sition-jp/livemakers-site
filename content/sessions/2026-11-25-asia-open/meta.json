@@ -1,0 +1,119 @@
+{
+  "sessionId": "2026-11-25-asia-open",
+  "date": "2026-11-25",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-25-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-25-asia-open",
+  "publishedAt": "2026-11-26T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261125_0730_d8cf1ec0",
+  "asOfJst": "2026-11-25T07:30:06+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月25日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 58,183 → 57,493（-1.19%）",
+    "変動幅上位: Coinbase（perp） -5.5% / BTCボラティリティ（BVIV） +2.4%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261125_0559_2d3d36be",
+    "crawlAnchorJst": "2026-11-25T05:03:00+09:00",
+    "writtenAtJst": "2026-11-25T05:59:32+09:00",
+    "lead": "米国の取引時間に、新しい関税の準備が伝わり、Nvidia の記録的な上げで戻った株価は再び崩れた。暗号資産は 6 万ドルを割り、価格の弱さが続く。一方で制度の側では、トークン化した資産や暗号資産を伝統的な金融の帳簿に入れる動きが同じ日に重なった。市場の評価と制度の中の居場所が、逆の方向に動いている。",
+    "items": [
+      {
+        "headline": "米政権、中国・EU と十数か国の関税の引き上げを準備と Bloomberg",
+        "sourceUrl": "https://x.com/business/status/2125234260130820278",
+        "note": "連邦最高裁が無効とした関税の代わり。発表は早ければ 24 日。"
+      },
+      {
+        "headline": "新しい関税は貿易協定の水準を超えず、品目を限る見通し",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/new-trump-tariffs-won-t-top-trade-deal-levels-will-be-targeted",
+        "note": "Bloomberg によると、過剰生産の問題を抱える品目などに向ける。"
+      },
+      {
+        "headline": "ナスダック 100 が反落、フアン氏の復帰を受けた株高が消える",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/us-tech-stocks-poised-to-slide-as-ai-caution-returns-after-rally"
+      },
+      {
+        "headline": "AI 株の戻りに疑い、関税の話が下げを広げた",
+        "sourceUrl": "https://x.com/business/status/2125236967164015060"
+      },
+      {
+        "headline": "Coldcard のシード生成の欠陥、8,600 超のアドレスから 1,778.84 BTC が盗難",
+        "sourceUrl": "https://x.com/WuBlockchain/status/2125292646751154614",
+        "note": "Coinkite が事後の報告を公表。攻撃者は鍵をオフラインで組み立て直していた。"
+      },
+      {
+        "headline": "Fidelity、自社の暗号資産の取引の場で LINK の扱いを開始",
+        "sourceUrl": "https://x.com/chainlink/status/2125276878336593965"
+      },
+      {
+        "headline": "ブランシュ司法長官、Nvidia を「良い企業市民」と呼ぶ 調査の質問には答えず",
+        "sourceUrl": "https://www.nbcnews.com/politics/trump-administration/todd-blanche-nvidia-investigation-ceo-jensen-huang-trump-rcna611132"
+      },
+      {
+        "headline": "Huawei、イランとの取引に絡む罪で米国の刑事裁判で有罪",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/chinas-huawei-convicted-at-us-criminal-trial-stemming-from-iran-business"
+      },
+      {
+        "headline": "Binance 流出の資金の流れを Bloomberg が追う",
+        "sourceUrl": "https://x.com/business/status/2125265773127934010"
+      },
+      {
+        "headline": "Europol、Binance・Coinbase・Chainalysis と組み 2,850 万ドル超の暗号資産を追跡",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-24-europol-operation-binance-coinbase-chainalysis-traces-28-5-million-crypto-illegal-streaming-services-446019"
+      },
+      {
+        "headline": "FRB の地区連銀の理事会の多くが 10 月に利上げを求めていたと Bloomberg",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/most-fed-regional-boards-wanted-to-raise-rates-in-october"
+      },
+      {
+        "headline": "カナダ銀行の総裁、原油の価格の波及と粘る物価に警告",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/bank-of-canada-chief-warns-of-oil-passthrough-sticky-inflation"
+      },
+      {
+        "headline": "CoreWeave の社債が過去最安値、Nvidia の上げで戻した分を失う",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-24/coreweave-bonds-hit-all-time-lows-erasing-nvidia-fueled-gains"
+      },
+      {
+        "headline": "楽天証券、預かり資産の残高の情報 168 万件の漏えいを公表",
+        "sourceUrl": "https://x.com/nikkei/status/2125240877954027788"
+      },
+      {
+        "headline": "英国の当局、ウクライナを支える企業にロシアの破壊工作への備えを求める",
+        "sourceUrl": "https://www.washingtontimes.com/news/2026/nov/24/firms-aiding-ukraine-warned-british-officials-brace-russian-sabotage/"
+      },
+      {
+        "headline": "xAI の創業メンバー 3 人、未来を予測する AI の新会社を設立",
+        "sourceUrl": "https://x.com/business/status/2125319830500688348"
+      },
+      {
+        "headline": "SEC の職員、バイオテクの研究資金の基盤 Molecule にノーアクションレター",
+        "sourceUrl": "https://x.com/EleanorTerrett/status/2125295091749474336"
+      },
+      {
+        "headline": "Injective が Base に広がる",
+        "sourceUrl": "https://x.com/injective/status/2125242895347159489"
+      },
+      {
+        "headline": "Kraken の Payward、BTC のキャッシュバック付きのカードを 2027 年初めに",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-24-kraken-krak-early-2027-launch-us-credit-cards-bitcoin-cashback-usdc-collateral-445498"
+      },
+      {
+        "headline": "EU、ハイブリッド車に緊急の輸入制限 12 月から日本製も対象",
+        "sourceUrl": "https://x.com/nikkei/status/2125248932200493082"
+      }
+    ],
+    "watch": [
+      "米政権の新しい関税の正式な発表と、中国・EU の対抗措置の有無",
+      "BTC 現物 ETF の流出が 6 日目に入るか",
+      "Coldcard の欠陥の補償の方針と、同じ時期に作った財布の資金の移し替え"
+    ]
+  }
+}
