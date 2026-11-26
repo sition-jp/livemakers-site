@@ -1,0 +1,113 @@
+{
+  "sessionId": "2026-11-26-global-close",
+  "date": "2026-11-26",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-26-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-26-global-close",
+  "publishedAt": "2026-11-27T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261126_2303_5e8be680",
+  "asOfJst": "2026-11-26T23:03:03+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月26日 23:03 JST",
+  "bullets": [
+    "BTC/USD $58,058 → $60,834（+4.78%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -10.5% / Coinbase（perp） +7.9%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261126_2351_34a42185",
+    "crawlAnchorJst": "2026-11-26T23:03:00+09:00",
+    "writtenAtJst": "2026-11-26T23:51:11+09:00",
+    "lead": "欧州は中銀の顔ぶれが変わる局面に入った。ECB の次期総裁にデコス氏が固まり、同じ日に出た議事要旨では引き締めを論じる声が増えた。米国の新関税案は各国の反発を呼び、エヌビディアの出荷停止と合わせて、通商とAIの供給網が同時に締まる。暗号資産では Zodia の情報流出と Zcash の旧プール廃止の呼びかけが、保管と暗号の安全性を問い直している。",
+    "items": [
+      {
+        "headline": "ECB の次期総裁にエルナンデス・デコス氏が固まる オランダが EU の合意を支持",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-26/de-cos-is-poised-to-take-ecb-presidency-in-era-after-lagarde",
+        "note": "BIS 総支配人のデコス氏がラガルド氏の後任に就く流れになった。正式な任命手続きはこれから。"
+      },
+      {
+        "headline": "ECB、10 月 28〜29 日の理事会の議事要旨を公表",
+        "sourceUrl": "https://x.com/ecb/status/2125934514484703393"
+      },
+      {
+        "headline": "ECB の議事要旨、物価見通しの悪化で引き締めを論じる声が増えたと伝えられる",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-26/ecb-officials-saw-more-tightening-with-inflation-outlook-worse"
+      },
+      {
+        "headline": "カナダの大手 6 行がそろって 12 月の利上げを予想",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-26/all-of-canada-s-big-six-banks-now-see-december-rate-hike"
+      },
+      {
+        "headline": "トランプ政権、主要な貿易相手からの輸入品に新たな関税案を示す",
+        "sourceUrl": "https://www.npr.org/2026/11/26/nx-s1-6054103/trump-administration-proposes-new-tariffs-on-goods-from-major-u-s-trading-partners"
+      },
+      {
+        "headline": "新関税案に各国が反応 失望を示しつつ協議を求める",
+        "sourceUrl": "https://www.bloomberg.com/news/newsletters/2026-11-26/trading-partners-respond-to-trump-tariff-plans"
+      },
+      {
+        "headline": "国連、2026 年の世界の海上貿易は伸びゼロの見通し",
+        "sourceUrl": "https://www.straitstimes.com/world/europe/global-maritime-trade-set-for-zero-growth-in-2026-un"
+      },
+      {
+        "headline": "スタンダードチャータードの暗号資産カストディ部門 Zodia で情報流出 顧客情報が対象",
+        "sourceUrl": "https://www.coindesk.com/tech/2026/11/26/standard-chartered-s-zodia-custody-suffers-data-breach-exposing-client-information"
+      },
+      {
+        "headline": "Zcash の開発チーム、古いシールドプールの早期廃止と資金の移動を呼びかけ",
+        "sourceUrl": "https://www.theblock.co/news/ecosystems/2026-11-26-the-time-to-prepare-for-a-cryptographic-breakthrough-is-before-it-happens-zcash-team-urges-faster-deprecation-of-legacy-shielded-pool-447000",
+        "note": "暗号が将来破られうる事態に先回りして資産を移す運用で、量子計算への備えという論点とつながる。"
+      },
+      {
+        "headline": "スイス、2028 年から 57 の国・地域と暗号資産の税務情報を自動交換",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-26-switzerland-approves-57-jurisdictions-for-crypto-data-exchange-from-2028-446821"
+      },
+      {
+        "headline": "スペイン、資金洗浄対策の機関に裁判所の令状なしで暗号資産口座を凍結する権限",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/26/spain-gives-anti-laundering-unit-power-to-freeze-crypto-accounts-without-a-judge"
+      },
+      {
+        "headline": "香港のマーケットメーカー Auros が事業を畳むと伝えられる",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/26/major-crypto-trading-firm-auros-is-winding-down-operations-sources"
+      },
+      {
+        "headline": "ビットコイン現物 ETF から資金流出が続く FRB の支えも見込みにくい",
+        "sourceUrl": "https://www.coindesk.com/daybook-us/2026/11/26/bitcoin-etfs-are-bleeding-cash-and-the-fed-is-unlikely-to-help"
+      },
+      {
+        "headline": "ビットコイン、休日の薄商いで 6 万ドル台を回復",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-26/bitcoin-tops-60-000-as-risk-assets-rise-in-holiday-trading"
+      },
+      {
+        "headline": "エヌビディア、米国の輸出規制の強化を受け東南アジア 4 か国へのサーバー出荷を停止",
+        "sourceUrl": "https://the-decoder.com/nvidia-halts-server-shipments-to-malaysia-singapore-thailand-and-indonesia-after-tighter-us-export-controls/"
+      },
+      {
+        "headline": "BBVA、データセンター向け融資の一部をリスク移転取引でヘッジする検討",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-26/bbva-weighs-srt-to-hedge-about-500-million-of-data-center-loans"
+      },
+      {
+        "headline": "Microsoft、国家が支援するハッカーが AI の枠組みで攻撃を自動化している手口を公表",
+        "sourceUrl": "https://the-decoder.com/microsoft-details-how-state-backed-hackers-use-the-artex-ai-framework-to-automate-cyberattacks/"
+      },
+      {
+        "headline": "米国の州司法長官ら、対話 AI サービス「キャラクター AI」の売却で利用者のチャットが売られるのを止めに動く",
+        "sourceUrl": "https://www.theverge.com/policy/1042620/character-ai-sale-state-ags-block-selling-users-chats"
+      },
+      {
+        "headline": "アルトリアと JT、Imperial Brands の買収と分割を検討と伝えられる",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-26/altria-studies-deal-for-cigarette-maker-imperial-brands"
+      }
+    ],
+    "watch": [
+      "デコス氏の正式任命の手続きと、ECB の 12 月会合に向けた発言",
+      "新関税案への各国の対応と、ビットコイン ETF の資金の流れ",
+      "Zodia の流出の範囲と、Zcash の旧プールからの資金移動の進み方"
+    ]
+  }
+}

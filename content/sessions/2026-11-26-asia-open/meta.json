@@ -1,0 +1,197 @@
+{
+  "sessionId": "2026-11-26-asia-open",
+  "date": "2026-11-26",
+  "sessionSlug": "asia-open",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-26-asia-open",
+  "canonicalArticleUrl": "/sessions/2026-11-26-asia-open",
+  "publishedAt": "2026-11-27T02:30:03+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261126_0730_d8a76599",
+  "asOfJst": "2026-11-26T07:30:07+09:00",
+  "focusInstruments": [
+    "nikkei_futures",
+    "usd_jpy",
+    "btc_usd"
+  ],
+  "titleJa": "Asia Open Terminal — 11月26日 07:30 JST",
+  "bullets": [
+    "日経225（perp） 57,550 → 57,185（-0.63%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -4.2% / WTI（perp） +3.1%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261126_0608_b92aff69",
+    "crawlAnchorJst": "2026-11-26T05:03:00+09:00",
+    "writtenAtJst": "2026-11-26T06:08:25+09:00",
+    "lead": "米通商代表部が 14 の国・地域への追加関税案を正式に示し、同じ日に 10 月の PCE 物価が 3.8% と高止まりした。強い成長と高い物価に関税が重なり、市場は 12 月の利上げをほぼ織り込んだ。株と BTC はそろって売られ、米財務省と CIA へのサイバー攻撃も重なった。成長・物価・通商の締め直しが同時に進む局面に入った。",
+    "items": [
+      {
+        "headline": "USTR、14 の国・地域に追加関税案 中国は最大 20%、日本は最大 15%、ベトナムは最大 35%",
+        "sourceUrl": "https://x.com/USTradeRep/status/2125593464138072571",
+        "note": "意見は 2027 年 1 月 5 日まで、公聴会は 1 月 25 日。"
+      },
+      {
+        "headline": "米商務省の改定値で、7〜9 月期の実質 GDP は年率 4.3% 増",
+        "sourceUrl": "https://x.com/WhiteHouse/status/2125597813405012435",
+        "note": "ホワイトハウスは「予想より速い成長」と強調した。"
+      },
+      {
+        "headline": "10 月の PCE 物価は前年比 3.8%、コアは 3.3% で、コアは市場の予想を上回った",
+        "sourceUrl": "https://x.com/WatcherGuru/status/2125654321060602364",
+        "note": "21 日にクック FRB 理事が追加利上げを主張していた流れに、新しい物価の数字が加わった。市場は 12 月の FOMC での 0.25% の利上げを 9 割超の確率で織り込んだ。"
+      },
+      {
+        "headline": "21 日までの週に 10% 下げたナスダックは、25 日の関税案と物価の発表を受けて再び崩れた",
+        "sourceUrl": "https://x.com/KobeissiLetter/status/2125601676258111823",
+        "note": "ナスダック 100 は一時 4.5% を超えて下げたと伝えられ、恐怖・強欲指数は 9 まで落ちた。BTC は 5.8 万ドルを割った。"
+      },
+      {
+        "headline": "米国の BTC 現物 ETF は 11 月の流出が 50 億ドル近くに達し、月間で過去最悪になる見通し",
+        "sourceUrl": "https://www.theblock.co/news/markets/2026-11-25-bitcoin-falls-below-58000-coinshares-butterfill-sees-tail-end-bear-market-446678",
+        "note": "BTC は 5.8 万ドルを割り、CoinShares のバターフィル氏は「弱気相場の終盤」との見方を示した。"
+      },
+      {
+        "headline": "戦略的ビットコイン準備の法案 HR 8957、本会議で扱える日程表に載ったと伝えられる",
+        "sourceUrl": "https://x.com/BitcoinNews/status/2125618009561801086",
+        "note": "9 月に下院金融サービス委員会を 28 対 21 で通っていた。"
+      },
+      {
+        "headline": "ルミス上院議員、CLARITY 法の規制の試行枠をめぐり民主党を批判",
+        "sourceUrl": "https://x.com/SenLummis/status/2125603666719605030"
+      },
+      {
+        "headline": "FCC は SpaceX に、軌道上でデータセンターを動かす衛星を最大 100 万基打ち上げる計画を認めた",
+        "sourceUrl": "https://x.com/Kalshi/status/2125632937563763125",
+        "note": "SpaceX はアリゾナ州の計算拠点で、ガス発電と工業用水を使わない設計を示した。"
+      },
+      {
+        "headline": "Bloomberg は、AI 半導体の輸出規制を受けて数十億ドル規模のデータセンターの取引が止まっていると伝えた",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-25/billions-in-data-center-deals-grind-to-halt-after-ai-chip-curbs",
+        "note": "S&P は Nvidia の格付けを統治の懸念で引き下げる可能性を示した。"
+      },
+      {
+        "headline": "トランプ大統領は、Nvidia のフアン氏に「恩赦は常に選択肢だ」と述べた",
+        "sourceUrl": "https://x.com/nikkei/status/2125674565162487854",
+        "note": "司法長官は Nvidia を「良き企業市民」と呼んだが、フアン氏の復帰をめぐる捜査には答えなかった。日経はトランプ氏が持つ Nvidia 株の評価額が増えたと試算した。"
+      },
+      {
+        "headline": "Fidelity は Chainlink の現物 ETF を申請し、ナスダックへの上場を予定する",
+        "sourceUrl": "https://www.theblock.co/news/business/2026-11-25-fidelity-chainlink-etf-nasdaq-listing-446735",
+        "note": "自社の取引の場では AAVE・LINK・UNI の扱いを始めた。"
+      },
+      {
+        "headline": "欧州銀行監督機構（EBA）は、DeFi で貸し出しを提供する暗号資産の事業者向けの規則づくりを欧州委員会に求めた",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/11/25/eu-bank-watchdog-seeks-european-commission-rules-for-crypto-firms-offering-defi-lending",
+        "note": "フランスの上院は、10 万ユーロ以上の自己管理の財布の申告を義務づける修正案を否決した。"
+      },
+      {
+        "headline": "ウクライナの議会は、暗号資産の課税と規制の法案を可決した",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/25/ukrainian-lawmakers-pass-crypto-tax-and-regulation-bill-expected-to-bring-in-usd330-million",
+        "note": "税収は 3 億 3,000 万ドルを見込み、BTC の保有を申告なしで認める。"
+      },
+      {
+        "headline": "採掘プールの Braiins は、暗号化されていない Stratum V1 の接続を狙って採掘機の仕事を横取りする攻撃を確認したと警告した",
+        "sourceUrl": "https://x.com/Braiins/status/2125624580295331926",
+        "note": "CleanSpark は四半期の採掘量を超えて BTC を売る可能性を示した。"
+      },
+      {
+        "headline": "イランはホルムズ海峡の規則違反の一覧にタグボートを加えて圧力を強め、イスラエルが化学兵器の主張で米国を対立に引き込もうとしていると非難した",
+        "sourceUrl": "https://x.com/Kalshi/status/2125647201938346064",
+        "note": "米政権はイランの強硬派を標的にすることを検討していると NBC が伝えた。"
+      },
+      {
+        "headline": "ポーランドは NATO に、ウクライナ上空でロシアのミサイルを撃ち落とすことを検討するよう求めた",
+        "sourceUrl": "https://x.com/Polymarket/status/2125648372581441658",
+        "note": "ロシアはエストニアの対応が「開戦の引き金」に近いと警告し、モルドバでも無人機の事件で圧力を強めている。"
+      },
+      {
+        "headline": "USTR は別に、ブラジルへの 301 条の措置を見直す案への意見募集を始めた",
+        "sourceUrl": "https://x.com/USTradeRep/status/2125581264031817919"
+      },
+      {
+        "headline": "Bloomberg は、Anthropic の上場後の値動きが SpaceX より厳しく、需給と技術的な要因が株価の重荷になると伝えた",
+        "sourceUrl": "https://x.com/business/status/2125634398749852128"
+      },
+      {
+        "headline": "Injective の INJ が Base の分散型取引所 Aero で取引できるようになり、年内最後の大型の更新「Veyra」も本番で動き始めた",
+        "sourceUrl": "https://x.com/injective/status/2125640395644166322"
+      },
+      {
+        "headline": "Flare の XRPL のバリデーターは、XRP と RLUSD の貸し出しを可能にする XLS-66 に賛成票を投じた",
+        "sourceUrl": "https://x.com/FlareNetworks/status/2125610373558792537"
+      },
+      {
+        "headline": "ドジャースのオーナーのボーリー氏が、ロシアのルクオイルの海外資産の買収で合意した",
+        "sourceUrl": "https://x.com/staunovo/status/2125685489663414274"
+      },
+      {
+        "headline": "CoreWeave と Nvidia の信用リスクの指標が過去最高を更新した",
+        "sourceUrl": "https://x.com/business/status/2125665955447452061"
+      },
+      {
+        "headline": "スターバックスが日本事業の売却に向けて助言会社を起用したと Bloomberg が伝えた",
+        "sourceUrl": "https://x.com/business/status/2125609251447926956"
+      },
+      {
+        "headline": "ENEOS は不正アクセスを検知し、給油向けの公式アプリを一時止めた",
+        "sourceUrl": "https://www.security-next.com/193232"
+      },
+      {
+        "headline": "「ソフト99 公式オンラインショップ」に、問い合わせの画像添付の機能を悪用した不正アクセスがあった",
+        "sourceUrl": "https://www.security-next.com/193316",
+        "note": "DHC の通販サイトでも、会員情報の改ざんや不正な注文が起きた。"
+      },
+      {
+        "headline": "国防総省が GM とフォードに、軍用無人機の量産を打診していると伝えられた",
+        "sourceUrl": "https://x.com/Polymarket/status/2125633079205105857"
+      },
+      {
+        "headline": "OpenAI は、データを見ないことを約束する「Private Inference」を一部の顧客で試している",
+        "sourceUrl": "https://x.com/sama/status/2125638790593274259"
+      },
+      {
+        "headline": "Polymarket は、Nvidia の H100・B200・B300 の計算資源の時間あたりの価格を 2028 年まで予測する市場を始めた",
+        "sourceUrl": "https://x.com/shayne_coplan/status/2125653367640805799"
+      },
+      {
+        "headline": "ピーター・ティール氏が、AI 株の売りの中で Palantir 株を 1 億 2,200 万ドル分買った",
+        "sourceUrl": "https://x.com/Polymarket/status/2125605310391787776"
+      },
+      {
+        "headline": "パナソニック HD は、利用を禁じた AI サービスに従業員ら 33 万人分の個人情報が上げられていたと発表した",
+        "sourceUrl": "https://x.com/nikkei/status/2125348919534108858"
+      },
+      {
+        "headline": "NEAR Intents を 1 週間で 10 億ドル超が通った",
+        "sourceUrl": "https://x.com/NEARProtocol/status/2125597877229478110"
+      },
+      {
+        "headline": "Aave は、自己管理型の貯蓄アプリ「Aave App」を出し、チェーン間の入出金を Chainlink CCIP が担う",
+        "sourceUrl": "https://x.com/chainlink/status/2125630395580338591"
+      },
+      {
+        "headline": "Sui で BTC を 1 対 1 で裏付ける hBTC を発行する「Hashi」が始まった",
+        "sourceUrl": "https://x.com/SuiNetwork/status/2125604926357479480"
+      },
+      {
+        "headline": "Wanchain の移行に伴い、WanBridge は早ければ 2026 年 12 月 31 日に運用を止める",
+        "sourceUrl": "https://x.com/vechainofficial/status/2125597475398709621",
+        "note": "VeChain への資産の橋渡しができなくなる。"
+      },
+      {
+        "headline": "FRB の地区連銀経済報告（ベージュブック）は、緩やかな成長と賃金の圧力の高まりを示した",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-25/fed-beige-book-shows-moderate-growth-uptick-in-wage-pressures"
+      },
+      {
+        "headline": "イングランド銀行の政策委員は、12 月の利上げを選択肢に残した",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-25/bank-of-england-rate-setters-leave-december-hike-on-the-table"
+      }
+    ],
+    "watch": [
+      "中国・EU・日本が USTR の案に対抗措置か協議で応じるか（意見は 1 月 5 日まで）",
+      "12 月 FOMC の利上げ幅が 0.25% か 0.5% か",
+      "BTC 現物 ETF の流出が 7 日目に入るか"
+    ]
+  }
+}
