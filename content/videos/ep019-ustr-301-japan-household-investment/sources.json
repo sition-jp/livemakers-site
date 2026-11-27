@@ -1,0 +1,61 @@
+{
+  "episodeId": "ep019",
+  "sources": [
+    {
+      "key": "ustr_pr",
+      "title": "USTR — USTR Makes Determinations and Proposes Actions in 14 Section 301 Investigations Relating to Structural Excess Capacity and Production in Manufacturing Sectors (2026-11-25)",
+      "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "ustr_japan",
+      "title": "USTR — Section 301 Investigation of Japan's Acts, Policies, and Practices Related to Structural Excess Capacity and Production (報告書・175 ページ)",
+      "url": "https://ustr.gov/sites/default/files/files/Press/Releases/2026/Japan_Section%20301_Structural%20Excess%20Capacity%20and%20Production.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "ustr_frn",
+      "title": "USTR — 日本についての連邦官報の告示 (公表前の版)・Notice of Determination and Request for Comments Concerning Proposed Action",
+      "url": "https://ustr.gov/sites/default/files/files/Press/Releases/2026/Japan%20FRN%20Final.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "eo14345",
+      "title": "連邦官報 — 大統領令 14345 号 Implementing the United States-Japan Agreement (2025-09-04)",
+      "url": "https://www.federalregister.gov/documents/2025/09/09/2025-17389/implementing-the-united-states-japan-agreement",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "fsa_nisa",
+      "title": "金融庁 — NISA の利用状況 (2025 年 12 月末)",
+      "url": "https://www.fsa.go.jp/policy/nisa/20260703/2512nisa-graph.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 3
+    },
+    {
+      "key": "wto_gatt",
+      "title": "WTO — The GATT years: from Havana to Marrakesh",
+      "url": "https://www.wto.org/english/thewto_e/whatis_e/tif_e/fact4_e.htm",
+      "accessed": "2026-11-27",
+      "chapter": 4
+    },
+    {
+      "key": "wto_fact1",
+      "title": "WTO — Who we are",
+      "url": "https://www.wto.org/english/thewto_e/whatis_e/tif_e/fact1_e.htm",
+      "accessed": "2026-11-27",
+      "chapter": 4
+    },
+    {
+      "key": "orukan_monthly",
+      "title": "三菱 UFJ アセットマネジメント — eMAXIS Slim 全世界株式 (オール・カントリー) 月次レポート (2026-10-30)",
+      "url": "https://robotfund-roborepo.s3.amazonaws.com/g/report-03-JP90C000H1T1.html",
+      "accessed": "2026-11-21",
+      "chapter": 5
+    }
+  ]
+}
