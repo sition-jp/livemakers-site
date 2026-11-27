@@ -66,7 +66,7 @@ describe("lists", () => {
   it("every bot has an https source", () => {
     for (const b of KNOWN_BOTS) expect(b.source).toMatch(/^https:\/\//);
   });
-  it("exports robots-only tokens and the 7 disallow entries", () => {
+  it("exports robots-only tokens and the 9 disallow entries", () => {
     expect(ROBOTS_ONLY_TOKENS).toEqual(["Google-Extended", "Applebot-Extended"]);
     expect([...ROBOTS_DISALLOW]).toEqual([
       "/api/",
@@ -74,6 +74,8 @@ describe("lists", () => {
       "/en/article-inflow-preview",
       "/ja/terminal-preview",
       "/en/terminal-preview",
+      "/ja/forecast-lab",
+      "/en/forecast-lab",
       "/*?_rsc=",
       "/*&_rsc=",
     ]);

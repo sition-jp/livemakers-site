@@ -2,6 +2,7 @@ import createMiddleware from "next-intl/middleware";
 import { NextResponse, type NextFetchEvent, type NextRequest } from "next/server";
 import { routing } from "./i18n/routing";
 import { RECORDED_FILES, buildBotVisit, sendBotVisit, type BotVisit } from "./lib/bot-visits";
+import { FORECAST_LAB_PATH, checkForecastLab } from "./lib/forecast-lab/gate";
 
 // Pure intl proxy — no Accept-Language auto-redirect.
 //
@@ -66,6 +67,19 @@ export default async function proxy(
   if (RECORDED.has(req.nextUrl.pathname)) {
     record(req, event, "file");
     return NextResponse.next();
+  }
+  // 予測サービスの内部ページ (パスワード付き・lib/forecast-lab/gate.ts)。記録もしない
+  if (FORECAST_LAB_PATH.test(req.nextUrl.pathname)) {
+    const gate = checkForecastLab(req.headers.get("authorization"), process.env.FORECAST_APP_PASSWORD);
+    if (!gate.ok) {
+      const headers: Record<string, string> = { "x-robots-tag": "noindex, nofollow" };
+      if (gate.status === 401) headers["www-authenticate"] = 'Basic realm="forecast-lab", charset="UTF-8"';
+      return new NextResponse(gate.status === 401 ? "認証が必要です" : "Not Found", { status: gate.status, headers });
+    }
+    const inner = await intl(req);
+    inner.headers.set("x-robots-tag", "noindex, nofollow");
+    inner.headers.set("cache-control", "private, no-store");
+    return inner;
   }
   const response = await intl(req);
   if (ARTICLE_DETAIL.test(req.nextUrl.pathname)) response.headers.delete("link");

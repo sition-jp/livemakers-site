@@ -78,6 +78,8 @@ export const ROBOTS_DISALLOW: readonly string[] = [
   "/en/article-inflow-preview",
   "/ja/terminal-preview",
   "/en/terminal-preview",
+  "/ja/forecast-lab",
+  "/en/forecast-lab",
   "/*?_rsc=",
   "/*&_rsc=",
 ];
