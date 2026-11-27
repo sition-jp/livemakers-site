@@ -182,7 +182,7 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(32);
   });
 
-  it("ep017 は第 18 回・6 章・YouTube 概要欄と同じ時刻・出典 13 件を持ち、最新の投稿になる", () => {
+  it("ep017 は第 18 回・6 章・YouTube 概要欄と同じ時刻・出典 13 件を持つ", () => {
     const video = getVideoBySlug("ep017-bitcoin-four-year-cycle");
     expect(video).not.toBeNull();
     expect(video!.episodeId).toBe("ep017");
@@ -198,7 +198,25 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.youtubeVideoId).toBe("lTgo1ME7Zu0");
     expect(video!.durationSeconds).toBe(18 * 60 + 26);
     expect(video!.sources).toHaveLength(13);
-    expect(getLatestPostedVideo()?.slug).toBe("ep017-bitcoin-four-year-cycle");
+  });
+
+  it("ep019 は第 19 回・6 章・YouTube 概要欄と同じ時刻・出典 8 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep019-ustr-301-japan-household-investment");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep019");
+    expect(video!.episodeNumber).toBe(19);
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "02:02",
+      "04:10",
+      "07:23",
+      "12:26",
+      "14:24",
+    ]);
+    expect(video!.youtubeVideoId).toBe("ZtNnci6N2Ss");
+    expect(video!.durationSeconds).toBe(16 * 60 + 39);
+    expect(video!.sources).toHaveLength(8);
+    expect(getLatestPostedVideo()?.slug).toBe("ep019-ustr-301-japan-household-investment");
   });
 
   it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持つ", () => {
