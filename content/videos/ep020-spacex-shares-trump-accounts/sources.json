@@ -1,0 +1,243 @@
+{
+  "episodeId": "ep020",
+  "sources": [
+    {
+      "key": "spacex_ir",
+      "title": "SpaceX — SpaceX to Invest in the Next Generation of Americans (投資家向けの発表・2026-11-25)",
+      "url": "https://ir.spacex.com/updates/releases-details/2026/SpaceX-to-Invest-in-the-Next-Generation-of-Americans-2026-r_LYQ5cH94/default.aspx",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "spacex_x",
+      "title": "SpaceX の X の投稿 (2026-11-25 19:21 UTC)",
+      "url": "https://x.com/SpaceX/status/2125671356339499494",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "musk_two",
+      "title": "イーロン・マスク氏の X の投稿 — すべての子どもに 2 株 (日本時間 2026-11-26 12:43)",
+      "url": "https://x.com/elonmusk/status/2125797463047258119",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "musk_lockup",
+      "title": "イーロン・マスク氏の X の投稿 — 来年 6 月のロックアップ明けに移す (日本時間 2026-11-26 15:01)",
+      "url": "https://x.com/elonmusk/status/2125832205301878841",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "musk_million",
+      "title": "イーロン・マスク氏の X の投稿 — 世界経済のおよそ 100 万倍・持ち続けることをすすめる (日本時間 2026-11-26 17:20)",
+      "url": "https://x.com/elonmusk/status/2125867208358105441",
+      "accessed": "2026-11-27",
+      "chapter": 4
+    },
+    {
+      "key": "musk_yearly",
+      "title": "イーロン・マスク氏の X の投稿 — 毎年もう 1 株 (日本時間 2026-11-27 06:24)",
+      "url": "https://x.com/elonmusk/status/2126064597039997254",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "musk_oct",
+      "title": "Euronews — Musk pledges SpaceX shares to every US child (2026-10-19・10 月の宣言の報道)",
+      "url": "https://www.euronews.com/2026/10/19/musk-pledges-spacex-shares-to-every-us-child-in-potential-107bn-giveaway",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "shotwell_jul",
+      "title": "グウィン・ショットウェル氏の X の投稿 (2026-07-06・11〜17 歳・所得の低い地域)",
+      "url": "https://x.com/Gwynne_Shotwell/status/2074064376810614926",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "shotwell_oct",
+      "title": "グウィン・ショットウェル氏の X の投稿 (2026-10-30・12 月に口座へ)",
+      "url": "https://x.com/Gwynne_Shotwell/status/2116266502533902586",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "spcx_424b4",
+      "title": "SEC — SpaceX の目論見書 (424B4・2026-06-11・公開価格 135 ドル・マスク氏のロックアップ 366 日)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/spaceexplorationtechnologi.htm",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "spcx_10q",
+      "title": "SEC — SpaceX の四半期報告書 (10-Q・2026 年 9 月期・株の種類・xAI と Cursor・特別委員会)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026066880/spcx-20260930.htm",
+      "accessed": "2026-11-27",
+      "chapter": 4
+    },
+    {
+      "key": "edgar_spcx",
+      "title": "SEC EDGAR — SpaceX (CIK 0001181412) の提出の一覧",
+      "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001181412",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "nasdaq_spcx",
+      "title": "Nasdaq — SPCX の株価の履歴 (11 月 25 日の終値 127.44 ドル)",
+      "url": "https://www.nasdaq.com/market-activity/stocks/spcx/historical",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "ecb_fx",
+      "title": "ECB — 参照レート (2026-11-26・1 ドル = 159.26 円で円換算)",
+      "url": "https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "irc530a",
+      "title": "米国内国歳入法 26 U.S.C. §530A (トランプ口座)",
+      "url": "https://www.law.cornell.edu/uscode/text/26/530A",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "irc6434",
+      "title": "米国内国歳入法 26 U.S.C. §6434 (国の 1,000 ドル)",
+      "url": "https://www.law.cornell.edu/uscode/text/26/6434",
+      "accessed": "2026-11-27",
+      "chapter": 3
+    },
+    {
+      "key": "treasury_sb0642",
+      "title": "米財務省 — 対象の子どもへの口座の自動開設 (2026-10-01)",
+      "url": "https://home.treasury.gov/news/press-releases/sb0642/",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "irs_auto",
+      "title": "IRS — Eligible children automatically enrolled in Trump Accounts (2026-11-06)",
+      "url": "https://www.irs.gov/newsroom/eligible-children-automatically-enrolled-in-trump-accounts",
+      "accessed": "2026-11-27",
+      "chapter": 3
+    },
+    {
+      "key": "wh_oct",
+      "title": "ホワイトハウス — A financial stake in the future for nearly 70 million American children (2026-10-07)",
+      "url": "https://www.whitehouse.gov/releases/2026/10/a-financial-stake-in-the-future-for-nearly-70-million-american-children-trump-accounts-made-it-possible/",
+      "accessed": "2026-11-27",
+      "chapter": 3
+    },
+    {
+      "key": "td10056",
+      "title": "連邦官報 — Trump Accounts (暫定の規則 TD 10056・91 FR 61705・2026-09-30)",
+      "url": "https://www.federalregister.gov/documents/2026/09/30/2026-20026/trump-accounts",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "cnbc_1125",
+      "title": "CNBC — SpaceX, Musk pledge to donate a share each to active Trump Accounts (2026-11-25・家族は断れない)",
+      "url": "https://www.cnbc.com/2026/11/25/spacex-musk-trump-account-stock.html",
+      "accessed": "2026-11-27",
+      "chapter": 2
+    },
+    {
+      "key": "wh_dell",
+      "title": "ホワイトハウス — Landmark Dell gift supercharges Trump Accounts for America's kids (2025-12)",
+      "url": "https://www.whitehouse.gov/releases/2025/12/landmark-dell-gift-supercharges-trump-accounts-for-americas-kids/",
+      "accessed": "2026-11-27",
+      "chapter": 3
+    },
+    {
+      "key": "fcc_starmind",
+      "title": "FCC 宇宙局 — 軌道上データセンター衛星網の命令と許可 (DA 26-1273・2026-11-25)",
+      "url": "https://docs.fcc.gov/public/attachments/DA-26-1273A1.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 4
+    },
+    {
+      "key": "tsla_10q",
+      "title": "SEC — Tesla の四半期報告書 (10-Q・2026 年 9 月期・特別委員会)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000162828026066775/tsla-20260930.htm",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "tsla_proxy",
+      "title": "SEC — Tesla の 2026 年の株主総会の招集通知 (DEF 14A)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1318605/000110465926116700/tm267596-1_def14a.htm",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "merger_report",
+      "title": "24/7 Wall St. — Tesla and SpaceX could announce a merger as soon as December (ブルームバーグ 11/12 の報道の紹介)",
+      "url": "https://247wallst.com/investing/2026/11/13/tesla-and-spacex-could-announce-a-merger-as-soon-as-december/",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "fsa_nisa_minor",
+      "title": "金融庁 — NISA 特設サイト (0〜17 歳の口座は 2027 年 1 月から)",
+      "url": "https://www.fsa.go.jp/policy/nisa2/know/index.html",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "mof_bill",
+      "title": "財務省 — 第 221 回国会 所得税法等の一部を改正する法律案 (0〜17 歳・年 60 万円・600 万円)",
+      "url": "https://www.mof.go.jp/about_mof/bills/221diet/st080220g.html",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "nta_r08",
+      "title": "国税庁 — 令和 8 年度 税制改正のあらまし (未成年つみたて投資枠・教育費又は生活費)",
+      "url": "https://www.nta.go.jp/publication/pamph/joto-sanrin/r08aramashi.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "jsda_u18",
+      "title": "日本証券業協会 — 未成年者の NISA の案内 (本人に帰属する資金に限る)",
+      "url": "https://www.jsda.or.jp/shijyo/seido/tax/files/nisa_under18.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 1
+    },
+    {
+      "key": "cfa_jidouteate",
+      "title": "こども家庭庁 — 児童手当のリーフレット (2026-03)",
+      "url": "https://www.cfa.go.jp/assets/contents/node/basic_page/field_ref_resources/fb3dbb28-102a-4840-90a5-00ad2e0d117f/419b6d0e/20260324policies-kodomokosodateshienkinseido-13.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 4
+    },
+    {
+      "key": "boj_sj",
+      "title": "日本銀行 — 2026 年第 2 四半期の資金循環 (速報・2026-09-17)",
+      "url": "https://www.boj.or.jp/statistics/sj/sjexp.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "boj_hiq",
+      "title": "日本銀行 — 資金循環の日米欧比較 (2026 年 3 月末・2026-08-31)",
+      "url": "https://www.boj.or.jp/statistics/sj/sjhiq.pdf",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    },
+    {
+      "key": "fsa_nisa_count",
+      "title": "金融庁 — NISA の利用状況 (2026 年 6 月末・2026-10-02)",
+      "url": "https://www.fsa.go.jp/policy/nisa/20261002.html",
+      "accessed": "2026-11-27",
+      "chapter": 5
+    }
+  ]
+}

@@ -200,7 +200,7 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(13);
   });
 
-  it("ep019 は第 19 回・6 章・YouTube 概要欄と同じ時刻・出典 8 件を持ち、最新の投稿になる", () => {
+  it("ep019 は第 19 回・6 章・YouTube 概要欄と同じ時刻・出典 8 件を持つ", () => {
     const video = getVideoBySlug("ep019-ustr-301-japan-household-investment");
     expect(video).not.toBeNull();
     expect(video!.episodeId).toBe("ep019");
@@ -216,7 +216,25 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.youtubeVideoId).toBe("ZtNnci6N2Ss");
     expect(video!.durationSeconds).toBe(16 * 60 + 39);
     expect(video!.sources).toHaveLength(8);
-    expect(getLatestPostedVideo()?.slug).toBe("ep019-ustr-301-japan-household-investment");
+  });
+
+  it("ep020 は第 20 回・6 章・YouTube 概要欄と同じ時刻・出典 34 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep020-spacex-shares-trump-accounts");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep020");
+    expect(video!.episodeNumber).toBe(20);
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "01:56",
+      "04:41",
+      "07:02",
+      "09:32",
+      "11:31",
+    ]);
+    expect(video!.youtubeVideoId).toBe("BoxRXn73vdU");
+    expect(video!.durationSeconds).toBe(13 * 60 + 37);
+    expect(video!.sources).toHaveLength(34);
+    expect(getLatestPostedVideo()?.slug).toBe("ep020-spacex-shares-trump-accounts");
   });
 
   it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持つ", () => {
