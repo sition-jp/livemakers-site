@@ -1,0 +1,123 @@
+{
+  "sessionId": "2026-11-27-global-close",
+  "date": "2026-11-27",
+  "sessionSlug": "global-close",
+  "liveStatus": "closed",
+  "articleStatus": "published",
+  "currentUrl": "/sessions/2026-11-27-global-close",
+  "canonicalArticleUrl": "/sessions/2026-11-27-global-close",
+  "publishedAt": "2026-11-28T02:30:04+09:00",
+  "publishLogId": null,
+  "packetId": "sess_20261127_2303_1013f2b6",
+  "asOfJst": "2026-11-27T23:03:18+09:00",
+  "focusInstruments": [
+    "btc_usd",
+    "gold"
+  ],
+  "titleJa": "Global Close / Frontier Terminal — 11月27日 23:03 JST",
+  "bullets": [
+    "BTC/USD $60,842 → $61,443（+0.99%）",
+    "変動幅上位: BTCボラティリティ（BVIV） -2.5% / Gold（perp） +2.0%"
+  ],
+  "editorial": {
+    "digestId": "dig_20261127_2358_cdec2647",
+    "crawlAnchorJst": "2026-11-27T23:03:00+09:00",
+    "writtenAtJst": "2026-11-27T23:58:18+09:00",
+    "lead": "感謝祭明けの市場はリスクを取り戻し、中国では政府が取引時間中に支援を約束して株が急伸した。一方で国内は日経、カンフェティと大型の情報流出が続き、委託先や自社サーバーの守りが問われている。欧州では物価の減速と追加利上げ論が同じ日に並び、12 月の ECB の判断は割れる。",
+    "items": [
+      {
+        "headline": "日経、委託先への不正アクセスで個人情報約 540 万件が漏えい",
+        "sourceUrl": "https://x.com/nhk_news/status/2126279127997309200",
+        "note": "日経電子版の会員と日経 ID の登録者が対象。報道機関も外部サービス経由の侵害から逃れられない。"
+      },
+      {
+        "headline": "チケット販売のカンフェティに不正アクセス、会員情報が流出",
+        "sourceUrl": "https://x.com/confetti_web/status/2126252130889519562",
+        "note": "運営会社の第一報では全会員の氏名・電話番号・生年月日が対象で、一部はカード番号の一部やパスワードも含む。件数は調査中。"
+      },
+      {
+        "headline": "中国株が 2 年ぶりの大幅高、政府が市場の下支えを強めると約束",
+        "sourceUrl": "https://x.com/ReutersJapan/status/2126237351307338215",
+        "note": "国務院が取引時間中に異例の声明を出し、香港株にも買いが広がった。"
+      },
+      {
+        "headline": "ポーランド、Palantir と約 3 億ドルの国防 AI 契約",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-27/poland-signs-300-million-palantir-deal-to-use-ai-for-defense",
+        "note": "戦場データの分析に Palantir のソフトを使う。欧州の防衛費拡大が米国の AI 防衛企業の受注に直結している。"
+      },
+      {
+        "headline": "SAP、AI 対応のリストラで少なくとも 1 万人の削減を検討と報道",
+        "sourceUrl": "https://x.com/BloombergJapan/status/2126009376691372450",
+        "note": "会社の発表ではなく報道段階。ソフトウェア大手の人員構成が AI 前提で組み替えられつつある。"
+      },
+      {
+        "headline": "スペインとフランスのインフレ率、11 月は予想外に減速",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/geldpolitik/konjunktur-inflation-in-spanien-und-frankreich-laesst-ueberraschend-nach/100273264.html"
+      },
+      {
+        "headline": "独連銀のナーゲル総裁、12 月の追加利上げの必要を示唆",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-27/ecb-s-nagel-signals-need-for-another-rate-hike-in-december",
+        "note": "物価の減速と利上げ論が同じ日に並び、12 月の ECB 理事会の判断が割れる構図になった。"
+      },
+      {
+        "headline": "次期 ECB 総裁、ステーブルコインやビットコインよりトークン化預金を支持",
+        "sourceUrl": "https://www.coindesk.com/policy/2026/11/27/next-ecb-chief-favors-tokenized-bank-deposits-over-stablecoins-and-bitcoin"
+      },
+      {
+        "headline": "日銀幹部、ステーブルコインには通貨の単一性を守る準備資産の規則が要ると発言",
+        "sourceUrl": "https://www.theblock.co/news/regulation/2026-11-27-bank-of-japan-official-says-stablecoins-need-reserve-rules-to-preserve-singleness-of-money-447059"
+      },
+      {
+        "headline": "ブラジルの取引所 B3、大手銀行と組みレアル建てステーブルコインを発行へ",
+        "sourceUrl": "https://www.coindesk.com/business/2026/11/27/brazil-s-stock-exchange-teams-up-with-major-banks-to-launch-real-pegged-stablecoin"
+      },
+      {
+        "headline": "ビットコイン、7 週続いた下落に歯止めの公算 株の反発には出遅れ",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/27/bitcoin-on-course-to-end-seven-week-losing-streak-while-trailing-stock-rebound"
+      },
+      {
+        "headline": "エヌビディアの Blackwell、アリス・フアン氏に連なる中国の拠点で見つかる",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-27/nvidia-blackwell-chips-turn-up-at-china-site-tied-to-alice-huang",
+        "note": "輸出規制の網をすり抜ける経路として、関係企業の資金と機器の流れに注目が集まる。"
+      },
+      {
+        "headline": "米空軍のクラウド基盤 Cloud One に不正侵入と報道",
+        "sourceUrl": "https://x.com/Cointelegraph/status/2126275318658797612",
+        "note": "空軍の正式な発表は確認できていない段階。"
+      },
+      {
+        "headline": "AI データセンター開発の LIAN、ロンドンで 5 億ドル規模の上場へ",
+        "sourceUrl": "https://www.bloomberg.com/news/articles/2026-11-27/ai-data-center-developer-lian-picks-london-for-500-million-ipo"
+      },
+      {
+        "headline": "EU、ドイツ取引所による Allfunds の大型買収を承認",
+        "sourceUrl": "https://www.handelsblatt.com/finanzen/maerkte/maerkte-eu-erlaubt-deutscher-boerse-milliarden-uebernahme-von-allfunds/100273297.html"
+      },
+      {
+        "headline": "EU 首脳、2028〜34 年の約 1.7 兆ドルの予算で合意できず",
+        "sourceUrl": "https://www.cnbc.com/2026/11/27/eu-budget-2028-2034-deadlock.html"
+      },
+      {
+        "headline": "Injective、トークン化株の取引に板取引を認めるよう SEC に要請",
+        "sourceUrl": "https://www.coindesk.com/markets/2026/11/27/injective-asks-sec-to-allow-order-books-for-tokenized-stock-trading"
+      },
+      {
+        "headline": "イスラム法に沿うビットコイン ETF、12 月 2 日にマレーシア取引所へ上場予定",
+        "sourceUrl": "https://thedefiant.io/converge/tradfi-and-fintech/halogen-s-shariah-bitcoin-etf-set-for-dec-2-bursa-debut"
+      },
+      {
+        "headline": "文部科学省、政府調達の情報システムのサーバーから個人情報流出の可能性",
+        "sourceUrl": "https://www.security-next.com/193439"
+      },
+      {
+        "headline": "Cardano の週次開発レポート（11 月 27 日）",
+        "sourceUrl": "https://www.essentialcardano.io/development-update/weekly-development-report-2026-11-27"
+      }
+    ],
+    "watch": [
+      "12 月の ECB 理事会に向け、減速した物価と利上げ論のどちらが勝つか",
+      "カンフェティの対象件数と、カード情報・パスワードの範囲の続報",
+      "ポーランドの Palantir 契約に続く、欧州の国防 AI の調達の広がり"
+    ]
+  }
+}
