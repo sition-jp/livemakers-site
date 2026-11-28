@@ -218,7 +218,7 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.sources).toHaveLength(8);
   });
 
-  it("ep020 は第 20 回・6 章・YouTube 概要欄と同じ時刻・出典 34 件を持ち、最新の投稿になる", () => {
+  it("ep020 は第 20 回・6 章・YouTube 概要欄と同じ時刻・出典 34 件を持つ", () => {
     const video = getVideoBySlug("ep020-spacex-shares-trump-accounts");
     expect(video).not.toBeNull();
     expect(video!.episodeId).toBe("ep020");
@@ -234,7 +234,26 @@ describe("content/videos (repo の実データ)", () => {
     expect(video!.youtubeVideoId).toBe("BoxRXn73vdU");
     expect(video!.durationSeconds).toBe(13 * 60 + 37);
     expect(video!.sources).toHaveLength(34);
-    expect(getLatestPostedVideo()?.slug).toBe("ep020-spacex-shares-trump-accounts");
+  });
+
+  it("ep021 は第 21 回・7 章・YouTube 概要欄と同じ時刻・出典 33 件を持ち、最新の投稿になる", () => {
+    const video = getVideoBySlug("ep021-data-leak-identity-proof");
+    expect(video).not.toBeNull();
+    expect(video!.episodeId).toBe("ep021");
+    expect(video!.episodeNumber).toBe(21);
+    expect(video!.chapters.map((chapter) => chapter.start)).toEqual([
+      "00:00",
+      "02:07",
+      "05:33",
+      "07:14",
+      "09:24",
+      "12:24",
+      "15:58",
+    ]);
+    expect(video!.durationSeconds).toBe(19 * 60 + 40);
+    expect(video!.youtubeVideoId).toBe("0OPq0Lv9I0s");
+    expect(video!.sources).toHaveLength(33);
+    expect(getLatestPostedVideo()?.slug).toBe("ep021-data-leak-identity-proof");
   });
 
   it("ep014 は第 13 回・5 章・YouTube 概要欄と同じ時刻・出典 7 件を持つ", () => {

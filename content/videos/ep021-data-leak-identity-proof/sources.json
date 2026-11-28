@@ -1,0 +1,236 @@
+{
+  "episodeId": "ep021",
+  "sources": [
+    {
+      "key": "ppc_1028",
+      "title": "個人情報保護委員会 — 最近の不正アクセスによる個人データの漏えい等の傾向 (第 374 回委員会 参考資料 2・2026-10-28)",
+      "url": "https://www.ppc.go.jp/files/pdf/261028_sankoushiryou-2.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 1
+    },
+    {
+      "key": "ppc_1007",
+      "title": "個人情報保護委員会 — 大規模な漏えい等事案を踏まえた対応について (注意喚起・2026-10-07)",
+      "url": "https://www.ppc.go.jp/news/careful_information/261007_alert/",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "rakuten_1",
+      "title": "楽天証券 — 当社お客様の情報漏えいに関するお詫びとお知らせ (第 1 報・2026-11-17)",
+      "url": "https://www.rakuten-sec.co.jp/web/info/info20261117-02.html",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "rakuten_2",
+      "title": "楽天証券 — 当社お客様の情報漏えいに関するお詫びとお知らせ (第 2 報・2026-11-24)",
+      "url": "https://www.rakuten-sec.co.jp/web/info/info20261124-04.html",
+      "accessed": "2026-11-28",
+      "chapter": 1
+    },
+    {
+      "key": "keio_1124",
+      "title": "京王電鉄 — ランサムウェア攻撃による個人情報漏洩に関するお知らせとお詫び (2026-11-24)",
+      "url": "https://www.keio.co.jp/news/update/news_release/news_release2026/pdf/nr20261124_newsrelease.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 1
+    },
+    {
+      "key": "plaid_1120",
+      "title": "プレイド — 「KARTE」への不正アクセスに関する当社調査結果と、サービス再開の見通し等のお知らせ (2026-11-20)",
+      "url": "https://plaid.co.jp/news/20261120/",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "smbc_1120",
+      "title": "三井住友銀行 — 業務委託先への不正アクセスによる情報漏えいについて (2026-11-20)",
+      "url": "https://www.smbc.co.jp/news/pdf/j20261120_01.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "nikkei_1127",
+      "title": "日本経済新聞社 — 日経 ID の個人情報の漏洩について (第 2 報・2026-11-27)",
+      "url": "https://www.nikkei.co.jp/nikkeiinfo/news/information/1590.html",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "pepabo_1127",
+      "title": "GMO ペパボ — 「ロリポップ！」への不正アクセスによるお客様情報の漏えいについて (2026-11-27)",
+      "url": "https://pepabo.com/news/information/202611271430/",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "lolipop_qa",
+      "title": "ロリポップ！ — 不正アクセスに関するお知らせと Q&A (平文での保存・退会者のデータの残存・2026-11-27)",
+      "url": "https://lolipop.jp/info/news/8279/",
+      "accessed": "2026-11-28",
+      "chapter": 2
+    },
+    {
+      "key": "mastercard_ap",
+      "title": "Mastercard — Agent Pay の発表 (2025-04-29)",
+      "url": "https://newsroom.mastercard.com/news/press/2025/april/mastercard-unveils-agent-pay-pioneering-agentic-payments-technology-to-power-commerce-in-the-age-of-ai",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "visa_ic",
+      "title": "Visa — Intelligent Commerce の発表 (2025-04-30)",
+      "url": "https://investor.visa.com/news/news-details/2025/Find-and-Buy-with-AI-Visa-Unveils-New-Era-of-Commerce/default.aspx",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "ap2",
+      "title": "Google Cloud — Agent Payments Protocol (AP2) の発表 (2025-09-17)",
+      "url": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-agents-to-payments-ap2-protocol",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "ap2_fido",
+      "title": "Google — AP2 を FIDO Alliance へ (2026-04-28)",
+      "url": "https://blog.google/products-and-platforms/platforms/google-pay/agent-payments-protocol-fido-alliance/",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "x402_lf",
+      "title": "Linux Foundation — x402 Foundation の本格稼働 (2026-07-14)",
+      "url": "https://www.linuxfoundation.org/press/linux-foundation-announces-operational-launch-of-x402-foundation-to-standardize-internet-native-payments-for-ai-agents-and-applications",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "coinbase_q1",
+      "title": "Coinbase — 2026 年第 1 四半期 決算説明会の書き起こし (2026-05-07)",
+      "url": "https://s27.q4cdn.com/397450999/files/doc_financials/2026/q1/Q1-26-Earnings-Call-Transcript.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "stripe_letter",
+      "title": "Stripe — 2025 年の年次レター (2026-02-24・Bridge と Privy の買収)",
+      "url": "https://stripe.com/newsroom/news/stripe-2025-update",
+      "accessed": "2026-11-28",
+      "chapter": 6
+    },
+    {
+      "key": "openai_0324",
+      "title": "OpenAI — Powering product discovery in ChatGPT (2026-03-24)",
+      "url": "https://openai.com/index/powering-product-discovery-in-chatgpt/",
+      "accessed": "2026-11-28",
+      "chapter": 4
+    },
+    {
+      "key": "google_zkp",
+      "title": "Google — 年齢確認のためのゼロ知識証明の技術を公開 (2025-07-03)",
+      "url": "https://blog.google/technology/safety-security/opening-up-zero-knowledge-proof-technology-to-promote-privacy-in-age-assurance/",
+      "accessed": "2026-11-28",
+      "chapter": 1
+    },
+    {
+      "key": "ec_av",
+      "title": "欧州委員会 — EU の年齢確認 (政策ページ・2026-11-10 更新)",
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/eu-age-verification",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "eu_reco_lex",
+      "title": "EUR-Lex — 勧告 (EU) 2026/1035 (2026 年 12 月 31 日までの提供)",
+      "url": "https://eur-lex.europa.eu/eli/reco/2026/1035/oj/eng",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "eu_av_tl",
+      "title": "欧州委員会 — Age Verification Trusted List (2026-11-05/06 版・デンマークの AltID のみ)",
+      "url": "https://eidas.ec.europa.eu/efda/trust-services/browse/av-tl",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "digst_altid",
+      "title": "デンマーク政府デジタル庁 — AltID のダウンロード提供の開始 (2026-06-03)",
+      "url": "https://digst.dk/nyheder/nyhedsarkiv/2026/juni/nu-kan-du-downloade-altid/",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "eu_threat",
+      "title": "EU 年齢確認アプリの脅威モデル (公式の技術文書)",
+      "url": "https://github.com/eu-digital-identity-wallet/av-doc-technical-specification/blob/main/AV-threat-model.md",
+      "accessed": "2026-11-28",
+      "chapter": 7
+    },
+    {
+      "key": "apple_verify",
+      "title": "Apple — Verify with Wallet を始める (開発者向け)",
+      "url": "https://developer.apple.com/wallet/get-started-with-verify-with-wallet/",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "digital_gakuensai",
+      "title": "デジタル庁 — 学園祭での年齢確認にマイナンバーカードを活用しています (2026-09-10)",
+      "url": "https://www.digital.go.jp/news/6a52d1e9-30cc-455a-9154-f32479d1731a",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "midnight_live",
+      "title": "Midnight — Midnight network is live (2026-03-29)",
+      "url": "https://midnight.network/blog/midnight-network-is-live",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "midnight_overview",
+      "title": "Midnight — 概要 (選択的開示・NIGHT と DUST)",
+      "url": "https://midnight.network/overview",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "midnight_id",
+      "title": "Midnight 開発者文書 — Identity (ID の仕様はドラフト・資格情報のパッケージは 1.0 前)",
+      "url": "https://docs.midnight.network/concepts/identity",
+      "accessed": "2026-11-28",
+      "chapter": 5
+    },
+    {
+      "key": "npa_anbun02",
+      "title": "警察庁 JAFIC — 犯罪収益移転防止法施行規則の一部を改正する命令 (令和 7 年 6 月 24 日公布・令和 9 年 4 月 1 日施行)",
+      "url": "https://www.npa.go.jp/sosikihanzai/jafic/hourei/250624/anbun02.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 1
+    },
+    {
+      "key": "jafic_2025",
+      "title": "警察庁 JAFIC — 犯罪収益移転防止に関する年次報告書 令和 7 年 (画像・写しの方法の原則廃止と IC チップの方法の存置)",
+      "url": "https://www.npa.go.jp/sosikihanzai/jafic/nenzihokoku/data/jafic_2025.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 1
+    },
+    {
+      "key": "npa_chirashi",
+      "title": "警察庁 — 周知のチラシ (2027 年 4 月 1 日から・先行実施の場合がある)",
+      "url": "https://www.npa.go.jp/sosikihanzai/jafic/pdf/chirashi20260623.pdf",
+      "accessed": "2026-11-28",
+      "chapter": 6
+    },
+    {
+      "key": "lvm_dd",
+      "title": "LiveMakers Deep Dive — 延べ2億6,000万人の漏えい、本人確認はデータから証明へ (2026-11-28・この回の元の記事)",
+      "url": "https://livemakers.com/ja/articles/deep-dive-20261128-6960a3d6",
+      "accessed": "2026-11-28",
+      "chapter": 3
+    }
+  ]
+}
