@@ -283,6 +283,21 @@ describe("LeadingColumn (gradient leading, D5)", () => {
       }
     });
 
+    // 2026-11-28 (田平氏 GO): 天気をやめた号は、記号の代わりに判定の言葉の札を出す
+    it("shows the word instead of the weather symbol when the row carries one", () => {
+      const worded = [
+        { ...ROWS[0], word: "目立った傾きなし" },
+        { ...ROWS[1], word: "上がりやすい" },
+        { ...ROWS[2], word: "欠測" },
+        { ...ROWS[3], word: "下がりやすい" },
+      ];
+      const { container } = renderWith(issue({ forecastRowsJa: worded }));
+      const words = [...container.querySelectorAll("[data-forecast-row] [data-forecast-word]")];
+      expect(words.map((w) => w.textContent)).toEqual(["目立った傾きなし", "上がりやすい", "欠測", "下がりやすい"]);
+      expect(container.querySelector("[data-forecast-row] [data-forecast-weather]")).toBeNull();
+      expect(container.querySelector("[data-forecast-rows]")?.textContent).not.toMatch(/[☀⛅☔]/);
+    });
+
     it("puts the altseason rows under their own heading", () => {
       const { container } = renderWith(issue({ forecastRowsJa: ROWS }));
       const heading = container.querySelector("[data-forecast-scope-heading]");

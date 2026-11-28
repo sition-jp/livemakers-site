@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { ArticleMetaSchema } from "@/lib/articles/article-model";
+import { ArticleMetaSchema, FORECAST_ROW_WORDS, ForecastRowsSchema } from "@/lib/articles/article-model";
 
 // 2026-11-23 (田平氏 GO・案 A): forecastNoteJa はサイクル予報だけが持つ
 // (実体化した repo の meta.json もこの schema を通る — regimeNoteJa と同じ守り)
@@ -61,5 +61,19 @@ describe("ArticleMetaSchema — forecastRowsJa", () => {
     ["extra key", [{ ...ROWS[0], emoji: "☀" }]],
   ])("rejects a malformed table (%s)", (_name, rows) => {
     expect(ArticleMetaSchema.safeParse({ ...base, forecastRowsJa: rows }).success).toBe(false);
+  });
+});
+
+// 2026-11-28 (田平氏 GO): 天気をやめ、判定の言葉 (word) を任意で運ぶ
+describe("ForecastRowsSchema — word", () => {
+  const row = { scope: "btc", weather: "rain", label: "日足 RSI", value: "RSI 26.3" };
+  it("accepts each of the six fixed words and a row without a word", () => {
+    for (const word of FORECAST_ROW_WORDS) {
+      expect(ForecastRowsSchema.safeParse([{ ...row, word }]).success).toBe(true);
+    }
+    expect(ForecastRowsSchema.safeParse([row]).success).toBe(true);
+  });
+  it("rejects a word outside the list", () => {
+    expect(ForecastRowsSchema.safeParse([{ ...row, word: "雨" }]).success).toBe(false);
   });
 });
