@@ -48,6 +48,16 @@ const JST_ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?\+09:00$/;
 // 絵文字は送らない — 天気の言葉から ☀ ⛅ ☔ ― と読み上げの言葉をサイトが付ける
 export const FORECAST_ROW_SCOPES = ["btc", "altseason"] as const;
 export const FORECAST_ROW_WEATHERS = ["sunny", "cloudy", "rain", "missing"] as const;
+// 2026-11-28 (田平氏 GO): 天気をやめ、判定を言葉で出す。発行側 (sub-repo provenance.FORECAST_ROW_WORDS) と同じ 6 つ。
+// word が無い古い号は天気の記号のまま出す
+export const FORECAST_ROW_WORDS = [
+  "上がりやすい",
+  "目立った傾きなし",
+  "下がりやすい",
+  "上がりにくい",
+  "まだ決められない",
+  "欠測",
+] as const;
 
 function forecastCell(max: number) {
   return z
@@ -62,6 +72,7 @@ export const ForecastRowsSchema = z
     z.strictObject({
       scope: z.enum(FORECAST_ROW_SCOPES),
       weather: z.enum(FORECAST_ROW_WEATHERS),
+      word: z.enum(FORECAST_ROW_WORDS).optional(),
       label: forecastCell(40),
       value: forecastCell(60),
     }),

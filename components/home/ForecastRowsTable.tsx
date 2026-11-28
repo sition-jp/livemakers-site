@@ -8,6 +8,17 @@ const WEATHER: Record<ForecastRow["weather"], { symbol: string; word: string }> 
   missing: { symbol: "―", word: "欠測" },
 };
 
+// 判定の言葉の札 (2026-11-28 田平氏 GO・天気をやめた)。濃い = 上がりやすい・下がりやすい / 枠 = それ以外。
+// 相場の上げ下げの色 (緑・赤) は使わない
+const WORD_CLASS: Record<NonNullable<ForecastRow["word"]>, string> = {
+  上がりやすい: "bg-accent text-white",
+  下がりやすい: "bg-text-primary text-bg-primary",
+  上がりにくい: "border border-border-primary text-text-primary",
+  目立った傾きなし: "border border-border-primary text-text-secondary",
+  まだ決められない: "border border-dashed border-border-primary text-text-secondary",
+  欠測: "text-text-secondary",
+};
+
 function Row({ row }: { row: ForecastRow }) {
   const weather = WEATHER[row.weather];
   return (
@@ -16,10 +27,19 @@ function Row({ row }: { row: ForecastRow }) {
       data-scope={row.scope}
       className="flex flex-wrap items-baseline gap-x-2"
     >
-      <span data-forecast-weather={row.weather} className="w-4 shrink-0 text-center">
-        <span aria-hidden="true">{weather.symbol}</span>
-        <span className="sr-only">{weather.word}</span>
-      </span>
+      {row.word ? (
+        <span
+          data-forecast-word={row.word}
+          className={`shrink-0 rounded px-1.5 text-[11px] font-bold leading-5 ${WORD_CLASS[row.word]}`}
+        >
+          {row.word}
+        </span>
+      ) : (
+        <span data-forecast-weather={row.weather} className="w-4 shrink-0 text-center">
+          <span aria-hidden="true">{weather.symbol}</span>
+          <span className="sr-only">{weather.word}</span>
+        </span>
+      )}
       <span data-forecast-label="" className="font-semibold text-text-primary">
         {row.label}
       </span>
